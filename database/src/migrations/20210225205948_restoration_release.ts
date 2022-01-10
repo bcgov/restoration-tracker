@@ -17,7 +17,7 @@ const DB_RELEASE = 'release.1.0';
 export async function up(knex: Knex): Promise<void> {
   const create_spatial_extensions = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'create_spatial_extensions.psql'));
 
-  const biohub_ddl = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'restoration.sql'));
+  const restoration_ddl = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'restoration.sql'));
   const populate_user_identity_source = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_user_identity_source.sql')
   );
@@ -99,7 +99,7 @@ export async function up(knex: Knex): Promise<void> {
 
     alter role ${DB_USER_API} set search_path to restoration_dapi_v1, restoration, public, topology;
 
-    ${biohub_ddl}
+    ${restoration_ddl}
     ${populate_user_identity_source}
     ${api_set_context}
     ${tr_audit_trigger}
