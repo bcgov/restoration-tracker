@@ -18,7 +18,7 @@ declare
   _project_id_optional funding_source.project_id_optional%type;
 begin
   -- query funding source to determine optionality of funding source project id
-  if new.funding_source_project_id is null then    
+  if new.funding_source_project_id is null then
     select project_id_optional into _project_id_optional from funding_source
       where funding_source_id = (select funding_source_id from investment_action_category where investment_action_category_id = new.investment_action_category_id);
 
@@ -31,5 +31,5 @@ begin
 end;
 $$;
 
-drop trigger if exists project_funding_source_val on biohub.project_funding_source;
-create trigger project_funding_source_val before insert or update on biohub.project_funding_source for each row execute procedure tr_project_funding_source();
+drop trigger if exists project_funding_source_val on restoration.project_funding_source;
+create trigger project_funding_source_val before insert or update on restoration.project_funding_source for each row execute procedure tr_project_funding_source();

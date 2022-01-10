@@ -3,10 +3,10 @@
 -- drop the database
 set role postgres;
 \c postgres
-drop database biohub;
-drop role biohub_api;
-create database biohub;
-\c biohub
+drop database restoration;
+drop role restoration_api;
+create database restoration;
+\c restoration
 
 set client_min_messages=warning;
 
@@ -17,30 +17,30 @@ set client_min_messages=warning;
 \i create_spatial_extensions.psql
 
 -- set up project management schema
-create schema if not exists biohub;
-GRANT ALL ON SCHEMA biohub TO postgres;
-set search_path = biohub, public;
+create schema if not exists restoration;
+GRANT ALL ON SCHEMA restoration TO postgres;
+set search_path = restoration, public;
 
--- setup biohub api schema
-create schema if not exists biohub_dapi_v1;
+-- setup restoration api schema
+create schema if not exists restoration_dapi_v1;
 
 -- setup api user
-create user biohub_api password 'flatpass';
-alter schema biohub_dapi_v1 owner to biohub_api;
+create user restoration_api password 'flatpass';
+alter schema restoration_dapi_v1 owner to restoration_api;
 
--- Grant rights on biohub_dapi_v1 to biohub_api user
-grant all on schema biohub_dapi_v1 to biohub_api;
-grant all on schema biohub_dapi_v1 to postgres;
-alter DEFAULT PRIVILEGES in SCHEMA biohub_dapi_v1 grant ALL on tables to biohub_api;
-alter DEFAULT PRIVILEGES in SCHEMA biohub_dapi_v1 grant ALL on tables to postgres;
+-- Grant rights on restoration_dapi_v1 to restoration_api user
+grant all on schema restoration_dapi_v1 to restoration_api;
+grant all on schema restoration_dapi_v1 to postgres;
+alter DEFAULT PRIVILEGES in SCHEMA restoration_dapi_v1 grant ALL on tables to restoration_api;
+alter DEFAULT PRIVILEGES in SCHEMA restoration_dapi_v1 grant ALL on tables to postgres;
 
--- biohub grants
-GRANT USAGE ON SCHEMA biohub TO biohub_api;
-ALTER DEFAULT PRIVILEGES IN SCHEMA biohub GRANT ALL ON TABLES TO biohub_api;
+-- restoration grants
+GRANT USAGE ON SCHEMA restoration TO restoration_api;
+ALTER DEFAULT PRIVILEGES IN SCHEMA restoration GRANT ALL ON TABLES TO restoration_api;
 
-alter role biohub_api set search_path to biohub_dapi_v1, biohub, public, topology;
+alter role restoration_api set search_path to restoration_dapi_v1, restoration, public, topology;
 
-\i biohub.sql
+\i restoration.sql
 \i populate_user_identity_source.sql
 \i api_set_context.sql
 \i tr_audit_trigger.sql
@@ -75,10 +75,10 @@ alter role biohub_api set search_path to biohub_dapi_v1, biohub, public, topolog
 \set QUIET off
 
  -- create the views
-set search_path = biohub_dapi_v1;
-set role biohub_api;
+set search_path = restoration_dapi_v1;
+set role restoration_api;
 \i vw_generated_dapi_views.sql
 
 set role postgres;
-set search_path = biohub;
-grant execute on function api_set_context(_system_user_identifier system_user.user_identifier%type, _user_identity_source_name user_identity_source.name%type) to biohub_api;
+set search_path = restoration;
+grant execute on function api_set_context(_system_user_identifier system_user.user_identifier%type, _user_identity_source_name user_identity_source.name%type) to restoration_api;

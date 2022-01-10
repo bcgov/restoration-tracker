@@ -3,7 +3,7 @@ create or replace function api_get_context_user_id() returns system_user.system_
 language plpgsql
 security invoker
 stable
-as 
+as
 $$
 -- *******************************************************************
 -- Procedure: api_get_context_user_id
@@ -18,8 +18,8 @@ $$
 declare
   _system_user_id system_user.system_user_id%type;
 begin
-  select value::integer into _system_user_id from biohub_context_temp where tag = 'user_id';
-  
+  select value::integer into _system_user_id from restoration_context_temp where tag = 'user_id';
+
   return _system_user_id;
 end;
 $$;

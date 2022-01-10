@@ -1,8 +1,8 @@
 -- smoketest_release.sql
 -- run as db super user
-\c biohub
+\c restoration
 set role postgres;
-set search_path=biohub;
+set search_path=restoration;
 
 do $$
 declare
@@ -28,14 +28,14 @@ begin
   assert _count > 1, 'FAIL audit_log';
 
   -- drop security context for subsequent roles to instantiate
-  drop table biohub_context_temp;
+  drop table restoration_context_temp;
 
   raise notice 'smoketest_release(1): PASS';
 end
 $$;
 
-set role biohub_api;
-set search_path to biohub_dapi_v1, biohub, public, topology;
+set role restoration_api;
+set search_path to restoration_dapi_v1, restoration, public, topology;
 do $$
 declare
   _project_id project.project_id%type;
@@ -47,7 +47,7 @@ declare
 begin
   -- set security context
   select api_set_context('myIDIR', 'IDIR') into _system_user_id;
-  --select api_set_context('biohub_api', 'DATABASE') into _system_user_id;
+  --select api_set_context('restoration_api', 'DATABASE') into _system_user_id;
 
   select st_GeomFromEWKT('SRID=4326;POLYGON((-123.920288 48.592142,-123.667603 48.645205,-123.539886 48.536204,-123.583832 48.46978,-123.728027 48.460674,-123.868103 48.467959,-123.940887 48.5262,-123.920288 48.592142), (-103.920288 38.592142,-103.667603 38.645205,-103.539886 38.536204,-103.583832 38.46978,-103.728027 38.460674,-103.868103 38.467959,-103.940887 38.5262,-103.920288 38.592142))') into _geography;
 

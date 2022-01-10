@@ -5,7 +5,7 @@ create or replace function api_get_character_system_constant(_constant_name syst
 language plpgsql
 security definer
 stable
-as 
+as
 $$
 -- *******************************************************************
 -- Procedure: api_get_character_system_constant
@@ -26,7 +26,7 @@ exception
 end;
 $$;
 
-grant execute on function api_get_character_system_constant to biohub_api;
+grant execute on function api_get_character_system_constant to restoration_api;
 
 drop function if exists api_get_numeric_system_constant;
 
@@ -34,7 +34,7 @@ create or replace function api_get_numeric_system_constant(_constant_name system
 language plpgsql
 security definer
 stable
-as 
+as
 $$
 -- *******************************************************************
 -- Procedure: api_get_numeric_system_constant
@@ -55,4 +55,4 @@ exception
 end;
 $$;
 
-grant execute on function api_get_numeric_system_constant to biohub_api;
+grant execute on function api_get_numeric_system_constant to restoration_api;

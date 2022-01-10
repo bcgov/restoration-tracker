@@ -20,7 +20,7 @@ AS $$
 declare
   _system_role_id system_user_role.system_role_id%type;
 begin
-  select value::integer into _system_role_id from biohub_context_temp where tag = 'system_user_role_id';
+  select value::integer into _system_role_id from restoration_context_temp where tag = 'system_user_role_id';
 
   return _system_role_id;
 end;

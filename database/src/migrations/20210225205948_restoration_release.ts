@@ -8,7 +8,7 @@ const DB_USER_API = process.env.DB_USER_API;
 const DB_RELEASE = 'release.1.0';
 
 /**
- * Apply biohub release changes.
+ * Apply restoration release changes.
  *
  * @export
  * @param {Knex} knex
@@ -17,7 +17,7 @@ const DB_RELEASE = 'release.1.0';
 export async function up(knex: Knex): Promise<void> {
   const create_spatial_extensions = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'create_spatial_extensions.psql'));
 
-  const biohub_ddl = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'biohub.sql'));
+  const biohub_ddl = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'restoration.sql'));
   const populate_user_identity_source = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_user_identity_source.sql')
   );
@@ -75,29 +75,29 @@ export async function up(knex: Knex): Promise<void> {
     -- set up spatial extensions
     ${create_spatial_extensions}
 
-    -- set up biohub schema
-    create schema if not exists biohub;
-    GRANT ALL ON SCHEMA biohub TO postgres;
-    set search_path = biohub, public;
+    -- set up restoration schema
+    create schema if not exists restoration;
+    GRANT ALL ON SCHEMA restoration TO postgres;
+    set search_path = restoration, public;
 
-    -- setup biohub api schema
-    create schema if not exists biohub_dapi_v1;
+    -- setup restoration api schema
+    create schema if not exists restoration_dapi_v1;
 
     -- setup api user
     create user ${DB_USER_API} password '${DB_USER_API_PASS}';
-    alter schema biohub_dapi_v1 owner to ${DB_USER_API};
+    alter schema restoration_dapi_v1 owner to ${DB_USER_API};
 
-    -- Grant rights on biohub_dapi_v1 to biohub_api user
-    grant all on schema biohub_dapi_v1 to ${DB_USER_API};
-    grant all on schema biohub_dapi_v1 to postgres;
-    alter DEFAULT PRIVILEGES in SCHEMA biohub_dapi_v1 grant ALL on tables to ${DB_USER_API};
-    alter DEFAULT PRIVILEGES in SCHEMA biohub_dapi_v1 grant ALL on tables to postgres;
+    -- Grant rights on restoration_dapi_v1 to restoration_api user
+    grant all on schema restoration_dapi_v1 to ${DB_USER_API};
+    grant all on schema restoration_dapi_v1 to postgres;
+    alter DEFAULT PRIVILEGES in SCHEMA restoration_dapi_v1 grant ALL on tables to ${DB_USER_API};
+    alter DEFAULT PRIVILEGES in SCHEMA restoration_dapi_v1 grant ALL on tables to postgres;
 
-    -- Biohub grants
-    GRANT USAGE ON SCHEMA biohub TO ${DB_USER_API};
-    ALTER DEFAULT PRIVILEGES IN SCHEMA biohub GRANT ALL ON TABLES TO ${DB_USER_API};
+    -- restoration grants
+    GRANT USAGE ON SCHEMA restoration TO ${DB_USER_API};
+    ALTER DEFAULT PRIVILEGES IN SCHEMA restoration GRANT ALL ON TABLES TO ${DB_USER_API};
 
-    alter role ${DB_USER_API} set search_path to biohub_dapi_v1, biohub, public, topology;
+    alter role ${DB_USER_API} set search_path to restoration_dapi_v1, restoration, public, topology;
 
     ${biohub_ddl}
     ${populate_user_identity_source}
@@ -116,9 +116,9 @@ export async function up(knex: Knex): Promise<void> {
     ${api_get_system_metadata_constant}
 
     ${api_delete_project}
-    
+
     -- populate look up tables
-    set search_path = biohub;
+    set search_path = restoration;
     ${populate_system_constants}
     ${populate_first_nations}
     ${populate_funding_source}
@@ -130,22 +130,22 @@ export async function up(knex: Knex): Promise<void> {
     ${populate_administrative_activity_type}
     ${populate_administrative_activity_status_type}
     ${populate_system_metadata_constant}
-    
+
     -- create the views
-    set search_path = biohub_dapi_v1;
-    set role biohub_api;
+    set search_path = restoration_dapi_v1;
+    set role restoration_api;
     ${vw_generated_dapi_views}
-    
+
     set role postgres;
-    set search_path = biohub;
-    grant execute on function biohub.api_set_context(_system_user_identifier system_user.user_identifier%type, _user_identity_source_name user_identity_source.name%type) to ${DB_USER_API};
+    set search_path = restoration;
+    grant execute on function restoration.api_set_context(_system_user_identifier system_user.user_identifier%type, _user_identity_source_name user_identity_source.name%type) to ${DB_USER_API};
   `);
 }
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(`
-    DROP SCHEMA IF EXISTS biohub CASCADE;
-    DROP SCHEMA IF EXISTS biohub_dapi_v1 CASCADE;
+    DROP SCHEMA IF EXISTS restoration CASCADE;
+    DROP SCHEMA IF EXISTS restoration_dapi_v1 CASCADE;
     DROP USER IF EXISTS ${DB_USER_API};
   `);
 }

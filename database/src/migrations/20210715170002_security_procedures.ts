@@ -46,9 +46,9 @@ begin
   select c.system_role_id into _system_role_id from system_user_role c
     where c.system_user_id = _system_user_id;
 
-  create temp table if not exists biohub_context_temp (tag varchar(200), value varchar(200));
-  delete from biohub_context_temp where tag in ('user_id','system_user_role_id');
-  insert into biohub_context_temp (tag, value) values ('user_id', _system_user_id::varchar(200)),
+  create temp table if not exists restoration_context_temp (tag varchar(200), value varchar(200));
+  delete from restoration_context_temp where tag in ('user_id','system_user_role_id');
+  insert into restoration_context_temp (tag, value) values ('user_id', _system_user_id::varchar(200)),
       ('system_user_role_id', _system_role_id::varchar(200));
 
   return _system_user_id;
@@ -167,7 +167,7 @@ $$;
           END IF;
 
           -- Execute the query to find the records that need to be secured
-          execute format('select ${DB_SCHEMA}.api_secure_record(%1$s_id, ''%1$s'', %2$s, %3$s, %5$s) from biohub.%1$s where %4$s', v_target, __security_rule_id, 'NULL', v_rule_definition,v_project_id);
+          execute format('select ${DB_SCHEMA}.api_secure_record(%1$s_id, ''%1$s'', %2$s, %3$s, %5$s) from ${DB_SCHEMA}.%1$s where %4$s', v_target, __security_rule_id, 'NULL', v_rule_definition,v_project_id);
 
           <<inner>>
           FOR v_system_user_id IN
@@ -177,7 +177,7 @@ $$;
           (record_effective_date >= now()::date)
           LOOP
             -- Execute the query to set the exception for identified users
-            execute format('select ${DB_SCHEMA}.api_secure_record(%1$s_id, ''%1$s'', %2$s, %3$s, %5$s) from biohub.%1$s where %4$s', v_target, __security_rule_id, v_system_user_id, v_rule_definition,v_project_id);
+            execute format('select ${DB_SCHEMA}.api_secure_record(%1$s_id, ''%1$s'', %2$s, %3$s, %5$s) from ${DB_SCHEMA}.%1$s where %4$s', v_target, __security_rule_id, v_system_user_id, v_rule_definition,v_project_id);
           END LOOP inner;
 
           END LOOP outer;
@@ -254,7 +254,7 @@ $$;
   declare
     v_system_user_role_id ${DB_SCHEMA}.system_user_role.system_user_role_id%type;
   begin
-    select value::integer into v_system_user_role_id from biohub_context_temp where tag = 'system_user_role_id';
+    select value::integer into v_system_user_role_id from restoration_context_temp where tag = 'system_user_role_id';
 
     return v_system_user_role_id;
   end;
@@ -291,7 +291,7 @@ $$;
       select t.table_name from information_schema.tables t
         inner join information_schema.columns c on c.table_name = t.table_name and c.table_schema = t.table_schema
         where c.column_name = 'security_token'
-              and t.table_schema = 'biohub'
+              and t.table_schema = '${DB_SCHEMA}'
               and t.table_type = 'BASE TABLE'
             and t.table_name <> 'security'
         order by t.table_name

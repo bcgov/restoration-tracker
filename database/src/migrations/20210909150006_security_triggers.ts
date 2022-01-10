@@ -58,5 +58,10 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.raw(``);
+  await knex.raw(`
+    set schema '${DB_SCHEMA}';
+    set search_path = ${DB_SCHEMA},public;
+    DROP FUNCTION ${DB_SCHEMA}.tr_secure_record_trigger();
+    DROP TRIGGER secure_record ON ${DB_SCHEMA}.project_attachment;
+  `);
 }

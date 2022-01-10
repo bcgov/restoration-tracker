@@ -38,7 +38,7 @@ export async function up(knex: Knex): Promise<void> {
           <<outer>>
         FOR v_target, v_rule_definition, v_project_id IN
           SELECT rd->>'target', rd->>'rule', CASE WHEN rd->>'project'='' THEN NULL ELSE rd->>'project' END
-          FROM biohub.security_rule, json_array_elements(rule_definition) AS rd
+          FROM ${DB_SCHEMA}.security_rule, json_array_elements(rule_definition) AS rd
           where security_rule_id = __security_rule_id and system_rule = false and
           (record_end_date <= now()::date or record_end_date is NULL) and
           (record_effective_date >= now()::date)
@@ -49,7 +49,7 @@ export async function up(knex: Knex): Promise<void> {
           END IF;
 
           -- Execute the query to find the records that need to be secured
-          execute format('select ${DB_SCHEMA}.api_secure_record(%1$s_id, ''%1$s'', %2$s, %3$s, %5$s) from biohub.%1$s where %4$s', v_target, __security_rule_id, 'NULL', v_rule_definition,v_project_id);
+          execute format('select ${DB_SCHEMA}.api_secure_record(%1$s_id, ''%1$s'', %2$s, %3$s, %5$s) from ${DB_SCHEMA}.%1$s where %4$s', v_target, __security_rule_id, 'NULL', v_rule_definition,v_project_id);
 
           <<inner>>
           FOR v_system_user_id IN
@@ -59,7 +59,7 @@ export async function up(knex: Knex): Promise<void> {
           (record_effective_date >= now()::date)
           LOOP
             -- Execute the query to set the exception for identified users
-            execute format('select ${DB_SCHEMA}.api_secure_record(%1$s_id, ''%1$s'', %2$s, %3$s, %5$s) from biohub.%1$s where %4$s', v_target, __security_rule_id, v_system_user_id, v_rule_definition,v_project_id);
+            execute format('select ${DB_SCHEMA}.api_secure_record(%1$s_id, ''%1$s'', %2$s, %3$s, %5$s) from ${DB_SCHEMA}.%1$s where %4$s', v_target, __security_rule_id, v_system_user_id, v_rule_definition,v_project_id);
           END LOOP inner;
 
           END LOOP outer;
@@ -127,9 +127,9 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(`
-
-  set schema '${DB_SCHEMA}';
-  set search_path = ${DB_SCHEMA},public;
-  DROP FUNCTION ${DB_SCHEMA}.api_secure_record(integer, character varying, integer, integer,integer);
+    set schema '${DB_SCHEMA}';
+    set search_path = ${DB_SCHEMA},public;
+    DROP FUNCTION ${DB_SCHEMA}.api_apply_security_rule(integer);
+    DROP FUNCTION ${DB_SCHEMA}.api_secure_record(integer, character varying, integer, integer,integer);
   `);
 }

@@ -21,18 +21,18 @@ declare
 begin
   -- api users will hopefully have created the temp table using an api helper function
   -- this create temp table statement is for database users
-  create temp table if not exists biohub_context_temp (tag varchar(200), value varchar(200));
-  select value::integer into _system_user_id from biohub_context_temp where tag = 'user_id';
+  create temp table if not exists restoration_context_temp (tag varchar(200), value varchar(200));
+  select value::integer into _system_user_id from restoration_context_temp where tag = 'user_id';
 
-  if (_system_user_id is null) THEN    
+  if (_system_user_id is null) THEN
     -- look up the database user
     select a.system_user_id into strict _system_user_id from system_user a, user_identity_source b
       where a.user_identity_source_id = b.user_identity_source_id
       and b.name = 'DATABASE'
       and user_identifier = user;
-      
+
     -- populate for subsequent calls
-    insert into biohub_context_temp (tag, value) values ('user_id', _system_user_id::varchar(200));
+    insert into restoration_context_temp (tag, value) values ('user_id', _system_user_id::varchar(200));
   end if;
 
   if (TG_OP = 'INSERT') then
@@ -53,7 +53,7 @@ begin
       new.revision_count = (old.revision_count + 1);
     end if;
   end if;
-  
+
   if (tg_op = 'DELETE') then
     return OLD;
   else

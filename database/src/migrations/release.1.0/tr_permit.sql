@@ -15,10 +15,10 @@ $$
 --                  2021-05-13  initial release
 -- *******************************************************************
 declare
-  
+
 begin
   if new.end_date is not null then
-    if new.end_date < new.issue_date then    
+    if new.end_date < new.issue_date then
       raise exception 'The permit issue date cannot be greater than end date.';
     end if;
   end if;
@@ -27,5 +27,5 @@ begin
 end;
 $$;
 
-drop trigger if exists permit_val on biohub.permit;
-create trigger permit_val before insert or update on biohub.permit for each row execute procedure tr_permit();
+drop trigger if exists permit_val on restoration.permit;
+create trigger permit_val before insert or update on restoration.permit for each row execute procedure tr_permit();
