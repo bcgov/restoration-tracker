@@ -88,11 +88,8 @@ export function getAttachments(): RequestHandler {
 
     try {
       const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsSQL(Number(req.params.projectId));
-      const getProjectReportAttachmentsSQLStatement = queries.project.getProjectReportAttachmentsSQL(
-        Number(req.params.projectId)
-      );
 
-      if (!getProjectAttachmentsSQLStatement || !getProjectReportAttachmentsSQLStatement) {
+      if (!getProjectAttachmentsSQLStatement) {
         throw new HTTP400('Failed to build SQL get statement');
       }
 
@@ -103,20 +100,10 @@ export function getAttachments(): RequestHandler {
         getProjectAttachmentsSQLStatement.values
       );
 
-      const reportAttachmentsData = await connection.query(
-        getProjectReportAttachmentsSQLStatement.text,
-        getProjectReportAttachmentsSQLStatement.values
-      );
-
       await connection.commit();
 
       const getAttachmentsData =
-        (attachmentsData &&
-          reportAttachmentsData &&
-          attachmentsData.rows &&
-          reportAttachmentsData.rows &&
-          new GetAttachmentsData([...attachmentsData.rows, ...reportAttachmentsData.rows])) ||
-        null;
+        (attachmentsData && attachmentsData.rows && new GetAttachmentsData([...attachmentsData.rows])) || null;
 
       return res.status(200).json(getAttachmentsData);
     } catch (error) {

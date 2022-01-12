@@ -35,7 +35,6 @@ import {
   insertClassificationDetail,
   insertIndigenousNation,
   insertPermit,
-  insertProjectActivity,
   insertStakeholderPartnership
 } from '../../project';
 
@@ -369,29 +368,20 @@ export const getObjectivesData = async (projectId: number, connection: IDBConnec
 
 export const getProjectData = async (projectId: number, connection: IDBConnection): Promise<any> => {
   const sqlStatementDetails = queries.project.getProjectByProjectSQL(projectId);
-  const sqlStatementActivities = queries.project.getActivitiesByProjectSQL(projectId);
 
-  if (!sqlStatementDetails || !sqlStatementActivities) {
+  if (!sqlStatementDetails) {
     throw new HTTP400('Failed to build SQL get statement');
   }
 
-  const [responseDetails, responseActivities] = await Promise.all([
-    connection.query(sqlStatementDetails.text, sqlStatementDetails.values),
-    connection.query(sqlStatementActivities.text, sqlStatementActivities.values)
-  ]);
+  const [responseDetails] = await Promise.all([connection.query(sqlStatementDetails.text, sqlStatementDetails.values)]);
 
   const resultDetails = (responseDetails && responseDetails.rows && responseDetails.rows[0]) || null;
-  const resultActivities = (responseActivities && responseActivities.rows && responseActivities.rows) || null;
 
   if (!resultDetails) {
     throw new HTTP400('Failed to get project details data');
   }
 
-  if (!resultActivities) {
-    throw new HTTP400('Failed to get project activities data');
-  }
-
-  return new GetProjectData(resultDetails, resultActivities);
+  return new GetProjectData(resultDetails);
 };
 
 export const PUT: Operation = [
@@ -686,25 +676,6 @@ export const updateProjectData = async (
     // It currently does skip the update as expected, but it just returns 0 rows updated, and doesn't result in any errors
     throw new HTTP409('Failed to update stale project data');
   }
-
-  const sqlDeleteActivities = queries.project.deleteActivitiesSQL(projectId);
-
-  if (!sqlDeleteActivities) {
-    throw new HTTP400('Failed to build SQL delete statement');
-  }
-
-  const deleteActivitiesResult = await connection.query(sqlDeleteActivities.text, sqlDeleteActivities.values);
-
-  if (!deleteActivitiesResult) {
-    throw new HTTP409('Failed to update project activity data');
-  }
-
-  const insertActivityPromises =
-    putProjectData?.project_activities?.map((activityId: number) =>
-      insertProjectActivity(activityId, projectId, connection)
-    ) || [];
-
-  await Promise.all([...insertActivityPromises]);
 };
 
 export const updateProjectFundingData = async (

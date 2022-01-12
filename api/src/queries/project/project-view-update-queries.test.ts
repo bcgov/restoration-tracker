@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
   getStakeholderPartnershipsByProjectSQL,
-  getActivitiesByProjectSQL,
   getLocationByProjectSQL,
   getFundingSourceByProjectSQL
 } from './project-view-update-queries';
@@ -30,20 +29,6 @@ describe('getStakeholderPartnershipsByProjectSQL', () => {
 
   it('valid projectId', () => {
     const response = getStakeholderPartnershipsByProjectSQL(1);
-
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getActivitiesByProjectSQL', () => {
-  it('Null projectId', () => {
-    const response = getActivitiesByProjectSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('valid projectId', () => {
-    const response = getActivitiesByProjectSQL(1);
 
     expect(response).to.not.be.null;
   });

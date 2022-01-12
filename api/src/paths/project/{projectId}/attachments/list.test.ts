@@ -114,14 +114,6 @@ describe('lists the project attachments', () => {
           lastModified: '2020-01-01',
           size: 50,
           securityToken: 'token123'
-        },
-        {
-          fileName: 'name2',
-          fileType: 'Report',
-          id: 134,
-          lastModified: '2020-01-01',
-          size: 50,
-          securityToken: 'token123'
         }
       ]
     });
@@ -179,14 +171,6 @@ describe('lists the project attachments', () => {
           fileName: 'name1',
           fileType: 'type',
           id: 13,
-          lastModified: '2020-01-02',
-          size: 50,
-          securityToken: 'token123'
-        },
-        {
-          fileName: 'name2',
-          fileType: 'Report',
-          id: 134,
           lastModified: '2020-01-02',
           size: 50,
           securityToken: 'token123'

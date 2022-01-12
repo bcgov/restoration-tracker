@@ -120,7 +120,6 @@ export function uploadMedia(): RequestHandler {
       if (!virusScanResult) {
         throw new HTTP400('Malicious content detected, upload cancelled');
       }
-
       const upsertResult = await upsertProjectAttachment(
         rawMediaFile,
         Number(req.params.projectId),

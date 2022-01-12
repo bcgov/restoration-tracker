@@ -32,7 +32,7 @@ export const getProjectSQL = (projectId: number): SQLStatement | null => {
       project.coordinator_email_address,
       project.coordinator_agency_name,
       project.coordinator_public,
-      project.geojson as geometry,
+      psc.geojson as geometry,
       project.create_date,
       project.create_user,
       project.update_date,
@@ -44,6 +44,8 @@ export const getProjectSQL = (projectId: number): SQLStatement | null => {
     left outer join
       project_type
         on project.project_type_id = project_type.project_type_id
+    left outer join project_spatial_component psc
+        on project.project_id = psc.project_id
     where
       project.project_id = ${projectId};
   `;
@@ -152,10 +154,6 @@ export const getProjectListSQL = (
 
     if (filterFields.agency_id) {
       sqlStatement.append(SQL` AND fs.funding_source_id = ${filterFields.agency_id}`);
-    }
-
-    if (filterFields.species && filterFields.species.length) {
-      sqlStatement.append(SQL` AND wu.wldtaxonomic_units_id =${filterFields.species[0]}`);
     }
 
     if (filterFields.keyword) {

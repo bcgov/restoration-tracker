@@ -8,6 +8,7 @@ import {
   IPostIUCN,
   IPostPermit,
   PostFundingSource,
+  //PostLocationData,
   PostProjectObject
 } from '../models/project-create';
 import { projectCreatePostRequestObject, projectIdResponseObject } from '../openapi/schemas/project';
@@ -123,6 +124,16 @@ export function createProject(): RequestHandler {
 
         const promises: Promise<any>[] = [];
 
+        //Handle geometry
+
+        promises.push(
+          Promise.all(
+            sanitizedProjectPostData.location.geometry.map((geometry) =>
+              insertProjectBoundary(geometry, projectId, connection)
+            )
+          )
+        );
+
         // Handle funding sources
         promises.push(
           Promise.all(
@@ -177,15 +188,6 @@ export function createProject(): RequestHandler {
           )
         );
 
-        // Handle project activities
-        promises.push(
-          Promise.all(
-            sanitizedProjectPostData.project.project_activities.map((activityId: number) =>
-              insertProjectActivity(activityId, projectId, connection)
-            )
-          )
-        );
-
         await Promise.all(promises);
 
         // The user that creates a project is automatically assigned a project lead role, for this project
@@ -206,6 +208,28 @@ export function createProject(): RequestHandler {
     }
   };
 }
+
+export const insertProjectBoundary = async (
+  geometry: any,
+  project_id: number,
+  connection: IDBConnection
+): Promise<number> => {
+  const sqlStatement = queries.project.postProjectBoundarySQL(geometry, project_id);
+
+  if (!sqlStatement) {
+    throw new HTTP400('Failed to build SQL insert statement');
+  }
+
+  const response = await connection.query(sqlStatement.text, sqlStatement.values);
+
+  const result = (response && response.rows && response.rows[0]) || null;
+
+  if (!result || !result.id) {
+    throw new HTTP400('Failed to insert project boundary data');
+  }
+
+  return result.id;
+};
 
 export const insertFundingSource = async (
   fundingSource: PostFundingSource,
@@ -339,28 +363,6 @@ export const insertClassificationDetail = async (
 
   if (!result || !result.id) {
     throw new HTTP400('Failed to insert project IUCN data');
-  }
-
-  return result.id;
-};
-
-export const insertProjectActivity = async (
-  activityId: number,
-  projectId: number,
-  connection: IDBConnection
-): Promise<number> => {
-  const sqlStatement = queries.project.postProjectActivitySQL(activityId, projectId);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL insert statement');
-  }
-
-  const response = await connection.query(sqlStatement.text, sqlStatement.values);
-
-  const result = (response && response.rows && response.rows[0]) || null;
-
-  if (!result || !result.id) {
-    throw new HTTP400('Failed to insert project activity data');
   }
 
   return result.id;

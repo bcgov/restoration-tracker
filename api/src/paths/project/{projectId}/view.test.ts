@@ -115,30 +115,6 @@ describe('getProjectForView', () => {
     }
   });
 
-  it('should throw a 400 error when no sql statement returned for getActivitiesByProjectSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      }
-    });
-
-    sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getProjectPermitsSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getLocationByProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getActivitiesByProjectSQL').returns(null);
-
-    try {
-      const result = view.getProjectForView();
-
-      await result(sampleReq, (null as unknown) as any, (null as unknown) as any);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
-    }
-  });
-
   it('should throw a 400 error when no sql statement returned for getIUCNActionClassificationByProjectSQL', async () => {
     sinon.stub(db, 'getDBConnection').returns({
       ...dbConnectionObj,
@@ -150,7 +126,6 @@ describe('getProjectForView', () => {
     sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getLocationByProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getActivitiesByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIUCNActionClassificationByProjectSQL').returns(null);
 
     try {
@@ -175,7 +150,6 @@ describe('getProjectForView', () => {
     sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getLocationByProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getActivitiesByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIUCNActionClassificationByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getFundingSourceByProjectSQL').returns(null);
 
@@ -201,7 +175,6 @@ describe('getProjectForView', () => {
     sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getLocationByProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getActivitiesByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIUCNActionClassificationByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getFundingSourceByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIndigenousPartnershipsByProjectSQL').returns(null);
@@ -228,7 +201,6 @@ describe('getProjectForView', () => {
     sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getLocationByProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getActivitiesByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIUCNActionClassificationByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getFundingSourceByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIndigenousPartnershipsByProjectSQL').returns(SQL`some`);
@@ -263,7 +235,6 @@ describe('getProjectForView', () => {
     sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getLocationByProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getActivitiesByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIUCNActionClassificationByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getFundingSourceByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIndigenousPartnershipsByProjectSQL').returns(SQL`some`);
@@ -324,10 +295,6 @@ describe('getProjectForView', () => {
       revision_count: 1
     };
 
-    const activityData = {
-      activity_id: 19
-    };
-
     const iucnData = {
       classification: 'class',
       subClassification1: 'subclass 1',
@@ -370,28 +337,23 @@ describe('getProjectForView', () => {
       rows: [locationData]
     });
 
-    // getActivitiesByProjectSQL mock
-    mockQuery.onCall(3).resolves({
-      rows: [activityData]
-    });
-
     // getIUCNActionClassificationByProjectSQL mock
-    mockQuery.onCall(4).resolves({
+    mockQuery.onCall(3).resolves({
       rows: [iucnData]
     });
 
     // getFundingSourceByProjectSQL mock
-    mockQuery.onCall(5).resolves({
+    mockQuery.onCall(4).resolves({
       rows: [fundingSourceData]
     });
 
     // getIndigenousPartnershipsByProjectSQL mock
-    mockQuery.onCall(6).resolves({
+    mockQuery.onCall(5).resolves({
       rows: [indigenousData]
     });
 
     // getStakeholderPartnershipsByProjectSQL mock
-    mockQuery.onCall(7).resolves({
+    mockQuery.onCall(6).resolves({
       rows: [stakeholderData]
     });
 
@@ -406,7 +368,6 @@ describe('getProjectForView', () => {
     sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getLocationByProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getActivitiesByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIUCNActionClassificationByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getFundingSourceByProjectSQL').returns(SQL`some`);
     sinon.stub(project_queries, 'getIndigenousPartnershipsByProjectSQL').returns(SQL`some`);
@@ -418,7 +379,7 @@ describe('getProjectForView', () => {
 
     expect(actualResult).to.eql({
       id: 1,
-      project: new GetProjectData(projectData, [activityData]),
+      project: new GetProjectData(projectData),
       permit: new GetPermitData([permitData]),
       coordinator: new GetCoordinatorData(projectData),
       objectives: new GetObjectivesData(projectData),

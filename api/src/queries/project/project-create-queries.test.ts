@@ -8,7 +8,6 @@ import {
   PostProjectData
 } from '../../models/project-create';
 import {
-  postProjectActivitySQL,
   postProjectFundingSourceSQL,
   postProjectIndigenousNationSQL,
   postProjectIUCNSQL,
@@ -271,27 +270,5 @@ describe('postProjectIUCNSQL', () => {
       expect(response).to.not.be.null;
       expect(response?.values).to.deep.include(123);
     });
-  });
-});
-
-describe('postProjectActivitySQL', () => {
-  it('Null activityId', () => {
-    const response = postProjectActivitySQL((null as unknown) as number, 1);
-    expect(response).to.be.null;
-  });
-
-  it('Null projectId', () => {
-    const response = postProjectActivitySQL(1, (null as unknown) as number);
-    expect(response).to.be.null;
-  });
-
-  it('null activityId and null projectId', () => {
-    const response = postProjectActivitySQL((null as unknown) as number, (null as unknown) as number);
-    expect(response).to.be.null;
-  });
-
-  it('Valid parameters', () => {
-    const response = postProjectActivitySQL(1, 1);
-    expect(response).to.not.be.null;
   });
 });

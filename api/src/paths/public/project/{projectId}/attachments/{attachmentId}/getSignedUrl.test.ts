@@ -9,7 +9,6 @@ import SQL from 'sql-template-strings';
 import * as file_utils from '../../../../../../utils/file-utils';
 import { getMockDBConnection } from '../../../../../../__mocks__/db';
 import { HTTPError } from '../../../../../../errors/custom-error';
-import { ATTACHMENT_TYPE } from '../../../../../../constants/attachments';
 
 chai.use(sinonChai);
 
@@ -166,67 +165,4 @@ describe('getAttachmentSignedURL', () => {
     });
   });
 
-  describe('report attachments', () => {
-    it('should throw a 400 error when no sql statement returned', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
-
-      sinon.stub(public_queries, 'getPublicProjectReportAttachmentS3KeySQL').returns(null);
-
-      try {
-        const result = get_signed_url.getAttachmentSignedURL();
-
-        await result(
-          {
-            ...sampleReq,
-            query: {
-              attachmentType: ATTACHMENT_TYPE.REPORT
-            }
-          },
-          sampleRes as any,
-          (null as unknown) as any
-        );
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as HTTPError).status).to.equal(400);
-        expect((actualError as HTTPError).message).to.equal('Failed to build report attachment S3 key SQLstatement');
-      }
-    });
-
-    it('should return the report attachment signed url response on success', async () => {
-      const mockQuery = sinon.stub();
-
-      mockQuery.resolves({ rows: [{ key: 's3Key' }] });
-
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: mockQuery
-      });
-
-      sinon.stub(public_queries, 'getPublicProjectReportAttachmentS3KeySQL').returns(SQL`some query`);
-      sinon.stub(file_utils, 'getS3SignedURL').resolves('myurlsigned.com');
-
-      const result = get_signed_url.getAttachmentSignedURL();
-
-      await result(
-        {
-          ...sampleReq,
-          query: {
-            attachmentType: ATTACHMENT_TYPE.REPORT
-          }
-        },
-        sampleRes as any,
-        (null as unknown) as any
-      );
-
-      expect(actualResult).to.eql('myurlsigned.com');
-    });
-  });
 });

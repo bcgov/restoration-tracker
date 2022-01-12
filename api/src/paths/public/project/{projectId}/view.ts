@@ -308,9 +308,6 @@ export function getPublicProjectForView(): RequestHandler {
       const getProjectSQLStatement = queries.public.getPublicProjectSQL(Number(req.params.projectId));
       const getProjectPermitsSQLStatement = queries.public.getPublicProjectPermitsSQL(Number(req.params.projectId));
       const getProjectLocationSQLStatement = queries.public.getLocationByPublicProjectSQL(Number(req.params.projectId));
-      const getProjectActivitiesSQLStatement = queries.public.getActivitiesByPublicProjectSQL(
-        Number(req.params.projectId)
-      );
       const getProjectIUCNActionClassificationSQLStatement = queries.public.getIUCNActionClassificationByPublicProjectSQL(
         Number(req.params.projectId)
       );
@@ -328,7 +325,6 @@ export function getPublicProjectForView(): RequestHandler {
         !getProjectSQLStatement ||
         !getProjectPermitsSQLStatement ||
         !getProjectLocationSQLStatement ||
-        !getProjectActivitiesSQLStatement ||
         !getProjectIUCNActionClassificationSQLStatement ||
         !getProjectFundingSourceSQLStatement ||
         !getProjectIndigenousPartnershipsSQLStatement ||
@@ -343,7 +339,6 @@ export function getPublicProjectForView(): RequestHandler {
         projectData,
         permitData,
         locationData,
-        activityData,
         iucnClassificationData,
         fundingData,
         indigenousPartnerships,
@@ -352,7 +347,6 @@ export function getPublicProjectForView(): RequestHandler {
         await connection.query(getProjectSQLStatement.text, getProjectSQLStatement.values),
         await connection.query(getProjectPermitsSQLStatement.text, getProjectPermitsSQLStatement.values),
         await connection.query(getProjectLocationSQLStatement.text, getProjectLocationSQLStatement.values),
-        await connection.query(getProjectActivitiesSQLStatement.text, getProjectActivitiesSQLStatement.values),
         await connection.query(
           getProjectIUCNActionClassificationSQLStatement.text,
           getProjectIUCNActionClassificationSQLStatement.values
@@ -370,13 +364,7 @@ export function getPublicProjectForView(): RequestHandler {
 
       await connection.commit();
 
-      const getProjectData =
-        (projectData &&
-          projectData.rows &&
-          activityData &&
-          activityData.rows &&
-          new GetPublicProjectData(projectData.rows[0], activityData.rows)) ||
-        null;
+      const getProjectData = (projectData && projectData.rows && new GetPublicProjectData(projectData.rows[0])) || null;
 
       const getPermitData = (permitData && permitData.rows && new GetPermitData(permitData.rows)) || null;
 

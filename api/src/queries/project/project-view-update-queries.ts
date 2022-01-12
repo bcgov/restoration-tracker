@@ -19,15 +19,19 @@ export const getLocationByProjectSQL = (projectId: number): SQLStatement | null 
   const sqlStatement = SQL`
     SELECT
       p.location_description,
-      p.geojson as geometry,
+      psc.geojson as geometry,
       p.revision_count
     FROM
       project p
+    LEFT OUTER JOIN
+      project_spatial_component psc
+    ON
+      p.project_id = psc.project_id
     WHERE
       p.project_id = ${projectId}
     GROUP BY
       p.location_description,
-      p.geojson,
+      psc.geojson,
       p.revision_count;
   `;
 
@@ -65,38 +69,6 @@ export const getStakeholderPartnershipsByProjectSQL = (projectId: number): SQLSt
 
   defaultLog.debug({
     label: 'getStakeholderPartnershipsByProjectSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to get project activities.
- *
- * @param {string} projectId
- * @returns {SQLStatement} sql query object
- */
-
-export const getActivitiesByProjectSQL = (projectId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'getActivitiesByProjectSQL', message: 'params', projectId });
-
-  if (!projectId) {
-    return null;
-  }
-
-  const sqlStatement = SQL`
-    SELECT
-      activity_id
-    from
-      project_activity
-    where project_id = ${projectId};
-  `;
-
-  defaultLog.debug({
-    label: 'getActivitiesByProjectSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

@@ -25,20 +25,6 @@ GET.apiDoc = {
           schema: {
             type: 'object',
             properties: {
-              management_action_type: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    id: {
-                      type: 'number'
-                    },
-                    name: {
-                      type: 'string'
-                    }
-                  }
-                }
-              },
               first_nations: {
                 type: 'array',
                 items: {
@@ -76,20 +62,6 @@ GET.apiDoc = {
                       type: 'number'
                     },
                     fs_id: {
-                      type: 'number'
-                    },
-                    name: {
-                      type: 'string'
-                    }
-                  }
-                }
-              },
-              project_activity: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    id: {
                       type: 'number'
                     },
                     name: {
@@ -150,23 +122,6 @@ GET.apiDoc = {
                     },
                     name: {
                       type: 'string'
-                    }
-                  }
-                }
-              },
-              proprietor_type: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    id: {
-                      type: 'number'
-                    },
-                    name: {
-                      type: 'string'
-                    },
-                    is_first_nation: {
-                      type: 'boolean'
                     }
                   }
                 }

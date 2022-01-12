@@ -140,40 +140,6 @@ export const deleteIUCNSQL = (projectId: number): SQLStatement | null => {
 };
 
 /**
- * SQL query to delete project activity rows.
- *
- * @param {projectId} projectId
- * @returns {SQLStatement} sql query object
- */
-export const deleteActivitiesSQL = (projectId: number): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'deleteActivitiesSQL',
-    message: 'params',
-    projectId
-  });
-
-  if (!projectId) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-    DELETE FROM
-      project_activity
-    WHERE
-      project_id = ${projectId};
-  `;
-
-  defaultLog.debug({
-    label: 'deleteActivitiesSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
  * SQL query to delete the specific project funding source record.
  *
  * @param {projectId} projectId

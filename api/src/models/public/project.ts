@@ -83,7 +83,7 @@ export class GetPublicAttachmentsData {
           return {
             id: item.id,
             fileName: item.file_name,
-            fileType: item.file_type || 'Report',
+            fileType: item.file_type,
             lastModified: item.update_date || item.create_date,
             size: item.file_size,
             securityToken: item.is_secured

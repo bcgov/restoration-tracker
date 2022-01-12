@@ -40,11 +40,6 @@ const ProjectStepComponents: React.FC<IProjectStepComponentsProps> = (props) => 
               return { value: item.id, label: item.name };
             }) || []
           }
-          activity={
-            codes?.activity?.map((item) => {
-              return { value: item.id, label: item.name };
-            }) || []
-          }
         />
       )}
 

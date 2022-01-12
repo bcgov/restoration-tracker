@@ -18,7 +18,7 @@ describe('codes', () => {
   } as any;
 
   let actualResult = {
-    management_action_type: null
+    first_nations: null
   };
 
   const sampleRes = {
@@ -54,14 +54,14 @@ describe('codes', () => {
     it('should return the fetched codes on success', async () => {
       sinon.stub(db, 'getAPIUserDBConnection').returns(dbConnectionObj);
       sinon.stub(code_utils, 'getAllCodeSets').resolves({
-        management_action_type: { id: 1, name: 'management action type' }
+        first_nations: { id: 1, name: 'a first nation' }
       } as any);
 
       const result = codes.getAllCodes();
 
       await result(sampleReq, sampleRes as any, (null as unknown) as any);
 
-      expect(actualResult.management_action_type).to.eql({ id: 1, name: 'management action type' });
+      expect(actualResult.first_nations).to.eql({ id: 1, name: 'a first nation' });
     });
 
     it('should throw an error when a failure occurs', async () => {

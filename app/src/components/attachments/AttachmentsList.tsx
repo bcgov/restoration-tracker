@@ -26,13 +26,10 @@ import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { DialogContext } from 'contexts/dialogContext';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetProjectAttachment, IGetReportMetaData } from 'interfaces/useProjectApi.interface';
+import { IGetProjectAttachment } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 import { getFormattedDate, getFormattedFileSize } from 'utils/Utils';
-import { IEditReportMetaForm } from '../attachments/EditReportMetaForm';
-import EditFileWithMetaDialog from '../dialog/EditFileWithMetaDialog';
-import ViewFileWithMetaDialog from '../dialog/ViewFileWithMetaDialog';
 import { EditReportMetaDataI18N, AttachmentsI18N } from 'constants/i18n';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -63,10 +60,6 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
 
-  const [reportMetaData, setReportMetaData] = useState<IGetReportMetaData | null>(null);
-  const [showViewFileWithMetaDialog, setShowViewFileWithMetaDialog] = useState<boolean>(false);
-  const [showEditFileWithMetaDialog, setShowEditFileWithMetaDialog] = useState<boolean>(false);
-
   const [currentAttachment, setCurrentAttachment] = useState<IGetProjectAttachment | null>(null);
 
   const handleDownloadFileClick = (attachment: IGetProjectAttachment) => {
@@ -79,11 +72,9 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
 
   const handleViewDetailsClick = (attachment: IGetProjectAttachment) => {
     setCurrentAttachment(attachment);
-    getReportMeta(attachment);
   };
 
   const dialogContext = useContext(DialogContext);
-
   const defaultErrorDialogProps = {
     dialogTitle: EditReportMetaDataI18N.editErrorTitle,
     dialogText: EditReportMetaDataI18N.editErrorText,
@@ -94,13 +85,9 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     onOk: () => {
       dialogContext.setErrorDialog({ open: false });
     }
-  };
-
-  const showErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
+  };  const showErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
     dialogContext.setErrorDialog({ ...defaultErrorDialogProps, ...textDialogProps, open: true });
-  };
-
-  const defaultYesNoDialogProps = {
+  };  const defaultYesNoDialogProps = {
     dialogTitle: 'Delete Attachment',
     dialogText: 'Are you sure you want to delete the selected attachment?',
     open: false,
@@ -110,10 +97,9 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
   };
 
   useEffect(() => {
-    if (reportMetaData && currentAttachment) {
-      setShowViewFileWithMetaDialog(true);
+    if (currentAttachment) {
     }
-  }, [reportMetaData, currentAttachment]);
+  }, [currentAttachment]);
 
   const showDeleteAttachmentDialog = (attachment: IGetProjectAttachment) => {
     dialogContext.setYesNoDialog({
@@ -171,20 +157,6 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     }
   };
 
-  const getReportMeta = async (attachment: IGetProjectAttachment) => {
-    try {
-      const response = await restorationTrackerApi.project.getProjectReportMetadata(props.projectId, attachment.id);
-
-      if (!response) {
-        return;
-      }
-
-      setReportMetaData(response);
-    } catch (error) {
-      return error;
-    }
-  };
-
   const openAttachment = async (attachment: IGetProjectAttachment) => {
     try {
       const response = await restorationTrackerApi.project.getAttachmentSignedURL(
@@ -208,17 +180,6 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
       });
       return;
     }
-  };
-
-  const openAttachmentFromReportMetaDialog = async () => {
-    if (currentAttachment) {
-      openAttachment(currentAttachment);
-    }
-  };
-
-  const openEditReportMetaDialog = async () => {
-    setShowViewFileWithMetaDialog(false);
-    setShowEditFileWithMetaDialog(true);
   };
 
   const makeAttachmentSecure = async (attachment: IGetProjectAttachment) => {
@@ -266,50 +227,8 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     }
   };
 
-  const handleDialogEditSave = async (values: IEditReportMetaForm) => {
-    if (!reportMetaData) {
-      return;
-    }
-
-    const fileMeta = values;
-
-    try {
-      await restorationTrackerApi.project.updateProjectReportMetadata(
-        props.projectId,
-        reportMetaData.attachment_id,
-        AttachmentType.REPORT,
-        fileMeta,
-        reportMetaData.revision_count
-      );
-    } catch (error) {
-      const apiError = error as APIError;
-      showErrorDialog({ dialogText: apiError.message, dialogErrorDetails: apiError.errors, open: true });
-    } finally {
-      setShowEditFileWithMetaDialog(false);
-    }
-  };
-
   return (
     <>
-      <ViewFileWithMetaDialog
-        open={showViewFileWithMetaDialog}
-        onEdit={openEditReportMetaDialog}
-        onClose={() => {
-          setShowViewFileWithMetaDialog(false);
-        }}
-        onDownload={openAttachmentFromReportMetaDialog}
-        reportMetaData={reportMetaData}
-        attachmentSize={(currentAttachment && getFormattedFileSize(currentAttachment.size)) || '0 KB'}
-      />
-      <EditFileWithMetaDialog
-        open={showEditFileWithMetaDialog}
-        dialogTitle={'Edit Upload Report'}
-        reportMetaData={reportMetaData}
-        onClose={() => {
-          setShowEditFileWithMetaDialog(false);
-        }}
-        onSave={handleDialogEditSave}
-      />
       <Box>
         <TableContainer>
           <Table className={classes.attachmentsTable} aria-label="attachments-list-table">

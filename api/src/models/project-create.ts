@@ -109,6 +109,7 @@ export class PostPermitData {
 export class PostProjectData {
   name: string;
   type: number;
+  location_description: string;
   project_activities: number[];
   start_date: string;
   end_date: string;
@@ -119,6 +120,7 @@ export class PostProjectData {
 
     this.name = obj?.project_name || null;
     this.type = obj?.project_type || null;
+    this.location_description = (obj && obj.location_description) || null;
     this.project_activities = (obj?.project_activities?.length && obj.project_activities) || [];
     this.start_date = obj?.start_date || null;
     this.end_date = obj?.end_date || null;
@@ -151,7 +153,6 @@ export class PostObjectivesData {
  * @class PostLocationData
  */
 export class PostLocationData {
-  location_description: string;
   geometry: Feature[];
 
   constructor(obj?: any) {
@@ -166,7 +167,6 @@ export class PostLocationData {
       }
     });
 
-    this.location_description = (obj && obj.location_description) || null;
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
   }
 }

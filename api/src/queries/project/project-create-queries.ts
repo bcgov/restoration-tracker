@@ -2,7 +2,7 @@ import { SQL, SQLStatement } from 'sql-template-strings';
 import {
   PostCoordinatorData,
   PostFundingSource,
-  PostLocationData,
+  //PostLocationData,
   PostObjectivesData,
   PostProjectData,
   PostProjectObject
@@ -15,11 +15,11 @@ const defaultLog = getLogger('queries/project/project-create-queries');
 /**
  * SQL query to insert a project row.
  *
- * @param {(PostProjectData & PostLocationData & PostCoordinatorData & PostObjectivesData)} project
+ * @param {(PostProjectData & PostCoordinatorData & PostObjectivesData)} project
  * @returns {SQLStatement} sql query object
  */
 export const postProjectSQL = (
-  project: PostProjectData & PostLocationData & PostCoordinatorData & PostObjectivesData
+  project: PostProjectData & PostCoordinatorData & PostObjectivesData
 ): SQLStatement | null => {
   defaultLog.debug({ label: 'postProjectSQL', message: 'params', PostProjectObject });
 
@@ -41,9 +41,8 @@ export const postProjectSQL = (
       coordinator_last_name,
       coordinator_email_address,
       coordinator_agency_name,
-      coordinator_public,
-      geojson,
-      geography
+      coordinator_public
+
     ) VALUES (
       ${project.type},
       ${project.name},
@@ -57,12 +56,58 @@ export const postProjectSQL = (
       ${project.last_name},
       ${project.email_address},
       ${project.coordinator_agency},
-      ${project.share_contact_details},
-      ${JSON.stringify(project.geometry)}
+      ${project.share_contact_details}
+
+  `;
+  sqlStatement.append(SQL`
+    )
+    RETURNING
+      project_id as id;
+  `);
+
+  defaultLog.debug({
+    label: 'postProjectSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to insert a project row.
+ *
+ * @param {(PostLocationData)} boundary
+ * @returns {SQLStatement} sql query object
+ */
+export const postProjectBoundarySQL = (boundary: any, project_id: number): SQLStatement | null => {
+  defaultLog.debug({ label: 'postProjectBoundarySQL', message: 'params', boundary });
+
+  if (!boundary) {
+    return null;
+  }
+
+  console.log('boundary is:', boundary);
+
+  const sqlStatement: SQLStatement = SQL`
+    INSERT INTO project_spatial_component (
+      project_id,
+      project_spatial_component_type_id,
+      name,
+      description,
+      geojson,
+      geography
+    ) VALUES (
+      ${project_id},
+      1,
+      'some name',
+      'some description',
+      ${JSON.stringify(boundary.geometry)}
   `;
 
-  if (project.geometry && project.geometry.length) {
-    const geometryCollectionSQL = queries.spatial.generateGeometryCollectionSQL(project.geometry);
+  if (boundary.geometry && boundary.geometry.length) {
+    const geometryCollectionSQL = queries.spatial.generateGeometryCollectionSQL(boundary.geometry);
 
     sqlStatement.append(SQL`
       ,public.geography(
@@ -84,11 +129,11 @@ export const postProjectSQL = (
   sqlStatement.append(SQL`
     )
     RETURNING
-      project_id as id;
+      project_spatial_component_id as id;
   `);
 
   defaultLog.debug({
-    label: 'postProjectSQL',
+    label: 'postProjectBoundarySQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
@@ -261,47 +306,6 @@ export const postProjectIUCNSQL = (iucn3_id: number, project_id: number): SQLSta
 
   defaultLog.debug({
     label: 'postProjectIUCNSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to insert a project activity row.
- *
- * @param activityId
- * @param projectId
- * @returns {SQLStatement} sql query object
- */
-export const postProjectActivitySQL = (activityId: number, projectId: number): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'postProjectActivity',
-    message: 'params',
-    activityId,
-    projectId
-  });
-
-  if (!activityId || !projectId) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-      INSERT INTO project_activity (
-        activity_id,
-        project_id
-      ) VALUES (
-        ${activityId},
-        ${projectId}
-      )
-      RETURNING
-        project_activity_id as id;
-    `;
-
-  defaultLog.debug({
-    label: 'postProjectActivity',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

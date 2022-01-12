@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { ATTACHMENT_TYPE } from '../../../../../constants/attachments';
 import { PROJECT_ROLE } from '../../../../../constants/roles';
 import { getDBConnection, IDBConnection } from '../../../../../database/db';
 import { HTTP400 } from '../../../../../errors/custom-error';
@@ -9,7 +8,6 @@ import { authorizeRequestHandler } from '../../../../../request-handlers/securit
 import { deleteFileFromS3 } from '../../../../../utils/file-utils';
 import { getLogger } from '../../../../../utils/logger';
 import { attachmentApiDocObject } from '../../../../../utils/shared-api-docs';
-import { deleteProjectReportAttachmentAuthors } from '../report/upload';
 
 const defaultLog = getLogger('/api/project/{projectId}/attachments/{attachmentId}/delete');
 
@@ -88,15 +86,7 @@ export function deleteAttachment(): RequestHandler {
       if (req.body.securityToken) {
         await unsecureProjectAttachmentRecord(req.body.securityToken, req.body.attachmentType, connection);
       }
-
-      let deleteResult: { key: string };
-      if (req.body.attachmentType === ATTACHMENT_TYPE.REPORT) {
-        await deleteProjectReportAttachmentAuthors(Number(req.params.attachmentId), connection);
-
-        deleteResult = await deleteProjectReportAttachment(Number(req.params.attachmentId), connection);
-      } else {
-        deleteResult = await deleteProjectAttachment(Number(req.params.attachmentId), connection);
-      }
+      const deleteResult: { key: string } = await deleteProjectAttachment(Number(req.params.attachmentId), connection);
 
       await connection.commit();
 
@@ -155,25 +145,6 @@ export const deleteProjectAttachment = async (
 
   if (!response || !response.rowCount) {
     throw new HTTP400('Failed to delete project attachment record');
-  }
-
-  return response.rows[0];
-};
-
-export const deleteProjectReportAttachment = async (
-  attachmentId: number,
-  connection: IDBConnection
-): Promise<{ key: string }> => {
-  const sqlStatement = queries.project.deleteProjectReportAttachmentSQL(attachmentId);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL delete project report attachment statement');
-  }
-
-  const response = await connection.query(sqlStatement.text, sqlStatement.values);
-
-  if (!response || !response.rowCount) {
-    throw new HTTP400('Failed to delete project attachment report record');
   }
 
   return response.rows[0];

@@ -1,14 +1,6 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
 
 /**
- * SQL query to fetch management action type codes.
- *
- * @returns {SQLStatement} sql query object
- */
-export const getManagementActionTypeSQL = (): SQLStatement =>
-  SQL`SELECT management_action_type_id as id, name from management_action_type;`;
-
-/**
  * SQL query to fetch first nation codes.
  *
  * @returns {SQLStatement} sql query object
@@ -23,21 +15,6 @@ export const getFirstNationsSQL = (): SQLStatement =>
  */
 export const getFundingSourceSQL = (): SQLStatement =>
   SQL`SELECT funding_source_id as id, name from funding_source ORDER BY name ASC;`;
-
-/**
- * SQL query to fetch proprietor type codes.
- *
- * @returns {SQLStatement} sql query object
- */
-export const getProprietorTypeSQL = (): SQLStatement =>
-  SQL`SELECT proprietor_type_id as id, name, is_first_nation from proprietor_type;`;
-
-/**
- * SQL query to fetch activity codes.
- *
- * @returns {SQLStatement} sql query object
- */
-export const getActivitySQL = (): SQLStatement => SQL`SELECT activity_id as id, name from activity;`;
 
 /**
  * SQL query to fetch project type codes.
@@ -99,22 +76,3 @@ export const getProjectRolesSQL = (): SQLStatement => SQL`SELECT project_role_id
  */
 export const getAdministrativeActivityStatusTypeSQL = (): SQLStatement =>
   SQL`SELECT administrative_activity_status_type_id as id, name FROM administrative_activity_status_type;`;
-
-/**
- * SQL query to fetch taxon codes.
- *
- * @returns {SQLStatement} sql query object
- */
-export const getTaxonsSQL = (): SQLStatement =>
-  SQL`
-    SELECT
-      wldtaxonomic_units_id as id,
-      CONCAT_WS(' - ', english_name, CONCAT_WS(' ', unit_name1, unit_name2, unit_name3)) as name
-    FROM
-      wldtaxonomic_units
-    WHERE
-      tty_name = 'SPECIES'
-    and
-      end_date is null
-    ORDER BY
-      name;`;

@@ -343,27 +343,6 @@ describe('useProjectApi', () => {
     ]);
   });
 
-  it('updateProjectAttachmentMetadata works as expected', async () => {
-    mock.onPut(`/api/project/${projectId}/attachments/${attachmentId}/metadata/update`).reply(200, 'result 1');
-
-    const result = await useProjectApi(axios).updateProjectReportMetadata(
-      projectId,
-      attachmentId,
-      attachmentMetaForUpdate,
-      attachmentMetaForUpdate.revision_count
-    );
-
-    expect(result).toEqual('result 1');
-  });
-
-  it('getProjectReportMetadata works as expected', async () => {
-    mock.onGet(`/api/project/${projectId}/attachments/${attachmentId}/metadata/get`).reply(200, 'result 1');
-
-    const result = await useProjectApi(axios).getProjectReportMetadata(projectId, attachmentId);
-
-    expect(result).toEqual('result 1');
-  });
-
   it('getProjectParticipants works as expected', async () => {
     const mockResponse = { participants: [] };
     mock.onGet(`/api/project/${projectId}/participants/get`).reply(200, mockResponse);

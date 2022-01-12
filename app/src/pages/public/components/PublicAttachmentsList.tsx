@@ -4,7 +4,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -16,12 +15,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import { mdiInformationOutline, mdiLockOpenVariantOutline, mdiLockOutline } from '@mdi/js';
+import { mdiLockOpenVariantOutline, mdiLockOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-import ViewFileWithMetaDialog from 'components/dialog/ViewFileWithMetaDialog';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetProjectAttachment, IGetReportMetaData } from 'interfaces/useProjectApi.interface';
+import { IGetProjectAttachment } from 'interfaces/useProjectApi.interface';
 import React, { useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 import { getFormattedDate, getFormattedFileSize } from 'utils/Utils';
@@ -45,9 +43,6 @@ const PublicAttachmentsList: React.FC<IPublicAttachmentsListProps> = (props) => 
   const [open, setOpen] = React.useState(false);
   const restorationTrackerApi = useRestorationTrackerApi();
   const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
-  const [reportMetaData, setReportMetaData] = useState<IGetReportMetaData | null>(null);
-  const [showViewFileWithMetaDialog, setShowViewFileWithMetaDialog] = useState<boolean>(false);
-  const [currentAttachment, setCurrentAttachment] = useState<IGetProjectAttachment | null>(null);
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -60,30 +55,6 @@ const PublicAttachmentsList: React.FC<IPublicAttachmentsListProps> = (props) => 
     setOpen(false);
   };
 
-  const openAttachmentFromReportMetaDialog = async () => {
-    if (currentAttachment) {
-      openAttachment(currentAttachment);
-    }
-  };
-
-  const handleReportMetaDialog = async (attachment: IGetProjectAttachment) => {
-    setCurrentAttachment(attachment);
-    try {
-      const response = await restorationTrackerApi.public.project.getPublicProjectReportMetadata(
-        props.projectId,
-        attachment.id
-      );
-
-      if (!response) {
-        return;
-      }
-
-      setReportMetaData(response);
-      setShowViewFileWithMetaDialog(true);
-    } catch (error) {
-      return error;
-    }
-  };
 
   const openAttachment = async (attachment: IGetProjectAttachment) => {
     try {
@@ -104,15 +75,6 @@ const PublicAttachmentsList: React.FC<IPublicAttachmentsListProps> = (props) => 
   };
   return (
     <>
-      <ViewFileWithMetaDialog
-        open={showViewFileWithMetaDialog}
-        onClose={() => {
-          setShowViewFileWithMetaDialog(false);
-        }}
-        onDownload={openAttachmentFromReportMetaDialog}
-        reportMetaData={reportMetaData}
-        attachmentSize={(currentAttachment && getFormattedFileSize(currentAttachment.size)) || '0 KB'}
-      />
       <TableContainer>
         <Table className={classes.attachmentsTable} aria-label="attachments-list-table">
           <TableHead>
@@ -154,17 +116,6 @@ const PublicAttachmentsList: React.FC<IPublicAttachmentsListProps> = (props) => 
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {!row.securityToken && (
-                      <IconButton
-                        color="primary"
-                        aria-label="view report"
-                        onClick={() => {
-                          handleReportMetaDialog(row);
-                        }}
-                        data-testid="attachment-view-meta">
-                        <Icon path={mdiInformationOutline} size={1} />
-                      </IconButton>
-                    )}
                   </TableCell>
                 </TableRow>
               ))}

@@ -319,20 +319,8 @@ export interface IUploadAttachmentResponse {
   revision_count: number;
 }
 
-export interface IGetReportMetaData {
-  attachment_id: number;
-  title: string;
-  year_published: number;
-  description: string;
-  last_modified: string;
-  revision_count: number;
-  authors: IGetReportAuthors[];
-}
 
-export interface IGetReportAuthors {
-  first_name: string;
-  last_name: string;
-}
+
 
 export interface IGetProjectParticipantsResponseArrayItem {
   project_participation_id: number;

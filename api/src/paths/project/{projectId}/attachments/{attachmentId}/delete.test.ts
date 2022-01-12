@@ -232,37 +232,4 @@ describe('deleteAttachment', () => {
     expect(actualResult).to.equal(null);
   });
 
-  it('should return null response on success when type is Report', async () => {
-    const mockQuery = sinon.stub();
-
-    mockQuery
-      .onFirstCall()
-      .resolves({ rowCount: 1 })
-      .onSecondCall()
-      .resolves({ rowCount: 1 })
-      .onThirdCall()
-      .resolves({ rows: [{ key: 's3Key' }], rowCount: 1 });
-
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      },
-      query: mockQuery
-    });
-
-    sinon.stub(security_queries, 'unsecureAttachmentRecordSQL').returns(SQL`something`);
-    sinon.stub(project_queries, 'deleteProjectReportAttachmentSQL').returns(SQL`some query`);
-    sinon.stub(file_utils, 'deleteFileFromS3').resolves('non null response' as DeleteObjectOutput);
-
-    const result = delete_attachment.deleteAttachment();
-
-    await result(
-      { ...sampleReq, body: { ...sampleReq.body, attachmentType: 'Report' } },
-      sampleRes as any,
-      (null as unknown) as any
-    );
-
-    expect(actualResult).to.equal(null);
-  });
 });

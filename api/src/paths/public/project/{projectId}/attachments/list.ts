@@ -70,11 +70,8 @@ export function getPublicProjectAttachments(): RequestHandler {
       const getPublicProjectAttachmentsSQLStatement = queries.public.getPublicProjectAttachmentsSQL(
         Number(req.params.projectId)
       );
-      const getPublicProjectReportAttachmentsSQLStatement = queries.public.getPublicProjectReportAttachmentsSQL(
-        Number(req.params.projectId)
-      );
 
-      if (!getPublicProjectAttachmentsSQLStatement || !getPublicProjectReportAttachmentsSQLStatement) {
+      if (!getPublicProjectAttachmentsSQLStatement) {
         throw new HTTP400('Failed to build SQL get statement');
       }
 
@@ -85,20 +82,10 @@ export function getPublicProjectAttachments(): RequestHandler {
         getPublicProjectAttachmentsSQLStatement.values
       );
 
-      const reportAttachmentsData = await connection.query(
-        getPublicProjectReportAttachmentsSQLStatement.text,
-        getPublicProjectReportAttachmentsSQLStatement.values
-      );
-
       await connection.commit();
 
       const getAttachmentsData =
-        (attachmentsData &&
-          reportAttachmentsData &&
-          attachmentsData.rows &&
-          reportAttachmentsData.rows &&
-          new GetPublicAttachmentsData([...attachmentsData.rows, ...reportAttachmentsData.rows])) ||
-        null;
+        (attachmentsData && attachmentsData.rows && new GetPublicAttachmentsData([...attachmentsData.rows])) || null;
 
       return res.status(200).json(getAttachmentsData);
     } catch (error) {

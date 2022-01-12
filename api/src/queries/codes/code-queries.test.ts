@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
-  getActivitySQL,
   getAdministrativeActivityStatusTypeSQL,
   getFirstNationsSQL,
   getFundingSourceSQL,
@@ -9,19 +8,9 @@ import {
   getIUCNConservationActionLevel1ClassificationSQL,
   getIUCNConservationActionLevel2SubclassificationSQL,
   getIUCNConservationActionLevel3SubclassificationSQL,
-  getManagementActionTypeSQL,
   getProjectTypeSQL,
-  getProprietorTypeSQL,
-  getSystemRolesSQL,
-  getTaxonsSQL
+  getSystemRolesSQL
 } from './code-queries';
-
-describe('getManagementActionTypeSQL', () => {
-  it('returns valid sql statement', () => {
-    const response = getManagementActionTypeSQL();
-    expect(response).to.not.be.null;
-  });
-});
 
 describe('getFirstNationsSQL', () => {
   it('returns valid sql statement', () => {
@@ -33,20 +22,6 @@ describe('getFirstNationsSQL', () => {
 describe('getFundingSourceSQL', () => {
   it('returns valid sql statement', () => {
     const response = getFundingSourceSQL();
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getProprietorTypeSQL', () => {
-  it('returns valid sql statement', () => {
-    const response = getProprietorTypeSQL();
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getActivitySQL', () => {
-  it('returns valid sql statement', () => {
-    const response = getActivitySQL();
     expect(response).to.not.be.null;
   });
 });
@@ -96,13 +71,6 @@ describe('getSystemRolesSQL', () => {
 describe('getAdministrativeActivityStatusTypeSQL', () => {
   it('returns valid sql statement', () => {
     const response = getAdministrativeActivityStatusTypeSQL();
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getTaxonsSQL', () => {
-  it('returns valid sql statement', () => {
-    const response = getTaxonsSQL();
     expect(response).to.not.be.null;
   });
 });

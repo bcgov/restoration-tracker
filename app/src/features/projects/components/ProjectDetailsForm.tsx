@@ -5,9 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import CustomTextField from 'components/fields/CustomTextField';
-import MultiAutocompleteFieldVariableSize, {
-  IMultiAutocompleteFieldOption
-} from 'components/fields/MultiAutocompleteFieldVariableSize';
+import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import React from 'react';
@@ -38,7 +36,6 @@ export const ProjectDetailsFormYupSchema = yup.object().shape({
 
 export interface IProjectDetailsFormProps {
   project_type: IMultiAutocompleteFieldOption[];
-  activity: IMultiAutocompleteFieldOption[];
 }
 
 /**
@@ -85,14 +82,6 @@ const ProjectDetailsForm: React.FC<IProjectDetailsFormProps> = (props) => {
             </Select>
             <FormHelperText>{touched.project_type && errors.project_type}</FormHelperText>
           </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <MultiAutocompleteFieldVariableSize
-            id={'project_activities'}
-            label={'Project Activities'}
-            options={props.activity}
-            required={false}
-          />
         </Grid>
         <StartEndDateFields formikProps={formikProps} startRequired={true} endRequired={false} />
       </Grid>

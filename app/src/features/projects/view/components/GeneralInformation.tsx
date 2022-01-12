@@ -117,12 +117,6 @@ const GeneralInformation: React.FC<IProjectDetailsProps> = (props) => {
     props.refresh();
   };
 
-  const projectActivities =
-    codes?.activity
-      ?.filter((item) => project.project_activities.includes(item.id))
-      ?.map((item) => item.name)
-      .join(', ') || '';
-
   return (
     <>
       <EditDialog
@@ -183,14 +177,6 @@ const GeneralInformation: React.FC<IProjectDetailsProps> = (props) => {
                     {getFormattedDateRangeString(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
                   </>
                 )}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Typography component="dt" variant="subtitle2" color="textSecondary">
-                Activities
-              </Typography>
-              <Typography component="dd" variant="body1">
-                {projectActivities ? <>{projectActivities}</> : 'No Activities'}
               </Typography>
             </Grid>
           </Grid>

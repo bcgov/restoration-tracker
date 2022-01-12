@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { ATTACHMENT_TYPE } from '../../../../../constants/attachments';
 import { PROJECT_ROLE } from '../../../../../constants/roles';
 import { getDBConnection, IDBConnection } from '../../../../../database/db';
 import { HTTP400 } from '../../../../../errors/custom-error';
@@ -117,21 +116,11 @@ export function getProjectAttachmentSignedURL(): RequestHandler {
     try {
       await connection.open();
 
-      let s3Key;
-
-      if (req.query.attachmentType === ATTACHMENT_TYPE.REPORT) {
-        s3Key = await getProjectReportAttachmentS3Key(
-          Number(req.params.projectId),
-          Number(req.params.attachmentId),
-          connection
-        );
-      } else {
-        s3Key = await getProjectAttachmentS3Key(
-          Number(req.params.projectId),
-          Number(req.params.attachmentId),
-          connection
-        );
-      }
+      const s3Key = await getProjectAttachmentS3Key(
+        Number(req.params.projectId),
+        Number(req.params.attachmentId),
+        connection
+      );
 
       await connection.commit();
 
@@ -161,26 +150,6 @@ export const getProjectAttachmentS3Key = async (
 
   if (!sqlStatement) {
     throw new HTTP400('Failed to build attachment S3 key SQLstatement');
-  }
-
-  const response = await connection.query(sqlStatement.text, sqlStatement.values);
-
-  if (!response || !response?.rows?.[0]) {
-    throw new HTTP400('Failed to get attachment S3 key');
-  }
-
-  return response.rows[0].key;
-};
-
-export const getProjectReportAttachmentS3Key = async (
-  projectId: number,
-  attachmentId: number,
-  connection: IDBConnection
-): Promise<string> => {
-  const sqlStatement = queries.project.getProjectReportAttachmentS3KeySQL(projectId, attachmentId);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build report attachment S3 key SQLstatement');
   }
 
   const response = await connection.query(sqlStatement.text, sqlStatement.values);

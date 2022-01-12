@@ -113,30 +113,6 @@ describe('getPublicProjectForView', () => {
     }
   });
 
-  it('should throw a 400 error when no sql statement returned for getActivitiesByPublicProjectSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      }
-    });
-
-    sinon.stub(public_queries, 'getPublicProjectSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getPublicProjectPermitsSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getLocationByPublicProjectSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getActivitiesByPublicProjectSQL').returns(null);
-
-    try {
-      const result = view.getPublicProjectForView();
-
-      await result(sampleReq, (null as unknown) as any, (null as unknown) as any);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
-    }
-  });
-
   it('should throw a 400 error when no sql statement returned for getIUCNActionClassificationByPublicProjectSQL', async () => {
     sinon.stub(db, 'getDBConnection').returns({
       ...dbConnectionObj,
@@ -148,7 +124,6 @@ describe('getPublicProjectForView', () => {
     sinon.stub(public_queries, 'getPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getPublicProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getLocationByPublicProjectSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getActivitiesByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIUCNActionClassificationByPublicProjectSQL').returns(null);
 
     try {
@@ -173,7 +148,6 @@ describe('getPublicProjectForView', () => {
     sinon.stub(public_queries, 'getPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getPublicProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getLocationByPublicProjectSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getActivitiesByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIUCNActionClassificationByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getFundingSourceByPublicProjectSQL').returns(null);
 
@@ -199,7 +173,6 @@ describe('getPublicProjectForView', () => {
     sinon.stub(public_queries, 'getPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getPublicProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getLocationByPublicProjectSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getActivitiesByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIUCNActionClassificationByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getFundingSourceByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIndigenousPartnershipsByPublicProjectSQL').returns(null);
@@ -226,7 +199,6 @@ describe('getPublicProjectForView', () => {
     sinon.stub(public_queries, 'getPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getPublicProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getLocationByPublicProjectSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getActivitiesByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIUCNActionClassificationByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getFundingSourceByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIndigenousPartnershipsByPublicProjectSQL').returns(SQL`some`);
@@ -261,7 +233,6 @@ describe('getPublicProjectForView', () => {
     sinon.stub(public_queries, 'getPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getPublicProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getLocationByPublicProjectSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getActivitiesByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIUCNActionClassificationByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getFundingSourceByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIndigenousPartnershipsByPublicProjectSQL').returns(SQL`some`);
@@ -322,10 +293,6 @@ describe('getPublicProjectForView', () => {
       revision_count: 1
     };
 
-    const activityData = {
-      activity_id: 19
-    };
-
     const iucnData = {
       classification: 'class',
       subClassification1: 'subclass 1',
@@ -368,28 +335,23 @@ describe('getPublicProjectForView', () => {
       rows: [locationData]
     });
 
-    // getActivitiesByProjectSQL mock
-    mockQuery.onCall(3).resolves({
-      rows: [activityData]
-    });
-
     // getIUCNActionClassificationByProjectSQL mock
-    mockQuery.onCall(4).resolves({
+    mockQuery.onCall(3).resolves({
       rows: [iucnData]
     });
 
     // getFundingSourceByProjectSQL mock
-    mockQuery.onCall(5).resolves({
+    mockQuery.onCall(4).resolves({
       rows: [fundingSourceData]
     });
 
     // getIndigenousPartnershipsByProjectSQL mock
-    mockQuery.onCall(6).resolves({
+    mockQuery.onCall(5).resolves({
       rows: [indigenousData]
     });
 
     // getStakeholderPartnershipsByProjectSQL mock
-    mockQuery.onCall(7).resolves({
+    mockQuery.onCall(6).resolves({
       rows: [stakeholderData]
     });
 
@@ -404,7 +366,6 @@ describe('getPublicProjectForView', () => {
     sinon.stub(public_queries, 'getPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getPublicProjectPermitsSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getLocationByPublicProjectSQL').returns(SQL`some`);
-    sinon.stub(public_queries, 'getActivitiesByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIUCNActionClassificationByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getFundingSourceByPublicProjectSQL').returns(SQL`some`);
     sinon.stub(public_queries, 'getIndigenousPartnershipsByPublicProjectSQL').returns(SQL`some`);
@@ -416,7 +377,7 @@ describe('getPublicProjectForView', () => {
 
     expect(actualResult).to.eql({
       id: 1,
-      project: new GetPublicProjectData(projectData, [activityData]),
+      project: new GetPublicProjectData(projectData),
       permit: new GetPermitData([permitData]),
       coordinator: new GetPublicCoordinatorData(projectData),
       objectives: new GetObjectivesData(projectData),

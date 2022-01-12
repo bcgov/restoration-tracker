@@ -37,10 +37,6 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = () => {
   );
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
 
-  const handleUploadReportClick = () => {
-    setAttachmentType(AttachmentType.REPORT);
-    setOpenUploadAttachments(true);
-  };
   const handleUploadAttachmentClick = () => {
     setAttachmentType(AttachmentType.OTHER);
     setOpenUploadAttachments(true);
@@ -95,7 +91,7 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = () => {
 
   return (
     <>
-      <FileUploadWithMetaDialog
+     <FileUploadWithMetaDialog
         open={openUploadAttachments}
         dialogTitle={attachmentType === 'Report' ? 'Upload Report' : 'Upload Attachment'}
         attachmentType={attachmentType}
@@ -114,7 +110,6 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = () => {
           buttonStartIcon={<Icon path={mdiTrayArrowUp} size={1} />}
           buttonEndIcon={<Icon path={mdiMenuDown} size={1} />}
           menuItems={[
-            { menuLabel: 'Upload Report', menuOnClick: handleUploadReportClick },
             { menuLabel: 'Upload Attachments', menuOnClick: handleUploadAttachmentClick }
           ]}
         />

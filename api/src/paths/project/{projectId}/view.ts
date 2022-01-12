@@ -329,7 +329,6 @@ export function getProjectForView(): RequestHandler {
       const getProjectSQLStatement = queries.project.getProjectSQL(Number(req.params.projectId));
       const getProjectPermitsSQLStatement = queries.project.getProjectPermitsSQL(Number(req.params.projectId));
       const getProjectLocationSQLStatement = queries.project.getLocationByProjectSQL(Number(req.params.projectId));
-      const getProjectActivitiesSQLStatement = queries.project.getActivitiesByProjectSQL(Number(req.params.projectId));
       const getProjectIUCNActionClassificationSQLStatement = queries.project.getIUCNActionClassificationByProjectSQL(
         Number(req.params.projectId)
       );
@@ -347,7 +346,6 @@ export function getProjectForView(): RequestHandler {
         !getProjectSQLStatement ||
         !getProjectPermitsSQLStatement ||
         !getProjectLocationSQLStatement ||
-        !getProjectActivitiesSQLStatement ||
         !getProjectIUCNActionClassificationSQLStatement ||
         !getProjectFundingSourceSQLStatement ||
         !getProjectIndigenousPartnershipsSQLStatement ||
@@ -362,7 +360,6 @@ export function getProjectForView(): RequestHandler {
         projectData,
         permitData,
         locationData,
-        activityData,
         iucnClassificationData,
         fundingData,
         indigenousPartnerships,
@@ -371,7 +368,6 @@ export function getProjectForView(): RequestHandler {
         await connection.query(getProjectSQLStatement.text, getProjectSQLStatement.values),
         await connection.query(getProjectPermitsSQLStatement.text, getProjectPermitsSQLStatement.values),
         await connection.query(getProjectLocationSQLStatement.text, getProjectLocationSQLStatement.values),
-        await connection.query(getProjectActivitiesSQLStatement.text, getProjectActivitiesSQLStatement.values),
         await connection.query(
           getProjectIUCNActionClassificationSQLStatement.text,
           getProjectIUCNActionClassificationSQLStatement.values
@@ -389,13 +385,7 @@ export function getProjectForView(): RequestHandler {
 
       await connection.commit();
 
-      const getProjectData =
-        (projectData &&
-          projectData.rows &&
-          activityData &&
-          activityData.rows &&
-          new GetProjectData(projectData.rows[0], activityData.rows)) ||
-        null;
+      const getProjectData = (projectData && projectData.rows && new GetProjectData(projectData.rows[0])) || null;
 
       const getPermitData = (permitData && permitData.rows && new GetPermitData(permitData.rows)) || null;
 
