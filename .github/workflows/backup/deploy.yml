@@ -443,7 +443,7 @@ jobs:
       CYPRESS_host: 'https://restoration-tracker-app-${{ github.event.number }}-af2668-dev.apps.silver.devops.gov.bc.ca'
       CYPRESS_ENVIRONMENT: ${{ github.base_ref }}
       CYPRESS_authRealm: '35r1iman'
-      CYPRESS_authClientId: 'restoration-tracker'
+      CYPRESS_authClientId: 'biohubbc'
       CYPRESS_authUrl: 'https://${{ github.base_ref }}.oidc.gov.bc.ca'
     needs:
       - deployDatabase
