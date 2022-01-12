@@ -49,15 +49,6 @@ GET.apiDoc = {
         type: 'number'
       },
       required: true
-    },
-    {
-      in: 'query',
-      name: 'attachmentType',
-      schema: {
-        type: 'string',
-        enum: ['Report', 'Other']
-      },
-      required: true
     }
   ],
   responses: {
@@ -105,10 +96,6 @@ export function getProjectAttachmentSignedURL(): RequestHandler {
 
     if (!req.params.attachmentId) {
       throw new HTTP400('Missing required path param `attachmentId`');
-    }
-
-    if (!req.query.attachmentType) {
-      throw new HTTP400('Missing required query param `attachmentType`');
     }
 
     const connection = getDBConnection(req['keycloak_token']);

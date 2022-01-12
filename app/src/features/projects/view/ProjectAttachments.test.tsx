@@ -6,7 +6,6 @@ import {
   queryByTestId as rawQueryByTestId,
   getByTestId as rawGetByTestId
 } from '@testing-library/react';
-import { AttachmentType } from 'constants/attachments';
 import { DialogContextProvider } from 'contexts/dialogContext';
 import { createMemoryHistory } from 'history';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
@@ -105,14 +104,12 @@ describe('ProjectAttachments', () => {
         {
           id: 1,
           fileName: 'filename1.test',
-          fileType: AttachmentType.OTHER,
           lastModified: '2021-04-09 11:53:53',
           size: 3028
         },
         {
           id: 2,
           fileName: 'filename2.test',
-          fileType: AttachmentType.REPORT,
           lastModified: '2021-04-09 11:53:53',
           size: 3028
         }
@@ -137,7 +134,6 @@ describe('ProjectAttachments', () => {
         {
           id: 2,
           fileName: 'filename2.test',
-          fileType: AttachmentType.REPORT,
           lastModified: '2021-04-09 11:53:53',
           size: 3028
         }
@@ -171,7 +167,6 @@ describe('ProjectAttachments', () => {
         {
           id: 1,
           fileName: 'filename.test',
-          fileType: AttachmentType.REPORT,
           lastModified: '2021-04-09 11:53:53',
           size: 3028
         }

@@ -32,7 +32,6 @@ export const getPublicProjectSQL = (projectId: number): SQLStatement | null => {
       project.coordinator_email_address,
       project.coordinator_agency_name,
       project.coordinator_public,
-      project.geojson as geometry,
       project.publish_timestamp as publish_date
     from
       project
@@ -108,7 +107,6 @@ export const getLocationByPublicProjectSQL = (projectId: number): SQLStatement |
   const sqlStatement = SQL`
   SELECT
     p.location_description,
-    psc.geojson as geometry,
     p.revision_count
   FROM
     project p
@@ -120,7 +118,6 @@ export const getLocationByPublicProjectSQL = (projectId: number): SQLStatement |
     p.project_id = ${projectId}
   GROUP BY
     p.location_description,
-    psc.geojson,
     p.revision_count;
   `;
 
@@ -404,7 +401,6 @@ export const getPublicProjectAttachmentsSQL = (projectId: number): SQLStatement 
       pa.update_date,
       pa.create_date,
       pa.file_size,
-      pa.file_type,
       CASE WHEN api_security_check(pa.security_token,pa.create_user) THEN false ELSE true END as is_secured
     from
       project_attachment as pa
@@ -427,7 +423,6 @@ export const getPublicProjectAttachmentsSQL = (projectId: number): SQLStatement 
 
   return sqlStatement;
 };
-
 
 /**
  * SQL query to get S3 key of an attachment for a single public (published) project.
@@ -464,4 +459,3 @@ export const getPublicProjectAttachmentS3KeySQL = (projectId: number, attachment
 
   return sqlStatement;
 };
-

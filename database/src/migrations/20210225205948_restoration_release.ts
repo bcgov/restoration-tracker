@@ -53,7 +53,9 @@ export async function up(knex: Knex): Promise<void> {
     path.join(__dirname, DB_RELEASE, 'populate_investment_action_category.sql')
   );
   const populate_project_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_project_type.sql'));
-  const populate_project_spatial_component_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_project_spatial_component_type.sql'));
+  const populate_project_spatial_component_type = fs.readFileSync(
+    path.join(__dirname, DB_RELEASE, 'populate_project_spatial_component_type.sql')
+  );
   const populate_iucn_classifications = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_iucn_classifications.sql')
   );
@@ -65,7 +67,6 @@ export async function up(knex: Knex): Promise<void> {
   const populate_administrative_activity_status_type = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_administrative_activity_status_type.sql')
   );
-
 
   const populate_system_metadata_constant = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_system_metadata_constant.sql')

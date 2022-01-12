@@ -120,7 +120,7 @@ export interface IS3FileKey {
 }
 
 export function generateS3FileKey(options: IS3FileKey): string {
-  const keyParts: (string | number)[] = [];
+  const keyParts: (string | number)[] = ['restoration-tracker']; // TODO prefix with `restoration-tracker` while sharing S3 space with the SIMS project
 
   if (options.projectId) {
     keyParts.push('projects');

@@ -59,39 +59,27 @@ describe('getProjectAttachmentS3KeySQL', () => {
 
 describe('postProjectAttachmentSQL', () => {
   it('returns null response when null projectId provided', () => {
-    const response = postProjectAttachmentSQL('name', 20, 'type', (null as unknown) as number, 'key');
+    const response = postProjectAttachmentSQL('name', 20, (null as unknown) as number, 'key');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null fileName provided', () => {
-    const response = postProjectAttachmentSQL((null as unknown) as string, 20, 'type', 1, 'key');
+    const response = postProjectAttachmentSQL((null as unknown) as string, 20, 1, 'key');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null fileSize provided', () => {
-    const response = postProjectAttachmentSQL('name', (null as unknown) as number, 'type', 1, 'key');
+    const response = postProjectAttachmentSQL('name', (null as unknown) as number, 1, 'key');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null key provided', () => {
-    const response = postProjectAttachmentSQL('name', 2, 'type', 1, (null as unknown) as string);
+    const response = postProjectAttachmentSQL('name', 2, 1, (null as unknown) as string);
 
     expect(response).to.be.null;
-  });
-
-  it('returns null response when null fileType provided', () => {
-    const response = postProjectAttachmentSQL('name', 2, (null as unknown) as string, 1, 'key');
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid projectId and fileName and fileSize and key and fileType provided', () => {
-    const response = postProjectAttachmentSQL('name', 20, 'type', 1, 'key');
-
-    expect(response).to.not.be.null;
   });
 });
 
@@ -117,26 +105,14 @@ describe('getProjectAttachmentByFileNameSQL', () => {
 
 describe('putProjectAttachmentSQL', () => {
   it('returns null response when null projectId provided', () => {
-    const response = putProjectAttachmentSQL((null as unknown) as number, 'name', 'type');
+    const response = putProjectAttachmentSQL((null as unknown) as number, 'name');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null fileName provided', () => {
-    const response = putProjectAttachmentSQL(1, (null as unknown) as string, 'type');
+    const response = putProjectAttachmentSQL(1, (null as unknown) as string);
 
     expect(response).to.be.null;
-  });
-
-  it('returns null response when null fileType provided', () => {
-    const response = putProjectAttachmentSQL(1, 'name', (null as unknown) as string);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid projectId and fileName and fileType provided', () => {
-    const response = putProjectAttachmentSQL(1, 'name', 'type');
-
-    expect(response).to.not.be.null;
   });
 });

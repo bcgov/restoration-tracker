@@ -28,7 +28,6 @@ describe('deleteAttachment', () => {
       attachmentId: 2
     },
     body: {
-      attachmentType: 'Image',
       securityToken: 'token'
     }
   } as any;
@@ -81,24 +80,6 @@ describe('deleteAttachment', () => {
     } catch (actualError) {
       expect((actualError as HTTPError).status).to.equal(400);
       expect((actualError as HTTPError).message).to.equal('Missing required path param `attachmentId`');
-    }
-  });
-
-  it('should throw an error when attachmentType is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    try {
-      const result = delete_attachment.deleteAttachment();
-
-      await result(
-        { ...sampleReq, body: { ...sampleReq.body, attachmentType: null } },
-        (null as unknown) as any,
-        (null as unknown) as any
-      );
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required body param `attachmentType`');
     }
   });
 
@@ -204,7 +185,7 @@ describe('deleteAttachment', () => {
     expect(actualResult).to.equal(null);
   });
 
-  it('should return null response on success when type is not Report', async () => {
+  it('should return null response on success', async () => {
     const mockQuery = sinon.stub();
 
     mockQuery
@@ -231,5 +212,4 @@ describe('deleteAttachment', () => {
 
     expect(actualResult).to.equal(null);
   });
-
 });

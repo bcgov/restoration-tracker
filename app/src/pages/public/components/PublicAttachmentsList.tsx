@@ -55,13 +55,11 @@ const PublicAttachmentsList: React.FC<IPublicAttachmentsListProps> = (props) => 
     setOpen(false);
   };
 
-
   const openAttachment = async (attachment: IGetProjectAttachment) => {
     try {
       const response = await restorationTrackerApi.public.project.getAttachmentSignedURL(
         props.projectId,
-        attachment.id,
-        attachment.fileType
+        attachment.id
       );
 
       if (!response) {
@@ -80,7 +78,6 @@ const PublicAttachmentsList: React.FC<IPublicAttachmentsListProps> = (props) => 
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Type</TableCell>
               <TableCell>Last Modified</TableCell>
               <TableCell>File Size</TableCell>
               <TableCell width="150px">Security Status</TableCell>
@@ -106,7 +103,6 @@ const PublicAttachmentsList: React.FC<IPublicAttachmentsListProps> = (props) => 
                       {row.fileName}
                     </Link>
                   </TableCell>
-                  <TableCell>{row.fileType}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortDateFormatMonthFirst, row.lastModified)}</TableCell>
                   <TableCell>{getFormattedFileSize(row.size)}</TableCell>
                   <TableCell>
@@ -115,8 +111,7 @@ const PublicAttachmentsList: React.FC<IPublicAttachmentsListProps> = (props) => 
                       <Box ml={0.5}>{row.securityToken ? 'Secured' : 'Unsecured'}</Box>
                     </Box>
                   </TableCell>
-                  <TableCell>
-                  </TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               ))}
             {!props.attachmentsList.length && (

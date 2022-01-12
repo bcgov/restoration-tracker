@@ -20,7 +20,6 @@ export const getProjectAttachmentsSQL = (projectId: number): SQLStatement | null
     SELECT
       project_attachment_id as id,
       file_name,
-      file_type,
       update_date,
       create_date,
       file_size,
@@ -114,7 +113,6 @@ export const getProjectAttachmentS3KeySQL = (projectId: number, attachmentId: nu
  *
  * @param fileName
  * @param fileSize
- * @param fileType
  * @param projectId
  * @param {string} key to use in s3
  * @returns {SQLStatement} sql query object
@@ -122,7 +120,6 @@ export const getProjectAttachmentS3KeySQL = (projectId: number, attachmentId: nu
 export const postProjectAttachmentSQL = (
   fileName: string,
   fileSize: number,
-  fileType: string,
   projectId: number,
   key: string
 ): SQLStatement | null => {
@@ -131,12 +128,11 @@ export const postProjectAttachmentSQL = (
     message: 'params',
     fileName,
     fileSize,
-    fileType,
     projectId,
     key
   });
 
-  if (!fileName || !fileSize || !fileType || !projectId || !key) {
+  if (!fileName || !fileSize || !projectId || !key) {
     return null;
   }
 
@@ -145,13 +141,13 @@ export const postProjectAttachmentSQL = (
       project_id,
       file_name,
       file_size,
-      file_type,
+      title,
       key
     ) VALUES (
       ${projectId},
       ${fileName},
       ${fileSize},
-      ${fileType},
+      ${fileName},
       ${key}
     )
     RETURNING
@@ -209,17 +205,16 @@ export const getProjectAttachmentByFileNameSQL = (projectId: number, fileName: s
 };
 
 /**
- * SQL query to update an attachment for a single project by project id and filename and filetype.
+ * SQL query to update an attachment for a single project by project id and filename.
  *
  * @param {number} projectId
  * @param {string} fileName
- * @param {string} fileType
  * @returns {SQLStatement} sql query object
  */
-export const putProjectAttachmentSQL = (projectId: number, fileName: string, fileType: string): SQLStatement | null => {
-  defaultLog.debug({ label: 'putProjectAttachmentSQL', message: 'params', projectId, fileName, fileType });
+export const putProjectAttachmentSQL = (projectId: number, fileName: string): SQLStatement | null => {
+  defaultLog.debug({ label: 'putProjectAttachmentSQL', message: 'params', projectId, fileName });
 
-  if (!projectId || !fileName || !fileType) {
+  if (!projectId || !fileName) {
     return null;
   }
 
@@ -227,8 +222,7 @@ export const putProjectAttachmentSQL = (projectId: number, fileName: string, fil
     UPDATE
       project_attachment
     SET
-      file_name = ${fileName},
-      file_type = ${fileType}
+      file_name = ${fileName}
     WHERE
       file_name = ${fileName}
     AND

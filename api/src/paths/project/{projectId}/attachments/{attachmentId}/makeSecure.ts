@@ -97,27 +97,16 @@ export function makeProjectAttachmentSecure(): RequestHandler {
       throw new HTTP400('Missing required path param `attachmentId`');
     }
 
-    if (!req.body || !req.body.attachmentType) {
-      throw new HTTP400('Missing required body param `attachmentType`');
-    }
-
     const connection = getDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
 
-      const secureRecordSQLStatement =
-        req.body.attachmentType === 'Report'
-          ? queries.security.secureAttachmentRecordSQL(
-              Number(req.params.attachmentId),
-              'project_report_attachment',
-              Number(req.params.projectId)
-            )
-          : queries.security.secureAttachmentRecordSQL(
-              Number(req.params.attachmentId),
-              'project_attachment',
-              Number(req.params.projectId)
-            );
+      const secureRecordSQLStatement = queries.security.secureAttachmentRecordSQL(
+        Number(req.params.attachmentId),
+        'project_attachment',
+        Number(req.params.projectId)
+      );
 
       if (!secureRecordSQLStatement) {
         throw new HTTP400('Failed to build SQL secure record statement');

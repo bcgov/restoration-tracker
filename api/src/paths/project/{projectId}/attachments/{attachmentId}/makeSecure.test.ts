@@ -23,9 +23,6 @@ describe('makeProjectAttachmentSecure', () => {
     params: {
       projectId: 1,
       attachmentId: 2
-    },
-    body: {
-      attachmentType: 'Image'
     }
   } as any;
 
@@ -77,24 +74,6 @@ describe('makeProjectAttachmentSecure', () => {
     }
   });
 
-  it('should throw an error when attachmentType is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    try {
-      const result = makeSecure.makeProjectAttachmentSecure();
-
-      await result(
-        { ...sampleReq, body: { ...sampleReq.body, attachmentType: null } },
-        (null as unknown) as any,
-        (null as unknown) as any
-      );
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required body param `attachmentType`');
-    }
-  });
-
   it('should throw an error when fails to build secureAttachmentRecordSQL statement', async () => {
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
     sinon.stub(security_queries, 'secureAttachmentRecordSQL').returns(null);
@@ -131,7 +110,7 @@ describe('makeProjectAttachmentSecure', () => {
     }
   });
 
-  it('should work on success when type is not Report', async () => {
+  it('should work on success', async () => {
     const mockQuery = sinon.stub();
 
     mockQuery.resolves({
@@ -144,27 +123,6 @@ describe('makeProjectAttachmentSecure', () => {
     const result = makeSecure.makeProjectAttachmentSecure();
 
     await result(sampleReq, sampleRes as any, (null as unknown) as any);
-
-    expect(actualResult).to.equal(1);
-  });
-
-  it('should work on success when type is Report', async () => {
-    const mockQuery = sinon.stub();
-
-    mockQuery.resolves({
-      rowCount: 1
-    });
-
-    sinon.stub(db, 'getDBConnection').returns({ ...dbConnectionObj, query: mockQuery });
-    sinon.stub(security_queries, 'secureAttachmentRecordSQL').returns(SQL`something`);
-
-    const result = makeSecure.makeProjectAttachmentSecure();
-
-    await result(
-      { ...sampleReq, body: { ...sampleReq.body, attachmentType: 'Report' } },
-      sampleRes as any,
-      (null as unknown) as any
-    );
 
     expect(actualResult).to.equal(1);
   });

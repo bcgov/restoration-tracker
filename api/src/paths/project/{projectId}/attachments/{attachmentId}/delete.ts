@@ -73,10 +73,6 @@ export function deleteAttachment(): RequestHandler {
       throw new HTTP400('Missing required path param `attachmentId`');
     }
 
-    if (!req.body || !req.body.attachmentType) {
-      throw new HTTP400('Missing required body param `attachmentType`');
-    }
-
     const connection = getDBConnection(req['keycloak_token']);
 
     try {
@@ -84,7 +80,7 @@ export function deleteAttachment(): RequestHandler {
 
       // If the attachment record is currently secured, need to unsecure it prior to deleting it
       if (req.body.securityToken) {
-        await unsecureProjectAttachmentRecord(req.body.securityToken, req.body.attachmentType, connection);
+        await unsecureProjectAttachmentRecord(req.body.securityToken, connection);
       }
       const deleteResult: { key: string } = await deleteProjectAttachment(Number(req.params.attachmentId), connection);
 
@@ -107,15 +103,8 @@ export function deleteAttachment(): RequestHandler {
   };
 }
 
-const unsecureProjectAttachmentRecord = async (
-  securityToken: any,
-  attachmentType: string,
-  connection: IDBConnection
-): Promise<void> => {
-  const unsecureRecordSQLStatement =
-    attachmentType === 'Report'
-      ? queries.security.unsecureAttachmentRecordSQL('project_report_attachment', securityToken)
-      : queries.security.unsecureAttachmentRecordSQL('project_attachment', securityToken);
+const unsecureProjectAttachmentRecord = async (securityToken: any, connection: IDBConnection): Promise<void> => {
+  const unsecureRecordSQLStatement = queries.security.unsecureAttachmentRecordSQL('project_attachment', securityToken);
 
   if (!unsecureRecordSQLStatement) {
     throw new HTTP400('Failed to build SQL unsecure record statement');

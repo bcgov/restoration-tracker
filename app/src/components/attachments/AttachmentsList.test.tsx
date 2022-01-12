@@ -2,7 +2,6 @@ import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import AttachmentsList from './AttachmentsList';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { AttachmentType } from '../../constants/attachments';
 
 jest.mock('../../hooks/useRestorationTrackerApi');
 const mockUseRestorationTrackerApi = {
@@ -33,7 +32,6 @@ describe('AttachmentsList', () => {
     {
       id: 1,
       fileName: 'filename.test',
-      fileType: AttachmentType.OTHER,
       lastModified: '2021-04-09 11:53:53',
       size: 3028,
       securityToken: null,
@@ -42,7 +40,6 @@ describe('AttachmentsList', () => {
     {
       id: 20,
       fileName: 'filename20.test',
-      fileType: AttachmentType.REPORT,
       lastModified: '2021-04-09 11:53:53',
       size: 30280000,
       securityToken: null,
@@ -51,7 +48,6 @@ describe('AttachmentsList', () => {
     {
       id: 30,
       fileName: 'filename30.test',
-      fileType: AttachmentType.OTHER,
       lastModified: '2021-04-09 11:53:53',
       size: 30280000000,
       securityToken: null,

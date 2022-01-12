@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { ATTACHMENT_TYPE } from '../../../../constants/attachments';
 import { PROJECT_ROLE } from '../../../../constants/roles';
 import { getDBConnection, IDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
@@ -120,12 +119,7 @@ export function uploadMedia(): RequestHandler {
       if (!virusScanResult) {
         throw new HTTP400('Malicious content detected, upload cancelled');
       }
-      const upsertResult = await upsertProjectAttachment(
-        rawMediaFile,
-        Number(req.params.projectId),
-        ATTACHMENT_TYPE.OTHER,
-        connection
-      );
+      const upsertResult = await upsertProjectAttachment(rawMediaFile, Number(req.params.projectId), connection);
 
       // Upload file to S3
       const metadata = {
@@ -152,7 +146,6 @@ export function uploadMedia(): RequestHandler {
 export const upsertProjectAttachment = async (
   file: Express.Multer.File,
   projectId: number,
-  attachmentType: string,
   connection: IDBConnection
 ): Promise<{ id: number; revision_count: number; key: string }> => {
   const getSqlStatement = queries.project.getProjectAttachmentByFileNameSQL(projectId, file.originalname);
@@ -169,10 +162,10 @@ export const upsertProjectAttachment = async (
 
   if (getResponse && getResponse.rowCount > 0) {
     // Existing attachment with matching name found, update it
-    attachmentResult = await updateProjectAttachment(file, projectId, attachmentType, connection);
+    attachmentResult = await updateProjectAttachment(file, projectId, connection);
   } else {
     // No matching attachment found, insert new attachment
-    attachmentResult = await insertProjectAttachment(file, projectId, attachmentType, key, connection);
+    attachmentResult = await insertProjectAttachment(file, projectId, key, connection);
   }
 
   return { ...attachmentResult, key };
@@ -181,17 +174,10 @@ export const upsertProjectAttachment = async (
 export const insertProjectAttachment = async (
   file: Express.Multer.File,
   projectId: number,
-  attachmentType: string,
   key: string,
   connection: IDBConnection
 ): Promise<{ id: number; revision_count: number }> => {
-  const sqlStatement = queries.project.postProjectAttachmentSQL(
-    file.originalname,
-    file.size,
-    attachmentType,
-    projectId,
-    key
-  );
+  const sqlStatement = queries.project.postProjectAttachmentSQL(file.originalname, file.size, projectId, key);
 
   if (!sqlStatement) {
     throw new HTTP400('Failed to build SQL insert statement');
@@ -209,10 +195,9 @@ export const insertProjectAttachment = async (
 export const updateProjectAttachment = async (
   file: Express.Multer.File,
   projectId: number,
-  attachmentType: string,
   connection: IDBConnection
 ): Promise<{ id: number; revision_count: number }> => {
-  const sqlStatement = queries.project.putProjectAttachmentSQL(projectId, file.originalname, attachmentType);
+  const sqlStatement = queries.project.putProjectAttachmentSQL(projectId, file.originalname);
 
   if (!sqlStatement) {
     throw new HTTP400('Failed to build SQL update statement');

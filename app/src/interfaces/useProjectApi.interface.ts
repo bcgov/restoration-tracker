@@ -11,7 +11,6 @@ import { Feature } from 'geojson';
 export interface IGetProjectAttachment {
   id: number;
   fileName: string;
-  fileType: string;
   lastModified: string;
   size: number;
   securityToken: any;
@@ -318,9 +317,6 @@ export interface IUploadAttachmentResponse {
   attachmentId: number;
   revision_count: number;
 }
-
-
-
 
 export interface IGetProjectParticipantsResponseArrayItem {
   project_participation_id: number;

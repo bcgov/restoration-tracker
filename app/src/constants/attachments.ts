@@ -1,8 +1,3 @@
-export enum AttachmentType {
-  REPORT = 'Report',
-  OTHER = 'Other'
-}
-
 export enum ProjectAttachmentValidExtensions {
   AUDIO = '.wav, .mp3, .mp4, .wma',
   DATA = '.txt, .xls, .xlsx, .xlsm, .xlsb, .accdb, .mdb, .ods, .csv',

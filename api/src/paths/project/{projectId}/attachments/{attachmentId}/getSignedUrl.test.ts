@@ -24,9 +24,6 @@ describe('getProjectAttachmentSignedURL', () => {
     params: {
       projectId: 1,
       attachmentId: 2
-    },
-    query: {
-      attachmentType: 'Other'
     }
   } as any;
 
@@ -101,7 +98,7 @@ describe('getProjectAttachmentSignedURL', () => {
     expect(actualResult).to.equal(null);
   });
 
-  describe('non report attachments', () => {
+  describe('attachments', () => {
     it('should throw a 400 error when no sql statement returned', async () => {
       sinon.stub(db, 'getDBConnection').returns({
         ...dbConnectionObj,

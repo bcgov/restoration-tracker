@@ -6,15 +6,13 @@ const DB_ADMIN = process.env.DB_ADMIN;
 const systemUsers = [
   { identifier: 'aagahche', type: 'IDIR', roleId: 1 },
   { identifier: 'cgarrett', type: 'IDIR', roleId: 1 },
-  { identifier: 'istest1', type: 'IDIR', roleId: 1 },
   { identifier: 'jrpopkin', type: 'IDIR', roleId: 1 },
   { identifier: 'jxdunsdo', type: 'IDIR', roleId: 1 },
+  { identifier: 'keinarss', type: 'IDIR', roleId: 1 },
   { identifier: 'mbaerg', type: 'IDIR', roleId: 1 },
   { identifier: 'nphura', type: 'IDIR', roleId: 1 },
-  { identifier: 'postman', type: 'IDIR', roleId: 1 },
   { identifier: 'robmunro', type: 'IDIR', roleId: 1 },
   { identifier: 'rstens', type: 'IDIR', roleId: 1 },
-  { identifier: 'tadekens', type: 'IDIR', roleId: 1 },
   { identifier: 'test1', type: 'BCEID', roleId: 1 },
   { identifier: 'test2', type: 'BCEID', roleId: 1 },
   { identifier: 'test3', type: 'IDIR', roleId: 1 },
@@ -22,8 +20,7 @@ const systemUsers = [
   { identifier: 'test5', type: 'IDIR', roleId: 1 },
   { identifier: 'test6', type: 'IDIR', roleId: 1 },
   { identifier: 'test7', type: 'IDIR', roleId: 1 },
-  { identifier: 'cypress', type: 'IDIR', roleId: 1 },
-  { identifier: 'keinarss', type: 'IDIR', roleId: 1 }
+  { identifier: 'cypress', type: 'IDIR', roleId: 1 }
 ];
 
 /**

@@ -1,30 +1,13 @@
-import { fireEvent, render, cleanup, waitFor, getByText as rawGetByText } from '@testing-library/react';
+import { fireEvent, render, cleanup, waitFor } from '@testing-library/react';
 import React from 'react';
 import PublicAttachmentsList from './PublicAttachmentsList';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { AttachmentType } from '../../../constants/attachments';
 
 jest.mock('../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
   public: {
     project: {
-      getAttachmentSignedURL: jest.fn(),
-      getPublicProjectReportMetadata: jest.fn(() =>
-        Promise.resolve({
-          attachment_id: 1,
-          title: 'Title of my report',
-          year_published: '2000',
-          description: 'my abstract',
-          last_modified: '2020-10-10',
-          revision_count: 1,
-          authors: [
-            {
-              first_name: 'John',
-              last_name: 'Smith'
-            }
-          ]
-        })
-      )
+      getAttachmentSignedURL: jest.fn()
     }
   }
 };
@@ -47,7 +30,6 @@ describe('PublicAttachmentsList', () => {
     {
       id: 1,
       fileName: 'filename.test',
-      fileType: 'Other',
       lastModified: '2021-04-09 11:53:53',
       size: 3028,
       securityToken: true,
@@ -56,7 +38,6 @@ describe('PublicAttachmentsList', () => {
     {
       id: 20,
       fileName: 'filename20.test',
-      fileType: AttachmentType.REPORT,
       lastModified: '2021-04-09 11:53:53',
       size: 30280000,
       securityToken: true,
@@ -65,7 +46,6 @@ describe('PublicAttachmentsList', () => {
     {
       id: 30,
       fileName: 'filename30.test',
-      fileType: 'Other',
       lastModified: '2021-04-09 11:53:53',
       size: 30280000000,
       securityToken: false,
@@ -202,44 +182,5 @@ describe('PublicAttachmentsList', () => {
 
     expect(getByText('filename11.test')).toBeInTheDocument();
     expect(queryByText('filename10.test')).toBeNull();
-  });
-
-  it('viewing reportMetadata in dialog works as expected for project attachments', async () => {
-    const renderContainer = () => {
-      return render(
-        <PublicAttachmentsList projectId={1} attachmentsList={attachmentsList} getAttachments={jest.fn()} />
-      );
-    };
-
-    const { getByText, getByTestId, baseElement } = renderContainer();
-
-    expect(getByText('filename.test')).toBeInTheDocument();
-
-    fireEvent.click(getByTestId('attachment-view-meta'));
-
-    await waitFor(() => {
-      expect(mockRestorationTrackerApi().public.project.getPublicProjectReportMetadata).toHaveBeenCalledTimes(1);
-      expect(mockRestorationTrackerApi().public.project.getPublicProjectReportMetadata()).resolves.toEqual({
-        attachment_id: 1,
-        title: 'Title of my report',
-        year_published: '2000',
-        description: 'my abstract',
-        last_modified: '2020-10-10',
-        revision_count: 1,
-        authors: [
-          {
-            first_name: 'John',
-            last_name: 'Smith'
-          }
-        ]
-      });
-    });
-
-    await waitFor(() => {
-      expect(getByTestId('view-meta-dialog')).toBeVisible();
-      expect(getByTestId('view-meta-dialog-title')).toBeVisible();
-    });
-
-    expect(rawGetByText(baseElement as HTMLElement, 'Title of my report')).toBeInTheDocument();
   });
 });

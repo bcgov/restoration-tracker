@@ -1,7 +1,5 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { IEditReportMetaForm } from 'components/attachments/EditReportMetaForm';
-import { IReportMetaForm } from 'components/attachments/ReportMetaForm';
 import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
 import { IProjectDetailsForm } from 'features/projects/components/ProjectDetailsForm';
 import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
@@ -28,24 +26,6 @@ describe('useProjectApi', () => {
   const userId = 123;
   const projectId = 1;
   const attachmentId = 1;
-  const attachmentType = 'type';
-  const attachmentMeta: IReportMetaForm = {
-    title: 'upload file',
-    authors: [{ first_name: 'John', last_name: 'Smith' }],
-    description: 'file abstract',
-    year_published: 2000,
-    attachmentFile: new File(['foo'], 'foo.txt', {
-      type: 'text/plain'
-    })
-  };
-
-  const attachmentMetaForUpdate: IEditReportMetaForm = {
-    title: 'upload file',
-    authors: [{ first_name: 'John', last_name: 'Smith' }],
-    description: 'file abstract',
-    year_published: 2000,
-    revision_count: 1
-  };
 
   it('getAllUserProjectsForView works as expected', async () => {
     mock.onGet(`/api/user/${userId}/projects/get`).reply(200, [
@@ -104,7 +84,7 @@ describe('useProjectApi', () => {
   it('deleteProjectAttachment works as expected', async () => {
     mock.onPost(`/api/project/${projectId}/attachments/${attachmentId}/delete`).reply(200, 1);
 
-    const result = await useProjectApi(axios).deleteProjectAttachment(projectId, attachmentId, attachmentType, 'token');
+    const result = await useProjectApi(axios).deleteProjectAttachment(projectId, attachmentId, 'token');
 
     expect(result).toEqual(1);
   });
@@ -234,7 +214,7 @@ describe('useProjectApi', () => {
   it('makeAttachmentSecure works as expected', async () => {
     mock.onPut(`/api/project/${projectId}/attachments/${attachmentId}/makeSecure`).reply(200, 1);
 
-    const result = await useProjectApi(axios).makeAttachmentSecure(projectId, attachmentId, attachmentType);
+    const result = await useProjectApi(axios).makeAttachmentSecure(projectId, attachmentId);
 
     expect(result).toEqual(1);
   });
@@ -242,12 +222,7 @@ describe('useProjectApi', () => {
   it('makeAttachmentUnsecure works as expected', async () => {
     mock.onPut(`/api/project/${projectId}/attachments/${attachmentId}/makeUnsecure`).reply(200, 1);
 
-    const result = await useProjectApi(axios).makeAttachmentUnsecure(
-      projectId,
-      attachmentId,
-      'token123',
-      attachmentType
-    );
+    const result = await useProjectApi(axios).makeAttachmentUnsecure(projectId, attachmentId, 'token123');
 
     expect(result).toEqual(1);
   });
@@ -259,7 +234,7 @@ describe('useProjectApi', () => {
 
     mock.onPost(`/api/project/${projectId}/attachments/upload`).reply(200, 'result 1');
 
-    const result = await useProjectApi(axios).uploadProjectAttachments(projectId, file, attachmentType, attachmentMeta);
+    const result = await useProjectApi(axios).uploadProjectAttachments(projectId, file);
 
     expect(result).toEqual('result 1');
   });
@@ -297,24 +272,18 @@ describe('useProjectApi', () => {
 
   it('getAttachmentSignedURL works as expected for public access', async () => {
     mock
-      .onGet(`/api/public/project/${projectId}/attachments/${attachmentId}/getSignedUrl`, {
-        query: { attachmentType: 'Other' }
-      })
+      .onGet(`/api/public/project/${projectId}/attachments/${attachmentId}/getSignedUrl`)
       .reply(200, 'www.signedurl.com');
 
-    const result = await usePublicProjectApi(axios).getAttachmentSignedURL(projectId, attachmentId, 'Other');
+    const result = await usePublicProjectApi(axios).getAttachmentSignedURL(projectId, attachmentId);
 
     expect(result).toEqual('www.signedurl.com');
   });
 
   it('getAttachmentSignedURL works as expected for authenticated access', async () => {
-    mock
-      .onGet(`/api/project/${projectId}/attachments/${attachmentId}/getSignedUrl`, {
-        query: { attachmentType: 'Other' }
-      })
-      .reply(200, 'www.signedurl.com');
+    mock.onGet(`/api/project/${projectId}/attachments/${attachmentId}/getSignedUrl`).reply(200, 'www.signedurl.com');
 
-    const result = await useProjectApi(axios).getAttachmentSignedURL(projectId, attachmentId, 'Other');
+    const result = await useProjectApi(axios).getAttachmentSignedURL(projectId, attachmentId);
 
     expect(result).toEqual('www.signedurl.com');
   });

@@ -24,9 +24,6 @@ describe('getAttachmentSignedURL', () => {
     params: {
       projectId: 1,
       attachmentId: 2
-    },
-    query: {
-      attachmentType: 'Other'
     }
   } as any;
 
@@ -78,24 +75,6 @@ describe('getAttachmentSignedURL', () => {
     }
   });
 
-  it('should throw an error when attachmentType is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    try {
-      const result = get_signed_url.getAttachmentSignedURL();
-
-      await result(
-        { ...sampleReq, query: { ...sampleReq.query, attachmentType: null } },
-        (null as unknown) as any,
-        (null as unknown) as any
-      );
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required query param `attachmentType`');
-    }
-  });
-
   it('should return null when getting signed url from S3 fails', async () => {
     const mockQuery = sinon.stub();
 
@@ -119,7 +98,7 @@ describe('getAttachmentSignedURL', () => {
     expect(actualResult).to.equal(null);
   });
 
-  describe('non report attachments', () => {
+  describe('attachments', () => {
     it('should throw a 400 error when no sql statement returned', async () => {
       sinon.stub(db, 'getDBConnection').returns({
         ...dbConnectionObj,
@@ -164,5 +143,4 @@ describe('getAttachmentSignedURL', () => {
       expect(actualResult).to.eql('myurlsigned.com');
     });
   });
-
 });

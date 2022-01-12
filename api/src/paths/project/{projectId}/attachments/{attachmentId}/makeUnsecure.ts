@@ -97,7 +97,7 @@ export function makeProjectAttachmentUnsecure(): RequestHandler {
       throw new HTTP400('Missing required path param `attachmentId`');
     }
 
-    if (!req.body || !req.body.attachmentType || !req.body.securityToken) {
+    if (!req.body || !req.body.securityToken) {
       throw new HTTP400('Missing required request body');
     }
 
@@ -106,10 +106,10 @@ export function makeProjectAttachmentUnsecure(): RequestHandler {
     try {
       await connection.open();
 
-      const unsecureRecordSQLStatement =
-        req.body.attachmentType === 'Report'
-          ? queries.security.unsecureAttachmentRecordSQL('project_report_attachment', req.body.securityToken)
-          : queries.security.unsecureAttachmentRecordSQL('project_attachment', req.body.securityToken);
+      const unsecureRecordSQLStatement = queries.security.unsecureAttachmentRecordSQL(
+        'project_attachment',
+        req.body.securityToken
+      );
 
       if (!unsecureRecordSQLStatement) {
         throw new HTTP400('Failed to build SQL unsecure record statement');

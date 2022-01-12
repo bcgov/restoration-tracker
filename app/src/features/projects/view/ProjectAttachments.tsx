@@ -1,12 +1,12 @@
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
-import { mdiMenuDown, mdiTrayArrowUp } from '@mdi/js';
+import { mdiTrayArrowUp } from '@mdi/js';
 import Icon from '@mdi/react';
 import AttachmentsList from 'components/attachments/AttachmentsList';
+import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
-import { IReportMetaForm } from 'components/attachments/ReportMetaForm';
-import FileUploadWithMetaDialog from 'components/dialog/FileUploadWithMetaDialog';
-import { H2MenuToolbar } from 'components/toolbar/ActionToolbars';
+import ComponentDialog from 'components/dialog/ComponentDialog';
+import { H2ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import {
   IGetProjectAttachment,
@@ -15,7 +15,6 @@ import {
 } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { AttachmentType } from '../../../constants/attachments';
 
 export interface IProjectAttachmentsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -32,13 +31,9 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = () => {
   const restorationTrackerApi = useRestorationTrackerApi();
 
   const [openUploadAttachments, setOpenUploadAttachments] = useState(false);
-  const [attachmentType, setAttachmentType] = useState<AttachmentType.REPORT | AttachmentType.OTHER>(
-    AttachmentType.OTHER
-  );
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
 
   const handleUploadAttachmentClick = () => {
-    setAttachmentType(AttachmentType.OTHER);
     setOpenUploadAttachments(true);
   };
 
@@ -74,16 +69,6 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = () => {
     };
   };
 
-  const getFinishHandler = () => {
-    return (fileMeta: IReportMetaForm) => {
-      return restorationTrackerApi.project
-        .uploadProjectReports(projectId, fileMeta.attachmentFile, fileMeta)
-        .finally(() => {
-          setOpenUploadAttachments(false);
-        });
-    };
-  };
-
   useEffect(() => {
     getAttachments(false);
     // eslint-disable-next-line
@@ -91,27 +76,22 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = () => {
 
   return (
     <>
-     <FileUploadWithMetaDialog
+      <ComponentDialog
         open={openUploadAttachments}
-        dialogTitle={attachmentType === 'Report' ? 'Upload Report' : 'Upload Attachment'}
-        attachmentType={attachmentType}
-        onFinish={getFinishHandler()}
+        dialogTitle="Upload Attachment"
         onClose={() => {
           setOpenUploadAttachments(false);
           getAttachments(true);
-        }}
-        uploadHandler={getUploadHandler()}
-      />
+        }}>
+        <FileUpload uploadHandler={getUploadHandler()} />
+      </ComponentDialog>
       <Paper>
-        <H2MenuToolbar
+        <H2ButtonToolbar
           label="Documents"
           buttonLabel="Upload"
           buttonTitle="Upload Document"
           buttonStartIcon={<Icon path={mdiTrayArrowUp} size={1} />}
-          buttonEndIcon={<Icon path={mdiMenuDown} size={1} />}
-          menuItems={[
-            { menuLabel: 'Upload Attachments', menuOnClick: handleUploadAttachmentClick }
-          ]}
+          buttonOnClick={handleUploadAttachmentClick}
         />
         <Box px={3} pb={2}>
           <AttachmentsList projectId={projectId} attachmentsList={attachmentsList} getAttachments={getAttachments} />

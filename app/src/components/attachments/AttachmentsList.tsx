@@ -2,8 +2,10 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,17 +14,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import {
-  mdiDownload,
-  mdiLockOpenVariantOutline,
-  mdiLockOutline,
-  mdiDotsVertical,
-  mdiInformationOutline,
-  mdiTrashCanOutline
-} from '@mdi/js';
+import { mdiDotsVertical, mdiDownload, mdiLockOpenVariantOutline, mdiLockOutline, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
+import { AttachmentsI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
@@ -30,10 +26,6 @@ import { IGetProjectAttachment } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 import { getFormattedDate, getFormattedFileSize } from 'utils/Utils';
-import { EditReportMetaDataI18N, AttachmentsI18N } from 'constants/i18n';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { AttachmentType } from '../../constants/attachments';
 
 const useStyles = makeStyles((theme: Theme) => ({
   attachmentsTable: {
@@ -75,9 +67,8 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
   };
 
   const dialogContext = useContext(DialogContext);
+
   const defaultErrorDialogProps = {
-    dialogTitle: EditReportMetaDataI18N.editErrorTitle,
-    dialogText: EditReportMetaDataI18N.editErrorText,
     open: false,
     onClose: () => {
       dialogContext.setErrorDialog({ open: false });
@@ -85,9 +76,13 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     onOk: () => {
       dialogContext.setErrorDialog({ open: false });
     }
-  };  const showErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
+  };
+
+  const showErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
     dialogContext.setErrorDialog({ ...defaultErrorDialogProps, ...textDialogProps, open: true });
-  };  const defaultYesNoDialogProps = {
+  };
+
+  const defaultYesNoDialogProps = {
     dialogTitle: 'Delete Attachment',
     dialogText: 'Are you sure you want to delete the selected attachment?',
     open: false,
@@ -140,7 +135,6 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
       await restorationTrackerApi.project.deleteProjectAttachment(
         props.projectId,
         attachment.id,
-        attachment.fileType,
         attachment.securityToken
       );
 
@@ -159,11 +153,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
 
   const openAttachment = async (attachment: IGetProjectAttachment) => {
     try {
-      const response = await restorationTrackerApi.project.getAttachmentSignedURL(
-        props.projectId,
-        attachment.id,
-        attachment.fileType
-      );
+      const response = await restorationTrackerApi.project.getAttachmentSignedURL(props.projectId, attachment.id);
 
       if (!response) {
         return;
@@ -188,11 +178,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     }
 
     try {
-      const response = await restorationTrackerApi.project.makeAttachmentSecure(
-        props.projectId,
-        attachment.id,
-        attachment.fileType
-      );
+      const response = await restorationTrackerApi.project.makeAttachmentSecure(props.projectId, attachment.id);
 
       if (!response) {
         return;
@@ -213,8 +199,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
       const response = await restorationTrackerApi.project.makeAttachmentUnsecure(
         props.projectId,
         attachment.id,
-        attachment.securityToken,
-        attachment.fileType
+        attachment.securityToken
       );
 
       if (!response) {
@@ -235,7 +220,6 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>Type</TableCell>
                 <TableCell>File Size</TableCell>
                 <TableCell>Last Modified</TableCell>
                 <TableCell width="150px">Security</TableCell>
@@ -252,7 +236,6 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
                           {row.fileName}
                         </Link>
                       </TableCell>
-                      <TableCell>{row.fileType}</TableCell>
                       <TableCell>{getFormattedFileSize(row.size)}</TableCell>
                       <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.lastModified)}</TableCell>
                       <TableCell>
@@ -373,19 +356,6 @@ const AttachmentItemMenuButton: React.FC<IAttachmentItemMenuButtonProps> = (prop
               </ListItemIcon>
               Download File
             </MenuItem>
-            {props.attachment.fileType === AttachmentType.REPORT && (
-              <MenuItem
-                onClick={() => {
-                  props.handleViewDetailsClick(props.attachment);
-                  setAnchorEl(null);
-                }}
-                data-testid="attachment-action-menu-details">
-                <ListItemIcon>
-                  <Icon path={mdiInformationOutline} size={1} />
-                </ListItemIcon>
-                View Details
-              </MenuItem>
-            )}
             <MenuItem
               onClick={() => {
                 props.handleDeleteFileClick(props.attachment);

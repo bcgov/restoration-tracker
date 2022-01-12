@@ -13,8 +13,6 @@ import {
   getPublicProjectAttachmentS3KeySQL
 } from './project-queries';
 
-
-
 describe('getPublicProjectSQL', () => {
   it('returns null when null project id param provided', () => {
     const response = getPublicProjectSQL((null as unknown) as number);
@@ -154,4 +152,3 @@ describe('getPublicProjectAttachmentS3KeySQL', () => {
     expect(response).to.not.be.null;
   });
 });
-
