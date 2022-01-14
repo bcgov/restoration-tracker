@@ -7,7 +7,6 @@ import {
   PutProjectData
 } from '../../models/project-update';
 import { getLogger } from '../../utils/logger';
-import { queries } from '../queries';
 
 const defaultLog = getLogger('queries/project/project-update-queries');
 
@@ -245,29 +244,6 @@ export const putProjectSQL = (
 
   if (location) {
     sqlSetStatements.push(SQL`location_description = ${location.location_description}`);
-    sqlSetStatements.push(SQL`geojson = ${JSON.stringify(location.geometry)}`);
-
-    const geometrySQLStatement = SQL`geography = `;
-
-    if (location.geometry && location.geometry.length) {
-      const geometryCollectionSQL = queries.spatial.generateGeometryCollectionSQL(location.geometry);
-
-      geometrySQLStatement.append(SQL`
-        public.geography(
-          public.ST_Force2D(
-            public.ST_SetSRID(
-      `);
-
-      geometrySQLStatement.append(geometryCollectionSQL);
-
-      geometrySQLStatement.append(SQL`
-        , 4326)))
-      `);
-    } else {
-      geometrySQLStatement.append(SQL`null`);
-    }
-
-    sqlSetStatements.push(geometrySQLStatement);
   }
 
   if (objectives) {

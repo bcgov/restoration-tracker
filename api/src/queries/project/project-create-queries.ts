@@ -2,7 +2,7 @@ import { SQL, SQLStatement } from 'sql-template-strings';
 import {
   PostCoordinatorData,
   PostFundingSource,
-  //PostLocationData,
+  PostLocationData,
   PostObjectivesData,
   PostProjectData,
   PostProjectObject
@@ -15,11 +15,11 @@ const defaultLog = getLogger('queries/project/project-create-queries');
 /**
  * SQL query to insert a project row.
  *
- * @param {(PostProjectData & PostCoordinatorData & PostObjectivesData)} project
+ * @param {(PostProjectData & PostLocationData & PostCoordinatorData & PostObjectivesData)} project
  * @returns {SQLStatement} sql query object
  */
 export const postProjectSQL = (
-  project: PostProjectData & PostCoordinatorData & PostObjectivesData
+  project: PostProjectData & PostLocationData & PostCoordinatorData & PostObjectivesData
 ): SQLStatement | null => {
   defaultLog.debug({ label: 'postProjectSQL', message: 'params', PostProjectObject });
 
@@ -78,53 +78,56 @@ export const postProjectSQL = (
 /**
  * SQL query to insert a project row.
  *
- * @param {(PostLocationData)} boundary
+ * @param {PostLocationData} locationData
+ * @param {number} projectId
  * @returns {SQLStatement} sql query object
  */
-export const postProjectBoundarySQL = (boundary: any, project_id: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'postProjectBoundarySQL', message: 'params', boundary });
+export const postProjectBoundarySQL = (locationData: PostLocationData, projectId: number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'postProjectBoundarySQL',
+    message: 'params',
+    obj: {
+      ...locationData,
+      geometry: locationData?.geometry?.map((item: any) => {
+        return { ...item, geometry: 'Too big to print' };
+      })
+    }
+  });
 
-  if (!boundary) {
+  if (!locationData || !locationData.geometry.length) {
     return null;
   }
 
-  console.log('boundary is:', boundary);
+  const componentName = 'Boundary';
+  const componentTypeName = 'Boundary';
 
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO project_spatial_component (
       project_id,
       project_spatial_component_type_id,
       name,
-      description,
       geojson,
       geography
     ) VALUES (
-      ${project_id},
-      1,
-      'some name',
-      'some description',
-      ${JSON.stringify(boundary.geometry)}
+      ${projectId},
+      (SELECT project_spatial_component_type_id from project_spatial_component_type WHERE name = ${componentTypeName}),
+      ${componentName},
+      ${JSON.stringify(locationData.geometry)}
   `;
 
-  if (boundary.geometry && boundary.geometry.length) {
-    const geometryCollectionSQL = queries.spatial.generateGeometryCollectionSQL(boundary.geometry);
+  const geometryCollectionSQL = queries.spatial.generateGeometryCollectionSQL(locationData.geometry);
 
-    sqlStatement.append(SQL`
-      ,public.geography(
-        public.ST_Force2D(
-          public.ST_SetSRID(
-    `);
+  sqlStatement.append(SQL`
+    ,public.geography(
+      public.ST_Force2D(
+        public.ST_SetSRID(
+  `);
 
-    sqlStatement.append(geometryCollectionSQL);
+  sqlStatement.append(geometryCollectionSQL);
 
-    sqlStatement.append(SQL`
-      , 4326)))
-    `);
-  } else {
-    sqlStatement.append(SQL`
-      ,null
-    `);
-  }
+  sqlStatement.append(SQL`
+    , 4326)))
+  `);
 
   sqlStatement.append(SQL`
     )

@@ -153,6 +153,7 @@ export class PostObjectivesData {
  * @class PostLocationData
  */
 export class PostLocationData {
+  location_description: string;
   geometry: Feature[];
 
   constructor(obj?: any) {
@@ -167,6 +168,7 @@ export class PostLocationData {
       }
     });
 
+    this.location_description = (obj && obj.location_description) || null;
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
   }
 }

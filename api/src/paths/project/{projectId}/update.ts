@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../constants/roles';
 import { getDBConnection, IDBConnection } from '../../../database/db';
-import { HTTP400, HTTP409 } from '../../../errors/custom-error';
+import { HTTP400, HTTP409, HTTP500 } from '../../../errors/custom-error';
 import { IPostExistingPermit, IPostPermit, PostPermitData } from '../../../models/project-create';
 import {
   GetCoordinatorData,
@@ -493,6 +493,10 @@ function updateProject(): RequestHandler {
         promises.push(updateProjectData(projectId, entities, connection));
       }
 
+      if (entities?.location) {
+        promises.push(updateProjectSpatialData(projectId, entities, connection));
+      }
+
       if (entities?.permit && entities?.coordinator) {
         promises.push(updateProjectPermitData(projectId, entities, connection));
       }
@@ -694,14 +698,7 @@ export const updateProjectFundingData = async (
     throw new HTTP400('Failed to build SQL delete statement');
   }
 
-  const projectFundingSourceDeleteResult = await connection.query(
-    projectFundingSourceDeleteStatement.text,
-    projectFundingSourceDeleteStatement.values
-  );
-
-  if (!projectFundingSourceDeleteResult) {
-    throw new HTTP409('Failed to delete project funding source');
-  }
+  await connection.query(projectFundingSourceDeleteStatement.text, projectFundingSourceDeleteStatement.values);
 
   const sqlInsertStatement = queries.project.putProjectFundingSourceSQL(putFundingSource, projectId);
 
@@ -712,6 +709,39 @@ export const updateProjectFundingData = async (
   const insertResult = await connection.query(sqlInsertStatement.text, sqlInsertStatement.values);
 
   if (!insertResult) {
-    throw new HTTP409('Failed to put (insert) project funding source with incremented revision count');
+    throw new HTTP409('Failed to insert project funding source');
+  }
+};
+
+export const updateProjectSpatialData = async (
+  projectId: number,
+  entities: IUpdateProject,
+  connection: IDBConnection
+): Promise<void> => {
+  const putLocationData = entities?.location && new PutLocationData(entities.location);
+
+  const projectSpatialDeleteStatement = queries.project.deleteProjectSpatialSQL(projectId);
+
+  if (!projectSpatialDeleteStatement) {
+    throw new HTTP500('Failed to build SQL delete statement');
+  }
+
+  await connection.query(projectSpatialDeleteStatement.text, projectSpatialDeleteStatement.values);
+
+  if (!putLocationData?.geometry.length) {
+    // No spatial data to insert
+    return;
+  }
+
+  const sqlInsertStatement = queries.project.postProjectBoundarySQL(putLocationData, projectId);
+
+  if (!sqlInsertStatement) {
+    throw new HTTP500('Failed to build SQL update statement');
+  }
+
+  const result = await connection.query(sqlInsertStatement.text, sqlInsertStatement.values);
+
+  if (!result || !result.rowCount) {
+    throw new HTTP409('Failed to insert project spatial data');
   }
 };

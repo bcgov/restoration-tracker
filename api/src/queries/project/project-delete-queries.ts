@@ -181,6 +181,40 @@ export const deleteProjectFundingSourceSQL = (
 };
 
 /**
+ * SQL query to delete all project spatial records.
+ *
+ * @param {projectId} projectId
+ * @returns {SQLStatement} sql query object
+ */
+export const deleteProjectSpatialSQL = (projectId: number | undefined): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'deleteProjectSpatialSQL',
+    message: 'params',
+    projectId
+  });
+
+  if (!projectId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+      DELETE
+        from project_spatial_component
+      WHERE
+        project_id = ${projectId};
+    `;
+
+  defaultLog.debug({
+    label: 'deleteProjectSpatialSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
  * SQL query to delete a project row (and associated data) based on project ID.
  *
  * @param {number} projectId

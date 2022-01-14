@@ -8,7 +8,7 @@ import {
   IPostIUCN,
   IPostPermit,
   PostFundingSource,
-  //PostLocationData,
+  PostLocationData,
   PostProjectObject
 } from '../models/project-create';
 import { projectCreatePostRequestObject, projectIdResponseObject } from '../openapi/schemas/project';
@@ -126,13 +126,7 @@ export function createProject(): RequestHandler {
 
         //Handle geometry
 
-        promises.push(
-          Promise.all(
-            sanitizedProjectPostData.location.geometry.map((geometry) =>
-              insertProjectBoundary(geometry, projectId, connection)
-            )
-          )
-        );
+        promises.push(insertProjectSpatial(sanitizedProjectPostData.location, projectId, connection));
 
         // Handle funding sources
         promises.push(
@@ -209,12 +203,12 @@ export function createProject(): RequestHandler {
   };
 }
 
-export const insertProjectBoundary = async (
-  geometry: any,
+export const insertProjectSpatial = async (
+  locationData: PostLocationData,
   project_id: number,
   connection: IDBConnection
 ): Promise<number> => {
-  const sqlStatement = queries.project.postProjectBoundarySQL(geometry, project_id);
+  const sqlStatement = queries.project.postProjectBoundarySQL(locationData, project_id);
 
   if (!sqlStatement) {
     throw new HTTP400('Failed to build SQL insert statement');

@@ -105,20 +105,22 @@ export const getLocationByPublicProjectSQL = (projectId: number): SQLStatement |
   }
 
   const sqlStatement = SQL`
-  SELECT
-    p.location_description,
-    p.revision_count
-  FROM
-    project p
-  LEFT OUTER JOIN
-    project_spatial_component psc
-  ON
-    p.project_id = psc.project_id
-  WHERE
-    p.project_id = ${projectId}
-  GROUP BY
-    p.location_description,
-    p.revision_count;
+    SELECT
+      p.location_description,
+      psc.geojson as geometry,
+      p.revision_count
+    FROM
+      project p
+    LEFT OUTER JOIN
+      project_spatial_component psc
+    ON
+      p.project_id = psc.project_id
+    WHERE
+      p.project_id = ${projectId}
+    GROUP BY
+      p.location_description,
+      psc.geojson,
+      p.revision_count;
   `;
 
   defaultLog.debug({
