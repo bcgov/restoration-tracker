@@ -25,7 +25,6 @@ export class PutIUCNData {
 export class PutProjectData {
   name: string;
   type: number;
-  project_activities: number[];
   start_date: string;
   end_date: string;
   revision_count: number;
@@ -35,7 +34,6 @@ export class PutProjectData {
 
     this.name = obj?.project_name || null;
     this.type = obj?.project_type || null;
-    this.project_activities = (obj?.project_activities?.length && obj.project_activities) || [];
     this.start_date = obj?.start_date || null;
     this.end_date = obj?.end_date || null;
     this.revision_count = obj?.revision_count ?? null;
@@ -152,7 +150,7 @@ export class GetPartnershipsData {
     this.indigenous_partnerships =
       (indigenous_partnerships?.length && indigenous_partnerships.map((item: any) => item.id)) || [];
     this.stakeholder_partnerships =
-      (stakeholder_partnerships?.length && stakeholder_partnerships.map((item: any) => item.name)) || [];
+      (stakeholder_partnerships?.length && stakeholder_partnerships.map((item: any) => item.partnership_name)) || [];
   }
 }
 
@@ -247,8 +245,8 @@ export class GetProjectData {
   revision_count: number;
   publish_date: string;
 
-  constructor(projectData?: any, activityData?: any[]) {
-    defaultLog.debug({ label: 'GetProjectData', message: 'params', projectData, activityData });
+  constructor(projectData?: any) {
+    defaultLog.debug({ label: 'GetProjectData', message: 'params', projectData });
 
     this.project_name = projectData?.name || '';
     this.project_type = projectData?.pt_id || '';

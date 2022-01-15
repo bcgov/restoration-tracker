@@ -40,28 +40,28 @@ describe('ProjectAttachments', () => {
   });
 
   it('correctly opens and closes the file upload dialog', async () => {
-    const { getByText, queryByText } = render(
+    const { getByTestId, getByText, queryByText } = render(
       <Router history={history}>
         <ProjectAttachments projectForViewData={getProjectForViewResponse} />
       </Router>
     );
 
-    expect(getByText('Upload')).toBeInTheDocument();
-    expect(queryByText('Upload Attachments')).toBeNull();
+    expect(getByTestId('h2-button-toolbar-Upload')).toBeInTheDocument();
+    expect(queryByText('Upload Attachments')).not.toBeInTheDocument();
 
-    fireEvent.click(getByText('Upload'));
-
-    await waitFor(() => {
-      expect(getByText('Upload Attachments')).toBeInTheDocument();
-    });
-
-    fireEvent.click(getByText('Upload Attachments'));
+    fireEvent.click(getByTestId('h2-button-toolbar-Upload'));
 
     await waitFor(() => {
-      expect(queryByText('Upload Attachments')).toBeNull();
+      expect(queryByText('Upload Attachments')).toBeInTheDocument();
     });
 
     expect(getByText('Close')).toBeInTheDocument();
+
+    fireEvent.click(getByText('Close'));
+
+    await waitFor(() => {
+      expect(queryByText('Upload Attachments')).not.toBeInTheDocument();
+    });
   });
 
   it('renders correctly with no attachments', () => {

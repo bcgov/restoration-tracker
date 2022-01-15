@@ -19,10 +19,6 @@ describe('GetPublicProjectData', () => {
       expect(data.project_type).to.equal('');
     });
 
-    it('sets project_activities', () => {
-      expect(data.project_activities).to.eql([]);
-    });
-
     it('sets start_date', () => {
       expect(data.start_date).to.equal('');
     });
@@ -45,12 +41,10 @@ describe('GetPublicProjectData', () => {
       revision_count: 1
     };
 
-    const activityData = [{ name: 'activity1' }, { name: 'activity2' }];
-
     let data: GetPublicProjectData;
 
     before(() => {
-      data = new GetPublicProjectData(projectData, activityData);
+      data = new GetPublicProjectData(projectData);
     });
 
     it('sets name', () => {
@@ -59,10 +53,6 @@ describe('GetPublicProjectData', () => {
 
     it('sets type', () => {
       expect(data.project_type).to.equal(projectData.type);
-    });
-
-    it('sets project_activities', () => {
-      expect(data.project_activities).to.eql(['activity1', 'activity2']);
     });
 
     it('sets start_date', () => {

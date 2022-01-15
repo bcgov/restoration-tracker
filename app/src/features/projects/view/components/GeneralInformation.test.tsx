@@ -55,33 +55,11 @@ describe('ProjectDetails', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly with no activity data', () => {
-    const { asFragment } = render(
-      <ProjectDetails
-        projectForViewData={{
-          ...getProjectForViewResponse,
-          project: { ...getProjectForViewResponse.project, project_activities: [] }
-        }}
-        codes={codes}
-        refresh={mockRefresh}
-      />
-    );
-
-    expect(asFragment()).toMatchSnapshot();
-  });
-
-  it('renders correctly with activity data', () => {
-    const { asFragment } = renderContainer();
-
-    expect(asFragment()).toMatchSnapshot();
-  });
-
   it('editing the project details works in the dialog', async () => {
     mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
       project: {
         project_name: 'project name',
         project_type: 1,
-        project_activities: [1, 2],
         start_date: '2020-04-20',
         end_date: '2020-05-20',
         revision_count: 2
@@ -126,7 +104,6 @@ describe('ProjectDetails', () => {
         project: {
           project_name: 'project name',
           project_type: 1,
-          project_activities: [1, 2],
           start_date: '2020-04-20',
           end_date: '2020-05-20',
           revision_count: 2
@@ -192,7 +169,6 @@ describe('ProjectDetails', () => {
       project: {
         project_name: 'project name',
         project_type: 1,
-        project_activities: [1, 2],
         start_date: '2020-04-20',
         end_date: '2020-05-20',
         revision_count: 2

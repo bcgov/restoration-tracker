@@ -313,11 +313,11 @@ describe('getPublicProjectForView', () => {
     };
 
     const indigenousData = {
-      fn_name: 'fn name'
+      first_nations_name: 'fn name'
     };
 
     const stakeholderData = {
-      sp_name: 'sp name'
+      partnership_name: 'sp name'
     };
 
     // getProjectSQL mock

@@ -133,7 +133,6 @@ export interface IGetProjectForUpdateResponse {
 export interface IGetProjectForUpdateResponseDetails {
   project_name: string;
   project_type: number;
-  project_activities: number[];
   start_date: string;
   end_date: string;
   revision_count: number;
@@ -230,7 +229,6 @@ export interface IGetProjectForViewResponse {
 export interface IGetProjectForViewResponseDetails {
   project_name: string;
   project_type: string;
-  project_activities: number[];
   start_date: string;
   end_date: string;
   completion_status: string;

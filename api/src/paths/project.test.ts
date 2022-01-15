@@ -31,7 +31,6 @@ describe('createProject', () => {
       project: {
         project_name: 'Tatyana Douglas',
         project_type: 2,
-        project_activities: [],
         start_date: '1900-01-01',
         end_date: ''
       },

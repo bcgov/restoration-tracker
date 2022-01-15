@@ -13,19 +13,17 @@ const defaultLog = getLogger('models/public/project');
 export class GetPublicProjectData {
   project_name: string;
   project_type: string;
-  project_activities: string[];
   start_date: string;
   end_date: string;
   comments: string;
   completion_status: string;
   publish_date: string;
 
-  constructor(projectData?: any, activityData?: any[]) {
-    defaultLog.debug({ label: 'GetPublicProjectData', message: 'params', projectData, activityData });
+  constructor(projectData?: any) {
+    defaultLog.debug({ label: 'GetPublicProjectData', message: 'params', projectData });
 
     this.project_name = projectData?.name || '';
     this.project_type = projectData?.type || '';
-    this.project_activities = (activityData?.length && activityData.map((item) => item.name)) || [];
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
     this.comments = projectData?.comments || '';

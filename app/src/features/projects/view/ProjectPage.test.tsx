@@ -82,9 +82,6 @@ describe('ProjectPage', () => {
 
   // it('renders project page when project is loaded (project is active)', async () => {
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
 
   //   const { asFragment, findByText } = render(
   //     <DialogContextProvider>
@@ -107,9 +104,6 @@ describe('ProjectPage', () => {
   //     ...getProjectForViewResponse,
   //     project: { ...getProjectForViewResponse.project, completion_status: 'Completed' }
   //   });
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
 
   //   const { asFragment, findByText } = render(
   //     <DialogContextProvider>
@@ -128,9 +122,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('deletes project and takes user to the projects list page when user is a system administrator', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
   //   mockRestorationTrackerApi().project.deleteProject.mockResolvedValue(true);
 
@@ -171,9 +162,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('shows basic error dialog when deleting project call has no response', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
   //   mockRestorationTrackerApi().project.deleteProject.mockResolvedValue(null);
 
@@ -222,9 +210,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('shows error dialog with API error message when deleting project fails', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
   //   mockRestorationTrackerApi().project.deleteProject = jest.fn(() => Promise.reject(new Error('API Error is Here')));
 
@@ -273,9 +258,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('sees delete project button as enabled when accessing an unpublished project as a project administrator', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
   //     ...getProjectForViewResponse,
   //     project: { ...getProjectForViewResponse.project, publish_date: '' }
@@ -307,9 +289,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('sees delete project button as disabled when accessing a published project as a project administrator', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
   //     ...getProjectForViewResponse,
   //     project: { ...getProjectForViewResponse.project, publish_date: '2021-07-07' }
@@ -341,9 +320,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('does not see the delete button when accessing project as non admin user', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
 
   //   const authState = {
@@ -378,9 +354,6 @@ describe('ProjectPage', () => {
   //       end_date: (null as unknown) as string
   //     }
   //   });
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
 
   //   const { asFragment, findByText } = render(
   //     <Router history={history}>
@@ -397,9 +370,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('publishes and unpublishes a project', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
   //     ...getProjectForViewResponse,
   //     project: { ...getProjectForViewResponse.project, publish_date: '' }
@@ -441,9 +411,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('shows API error when fails to publish project', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
   //     ...getProjectForViewResponse,
   //     project: { ...getProjectForViewResponse.project, publish_date: '' }
@@ -483,9 +450,6 @@ describe('ProjectPage', () => {
   // });
 
   // it('shows basic error dialog when publish project returns null response', async () => {
-  //   mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-  //     activity: [{ id: 1, name: 'activity 1' }]
-  //   } as any);
   //   mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
   //     ...getProjectForViewResponse,
   //     project: { ...getProjectForViewResponse.project, publish_date: '' }

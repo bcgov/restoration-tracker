@@ -94,7 +94,7 @@ export const postProjectBoundarySQL = (locationData: PostLocationData, projectId
     }
   });
 
-  if (!locationData || !locationData.geometry.length) {
+  if (!locationData || !locationData.geometry.length || !projectId) {
     return null;
   }
 
@@ -226,7 +226,7 @@ export const postProjectStakeholderPartnershipSQL = (
     `;
 
   defaultLog.debug({
-    label: 'postPermitNumberWithSamplingSQL',
+    label: 'postProjectStakeholderPartnershipSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

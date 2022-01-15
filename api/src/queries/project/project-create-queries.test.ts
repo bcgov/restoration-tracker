@@ -8,6 +8,7 @@ import {
   PostProjectData
 } from '../../models/project-create';
 import {
+  postProjectBoundarySQL,
   postProjectFundingSourceSQL,
   postProjectIndigenousNationSQL,
   postProjectIUCNSQL,
@@ -69,10 +70,22 @@ describe('postProjectSQL', () => {
 
       expect(response).to.not.be.null;
     });
+  });
+});
 
-    it('returns a SQLStatement with a single geometry inserted correctly', () => {
+describe('postProjectBoundarySQL', () => {
+  describe('Null location data param provided', () => {
+    it('returns null', () => {
+      // force the function to accept a null value
+      const response = postProjectBoundarySQL((null as unknown) as PostLocationData, 1);
+
+      expect(response).to.be.null;
+    });
+  });
+
+  describe('Null projectId param provided', () => {
+    it('returns null', () => {
       const locationDataWithGeo = {
-        ...locationData,
         geometry: [
           {
             type: 'Feature',
@@ -97,12 +110,40 @@ describe('postProjectSQL', () => {
       };
 
       const postLocationData = new PostLocationData(locationDataWithGeo);
-      const response = postProjectSQL({
-        ...postProjectData,
-        ...postCoordinatorData,
-        ...postLocationData,
-        ...postObjectivesData
-      });
+      const response = postProjectBoundarySQL(postLocationData, (null as unknown) as number);
+
+      expect(response).to.be.null;
+    });
+  });
+
+  describe('Valid location data param provided', () => {
+    it('returns a SQLStatement with a single geometry inserted correctly', () => {
+      const locationDataWithGeo = {
+        geometry: [
+          {
+            type: 'Feature',
+            id: 'myGeo',
+            geometry: {
+              type: 'Polygon',
+              coordinates: [
+                [
+                  [-128, 55],
+                  [-128, 55.5],
+                  [-128, 56],
+                  [-126, 58],
+                  [-128, 55]
+                ]
+              ]
+            },
+            properties: {
+              name: 'Biohub Islands'
+            }
+          }
+        ]
+      };
+
+      const postLocationData = new PostLocationData(locationDataWithGeo);
+      const response = postProjectBoundarySQL(postLocationData, 1);
 
       expect(response).to.not.be.null;
       expect(response?.values).to.deep.include(
@@ -112,7 +153,6 @@ describe('postProjectSQL', () => {
 
     it('returns a SQLStatement with multiple geometries inserted correctly', () => {
       const locationDataWithGeos = {
-        ...locationData,
         geometry: [
           {
             type: 'Feature',
@@ -148,12 +188,7 @@ describe('postProjectSQL', () => {
       };
 
       const postLocationData = new PostLocationData(locationDataWithGeos);
-      const response = postProjectSQL({
-        ...postProjectData,
-        ...postCoordinatorData,
-        ...postLocationData,
-        ...postObjectivesData
-      });
+      const response = postProjectBoundarySQL(postLocationData, 1);
 
       expect(response).to.not.be.null;
       expect(response?.values).to.deep.include(
@@ -205,7 +240,7 @@ describe('postProjectFundingSourceSQL', () => {
 });
 
 describe('postProjectStakeholderPartnershipSQL', () => {
-  it('Null activityId', () => {
+  it('Null indigenousNationId', () => {
     const response = postProjectStakeholderPartnershipSQL((null as unknown) as string, 1);
     expect(response).to.be.null;
   });
@@ -215,7 +250,7 @@ describe('postProjectStakeholderPartnershipSQL', () => {
     expect(response).to.be.null;
   });
 
-  it('null activityId and null projectId', () => {
+  it('null indigenousNationId and null projectId', () => {
     const response = postProjectStakeholderPartnershipSQL((null as unknown) as string, (null as unknown) as number);
     expect(response).to.be.null;
   });
@@ -227,7 +262,7 @@ describe('postProjectStakeholderPartnershipSQL', () => {
 });
 
 describe('postProjectIndigenousNationSQL', () => {
-  it('Null activityId', () => {
+  it('Null indigenousNationId', () => {
     const response = postProjectIndigenousNationSQL((null as unknown) as number, 1);
     expect(response).to.be.null;
   });
@@ -237,7 +272,7 @@ describe('postProjectIndigenousNationSQL', () => {
     expect(response).to.be.null;
   });
 
-  it('null activityId and null projectId', () => {
+  it('null indigenousNationId and null projectId', () => {
     const response = postProjectIndigenousNationSQL((null as unknown) as number, (null as unknown) as number);
     expect(response).to.be.null;
   });

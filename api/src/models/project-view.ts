@@ -14,24 +14,21 @@ const defaultLog = getLogger('models/project-view');
 export class GetProjectData {
   project_name: string;
   project_type: string;
-  project_activities: number[];
   start_date: string;
   end_date: string;
   comments: string;
   completion_status: string;
   publish_date: string;
 
-  constructor(projectData?: any, activityData?: any[]) {
+  constructor(projectData?: any) {
     defaultLog.debug({
       label: 'GetProjectData',
       message: 'params',
-      projectData: { ...projectData, geometry: 'Too big to print' },
-      activityData
+      projectData: { ...projectData, geometry: 'Too big to print' }
     });
 
     this.project_name = projectData?.name || '';
     this.project_type = projectData?.type || '';
-    this.project_activities = (activityData?.length && activityData.map((item) => item.activity_id)) || [];
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
     this.comments = projectData?.comments || '';
@@ -208,8 +205,8 @@ export class GetPartnershipsData {
     });
 
     this.indigenous_partnerships =
-      (indigenous_partnerships?.length && indigenous_partnerships.map((item: any) => item.fn_name)) || [];
+      (indigenous_partnerships?.length && indigenous_partnerships.map((item: any) => item.first_nations_name)) || [];
     this.stakeholder_partnerships =
-      (stakeholder_partnerships?.length && stakeholder_partnerships.map((item: any) => item.sp_name)) || [];
+      (stakeholder_partnerships?.length && stakeholder_partnerships.map((item: any) => item.partnership_name)) || [];
   }
 }

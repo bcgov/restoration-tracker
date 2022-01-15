@@ -113,20 +113,6 @@ exports[`ProjectDetails renders correctly 1`] = `
                 Oct 10, 1998 - Feb 26, 2021
               </dd>
             </div>
-            <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4"
-            >
-              <dt
-                class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
-              >
-                Activities
-              </dt>
-              <dd
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Activity code
-              </dd>
-            </div>
           </div>
         </dl>
       </div>

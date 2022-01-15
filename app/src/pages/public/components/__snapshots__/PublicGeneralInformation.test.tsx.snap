@@ -68,11 +68,6 @@ exports[`PublicGeneralInformation renders correctly 1`] = `
           >
             Activities
           </dt>
-          <dd
-            class="MuiTypography-root MuiTypography-body1"
-          >
-            1
-          </dd>
         </div>
       </div>
     </dl>

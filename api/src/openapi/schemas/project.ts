@@ -57,12 +57,6 @@ export const projectCreatePostRequestObject = {
         project_type: {
           type: 'number'
         },
-        project_activities: {
-          type: 'array',
-          items: {
-            type: 'number'
-          }
-        },
         start_date: {
           type: 'string',
           description: 'ISO 8601 date string'

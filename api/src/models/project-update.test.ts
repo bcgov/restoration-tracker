@@ -252,7 +252,7 @@ describe('GetPartnershipsData', () => {
     let data: GetPartnershipsData;
 
     const indigenous_partnerships: string[] = [];
-    const stakeholder_partnerships = [{ name: 'partner 1' }, { name: 'partner 2' }];
+    const stakeholder_partnerships = [{ partnership_name: 'partner 1' }, { partnership_name: 'partner 2' }];
 
     before(() => {
       data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);
@@ -271,7 +271,7 @@ describe('GetPartnershipsData', () => {
     let data: GetPartnershipsData;
 
     const indigenous_partnerships = [{ id: 1 }, { id: 2 }];
-    const stakeholder_partnerships = [{ name: 'partner 3' }, { name: 'partner 4' }];
+    const stakeholder_partnerships = [{ partnership_name: 'partner 3' }, { partnership_name: 'partner 4' }];
 
     before(() => {
       data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);
@@ -657,10 +657,6 @@ describe('GetProjectData', () => {
       expect(data.project_type).to.equal('');
     });
 
-    it('sets project_activities', () => {
-      expect(data.project_activities).to.eql([]);
-    });
-
     it('sets start_date', () => {
       expect(data.start_date).to.equal('');
     });
@@ -683,12 +679,10 @@ describe('GetProjectData', () => {
       revision_count: 1
     };
 
-    const activityData = [{ activity_id: 1 }, { activity_id: 2 }];
-
     let data: GetProjectData;
 
     before(() => {
-      data = new GetProjectData(projectData, activityData);
+      data = new GetProjectData(projectData);
     });
 
     it('sets name', () => {
@@ -697,10 +691,6 @@ describe('GetProjectData', () => {
 
     it('sets type', () => {
       expect(data.project_type).to.equal(4);
-    });
-
-    it('sets project_activities', () => {
-      expect(data.project_activities).to.eql([1, 2]);
     });
 
     it('sets start_date', () => {
@@ -733,10 +723,6 @@ describe('PutProjectData', () => {
       expect(data.type).to.equal(null);
     });
 
-    it('sets project_activities', () => {
-      expect(data.project_activities).to.eql([]);
-    });
-
     it('sets start_date', () => {
       expect(data.start_date).to.equal(null);
     });
@@ -754,7 +740,6 @@ describe('PutProjectData', () => {
     const obj = {
       project_name: 'project name',
       project_type: 4,
-      project_activities: [1, 2],
       start_date: '2020-04-20T07:00:00.000Z',
       end_date: '2020-05-20T07:00:00.000Z',
       revision_count: 1
@@ -772,10 +757,6 @@ describe('PutProjectData', () => {
 
     it('sets type', () => {
       expect(data.type).to.equal(4);
-    });
-
-    it('sets project_activities', () => {
-      expect(data.project_activities).to.eql([1, 2]);
     });
 
     it('sets start_date', () => {

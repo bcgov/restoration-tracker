@@ -42,7 +42,9 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
   const restorationTrackerApi = useRestorationTrackerApi();
 
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [partnershipsForUpdate, setPartnershipsForUpdate] = useState(ProjectPartnershipsFormInitialValues);
+  const [partnershipsForUpdate, setPartnershipsForUpdate] = useState<IProjectPartnershipsForm>(
+    ProjectPartnershipsFormInitialValues
+  );
 
   const dialogContext = useContext(DialogContext);
 
@@ -80,7 +82,10 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
       return;
     }
 
-    setPartnershipsForUpdate(partnershipsResponseData);
+    setPartnershipsForUpdate({
+      indigenous_partnerships: partnershipsResponseData.indigenous_partnerships,
+      stakeholder_partnerships: partnershipsResponseData.stakeholder_partnerships
+    });
 
     setOpenEditDialog(true);
   };

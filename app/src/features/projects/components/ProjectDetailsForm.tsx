@@ -14,7 +14,6 @@ import yup from 'utils/YupSchema';
 export interface IProjectDetailsForm {
   project_name: string;
   project_type: number;
-  project_activities: number[];
   start_date: string;
   end_date: string;
 }
@@ -22,7 +21,6 @@ export interface IProjectDetailsForm {
 export const ProjectDetailsFormInitialValues: IProjectDetailsForm = {
   project_name: '',
   project_type: ('' as unknown) as number,
-  project_activities: [],
   start_date: '',
   end_date: ''
 };

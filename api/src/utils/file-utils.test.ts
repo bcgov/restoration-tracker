@@ -22,12 +22,12 @@ describe('generateS3FileKey', () => {
   it('returns project file path', async () => {
     const result = generateS3FileKey({ projectId: 1, fileName: 'testFileName' });
 
-    expect(result).to.equal('projects/1/testFileName');
+    expect(result).to.equal('restoration-tracker/projects/1/testFileName');
   });
 
   it('returns project folder file path', async () => {
     const result = generateS3FileKey({ projectId: 1, folder: 'folder', fileName: 'testFileName' });
 
-    expect(result).to.equal('projects/1/folder/testFileName');
+    expect(result).to.equal('restoration-tracker/projects/1/folder/testFileName');
   });
 });

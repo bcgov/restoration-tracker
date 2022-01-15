@@ -23,21 +23,6 @@ const project_type: IMultiAutocompleteFieldOption[] = [
   }
 ];
 
-const activity: IMultiAutocompleteFieldOption[] = [
-  {
-    value: 1,
-    label: 'activity 1'
-  },
-  {
-    value: 2,
-    label: 'activity 2'
-  },
-  {
-    value: 3,
-    label: 'activity 3'
-  }
-];
-
 describe('ProjectDetailsForm', () => {
   it('renders correctly with default empty values', () => {
     const { asFragment } = render(
@@ -47,7 +32,7 @@ describe('ProjectDetailsForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectDetailsForm project_type={project_type} activity={activity} />}
+        {() => <ProjectDetailsForm project_type={project_type} />}
       </Formik>
     );
 
@@ -58,7 +43,6 @@ describe('ProjectDetailsForm', () => {
     const existingFormValues: IProjectDetailsForm = {
       project_name: 'name 1',
       project_type: 2,
-      project_activities: [2, 3],
       start_date: '2021-03-14',
       end_date: '2021-04-14'
     };
@@ -70,7 +54,7 @@ describe('ProjectDetailsForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectDetailsForm project_type={project_type} activity={activity} />}
+        {() => <ProjectDetailsForm project_type={project_type} />}
       </Formik>
     );
 

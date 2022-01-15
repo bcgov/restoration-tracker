@@ -25,6 +25,5 @@ describe('useAxios', () => {
     expect(apiError.status).toEqual(500);
     expect(apiError.errors).toEqual(['some errors']);
     expect(apiError.requestURL).toEqual('localhost/test');
-    expect(apiError.responseURL).toEqual('localhost/test-error');
   });
 });

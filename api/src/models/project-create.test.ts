@@ -75,7 +75,6 @@ describe('PostProjectObject', () => {
       project: {
         project_name: 'name_test_data',
         project_type: 'test_type',
-        project_activities: [1, 2],
         start_date: 'start_date_test_data',
         end_date: 'end_date_test_data',
         comments: 'comments_test_data'
@@ -157,10 +156,6 @@ describe('PostProjectData', () => {
       expect(projectPostData.type).to.equal(null);
     });
 
-    it('sets activities', function () {
-      expect(projectPostData.project_activities).to.have.length(0);
-    });
-
     it('sets start_date', function () {
       expect(projectPostData.start_date).to.equal(null);
     });
@@ -180,7 +175,6 @@ describe('PostProjectData', () => {
     const obj = {
       project_name: 'name_test_data',
       project_type: 'test_type',
-      project_activities: [1, 2],
       start_date: 'start_date_test_data',
       end_date: 'end_date_test_data',
       comments: 'comments_test_data'
@@ -196,10 +190,6 @@ describe('PostProjectData', () => {
 
     it('sets type', function () {
       expect(projectPostData.type).to.equal('test_type');
-    });
-
-    it('sets activities', function () {
-      expect(projectPostData.project_activities).to.eql([1, 2]);
     });
 
     it('sets start_date', function () {

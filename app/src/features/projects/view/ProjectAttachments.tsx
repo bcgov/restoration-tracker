@@ -78,7 +78,7 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = () => {
     <>
       <ComponentDialog
         open={openUploadAttachments}
-        dialogTitle="Upload Attachment"
+        dialogTitle="Upload Attachments"
         onClose={() => {
           setOpenUploadAttachments(false);
           getAttachments(true);

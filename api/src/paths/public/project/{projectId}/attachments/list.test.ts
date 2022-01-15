@@ -79,33 +79,18 @@ describe('getPublicProjectAttachments', () => {
   it('should return a list of project attachments where the lastModified is the create_date', async () => {
     const mockQuery = sinon.stub();
 
-    mockQuery
-      .onFirstCall()
-      .resolves({
-        rows: [
-          {
-            id: 13,
-            file_name: 'name1',
-            create_date: '2020-01-01',
-            update_date: '',
-            file_size: 50,
-            is_secured: false
-          }
-        ]
-      })
-      .onSecondCall()
-      .resolves({
-        rows: [
-          {
-            id: 14,
-            file_name: 'name2',
-            create_date: '2020-01-01',
-            update_date: '',
-            file_size: 50,
-            is_secured: false
-          }
-        ]
-      });
+    mockQuery.onFirstCall().resolves({
+      rows: [
+        {
+          id: 13,
+          file_name: 'name1',
+          create_date: '2020-01-01',
+          update_date: '',
+          file_size: 50,
+          is_secured: false
+        }
+      ]
+    });
 
     sinon.stub(db, 'getDBConnection').returns({
       ...dbConnectionObj,
@@ -123,8 +108,13 @@ describe('getPublicProjectAttachments', () => {
 
     expect(actualResult).to.be.eql({
       attachmentsList: [
-        { fileName: 'name1', id: 13, lastModified: '2020-01-01', size: 50, securityToken: false },
-        { fileName: 'name2', id: 14, lastModified: '2020-01-01', size: 50, securityToken: false }
+        {
+          id: 13,
+          fileName: 'name1',
+          lastModified: '2020-01-01',
+          size: 50,
+          securityToken: false
+        }
       ]
     });
   });
@@ -132,33 +122,18 @@ describe('getPublicProjectAttachments', () => {
   it('should return a list of project attachments where the lastModified is the update_date', async () => {
     const mockQuery = sinon.stub();
 
-    mockQuery
-      .onFirstCall()
-      .resolves({
-        rows: [
-          {
-            id: 13,
-            file_name: 'name1',
-            create_date: '2020-01-01',
-            update_date: '2020-04-04',
-            file_size: 50,
-            is_secured: false
-          }
-        ]
-      })
-      .onSecondCall()
-      .resolves({
-        rows: [
-          {
-            id: 14,
-            file_name: 'name2',
-            create_date: '2020-01-01',
-            update_date: '2020-04-04',
-            file_size: 50,
-            is_secured: false
-          }
-        ]
-      });
+    mockQuery.onFirstCall().resolves({
+      rows: [
+        {
+          id: 13,
+          file_name: 'name1',
+          create_date: '2020-01-01',
+          update_date: '2020-04-04',
+          file_size: 50,
+          is_secured: false
+        }
+      ]
+    });
 
     sinon.stub(db, 'getDBConnection').returns({
       ...dbConnectionObj,
@@ -176,8 +151,13 @@ describe('getPublicProjectAttachments', () => {
 
     expect(actualResult).to.be.eql({
       attachmentsList: [
-        { fileName: 'name1', id: 13, lastModified: '2020-04-04', size: 50, securityToken: false },
-        { fileName: 'name2', id: 14, lastModified: '2020-04-04', size: 50, securityToken: false }
+        {
+          id: 13,
+          fileName: 'name1',
+          lastModified: '2020-04-04',
+          size: 50,
+          securityToken: false
+        }
       ]
     });
   });

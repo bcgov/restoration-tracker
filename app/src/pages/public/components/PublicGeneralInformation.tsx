@@ -65,9 +65,6 @@ const PublicGeneralInformation: React.FC<IPublicProjectDetailsProps> = (props) =
             <Typography component="dt" variant="subtitle2" color="textSecondary">
               Activities
             </Typography>
-            <Typography component="dd" variant="body1">
-              {project.project_activities.length > 0 ? <>{project.project_activities.join(', ')}</> : 'No Activities'}
-            </Typography>
           </Grid>
         </Grid>
       </dl>

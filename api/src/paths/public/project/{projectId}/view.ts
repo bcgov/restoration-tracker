@@ -62,7 +62,6 @@ GET.apiDoc = {
                 required: [
                   'project_name',
                   'project_type',
-                  'project_activities',
                   'start_date',
                   'end_date',
                   'comments',
@@ -75,12 +74,6 @@ GET.apiDoc = {
                   },
                   project_type: {
                     type: 'number'
-                  },
-                  project_activities: {
-                    type: 'array',
-                    items: {
-                      type: 'number'
-                    }
                   },
                   start_date: {
                     type: 'string',
