@@ -53,6 +53,9 @@ export async function up(knex: Knex): Promise<void> {
     path.join(__dirname, DB_RELEASE, 'populate_investment_action_category.sql')
   );
   const populate_project_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_project_type.sql'));
+  const populate_project_spatial_component_type = fs.readFileSync(
+    path.join(__dirname, DB_RELEASE, 'populate_project_spatial_component_type.sql')
+  );
   const populate_iucn_classifications = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_iucn_classifications.sql')
   );
@@ -130,6 +133,7 @@ export async function up(knex: Knex): Promise<void> {
     ${populate_administrative_activity_type}
     ${populate_administrative_activity_status_type}
     ${populate_system_metadata_constant}
+    ${populate_project_spatial_component_type}
 
     -- create the views
     set search_path = restoration_dapi_v1;

@@ -120,14 +120,6 @@ export function add_project_info(
       '[data-value="' + faker.random.number({ min: 1, max: 4 }) + '"]'
     ).click();
   }
-  cy.get("#project_activities").click();
-  var i = 0;
-  while (i < faker.random.number({ min: 1, max: 4 })) {
-    cy.get(
-      "#project_activities-option-" + faker.random.number({ min: 1, max: 7 })
-    ).click();
-    i++;
-  }
   cy.get("#start_date").type(
     start_date ||
       "20" +

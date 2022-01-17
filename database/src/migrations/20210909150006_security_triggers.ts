@@ -30,7 +30,7 @@ export async function up(knex: Knex): Promise<void> {
     SELECT "1" into v_record_id FROM (SELECT NEW.*) as t("1");
 
     CASE upper(TG_TABLE_NAME)
-      WHEN 'PROJECT_ATTACHMENT', 'PROJECT_REPORT_ATTACHMENT' THEN
+      WHEN 'PROJECT_ATTACHMENT' THEN
         execute format('select project_id from ${DB_SCHEMA}.%1$s where %1$s_id = %2$s',TG_TABLE_NAME,v_record_id) into v_project_id;
       ELSE
         execute format('select a.project_id from ${DB_SCHEMA}.survey a, ${DB_SCHEMA}.%1$s b where a.survey_id = b.survey_id and b.%1$s_id = %2$s',TG_TABLE_NAME,v_record_id) into v_project_id;
