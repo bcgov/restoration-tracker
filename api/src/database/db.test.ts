@@ -281,14 +281,14 @@ describe('db', () => {
   });
 
   describe('getAPIUserDBConnection', () => {
-    it('calls getDBConnection for the biohub_api user', () => {
+    it('calls getDBConnection for the restoration_api user', () => {
       const getDBConnectionStub = Sinon.stub(db, 'getDBConnection').returns(
         ('stubbed DBConnection object' as unknown) as IDBConnection
       );
 
       getAPIUserDBConnection();
 
-      expect(getDBConnectionStub).to.have.been.calledWith({ preferred_username: 'biohub_api@database' });
+      expect(getDBConnectionStub).to.have.been.calledWith({ preferred_username: 'restoration_api@database' });
     });
   });
 });

@@ -63,7 +63,7 @@ describe('MapContainer', () => {
         ]
       },
       properties: {
-        name: 'Biohub Islands'
+        name: 'Restoration Islands'
       }
     }
   ];

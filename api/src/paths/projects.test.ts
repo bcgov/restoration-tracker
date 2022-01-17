@@ -23,7 +23,7 @@ describe('Unit Testing: GET /projects - Test database query result parsing', () 
 
     rows.push({
       id: 1,
-      name: 'Project BioHub',
+      name: 'Project Restoration',
       start_date: '2021/01/01',
       end_date: '2022/12/31',
       location_description: 'Here'
@@ -33,7 +33,7 @@ describe('Unit Testing: GET /projects - Test database query result parsing', () 
 
     expect(projects).to.be.an('array');
     expect(projects).to.have.length(1);
-    expect(projects[0]).to.have.property('name', 'Project BioHub');
+    expect(projects[0]).to.have.property('name', 'Project Restoration');
   });
 });
 

@@ -56,7 +56,7 @@ describe('PutLocationData', () => {
             ]
           ],
           properties: {
-            name: 'Biohub Islands'
+            name: 'Restoration Islands'
           }
         }
       ],

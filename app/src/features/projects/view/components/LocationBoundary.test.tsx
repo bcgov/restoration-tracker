@@ -58,7 +58,7 @@ describe('LocationBoundary', () => {
         ]
       },
       properties: {
-        name: 'Biohub Islands'
+        name: 'Restoration Islands'
       }
     }
   ];

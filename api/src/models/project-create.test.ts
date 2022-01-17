@@ -98,7 +98,7 @@ describe('PostProjectObject', () => {
               ]
             ],
             properties: {
-              name: 'Biohub Islands'
+              name: 'Restoration Islands'
             }
           }
         ]
@@ -590,7 +590,7 @@ describe('PostLocationData', () => {
             ]
           ],
           properties: {
-            name: 'Biohub Islands'
+            name: 'Restoration Islands'
           }
         }
       ]

@@ -103,7 +103,7 @@ describe('postProjectBoundarySQL', () => {
               ]
             },
             properties: {
-              name: 'Biohub Islands'
+              name: 'Restoration Islands'
             }
           }
         ]
@@ -136,7 +136,7 @@ describe('postProjectBoundarySQL', () => {
               ]
             },
             properties: {
-              name: 'Biohub Islands'
+              name: 'Restoration Islands'
             }
           }
         ]
@@ -170,7 +170,7 @@ describe('postProjectBoundarySQL', () => {
               ]
             },
             properties: {
-              name: 'Biohub Islands 1'
+              name: 'Restoration Islands 1'
             }
           },
           {
@@ -181,7 +181,7 @@ describe('postProjectBoundarySQL', () => {
               coordinates: [-128, 55]
             },
             properties: {
-              name: 'Biohub Islands 2'
+              name: 'Restoration Islands 2'
             }
           }
         ]

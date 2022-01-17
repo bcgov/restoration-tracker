@@ -15,8 +15,8 @@ export const rootAPIDoc = {
   openapi: '3.0.0',
   info: {
     version: '0.0.0',
-    title: 'biohubbc-api',
-    description: 'API for BioHubBC',
+    title: 'restoration-tracker-api',
+    description: 'API for Restoration-Tracker',
     license: {
       name: 'Apache 2.0',
       url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
@@ -56,7 +56,7 @@ export const rootAPIDoc = {
   ],
   externalDocs: {
     description: 'Visit GitHub to find out more about this API',
-    url: 'https://github.com/bcgov/biohubbc.git'
+    url: 'https://github.com/bcgov/restoration-tracker.git'
   },
   paths: {},
   components: {

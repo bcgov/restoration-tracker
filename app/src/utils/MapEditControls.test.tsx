@@ -22,7 +22,7 @@ describe('MapEditControls.test', () => {
         ]
       },
       properties: {
-        name: 'Biohub Islands'
+        name: 'Restoration Islands'
       }
     }
   ];

@@ -26,7 +26,7 @@ export enum PROJECT_ROLE {
  * Used when adding/updating an object in S3 storage to mark the object as requiring authentication.
  *
  * Note: All objects in S3 should be marked as requiring authentication, as all access to the objects should be
- * governed/proxied by the BioHub API.
+ * governed/proxied by the Restoration-Tracker API.
  *
  * @export
  * @enum {number}

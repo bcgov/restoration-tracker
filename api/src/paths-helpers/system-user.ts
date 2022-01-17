@@ -17,7 +17,7 @@ export const ensureSystemUser = async (
   identitySource: string,
   connection: IDBConnection
 ): Promise<UserObject> => {
-  // Check if the user exists in SIMS
+  // Check if the user exists in Restoration Tracker
   let systemUserRecord = await getSystemUser(userIdentifier, connection);
 
   if (!systemUserRecord) {

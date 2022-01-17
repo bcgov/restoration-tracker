@@ -28,7 +28,7 @@ If prompted, install Docker using Hyper-V (not WSL 2)
 
 ### Grant Docker access to your local folders
 
-This setup for SIMS uses volumes to support live reload.  
+This setup for Restoration Tracker uses volumes to support live reload.  
 To leverage live reload you will need to ensure Docker is running using Hyper-V (not the WSL2 engine).
 
 #### MacOS
@@ -105,7 +105,7 @@ make env
 Result of running `make env` for the first time:  
 ![make env screenshot](readme_screenshots/running_make_env.png "Running `make env`")
 
-## Start all SIMS Applications
+## Start all Restoration Tracker Applications
 
 Starts all applications (database, api, app, and n8n).
 
@@ -152,7 +152,7 @@ make install
 
 ## Delete All Containers
 
-Will stop and delete the sims docker containers.  
+Will stop and delete the Restoration Tracker docker containers.  
 This is useful when you want to clear out all database content, returning it to its initial default state.  
 After you've run `make clean`, running `make web` will launch new containers, with a fresh instance of the database.
 

@@ -303,10 +303,10 @@ export const getDBConnection = function (keycloakToken: object): IDBConnection {
  * Returns an IDBConnection where the system user context is set to the API's system user.
  *
  * Note: Use of this should be limited to requests that are impossible to initiated under a real user context (ie: when
- * an unknown user is requesting access to BioHub and therefore does not yet have a user in the system).
+ * an unknown user is requesting access to Restoration-Tracker and therefore does not yet have a user in the system).
  *
  * @return {*}  {IDBConnection}
  */
 export const getAPIUserDBConnection = (): IDBConnection => {
-  return getDBConnection({ preferred_username: 'biohub_api@database' });
+  return getDBConnection({ preferred_username: 'restoration_api@database' });
 };
