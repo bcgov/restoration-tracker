@@ -2,7 +2,7 @@ import { useKeycloak } from '@react-keycloak/web';
 import { IGetUserResponse } from 'interfaces/useUserApi.interface';
 import { KeycloakInstance } from 'keycloak-js';
 import { useCallback, useEffect, useState } from 'react';
-import { useRestorationTrackerApi } from './useRestorationTrackerApi';
+import { useBiohubApi } from './useBioHubApi';
 
 /**
  * IUserInfo interface, represents the userinfo provided by keycloak.
@@ -45,6 +45,12 @@ export interface IKeycloakWrapper {
    * @memberof IKeycloakWrapper
    */
   systemRoles: string[];
+  /**
+   * Returns `true` if the keycloak user is a registered system user, `false` otherwise.
+   *
+   * @memberof IKeycloakWrapper
+   */
+  isSystemUser: () => boolean;
   /**
    * Returns `true` if the user's `systemRoles` contain at least 1 of the specified `validSystemRoles`, `false` otherwise.
    *
@@ -94,10 +100,10 @@ export interface IKeycloakWrapper {
 function useKeycloakWrapper(): IKeycloakWrapper {
   const { keycloak } = useKeycloak();
 
-  const restorationTrackerApi = useRestorationTrackerApi();
+  const biohubApi = useBiohubApi();
 
-  const [restorationTrackerUser, setrestorationTrackerUser] = useState<IGetUserResponse>();
-  const [isrestorationTrackerUserLoading, setIsrestorationTrackerUserLoading] = useState<boolean>(false);
+  const [bioHubUser, setBioHubUser] = useState<IGetUserResponse>();
+  const [isBioHubUserLoading, setIsBioHubUserLoading] = useState<boolean>(false);
 
   const [keycloakUser, setKeycloakUser] = useState<IUserInfo | null>(null);
   const [isKeycloakUserLoading, setIsKeycloakUserLoading] = useState<boolean>(false);
@@ -140,14 +146,14 @@ function useKeycloakWrapper(): IKeycloakWrapper {
   }, [keycloakUser]);
 
   useEffect(() => {
-    const getrestorationTrackerUser = async () => {
+    const getBioHubUser = async () => {
       let userDetails: IGetUserResponse;
 
       try {
-        userDetails = await restorationTrackerApi.user.getUser();
+        userDetails = await biohubApi.user.getUser();
       } catch {}
 
-      setrestorationTrackerUser(() => {
+      setBioHubUser(() => {
         if (userDetails?.role_names?.length && !userDetails?.user_record_end_date) {
           setHasLoadedAllUserInfo(true);
         } else {
@@ -162,21 +168,21 @@ function useKeycloakWrapper(): IKeycloakWrapper {
       return;
     }
 
-    if (restorationTrackerUser || isrestorationTrackerUserLoading) {
+    if (bioHubUser || isBioHubUserLoading) {
       return;
     }
 
-    setIsrestorationTrackerUserLoading(true);
+    setIsBioHubUserLoading(true);
 
-    getrestorationTrackerUser();
-  }, [keycloak, restorationTrackerUser, isrestorationTrackerUserLoading, restorationTrackerApi.user]);
+    getBioHubUser();
+  }, [keycloak, bioHubUser, isBioHubUserLoading, biohubApi.user]);
 
   useEffect(() => {
     const getSystemAccessRequest = async () => {
       let accessRequests: number;
 
       try {
-        accessRequests = await restorationTrackerApi.admin.hasPendingAdministrativeActivities();
+        accessRequests = await biohubApi.admin.hasPendingAdministrativeActivities();
       } catch {}
 
       setHasAccessRequest(() => {
@@ -194,14 +200,7 @@ function useKeycloakWrapper(): IKeycloakWrapper {
     }
 
     getSystemAccessRequest();
-  }, [
-    keycloak,
-    restorationTrackerApi.admin,
-    getUserIdentifier,
-    hasAccessRequest,
-    keycloakUser,
-    shouldLoadAccessRequest
-  ]);
+  }, [keycloak, biohubApi.admin, getUserIdentifier, hasAccessRequest, keycloakUser, shouldLoadAccessRequest]);
 
   useEffect(() => {
     const getKeycloakUser = async () => {
@@ -222,8 +221,12 @@ function useKeycloakWrapper(): IKeycloakWrapper {
     getKeycloakUser();
   }, [keycloak, keycloakUser, isKeycloakUserLoading]);
 
+  const isSystemUser = (): boolean => {
+    return !!bioHubUser;
+  };
+
   const getSystemRoles = (): string[] => {
-    return restorationTrackerUser?.role_names || [];
+    return bioHubUser?.role_names || [];
   };
 
   const hasSystemRole = (validSystemRoles?: string[]) => {
@@ -273,6 +276,7 @@ function useKeycloakWrapper(): IKeycloakWrapper {
     keycloak: keycloak,
     hasLoadedAllUserInfo,
     systemRoles: getSystemRoles(),
+    isSystemUser,
     hasSystemRole,
     hasAccessRequest,
     getUserIdentifier,
