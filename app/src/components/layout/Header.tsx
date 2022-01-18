@@ -1,7 +1,6 @@
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -206,58 +205,53 @@ const Header: React.FC = () => {
       <AppBar position="sticky" style={{ boxShadow: 'none' }}>
         <Box className={classes.govHeader}>
           <Toolbar className={classes.govHeaderToolbar}>
-            <Container maxWidth="xl">
-              <Box display="flex" justifyContent="space-between" width="100%">
-                <Link to="/projects" className={classes.brand} aria-label="Go to Restoration Tracker Home">
-                  <picture>
-                    <source srcSet={headerImageLarge} media="(min-width: 1200px)"></source>
-                    <source srcSet={headerImageSmall} media="(min-width: 600px)"></source>
-                    <img src={headerImageSmall} alt={'Government of British Columbia'} />
-                  </picture>
-                  <span>
-                    Restoration Tracker
-                    <BetaLabel />
-                    <EnvironmentLabel />
-                  </span>
-                </Link>
-                <UnAuthGuard>
-                  <PublicViewUser />
-                </UnAuthGuard>
-                <AuthGuard>
-                  <LoggedInUser />
-                </AuthGuard>
-              </Box>
-            </Container>
+            <Box display="flex" justifyContent="space-between" width="100%">
+              <Link to="/projects" className={classes.brand} aria-label="Go to Restoration Tracker Home">
+                <picture>
+                  <source srcSet={headerImageLarge} media="(min-width: 1200px)"></source>
+                  <source srcSet={headerImageSmall} media="(min-width: 600px)"></source>
+                  <img src={headerImageSmall} alt={'Government of British Columbia'} />
+                </picture>
+                <span>
+                  Restoration Tracker
+                  <BetaLabel />
+                  <EnvironmentLabel />
+                </span>
+              </Link>
+              <UnAuthGuard>
+                <PublicViewUser />
+              </UnAuthGuard>
+              <AuthGuard>
+                <LoggedInUser />
+              </AuthGuard>
+            </Box>
           </Toolbar>
         </Box>
         <Box className={classes.mainNav}>
-          <Container maxWidth="xl">
-            <Toolbar
-              variant="dense"
-              className={classes.mainNavToolbar}
-              role="navigation"
-              aria-label="Main Navigation"
-              disableGutters>
-              <UnAuthGuard>
-                <Link to="/" id="menu_projects">
-                  Projects
-                </Link>
-              </UnAuthGuard>
-              <AuthGuard>
-                <Link to="/admin/projects" id="menu_projects">
-                  Projects
-                </Link>
-                <Link to="/admin/permits" id="menu_permits">
-                  Permits
-                </Link>
-              </AuthGuard>
-              <SystemRoleGuard validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN]}>
-                <Link to="/admin/users" id="menu_admin_users">
-                  Manage Users
-                </Link>
-              </SystemRoleGuard>
-            </Toolbar>
-          </Container>
+          <Toolbar
+            variant="dense"
+            className={classes.mainNavToolbar}
+            role="navigation"
+            aria-label="Main Navigation">
+            <UnAuthGuard>
+              <Link to="/" id="menu_projects">
+                Projects
+              </Link>
+            </UnAuthGuard>
+            <AuthGuard>
+              <Link to="/admin/projects" id="menu_projects">
+                Projects
+              </Link>
+              <Link to="/admin/permits" id="menu_permits">
+                Permits
+              </Link>
+            </AuthGuard>
+            <SystemRoleGuard validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN]}>
+              <Link to="/admin/users" id="menu_admin_users">
+                Manage Users
+              </Link>
+            </SystemRoleGuard>
+          </Toolbar>
         </Box>
       </AppBar>
 
