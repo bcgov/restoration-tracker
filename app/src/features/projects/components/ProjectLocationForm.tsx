@@ -17,6 +17,7 @@ import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { IAutocompleteFieldOption } from 'components/fields/AutocompleteField';
+import MapContainer from 'components/map/MapContainer';
 import { useFormikContext } from 'formik';
 import { Feature } from 'geojson';
 import React, { useState } from 'react';
@@ -51,7 +52,7 @@ export interface IProjectLocationFormProps {
 const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
   const formikProps = useFormikContext<IProjectLocationForm>();
 
-  const { errors, touched, values, handleChange } = formikProps;
+  const { errors, touched, values, handleChange, setFieldValue } = formikProps;
 
   const [openUploadBoundary, setOpenUploadBoundary] = useState(false);
 
@@ -73,35 +74,13 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
           <Box mb={5}>
             <Box mb={2} maxWidth={'72ch'}>
               <Typography variant="body1" color="textSecondary">
-                Upload boundary for this project boundary files (KML or shapefiles accepted).
-              </Typography>
-            </Box>
-
-            {/* Use Upload Component */}
-            <Box mb={5}>
-              <Button
-                size="large"
-                variant="outlined"
-                color="primary"
-                component="span"
-                startIcon={<Icon path={mdiTrayArrowUp} size={1}></Icon>}
-                onClick={() => setOpenUploadBoundary(true)}
-                data-testid="project-boundary-upload">
-                Upload Project Boundary
-              </Button>
-            </Box>
-          </Box>
-
-          <Box mb={5}>
-            <Box mb={2} maxWidth={'72ch'}>
-              <Typography variant="body1" color="textSecondary">
                 Specify the caribou range associate with this project.
               </Typography>
             </Box>
 
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <FormControl required={true} fullWidth variant="outlined" component="fieldset">
+                <FormControl component="fieldset" required={true} fullWidth variant="outlined">
                   <InputLabel id="caribou-range-select-label">Caribou Range</InputLabel>
                   <Select
                     id="caribou-range-select"
@@ -121,8 +100,8 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
             </Grid>
           </Box>
 
-          <Box>
-            <FormControl required={true} component="fieldset" error={touched.priority && Boolean(errors.priority)}>
+          <Box mb={4}>
+            <FormControl component="fieldset" required={true} error={touched.priority && Boolean(errors.priority)}>
               <FormLabel component="legend">Is this location a priority area?</FormLabel>
 
               <Box mt={2}>
@@ -141,6 +120,39 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                 </RadioGroup>
               </Box>
             </FormControl>
+          </Box>
+
+          <Box component="fieldset">
+            <Typography component="legend">Project Boundary</Typography>
+            <Box mb={3} maxWidth={'72ch'}>
+              <Typography variant="body1" color="textSecondary">
+                Upload a shapefile or use the drawing tools on the map to define your project boundary (KML or
+                shapefiles accepted).
+              </Typography>
+            </Box>
+
+            <Box mb={5}>
+              <Button
+                size="large"
+                variant="outlined"
+                color="primary"
+                component="span"
+                startIcon={<Icon path={mdiTrayArrowUp} size={1}></Icon>}
+                onClick={() => setOpenUploadBoundary(true)}
+                data-testid="project-boundary-upload">
+                Upload Boundary
+              </Button>
+            </Box>
+
+            <Box height={500}>
+              <MapContainer
+                mapId={'project_location_map'}
+                geometryState={{
+                  geometry: values.boundary,
+                  setGeometry: (newGeo: Feature[]) => setFieldValue('geometry', newGeo)
+                }}
+              />
+            </Box>
           </Box>
         </Grid>
       </Grid>
