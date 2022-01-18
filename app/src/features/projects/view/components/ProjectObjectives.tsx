@@ -8,25 +8,22 @@ import ReadMoreField from 'components/fields/ReadMoreField';
 import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditObjectivesI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectObjectivesForm, {
   IProjectObjectivesForm,
   ProjectObjectivesFormInitialValues,
   ProjectObjectivesFormYupSchema
 } from 'features/projects/components/ProjectObjectivesForm';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import {
   IGetProjectForUpdateResponseObjectives,
   IGetProjectForViewResponse,
   UPDATE_GET_ENTITIES
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useState } from 'react';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 
 export interface IProjectObjectivesProps {
   projectForViewData: IGetProjectForViewResponse;
-  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 
@@ -37,8 +34,7 @@ export interface IProjectObjectivesProps {
  */
 const ProjectObjectives: React.FC<IProjectObjectivesProps> = (props) => {
   const {
-    projectForViewData: { objectives, id },
-    codes
+    projectForViewData: { objectives, id }
   } = props;
 
   const restorationTrackerApi = useRestorationTrackerApi();
@@ -122,7 +118,7 @@ const ProjectObjectives: React.FC<IProjectObjectivesProps> = (props) => {
         dialogTitle={EditObjectivesI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectStepComponents component="ProjectObjectives" codes={codes} />,
+          element: <ProjectObjectivesForm />,
           initialValues: objectivesFormData,
           validationSchema: ProjectObjectivesFormYupSchema
         }}

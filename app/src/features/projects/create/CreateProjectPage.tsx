@@ -400,7 +400,7 @@ const CreateProjectPage: React.FC = () => {
                 {/* <Divider></Divider> */}
 
                 <Box my={5}>
-                  <ProjectLocationForm />
+                  <ProjectLocationForm ranges={[]} />
                 </Box>
 
                 <Divider></Divider>

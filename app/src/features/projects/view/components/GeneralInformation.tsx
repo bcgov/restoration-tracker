@@ -10,7 +10,7 @@ import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { EditGeneralInformationI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectDetailsForm, {
   IProjectDetailsForm,
   ProjectDetailsFormInitialValues,
   ProjectDetailsFormYupSchema
@@ -24,7 +24,6 @@ import {
   UPDATE_GET_ENTITIES
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useState } from 'react';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 import { getFormattedDate, getFormattedDateRangeString } from 'utils/Utils';
 
 export interface IProjectDetailsProps {
@@ -122,7 +121,15 @@ const GeneralInformation: React.FC<IProjectDetailsProps> = (props) => {
         dialogTitle={EditGeneralInformationI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectStepComponents component="ProjectDetails" codes={codes} />,
+          element: (
+            <ProjectDetailsForm
+              project_type={
+                codes?.project_type?.map((item) => {
+                  return { value: item.id, label: item.name };
+                }) || []
+              }
+            />
+          ),
           initialValues: detailsFormData,
           validationSchema: ProjectDetailsFormYupSchema
         }}
