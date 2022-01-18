@@ -74,13 +74,10 @@ export async function up(knex: Knex): Promise<void> {
   const populate_treatment_unit_spatial_component_type = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_treatment_unit_spatial_component_type.sql')
   );
-  const populate_treatment_type = fs.readFileSync(
-    path.join(__dirname, DB_RELEASE, 'populate_treatment_type.sql')
-  );
+  const populate_treatment_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_treatment_type.sql'));
   const populate_linear_feature_type = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_linear_feature_type.sql')
   );
-  
 
   const vw_generated_dapi_views = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'vw_generated_dapi_views.sql'));
 
