@@ -42,9 +42,7 @@ exports[`PublicGeneralInformation renders correctly 1`] = `
           </dt>
           <dd
             class="MuiTypography-root MuiTypography-body1"
-          >
-            1
-          </dd>
+          />
         </div>
         <div
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4"

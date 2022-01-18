@@ -130,16 +130,12 @@ describe('CreateProjectPage', () => {
       expect(getByText('Project Permits')).toBeVisible();
 
       expect(getByText('General Information')).toBeVisible();
-
-      expect(queryByLabelText('Project Type')).toBeNull();
     });
 
     fireEvent.click(getByText('General Information'));
 
     await waitFor(() => {
       expect(getAllByText('General Information').length).toEqual(2);
-
-      expect(queryByLabelText('Project Type')).toBeVisible();
     });
   });
 

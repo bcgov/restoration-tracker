@@ -74,10 +74,10 @@ describe('PostProjectObject', () => {
       },
       project: {
         project_name: 'name_test_data',
-        project_type: 'test_type',
         start_date: 'start_date_test_data',
         end_date: 'end_date_test_data',
-        comments: 'comments_test_data'
+        comments: 'comments_test_data',
+        objectives: 'these are the project objectives'
       },
       objectives: {
         objectives: 'these are the project objectives',
@@ -174,7 +174,6 @@ describe('PostProjectData', () => {
 
     const obj = {
       project_name: 'name_test_data',
-      project_type: 'test_type',
       start_date: 'start_date_test_data',
       end_date: 'end_date_test_data',
       comments: 'comments_test_data'

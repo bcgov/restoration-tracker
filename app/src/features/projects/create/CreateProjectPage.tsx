@@ -286,7 +286,7 @@ const CreateProjectPage: React.FC = () => {
       {
         stepTitle: 'General Information',
         stepSubTitle: 'Enter general information and details about this project.',
-        stepContent: <ProjectStepComponents component="ProjectDetails" codes={codes} />,
+        stepContent: <ProjectStepComponents component="ProjectGeneralInformation" codes={codes} />,
         stepInitialValues: initialProjectFieldData.project,
         stepYupSchema: ProjectGeneralInformationFormYupSchema,
         isValid: false,

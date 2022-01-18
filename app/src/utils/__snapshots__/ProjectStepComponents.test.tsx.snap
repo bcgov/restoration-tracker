@@ -4,10 +4,10 @@ exports[`ProjectStepComponents renders the project IUCN with the codes values 1`
 <DocumentFragment>
   <form>
     <div
-      class="MuiBox-root MuiBox-root-30"
+      class="MuiBox-root MuiBox-root-33"
     >
       <div
-        class="MuiBox-root MuiBox-root-31"
+        class="MuiBox-root MuiBox-root-34"
       >
         <button
           aria-label="Add Another"
@@ -48,10 +48,10 @@ exports[`ProjectStepComponents renders the project IUCN without the codes values
 <DocumentFragment>
   <form>
     <div
-      class="MuiBox-root MuiBox-root-34"
+      class="MuiBox-root MuiBox-root-37"
     >
       <div
-        class="MuiBox-root MuiBox-root-35"
+        class="MuiBox-root MuiBox-root-38"
       >
         <button
           aria-label="Add Another"
@@ -462,232 +462,7 @@ exports[`ProjectStepComponents renders the project contact 1`] = `
 </DocumentFragment>
 `;
 
-exports[`ProjectStepComponents renders the project details with the codes values 1`] = `
-<DocumentFragment>
-  <form>
-    <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-    >
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-      >
-        <div
-          class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-        >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
-            data-shrink="false"
-            for="project_name"
-            id="project_name-label"
-          >
-            Project Name
-            <span
-              aria-hidden="true"
-              class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
-            >
-               *
-            </span>
-          </label>
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
-          >
-            <input
-              aria-invalid="false"
-              class="MuiInputBase-input MuiOutlinedInput-input"
-              id="project_name"
-              name="project_name"
-              required=""
-              type="text"
-              value=""
-            />
-            <fieldset
-              aria-hidden="true"
-              class="PrivateNotchedOutline-root-16 MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="PrivateNotchedOutline-legendLabelled-18"
-              >
-                <span>
-                  Project Name *
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-      >
-        <div
-          class="MuiFormControl-root MuiFormControl-fullWidth"
-          style="width: 100%;"
-        >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
-            data-shrink="false"
-            id="project_type-label"
-          >
-            Project Type
-            <span
-              aria-hidden="true"
-              class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
-            >
-               *
-            </span>
-          </label>
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
-          >
-            <div
-              aria-haspopup="listbox"
-              aria-label="Project Type"
-              aria-labelledby="project_type-label project_type"
-              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
-              id="project_type"
-              role="button"
-              tabindex="0"
-            >
-              <span>
-                ​
-              </span>
-            </div>
-            <input
-              aria-hidden="true"
-              class="MuiSelect-nativeInput"
-              name="project_type"
-              required=""
-              tabindex="-1"
-              value=""
-            />
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M7 10l5 5 5-5z"
-              />
-            </svg>
-            <fieldset
-              aria-hidden="true"
-              class="PrivateNotchedOutline-root-16 MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="PrivateNotchedOutline-legendLabelled-18"
-              >
-                <span>
-                  Project Type
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-contained Mui-required"
-          />
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-item"
-      >
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6"
-        >
-          <div
-            class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-required Mui-required"
-              data-shrink="true"
-              for="start_date"
-              id="start_date-label"
-            >
-              Start Date
-              <span
-                aria-hidden="true"
-                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
-              >
-                 *
-              </span>
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
-            >
-              <input
-                aria-invalid="false"
-                class="MuiInputBase-input MuiOutlinedInput-input"
-                data-testid="start-date"
-                id="start_date"
-                max="2100-12-31"
-                min="1900-01-01"
-                name="start_date"
-                required=""
-                type="date"
-                value=""
-              />
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-16 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-18 PrivateNotchedOutline-legendNotched-19"
-                >
-                  <span>
-                    Start Date *
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6"
-        >
-          <div
-            class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined"
-              data-shrink="true"
-              for="end_date"
-              id="end_date-label"
-            >
-              End Date
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
-            >
-              <input
-                aria-invalid="false"
-                class="MuiInputBase-input MuiOutlinedInput-input"
-                data-testid="end-date"
-                id="end_date"
-                max="2100-12-31"
-                min="1900-01-01"
-                name="end_date"
-                type="date"
-                value=""
-              />
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-16 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-18 PrivateNotchedOutline-legendNotched-19"
-                >
-                  <span>
-                    End Date
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-</DocumentFragment>
-`;
+exports[`ProjectStepComponents renders the project details with the codes values 1`] = `<DocumentFragment />`;
 
 exports[`ProjectStepComponents renders the project details without the codes values 1`] = `
 <DocumentFragment>
@@ -696,219 +471,474 @@ exports[`ProjectStepComponents renders the project details without the codes val
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
       >
         <div
-          class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-9"
         >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
-            data-shrink="false"
-            for="project_name"
-            id="project_name-label"
-          >
-            Project Name
-            <span
-              aria-hidden="true"
-              class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
-            >
-               *
-            </span>
-          </label>
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
-          >
-            <input
-              aria-invalid="false"
-              class="MuiInputBase-input MuiOutlinedInput-input"
-              id="project_name"
-              name="project_name"
-              required=""
-              type="text"
-              value=""
-            />
-            <fieldset
-              aria-hidden="true"
-              class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="PrivateNotchedOutline-legendLabelled-22"
-              >
-                <span>
-                  Project Name *
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-      >
-        <div
-          class="MuiFormControl-root MuiFormControl-fullWidth"
-          style="width: 100%;"
-        >
-          <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
-            data-shrink="false"
-            id="project_type-label"
-          >
-            Project Type
-            <span
-              aria-hidden="true"
-              class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
-            >
-               *
-            </span>
-          </label>
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
           >
             <div
-              aria-haspopup="listbox"
-              aria-label="Project Type"
-              aria-labelledby="project_type-label project_type"
-              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
-              id="project_type"
-              role="button"
-              tabindex="0"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
             >
-              <span>
-                ​
-              </span>
-            </div>
-            <input
-              aria-hidden="true"
-              class="MuiSelect-nativeInput"
-              name="project_type"
-              required=""
-              tabindex="-1"
-              value=""
-            />
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M7 10l5 5 5-5z"
-              />
-            </svg>
-            <fieldset
-              aria-hidden="true"
-              class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="PrivateNotchedOutline-legendLabelled-22"
+              <div
+                class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
               >
-                <span>
-                  Project Type
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-contained Mui-required"
-          />
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-item"
-      >
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6"
-        >
-          <div
-            class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-required Mui-required"
-              data-shrink="true"
-              for="start_date"
-              id="start_date-label"
-            >
-              Start Date
-              <span
-                aria-hidden="true"
-                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
-              >
-                 *
-              </span>
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
-            >
-              <input
-                aria-invalid="false"
-                class="MuiInputBase-input MuiOutlinedInput-input"
-                data-testid="start-date"
-                id="start_date"
-                max="2100-12-31"
-                min="1900-01-01"
-                name="start_date"
-                required=""
-                type="date"
-                value=""
-              />
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-22 PrivateNotchedOutline-legendNotched-23"
+                <label
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
+                  data-shrink="false"
+                  for="project_name"
+                  id="project_name-label"
                 >
-                  <span>
-                    Start Date *
+                  Project Name
+                  <span
+                    aria-hidden="true"
+                    class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+                  >
+                     *
                   </span>
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6"
-        >
-          <div
-            class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined"
-              data-shrink="true"
-              for="end_date"
-              id="end_date-label"
-            >
-              End Date
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
-            >
-              <input
-                aria-invalid="false"
-                class="MuiInputBase-input MuiOutlinedInput-input"
-                data-testid="end-date"
-                id="end_date"
-                max="2100-12-31"
-                min="1900-01-01"
-                name="end_date"
-                type="date"
-                value=""
-              />
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-22 PrivateNotchedOutline-legendNotched-23"
+                </label>
+                <div
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
                 >
-                  <span>
+                  <input
+                    aria-invalid="false"
+                    class="MuiInputBase-input MuiOutlinedInput-input"
+                    id="project_name"
+                    required=""
+                    type="text"
+                    value=""
+                  />
+                  <fieldset
+                    aria-hidden="true"
+                    class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="PrivateNotchedOutline-legendLabelled-22"
+                    >
+                      <span>
+                        Project Name *
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-item"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6"
+              >
+                <div
+                  class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+                >
+                  <label
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-required Mui-required"
+                    data-shrink="true"
+                    for="start_date"
+                    id="start_date-label"
+                  >
+                    Start Date
+                    <span
+                      aria-hidden="true"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+                    >
+                       *
+                    </span>
+                  </label>
+                  <div
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                  >
+                    <input
+                      aria-invalid="false"
+                      class="MuiInputBase-input MuiOutlinedInput-input"
+                      data-testid="start-date"
+                      id="start_date"
+                      max="2100-12-31"
+                      min="1900-01-01"
+                      name="start_date"
+                      required=""
+                      type="date"
+                      value=""
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="PrivateNotchedOutline-legendLabelled-22 PrivateNotchedOutline-legendNotched-23"
+                      >
+                        <span>
+                          Start Date *
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6"
+              >
+                <div
+                  class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+                >
+                  <label
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined"
+                    data-shrink="true"
+                    for="end_date"
+                    id="end_date-label"
+                  >
                     End Date
+                  </label>
+                  <div
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                  >
+                    <input
+                      aria-invalid="false"
+                      class="MuiInputBase-input MuiOutlinedInput-input"
+                      data-testid="end-date"
+                      id="end_date"
+                      max="2100-12-31"
+                      min="1900-01-01"
+                      name="end_date"
+                      type="date"
+                      value=""
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="PrivateNotchedOutline-legendLabelled-22 PrivateNotchedOutline-legendNotched-23"
+                      >
+                        <span>
+                          End Date
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+            >
+              <div
+                class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+              >
+                <label
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
+                  data-shrink="false"
+                  for="objectives"
+                  id="objectives-label"
+                >
+                  Objectives
+                  <span
+                    aria-hidden="true"
+                    class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+                  >
+                     *
                   </span>
-                </legend>
-              </fieldset>
+                </label>
+                <div
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
+                >
+                  <textarea
+                    aria-invalid="false"
+                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+                    id="objectives"
+                    name="objectives"
+                    required=""
+                    rows="4"
+                  />
+                  <fieldset
+                    aria-hidden="true"
+                    class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="PrivateNotchedOutline-legendLabelled-22"
+                    >
+                      <span>
+                        Objectives *
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
             </div>
           </div>
+          <fieldset
+            class="MuiBox-root MuiBox-root-24"
+          >
+            <legend
+              class="MuiTypography-root MuiTypography-body1"
+            >
+              IUCN Conservation Actions Classifications (Optional)
+            </legend>
+            <div
+              class="MuiBox-root MuiBox-root-25"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+              >
+                Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach each of the project's objectives.
+              </p>
+            </div>
+            <ul
+              class="MuiList-root MuiList-padding"
+            >
+              <li
+                class="MuiListItem-container"
+              >
+                <div
+                  class="MuiListItem-root makeStyles-customListItem-18 MuiListItem-gutters MuiListItem-secondaryAction"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+                    >
+                      <div
+                        class="MuiFormControl-root MuiFormControl-fullWidth"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+                          data-shrink="false"
+                          id="iucn-classification"
+                        >
+                          Classification
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+                        >
+                          <div
+                            aria-haspopup="listbox"
+                            aria-labelledby="iucn-classification iucn-classification-select"
+                            class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+                            id="iucn-classification-select"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <span>
+                              ​
+                            </span>
+                          </div>
+                          <input
+                            aria-hidden="true"
+                            class="MuiSelect-nativeInput"
+                            tabindex="-1"
+                            value=""
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M7 10l5 5 5-5z"
+                            />
+                          </svg>
+                          <fieldset
+                            aria-hidden="true"
+                            class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
+                          >
+                            <legend
+                              class="PrivateNotchedOutline-legendLabelled-22"
+                            >
+                              <span>
+                                Classification
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+                    >
+                      <div
+                        class="MuiFormControl-root MuiFormControl-fullWidth"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+                          data-shrink="false"
+                          id="sub-classification-1"
+                        >
+                          Sub-classification
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+                        >
+                          <div
+                            aria-haspopup="listbox"
+                            aria-labelledby="sub-classification-1 icun-subclass-select-1"
+                            class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+                            id="icun-subclass-select-1"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <span>
+                              ​
+                            </span>
+                          </div>
+                          <input
+                            aria-hidden="true"
+                            class="MuiSelect-nativeInput"
+                            tabindex="-1"
+                            value=""
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M7 10l5 5 5-5z"
+                            />
+                          </svg>
+                          <fieldset
+                            aria-hidden="true"
+                            class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
+                          >
+                            <legend
+                              class="PrivateNotchedOutline-legendLabelled-22"
+                            >
+                              <span>
+                                Sub-classification
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+                    >
+                      <div
+                        class="MuiFormControl-root MuiFormControl-fullWidth"
+                      >
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+                          data-shrink="false"
+                          id="sub-classification-2"
+                        >
+                          Sub-classification
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+                        >
+                          <div
+                            aria-haspopup="listbox"
+                            aria-labelledby="sub-classification-2 iucn-subclass-select-2"
+                            class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+                            id="iucn-subclass-select-2"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <span>
+                              ​
+                            </span>
+                          </div>
+                          <input
+                            aria-hidden="true"
+                            class="MuiSelect-nativeInput"
+                            tabindex="-1"
+                            value=""
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M7 10l5 5 5-5z"
+                            />
+                          </svg>
+                          <fieldset
+                            aria-hidden="true"
+                            class="PrivateNotchedOutline-root-20 MuiOutlinedInput-notchedOutline"
+                          >
+                            <legend
+                              class="PrivateNotchedOutline-legendLabelled-22"
+                            >
+                              <span>
+                                Sub-classification
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiListItemSecondaryAction-root"
+                >
+                  <button
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiIconButton-label"
+                    >
+                      <svg
+                        role="presentation"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </li>
+            </ul>
+            <div
+              class="MuiBox-root MuiBox-root-26"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  <span
+                    class="MuiButton-startIcon MuiButton-iconSizeMedium"
+                  >
+                    <svg
+                      role="presentation"
+                      style="width: 1.5rem; height: 1.5rem;"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+                        style="fill: currentColor;"
+                      />
+                    </svg>
+                  </span>
+                  Add Classification
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </fieldset>
         </div>
       </div>
     </div>
@@ -920,10 +950,10 @@ exports[`ProjectStepComponents renders the project funding with the codes values
 <DocumentFragment>
   <form>
     <div
-      class="MuiBox-root MuiBox-root-41"
+      class="MuiBox-root MuiBox-root-44"
     >
       <header
-        class="MuiBox-root MuiBox-root-42"
+        class="MuiBox-root MuiBox-root-45"
       >
         <h3
           class="MuiTypography-root MuiTypography-h3"
@@ -963,10 +993,10 @@ exports[`ProjectStepComponents renders the project funding with the codes values
         </button>
       </header>
       <div
-        class="MuiBox-root MuiBox-root-43"
+        class="MuiBox-root MuiBox-root-46"
       >
         <div
-          class="MuiBox-root MuiBox-root-44"
+          class="MuiBox-root MuiBox-root-47"
         >
           <ul
             class="MuiList-root MuiList-dense"
@@ -975,7 +1005,7 @@ exports[`ProjectStepComponents renders the project funding with the codes values
               class="MuiPaper-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiPaper-elevation1 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-45"
+                class="MuiBox-root MuiBox-root-48"
               >
                 <h6
                   class="MuiTypography-root MuiTypography-subtitle2"
@@ -996,10 +1026,10 @@ exports[`ProjectStepComponents renders the project funding without the codes val
 <DocumentFragment>
   <form>
     <div
-      class="MuiBox-root MuiBox-root-51"
+      class="MuiBox-root MuiBox-root-54"
     >
       <header
-        class="MuiBox-root MuiBox-root-52"
+        class="MuiBox-root MuiBox-root-55"
       >
         <h3
           class="MuiTypography-root MuiTypography-h3"
@@ -1039,10 +1069,10 @@ exports[`ProjectStepComponents renders the project funding without the codes val
         </button>
       </header>
       <div
-        class="MuiBox-root MuiBox-root-53"
+        class="MuiBox-root MuiBox-root-56"
       >
         <div
-          class="MuiBox-root MuiBox-root-54"
+          class="MuiBox-root MuiBox-root-57"
         >
           <ul
             class="MuiList-root MuiList-dense"
@@ -1051,7 +1081,7 @@ exports[`ProjectStepComponents renders the project funding without the codes val
               class="MuiPaper-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiPaper-elevation1 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-55"
+                class="MuiBox-root MuiBox-root-58"
               >
                 <h6
                   class="MuiTypography-root MuiTypography-subtitle2"
@@ -1100,10 +1130,10 @@ exports[`ProjectStepComponents renders the project location 1`] = `
             />
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-66 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-69 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-68"
+                class="PrivateNotchedOutline-legendLabelled-71"
               >
                 <span>
                   Location Description
@@ -1117,12 +1147,12 @@ exports[`ProjectStepComponents renders the project location 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
       >
         <p
-          class="MuiTypography-root makeStyles-bold-70 MuiTypography-body1"
+          class="MuiTypography-root makeStyles-bold-73 MuiTypography-body1"
         >
           Project Boundary
         </p>
         <div
-          class="MuiBox-root MuiBox-root-73"
+          class="MuiBox-root MuiBox-root-76"
         >
           <p
             class="MuiTypography-root MuiTypography-body1"
@@ -1130,7 +1160,7 @@ exports[`ProjectStepComponents renders the project location 1`] = `
             Define your boundary by selecting a boundary from an existing layer or by uploading KML file or shapefile.
           </p>
           <div
-            class="MuiBox-root MuiBox-root-74"
+            class="MuiBox-root MuiBox-root-77"
           >
             <p
               class="MuiTypography-root MuiTypography-body1"
@@ -1140,7 +1170,7 @@ exports[`ProjectStepComponents renders the project location 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-75"
+          class="MuiBox-root MuiBox-root-78"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
@@ -1172,7 +1202,7 @@ exports[`ProjectStepComponents renders the project location 1`] = `
             />
           </button>
           <div
-            class="MuiBox-root MuiBox-root-76"
+            class="MuiBox-root MuiBox-root-79"
           >
             <div
               class="MuiFormControl-root"
@@ -1220,10 +1250,10 @@ exports[`ProjectStepComponents renders the project location 1`] = `
                 </svg>
                 <fieldset
                   aria-hidden="true"
-                  class="PrivateNotchedOutline-root-66 MuiOutlinedInput-notchedOutline"
+                  class="PrivateNotchedOutline-root-69 MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="PrivateNotchedOutline-legendLabelled-68"
+                    class="PrivateNotchedOutline-legendLabelled-71"
                   >
                     <span>
                       Select Layer
@@ -1235,10 +1265,10 @@ exports[`ProjectStepComponents renders the project location 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-77"
+          class="MuiBox-root MuiBox-root-80"
         />
         <div
-          class="MuiBox-root MuiBox-root-78"
+          class="MuiBox-root MuiBox-root-81"
         >
           <div
             class="leaflet-container leaflet-grab leaflet-touch-drag"
@@ -1547,10 +1577,10 @@ exports[`ProjectStepComponents renders the project objectives 1`] = `
             />
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-24 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-27 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-26"
+                class="PrivateNotchedOutline-legendLabelled-29"
               >
                 <span>
                   Objectives *
@@ -1586,10 +1616,10 @@ exports[`ProjectStepComponents renders the project objectives 1`] = `
             />
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-24 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-27 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-26"
+                class="PrivateNotchedOutline-legendLabelled-29"
               >
                 <span>
                   Caveats (Optional)
@@ -1700,10 +1730,10 @@ exports[`ProjectStepComponents renders the project partnerships with the codes v
               </div>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-57 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-60 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-59"
+                  class="PrivateNotchedOutline-legendLabelled-62"
                 >
                   <span>
                     Indigenous Partnerships
@@ -1804,10 +1834,10 @@ exports[`ProjectStepComponents renders the project partnerships with the codes v
               </div>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-57 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-60 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-59"
+                  class="PrivateNotchedOutline-legendLabelled-62"
                 >
                   <span>
                     Other Partnerships
@@ -1919,10 +1949,10 @@ exports[`ProjectStepComponents renders the project partnerships without the code
               </div>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-62 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-65 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-64"
+                  class="PrivateNotchedOutline-legendLabelled-67"
                 >
                   <span>
                     Indigenous Partnerships
@@ -2023,10 +2053,10 @@ exports[`ProjectStepComponents renders the project partnerships without the code
               </div>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-62 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-65 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-64"
+                  class="PrivateNotchedOutline-legendLabelled-67"
                 >
                   <span>
                     Other Partnerships

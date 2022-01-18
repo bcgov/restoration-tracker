@@ -19,7 +19,7 @@ import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import {
-  IGetProjectForUpdateResponseDetails,
+  IGetGeneralInformationForUpdateResponseDetails,
   IGetProjectForViewResponse,
   UPDATE_GET_ENTITIES
 } from 'interfaces/useProjectApi.interface';
@@ -65,7 +65,9 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
   };
 
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [detailsDataForUpdate, setDetailsDataForUpdate] = useState<IGetProjectForUpdateResponseDetails>(null as any);
+  const [detailsDataForUpdate, setDetailsDataForUpdate] = useState<IGetGeneralInformationForUpdateResponseDetails>(
+    null as any
+  );
   const [detailsFormData, setDetailsFormData] = useState<IProjectGeneralInformationForm>(
     ProjectGeneralInformationFormInitialValues
   );
@@ -92,7 +94,6 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
     setDetailsFormData({
       project_name: detailsResponseData.project_name,
-      project_type: detailsResponseData.project_type,
       start_date: getFormattedDate(DATE_FORMAT.ShortDateFormat, detailsResponseData.start_date),
       end_date: getFormattedDate(DATE_FORMAT.ShortDateFormat, detailsResponseData.end_date)
     } as any);
@@ -149,14 +150,6 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
               </Typography>
               <Typography component="dd" variant="body1">
                 {project.project_name}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Typography component="dt" variant="subtitle2" color="textSecondary">
-                Project Type
-              </Typography>
-              <Typography component="dd" variant="body1">
-                {project.project_type}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>

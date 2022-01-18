@@ -33,15 +33,7 @@ const ProjectStepComponents: React.FC<IProjectStepComponentsProps> = (props) => 
         />
       )}
 
-      {component === 'ProjectDetails' && (
-        <ProjectGeneralInformationForm
-          project_type={
-            codes?.project_type?.map((item) => {
-              return { value: item.id, label: item.name };
-            }) || []
-          }
-        />
-      )}
+      {component === 'ProjectGeneralInformation' && <ProjectGeneralInformationForm />}
 
       {component === 'ProjectObjectives' && <ProjectObjectivesForm />}
 

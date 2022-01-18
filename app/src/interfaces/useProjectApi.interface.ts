@@ -120,7 +120,7 @@ export enum UPDATE_GET_ENTITIES {
  * @interface IGetProjectForUpdateResponse
  */
 export interface IGetProjectForUpdateResponse {
-  project?: IGetProjectForUpdateResponseDetails;
+  project?: IGetGeneralInformationForUpdateResponseDetails;
   permit?: IGetProjectForUpdateResponsePermit;
   objectives?: IGetProjectForUpdateResponseObjectives;
   location?: IGetProjectForUpdateResponseLocation;
@@ -130,9 +130,8 @@ export interface IGetProjectForUpdateResponse {
   partnerships?: IGetProjectForUpdateResponsePartnerships;
 }
 
-export interface IGetProjectForUpdateResponseDetails {
+export interface IGetGeneralInformationForUpdateResponseDetails {
   project_name: string;
-  project_type: number;
   start_date: string;
   end_date: string;
   revision_count: number;
