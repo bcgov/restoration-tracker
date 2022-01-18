@@ -20,7 +20,10 @@ $$
 declare
   
 begin
-    
+  delete from treatment where treatment_unit_id in (select treatment_unit_id from treatment_unit where project_id = p_project_id);
+  delete from treatment_unit_spatial_component where treatment_unit_id in (select treatment_unit_id from treatment_unit where project_id = p_project_id);
+  delete from treatment_unit where project_id = p_project_id;
+
   delete from security where project_id = p_project_id;
   delete from permit where project_id = p_project_id;
   delete from project_spatial_component where project_id = p_project_id;
