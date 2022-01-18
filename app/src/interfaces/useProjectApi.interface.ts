@@ -1,5 +1,5 @@
 import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
-import { IProjectDetailsForm } from 'features/projects/components/ProjectDetailsForm';
+import { IProjectGeneralInformationForm } from 'features/projects/components/ProjectGeneralInformationForm';
 import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
 import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
 import { IProjectLocationForm } from 'features/projects/components/ProjectLocationForm';
@@ -84,7 +84,7 @@ export interface IGetProjectsListResponse {
 export interface ICreateProjectRequest {
   coordinator: IProjectCoordinatorForm;
   permit: IProjectPermitForm;
-  project: IProjectDetailsForm;
+  project: IProjectGeneralInformationForm;
   objectives: IProjectObjectivesForm;
   location: IProjectLocationForm;
   iucn: IProjectIUCNForm;

@@ -8,7 +8,7 @@ import {
   waitFor
 } from '@testing-library/react';
 import { DialogContextProvider } from 'contexts/dialogContext';
-import { ProjectDetailsFormInitialValues } from 'features/projects/components/ProjectDetailsForm';
+import { ProjectGeneralInformationFormInitialValues } from 'features/projects/components/ProjectGeneralInformationForm';
 import { ProjectFundingFormInitialValues } from 'features/projects/components/ProjectFundingForm';
 import { ProjectIUCNFormInitialValues } from 'features/projects/components/ProjectIUCNForm';
 import { ProjectLocationFormInitialValues } from 'features/projects/components/ProjectLocationForm';
@@ -236,7 +236,7 @@ describe('CreateProjectPage', () => {
             share_contact_details: 'false'
           },
           permit: ProjectPermitFormInitialValues,
-          project: ProjectDetailsFormInitialValues,
+          project: ProjectGeneralInformationFormInitialValues,
           objectives: ProjectObjectivesFormInitialValues,
           location: ProjectLocationFormInitialValues,
           iucn: ProjectIUCNFormInitialValues,

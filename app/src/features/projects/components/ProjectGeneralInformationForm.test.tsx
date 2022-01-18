@@ -2,11 +2,11 @@ import { render } from '@testing-library/react';
 import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import { Formik } from 'formik';
 import React from 'react';
-import ProjectDetailsForm, {
-  IProjectDetailsForm,
-  ProjectDetailsFormInitialValues,
-  ProjectDetailsFormYupSchema
-} from './ProjectDetailsForm';
+import ProjectGeneralInformationForm, {
+  IProjectGeneralInformationForm,
+  ProjectGeneralInformationFormInitialValues,
+  ProjectGeneralInformationFormYupSchema
+} from './ProjectGeneralInformationForm';
 
 const project_type: IMultiAutocompleteFieldOption[] = [
   {
@@ -23,16 +23,16 @@ const project_type: IMultiAutocompleteFieldOption[] = [
   }
 ];
 
-describe('ProjectDetailsForm', () => {
+describe('ProjectGeneralInformationForm', () => {
   it('renders correctly with default empty values', () => {
     const { asFragment } = render(
       <Formik
-        initialValues={ProjectDetailsFormInitialValues}
-        validationSchema={ProjectDetailsFormYupSchema}
+        initialValues={ProjectGeneralInformationFormInitialValues}
+        validationSchema={ProjectGeneralInformationFormYupSchema}
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectDetailsForm project_type={project_type} />}
+        {() => <ProjectGeneralInformationForm project_type={project_type} />}
       </Formik>
     );
 
@@ -40,7 +40,7 @@ describe('ProjectDetailsForm', () => {
   });
 
   it('renders correctly with existing details values', () => {
-    const existingFormValues: IProjectDetailsForm = {
+    const existingFormValues: IProjectGeneralInformationForm = {
       project_name: 'name 1',
       project_type: 2,
       start_date: '2021-03-14',
@@ -50,11 +50,11 @@ describe('ProjectDetailsForm', () => {
     const { asFragment } = render(
       <Formik
         initialValues={existingFormValues}
-        validationSchema={ProjectDetailsFormYupSchema}
+        validationSchema={ProjectGeneralInformationFormYupSchema}
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectDetailsForm project_type={project_type} />}
+        {() => <ProjectGeneralInformationForm project_type={project_type} />}
       </Formik>
     );
 

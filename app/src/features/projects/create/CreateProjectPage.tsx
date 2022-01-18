@@ -19,9 +19,9 @@ import {
   ProjectCoordinatorYupSchema
 } from 'features/projects/components/ProjectCoordinatorForm';
 import {
-  ProjectDetailsFormInitialValues,
-  ProjectDetailsFormYupSchema
-} from 'features/projects/components/ProjectDetailsForm';
+  ProjectGeneralInformationFormInitialValues,
+  ProjectGeneralInformationFormYupSchema
+} from 'features/projects/components/ProjectGeneralInformationForm';
 import ProjectDraftForm, {
   IProjectDraftForm,
   ProjectDraftFormInitialValues,
@@ -174,7 +174,7 @@ const CreateProjectPage: React.FC = () => {
   const [initialProjectFieldData, setInitialProjectFieldData] = useState<ICreateProjectRequest>({
     coordinator: ProjectCoordinatorInitialValues,
     permit: ProjectPermitFormInitialValues,
-    project: ProjectDetailsFormInitialValues,
+    project: ProjectGeneralInformationFormInitialValues,
     objectives: ProjectObjectivesFormInitialValues,
     location: ProjectLocationFormInitialValues,
     iucn: ProjectIUCNFormInitialValues,
@@ -288,7 +288,7 @@ const CreateProjectPage: React.FC = () => {
         stepSubTitle: 'Enter general information and details about this project.',
         stepContent: <ProjectStepComponents component="ProjectDetails" codes={codes} />,
         stepInitialValues: initialProjectFieldData.project,
-        stepYupSchema: ProjectDetailsFormYupSchema,
+        stepYupSchema: ProjectGeneralInformationFormYupSchema,
         isValid: false,
         isTouched: false
       },

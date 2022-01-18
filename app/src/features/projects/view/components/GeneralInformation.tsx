@@ -11,10 +11,10 @@ import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { EditGeneralInformationI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import {
-  IProjectDetailsForm,
-  ProjectDetailsFormInitialValues,
-  ProjectDetailsFormYupSchema
-} from 'features/projects/components/ProjectDetailsForm';
+  IProjectGeneralInformationForm,
+  ProjectGeneralInformationFormInitialValues,
+  ProjectGeneralInformationFormYupSchema
+} from 'features/projects/components/ProjectGeneralInformationForm';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
@@ -27,7 +27,7 @@ import React, { useContext, useState } from 'react';
 import ProjectStepComponents from 'utils/ProjectStepComponents';
 import { getFormattedDate, getFormattedDateRangeString } from 'utils/Utils';
 
-export interface IProjectDetailsProps {
+export interface IProjectGeneralInformationProps {
   projectForViewData: IGetProjectForViewResponse;
   codes: IGetAllCodeSetsResponse;
   refresh: () => void;
@@ -38,7 +38,7 @@ export interface IProjectDetailsProps {
  *
  * @return {*}
  */
-const GeneralInformation: React.FC<IProjectDetailsProps> = (props) => {
+const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) => {
   const {
     projectForViewData: { project, id },
     codes
@@ -66,7 +66,9 @@ const GeneralInformation: React.FC<IProjectDetailsProps> = (props) => {
 
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [detailsDataForUpdate, setDetailsDataForUpdate] = useState<IGetProjectForUpdateResponseDetails>(null as any);
-  const [detailsFormData, setDetailsFormData] = useState<IProjectDetailsForm>(ProjectDetailsFormInitialValues);
+  const [detailsFormData, setDetailsFormData] = useState<IProjectGeneralInformationForm>(
+    ProjectGeneralInformationFormInitialValues
+  );
 
   const handleDialogEditOpen = async () => {
     let detailsResponseData;
@@ -98,7 +100,7 @@ const GeneralInformation: React.FC<IProjectDetailsProps> = (props) => {
     setOpenEditDialog(true);
   };
 
-  const handleDialogEditSave = async (values: IProjectDetailsForm) => {
+  const handleDialogEditSave = async (values: IProjectGeneralInformationForm) => {
     const projectData = {
       project: { ...values, revision_count: detailsDataForUpdate.revision_count }
     };
@@ -124,7 +126,7 @@ const GeneralInformation: React.FC<IProjectDetailsProps> = (props) => {
         component={{
           element: <ProjectStepComponents component="ProjectDetails" codes={codes} />,
           initialValues: detailsFormData,
-          validationSchema: ProjectDetailsFormYupSchema
+          validationSchema: ProjectGeneralInformationFormYupSchema
         }}
         onCancel={() => setOpenEditDialog(false)}
         onSave={handleDialogEditSave}

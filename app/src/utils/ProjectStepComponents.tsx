@@ -1,5 +1,5 @@
 import ProjectCoordinatorForm from 'features/projects/components/ProjectCoordinatorForm';
-import ProjectDetailsForm from 'features/projects/components/ProjectDetailsForm';
+import ProjectGeneralInformationForm from 'features/projects/components/ProjectGeneralInformationForm';
 import ProjectFundingForm from 'features/projects/components/ProjectFundingForm';
 import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm';
 import ProjectLocationForm from 'features/projects/components/ProjectLocationForm';
@@ -34,7 +34,7 @@ const ProjectStepComponents: React.FC<IProjectStepComponentsProps> = (props) => 
       )}
 
       {component === 'ProjectDetails' && (
-        <ProjectDetailsForm
+        <ProjectGeneralInformationForm
           project_type={
             codes?.project_type?.map((item) => {
               return { value: item.id, label: item.name };

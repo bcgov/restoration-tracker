@@ -4,9 +4,9 @@ import {
   ProjectCoordinatorYupSchema
 } from 'features/projects/components/ProjectCoordinatorForm';
 import {
-  ProjectDetailsFormInitialValues,
-  ProjectDetailsFormYupSchema
-} from 'features/projects/components/ProjectDetailsForm';
+  ProjectGeneralInformationFormInitialValues,
+  ProjectGeneralInformationFormYupSchema
+} from 'features/projects/components/ProjectGeneralInformationForm';
 import {
   ProjectFundingFormInitialValues,
   ProjectFundingFormYupSchema
@@ -54,8 +54,8 @@ describe('ProjectStepComponents', () => {
   it('renders the project details with the codes values', () => {
     const { asFragment } = render(
       <Formik
-        initialValues={ProjectDetailsFormInitialValues}
-        validationSchema={ProjectDetailsFormYupSchema}
+        initialValues={ProjectGeneralInformationFormInitialValues}
+        validationSchema={ProjectGeneralInformationFormYupSchema}
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
@@ -69,18 +69,17 @@ describe('ProjectStepComponents', () => {
   it('renders the project details without the codes values', () => {
     const { asFragment } = render(
       <Formik
-        initialValues={ProjectDetailsFormInitialValues}
-        validationSchema={ProjectDetailsFormYupSchema}
+        initialValues={ProjectGeneralInformationFormInitialValues}
+        validationSchema={ProjectGeneralInformationFormYupSchema}
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
         {() => (
           <ProjectStepComponents
-            component="ProjectDetails"
+            component="ProjectGeneralInformation"
             codes={{
               ...codes,
-              project_type: (null as unknown) as any,
-              activity: (null as unknown) as any
+              project_type: (null as unknown) as any
             }}
           />
         )}
