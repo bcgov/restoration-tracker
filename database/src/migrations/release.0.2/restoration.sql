@@ -2,7 +2,7 @@
 -- ER/Studio Data Architect SQL Code Generation
 -- Project :      Restoration.DM1
 --
--- Date Created : Tuesday, January 18, 2022 12:49:56
+-- Date Created : Wednesday, January 19, 2022 14:31:53
 -- Target DBMS : PostgreSQL 10.x-12.x
 --
 
@@ -205,7 +205,7 @@ CREATE TABLE first_nations(
 
 COMMENT ON COLUMN first_nations.first_nations_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN first_nations.name IS 'Name of the First Nation.'
+COMMENT ON COLUMN first_nations.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN first_nations.description IS 'The description of the record.'
 ;
@@ -294,7 +294,7 @@ CREATE TABLE funding_source(
 
 COMMENT ON COLUMN funding_source.funding_source_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN funding_source.name IS 'The name of the funding source.'
+COMMENT ON COLUMN funding_source.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN funding_source.description IS 'The description of the record.'
 ;
@@ -343,7 +343,7 @@ COMMENT ON COLUMN investment_action_category.investment_action_category_id IS 'S
 ;
 COMMENT ON COLUMN investment_action_category.funding_source_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN investment_action_category.name IS 'The name of the investment or action category.'
+COMMENT ON COLUMN investment_action_category.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN investment_action_category.description IS 'The description of the record.'
 ;
@@ -526,7 +526,7 @@ CREATE TABLE linear_feature_type(
 
 COMMENT ON COLUMN linear_feature_type.linear_feature_type_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN linear_feature_type.name IS 'Name of the First Nation.'
+COMMENT ON COLUMN linear_feature_type.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN linear_feature_type.description IS 'The description of the record.'
 ;
@@ -554,7 +554,7 @@ COMMENT ON TABLE linear_feature_type IS 'A list of linear feature types.'
 CREATE TABLE permit(
     permit_id                    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
     system_user_id               integer           NOT NULL,
-    project_id                   integer           NOT NULL,
+    project_id                   integer,
     number                       varchar(100)      NOT NULL,
     type                         varchar(300)      NOT NULL,
     coordinator_first_name       varchar(50),
@@ -714,7 +714,7 @@ CREATE TABLE project_attachment(
     update_date              timestamptz(6),
     update_user              integer,
     revision_count           integer           DEFAULT 0 NOT NULL,
-    CONSTRAINT project_report_attachment_pk PRIMARY KEY (project_attachment_id)
+    CONSTRAINT project_attachment_pk PRIMARY KEY (project_attachment_id)
 )
 ;
 
@@ -942,7 +942,7 @@ CREATE TABLE project_role(
 
 COMMENT ON COLUMN project_role.project_role_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN project_role.name IS 'The name of the project role.'
+COMMENT ON COLUMN project_role.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN project_role.description IS 'The description of the project role.'
 ;
@@ -1041,7 +1041,7 @@ CREATE TABLE project_spatial_component_type(
 
 COMMENT ON COLUMN project_spatial_component_type.project_spatial_component_type_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN project_spatial_component_type.name IS 'Name of the First Nation.'
+COMMENT ON COLUMN project_spatial_component_type.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN project_spatial_component_type.description IS 'The description of the record.'
 ;
@@ -1085,7 +1085,7 @@ CREATE TABLE project_type(
 
 COMMENT ON COLUMN project_type.project_type_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN project_type.name IS 'The name of the project role.'
+COMMENT ON COLUMN project_type.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN project_type.record_effective_date IS 'Record level effective date.'
 ;
@@ -1176,7 +1176,7 @@ CREATE TABLE security_rule(
 
 COMMENT ON COLUMN security_rule.security_rule_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN security_rule.name IS 'The name of the project role.'
+COMMENT ON COLUMN security_rule.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN security_rule.rule_definition IS 'The definition of the rule suitable for application in code to apply the security rule.'
 ;
@@ -1226,7 +1226,7 @@ COMMENT ON COLUMN stakeholder_partnership.stakeholder_partnership_id IS 'System 
 ;
 COMMENT ON COLUMN stakeholder_partnership.project_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN stakeholder_partnership.name IS 'The name of the stakeholder.'
+COMMENT ON COLUMN stakeholder_partnership.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN stakeholder_partnership.create_date IS 'The datetime the record was created.'
 ;
@@ -1525,7 +1525,7 @@ CREATE TABLE treatment_type(
 
 COMMENT ON COLUMN treatment_type.treatment_type_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN treatment_type.name IS 'Name of the First Nation.'
+COMMENT ON COLUMN treatment_type.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN treatment_type.description IS 'The description of the record.'
 ;
@@ -1672,7 +1672,7 @@ CREATE TABLE treatment_unit_spatial_component_type(
 
 COMMENT ON COLUMN treatment_unit_spatial_component_type.treatment_unit_spatial_component_type_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.name IS 'Name of the First Nation.'
+COMMENT ON COLUMN treatment_unit_spatial_component_type.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN treatment_unit_spatial_component_type.description IS 'The description of the record.'
 ;
@@ -1765,7 +1765,7 @@ COMMENT ON COLUMN webform_draft.webform_draft_id IS 'System generated surrogate 
 ;
 COMMENT ON COLUMN webform_draft.system_user_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN webform_draft.name IS 'The name of the draft record.'
+COMMENT ON COLUMN webform_draft.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN webform_draft.data IS 'The json data associated with the record.'
 ;
@@ -1812,19 +1812,19 @@ CREATE INDEX "Ref1612" ON administrative_activity(administrative_activity_status
 -- INDEX: administrative_activity_status_type_nuk1 
 --
 
-CREATE UNIQUE INDEX administrative_activity_status_type_nuk1 ON administrative_activity_status_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX administrative_activity_status_type_nuk1 ON administrative_activity_status_type(name, record_end_date)
 ;
 -- 
 -- INDEX: administrative_activity_type_nuk1 
 --
 
-CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity_type(name, record_end_date)
 ;
 -- 
 -- INDEX: first_nations_nuk1 
 --
 
-CREATE UNIQUE INDEX first_nations_nuk1 ON first_nations(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX first_nations_nuk1 ON first_nations(name, record_end_date)
 ;
 -- 
 -- INDEX: focal_population_units_uk1 
@@ -1842,7 +1842,7 @@ CREATE INDEX "Ref1337" ON focal_population_units(project_id)
 -- INDEX: funding_source_nuk1 
 --
 
-CREATE UNIQUE INDEX funding_source_nuk1 ON funding_source(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX funding_source_nuk1 ON funding_source(name, record_end_date)
 ;
 -- 
 -- INDEX: investment_action_category_nuk1 
@@ -1860,7 +1860,7 @@ CREATE INDEX "Ref253" ON investment_action_category(funding_source_id)
 -- INDEX: iucn_conservation_action_level_1_classification_nuk1 
 --
 
-CREATE UNIQUE INDEX iucn_conservation_action_level_1_classification_nuk1 ON iucn_conservation_action_level_1_classification(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX iucn_conservation_action_level_1_classification_nuk1 ON iucn_conservation_action_level_1_classification(name, record_end_date)
 ;
 -- 
 -- INDEX: iucn_conservation_action_level_2_subclassification_nuk1 
@@ -1890,7 +1890,7 @@ CREATE INDEX "Ref727" ON iucn_conservation_action_level_3_subclassification(iucn
 -- INDEX: linear_feature_type_nuk1 
 --
 
-CREATE UNIQUE INDEX linear_feature_type_nuk1 ON linear_feature_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX linear_feature_type_nuk1 ON linear_feature_type(name, record_end_date)
 ;
 -- 
 -- INDEX: permit_uk1 
@@ -1899,16 +1899,16 @@ CREATE UNIQUE INDEX linear_feature_type_nuk1 ON linear_feature_type(name, (recor
 CREATE UNIQUE INDEX permit_uk1 ON permit(number)
 ;
 -- 
--- INDEX: "Ref1317" 
---
-
-CREATE INDEX "Ref1317" ON permit(project_id)
-;
--- 
 -- INDEX: "Ref2926" 
 --
 
 CREATE INDEX "Ref2926" ON permit(system_user_id)
+;
+-- 
+-- INDEX: "Ref1339" 
+--
+
+CREATE INDEX "Ref1339" ON permit(project_id)
 ;
 -- 
 -- INDEX: "Ref3023" 
@@ -1917,10 +1917,10 @@ CREATE INDEX "Ref2926" ON permit(system_user_id)
 CREATE INDEX "Ref3023" ON project(project_type_id)
 ;
 -- 
--- INDEX: project_report_attachment_uk1 
+-- INDEX: project_attachment_uk1 
 --
 
-CREATE UNIQUE INDEX project_report_attachment_uk1 ON project_attachment(project_id, file_name)
+CREATE UNIQUE INDEX project_attachment_uk1 ON project_attachment(project_id, file_name)
 ;
 -- 
 -- INDEX: "Ref1313" 
@@ -2010,7 +2010,7 @@ CREATE INDEX "Ref1516" ON project_participation(project_role_id)
 -- INDEX: project_role_nuk1 
 --
 
-CREATE UNIQUE INDEX project_role_nuk1 ON project_role(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX project_role_nuk1 ON project_role(name, record_end_date)
 ;
 -- 
 -- INDEX: project_spatial_component_uk1 
@@ -2034,13 +2034,13 @@ CREATE INDEX "Ref2422" ON project_spatial_component(project_spatial_component_ty
 -- INDEX: project_spatial_component_type_uk1 
 --
 
-CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_component_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_component_type(name, record_end_date)
 ;
 -- 
 -- INDEX: project_type_nuk1 
 --
 
-CREATE UNIQUE INDEX project_type_nuk1 ON project_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX project_type_nuk1 ON project_type(name, record_end_date)
 ;
 -- 
 -- INDEX: "Ref1918" 
@@ -2088,7 +2088,7 @@ CREATE UNIQUE INDEX system_metadata_constant_id_uk1 ON system_metadata_constant(
 -- INDEX: system_role_nuk1 
 --
 
-CREATE UNIQUE INDEX system_role_nuk1 ON system_role(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX system_role_nuk1 ON system_role(name, record_end_date)
 ;
 -- 
 -- INDEX: system_user_nuk1 
@@ -2142,7 +2142,7 @@ CREATE INDEX "Ref3236" ON treatment(treatment_unit_id)
 -- INDEX: treatment_type_nuk1 
 --
 
-CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, record_end_date)
 ;
 -- 
 -- INDEX: treatment_unit_uk1 
@@ -2184,13 +2184,13 @@ CREATE INDEX "Ref3234" ON treatment_unit_spatial_component(treatment_unit_id)
 -- INDEX: treatment_unit_spatial_component_type_nuk1 
 --
 
-CREATE UNIQUE INDEX treatment_unit_spatial_component_type_nuk1 ON treatment_unit_spatial_component_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX treatment_unit_spatial_component_type_nuk1 ON treatment_unit_spatial_component_type(name, record_end_date)
 ;
 -- 
 -- INDEX: user_identity_source_nuk1 
 --
 
-CREATE UNIQUE INDEX user_identity_source_nuk1 ON user_identity_source(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX user_identity_source_nuk1 ON user_identity_source(name, record_end_date)
 ;
 -- 
 -- INDEX: "Ref298" 
@@ -2267,14 +2267,14 @@ ALTER TABLE iucn_conservation_action_level_3_subclassification ADD CONSTRAINT "R
 -- TABLE: permit 
 --
 
-ALTER TABLE permit ADD CONSTRAINT "Refproject17" 
-    FOREIGN KEY (project_id)
-    REFERENCES project(project_id)
-;
-
 ALTER TABLE permit ADD CONSTRAINT "Refsystem_user26" 
     FOREIGN KEY (system_user_id)
     REFERENCES system_user(system_user_id)
+;
+
+ALTER TABLE permit ADD CONSTRAINT "Refproject39" 
+    FOREIGN KEY (project_id)
+    REFERENCES project(project_id)
 ;
 
 

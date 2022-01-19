@@ -80,7 +80,7 @@ begin
   insert into project_iucn_action_classification (project_id, iucn_conservation_action_level_3_subclassification_id) values (_project_id, (select iucn_conservation_action_level_3_subclassification_id from iucn_conservation_action_level_3_subclassification where name = 'Primary Education'));
   insert into project_attachment (project_id, file_name, title, key, file_size, file_type) values (_project_id, 'test_filename.txt', 'test filename', 'projects/'||_project_id::text, 10000, 'video');
   insert into project_first_nation (project_id, first_nations_id) values (_project_id, (select first_nations_id from first_nations where name = 'Kitselas Nation'));
-  insert into permit (system_user_id, project_id, number, type, issue_date, end_date) values (_system_user_id, _project_id, '8377262', 'permit type', now(), now()+interval '1 day');
+  insert into permit (system_user_id, number, type, issue_date, end_date) values (_system_user_id, '8377262', 'permit type', now(), now()+interval '1 day');
   insert into project_spatial_component (name, project_id, geography, project_spatial_component_type_id) values ('test project spatial', _project_id, _geography, (select project_spatial_component_type_id from project_spatial_component_type where name = 'Boundary'));
 
   select count(1) into _count from stakeholder_partnership;
