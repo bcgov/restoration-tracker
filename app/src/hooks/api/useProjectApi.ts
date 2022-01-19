@@ -1,7 +1,7 @@
 import { AxiosInstance, CancelTokenSource } from 'axios';
+import { ProjectForm } from 'features/projects/interfaces';
 import {
   IAddProjectParticipant,
-  ICreateProjectRequest,
   ICreateProjectResponse,
   IGetProjectAttachmentsResponse,
   IGetProjectForUpdateResponse,
@@ -153,10 +153,10 @@ const useProjectApi = (axios: AxiosInstance) => {
   /**
    * Create a new project.
    *
-   * @param {ICreateProjectRequest} project
+   * @param {ProjectForm} project
    * @return {*}  {Promise<ICreateProjectResponse>}
    */
-  const createProject = async (project: ICreateProjectRequest): Promise<ICreateProjectResponse> => {
+  const createProject = async (project: ProjectForm): Promise<ICreateProjectResponse> => {
     const { data } = await axios.post('/api/project', project);
 
     return data;

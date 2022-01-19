@@ -1,11 +1,3 @@
-import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
-import { IProjectGeneralInformationForm } from 'features/projects/components/ProjectGeneralInformationForm';
-import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
-import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
-import { IProjectLocationForm } from 'features/projects/components/ProjectLocationForm';
-import { IProjectObjectivesForm } from 'features/projects/components/ProjectObjectivesForm';
-import { IProjectPartnershipsForm } from 'features/projects/components/ProjectPartnershipsForm';
-import { IProjectPermitForm } from 'features/projects/components/ProjectPermitForm';
 import { Feature } from 'geojson';
 
 export interface IGetProjectAttachment {
@@ -71,23 +63,6 @@ export interface IGetProjectsListResponse {
   permits_list: string;
   publish_status: string;
   completion_status: string;
-}
-
-/**
- * Create project post object.
- *
- * @export
- * @interface ICreateProjectRequest
- */
-export interface ICreateProjectRequest {
-  coordinator: IProjectCoordinatorForm;
-  permit: IProjectPermitForm;
-  project: IProjectGeneralInformationForm;
-  objectives: IProjectObjectivesForm;
-  location: IProjectLocationForm;
-  iucn: IProjectIUCNForm;
-  funding: IProjectFundingForm;
-  partnerships: IProjectPartnershipsForm;
 }
 
 /**

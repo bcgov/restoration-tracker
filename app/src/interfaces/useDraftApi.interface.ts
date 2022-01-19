@@ -1,4 +1,4 @@
-import { ICreateProjectRequest } from './useProjectApi.interface';
+import { ProjectForm } from 'features/projects/interfaces';
 
 /**
  * Create/Update draft response object.
@@ -31,5 +31,5 @@ export interface IGetDraftsListResponse {
 export interface IGetDraftResponse {
   id: number;
   name: string;
-  data: ICreateProjectRequest;
+  data: ProjectForm;
 }

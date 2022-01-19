@@ -17,34 +17,48 @@ import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import {
   ProjectCoordinatorInitialValues,
+  ProjectCoordinatorYupSchema
 } from 'features/projects/components/ProjectCoordinatorForm';
-import {
-  ProjectGeneralInformationFormInitialValues
-} from 'features/projects/components/ProjectGeneralInformationForm';
 import ProjectDraftForm, {
   IProjectDraftForm,
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
-import { ProjectFundingFormInitialValues } from 'features/projects/components/ProjectFundingForm';
-import ProjectIUCNForm, { ProjectIUCNFormInitialValues } from 'features/projects/components/ProjectIUCNForm';
+import {
+  ProjectFundingFormInitialValues,
+  ProjectFundingFormYupSchema
+} from 'features/projects/components/ProjectFundingForm';
+import ProjectGeneralInformationForm, {
+  ProjectGeneralInformationFormInitialValues,
+  ProjectGeneralInformationFormYupSchema
+} from 'features/projects/components/ProjectGeneralInformationForm';
+import { ProjectIUCNFormInitialValues, ProjectIUCNFormYupSchema } from 'features/projects/components/ProjectIUCNForm';
 import ProjectLocationForm, {
-  ProjectLocationFormInitialValues
+  ProjectLocationFormInitialValues,
+  ProjectLocationFormYupSchema
 } from 'features/projects/components/ProjectLocationForm';
-import { ProjectObjectivesFormInitialValues } from 'features/projects/components/ProjectObjectivesForm';
-import { ProjectPartnershipsFormInitialValues } from 'features/projects/components/ProjectPartnershipsForm';
-import ProjectPermitForm, { ProjectPermitFormInitialValues } from 'features/projects/components/ProjectPermitForm';
-import ProjectGeneralInformationForm from 'features/projects/components/ProjectGeneralInformationForm';
+import {
+  ProjectObjectivesFormInitialValues,
+  ProjectObjectivesFormYupSchema
+} from 'features/projects/components/ProjectObjectivesForm';
+import {
+  ProjectPartnershipsFormInitialValues,
+  ProjectPartnershipsFormYupSchema
+} from 'features/projects/components/ProjectPartnershipsForm';
+import ProjectPermitForm, {
+  ProjectPermitFormInitialValues,
+  ProjectPermitFormYupSchema
+} from 'features/projects/components/ProjectPermitForm';
 import { Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
 import { useQuery } from 'hooks/useQuery';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import { ICreateProjectRequest } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Prompt } from 'react-router-dom';
 import { getFormattedDate } from 'utils/Utils';
+import { ProjectForm } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
@@ -124,15 +138,16 @@ const CreateProjectPage: React.FC = () => {
   const [openDraftDialog, setOpenDraftDialog] = useState(false);
 
   const [draft, setDraft] = useState({ id: 0, date: '' });
-  const [initialProjectFieldData, setInitialProjectFieldData] = useState<ICreateProjectRequest>({
-    coordinator: ProjectCoordinatorInitialValues,
-    permit: ProjectPermitFormInitialValues,
-    project: ProjectGeneralInformationFormInitialValues,
-    objectives: ProjectObjectivesFormInitialValues,
-    location: ProjectLocationFormInitialValues,
-    iucn: ProjectIUCNFormInitialValues,
-    funding: ProjectFundingFormInitialValues,
-    partnerships: ProjectPartnershipsFormInitialValues
+
+  const [initialProjectFieldData, setInitialProjectFieldData] = useState<ProjectForm>({
+    ...ProjectCoordinatorInitialValues,
+    ...ProjectPermitFormInitialValues,
+    ...ProjectGeneralInformationFormInitialValues,
+    ...ProjectObjectivesFormInitialValues,
+    ...ProjectLocationFormInitialValues,
+    ...ProjectIUCNFormInitialValues,
+    ...ProjectFundingFormInitialValues,
+    ...ProjectPartnershipsFormInitialValues
   });
 
   // Get draft project fields if draft id exists
@@ -375,7 +390,16 @@ const CreateProjectPage: React.FC = () => {
               innerRef={formikRef}
               enableReinitialize={true}
               initialValues={initialProjectFieldData}
-              // validationSchema={} // TODO
+              validationSchema={{
+                ...ProjectGeneralInformationFormYupSchema,
+                ...ProjectPermitFormYupSchema,
+                ...ProjectPartnershipsFormYupSchema,
+                ...ProjectFundingFormYupSchema,
+                ...ProjectLocationFormYupSchema,
+                ...ProjectIUCNFormYupSchema,
+                ...ProjectObjectivesFormYupSchema,
+                ...ProjectCoordinatorYupSchema
+              }} // TODO
               validateOnBlur={true}
               validateOnChange={false}
               onSubmit={handleProjectCreation}>

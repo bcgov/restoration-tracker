@@ -127,7 +127,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
 
                 return (
                   /* Permit List List */
-                  <Grid container spacing={3} hidden>
+                  <Grid container spacing={3} key={index}>
                     <Grid item xs={12} md={6}>
                       <List>
                         <ListItem className={classes.customListItem}>
@@ -144,9 +144,9 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                                   error={permitTypeMeta.touched && Boolean(permitTypeMeta.error)}
                                   displayEmpty
                                   id="permit-type-select">
-                                  <MenuItem value={10}>Permit Type</MenuItem>
-                                  <MenuItem value={20}>Permit Type</MenuItem>
-                                  <MenuItem value={30}>Permit Type</MenuItem>
+                                  <MenuItem key={1} value={10}>Permit Type</MenuItem>
+                                  <MenuItem key={2} value={20}>Permit Type</MenuItem>
+                                  <MenuItem key={3} value={30}>Permit Type</MenuItem>
                                 </Select>
                               </FormControl>
                             </Grid>
