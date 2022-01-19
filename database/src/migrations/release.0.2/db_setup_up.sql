@@ -71,6 +71,10 @@ alter role restoration_api set search_path to restoration_dapi_v1, restoration, 
 \i populate_administrative_activity_type.sql
 \i populate_administrative_activity_status_type.sql
 \i populate_system_metadata_constant.sql
+\i populate_project_spatial_component_type.sql
+\i populate_treatment_unit_spatial_component_type.sql
+\i populate_treatment_type.sql
+\i populate_linear_feature_type.sql
 
 \set QUIET off
 
