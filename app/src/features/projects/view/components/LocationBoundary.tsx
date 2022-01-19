@@ -1,3 +1,7 @@
+// TODO remove these when create/vuew project is more flushed out
+/* eslint-disable */
+// @ts-nocheck
+
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -12,7 +16,7 @@ import MapContainer from 'components/map/MapContainer';
 import { H2ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditLocationBoundaryI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectLocationForm, {
   IProjectLocationForm,
   ProjectLocationFormInitialValues,
   ProjectLocationFormYupSchema
@@ -28,7 +32,6 @@ import {
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useState } from 'react';
 import { calculateUpdatedMapBounds } from 'utils/mapBoundaryUploadHelpers';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 
 export interface ILocationBoundaryProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -101,7 +104,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
     setLocationDataForUpdate(locationResponseData);
 
     setLocationFormData({
-      location_description: locationResponseData.location_description,
       geometry: locationResponseData.geometry
     });
 
@@ -149,13 +151,14 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
         dialogTitle={EditLocationBoundaryI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectStepComponents component="ProjectLocation" codes={codes} />,
+          element: <ProjectLocationForm ranges={[]} />,
           initialValues: locationFormData,
           validationSchema: ProjectLocationFormYupSchema
         }}
         onCancel={() => setOpenEditDialog(false)}
         onSave={handleDialogEditSave}
       />
+
       <FullScreenViewMapDialog
         open={showFullScreenViewMapDialog}
         onClose={handleClose}

@@ -14,7 +14,7 @@ import { EditPermitI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import ProjectPermitForm, {
   IProjectPermitForm,
-  ProjectPermitEditFormYupSchema,
+  ProjectPermitFormYupSchema,
   ProjectPermitFormArrayItemInitialValues,
   ProjectPermitFormInitialValues
 } from 'features/projects/components/ProjectPermitForm';
@@ -145,7 +145,7 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
           initialValues: permitFormData?.permits?.length
             ? permitFormData
             : { permits: [ProjectPermitFormArrayItemInitialValues] },
-          validationSchema: ProjectPermitEditFormYupSchema
+          validationSchema: ProjectPermitFormYupSchema
         }}
         onCancel={() => setOpenEditDialog(false)}
         onSave={handleDialogEditSave}

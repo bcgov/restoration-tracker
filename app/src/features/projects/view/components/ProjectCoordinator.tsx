@@ -9,7 +9,7 @@ import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditCoordinatorI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectCoordinatorForm, {
   IProjectCoordinatorForm,
   ProjectCoordinatorInitialValues,
   ProjectCoordinatorYupSchema
@@ -23,7 +23,6 @@ import {
   UPDATE_GET_ENTITIES
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useState } from 'react';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 
 export interface IProjectCoordinatorProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -125,7 +124,15 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
         dialogTitle={EditCoordinatorI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectStepComponents component="ProjectCoordinator" codes={codes} />,
+          element: (
+            <ProjectCoordinatorForm
+              coordinator_agency={
+                codes?.coordinator_agency?.map((item) => {
+                  return item.name;
+                }) || []
+              }
+            />
+          ),
           initialValues: coordinatorFormData,
           validationSchema: ProjectCoordinatorYupSchema
         }}

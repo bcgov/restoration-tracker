@@ -1,6 +1,5 @@
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { UPDATE_GET_ENTITIES } from 'interfaces/useProjectApi.interface';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';

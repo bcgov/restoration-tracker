@@ -231,13 +231,13 @@ const MapContainer: React.FC<IMapContainerProps> = (props) => {
       return;
     }
 
-    geometryState?.setGeometry([...geometryState.geometry, preDefinedGeometry]);
+    geometryState?.setGeometry([...geometryState?.geometry, preDefinedGeometry]);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preDefinedGeometry]);
 
   useEffect(() => {
-    if (!geometryState?.geometry.length || !nonEditableGeometries?.length) {
+    if (!geometryState?.geometry?.length || !nonEditableGeometries?.length) {
       setInferredLayersInfo &&
         setInferredLayersInfo({
           parks: [],
