@@ -73,96 +73,97 @@ const useStyles = makeStyles((theme: Theme) =>
 const ProjectGeneralInformationForm: React.FC = (props) => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
-  const { handleSubmit } = formikProps;
-
   const classes = useStyles();
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={3}>
-          <Typography variant="h2">General Information</Typography>
-          {/* <Typography variant="body1" color="textSecondary">Permits required for this project.</Typography> */}
-        </Grid>
-        <Grid item xs={12} md={9}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <TextField fullWidth required variant="outlined" label="Project Name" id="project_name"></TextField>
-            </Grid>
-            <StartEndDateFields formikProps={formikProps} startRequired={true} endRequired={false} />
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                variant="outlined"
-                label="Objectives"
-                id="objectives"
-                multiline={true}
-                rows={4}></TextField>
-            </Grid>
-          </Grid>
-
-          <Box component="fieldset" mt={5} mx={0}>
-            <Typography component="legend">IUCN Conservation Actions Classifications (Optional)</Typography>
-            <Box mb={3} maxWidth={'72ch'}>
-              <Typography variant="body1" color="textSecondary">
-                Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach
-                each of the project's objectives.
-              </Typography>
-            </Box>
-
-            {/* IUCN Classifications List */}
-            <List>
-              <ListItem className={classes.customListItem}>
-                <Grid container spacing={3}>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth variant="outlined">
-                      <InputLabel id="iucn-classification">Classification</InputLabel>
-                      <Select labelId="iucn-classification" label="Classification" id="iucn-classification-select">
-                        <MenuItem value={10}>Classification One</MenuItem>
-                        <MenuItem value={20}>Classification Two</MenuItem>
-                        <MenuItem value={30}>Classification Three</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth variant="outlined">
-                      <InputLabel id="sub-classification-1">Sub-classification</InputLabel>
-                      <Select labelId="sub-classification-1" label="Sub-classification" id="icun-subclass-select-1">
-                        <MenuItem value={10}>Sub-classification</MenuItem>
-                        <MenuItem value={20}>Sub-classification</MenuItem>
-                        <MenuItem value={30}>Sub-classification</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth variant="outlined">
-                      <InputLabel id="sub-classification-2">Sub-classification</InputLabel>
-                      <Select labelId="sub-classification-2" label="Sub-classification" id="iucn-subclass-select-2">
-                        <MenuItem value={10}>Sub-classification</MenuItem>
-                        <MenuItem value={20}>Sub-classification</MenuItem>
-                        <MenuItem value={30}>Sub-classification</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                </Grid>
-                <ListItemSecondaryAction>
-                  <IconButton edge="end">
-                    <Icon path={mdiTrashCanOutline} size={1}></Icon>
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            </List>
-
-            <Box mt={2}>
-              <Button variant="outlined" color="primary" startIcon={<Icon path={mdiPlus} size={1}></Icon>}>
-                Add Classification
-              </Button>
-            </Box>
-          </Box>
-        </Grid>
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={3}>
+        <Typography variant="h2">General Information</Typography>
+        {/* <Typography variant="body1" color="textSecondary">Permits required for this project.</Typography> */}
       </Grid>
-    </form>
+      <Grid item xs={12} md={9}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              variant="outlined"
+              label="Project Name"
+              id="project_name"></TextField>
+          </Grid>
+          <StartEndDateFields formikProps={formikProps} startRequired={true} endRequired={false} />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              variant="outlined"
+              label="Objectives"
+              id="objectives"
+              multiline={true}
+              rows={4}></TextField>
+          </Grid>
+        </Grid>
+
+        <Box component="fieldset" mt={5} mx={0}>
+          <Typography component="legend">IUCN Conservation Actions Classifications (Optional)</Typography>
+          <Box mb={3} maxWidth={'72ch'}>
+            <Typography variant="body1" color="textSecondary">
+              Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach
+              each of the project's objectives.
+            </Typography>
+          </Box>
+
+          {/* IUCN Classifications List */}
+          <List>
+            <ListItem className={classes.customListItem}>
+              <Grid container spacing={3}>
+                <Grid item xs={4}>
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel id="iucn-classification">Classification</InputLabel>
+                    <Select labelId="iucn-classification" label="Classification" id="iucn-classification-select">
+                      <MenuItem value={10}>Classification One</MenuItem>
+                      <MenuItem value={20}>Classification Two</MenuItem>
+                      <MenuItem value={30}>Classification Three</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel id="sub-classification-1">Sub-classification</InputLabel>
+                    <Select labelId="sub-classification-1" label="Sub-classification" id="icun-subclass-select-1">
+                      <MenuItem value={10}>Sub-classification</MenuItem>
+                      <MenuItem value={20}>Sub-classification</MenuItem>
+                      <MenuItem value={30}>Sub-classification</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel id="sub-classification-2">Sub-classification</InputLabel>
+                    <Select labelId="sub-classification-2" label="Sub-classification" id="iucn-subclass-select-2">
+                      <MenuItem value={10}>Sub-classification</MenuItem>
+                      <MenuItem value={20}>Sub-classification</MenuItem>
+                      <MenuItem value={30}>Sub-classification</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <ListItemSecondaryAction>
+                <IconButton edge="end">
+                  <Icon path={mdiTrashCanOutline} size={1}></Icon>
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          </List>
+
+          <Box mt={2}>
+            <Button variant="outlined" color="primary" startIcon={<Icon path={mdiPlus} size={1}></Icon>}>
+              Add Classification
+            </Button>
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

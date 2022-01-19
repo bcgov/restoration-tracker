@@ -16,6 +16,7 @@ import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import {
+  IProjectCoordinatorForm,
   ProjectCoordinatorInitialValues,
   ProjectCoordinatorYupSchema
 } from 'features/projects/components/ProjectCoordinatorForm';
@@ -24,27 +25,37 @@ import ProjectDraftForm, {
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
 import {
+  IProjectFundingForm,
   ProjectFundingFormInitialValues,
   ProjectFundingFormYupSchema
 } from 'features/projects/components/ProjectFundingForm';
 import ProjectGeneralInformationForm, {
+  IProjectGeneralInformationForm,
   ProjectGeneralInformationFormInitialValues,
   ProjectGeneralInformationFormYupSchema
 } from 'features/projects/components/ProjectGeneralInformationForm';
-import { ProjectIUCNFormInitialValues, ProjectIUCNFormYupSchema } from 'features/projects/components/ProjectIUCNForm';
+import {
+  IProjectIUCNForm,
+  ProjectIUCNFormInitialValues,
+  ProjectIUCNFormYupSchema
+} from 'features/projects/components/ProjectIUCNForm';
 import ProjectLocationForm, {
+  IProjectLocationForm,
   ProjectLocationFormInitialValues,
   ProjectLocationFormYupSchema
 } from 'features/projects/components/ProjectLocationForm';
 import {
+  IProjectObjectivesForm,
   ProjectObjectivesFormInitialValues,
   ProjectObjectivesFormYupSchema
 } from 'features/projects/components/ProjectObjectivesForm';
 import {
+  IProjectPartnershipsForm,
   ProjectPartnershipsFormInitialValues,
   ProjectPartnershipsFormYupSchema
 } from 'features/projects/components/ProjectPartnershipsForm';
 import ProjectPermitForm, {
+  IProjectPermitForm,
   ProjectPermitFormInitialValues,
   ProjectPermitFormYupSchema
 } from 'features/projects/components/ProjectPermitForm';
@@ -58,7 +69,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Prompt } from 'react-router-dom';
 import { getFormattedDate } from 'utils/Utils';
-import { ProjectForm } from '../interfaces';
+import yup from 'utils/YupSchema';
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
@@ -81,6 +92,39 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginRight: '0.25rem'
   }
 }));
+
+export interface IProjectForm
+  extends IProjectCoordinatorForm,
+    IProjectPermitForm,
+    IProjectGeneralInformationForm,
+    IProjectObjectivesForm,
+    IProjectLocationForm,
+    IProjectIUCNForm,
+    IProjectFundingForm,
+    IProjectPartnershipsForm {}
+
+export const ProjectFormInitialValues = {
+  ...ProjectCoordinatorInitialValues,
+  ...ProjectPermitFormInitialValues,
+  ...ProjectGeneralInformationFormInitialValues,
+  ...ProjectObjectivesFormInitialValues,
+  ...ProjectLocationFormInitialValues,
+  ...ProjectIUCNFormInitialValues,
+  ...ProjectFundingFormInitialValues,
+  ...ProjectPartnershipsFormInitialValues
+};
+
+export const ProjectFormYupSchema = yup
+  .object()
+  .shape({})
+  .concat(ProjectCoordinatorYupSchema)
+  .concat(ProjectPermitFormYupSchema)
+  .concat(ProjectGeneralInformationFormYupSchema)
+  .concat(ProjectObjectivesFormYupSchema)
+  .concat(ProjectLocationFormYupSchema)
+  .concat(ProjectIUCNFormYupSchema)
+  .concat(ProjectFundingFormYupSchema)
+  .concat(ProjectPartnershipsFormYupSchema);
 
 /**
  * Page for creating a new project.
@@ -139,16 +183,7 @@ const CreateProjectPage: React.FC = () => {
 
   const [draft, setDraft] = useState({ id: 0, date: '' });
 
-  const [initialProjectFieldData, setInitialProjectFieldData] = useState<ProjectForm>({
-    ...ProjectCoordinatorInitialValues,
-    ...ProjectPermitFormInitialValues,
-    ...ProjectGeneralInformationFormInitialValues,
-    ...ProjectObjectivesFormInitialValues,
-    ...ProjectLocationFormInitialValues,
-    ...ProjectIUCNFormInitialValues,
-    ...ProjectFundingFormInitialValues,
-    ...ProjectPartnershipsFormInitialValues
-  });
+  const [initialProjectFormData, setInitialProjectFormData] = useState<IProjectForm>(ProjectFormInitialValues);
 
   // Get draft project fields if draft id exists
   useEffect(() => {
@@ -161,7 +196,7 @@ const CreateProjectPage: React.FC = () => {
         return;
       }
 
-      setInitialProjectFieldData(response.data);
+      setInitialProjectFormData(response.data);
     };
 
     if (hasLoadedDraftData) {
@@ -245,7 +280,7 @@ const CreateProjectPage: React.FC = () => {
    */
   const handleProjectCreation = async () => {
     try {
-      const response = await restorationTrackerApi.project.createProject(initialProjectFieldData);
+      const response = await restorationTrackerApi.project.createProject(initialProjectFormData);
 
       if (!response?.id) {
         showCreateErrorDialog({
@@ -389,63 +424,56 @@ const CreateProjectPage: React.FC = () => {
             <Formik
               innerRef={formikRef}
               enableReinitialize={true}
-              initialValues={initialProjectFieldData}
-              validationSchema={{
-                ...ProjectGeneralInformationFormYupSchema,
-                ...ProjectPermitFormYupSchema,
-                ...ProjectPartnershipsFormYupSchema,
-                ...ProjectFundingFormYupSchema,
-                ...ProjectLocationFormYupSchema,
-                ...ProjectIUCNFormYupSchema,
-                ...ProjectObjectivesFormYupSchema,
-                ...ProjectCoordinatorYupSchema
-              }} // TODO
+              initialValues={initialProjectFormData}
+              validationSchema={ProjectFormYupSchema}
               validateOnBlur={true}
               validateOnChange={false}
               onSubmit={handleProjectCreation}>
-              <>
-                <Box my={5}>
-                  <ProjectGeneralInformationForm />
-                </Box>
+              {({ handleSubmit }) => (
+                <form onSubmit={handleSubmit}>
+                  <Box my={5}>
+                    <ProjectGeneralInformationForm />
+                  </Box>
 
-                {/* <Divider></Divider>
+                  {/* <Divider></Divider>
 
                 {/* <Box my={5}>
                   <ProjectCoordinatorForm />
                 </Box> */}
 
-                {/* <Divider></Divider> */}
+                  {/* <Divider></Divider> */}
 
-                <Box my={5}>
-                  <ProjectPermitForm />
-                </Box>
+                  <Box my={5}>
+                    <ProjectPermitForm />
+                  </Box>
 
-                <Divider></Divider>
+                  <Divider></Divider>
 
-                {/* <Box my={5}>
+                  {/* <Box my={5}>
                   <ProjectFundingForm />
                 </Box> */}
 
-                {/* <Divider></Divider> */}
+                  {/* <Divider></Divider> */}
 
-                <Box my={5}>
-                  <ProjectLocationForm ranges={[]} />
-                </Box>
+                  <Box my={5}>
+                    <ProjectLocationForm ranges={[]} />
+                  </Box>
 
-                <Divider></Divider>
+                  <Divider></Divider>
 
-                <Box mt={5} className={classes.formButtons} display="flex" justifyContent="flex-end">
-                  <Button variant="outlined" color="primary" size="large" onClick={() => setOpenDraftDialog(true)}>
-                    Save Draft
-                  </Button>
-                  <Button variant="contained" color="primary" size="large">
-                    Create Project
-                  </Button>
-                  <Button variant="text" color="primary" size="large">
-                    Cancel
-                  </Button>
-                </Box>
-              </>
+                  <Box mt={5} className={classes.formButtons} display="flex" justifyContent="flex-end">
+                    <Button variant="outlined" color="primary" size="large" onClick={() => setOpenDraftDialog(true)}>
+                      Save Draft
+                    </Button>
+                    <Button variant="contained" color="primary" size="large" type="submit">
+                      Create Project
+                    </Button>
+                    <Button variant="text" color="primary" size="large">
+                      Cancel
+                    </Button>
+                  </Box>
+                </form>
+              )}
             </Formik>
           </Box>
         </Container>

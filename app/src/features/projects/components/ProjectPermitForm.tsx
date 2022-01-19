@@ -92,10 +92,11 @@ export interface IProjectPermitFormProps {
  */
 const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
   const classes = useStyles();
-  const { values, handleChange, handleSubmit, getFieldMeta, errors } = useFormikContext<IProjectPermitForm>();
+
+  const { values, handleChange, getFieldMeta, errors } = useFormikContext<IProjectPermitForm>();
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       {props.non_sampling_permits && props.non_sampling_permits.length > 0 && (
         <Box pb={4}>
           <MultiAutocompleteFieldVariableSize
@@ -209,7 +210,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
           </Box>
         )}
       </Box>
-    </form>
+    </>
   );
 };
 
