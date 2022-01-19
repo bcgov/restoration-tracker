@@ -78,8 +78,7 @@ describe('ProjectStepComponents', () => {
           <ProjectStepComponents
             component="ProjectGeneralInformation"
             codes={{
-              ...codes,
-              project_type: (null as unknown) as any
+              ...codes
             }}
           />
         )}

@@ -23,7 +23,6 @@ export interface IGetProjectAttachment {
 export interface IProjectAdvancedFilterRequest {
   coordinator_agency: string;
   permit_number: string;
-  project_type: string;
   start_date: string;
   end_date: string;
   keyword: string;
@@ -69,7 +68,6 @@ export interface IGetProjectsListResponse {
   start_date: string;
   end_date: string;
   coordinator_agency: string;
-  project_type: string;
   permits_list: string;
   publish_status: string;
   completion_status: string;
@@ -227,7 +225,6 @@ export interface IGetProjectForViewResponse {
 
 export interface IGetProjectForViewResponseDetails {
   project_name: string;
-  project_type: string;
   start_date: string;
   end_date: string;
   completion_status: string;

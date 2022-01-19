@@ -231,7 +231,6 @@ const ProjectsListPage: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Type</TableCell>
               <TableCell>Permits</TableCell>
               <TableCell>Contact Agency</TableCell>
               <TableCell>Start Date</TableCell>
@@ -256,7 +255,6 @@ const ProjectsListPage: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>Type</TableCell>
                 <TableCell>Permits</TableCell>
                 <TableCell>Contact Agency</TableCell>
                 <TableCell>Start Date</TableCell>
@@ -300,7 +298,6 @@ const ProjectsListPage: React.FC = () => {
                       {row.name}
                     </Link>
                   </TableCell>
-                  <TableCell>{row.project_type}</TableCell>
                   <TableCell>{row.permits_list}</TableCell>
                   <TableCell>{row.coordinator_agency}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
