@@ -112,7 +112,6 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={3}>
               <Typography variant="h2">Permits</Typography>
-              {/* <Typography variant="body1" color="textSecondary">Permits required for this project.</Typography> */}
             </Grid>
             <Grid item xs={12} md={9}>
               <Box mb={3} maxWidth={'72ch'}>
@@ -122,7 +121,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                 </Typography>
               </Box>
               {values.permits?.map((permit, index) => {
-                //const permitNumberMeta = getFieldMeta(`permits.[${index}].permit_number`);
+                const permitNumberMeta = getFieldMeta(`permits.[${index}].permit_number`);
                 const permitTypeMeta = getFieldMeta(`permits.[${index}].permit_type`);
 
                 return (
@@ -144,14 +143,32 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                                   error={permitTypeMeta.touched && Boolean(permitTypeMeta.error)}
                                   displayEmpty
                                   id="permit-type-select">
-                                  <MenuItem key={1} value={10}>Permit Type</MenuItem>
-                                  <MenuItem key={2} value={20}>Permit Type</MenuItem>
-                                  <MenuItem key={3} value={30}>Permit Type</MenuItem>
+                                  <MenuItem key={1} value={10}>
+                                    Permit Type
+                                  </MenuItem>
+                                  <MenuItem key={2} value={20}>
+                                    Permit Type
+                                  </MenuItem>
+                                  <MenuItem key={3} value={30}>
+                                    Permit Type
+                                  </MenuItem>
                                 </Select>
                               </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                              <TextField variant="outlined" label="Permit Number" type="number"></TextField>
+                              <TextField
+                                name={`permits.[${index}].permit_number`}
+                                id="permit-number-label"
+                                required={true}
+                                label="Permit Number"
+                                type="number"
+                                onChange={handleChange}
+                                variant="outlined"
+                                fullWidth={true}
+                                value={permit.permit_number}
+                                error={permitNumberMeta.touched && Boolean(permitNumberMeta.error)}
+                                helperText={permitNumberMeta.touched && permitNumberMeta.error}
+                              />
                             </Grid>
                           </Grid>
                           <ListItemSecondaryAction>
