@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-//import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,14 +12,12 @@ import Select from '@material-ui/core/Select';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-//import { mdiCalendarEnd, mdiCalendarStart, mdiPlus, mdiTrashCanOutline } from '@mdi/js';
 import { mdiPlus, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import React from 'react';
 import yup from 'utils/YupSchema';
-import CustomTextField from 'components/fields/CustomTextField';
 
 export interface IProjectGeneralInformationForm {
   project_name: string;
@@ -91,11 +88,7 @@ const ProjectGeneralInformationForm: React.FC = (props) => {
               </Grid>
               <StartEndDateFields formikProps={formikProps} startRequired={true} endRequired={false} />
               <Grid item xs={12}>
-                <CustomTextField
-                  name="objectives"
-                  label="Objectives"
-                  other={{ multiline: true, required: true, rows: 4 }}
-                />
+                <TextField fullWidth required variant="outlined" label="Objectives" id="objectives" multiline={true} rows={4}></TextField>
               </Grid>
             </Grid>
 

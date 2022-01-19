@@ -26,13 +26,14 @@ import ProjectDraftForm, {
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
 import { ProjectFundingFormInitialValues } from 'features/projects/components/ProjectFundingForm';
-import { ProjectIUCNFormInitialValues } from 'features/projects/components/ProjectIUCNForm';
+import ProjectIUCNForm, { ProjectIUCNFormInitialValues } from 'features/projects/components/ProjectIUCNForm';
 import ProjectLocationForm, {
   ProjectLocationFormInitialValues
 } from 'features/projects/components/ProjectLocationForm';
 import { ProjectObjectivesFormInitialValues } from 'features/projects/components/ProjectObjectivesForm';
 import { ProjectPartnershipsFormInitialValues } from 'features/projects/components/ProjectPartnershipsForm';
 import ProjectPermitForm, { ProjectPermitFormInitialValues } from 'features/projects/components/ProjectPermitForm';
+import ProjectGeneralInformationForm from 'features/projects/components/ProjectGeneralInformationForm';
 import { Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
@@ -379,11 +380,11 @@ const CreateProjectPage: React.FC = () => {
               validateOnChange={false}
               onSubmit={handleProjectCreation}>
               <>
-                {/* <Box my={5}>
-                  <ProjectDetailsForm />
-                </Box> */}
+                <Box my={5}>
+                  <ProjectGeneralInformationForm />
+                </Box>
 
-                {/* <Divider></Divider> */}
+                {/* <Divider></Divider>
 
                 {/* <Box my={5}>
                   <ProjectCoordinatorForm />
