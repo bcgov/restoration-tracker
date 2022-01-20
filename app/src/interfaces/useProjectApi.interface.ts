@@ -88,15 +88,14 @@ export interface ICreateProjectResponse {
  * @export
  * @interface ICreateProjectRequest
  */
-export interface ICreateProjectRequest {
-  details: IProjectGeneralInformationForm;
-  iucn: IProjectIUCNForm;
-  coordinator: IProjectCoordinatorForm;
-  permit: IProjectPermitForm;
-  funding: IProjectFundingForm;
-  partnerships: IProjectPartnershipsForm;
-  location: IProjectLocationForm;
-}
+export interface ICreateProjectRequest
+  extends IProjectGeneralInformationForm,
+    IProjectIUCNForm,
+    IProjectCoordinatorForm,
+    IProjectPermitForm,
+    IProjectFundingForm,
+    IProjectPartnershipsForm,
+    IProjectLocationForm {}
 
 export enum UPDATE_GET_ENTITIES {
   coordinator = 'coordinator',

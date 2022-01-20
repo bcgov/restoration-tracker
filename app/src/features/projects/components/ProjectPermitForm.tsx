@@ -1,6 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 //import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,9 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import { mdiPlus, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 //import CustomTextField from 'components/fields/CustomTextField';
-import MultiAutocompleteFieldVariableSize, {
-  IMultiAutocompleteFieldOption
-} from 'components/fields/MultiAutocompleteFieldVariableSize';
+import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import yup from 'utils/YupSchema';
@@ -50,13 +49,10 @@ export interface IProjectPermitFormArrayItem {
   permit_type: string;
 }
 
-export interface IProjectExistingPermitFormArrayItem {
-  permit_id: number;
-}
-
 export interface IProjectPermitForm {
-  permits: IProjectPermitFormArrayItem[];
-  existing_permits?: IProjectExistingPermitFormArrayItem[];
+  permit: {
+    permits: IProjectPermitFormArrayItem[];
+  };
 }
 
 export const ProjectPermitFormArrayItemInitialValues: IProjectPermitFormArrayItem = {
@@ -65,8 +61,9 @@ export const ProjectPermitFormArrayItemInitialValues: IProjectPermitFormArrayIte
 };
 
 export const ProjectPermitFormInitialValues: IProjectPermitForm = {
-  permits: [ProjectPermitFormArrayItemInitialValues],
-  existing_permits: []
+  permit: {
+    permits: [ProjectPermitFormArrayItemInitialValues]
+  }
 };
 
 export const ProjectPermitFormYupSchema = yup.object().shape({
@@ -97,16 +94,6 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
 
   return (
     <>
-      {props.non_sampling_permits && props.non_sampling_permits.length > 0 && (
-        <Box pb={4}>
-          <MultiAutocompleteFieldVariableSize
-            id="existing_permits"
-            label="Select Existing Permits"
-            options={props.non_sampling_permits}
-            required={false}
-          />
-        </Box>
-      )}
       <FieldArray
         name="permits"
         render={(arrayHelpers) => (
@@ -121,7 +108,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                   (e.g. for KA12-845782 enter 845782)
                 </Typography>
               </Box>
-              {values.permits?.map((permit, index) => {
+              {values.permit.permits?.map((permit, index) => {
                 const permitNumberMeta = getFieldMeta(`permits.[${index}].permit_number`);
                 const permitTypeMeta = getFieldMeta(`permits.[${index}].permit_type`);
 
@@ -154,6 +141,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                                     Permit Type
                                   </MenuItem>
                                 </Select>
+                                <FormHelperText>{permitTypeMeta.touched && permitTypeMeta.error}</FormHelperText>
                               </FormControl>
                             </Grid>
                             <Grid item xs={6}>
@@ -204,9 +192,9 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
         )}
       />
       <Box>
-        {errors?.permits && !Array.isArray(errors?.permits) && (
+        {errors.permit?.permits && !Array.isArray(errors.permit?.permits) && (
           <Box pt={2}>
-            <Typography style={{ fontSize: '12px', color: '#f44336' }}>{errors.permits}</Typography>
+            <Typography style={{ fontSize: '12px', color: '#f44336' }}>{errors.permit.permits}</Typography>
           </Box>
         )}
       </Box>

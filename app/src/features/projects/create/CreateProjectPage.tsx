@@ -36,7 +36,10 @@ import ProjectLocationForm, {
   ProjectLocationFormInitialValues,
   ProjectLocationFormYupSchema
 } from 'features/projects/components/ProjectLocationForm';
-import { ProjectPartnershipsFormInitialValues, ProjectPartnershipsFormYupSchema } from 'features/projects/components/ProjectPartnershipsForm';
+import {
+  ProjectPartnershipsFormInitialValues,
+  ProjectPartnershipsFormYupSchema
+} from 'features/projects/components/ProjectPartnershipsForm';
 import ProjectPermitForm, {
   ProjectPermitFormInitialValues,
   ProjectPermitFormYupSchema
@@ -77,13 +80,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const ProjectFormInitialValues = {
-  details: ProjectGeneralInformationFormInitialValues,
-  iucn: ProjectIUCNFormInitialValues,
-  coordinator: ProjectCoordinatorInitialValues,
-  permit: ProjectPermitFormInitialValues,
-  funding: ProjectFundingFormInitialValues,
-  partnerships: ProjectPartnershipsFormInitialValues,
-  location: ProjectLocationFormInitialValues
+  ...ProjectGeneralInformationFormInitialValues,
+  ...ProjectIUCNFormInitialValues,
+  ...ProjectCoordinatorInitialValues,
+  ...ProjectPermitFormInitialValues,
+  ...ProjectFundingFormInitialValues,
+  ...ProjectPartnershipsFormInitialValues,
+  ...ProjectLocationFormInitialValues
 };
 
 export const ProjectFormYupSchema = yup

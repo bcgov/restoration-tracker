@@ -101,7 +101,9 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
     }
 
     setPermitFormData({
-      permits: permitResponseData.permits
+      permit: {
+        permits: permitResponseData.permits
+      }
     });
     setCoordinatorData(coordinatorResponseData);
     setNonSamplingPermits(existingPermitsResponseData);
@@ -110,7 +112,7 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
   };
 
   const handleDialogEditSave = async (values: IProjectPermitForm) => {
-    const projectData = { permit: values, coordinator: coordinatorData };
+    const projectData = { ...values, coordinator: coordinatorData };
 
     try {
       await restorationTrackerApi.project.updateProject(id, projectData);
@@ -142,9 +144,9 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
               }
             />
           ),
-          initialValues: permitFormData?.permits?.length
+          initialValues: permitFormData.permit?.permits?.length
             ? permitFormData
-            : { permits: [ProjectPermitFormArrayItemInitialValues] },
+            : { permit: { permits: [ProjectPermitFormArrayItemInitialValues] } },
           validationSchema: ProjectPermitFormYupSchema
         }}
         onCancel={() => setOpenEditDialog(false)}

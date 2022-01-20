@@ -24,21 +24,27 @@ import React, { useState } from 'react';
 import yup from 'utils/YupSchema';
 
 export interface IProjectLocationForm {
-  boundary: Feature[];
-  range: string;
-  priority: string;
+  location: {
+    boundary: Feature[];
+    range: string;
+    priority: string;
+  };
 }
 
 export const ProjectLocationFormInitialValues: IProjectLocationForm = {
-  boundary: [],
-  range: '',
-  priority: 'false'
+  location: {
+    boundary: [],
+    range: '',
+    priority: 'false'
+  }
 };
 
 export const ProjectLocationFormYupSchema = yup.object().shape({
-  boundary: yup.array().min(1, 'You must specify a project boundary').required('You must specify a project boundary'),
-  ramge: yup.string().required('Required'),
-  priority: yup.string().required('Required')
+  location: yup.object().shape({
+    boundary: yup.array().min(1, 'You must specify a project boundary').required('You must specify a project boundary'),
+    range: yup.string().required('Required'),
+    priority: yup.string().required('Required')
+  })
 });
 
 export interface IProjectLocationFormProps {
@@ -88,25 +94,36 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                     name="range"
                     labelId="caribou-range-select-label"
                     label="Caribou Range"
-                    value={values.range}
-                    error={touched.range && Boolean(errors.range)}>
+                    value={values.location.range}
+                    onChange={handleChange}
+                    error={touched.location?.range && Boolean(errors.location?.range)}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Caribou Range' }}>
                     {props.ranges.map((item) => (
                       <MenuItem key={item.value} value={item.value}>
                         {item.label}
                       </MenuItem>
                     ))}
                   </Select>
+                  <FormHelperText>{errors.location?.range}</FormHelperText>
                 </FormControl>
               </Grid>
             </Grid>
           </Box>
 
           <Box mb={4}>
-            <FormControl component="fieldset" required={true} error={touched.priority && Boolean(errors.priority)}>
+            <FormControl
+              component="fieldset"
+              required={true}
+              error={touched.location?.priority && Boolean(errors.location?.priority)}>
               <FormLabel component="legend">Is this location a priority area?</FormLabel>
 
               <Box mt={2}>
-                <RadioGroup name="priority" aria-label="priority" value={values.priority} onChange={handleChange}>
+                <RadioGroup
+                  name="priority"
+                  aria-label="Location Priority"
+                  value={values.location.priority}
+                  onChange={handleChange}>
                   <FormControlLabel
                     value="false"
                     control={<Radio required={true} color="primary" size="small" />}
@@ -117,7 +134,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                     control={<Radio required={true} color="primary" size="small" />}
                     label="Yes"
                   />
-                  <FormHelperText>{errors.priority}</FormHelperText>
+                  <FormHelperText>{touched.location?.priority && errors.location?.priority}</FormHelperText>
                 </RadioGroup>
               </Box>
             </FormControl>
@@ -149,7 +166,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
               <MapContainer
                 mapId={'project_location_map'}
                 geometryState={{
-                  geometry: values.boundary,
+                  geometry: values.location.boundary,
                   setGeometry: (newGeo: Feature[]) => setFieldValue('geometry', newGeo)
                 }}
               />
