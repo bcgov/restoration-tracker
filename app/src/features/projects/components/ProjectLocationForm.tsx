@@ -91,7 +91,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                   <InputLabel id="caribou-range-select-label">Caribou Range</InputLabel>
                   <Select
                     id="caribou-range-select"
-                    name="range"
+                    name="location.range"
                     labelId="caribou-range-select-label"
                     label="Caribou Range"
                     value={values.location.range}
@@ -120,7 +120,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
 
               <Box mt={2}>
                 <RadioGroup
-                  name="priority"
+                  name="location.priority"
                   aria-label="Location Priority"
                   value={values.location.priority}
                   onChange={handleChange}>

@@ -95,7 +95,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
   return (
     <>
       <FieldArray
-        name="permits"
+        name="permit.permits"
         render={(arrayHelpers) => (
           <Grid container spacing={3}>
             <Grid item xs={12} md={3}>
@@ -109,8 +109,8 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                 </Typography>
               </Box>
               {values.permit.permits?.map((permit, index) => {
-                const permitNumberMeta = getFieldMeta(`permits.[${index}].permit_number`);
-                const permitTypeMeta = getFieldMeta(`permits.[${index}].permit_type`);
+                const permitNumberMeta = getFieldMeta(`permit.permits.[${index}].permit_number`);
+                const permitTypeMeta = getFieldMeta(`permit.permits.[${index}].permit_type`);
 
                 return (
                   /* Permit List List */
@@ -123,7 +123,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                               <FormControl fullWidth variant="outlined">
                                 <InputLabel id="permit-type-label">Permit Type</InputLabel>
                                 <Select
-                                  name={`permits.[${index}].permit_type`}
+                                  name={`permit.permits.[${index}].permit_type`}
                                   labelId="permit-type-label"
                                   label="Permit Type"
                                   value={permit.permit_type}
@@ -146,7 +146,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                             </Grid>
                             <Grid item xs={6}>
                               <TextField
-                                name={`permits.[${index}].permit_number`}
+                                name={`permit.permits.[${index}].permit_number`}
                                 id="permit-number-label"
                                 required={true}
                                 label="Permit Number"
