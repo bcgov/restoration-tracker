@@ -1,5 +1,6 @@
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import CustomTextField from 'components/fields/CustomTextField';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import React from 'react';
@@ -45,14 +46,13 @@ const ProjectGeneralInformationForm: React.FC = (props) => {
           </Grid>
           <StartEndDateFields formikProps={formikProps} startRequired={true} endRequired={false} />
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              required
-              variant="outlined"
-              label="Objectives"
-              id="objectives"
-              multiline={true}
-              rows={4}></TextField>
+            <Grid item xs={12}>
+              <CustomTextField
+                name="objectives"
+                label="Objectives"
+                other={{ multiline: true, required: true, rows: 4 }}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
