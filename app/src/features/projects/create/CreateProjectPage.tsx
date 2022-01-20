@@ -416,7 +416,9 @@ const CreateProjectPage: React.FC = () => {
                         <Typography variant="h2">Contact</Typography>
                       </Grid>
                       <Grid item xs={12} md={9}>
-                        <ProjectCoordinatorForm coordinator_agency={[]} />
+                        <ProjectCoordinatorForm
+                          coordinator_agency={codes.coordinator_agency.map((item) => item.name)}
+                        />
                       </Grid>
                     </Grid>
                   </Box>
