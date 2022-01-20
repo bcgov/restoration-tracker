@@ -72,108 +72,100 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
 
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={3}>
-          <Typography variant="h2">Location</Typography>
-        </Grid>
+      <Box mb={5}>
+        <Box mb={2} maxWidth={'72ch'}>
+          <Typography variant="body1" color="textSecondary">
+            Specify the caribou range associate with this project.
+          </Typography>
+        </Box>
 
-        <Grid item xs={12} md={9}>
-          <Box mb={5}>
-            <Box mb={2} maxWidth={'72ch'}>
-              <Typography variant="body1" color="textSecondary">
-                Specify the caribou range associate with this project.
-              </Typography>
-            </Box>
-
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <FormControl component="fieldset" required={true} fullWidth variant="outlined">
-                  <InputLabel id="caribou-range-select-label">Caribou Range</InputLabel>
-                  <Select
-                    id="caribou-range-select"
-                    name="location.range"
-                    labelId="caribou-range-select-label"
-                    label="Caribou Range"
-                    value={values.location.range}
-                    onChange={handleChange}
-                    error={touched.location?.range && Boolean(errors.location?.range)}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Caribou Range' }}>
-                    {props.ranges.map((item) => (
-                      <MenuItem key={item.value} value={item.value}>
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText>{errors.location?.range}</FormHelperText>
-                </FormControl>
-              </Grid>
-            </Grid>
-          </Box>
-
-          <Box mb={4}>
-            <FormControl
-              component="fieldset"
-              required={true}
-              error={touched.location?.priority && Boolean(errors.location?.priority)}>
-              <FormLabel component="legend">Is this location a priority area?</FormLabel>
-
-              <Box mt={2}>
-                <RadioGroup
-                  name="location.priority"
-                  aria-label="Location Priority"
-                  value={values.location.priority}
-                  onChange={handleChange}>
-                  <FormControlLabel
-                    value="false"
-                    control={<Radio required={true} color="primary" size="small" />}
-                    label="No"
-                  />
-                  <FormControlLabel
-                    value="true"
-                    control={<Radio required={true} color="primary" size="small" />}
-                    label="Yes"
-                  />
-                  <FormHelperText>{touched.location?.priority && errors.location?.priority}</FormHelperText>
-                </RadioGroup>
-              </Box>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <FormControl component="fieldset" required={true} fullWidth variant="outlined">
+              <InputLabel id="caribou-range-select-label">Caribou Range</InputLabel>
+              <Select
+                id="caribou-range-select"
+                name="location.range"
+                labelId="caribou-range-select-label"
+                label="Caribou Range"
+                value={values.location.range}
+                onChange={handleChange}
+                error={touched.location?.range && Boolean(errors.location?.range)}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Caribou Range' }}>
+                {props.ranges.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>{errors.location?.range}</FormHelperText>
             </FormControl>
-          </Box>
-
-          <Box component="fieldset">
-            <Typography component="legend">Project Boundary</Typography>
-            <Box mb={3} maxWidth={'72ch'}>
-              <Typography variant="body1" color="textSecondary">
-                Upload a shapefile or use the drawing tools on the map to define your project boundary (KML or
-                shapefiles accepted).
-              </Typography>
-            </Box>
-
-            <Box mb={5}>
-              <Button
-                size="large"
-                variant="outlined"
-                color="primary"
-                component="span"
-                startIcon={<Icon path={mdiTrayArrowUp} size={1}></Icon>}
-                onClick={() => setOpenUploadBoundary(true)}
-                data-testid="project-boundary-upload">
-                Upload Boundary
-              </Button>
-            </Box>
-
-            <Box height={500}>
-              <MapContainer
-                mapId={'project_location_map'}
-                geometryState={{
-                  geometry: values.location.boundary,
-                  setGeometry: (newGeo: Feature[]) => setFieldValue('geometry', newGeo)
-                }}
-              />
-            </Box>
-          </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
+
+      <Box mb={4}>
+        <FormControl
+          component="fieldset"
+          required={true}
+          error={touched.location?.priority && Boolean(errors.location?.priority)}>
+          <FormLabel component="legend">Is this location a priority area?</FormLabel>
+
+          <Box mt={2}>
+            <RadioGroup
+              name="location.priority"
+              aria-label="Location Priority"
+              value={values.location.priority}
+              onChange={handleChange}>
+              <FormControlLabel
+                value="false"
+                control={<Radio required={true} color="primary" size="small" />}
+                label="No"
+              />
+              <FormControlLabel
+                value="true"
+                control={<Radio required={true} color="primary" size="small" />}
+                label="Yes"
+              />
+              <FormHelperText>{touched.location?.priority && errors.location?.priority}</FormHelperText>
+            </RadioGroup>
+          </Box>
+        </FormControl>
+      </Box>
+
+      <Box component="fieldset">
+        <Typography component="legend">Project Boundary</Typography>
+        <Box mb={3} maxWidth={'72ch'}>
+          <Typography variant="body1" color="textSecondary">
+            Upload a shapefile or use the drawing tools on the map to define your project boundary (KML or shapefiles
+            accepted).
+          </Typography>
+        </Box>
+
+        <Box mb={5}>
+          <Button
+            size="large"
+            variant="outlined"
+            color="primary"
+            component="span"
+            startIcon={<Icon path={mdiTrayArrowUp} size={1}></Icon>}
+            onClick={() => setOpenUploadBoundary(true)}
+            data-testid="project-boundary-upload">
+            Upload Boundary
+          </Button>
+        </Box>
+
+        <Box height={500}>
+          <MapContainer
+            mapId={'project_location_map'}
+            geometryState={{
+              geometry: values.location.boundary,
+              setGeometry: (newGeo: Feature[]) => setFieldValue('geometry', newGeo)
+            }}
+          />
+        </Box>
+      </Box>
 
       <ComponentDialog
         open={openUploadBoundary}

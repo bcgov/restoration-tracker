@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
@@ -15,7 +16,7 @@ import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectCoordinatorForm, {
   ProjectCoordinatorInitialValues,
   ProjectCoordinatorYupSchema
 } from 'features/projects/components/ProjectCoordinatorForm';
@@ -407,16 +408,30 @@ const CreateProjectPage: React.FC = () => {
                     <ProjectGeneralInformationForm />
                   </Box>
 
-                  {/* <Divider></Divider>
+                  <Divider></Divider>
 
-                {/* <Box my={5}>
-                  <ProjectCoordinatorForm />
-                </Box> */}
+                  <Box my={5}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="h2">Contact</Typography>
+                      </Grid>
+                      <Grid item xs={12} md={9}>
+                        <ProjectCoordinatorForm coordinator_agency={[]} />
+                      </Grid>
+                    </Grid>
+                  </Box>
 
                   {/* <Divider></Divider> */}
 
                   <Box my={5}>
-                    <ProjectPermitForm />
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="h2">Permits</Typography>
+                      </Grid>
+                      <Grid item xs={12} md={9}>
+                        <ProjectPermitForm />
+                      </Grid>
+                    </Grid>
                   </Box>
 
                   <Divider></Divider>
@@ -428,7 +443,14 @@ const CreateProjectPage: React.FC = () => {
                   {/* <Divider></Divider> */}
 
                   <Box my={5}>
-                    <ProjectLocationForm ranges={[]} />
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="h2">Location</Typography>
+                      </Grid>
+                      <Grid item xs={12} md={9}>
+                        <ProjectLocationForm ranges={[]} />
+                      </Grid>
+                    </Grid>
                   </Box>
 
                   <Divider></Divider>

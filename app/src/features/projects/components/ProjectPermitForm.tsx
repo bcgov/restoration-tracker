@@ -97,98 +97,93 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
       <FieldArray
         name="permit.permits"
         render={(arrayHelpers) => (
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
-              <Typography variant="h2">Permits</Typography>
-            </Grid>
-            <Grid item xs={12} md={9}>
-              <Box mb={3} maxWidth={'72ch'}>
-                <Typography variant="body1" color="textSecondary">
-                  <strong>Note:</strong> For permit numbers, only provide the last 6 digits located after the hyphen
-                  (e.g. for KA12-845782 enter 845782)
-                </Typography>
-              </Box>
-              {values.permit.permits?.map((permit, index) => {
-                const permitNumberMeta = getFieldMeta(`permit.permits.[${index}].permit_number`);
-                const permitTypeMeta = getFieldMeta(`permit.permits.[${index}].permit_type`);
+          <>
+            <Box mb={3} maxWidth={'72ch'}>
+              <Typography variant="body1" color="textSecondary">
+                <strong>Note:</strong> For permit numbers, only provide the last 6 digits located after the hyphen (e.g.
+                for KA12-845782 enter 845782)
+              </Typography>
+            </Box>
+            {values.permit.permits?.map((permit, index) => {
+              const permitNumberMeta = getFieldMeta(`permit.permits.[${index}].permit_number`);
+              const permitTypeMeta = getFieldMeta(`permit.permits.[${index}].permit_type`);
 
-                return (
-                  /* Permit List List */
-                  <Grid container spacing={3} key={index}>
-                    <Grid item xs={12} md={6}>
-                      <List>
-                        <ListItem className={classes.customListItem}>
-                          <Grid container spacing={3}>
-                            <Grid item xs={6}>
-                              <FormControl fullWidth variant="outlined">
-                                <InputLabel id="permit-type-label">Permit Type</InputLabel>
-                                <Select
-                                  name={`permit.permits.[${index}].permit_type`}
-                                  labelId="permit-type-label"
-                                  label="Permit Type"
-                                  value={permit.permit_type}
-                                  onChange={handleChange}
-                                  error={permitTypeMeta.touched && Boolean(permitTypeMeta.error)}
-                                  displayEmpty
-                                  id="permit-type-select">
-                                  <MenuItem key={1} value={10}>
-                                    Permit Type
-                                  </MenuItem>
-                                  <MenuItem key={2} value={20}>
-                                    Permit Type
-                                  </MenuItem>
-                                  <MenuItem key={3} value={30}>
-                                    Permit Type
-                                  </MenuItem>
-                                </Select>
-                                <FormHelperText>{permitTypeMeta.touched && permitTypeMeta.error}</FormHelperText>
-                              </FormControl>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <TextField
-                                name={`permit.permits.[${index}].permit_number`}
-                                id="permit-number-label"
-                                required={true}
-                                label="Permit Number"
-                                type="number"
+              return (
+                /* Permit List List */
+                <Grid container spacing={3} key={index}>
+                  <Grid item xs={12} md={6}>
+                    <List>
+                      <ListItem className={classes.customListItem}>
+                        <Grid container spacing={3}>
+                          <Grid item xs={6}>
+                            <FormControl fullWidth variant="outlined">
+                              <InputLabel id="permit-type-label">Permit Type</InputLabel>
+                              <Select
+                                name={`permit.permits.[${index}].permit_type`}
+                                labelId="permit-type-label"
+                                label="Permit Type"
+                                value={permit.permit_type}
                                 onChange={handleChange}
-                                variant="outlined"
-                                fullWidth={true}
-                                value={permit.permit_number}
-                                error={permitNumberMeta.touched && Boolean(permitNumberMeta.error)}
-                                helperText={permitNumberMeta.touched && permitNumberMeta.error}
-                              />
-                            </Grid>
+                                error={permitTypeMeta.touched && Boolean(permitTypeMeta.error)}
+                                displayEmpty
+                                id="permit-type-select">
+                                <MenuItem key={1} value={10}>
+                                  Permit Type
+                                </MenuItem>
+                                <MenuItem key={2} value={20}>
+                                  Permit Type
+                                </MenuItem>
+                                <MenuItem key={3} value={30}>
+                                  Permit Type
+                                </MenuItem>
+                              </Select>
+                              <FormHelperText>{permitTypeMeta.touched && permitTypeMeta.error}</FormHelperText>
+                            </FormControl>
                           </Grid>
-                          <ListItemSecondaryAction>
-                            <IconButton
-                              color="primary"
-                              data-testid="delete-icon"
-                              aria-label="remove permit"
-                              onClick={() => arrayHelpers.remove(index)}
-                              edge="end">
-                              <Icon path={mdiTrashCanOutline} size={1}></Icon>
-                            </IconButton>
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                      </List>
-                    </Grid>
+                          <Grid item xs={6}>
+                            <TextField
+                              name={`permit.permits.[${index}].permit_number`}
+                              id="permit-number-label"
+                              required={true}
+                              label="Permit Number"
+                              type="number"
+                              onChange={handleChange}
+                              variant="outlined"
+                              fullWidth={true}
+                              value={permit.permit_number}
+                              error={permitNumberMeta.touched && Boolean(permitNumberMeta.error)}
+                              helperText={permitNumberMeta.touched && permitNumberMeta.error}
+                            />
+                          </Grid>
+                        </Grid>
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            color="primary"
+                            data-testid="delete-icon"
+                            aria-label="remove permit"
+                            onClick={() => arrayHelpers.remove(index)}
+                            edge="end">
+                            <Icon path={mdiTrashCanOutline} size={1}></Icon>
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    </List>
                   </Grid>
-                );
-              })}
-              <Box pt={2}>
-                <Button
-                  type="button"
-                  variant="outlined"
-                  color="primary"
-                  aria-label="add permit"
-                  startIcon={<Icon path={mdiPlus} size={1}></Icon>}
-                  onClick={() => arrayHelpers.push(ProjectPermitFormArrayItemInitialValues)}>
-                  Add New Permit
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
+                </Grid>
+              );
+            })}
+            <Box pt={2}>
+              <Button
+                type="button"
+                variant="outlined"
+                color="primary"
+                aria-label="add permit"
+                startIcon={<Icon path={mdiPlus} size={1}></Icon>}
+                onClick={() => arrayHelpers.push(ProjectPermitFormArrayItemInitialValues)}>
+                Add New Permit
+              </Button>
+            </Box>
+          </>
         )}
       />
       <Box>
