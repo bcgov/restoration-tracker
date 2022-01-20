@@ -44,6 +44,7 @@ declare
   _geography project_spatial_component.geography%type;
   _project_funding_source_id project_funding_source.project_funding_source_id%type;
   _project_attachment_id project_attachment.project_attachment_id%type;
+  _treatment_unit_id treatment_unit.treatment_unit_id%type;
 begin
   -- set security context
   select api_set_context('myIDIR', 'IDIR') into _system_user_id;
@@ -79,7 +80,8 @@ begin
   insert into project_iucn_action_classification (project_id, iucn_conservation_action_level_3_subclassification_id) values (_project_id, (select iucn_conservation_action_level_3_subclassification_id from iucn_conservation_action_level_3_subclassification where name = 'Primary Education'));
   insert into project_attachment (project_id, file_name, title, key, file_size, file_type) values (_project_id, 'test_filename.txt', 'test filename', 'projects/'||_project_id::text, 10000, 'video');
   insert into project_first_nation (project_id, first_nations_id) values (_project_id, (select first_nations_id from first_nations where name = 'Kitselas Nation'));
-  insert into permit (system_user_id, project_id, number, type, issue_date, end_date) values (_system_user_id, _project_id, '8377262', 'permit type', now(), now()+interval '1 day');
+  insert into permit (system_user_id, number, type, issue_date, end_date) values (_system_user_id, '8377262', 'permit type', now(), now()+interval '1 day');
+  insert into project_spatial_component (name, project_id, geography, project_spatial_component_type_id) values ('test project spatial', _project_id, _geography, (select project_spatial_component_type_id from project_spatial_component_type where name = 'Boundary'));
 
   select count(1) into _count from stakeholder_partnership;
   assert _count = 1, 'FAIL stakeholder_partnership';
@@ -87,12 +89,26 @@ begin
   assert _count = 1, 'FAIL project_funding_source';
   select count(1) into _count from project_iucn_action_classification;
   assert _count = 1, 'FAIL project_iucn_action_classification';
-  --select count(1) into _count from project_attachment;
-  --assert _count = 1, 'FAIL project_attachment';
+  select count(1) into _count from project_attachment;
+  assert _count = 1, 'FAIL project_attachment';
   select count(1) into _count from project_first_nation;
   assert _count = 1, 'FAIL project_first_nation';
   select count(1) into _count from permit;
   assert _count = 1, 'FAIL permit';
+  select count(1) into _count from project_spatial_component;
+  assert _count = 1, 'FAIL project_spatial_component';
+
+  -- test treatments
+  insert into treatment_unit (name, project_id, reconnaissance_conducted, natural_recovery, linear_feature_type_id) values ('test treatment unit', _project_id, 'N', 'N', (select linear_feature_type_id from linear_feature_type where name = 'Roads' and record_end_date is null)) returning treatment_unit_id into _treatment_unit_id;
+  insert into treatment (name, treatment_unit_id, treatment_type_id) values ('test treatment', _treatment_unit_id, (select treatment_type_id from treatment_type where name = 'Mounding'));
+  insert into treatment_unit_spatial_component (name, treatment_unit_id, geography, treatment_unit_spatial_component_type_id) values ('test treatment spatial', _treatment_unit_id, _geography, (select project_spatial_component_type_id from project_spatial_component_type where name = 'Boundary'));
+
+  select count(1) into _count from treatment_unit;
+  assert _count = 1, 'FAIL treatment_unit';
+  select count(1) into _count from treatment;
+  assert _count = 1, 'FAIL treatment';
+  select count(1) into _count from treatment_unit_spatial_component;
+  assert _count = 1, 'FAIL treatment_unit_spatial_component';
 
   -- test ancillary data
   delete from webform_draft;
