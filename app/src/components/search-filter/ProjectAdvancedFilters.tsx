@@ -4,13 +4,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import AutocompleteFreeSoloField from 'components/fields/AutocompleteFreeSoloField';
+import CustomTextField from 'components/fields/CustomTextField';
 import MultiAutocompleteFieldVariableSize, {
   IMultiAutocompleteFieldOption
 } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import React from 'react';
-import CustomTextField from 'components/fields/CustomTextField';
 export interface IProjectAdvancedFilters {
   coordinator_agency: string;
   permit_number: string;
@@ -90,7 +90,13 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
           </FormControl>
         </Grid>
         <Grid item xs={12} md={6}>
-          <StartEndDateFields formikProps={formikProps} startRequired={false} endRequired={false} />
+          <StartEndDateFields
+            formikProps={formikProps}
+            startName={'start_date'}
+            endName={'end_date'}
+            startRequired={false}
+            endRequired={false}
+          />
         </Grid>
         <Grid item xs={12} md={3}>
           <AutocompleteFreeSoloField

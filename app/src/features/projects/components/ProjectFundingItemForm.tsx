@@ -2,11 +2,11 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Typography from '@material-ui/core/Typography';
 import CustomTextField from 'components/fields/CustomTextField';
 import DollarAmountField from 'components/fields/DollarAmountField';
 import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteFieldVariableSize';
@@ -168,7 +168,13 @@ const ProjectFundingItemForm: React.FC<IProjectFundingItemFormProps> = (props) =
           <Grid item xs={12}>
             <DollarAmountField required={true} id="funding_amount" name="funding_amount" label="Funding Amount" />
           </Grid>
-          <StartEndDateFields formikProps={formikProps} startRequired={true} endRequired={true} />
+          <StartEndDateFields
+            formikProps={formikProps}
+            startName={'start_date'}
+            endName={'end_date'}
+            startRequired={true}
+            endRequired={true}
+          />
         </Grid>
       </Box>
       <Box mt={4}>

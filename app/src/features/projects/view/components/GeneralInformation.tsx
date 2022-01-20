@@ -101,7 +101,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
   const handleDialogEditSave = async (values: IProjectGeneralInformationForm) => {
     const projectData = {
-      project: { ...values, revision_count: detailsDataForUpdate.revision_count }
+      project: { ...values.project, revision_count: detailsDataForUpdate.revision_count }
     };
 
     try {

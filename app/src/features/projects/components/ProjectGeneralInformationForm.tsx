@@ -7,34 +7,40 @@ import React from 'react';
 import yup from 'utils/YupSchema';
 
 export interface IProjectGeneralInformationForm {
-  project_name: string;
-  start_date: string;
-  end_date: string;
-  objectives: string;
+  project: {
+    project_name: string;
+    start_date: string;
+    end_date: string;
+    objectives: string;
+  };
 }
 
 export const ProjectGeneralInformationFormInitialValues: IProjectGeneralInformationForm = {
-  project_name: '',
-  start_date: '',
-  end_date: '',
-  objectives: ''
+  project: {
+    project_name: '',
+    start_date: '',
+    end_date: '',
+    objectives: ''
+  }
 };
 
 export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
-  project_name: yup.string().max(300, 'Cannot exceed 300 characters').required('Required'),
-  start_date: yup.string().isValidDateString().required('Required'),
-  end_date: yup.string().isValidDateString().isEndDateAfterStartDate('start_date'),
-  objectives: yup
-    .string()
-    .max(3000, 'Cannot exceed 3000 characters')
-    .required('You must provide objectives for the project')
+  project: yup.object().shape({
+    project_name: yup.string().max(300, 'Cannot exceed 300 characters').required('Required'),
+    start_date: yup.string().isValidDateString().required('Required'),
+    end_date: yup.string().isValidDateString().isEndDateAfterStartDate('start_date'),
+    objectives: yup
+      .string()
+      .max(3000, 'Cannot exceed 3000 characters')
+      .required('You must provide objectives for the project')
+  })
 });
 /**
  * Create project - General information section
  *
  * @return {*}
  */
-const ProjectGeneralInformationForm: React.FC = (props) => {
+const ProjectGeneralInformationForm: React.FC = () => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
   return (
@@ -42,13 +48,19 @@ const ProjectGeneralInformationForm: React.FC = (props) => {
       <Grid item xs={12} md={9}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <TextField fullWidth required variant="outlined" label="Project Name" id="project_name"></TextField>
+            <TextField fullWidth required variant="outlined" label="Project Name" id="project.project_name"></TextField>
           </Grid>
-          <StartEndDateFields formikProps={formikProps} startRequired={true} endRequired={false} />
+          <StartEndDateFields
+            formikProps={formikProps}
+            startName={'project.start_date'}
+            endName={'project.end_date'}
+            startRequired={true}
+            endRequired={false}
+          />
           <Grid item xs={12}>
             <Grid item xs={12}>
               <CustomTextField
-                name="objectives"
+                name="project.objectives"
                 label="Objectives"
                 other={{ multiline: true, required: true, rows: 4 }}
               />

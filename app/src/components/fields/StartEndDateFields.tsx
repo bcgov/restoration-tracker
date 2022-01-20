@@ -5,6 +5,8 @@ import React from 'react';
 
 interface IStartEndDateFieldsProps {
   formikProps: any;
+  startName: string;
+  endName: string;
   startRequired: boolean;
   endRequired: boolean;
   startDateHelperText?: string;
@@ -18,6 +20,8 @@ interface IStartEndDateFieldsProps {
 const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
   const {
     formikProps: { values, handleChange, errors, touched },
+    startName,
+    endName,
     startRequired,
     endRequired,
     startDateHelperText,
@@ -34,7 +38,7 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           label="Start Date"
           variant="outlined"
           required={startRequired}
-          value={values.start_date}
+          value={values[startName]}
           type="date"
           InputProps={{
             // Chrome min/max dates
@@ -47,8 +51,8 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
             'data-testid': 'start-date'
           }}
           onChange={handleChange}
-          error={touched.start_date && Boolean(errors.start_date)}
-          helperText={(touched.start_date && errors.start_date) || startDateHelperText}
+          error={touched[startName] && Boolean(errors[startName])}
+          helperText={(touched[startName] && errors[startName]) || startDateHelperText}
           InputLabelProps={{
             shrink: true
           }}
@@ -62,7 +66,7 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           label="End Date"
           variant="outlined"
           required={endRequired}
-          value={values.end_date}
+          value={values[endName]}
           type="date"
           InputProps={{
             // Chrome min/max dates
@@ -75,8 +79,8 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
             'data-testid': 'end-date'
           }}
           onChange={handleChange}
-          error={touched.end_date && Boolean(errors.end_date)}
-          helperText={(touched.end_date && errors.end_date) || endDateHelperText}
+          error={touched[endName] && Boolean(errors[endName])}
+          helperText={(touched[endName] && errors[endName]) || endDateHelperText}
           InputLabelProps={{
             shrink: true
           }}
