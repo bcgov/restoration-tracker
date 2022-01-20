@@ -2,7 +2,6 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-//import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -12,12 +11,10 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { mdiPlus, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-//import CustomTextField from 'components/fields/CustomTextField';
-import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteFieldVariableSize';
+import CustomTextField from 'components/fields/CustomTextField';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import yup from 'utils/YupSchema';
@@ -78,16 +75,12 @@ export const ProjectPermitFormYupSchema = yup.object().shape({
     .isUniquePermitNumber('Permit numbers must be unique')
 });
 
-export interface IProjectPermitFormProps {
-  non_sampling_permits?: IMultiAutocompleteFieldOption[];
-}
-
 /**
  * Create project - Permit section
  *
  * @return {*}
  */
-const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
+const ProjectPermitForm: React.FC = () => {
   const classes = useStyles();
 
   const { values, handleChange, getFieldMeta, errors } = useFormikContext<IProjectPermitForm>();
@@ -119,6 +112,7 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                             <FormControl fullWidth variant="outlined">
                               <InputLabel id="permit-type-label">Permit Type</InputLabel>
                               <Select
+                                id="permit-type-select"
                                 name={`permit.permits.[${index}].permit_type`}
                                 labelId="permit-type-label"
                                 label="Permit Type"
@@ -126,33 +120,30 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
                                 onChange={handleChange}
                                 error={permitTypeMeta.touched && Boolean(permitTypeMeta.error)}
                                 displayEmpty
-                                id="permit-type-select">
-                                <MenuItem key={1} value={10}>
-                                  Permit Type
+                                inputProps={{ 'aria-label': 'Permit Type' }}>
+                                <MenuItem key={1} value="Park Use Permit">
+                                  Park Use Permit
                                 </MenuItem>
-                                <MenuItem key={2} value={20}>
-                                  Permit Type
+                                <MenuItem key={2} value="Wildlife Permit - General">
+                                  Wildlife Permit - General
                                 </MenuItem>
-                                <MenuItem key={3} value={30}>
-                                  Permit Type
+                                <MenuItem key={3} value="Scientific Fish Collection Permit">
+                                  Scientific Fish Collection Permit
                                 </MenuItem>
                               </Select>
                               <FormHelperText>{permitTypeMeta.touched && permitTypeMeta.error}</FormHelperText>
                             </FormControl>
                           </Grid>
                           <Grid item xs={6}>
-                            <TextField
+                            <CustomTextField
                               name={`permit.permits.[${index}].permit_number`}
-                              id="permit-number-label"
-                              required={true}
                               label="Permit Number"
-                              type="number"
-                              onChange={handleChange}
-                              variant="outlined"
-                              fullWidth={true}
-                              value={permit.permit_number}
-                              error={permitNumberMeta.touched && Boolean(permitNumberMeta.error)}
-                              helperText={permitNumberMeta.touched && permitNumberMeta.error}
+                              other={{
+                                required: true,
+                                value: permit.permit_number,
+                                error: permitNumberMeta.touched && Boolean(permitNumberMeta.error),
+                                helperText: permitNumberMeta.touched && permitNumberMeta.error
+                              }}
                             />
                           </Grid>
                         </Grid>

@@ -13,15 +13,12 @@ import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditPermitI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import ProjectPermitForm, {
-  IProjectPermitForm,
-  ProjectPermitFormYupSchema,
-  ProjectPermitFormArrayItemInitialValues,
-  ProjectPermitFormInitialValues
+  IProjectPermitForm, ProjectPermitFormArrayItemInitialValues,
+  ProjectPermitFormInitialValues, ProjectPermitFormYupSchema
 } from 'features/projects/components/ProjectPermitForm';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import { IGetNonSamplingPermit } from 'interfaces/usePermitApi.interface';
 import {
   IGetProjectForUpdateResponseCoordinator,
   IGetProjectForViewResponse,
@@ -70,30 +67,24 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
   const [coordinatorData, setCoordinatorData] = useState<IGetProjectForUpdateResponseCoordinator>(
     (null as unknown) as IGetProjectForUpdateResponseCoordinator
   );
-  const [nonSamplingPermits, setNonSamplingPermits] = useState<IGetNonSamplingPermit[]>((null as unknown) as []);
 
   const handleDialogEditOpen = async () => {
     let permitResponseData;
     let coordinatorResponseData;
-    let existingPermitsResponseData;
 
     try {
-      const [projectForUpdateResponse, existingPermitsResponse] = await Promise.all([
-        restorationTrackerApi.project.getProjectForUpdate(id, [
-          UPDATE_GET_ENTITIES.permit,
-          UPDATE_GET_ENTITIES.coordinator
-        ]),
-        restorationTrackerApi.permit.getNonSamplingPermits()
+      const projectForUpdateResponse = await restorationTrackerApi.project.getProjectForUpdate(id, [
+        UPDATE_GET_ENTITIES.permit,
+        UPDATE_GET_ENTITIES.coordinator
       ]);
 
-      if (!projectForUpdateResponse?.permit || !projectForUpdateResponse?.coordinator || !existingPermitsResponse) {
+      if (!projectForUpdateResponse?.permit || !projectForUpdateResponse?.coordinator) {
         showErrorDialog({ open: true });
         return;
       }
 
       permitResponseData = projectForUpdateResponse.permit;
       coordinatorResponseData = projectForUpdateResponse.coordinator;
-      existingPermitsResponseData = existingPermitsResponse;
     } catch (error) {
       const apiError = error as APIError;
       showErrorDialog({ dialogText: apiError.message, open: true });
@@ -106,7 +97,6 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
       }
     });
     setCoordinatorData(coordinatorResponseData);
-    setNonSamplingPermits(existingPermitsResponseData);
 
     setOpenEditDialog(true);
   };
@@ -135,15 +125,7 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
         dialogTitle={EditPermitI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: (
-            <ProjectPermitForm
-              non_sampling_permits={
-                nonSamplingPermits?.map((item: IGetNonSamplingPermit) => {
-                  return { value: item.permit_id, label: `${item.number} - ${item.type}` };
-                }) || []
-              }
-            />
-          ),
+          element: <ProjectPermitForm />,
           initialValues: permitFormData.permit?.permits?.length
             ? permitFormData
             : { permit: { permits: [ProjectPermitFormArrayItemInitialValues] } },
