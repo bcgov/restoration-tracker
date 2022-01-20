@@ -24,7 +24,7 @@ import ProjectDraftForm, {
   IProjectDraftForm,
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
-import {
+import ProjectFundingForm, {
   ProjectFundingFormInitialValues,
   ProjectFundingFormYupSchema
 } from 'features/projects/components/ProjectFundingForm';
@@ -37,7 +37,7 @@ import ProjectLocationForm, {
   ProjectLocationFormInitialValues,
   ProjectLocationFormYupSchema
 } from 'features/projects/components/ProjectLocationForm';
-import {
+import ProjectPartnershipsForm, {
   ProjectPartnershipsFormInitialValues,
   ProjectPartnershipsFormYupSchema
 } from 'features/projects/components/ProjectPartnershipsForm';
@@ -423,7 +423,7 @@ const CreateProjectPage: React.FC = () => {
                     </Grid>
                   </Box>
 
-                  {/* <Divider></Divider> */}
+                  <Divider></Divider>
 
                   <Box my={5}>
                     <Grid container spacing={3}>
@@ -438,11 +438,37 @@ const CreateProjectPage: React.FC = () => {
 
                   <Divider></Divider>
 
-                  {/* <Box my={5}>
-                  <ProjectFundingForm />
-                </Box> */}
+                  <Box my={5}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="h2">Funding and Partnerships</Typography>
+                      </Grid>
+                      <Grid item xs={12} md={9}>
+                        <Box component="fieldset" mx={0}>
+                          <ProjectFundingForm
+                            funding_sources={codes.funding_source.map((item) => {
+                              return { value: item.id, label: item.name };
+                            })}
+                            investment_action_category={codes.investment_action_category.map((item) => {
+                              return { value: item.id, label: item.name, fs_id: item.fs_id };
+                            })}
+                          />
+                        </Box>
+                        <Box component="fieldset" mt={5} mx={0}>
+                          <ProjectPartnershipsForm
+                            first_nations={codes.first_nations.map((item) => {
+                              return { value: item.id, label: item.name };
+                            })}
+                            stakeholder_partnerships={codes.funding_source.map((item) => {
+                              return { value: item.id, label: item.name };
+                            })}
+                          />
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box>
 
-                  {/* <Divider></Divider> */}
+                  <Divider></Divider>
 
                   <Box my={5}>
                     <Grid container spacing={3}>

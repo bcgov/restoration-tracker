@@ -1,19 +1,24 @@
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import MultiAutocompleteFieldVariableSize, {
   IMultiAutocompleteFieldOption
 } from 'components/fields/MultiAutocompleteFieldVariableSize';
-import { useFormikContext } from 'formik';
 import React from 'react';
 import yup from 'utils/YupSchema';
 
 export interface IProjectPartnershipsForm {
-  indigenous_partnerships: number[];
-  stakeholder_partnerships: string[];
+  partnerships: {
+    indigenous_partnerships: number[];
+    stakeholder_partnerships: string[];
+  };
 }
 
 export const ProjectPartnershipsFormInitialValues: IProjectPartnershipsForm = {
-  indigenous_partnerships: [],
-  stakeholder_partnerships: []
+  partnerships: {
+    indigenous_partnerships: [],
+    stakeholder_partnerships: []
+  }
 };
 
 export const ProjectPartnershipsFormYupSchema = yup.object().shape({});
@@ -29,12 +34,16 @@ export interface IProjectPartnershipsFormProps {
  * @return {*}
  */
 const ProjectPartnershipsForm: React.FC<IProjectPartnershipsFormProps> = (props) => {
-  const formikProps = useFormikContext<IProjectPartnershipsForm>();
-
-  const { handleSubmit } = formikProps;
-
   return (
-    <form onSubmit={handleSubmit}>
+    <>
+      <Typography component="legend">Partnerships</Typography>
+
+      <Box mb={3} maxWidth={'72ch'}>
+        <Typography variant="body1" color="textSecondary">
+          Specify any additional partnerships that have not been previously identified as a funding sources.
+        </Typography>
+      </Box>
+
       <Grid container spacing={3} direction="column">
         <Grid item xs={12}>
           <MultiAutocompleteFieldVariableSize
@@ -53,7 +62,7 @@ const ProjectPartnershipsForm: React.FC<IProjectPartnershipsFormProps> = (props)
           />
         </Grid>
       </Grid>
-    </form>
+    </>
   );
 };
 

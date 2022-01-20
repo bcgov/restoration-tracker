@@ -82,18 +82,18 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
     }
 
     setPartnershipsForUpdate({
-      indigenous_partnerships: partnershipsResponseData.indigenous_partnerships,
-      stakeholder_partnerships: partnershipsResponseData.stakeholder_partnerships
+      partnerships: {
+        indigenous_partnerships: partnershipsResponseData.indigenous_partnerships,
+        stakeholder_partnerships: partnershipsResponseData.stakeholder_partnerships
+      }
     });
 
     setOpenEditDialog(true);
   };
 
   const handleDialogEditSave = async (values: IProjectPartnershipsForm) => {
-    const projectData = { partnerships: values };
-
     try {
-      await restorationTrackerApi.project.updateProject(id, projectData);
+      await restorationTrackerApi.project.updateProject(id, values);
     } catch (error) {
       const apiError = error as APIError;
       showErrorDialog({ dialogText: apiError.message, open: true });
