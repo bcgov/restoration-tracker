@@ -228,11 +228,7 @@ const Header: React.FC = () => {
           </Toolbar>
         </Box>
         <Box className={classes.mainNav}>
-          <Toolbar
-            variant="dense"
-            className={classes.mainNavToolbar}
-            role="navigation"
-            aria-label="Main Navigation">
+          <Toolbar variant="dense" className={classes.mainNavToolbar} role="navigation" aria-label="Main Navigation">
             <UnAuthGuard>
               <Link to="/" id="menu_projects">
                 Projects

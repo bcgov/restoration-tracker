@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -29,10 +28,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectDetailDrawer: {
-     '& .MuiDrawer-paper': {
-       position: 'relative',
-       overflow: 'hidden'
-     }
+      '& .MuiDrawer-paper': {
+        position: 'relative',
+        overflow: 'hidden'
+      }
     },
     projectDetailMain: {
       background: '#ffffff'
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       '& dd, dt': {
         display: 'inline-block',
-        width: '50%',
+        width: '50%'
       },
 
       '& h3': {
@@ -81,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
     treatmentsContainer: {
       display: 'none'
     }
-  }),
+  })
 );
 
 /**
@@ -89,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
  *
  * @return {*}
  */
- const RestoProjectDetailsPage: React.FC = () => {
+const RestoProjectDetailsPage: React.FC = () => {
   const classes = useStyles();
 
   // Funding Source Dialog Prototype
@@ -128,43 +127,62 @@ const useStyles = makeStyles((theme: Theme) =>
           <Box display="flex" flexDirection="column" overflow="hidden" width="30rem" height="100%">
             <Box flex="0 auto" p={3}>
               <Box mb={2}>
-                <Button
-                  href="/projects"
-                  size="small"
-                  startIcon={<Icon path={mdiArrowLeft} size={0.875}></Icon>}
-                >
+                <Button href="/projects" size="small" startIcon={<Icon path={mdiArrowLeft} size={0.875}></Icon>}>
                   Back to Projects
                 </Button>
               </Box>
-              <h1 className={classes.projectTitle}><b>Project -</b> My Project Name</h1>
+              <h1 className={classes.projectTitle}>
+                <b>Project -</b> My Project Name
+              </h1>
             </Box>
 
             {/* Project Metadata */}
             <Box flex="1 auto" p={3} className={classes.projectMetadata}>
-
               <Box component="section">
-                <Typography variant="body1" component={'h3'}>Objectives</Typography>
+                <Typography variant="body1" component={'h3'}>
+                  Objectives
+                </Typography>
                 <Box mt={2}>
-                  <Typography variant="body2" color="textSecondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.
+                  </Typography>
                 </Box>
               </Box>
 
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'} >General Information</Typography>
+                <Typography variant="body1" component={'h3'}>
+                  General Information
+                </Typography>
                 <dl>
                   <div>
-                    <Typography variant="body2" component="dd" color="textSecondary">Project Type:</Typography>
-                    <Typography variant="body2" component="dt">Project Type</Typography>
+                    <Typography variant="body2" component="dd" color="textSecondary">
+                      Project Type:
+                    </Typography>
+                    <Typography variant="body2" component="dt">
+                      Project Type
+                    </Typography>
                   </div>
                   <div>
-                    <Typography variant="body2" component="dd" color="textSecondary">Start Date:</Typography>
-                    <Typography variant="body2" component="dt">MMM DD, YYYY</Typography>
+                    <Typography variant="body2" component="dd" color="textSecondary">
+                      Start Date:
+                    </Typography>
+                    <Typography variant="body2" component="dt">
+                      MMM DD, YYYY
+                    </Typography>
                   </div>
                   <div>
-                    <Typography variant="body2" component="dd" color="textSecondary">Completion Date:</Typography>
-                    <Typography variant="body2" component="dt">MMM DD, YYYY</Typography>
+                    <Typography variant="body2" component="dd" color="textSecondary">
+                      Completion Date:
+                    </Typography>
+                    <Typography variant="body2" component="dt">
+                      MMM DD, YYYY
+                    </Typography>
                   </div>
                 </dl>
               </Box>
@@ -172,16 +190,26 @@ const useStyles = makeStyles((theme: Theme) =>
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'} >Project Contacts</Typography>
+                <Typography variant="body1" component={'h3'}>
+                  Project Contacts
+                </Typography>
                 <ul className={classes.projectContactList}>
                   <li>
-                    <div><strong>Contact Name</strong></div>
-                    <div><Link href="#">email@email.com</Link></div>
+                    <div>
+                      <strong>Contact Name</strong>
+                    </div>
+                    <div>
+                      <Link href="#">email@email.com</Link>
+                    </div>
                     <div>Agency Name</div>
                   </li>
                   <li>
-                    <div><strong>Contact Name</strong></div>
-                    <div><Link href="#">email@email.com</Link></div>
+                    <div>
+                      <strong>Contact Name</strong>
+                    </div>
+                    <div>
+                      <Link href="#">email@email.com</Link>
+                    </div>
                     <div>Agency Name</div>
                   </li>
                 </ul>
@@ -190,106 +218,141 @@ const useStyles = makeStyles((theme: Theme) =>
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'} >IUCN Conservation Actions Classifications</Typography>
-                <Box component='ul' pl={3}>
-                  <li>
-                    Classification &gt; Sub-classification &gt; Sub-classification
-                  </li>
-                  <li>
-                    Classification &gt; Sub-classification &gt; Sub-classification
-                  </li>
+                <Typography variant="body1" component={'h3'}>
+                  IUCN Conservation Actions Classifications
+                </Typography>
+                <Box component="ul" pl={3}>
+                  <li>Classification &gt; Sub-classification &gt; Sub-classification</li>
+                  <li>Classification &gt; Sub-classification &gt; Sub-classification</li>
                 </Box>
               </Box>
 
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'} >Project Permits</Typography>
-                <Box component='ul' pl={3}>
-                  <li>
-                    1234567890 (Wildlife Permit - General)
-                  </li>
-                  <li>
-                    1234567890 (Wildlife Permit - General)
-                  </li>
+                <Typography variant="body1" component={'h3'}>
+                  Project Permits
+                </Typography>
+                <Box component="ul" pl={3}>
+                  <li>1234567890 (Wildlife Permit - General)</li>
+                  <li>1234567890 (Wildlife Permit - General)</li>
                 </Box>
               </Box>
 
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'} >Funding Sources</Typography>
+                <Typography variant="body1" component={'h3'}>
+                  Funding Sources
+                </Typography>
                 <ul className={classes.projectContactList}>
                   <li>
-                    <div><strong>Funding Source Agency</strong></div>
+                    <div>
+                      <strong>Funding Source Agency</strong>
+                    </div>
                     <Box component="dl" mt={0.5} mb={0}>
                       <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">Amount:</Typography>
-                        <Typography variant="body2" component="dt">$1,000,000</Typography>
+                        <Typography variant="body2" component="dd" color="textSecondary">
+                          Amount:
+                        </Typography>
+                        <Typography variant="body2" component="dt">
+                          $1,000,000
+                        </Typography>
                       </div>
                       <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">Project ID:</Typography>
-                        <Typography variant="body2" component="dt">1234567890</Typography>
+                        <Typography variant="body2" component="dd" color="textSecondary">
+                          Project ID:
+                        </Typography>
+                        <Typography variant="body2" component="dt">
+                          1234567890
+                        </Typography>
                       </div>
                       <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">Start Date:</Typography>
-                        <Typography variant="body2" component="dt">MMM DD, YYYY</Typography>
+                        <Typography variant="body2" component="dd" color="textSecondary">
+                          Start Date:
+                        </Typography>
+                        <Typography variant="body2" component="dt">
+                          MMM DD, YYYY
+                        </Typography>
                       </div>
                       <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">End Date:</Typography>
-                        <Typography variant="body2" component="dt">MMM DD, YYYY</Typography>
+                        <Typography variant="body2" component="dd" color="textSecondary">
+                          End Date:
+                        </Typography>
+                        <Typography variant="body2" component="dt">
+                          MMM DD, YYYY
+                        </Typography>
                       </div>
                     </Box>
                   </li>
                   <li>
-                    <div><strong>Funding Source Agency</strong></div>
+                    <div>
+                      <strong>Funding Source Agency</strong>
+                    </div>
                     <Box component="dl" mt={0.5} mb={0}>
                       <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">Amount:</Typography>
-                        <Typography variant="body2" component="dt">$1,000,000</Typography>
+                        <Typography variant="body2" component="dd" color="textSecondary">
+                          Amount:
+                        </Typography>
+                        <Typography variant="body2" component="dt">
+                          $1,000,000
+                        </Typography>
                       </div>
                       <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">Project ID:</Typography>
-                        <Typography variant="body2" component="dt">1234567890</Typography>
+                        <Typography variant="body2" component="dd" color="textSecondary">
+                          Project ID:
+                        </Typography>
+                        <Typography variant="body2" component="dt">
+                          1234567890
+                        </Typography>
                       </div>
                       <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">Start Date:</Typography>
-                        <Typography variant="body2" component="dt">MMM DD, YYYY</Typography>
+                        <Typography variant="body2" component="dd" color="textSecondary">
+                          Start Date:
+                        </Typography>
+                        <Typography variant="body2" component="dt">
+                          MMM DD, YYYY
+                        </Typography>
                       </div>
                       <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">End Date:</Typography>
-                        <Typography variant="body2" component="dt">MMM DD, YYYY</Typography>
+                        <Typography variant="body2" component="dd" color="textSecondary">
+                          End Date:
+                        </Typography>
+                        <Typography variant="body2" component="dt">
+                          MMM DD, YYYY
+                        </Typography>
                       </div>
                     </Box>
                   </li>
                 </ul>
               </Box>
-
             </Box>
           </Box>
         </Drawer>
 
-        <Box display="flex" flex="1 1 auto" alignItems="center" justifyContent="center" className={classes.projectDetailMain}>
-
+        <Box
+          display="flex"
+          flex="1 1 auto"
+          alignItems="center"
+          justifyContent="center"
+          className={classes.projectDetailMain}>
           <div>Project Boundary Map</div>
-          
+
           <Container maxWidth="xl" className={classes.treatmentsContainer}>
             <Box p={3}>
               <Box mb={1} display="flex" alignItems="center" justifyContent="space-between">
                 <Typography variant="h2" className={classes.contentTitle}>
                   Treatment Units
                 </Typography>
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  onClick={fundingSourceDialogOpen}
-                >
-                    Add Treatment Unit
+                <Button size="large" variant="contained" color="primary" onClick={fundingSourceDialogOpen}>
+                  Add Treatment Unit
                 </Button>
               </Box>
               <Box mb={5}>
-                <Typography variant="body1" color="textSecondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography>
+                <Typography variant="body1" color="textSecondary">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                  dolore magna aliqua.
+                </Typography>
               </Box>
               <Box>
                 <Paper variant="outlined">
@@ -298,7 +361,6 @@ const useStyles = makeStyles((theme: Theme) =>
               </Box>
             </Box>
           </Container>
-
         </Box>
       </Box>
 
@@ -309,23 +371,12 @@ const useStyles = makeStyles((theme: Theme) =>
             <Box mb={4}>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="ID"
-                  >
-                  </TextField>
+                  <TextField fullWidth variant="outlined" label="ID"></TextField>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <FormControl 
-                    fullWidth
-                    variant="outlined">
+                  <FormControl fullWidth variant="outlined">
                     <InputLabel id="linear-feature-type">Linear Feature Type</InputLabel>
-                    <Select
-                      labelId="linear-feature-type"
-                      label="Linear Feature Type"
-                      id="linear-feature-type-select"
-                    >
+                    <Select labelId="linear-feature-type" label="Linear Feature Type" id="linear-feature-type-select">
                       <MenuItem value={1}>Pipeline</MenuItem>
                       <MenuItem value={2}>Railway</MenuItem>
                       <MenuItem value={3}>Roads</MenuItem>
@@ -342,9 +393,7 @@ const useStyles = makeStyles((theme: Theme) =>
                     variant="outlined"
                     label="Description of Treatment Unit"
                     multiline
-                    rows={3}
-                  >
-                  </TextField>
+                    rows={3}></TextField>
                 </Grid>
               </Grid>
             </Box>
@@ -352,10 +401,10 @@ const useStyles = makeStyles((theme: Theme) =>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Was reconnaissance conducted for this treatment unit?</FormLabel>
                 <Box mt={2}>
-                <RadioGroup aria-label="gender" name="priorityArea" value={reconValue} onChange={handleReconValue}>
-                  <FormControlLabel value="priorityAreaYes" control={<Radio color="primary" />}  label="Yes" />
-                  <FormControlLabel value="priorityAreaNo" control={<Radio color="primary" />} label="No" />
-                </RadioGroup>
+                  <RadioGroup aria-label="gender" name="priorityArea" value={reconValue} onChange={handleReconValue}>
+                    <FormControlLabel value="priorityAreaYes" control={<Radio color="primary" />} label="Yes" />
+                    <FormControlLabel value="priorityAreaNo" control={<Radio color="primary" />} label="No" />
+                  </RadioGroup>
                 </Box>
               </FormControl>
             </Box>
@@ -363,10 +412,22 @@ const useStyles = makeStyles((theme: Theme) =>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Leave treatment unit for natural recovery?</FormLabel>
                 <Box mt={2}>
-                <RadioGroup aria-label="gender" name="priorityArea" value={treatmentValue} onChange={handleTreatmentValue}>
-                  <FormControlLabel value="treatmentNaturalRecoveryYes" control={<Radio color="primary" />}  label="Yes" />
-                  <FormControlLabel value="treatmentNaturalRecoveryNo" control={<Radio color="primary" />} label="No" />
-                </RadioGroup>
+                  <RadioGroup
+                    aria-label="gender"
+                    name="priorityArea"
+                    value={treatmentValue}
+                    onChange={handleTreatmentValue}>
+                    <FormControlLabel
+                      value="treatmentNaturalRecoveryYes"
+                      control={<Radio color="primary" />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="treatmentNaturalRecoveryNo"
+                      control={<Radio color="primary" />}
+                      label="No"
+                    />
+                  </RadioGroup>
                 </Box>
               </FormControl>
             </Box>
@@ -375,10 +436,14 @@ const useStyles = makeStyles((theme: Theme) =>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Was treatment implemented?</FormLabel>
                 <Box mt={2}>
-                <RadioGroup aria-label="gender" name="treatmentImplemented" value={treatmentImplementedValue} onChange={handleTreatmentImplementedValue}>
-                  <FormControlLabel value="treatmentImplementedYes" control={<Radio color="primary" />}  label="Yes" />
-                  <FormControlLabel value="treatmentImplementedNo" control={<Radio color="primary" />} label="No" />
-                </RadioGroup>
+                  <RadioGroup
+                    aria-label="gender"
+                    name="treatmentImplemented"
+                    value={treatmentImplementedValue}
+                    onChange={handleTreatmentImplementedValue}>
+                    <FormControlLabel value="treatmentImplementedYes" control={<Radio color="primary" />} label="Yes" />
+                    <FormControlLabel value="treatmentImplementedNo" control={<Radio color="primary" />} label="No" />
+                  </RadioGroup>
                 </Box>
               </FormControl>
             </Box>
@@ -386,17 +451,13 @@ const useStyles = makeStyles((theme: Theme) =>
             {treatmentImplementedValue === 'treatmentImplementedYes' && (
               <Box>
                 <Box mb={2}>
-                  <Typography variant="body1" color="textSecondary">Specify treatments applied to this unit</Typography>
+                  <Typography variant="body1" color="textSecondary">
+                    Specify treatments applied to this unit
+                  </Typography>
                 </Box>
-                <FormControl 
-                  fullWidth
-                  variant="outlined">
+                <FormControl fullWidth variant="outlined">
                   <InputLabel id="treatments-label">Treatments</InputLabel>
-                  <Select
-                    labelId="treatments-label"
-                    label="Treatments"
-                    id="treatment-type-select"
-                  >
+                  <Select labelId="treatments-label" label="Treatments" id="treatment-type-select">
                     <MenuItem value={1}>Debris rollback</MenuItem>
                     <MenuItem value={2}>Hummock placing</MenuItem>
                     <MenuItem value={3}>Screef</MenuItem>
@@ -408,7 +469,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 </FormControl>
               </Box>
             )}
-
           </Box>
         </DialogContent>
         <DialogActions>
