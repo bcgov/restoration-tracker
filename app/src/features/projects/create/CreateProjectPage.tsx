@@ -24,7 +24,7 @@ import ProjectDraftForm, {
   IProjectDraftForm,
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
-import {
+import ProjectFundingForm, {
   ProjectFundingFormInitialValues,
   ProjectFundingFormYupSchema
 } from 'features/projects/components/ProjectFundingForm';
@@ -477,9 +477,18 @@ const CreateProjectPage: React.FC = () => {
 
                   <Divider></Divider>
 
-                  {/* <Box my={5}>
-                  <ProjectFundingForm />
-                </Box> */}
+                  <ProjectFundingForm
+                    funding_sources={
+                      codes?.funding_source?.map((item) => {
+                        return { value: item.id, label: item.name };
+                      }) || []
+                    }
+                    investment_action_category={
+                      codes?.investment_action_category?.map((item) => {
+                        return { value: item.id, fs_id: item.fs_id, label: item.name };
+                      }) || []
+                    }
+                  />
 
                   {/* <Divider></Divider> */}
 
@@ -489,7 +498,14 @@ const CreateProjectPage: React.FC = () => {
                         <Typography variant="h2">Location</Typography>
                       </Grid>
                       <Grid item xs={12} md={9}>
-                        <ProjectLocationForm ranges={[]} />
+                        <ProjectLocationForm
+                          ranges={[
+                            {
+                              value: 1,
+                              label: 'one'
+                            }
+                          ]}
+                        />
                       </Grid>
                     </Grid>
                   </Box>
