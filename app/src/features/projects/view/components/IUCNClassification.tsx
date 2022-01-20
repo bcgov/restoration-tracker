@@ -97,17 +97,17 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
     }
 
     setIucnFormData({
-      classificationDetails: iucnResponseData.classificationDetails
+      iucn: {
+        classificationDetails: iucnResponseData.classificationDetails
+      }
     });
 
     setOpenEditDialog(true);
   };
 
   const handleDialogEditSave = async (values: IProjectIUCNForm) => {
-    const projectData = { iucn: values };
-
     try {
-      await restorationTrackerApi.project.updateProject(id, projectData);
+      await restorationTrackerApi.project.updateProject(id, values);
     } catch (error) {
       const apiError = error as APIError;
       showErrorDialog({ dialogText: apiError.message, open: true });
@@ -146,9 +146,9 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
               }
             />
           ),
-          initialValues: iucnFormData?.classificationDetails?.length
+          initialValues: iucnFormData.iucn?.classificationDetails?.length
             ? iucnFormData
-            : { classificationDetails: [ProjectIUCNFormArrayItemInitialValues] },
+            : { iucn: { classificationDetails: [ProjectIUCNFormArrayItemInitialValues] } },
           validationSchema: ProjectIUCNFormYupSchema
         }}
         onCancel={() => setOpenEditDialog(false)}
