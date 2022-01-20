@@ -32,7 +32,10 @@ import ProjectGeneralInformationForm, {
   ProjectGeneralInformationFormInitialValues,
   ProjectGeneralInformationFormYupSchema
 } from 'features/projects/components/ProjectGeneralInformationForm';
-import { ProjectIUCNFormInitialValues, ProjectIUCNFormYupSchema } from 'features/projects/components/ProjectIUCNForm';
+import ProjectIUCNForm, {
+  ProjectIUCNFormInitialValues,
+  ProjectIUCNFormYupSchema
+} from 'features/projects/components/ProjectIUCNForm';
 import ProjectLocationForm, {
   ProjectLocationFormInitialValues,
   ProjectLocationFormYupSchema
@@ -405,7 +408,43 @@ const CreateProjectPage: React.FC = () => {
               {({ handleSubmit }) => (
                 <form onSubmit={handleSubmit}>
                   <Box my={5}>
-                    <ProjectGeneralInformationForm />
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="h2">General Information</Typography>
+                      </Grid>
+                      <Grid item xs={12} md={9}>
+                        <ProjectGeneralInformationForm />
+
+                        <Box component="fieldset" mt={5} mx={0}>
+                          <Typography component="legend">
+                            IUCN Conservation Actions Classifications (Optional)
+                          </Typography>
+                          <Box mb={3} maxWidth={'72ch'}>
+                            <Typography variant="body1" color="textSecondary">
+                              Conservation actions are specific actions or sets of tasks undertaken by project staff
+                              designed to reach each of the project's objectives.
+                            </Typography>
+                          </Box>
+                          <ProjectIUCNForm
+                            classifications={
+                              codes?.iucn_conservation_action_level_1_classification?.map((item) => {
+                                return { value: item.id, label: item.name };
+                              }) || []
+                            }
+                            subClassifications1={
+                              codes?.iucn_conservation_action_level_2_subclassification?.map((item) => {
+                                return { value: item.id, iucn1_id: item.iucn1_id, label: item.name };
+                              }) || []
+                            }
+                            subClassifications2={
+                              codes?.iucn_conservation_action_level_3_subclassification?.map((item) => {
+                                return { value: item.id, iucn2_id: item.iucn2_id, label: item.name };
+                              }) || []
+                            }
+                          />
+                        </Box>
+                      </Grid>
+                    </Grid>
                   </Box>
 
                   <Divider></Divider>
