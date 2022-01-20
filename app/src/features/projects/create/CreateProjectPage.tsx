@@ -16,7 +16,6 @@ import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import {
-  IProjectCoordinatorForm,
   ProjectCoordinatorInitialValues,
   ProjectCoordinatorYupSchema
 } from 'features/projects/components/ProjectCoordinatorForm';
@@ -25,37 +24,20 @@ import ProjectDraftForm, {
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
 import {
-  IProjectFundingForm,
   ProjectFundingFormInitialValues,
   ProjectFundingFormYupSchema
 } from 'features/projects/components/ProjectFundingForm';
 import ProjectGeneralInformationForm, {
-  IProjectGeneralInformationForm,
   ProjectGeneralInformationFormInitialValues,
   ProjectGeneralInformationFormYupSchema
 } from 'features/projects/components/ProjectGeneralInformationForm';
-import {
-  IProjectIUCNForm,
-  ProjectIUCNFormInitialValues,
-  ProjectIUCNFormYupSchema
-} from 'features/projects/components/ProjectIUCNForm';
+import { ProjectIUCNFormInitialValues, ProjectIUCNFormYupSchema } from 'features/projects/components/ProjectIUCNForm';
 import ProjectLocationForm, {
-  IProjectLocationForm,
   ProjectLocationFormInitialValues,
   ProjectLocationFormYupSchema
 } from 'features/projects/components/ProjectLocationForm';
-import {
-  IProjectObjectivesForm,
-  ProjectObjectivesFormInitialValues,
-  ProjectObjectivesFormYupSchema
-} from 'features/projects/components/ProjectObjectivesForm';
-import {
-  IProjectPartnershipsForm,
-  ProjectPartnershipsFormInitialValues,
-  ProjectPartnershipsFormYupSchema
-} from 'features/projects/components/ProjectPartnershipsForm';
+import { ProjectPartnershipsFormInitialValues, ProjectPartnershipsFormYupSchema } from 'features/projects/components/ProjectPartnershipsForm';
 import ProjectPermitForm, {
-  IProjectPermitForm,
   ProjectPermitFormInitialValues,
   ProjectPermitFormYupSchema
 } from 'features/projects/components/ProjectPermitForm';
@@ -65,6 +47,7 @@ import { APIError } from 'hooks/api/useAxios';
 import { useQuery } from 'hooks/useQuery';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
+import { ICreateProjectRequest } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Prompt } from 'react-router-dom';
@@ -93,38 +76,26 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export interface IProjectForm
-  extends IProjectCoordinatorForm,
-    IProjectPermitForm,
-    IProjectGeneralInformationForm,
-    IProjectObjectivesForm,
-    IProjectLocationForm,
-    IProjectIUCNForm,
-    IProjectFundingForm,
-    IProjectPartnershipsForm {}
-
 export const ProjectFormInitialValues = {
-  ...ProjectCoordinatorInitialValues,
-  ...ProjectPermitFormInitialValues,
-  ...ProjectGeneralInformationFormInitialValues,
-  ...ProjectObjectivesFormInitialValues,
-  ...ProjectLocationFormInitialValues,
-  ...ProjectIUCNFormInitialValues,
-  ...ProjectFundingFormInitialValues,
-  ...ProjectPartnershipsFormInitialValues
+  details: ProjectGeneralInformationFormInitialValues,
+  iucn: ProjectIUCNFormInitialValues,
+  coordinator: ProjectCoordinatorInitialValues,
+  permit: ProjectPermitFormInitialValues,
+  funding: ProjectFundingFormInitialValues,
+  partnerships: ProjectPartnershipsFormInitialValues,
+  location: ProjectLocationFormInitialValues
 };
 
 export const ProjectFormYupSchema = yup
   .object()
   .shape({})
+  .concat(ProjectGeneralInformationFormYupSchema)
+  .concat(ProjectIUCNFormYupSchema)
   .concat(ProjectCoordinatorYupSchema)
   .concat(ProjectPermitFormYupSchema)
-  .concat(ProjectGeneralInformationFormYupSchema)
-  .concat(ProjectObjectivesFormYupSchema)
-  .concat(ProjectLocationFormYupSchema)
-  .concat(ProjectIUCNFormYupSchema)
   .concat(ProjectFundingFormYupSchema)
-  .concat(ProjectPartnershipsFormYupSchema);
+  .concat(ProjectPartnershipsFormYupSchema)
+  .concat(ProjectLocationFormYupSchema);
 
 /**
  * Page for creating a new project.
@@ -183,7 +154,7 @@ const CreateProjectPage: React.FC = () => {
 
   const [draft, setDraft] = useState({ id: 0, date: '' });
 
-  const [initialProjectFormData, setInitialProjectFormData] = useState<IProjectForm>(ProjectFormInitialValues);
+  const [initialProjectFormData, setInitialProjectFormData] = useState<ICreateProjectRequest>(ProjectFormInitialValues);
 
   // Get draft project fields if draft id exists
   useEffect(() => {
@@ -238,9 +209,7 @@ const CreateProjectPage: React.FC = () => {
       // Get the form data for all steps
       // Fetch the data from the formikRef for whichever step is the active step
       // Why? WIP changes to the active step will not yet be updated into its respective stepForms[n].stepInitialValues
-      const draftFormData = {
-        // TODO
-      };
+      const draftFormData = {};
 
       const draftId = Number(queryParams.draftId) || draft?.id;
 
