@@ -41,6 +41,9 @@ export const projectCreatePostRequestObject = {
             properties: {
               permit_number: {
                 type: 'string'
+              },
+              permit_type:{
+                type: 'string'
               }
             }
           }
@@ -48,14 +51,11 @@ export const projectCreatePostRequestObject = {
       }
     },
     project: {
-      title: 'Project details',
+      title: 'Project general information',
       type: 'object',
       properties: {
         project_name: {
           type: 'string'
-        },
-        project_type: {
-          type: 'number'
         },
         start_date: {
           type: 'string',
@@ -64,6 +64,9 @@ export const projectCreatePostRequestObject = {
         end_date: {
           type: 'string',
           description: 'ISO 8601 date string'
+        },
+        objectives: {
+          type: 'string'
         }
       }
     },

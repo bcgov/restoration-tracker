@@ -29,7 +29,6 @@
  create trigger journal_administrative_activity_type after insert or update or delete on restoration.administrative_activity_type for each row execute procedure tr_journal_trigger();
  create trigger journal_project after insert or update or delete on restoration.project for each row execute procedure tr_journal_trigger();
  create trigger journal_investment_action_category after insert or update or delete on restoration.investment_action_category for each row execute procedure tr_journal_trigger();
- create trigger journal_project_type after insert or update or delete on restoration.project_type for each row execute procedure tr_journal_trigger();
  create trigger journal_project_funding_source after insert or update or delete on restoration.project_funding_source for each row execute procedure tr_journal_trigger();
  create trigger journal_project_participation after insert or update or delete on restoration.project_participation for each row execute procedure tr_journal_trigger();
  create trigger journal_user_identity_source after insert or update or delete on restoration.user_identity_source for each row execute procedure tr_journal_trigger();

@@ -13,7 +13,6 @@ export class PostProjectObject {
   coordinator: PostCoordinatorData;
   permit: PostPermitData;
   project: PostProjectData;
-  objectives: PostObjectivesData;
   location: PostLocationData;
   iucn: PostIUCNData;
   funding: PostFundingData;
@@ -25,7 +24,6 @@ export class PostProjectObject {
     this.coordinator = (obj?.coordinator && new PostCoordinatorData(obj.coordinator)) || null;
     this.permit = (obj?.permit && new PostPermitData(obj.permit)) || null;
     this.project = (obj?.project && new PostProjectData(obj.project)) || null;
-    this.objectives = (obj?.project && new PostObjectivesData(obj.objectives)) || null;
     this.location = (obj?.location && new PostLocationData(obj.location)) || null;
     this.funding = (obj?.funding && new PostFundingData(obj.funding)) || null;
     this.iucn = (obj?.iucn && new PostIUCNData(obj.iucn)) || null;
@@ -108,39 +106,17 @@ export class PostPermitData {
  */
 export class PostProjectData {
   name: string;
-  type: number;
-  location_description: string;
   start_date: string;
   end_date: string;
-  comments: string;
+  objectives: string;
 
   constructor(obj?: any) {
     defaultLog.debug({ label: 'PostProjectData', message: 'params', obj });
 
     this.name = obj?.project_name || null;
-    this.type = obj?.project_type || null;
-    this.location_description = (obj && obj.location_description) || null;
     this.start_date = obj?.start_date || null;
     this.end_date = obj?.end_date || null;
-    this.comments = obj?.comments || null;
-  }
-}
-
-/**
- * Processes POST /project objectives data
- *
- * @export
- * @class PostObjectivesData
- */
-export class PostObjectivesData {
-  objectives: string;
-  caveats: string;
-
-  constructor(obj?: any) {
-    defaultLog.debug({ label: 'PostObjectivesData', message: 'params', obj });
-
-    this.objectives = obj?.objectives || '';
-    this.caveats = obj?.caveats || '';
+    this.objectives = obj?.objectives || null;
   }
 }
 

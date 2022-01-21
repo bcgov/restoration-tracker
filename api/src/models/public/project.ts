@@ -15,7 +15,6 @@ export class GetPublicProjectData {
   project_type: string;
   start_date: string;
   end_date: string;
-  comments: string;
   completion_status: string;
   publish_date: string;
 
@@ -26,7 +25,6 @@ export class GetPublicProjectData {
     this.project_type = projectData?.type || '';
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
-    this.comments = projectData?.comments || '';
     this.completion_status =
       (projectData &&
         projectData.end_date &&

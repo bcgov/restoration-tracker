@@ -1,11 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
-import {
-  PutCoordinatorData,
-  PutFundingSource,
-  PutLocationData,
-  PutObjectivesData,
-  PutProjectData
-} from '../../models/project-update';
+import { PutCoordinatorData, PutFundingSource, PutLocationData, PutProjectData } from '../../models/project-update';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-update-queries');
@@ -200,14 +194,13 @@ export const getProjectByProjectSQL = (projectId: number): SQLStatement | null =
 /**
  * SQL query to update a project row.
  *
- * @param {(PutProjectData & PutLocationData & PutCoordinatorData & PutObjectivesData)} project
+ * @param {(PutProjectData & PutLocationData & PutCoordinatorData)} project
  * @returns {SQLStatement} sql query object
  */
 export const putProjectSQL = (
   projectId: number,
   project: PutProjectData | null,
   location: PutLocationData | null,
-  objectives: PutObjectivesData | null,
   coordinator: PutCoordinatorData | null,
   revision_count: number
 ): SQLStatement | null => {
@@ -217,7 +210,6 @@ export const putProjectSQL = (
     projectId,
     project,
     location,
-    objectives,
     coordinator,
     revision_count
   });
@@ -226,7 +218,7 @@ export const putProjectSQL = (
     return null;
   }
 
-  if (!project && !location && !objectives && !coordinator) {
+  if (!project && !location && !coordinator) {
     // Nothing to update
     return null;
   }
@@ -244,11 +236,6 @@ export const putProjectSQL = (
 
   if (location) {
     sqlSetStatements.push(SQL`location_description = ${location.location_description}`);
-  }
-
-  if (objectives) {
-    sqlSetStatements.push(SQL`objectives = ${objectives.objectives}`);
-    sqlSetStatements.push(SQL`caveats = ${objectives.caveats}`);
   }
 
   if (coordinator) {
@@ -275,40 +262,6 @@ export const putProjectSQL = (
 
   defaultLog.debug({
     label: 'putProjectSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to get objectives information, for update purposes.
- *
- * @param {number} projectId
- * @return {*}  {(SQLStatement | null)}
- */
-export const getObjectivesByProjectSQL = (projectId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'getObjectivesByProjectSQL', message: 'params', projectId });
-
-  if (!projectId) {
-    return null;
-  }
-
-  const sqlStatement = SQL`
-    SELECT
-      objectives,
-      caveats,
-      revision_count
-    FROM
-      project
-    WHERE
-      project_id = ${projectId};
-  `;
-
-  defaultLog.debug({
-    label: 'getObjectivesByProjectSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

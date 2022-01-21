@@ -52,7 +52,6 @@ export async function up(knex: Knex): Promise<void> {
   const populate_investment_action_category = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_investment_action_category.sql')
   );
-  const populate_project_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_project_type.sql'));
   const populate_iucn_classifications = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_iucn_classifications.sql')
   );
@@ -133,7 +132,6 @@ export async function up(knex: Knex): Promise<void> {
     ${populate_first_nations}
     ${populate_funding_source}
     ${populate_investment_action_category}
-    ${populate_project_type}
     ${populate_iucn_classifications}
     ${populate_project_role}
     ${populate_system_role}

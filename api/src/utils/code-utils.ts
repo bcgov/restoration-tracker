@@ -25,7 +25,6 @@ export interface IAllCodeSets {
   first_nations: CodeSet;
   funding_source: CodeSet;
   investment_action_category: CodeSet<{ id: number; fs_id: number; name: string }>;
-  project_type: CodeSet;
   coordinator_agency: CodeSet;
   region: CodeSet;
   iucn_conservation_action_level_1_classification: CodeSet;
@@ -54,7 +53,6 @@ export async function getAllCodeSets(connection: IDBConnection): Promise<IAllCod
     iucn_conservation_action_level_1_classification,
     iucn_conservation_action_level_2_subclassification,
     iucn_conservation_action_level_3_subclassification,
-    project_type,
     system_roles,
     project_roles,
     administrative_activity_status_type
@@ -65,7 +63,6 @@ export async function getAllCodeSets(connection: IDBConnection): Promise<IAllCod
     await connection.query(queries.codes.getIUCNConservationActionLevel1ClassificationSQL().text),
     await connection.query(queries.codes.getIUCNConservationActionLevel2SubclassificationSQL().text),
     await connection.query(queries.codes.getIUCNConservationActionLevel3SubclassificationSQL().text),
-    await connection.query(queries.codes.getProjectTypeSQL().text),
     await connection.query(queries.codes.getSystemRolesSQL().text),
     await connection.query(queries.codes.getProjectRolesSQL().text),
     await connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text)
@@ -85,7 +82,6 @@ export async function getAllCodeSets(connection: IDBConnection): Promise<IAllCod
     iucn_conservation_action_level_3_subclassification:
       (iucn_conservation_action_level_3_subclassification && iucn_conservation_action_level_3_subclassification.rows) ||
       [],
-    project_type: (project_type && project_type.rows) || [],
     system_roles: (system_roles && system_roles.rows) || [],
     project_roles: (project_roles && project_roles.rows) || [],
     administrative_activity_status_type:

@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react';
-import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import { Formik } from 'formik';
 import React from 'react';
 import ProjectGeneralInformationForm, {
@@ -8,20 +7,6 @@ import ProjectGeneralInformationForm, {
   ProjectGeneralInformationFormYupSchema
 } from './ProjectGeneralInformationForm';
 
-const project_type: IMultiAutocompleteFieldOption[] = [
-  {
-    value: 1,
-    label: 'type 1'
-  },
-  {
-    value: 2,
-    label: 'type 2'
-  },
-  {
-    value: 3,
-    label: 'type 3'
-  }
-];
 
 describe('ProjectGeneralInformationForm', () => {
   it('renders correctly with default empty values', () => {
@@ -32,7 +17,7 @@ describe('ProjectGeneralInformationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectGeneralInformationForm project_type={project_type} />}
+        {() => <ProjectGeneralInformationForm/>}
       </Formik>
     );
 
@@ -42,9 +27,9 @@ describe('ProjectGeneralInformationForm', () => {
   it('renders correctly with existing details values', () => {
     const existingFormValues: IProjectGeneralInformationForm = {
       project_name: 'name 1',
-      project_type: 2,
       start_date: '2021-03-14',
-      end_date: '2021-04-14'
+      end_date: '2021-04-14',
+      objectives: 'my objectives'
     };
 
     const { asFragment } = render(
@@ -54,7 +39,7 @@ describe('ProjectGeneralInformationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectGeneralInformationForm project_type={project_type} />}
+        {() => <ProjectGeneralInformationForm />}
       </Formik>
     );
 

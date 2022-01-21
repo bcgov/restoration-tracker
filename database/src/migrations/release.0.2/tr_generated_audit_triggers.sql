@@ -29,7 +29,6 @@
  create trigger audit_administrative_activity_type before insert or update or delete on restoration.administrative_activity_type for each row execute procedure tr_audit_trigger();
  create trigger audit_project before insert or update or delete on restoration.project for each row execute procedure tr_audit_trigger();
  create trigger audit_investment_action_category before insert or update or delete on restoration.investment_action_category for each row execute procedure tr_audit_trigger();
- create trigger audit_project_type before insert or update or delete on restoration.project_type for each row execute procedure tr_audit_trigger();
  create trigger audit_project_funding_source before insert or update or delete on restoration.project_funding_source for each row execute procedure tr_audit_trigger();
  create trigger audit_project_participation before insert or update or delete on restoration.project_participation for each row execute procedure tr_audit_trigger();
  create trigger audit_user_identity_source before insert or update or delete on restoration.user_identity_source for each row execute procedure tr_audit_trigger();
