@@ -5,10 +5,8 @@ import { IProjectGeneralInformationForm } from 'features/projects/components/Pro
 import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
 import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
 import { IProjectLocationForm } from 'features/projects/components/ProjectLocationForm';
-import { IProjectObjectivesForm } from 'features/projects/components/ProjectObjectivesForm';
 import { IProjectPartnershipsForm } from 'features/projects/components/ProjectPartnershipsForm';
 import { IProjectPermitForm } from 'features/projects/components/ProjectPermitForm';
-import { UPDATE_GET_ENTITIES } from 'interfaces/useProjectApi.interface';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import useProjectApi, { usePublicProjectApi } from './useProjectApi';
 
@@ -153,37 +151,6 @@ describe('useProjectApi', () => {
     expect(result).toEqual(getProjectForViewResponse);
   });
 
-  it('getProjectForUpdate works as expected', async () => {
-    mock.onGet(`api/project/${projectId}/update`).reply(200, {
-      objectives: {
-        objectives: 'objectives',
-        caveats: 'caveats',
-        revision_count: 1
-      }
-    });
-
-    const result = await useProjectApi(axios).getProjectForUpdate(projectId, [UPDATE_GET_ENTITIES.objectives]);
-
-    expect(result.objectives).toEqual({
-      objectives: 'objectives',
-      caveats: 'caveats',
-      revision_count: 1
-    });
-  });
-
-  it('updateProject works as expected', async () => {
-    mock.onPut(`api/project/${projectId}/update`).reply(200, true);
-
-    const result = await useProjectApi(axios).updateProject(projectId, {
-      objectives: {
-        objectives: 'objectives',
-        caveats: 'caveats',
-        revision_count: 1
-      }
-    });
-
-    expect(result).toEqual(true);
-  });
 
   it('addFundingSource works as expected', async () => {
     mock.onPost(`/api/project/${projectId}/funding-sources/add`).reply(200, {
@@ -240,7 +207,6 @@ describe('useProjectApi', () => {
       coordinator: (null as unknown) as IProjectCoordinatorForm,
       permit: (null as unknown) as IProjectPermitForm,
       project: (null as unknown) as IProjectGeneralInformationForm,
-      objectives: (null as unknown) as IProjectObjectivesForm,
       location: (null as unknown) as IProjectLocationForm,
       iucn: (null as unknown) as IProjectIUCNForm,
       funding: (null as unknown) as IProjectFundingForm,

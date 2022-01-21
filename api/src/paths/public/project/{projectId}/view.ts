@@ -58,13 +58,7 @@ GET.apiDoc = {
               project: {
                 description: 'Basic project metadata',
                 type: 'object',
-                required: [
-                  'project_name',
-                  'start_date',
-                  'end_date',
-                  'completion_status',
-                  'publish_date'
-                ],
+                required: ['project_name', 'start_date', 'end_date', 'completion_status', 'publish_date'],
                 properties: {
                   project_name: {
                     type: 'string'
@@ -131,19 +125,6 @@ GET.apiDoc = {
                   share_contact_details: {
                     type: 'string',
                     enum: ['true', 'false']
-                  }
-                }
-              },
-              objectives: {
-                description: 'The project objectives and caveats',
-                type: 'object',
-                required: ['objectives', 'caveats'],
-                properties: {
-                  objectives: {
-                    type: 'string'
-                  },
-                  caveats: {
-                    type: 'string'
                   }
                 }
               },

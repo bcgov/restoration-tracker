@@ -117,7 +117,6 @@ export enum UPDATE_GET_ENTITIES {
 export interface IGetProjectForUpdateResponse {
   project?: IGetGeneralInformationForUpdateResponseDetails;
   permit?: IGetProjectForUpdateResponsePermit;
-  objectives?: IGetProjectForUpdateResponseObjectives;
   location?: IGetProjectForUpdateResponseLocation;
   coordinator?: IGetProjectForUpdateResponseCoordinator;
   iucn?: IGetProjectForUpdateResponseIUCN;
@@ -139,12 +138,6 @@ interface IGetProjectForUpdateResponsePermitArrayItem {
 
 export interface IGetProjectForUpdateResponsePermit {
   permits: IGetProjectForUpdateResponsePermitArrayItem[];
-}
-
-export interface IGetProjectForUpdateResponseObjectives {
-  objectives: string;
-  caveats: string;
-  revision_count: number;
 }
 
 export interface IGetProjectForUpdateResponseLocation {
@@ -212,7 +205,6 @@ export interface IGetProjectForViewResponse {
   id: number;
   project: IGetProjectForViewResponseDetails;
   permit: IGetProjectForViewResponsePermit;
-  objectives: IGetProjectForViewResponseObjectives;
   location: IGetProjectForViewResponseLocation;
   coordinator: IGetProjectForViewResponseCoordinator;
   iucn: IGetProjectForViewResponseIUCN;
@@ -235,11 +227,6 @@ interface IGetProjectForViewResponsePermitArrayItem {
 
 export interface IGetProjectForViewResponsePermit {
   permits: IGetProjectForViewResponsePermitArrayItem[];
-}
-
-export interface IGetProjectForViewResponseObjectives {
-  objectives: string;
-  caveats: string;
 }
 
 export interface IGetProjectForViewResponseLocation {

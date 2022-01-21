@@ -12,7 +12,6 @@ import { ProjectGeneralInformationFormInitialValues } from 'features/projects/co
 import { ProjectFundingFormInitialValues } from 'features/projects/components/ProjectFundingForm';
 import { ProjectIUCNFormInitialValues } from 'features/projects/components/ProjectIUCNForm';
 import { ProjectLocationFormInitialValues } from 'features/projects/components/ProjectLocationForm';
-import { ProjectObjectivesFormInitialValues } from 'features/projects/components/ProjectObjectivesForm';
 import { ProjectPartnershipsFormInitialValues } from 'features/projects/components/ProjectPartnershipsForm';
 import { ProjectPermitFormInitialValues } from 'features/projects/components/ProjectPermitForm';
 import CreateProjectPage from 'features/projects/create/CreateProjectPage';
@@ -233,7 +232,6 @@ describe('CreateProjectPage', () => {
           },
           permit: ProjectPermitFormInitialValues,
           project: ProjectGeneralInformationFormInitialValues,
-          objectives: ProjectObjectivesFormInitialValues,
           location: ProjectLocationFormInitialValues,
           iucn: ProjectIUCNFormInitialValues,
           funding: ProjectFundingFormInitialValues,

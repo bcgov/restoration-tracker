@@ -21,10 +21,6 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     location_description: 'Location description',
     geometry: []
   },
-  objectives: {
-    objectives: 'Et ad et in culpa si',
-    caveats: 'sjwer bds'
-  },
   coordinator: {
     first_name: 'Amanda',
     last_name: 'Christensen',

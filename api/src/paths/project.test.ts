@@ -33,7 +33,6 @@ describe('createProject', () => {
         start_date: '1900-01-01',
         end_date: ''
       },
-      objectives: { objectives: 'an objective', caveats: '' },
       location: {
         regions: ['West Coast'],
         location_description: '',

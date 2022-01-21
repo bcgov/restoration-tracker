@@ -155,19 +155,6 @@ GET.apiDoc = {
                   }
                 }
               },
-              objectives: {
-                description: 'The project objectives and caveats',
-                type: 'object',
-                required: ['objectives', 'caveats'],
-                properties: {
-                  objectives: {
-                    type: 'string'
-                  },
-                  caveats: {
-                    type: 'string'
-                  }
-                }
-              },
               location: {
                 description: 'The project location object',
                 type: 'object',
