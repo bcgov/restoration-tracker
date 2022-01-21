@@ -13,8 +13,10 @@ import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditPermitI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import ProjectPermitForm, {
-  IProjectPermitForm, ProjectPermitFormArrayItemInitialValues,
-  ProjectPermitFormInitialValues, ProjectPermitFormYupSchema
+  IProjectPermitForm,
+  ProjectPermitFormArrayItemInitialValues,
+  ProjectPermitFormInitialValues,
+  ProjectPermitFormYupSchema
 } from 'features/projects/components/ProjectPermitForm';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';

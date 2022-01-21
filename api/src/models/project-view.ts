@@ -94,7 +94,6 @@ export class GetLocationData {
   }
 }
 
-
 /**
  * Pre-processes GET /projects/{id} coordinator data
  *

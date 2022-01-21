@@ -74,7 +74,6 @@ describe('PostProjectObject', () => {
         objectives: 'these are the project objectives'
       },
       location: {
-        location_description: 'a location description',
         geometry: [
           {
             type: 'Polygon',
@@ -159,7 +158,6 @@ describe('PostProjectData', () => {
       start_date: 'start_date_test_data',
       end_date: 'end_date_test_data',
       objectives: 'project objectives'
-
     };
 
     before(() => {
@@ -498,10 +496,6 @@ describe('PostLocationData', () => {
       projectLocationData = new PostLocationData(null);
     });
 
-    it('sets location_description', function () {
-      expect(projectLocationData.location_description).to.equal(null);
-    });
-
     it('sets geometry', function () {
       expect(projectLocationData.geometry).to.eql([]);
     });
@@ -511,7 +505,6 @@ describe('PostLocationData', () => {
     let projectLocationData: PostLocationData;
 
     const obj = {
-      location_description: 'a location description',
       geometry: [
         {
           type: 'Polygon',
@@ -533,10 +526,6 @@ describe('PostLocationData', () => {
 
     before(() => {
       projectLocationData = new PostLocationData(obj);
-    });
-
-    it('sets location_description', function () {
-      expect(projectLocationData.location_description).to.equal('a location description');
     });
 
     it('sets the geometry', function () {

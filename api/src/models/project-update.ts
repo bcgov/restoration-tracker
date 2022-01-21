@@ -171,7 +171,6 @@ export class GetIUCNClassificationData {
   }
 }
 
-
 /**
  * Pre-processes GET /projects/{id} location data
  *

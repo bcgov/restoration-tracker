@@ -23,10 +23,6 @@ describe('PutLocationData', () => {
       data = new PutLocationData(null);
     });
 
-    it('sets location_description', () => {
-      expect(data.location_description).to.equal(null);
-    });
-
     it('sets geometry', () => {
       expect(data.geometry).to.eql([]);
     });
@@ -40,7 +36,6 @@ describe('PutLocationData', () => {
     let data: PutLocationData;
 
     const obj = {
-      location_description: 'location',
       geometry: [
         {
           type: 'Polygon',
@@ -63,10 +58,6 @@ describe('PutLocationData', () => {
 
     before(() => {
       data = new PutLocationData(obj);
-    });
-
-    it('sets location_description', () => {
-      expect(data.location_description).to.equal(obj.location_description);
     });
 
     it('sets geometry', () => {
@@ -473,17 +464,12 @@ describe('GetPermitData', () => {
   });
 });
 
-
 describe('GetLocationData', () => {
   describe('No values provided', () => {
     let locationData: GetLocationData;
 
     before(() => {
       locationData = new GetLocationData(null);
-    });
-
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal('');
     });
 
     it('sets the geometry', function () {
@@ -498,7 +484,6 @@ describe('GetLocationData', () => {
   describe('All values provided', () => {
     let locationData: GetLocationData;
 
-    const location_description = 'location description';
     const geometry = [
       {
         type: 'Feature',
@@ -515,12 +500,10 @@ describe('GetLocationData', () => {
 
     const locationDataObj = [
       {
-        location_description,
         geometry,
         revision_count
       },
       {
-        location_description,
         geometry,
         revision_count
       }
@@ -528,10 +511,6 @@ describe('GetLocationData', () => {
 
     before(() => {
       locationData = new GetLocationData(locationDataObj);
-    });
-
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal(location_description);
     });
 
     it('sets the geometry', function () {
@@ -647,7 +626,6 @@ describe('PutProjectData', () => {
     it('sets name', () => {
       expect(data.name).to.equal('project name');
     });
-
 
     it('sets start_date', () => {
       expect(data.start_date).to.equal('2020-04-20T07:00:00.000Z');
