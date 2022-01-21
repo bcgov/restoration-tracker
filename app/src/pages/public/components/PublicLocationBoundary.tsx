@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import InferredLocationDetails, { IInferredLayers } from 'components/boundary/InferredLocationDetails';
 import MapContainer from 'components/map/MapContainer';
@@ -46,18 +45,6 @@ const PublicLocationBoundary: React.FC<IPublicLocationBoundaryProps> = (props) =
       <Box mb={2}>
         <Typography variant="h3">Project Location</Typography>
       </Box>
-      <dl>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary">
-              Location Description
-            </Typography>
-            <Typography component="dd" variant="body1">
-              {location.location_description ? <>{location.location_description}</> : 'No Description'}
-            </Typography>
-          </Grid>
-        </Grid>
-      </dl>
       <Box mt={4} mb={4} height={500}>
         <MapContainer
           mapId="project_location_form_map"

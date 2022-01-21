@@ -18,7 +18,6 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     ]
   },
   location: {
-    location_description: 'Location description',
     geometry: []
   },
   coordinator: {

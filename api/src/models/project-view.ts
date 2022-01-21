@@ -78,7 +78,6 @@ export class GetPermitData {
  * @class GetLocationData
  */
 export class GetLocationData {
-  location_description: string;
   geometry?: Feature[];
 
   constructor(locationData?: any) {
@@ -91,8 +90,6 @@ export class GetLocationData {
     });
 
     const locationDataItem = locationData && locationData.length && locationData[0];
-
-    this.location_description = locationDataItem?.location_description || '';
     this.geometry = (locationDataItem?.geometry?.length && locationDataItem.geometry) || [];
   }
 }

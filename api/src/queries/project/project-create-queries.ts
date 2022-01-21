@@ -30,7 +30,6 @@ export const postProjectSQL = (
     INSERT INTO project (
       name,
       objectives,
-      location_description,
       start_date,
       end_date,
       coordinator_first_name,
@@ -41,7 +40,6 @@ export const postProjectSQL = (
     ) VALUES (
       ${project.name},
       ${project.objectives},
-      ${project.location_description},
       ${project.start_date},
       ${project.end_date},
       ${project.first_name},

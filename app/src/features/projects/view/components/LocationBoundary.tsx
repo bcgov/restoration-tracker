@@ -172,7 +172,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
             setInferredLayersInfo={setInferredLayersInfo}
           />
         }
-        description={location.location_description}
         layers={<InferredLocationDetails layers={inferredLayersInfo} />}
         backButtonTitle={'Back To Project'}
         mapTitle={'Project Location'}
@@ -197,15 +196,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
             bounds={bounds}
             setInferredLayersInfo={setInferredLayersInfo}
           />
-        </Box>
-
-        <Box my={3}>
-          <Typography variant="body2" color="textSecondary">
-            Location Description
-          </Typography>
-          <Typography variant="body1">
-            {location.location_description ? <>{location.location_description}</> : 'No Description'}
-          </Typography>
         </Box>
 
         <InferredLocationDetails layers={inferredLayersInfo} />

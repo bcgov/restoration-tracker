@@ -232,9 +232,6 @@ export const putProjectSQL = (
     sqlSetStatements.push(SQL`end_date = ${project.end_date}`);
   }
 
-  if (location) {
-    sqlSetStatements.push(SQL`location_description = ${location.location_description}`);
-  }
 
   if (coordinator) {
     sqlSetStatements.push(SQL`coordinator_first_name = ${coordinator.first_name}`);

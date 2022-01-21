@@ -158,11 +158,8 @@ GET.apiDoc = {
               location: {
                 description: 'The project location object',
                 type: 'object',
-                required: ['location_description', 'geometry'],
+                required: ['geometry'],
                 properties: {
-                  location_description: {
-                    type: 'string'
-                  },
                   geometry: {
                     type: 'array',
                     items: {
