@@ -51,9 +51,9 @@ import ProjectPermitForm, {
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
+import useCodes from 'hooks/useCodes';
 import { useQuery } from 'hooks/useQuery';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { ICreateProjectRequest } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -117,8 +117,8 @@ const CreateProjectPage: React.FC = () => {
 
   const queryParams = useQuery();
 
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [isLoadingCodes, setIsLoadingCodes] = useState(false);
+  const codes = useCodes();
+
   const [hasLoadedDraftData, setHasLoadedDraftData] = useState(!queryParams.draftId);
 
   // Reference to pass to the formik component in order to access its state at any time
@@ -182,26 +182,6 @@ const CreateProjectPage: React.FC = () => {
 
     getDraftProjectFields();
   }, [restorationTrackerApi.draft, hasLoadedDraftData, queryParams.draftId]);
-
-  // Get code sets
-  // TODO refine this call to only fetch code sets this form cares about? Or introduce caching so multiple calls is still fast?
-  useEffect(() => {
-    const getAllCodeSets = async () => {
-      const response = await restorationTrackerApi.codes.getAllCodeSets();
-
-      // TODO error handling/user messaging - Cant create a project if required code sets fail to fetch
-
-      setCodes(() => {
-        setIsLoadingCodes(false);
-        return response;
-      });
-    };
-
-    if (!isLoadingCodes && !codes) {
-      getAllCodeSets();
-      setIsLoadingCodes(true);
-    }
-  }, [restorationTrackerApi, isLoadingCodes, codes]);
 
   const handleCancel = () => {
     dialogContext.setYesNoDialog(defaultCancelDialogProps);
@@ -318,7 +298,7 @@ const CreateProjectPage: React.FC = () => {
     });
   };
 
-  if (!codes) {
+  if (!codes.codes) {
     return <CircularProgress className="pageProgress" size={40} />;
   }
 
@@ -417,17 +397,17 @@ const CreateProjectPage: React.FC = () => {
                       <Box component="fieldset" mt={5} mx={0}>
                         <ProjectIUCNForm
                           classifications={
-                            codes?.iucn_conservation_action_level_1_classification?.map((item) => {
+                            codes.codes.iucn_conservation_action_level_1_classification?.map((item) => {
                               return { value: item.id, label: item.name };
                             }) || []
                           }
                           subClassifications1={
-                            codes?.iucn_conservation_action_level_2_subclassification?.map((item) => {
+                            codes.codes.iucn_conservation_action_level_2_subclassification?.map((item) => {
                               return { value: item.id, iucn1_id: item.iucn1_id, label: item.name };
                             }) || []
                           }
                           subClassifications2={
-                            codes?.iucn_conservation_action_level_3_subclassification?.map((item) => {
+                            codes.codes.iucn_conservation_action_level_3_subclassification?.map((item) => {
                               return { value: item.id, iucn2_id: item.iucn2_id, label: item.name };
                             }) || []
                           }
@@ -446,7 +426,9 @@ const CreateProjectPage: React.FC = () => {
                     </Grid>
 
                     <Grid item xs={12} md={9}>
-                      <ProjectCoordinatorForm coordinator_agency={codes.coordinator_agency.map((item) => item.name)} />
+                      <ProjectCoordinatorForm
+                        coordinator_agency={codes.codes.coordinator_agency.map((item) => item.name)}
+                      />
                     </Grid>
                   </Grid>
                 </Box>
@@ -476,10 +458,10 @@ const CreateProjectPage: React.FC = () => {
                     <Grid item xs={12} md={9}>
                       <Box component="fieldset" mx={0}>
                         <ProjectFundingForm
-                          funding_sources={codes.funding_source.map((item) => {
+                          funding_sources={codes.codes.funding_source.map((item) => {
                             return { value: item.id, label: item.name };
                           })}
-                          investment_action_category={codes.investment_action_category.map((item) => {
+                          investment_action_category={codes.codes.investment_action_category.map((item) => {
                             return { value: item.id, label: item.name, fs_id: item.fs_id };
                           })}
                         />
@@ -487,10 +469,10 @@ const CreateProjectPage: React.FC = () => {
 
                       <Box component="fieldset" mt={5} mx={0}>
                         <ProjectPartnershipsForm
-                          first_nations={codes.first_nations.map((item) => {
+                          first_nations={codes.codes.first_nations.map((item) => {
                             return { value: item.id, label: item.name };
                           })}
-                          stakeholder_partnerships={codes.funding_source.map((item) => {
+                          stakeholder_partnerships={codes.codes.funding_source.map((item) => {
                             return { value: item.id, label: item.name };
                           })}
                         />
