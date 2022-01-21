@@ -3,7 +3,7 @@ import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../constants/roles';
 import { getDBConnection, IDBConnection } from '../../../database/db';
 import { HTTP400, HTTP409, HTTP500 } from '../../../errors/custom-error';
-import { IPostExistingPermit, IPostPermit, PostPermitData } from '../../../models/project-create';
+import { IPostPermit, PostPermitData } from '../../../models/project-create';
 import {
   GetCoordinatorData,
   GetIUCNClassificationData,
@@ -26,7 +26,6 @@ import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
 import { getLogger } from '../../../utils/logger';
 import {
-  associateExistingPermitToProject,
   insertClassificationDetail,
   insertIndigenousNation,
   insertPermit,
@@ -186,11 +185,8 @@ GET.apiDoc = {
               location: {
                 description: 'The project location object',
                 type: 'object',
-                required: ['location_description', 'geometry'],
+                required: ['geometry'],
                 properties: {
-                  location_description: {
-                    type: 'string'
-                  },
                   geometry: {
                     type: 'array',
                     items: {
@@ -525,7 +521,6 @@ export const getPartnershipsData = async (projectId: number, connection: IDBConn
   return new GetPartnershipsData(resultIndigenous, resultStakeholder);
 };
 
-
 export const getProjectData = async (projectId: number, connection: IDBConnection): Promise<any> => {
   const sqlStatementDetails = queries.project.getProjectByProjectSQL(projectId);
 
@@ -712,13 +707,7 @@ export const updateProjectPermitData = async (
       return insertPermit(permit.permit_number, permit.permit_type, projectId, connection);
     }) || [];
 
-  // Handle existing non-sampling permits which are now being associated to a project
-  const updateExistingPermitPromises =
-    putPermitData?.existing_permits?.map((existing_permit: IPostExistingPermit) => {
-      return associateExistingPermitToProject(existing_permit.permit_id, projectId, connection);
-    }) || [];
-
-  await Promise.all([insertPermitPromises, updateExistingPermitPromises]);
+  await Promise.all([insertPermitPromises]);
 };
 
 export const updateProjectIUCNData = async (

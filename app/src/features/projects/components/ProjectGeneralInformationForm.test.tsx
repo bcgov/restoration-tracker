@@ -7,7 +7,6 @@ import ProjectGeneralInformationForm, {
   ProjectGeneralInformationFormYupSchema
 } from './ProjectGeneralInformationForm';
 
-
 describe('ProjectGeneralInformationForm', () => {
   it('renders correctly with default empty values', () => {
     const { asFragment } = render(
@@ -17,7 +16,7 @@ describe('ProjectGeneralInformationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectGeneralInformationForm/>}
+        {() => <ProjectGeneralInformationForm />}
       </Formik>
     );
 

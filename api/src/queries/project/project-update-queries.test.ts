@@ -118,7 +118,6 @@ describe('putProjectSQL', () => {
       1,
       null,
       new PutLocationData({
-        location_description: 'description',
         geometry: [
           {
             type: 'Feature',
@@ -170,9 +169,7 @@ describe('putProjectSQL', () => {
         end_date: '2020-05-20T07:00:00.000Z',
         objectives: 'project objectives'
       }),
-      new PutLocationData({
-        location_description: 'description'
-      }),
+      new PutLocationData({}),
       new PutCoordinatorData({
         first_name: 'first name',
         last_name: 'last name',

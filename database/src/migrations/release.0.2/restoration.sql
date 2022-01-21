@@ -627,7 +627,6 @@ CREATE TABLE project(
     uuid                         uuid              DEFAULT public.gen_random_uuid(),
     name                         varchar(300),
     objectives                   varchar(3000)     NOT NULL,
-    location_description         varchar(3000),
     start_date                   date              NOT NULL,
     end_date                     date,
     coordinator_first_name       varchar(50)       NOT NULL,
@@ -654,8 +653,6 @@ COMMENT ON COLUMN project.uuid IS 'The universally unique identifier for the rec
 COMMENT ON COLUMN project.name IS 'Name given to a project.'
 ;
 COMMENT ON COLUMN project.objectives IS 'The objectives for the project.'
-;
-COMMENT ON COLUMN project.location_description IS 'The location description.'
 ;
 COMMENT ON COLUMN project.start_date IS 'The start date of the project.'
 ;

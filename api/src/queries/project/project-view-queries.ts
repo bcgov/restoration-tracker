@@ -21,7 +21,6 @@ export const getProjectSQL = (projectId: number): SQLStatement | null => {
       project.project_id as id,
       project.name,
       project.objectives,
-      project.location_description,
       project.start_date,
       project.end_date,
       project.coordinator_first_name,

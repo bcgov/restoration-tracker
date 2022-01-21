@@ -42,7 +42,7 @@ export const projectCreatePostRequestObject = {
               permit_number: {
                 type: 'string'
               },
-              permit_type:{
+              permit_type: {
                 type: 'string'
               }
             }
@@ -73,12 +73,7 @@ export const projectCreatePostRequestObject = {
     location: {
       title: 'Location',
       type: 'object',
-      properties: {
-        location_description: {
-          type: 'string',
-          description: 'Location description'
-        }
-      }
+      properties: {}
     },
     iucn: {
       title: 'Project IUCN classifications',

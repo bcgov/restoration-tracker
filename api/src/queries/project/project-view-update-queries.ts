@@ -18,7 +18,6 @@ export const getLocationByProjectSQL = (projectId: number): SQLStatement | null 
 
   const sqlStatement = SQL`
     SELECT
-      p.location_description,
       psc.geojson as geometry,
       p.revision_count
     FROM
@@ -30,7 +29,6 @@ export const getLocationByProjectSQL = (projectId: number): SQLStatement | null 
     WHERE
       p.project_id = ${projectId}
     GROUP BY
-      p.location_description,
       psc.geojson,
       p.revision_count;
   `;

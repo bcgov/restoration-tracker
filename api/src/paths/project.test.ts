@@ -27,7 +27,7 @@ describe('createProject', () => {
         coordinator_agency: 'A Rocha Canada',
         share_contact_details: 'false'
       },
-      permit: { permits: [], existing_permits: [] },
+      permit: { permits: [] },
       project: {
         project_name: 'Tatyana Douglas',
         start_date: '1900-01-01',
@@ -35,7 +35,6 @@ describe('createProject', () => {
       },
       location: {
         regions: ['West Coast'],
-        location_description: '',
         geometry: [
           { type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: [-124.716797, 52.88902] } }
         ]

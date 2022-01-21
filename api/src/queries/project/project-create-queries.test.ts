@@ -36,10 +36,7 @@ describe('postProjectSQL', () => {
       share_contact_details: false
     };
 
-    const locationData = {
-      location_description: 'a location description'
-    };
-
+    const locationData = {};
 
     const postProjectData = new PostProjectData(projectData);
     const postCoordinatorData = new PostCoordinatorData(coordinatorData);

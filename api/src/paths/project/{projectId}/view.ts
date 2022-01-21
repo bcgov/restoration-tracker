@@ -79,13 +79,7 @@ GET.apiDoc = {
               project: {
                 description: 'Basic project metadata',
                 type: 'object',
-                required: [
-                  'project_name',
-                  'start_date',
-                  'end_date',
-                  'completion_status',
-                  'publish_date'
-                ],
+                required: ['project_name', 'start_date', 'end_date', 'completion_status', 'publish_date'],
                 properties: {
                   project_name: {
                     type: 'string'
@@ -158,11 +152,8 @@ GET.apiDoc = {
               location: {
                 description: 'The project location object',
                 type: 'object',
-                required: ['location_description', 'geometry'],
+                required: ['geometry'],
                 properties: {
-                  location_description: {
-                    type: 'string'
-                  },
                   geometry: {
                     type: 'array',
                     items: {

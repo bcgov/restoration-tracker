@@ -262,7 +262,6 @@ describe('getPublicProjectForView', () => {
       type: 'type',
       name: 'name',
       objectives: 'project objectives',
-      location_description: 'location description',
       start_date: '2020/04/04',
       end_date: '2020/05/05',
       coordinator_first_name: 'first',
@@ -285,7 +284,6 @@ describe('getPublicProjectForView', () => {
     };
 
     const locationData = {
-      location_description: 'location description',
       geometry: null,
       revision_count: 1
     };

@@ -4,7 +4,6 @@ import { PROJECT_ROLE, SYSTEM_ROLE } from '../constants/roles';
 import { getDBConnection, IDBConnection } from '../database/db';
 import { HTTP400 } from '../errors/custom-error';
 import {
-  IPostExistingPermit,
   IPostIUCN,
   IPostPermit,
   PostFundingSource,
@@ -159,15 +158,6 @@ export function createProject(): RequestHandler {
           Promise.all(
             sanitizedProjectPostData.permit.permits.map((permit: IPostPermit) =>
               insertPermit(permit.permit_number, permit.permit_type, projectId, connection)
-            )
-          )
-        );
-
-        // Handle existing non-sampling permits which are now being associated to a project
-        promises.push(
-          Promise.all(
-            sanitizedProjectPostData.permit.existing_permits.map((existing_permit: IPostExistingPermit) =>
-              associateExistingPermitToProject(existing_permit.permit_id, projectId, connection)
             )
           )
         );

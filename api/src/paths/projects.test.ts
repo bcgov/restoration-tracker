@@ -25,8 +25,7 @@ describe('Unit Testing: GET /projects - Test database query result parsing', () 
       id: 1,
       name: 'Project Restoration',
       start_date: '2021/01/01',
-      end_date: '2022/12/31',
-      location_description: 'Here'
+      end_date: '2022/12/31'
     });
 
     const projects: any[] = _extractProjects(rows);

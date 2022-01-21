@@ -60,10 +60,6 @@ export interface IPostPermit {
   permit_type: string;
 }
 
-export interface IPostExistingPermit {
-  permit_id: number;
-}
-
 /**
  * Processes POST /project permit data
  *
@@ -72,7 +68,6 @@ export interface IPostExistingPermit {
  */
 export class PostPermitData {
   permits: IPostPermit[];
-  existing_permits: IPostExistingPermit[];
 
   constructor(obj?: any) {
     defaultLog.debug({ label: 'PostPermitData', message: 'params', obj });
@@ -83,15 +78,6 @@ export class PostPermitData {
           return {
             permit_number: item.permit_number,
             permit_type: item.permit_type
-          };
-        })) ||
-      [];
-
-    this.existing_permits =
-      (obj?.existing_permits?.length &&
-        obj.existing_permits.map((item: any) => {
-          return {
-            permit_id: item
           };
         })) ||
       [];
@@ -127,7 +113,6 @@ export class PostProjectData {
  * @class PostLocationData
  */
 export class PostLocationData {
-  location_description: string;
   geometry: Feature[];
 
   constructor(obj?: any) {
@@ -141,8 +126,6 @@ export class PostLocationData {
         })
       }
     });
-
-    this.location_description = (obj && obj.location_description) || null;
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
   }
 }

@@ -227,10 +227,6 @@ describe('GetLocationData', () => {
       locationData = new GetLocationData(null);
     });
 
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal('');
-    });
-
     it('sets the geometry', function () {
       expect(locationData.geometry).to.eql([]);
     });
@@ -243,10 +239,6 @@ describe('GetLocationData', () => {
       locationData = new GetLocationData([]);
     });
 
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal('');
-    });
-
     it('sets the geometry', function () {
       expect(locationData.geometry).to.eql([]);
     });
@@ -255,7 +247,6 @@ describe('GetLocationData', () => {
   describe('All values provided', () => {
     let locationData: GetLocationData;
 
-    const location_description = 'location description';
     const geometry = [
       {
         type: 'Feature',
@@ -271,21 +262,15 @@ describe('GetLocationData', () => {
 
     const locationDataObj = [
       {
-        location_description,
         geometry
       },
       {
-        location_description,
         geometry
       }
     ];
 
     before(() => {
       locationData = new GetLocationData(locationDataObj);
-    });
-
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal(location_description);
     });
 
     it('sets the geometry', function () {

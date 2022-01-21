@@ -39,7 +39,6 @@ export class PutProjectData {
 }
 
 export class PutLocationData {
-  location_description: string;
   geometry: Feature[];
   revision_count: number;
 
@@ -55,7 +54,6 @@ export class PutLocationData {
       }
     });
 
-    this.location_description = (obj && obj.location_description) || null;
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
     this.revision_count = obj?.revision_count ?? null;
   }
@@ -173,7 +171,6 @@ export class GetIUCNClassificationData {
   }
 }
 
-
 /**
  * Pre-processes GET /projects/{id} location data
  *
@@ -181,7 +178,6 @@ export class GetIUCNClassificationData {
  * @class GetLocationData
  */
 export class GetLocationData {
-  location_description: string;
   geometry?: Feature[];
   revision_count: number;
 
@@ -196,7 +192,6 @@ export class GetLocationData {
 
     const locationDataItem = locationData && locationData.length && locationData[0];
 
-    this.location_description = locationDataItem?.location_description || '';
     this.geometry = (locationDataItem?.geometry?.length && locationDataItem.geometry) || [];
     this.revision_count = locationDataItem?.revision_count ?? null;
   }
