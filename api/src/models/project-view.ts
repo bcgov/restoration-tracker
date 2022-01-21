@@ -13,7 +13,6 @@ const defaultLog = getLogger('models/project-view');
  */
 export class GetProjectData {
   project_name: string;
-  project_type: string;
   start_date: string;
   end_date: string;
   completion_status: string;
@@ -27,7 +26,6 @@ export class GetProjectData {
     });
 
     this.project_name = projectData?.name || '';
-    this.project_type = projectData?.type || '';
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
     this.completion_status =

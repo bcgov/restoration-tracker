@@ -306,10 +306,6 @@ describe('GetProjectData', () => {
       expect(data.project_name).to.equal('');
     });
 
-    it('sets type', () => {
-      expect(data.project_type).to.equal('');
-    });
-
     it('sets start_date', () => {
       expect(data.start_date).to.equal('');
     });
@@ -340,10 +336,6 @@ describe('GetProjectData', () => {
 
     it('sets name', () => {
       expect(data.project_name).to.equal(projectData.name);
-    });
-
-    it('sets type', () => {
-      expect(data.project_type).to.equal(projectData.type);
     });
 
     it('sets start_date', () => {

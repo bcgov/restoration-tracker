@@ -19,7 +19,6 @@ export const getPublicProjectSQL = (projectId: number): SQLStatement | null => {
   const sqlStatement = SQL`
     SELECT
       project.project_id as id,
-      project_type.name as type,
       project.name,
       project.objectives,
       project.location_description,
@@ -33,9 +32,6 @@ export const getPublicProjectSQL = (projectId: number): SQLStatement | null => {
       project.publish_timestamp as publish_date
     from
       project
-    left outer join
-      project_type
-        on project.project_type_id = project_type.project_type_id
     where
       project.project_id = ${projectId}
     and project.publish_timestamp is not null;
@@ -349,12 +345,9 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       p.start_date,
       p.end_date,
       p.coordinator_agency_name,
-      pt.name as project_type,
       string_agg(DISTINCT pp.number, ', ') as permits_list
     from
       project as p
-    left outer join project_type as pt
-      on p.project_type_id = pt.project_type_id
     left outer join permit as pp
       on p.project_id = pp.project_id
     where
@@ -367,8 +360,7 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       p.name,
       p.start_date,
       p.end_date,
-      p.coordinator_agency_name,
-      pt.name;
+      p.coordinator_agency_name
   `);
 
   defaultLog.debug({

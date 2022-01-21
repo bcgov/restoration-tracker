@@ -52,8 +52,7 @@ begin
 
   select st_GeomFromEWKT('SRID=4326;POLYGON((-123.920288 48.592142,-123.667603 48.645205,-123.539886 48.536204,-123.583832 48.46978,-123.728027 48.460674,-123.868103 48.467959,-123.940887 48.5262,-123.920288 48.592142), (-103.920288 38.592142,-103.667603 38.645205,-103.539886 38.536204,-103.583832 38.46978,-103.728027 38.460674,-103.868103 38.467959,-103.940887 38.5262,-103.920288 38.592142))') into _geography;
 
-  insert into project (project_type_id
-    , name
+  insert into project (name
     , objectives
     , start_date
     , end_date
@@ -62,8 +61,8 @@ begin
     , coordinator_email_address
     , coordinator_agency_name
     , coordinator_public
-    ) values ((select project_type_id from project_type where name = 'Wildlife')
-    , 'project 10'
+    ) values (
+    'project 10'
     , 'my objectives'
     , now()
     , now()+interval '1 day'

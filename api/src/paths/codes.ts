@@ -70,20 +70,6 @@ GET.apiDoc = {
                   }
                 }
               },
-              project_type: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    id: {
-                      type: 'number'
-                    },
-                    name: {
-                      type: 'string'
-                    }
-                  }
-                }
-              },
               coordinator_agency: {
                 type: 'array',
                 items: {

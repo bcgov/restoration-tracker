@@ -64,7 +64,6 @@ describe('getPublicProjectsList', () => {
         start_date: '2020/04/04',
         end_date: '2020/05/05',
         coordinator_agency_name: 'agency',
-        project_type: 'type',
         permits_list: [123, 1233]
       }
     ];
@@ -95,7 +94,6 @@ describe('getPublicProjectsList', () => {
         end_date: projectsList[0].end_date,
         coordinator_agency: projectsList[0].coordinator_agency_name,
         completion_status: COMPLETION_STATUS.COMPLETED,
-        project_type: projectsList[0].project_type,
         permits_list: projectsList[0].permits_list
       }
     ]);

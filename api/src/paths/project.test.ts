@@ -30,7 +30,6 @@ describe('createProject', () => {
       permit: { permits: [], existing_permits: [] },
       project: {
         project_name: 'Tatyana Douglas',
-        project_type: 2,
         start_date: '1900-01-01',
         end_date: ''
       },

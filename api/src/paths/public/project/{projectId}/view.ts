@@ -60,7 +60,6 @@ GET.apiDoc = {
                 type: 'object',
                 required: [
                   'project_name',
-                  'project_type',
                   'start_date',
                   'end_date',
                   'completion_status',
@@ -69,9 +68,6 @@ GET.apiDoc = {
                 properties: {
                   project_name: {
                     type: 'string'
-                  },
-                  project_type: {
-                    type: 'number'
                   },
                   start_date: {
                     type: 'string',

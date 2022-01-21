@@ -171,7 +171,6 @@ export const getProjectByProjectSQL = (projectId: number): SQLStatement | null =
   const sqlStatement = SQL`
     SELECT
       name,
-      project_type_id as pt_id,
       start_date,
       end_date,
       revision_count
@@ -228,7 +227,6 @@ export const putProjectSQL = (
   const sqlSetStatements: SQLStatement[] = [];
 
   if (project) {
-    sqlSetStatements.push(SQL`project_type_id = ${project.type}`);
     sqlSetStatements.push(SQL`name = ${project.name}`);
     sqlSetStatements.push(SQL`start_date = ${project.start_date}`);
     sqlSetStatements.push(SQL`end_date = ${project.end_date}`);

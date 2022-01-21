@@ -24,7 +24,6 @@ export class PutIUCNData {
 
 export class PutProjectData {
   name: string;
-  type: number;
   start_date: string;
   end_date: string;
   revision_count: number;
@@ -33,7 +32,6 @@ export class PutProjectData {
     defaultLog.debug({ label: 'PutProjectData', message: 'params', obj });
 
     this.name = obj?.project_name || null;
-    this.type = obj?.project_type || null;
     this.start_date = obj?.start_date || null;
     this.end_date = obj?.end_date || null;
     this.revision_count = obj?.revision_count ?? null;
@@ -212,7 +210,6 @@ export class GetLocationData {
  */
 export class GetProjectData {
   project_name: string;
-  project_type: number;
   start_date: string;
   end_date: string;
   revision_count: number;
@@ -222,7 +219,6 @@ export class GetProjectData {
     defaultLog.debug({ label: 'GetProjectData', message: 'params', projectData });
 
     this.project_name = projectData?.name || '';
-    this.project_type = projectData?.pt_id || '';
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
     this.revision_count = projectData?.revision_count ?? null;
