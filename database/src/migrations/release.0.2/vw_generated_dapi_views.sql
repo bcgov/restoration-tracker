@@ -19,7 +19,6 @@
  create or replace view project_role as select * from restoration.project_role;
  create or replace view project_spatial_component as select * from restoration.project_spatial_component;
  create or replace view project_spatial_component_type as select * from restoration.project_spatial_component_type;
- create or replace view project_type as select * from restoration.project_type;
  create or replace view security as select * from restoration.security;
  create or replace view security_rule as select * from restoration.security_rule;
  create or replace view stakeholder_partnership as select * from restoration.stakeholder_partnership;

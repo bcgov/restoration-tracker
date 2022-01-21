@@ -94,7 +94,6 @@ export function createProject(): RequestHandler {
       const postProjectSQLStatement = queries.project.postProjectSQL({
         ...sanitizedProjectPostData.project,
         ...sanitizedProjectPostData.location,
-        ...sanitizedProjectPostData.objectives,
         ...sanitizedProjectPostData.coordinator
       });
 

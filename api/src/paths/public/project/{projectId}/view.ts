@@ -5,7 +5,6 @@ import { HTTP400 } from '../../../../errors/custom-error';
 import {
   GetIUCNClassificationData,
   GetLocationData,
-  GetObjectivesData,
   GetPartnershipsData,
   GetPermitData
 } from '../../../../models/project-view';
@@ -64,7 +63,6 @@ GET.apiDoc = {
                   'project_type',
                   'start_date',
                   'end_date',
-                  'comments',
                   'completion_status',
                   'publish_date'
                 ],
@@ -84,10 +82,6 @@ GET.apiDoc = {
                     type: 'string',
                     format: 'date',
                     description: 'ISO 8601 date string for the project end date'
-                  },
-                  comments: {
-                    type: 'string',
-                    description: 'Comments'
                   },
                   completion_status: {
                     description: 'Status of the project being active/completed',
@@ -361,8 +355,6 @@ export function getPublicProjectForView(): RequestHandler {
 
       const getPermitData = (permitData && permitData.rows && new GetPermitData(permitData.rows)) || null;
 
-      const getObjectivesData = (projectData && projectData.rows && new GetObjectivesData(projectData.rows[0])) || null;
-
       const getLocationData = (locationData && locationData.rows && new GetLocationData(locationData.rows)) || null;
 
       const getCoordinatorData =
@@ -389,7 +381,6 @@ export function getPublicProjectForView(): RequestHandler {
         project: getProjectData,
         permit: getPermitData,
         coordinator: getCoordinatorData,
-        objectives: getObjectivesData,
         location: getLocationData,
         iucn: getIUCNClassificationData,
         funding: getFundingData,

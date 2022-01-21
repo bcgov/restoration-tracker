@@ -64,7 +64,6 @@ alter role restoration_api set search_path to restoration_dapi_v1, restoration, 
 \i populate_first_nations.sql
 \i populate_funding_source.sql
 \i populate_investment_action_category.sql
-\i populate_project_type.sql
 \i populate_iucn_classifications.sql
 \i populate_project_role.sql
 \i populate_system_role.sql

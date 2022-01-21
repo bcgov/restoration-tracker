@@ -5,7 +5,6 @@ import {
   GetCoordinatorData,
   GetIUCNClassificationData,
   GetLocationData,
-  GetObjectivesData,
   GetPartnershipsData,
   GetPermitData,
   GetProjectData
@@ -150,45 +149,6 @@ describe('GetIUCNClassificationData', () => {
           subClassification2: 'subclass2'
         }
       ]);
-    });
-  });
-});
-
-describe('GetObjectivesData', () => {
-  describe('No values provided', () => {
-    let projectObjectivesData: GetObjectivesData;
-
-    before(() => {
-      projectObjectivesData = new GetObjectivesData(null);
-    });
-
-    it('sets objectives', function () {
-      expect(projectObjectivesData.objectives).to.equal('');
-    });
-
-    it('sets caveats', function () {
-      expect(projectObjectivesData.caveats).to.equal('');
-    });
-  });
-
-  describe('All values provided', () => {
-    let projectObjectivesData: GetObjectivesData;
-
-    const obj = {
-      objectives: 'these are the project objectives',
-      caveats: 'these are some interesting caveats'
-    };
-
-    before(() => {
-      projectObjectivesData = new GetObjectivesData(obj);
-    });
-
-    it('sets objectives', function () {
-      expect(projectObjectivesData.objectives).to.equal(obj.objectives);
-    });
-
-    it('sets caveats', function () {
-      expect(projectObjectivesData.caveats).to.equal(obj.caveats);
     });
   });
 });

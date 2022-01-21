@@ -1,17 +1,10 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
-import {
-  PutCoordinatorData,
-  PutLocationData,
-  PutObjectivesData,
-  PutProjectData,
-  PutFundingSource
-} from '../../models/project-update';
+import { PutCoordinatorData, PutLocationData, PutProjectData, PutFundingSource } from '../../models/project-update';
 import {
   getIndigenousPartnershipsByProjectSQL,
   getCoordinatorByProjectSQL,
   getIUCNActionClassificationByProjectSQL,
-  getObjectivesByProjectSQL,
   getProjectByProjectSQL,
   putProjectSQL,
   putProjectFundingSourceSQL,
@@ -147,23 +140,6 @@ describe('putProjectSQL', () => {
     expect(response).to.not.be.null;
   });
 
-  it('returns valid sql when only objectives data is provided', () => {
-    const response = putProjectSQL(
-      1,
-      null,
-      null,
-      new PutObjectivesData({
-        objectives: 'objectives',
-        caveats: 'caveats',
-        revision_count: 1
-      }),
-      null,
-      1
-    );
-
-    expect(response).to.not.be.null;
-  });
-
   it('returns valid sql when only coordinator data is provided', () => {
     const response = putProjectSQL(
       1,
@@ -191,15 +167,11 @@ describe('putProjectSQL', () => {
         name: 'project name',
         type: 1,
         start_date: '2020-04-20T07:00:00.000Z',
-        end_date: '2020-05-20T07:00:00.000Z'
+        end_date: '2020-05-20T07:00:00.000Z',
+        objectives: 'project objectives'
       }),
       new PutLocationData({
         location_description: 'description'
-      }),
-      new PutObjectivesData({
-        objectives: 'objectives',
-        caveats: 'caveats',
-        revision_count: 1
       }),
       new PutCoordinatorData({
         first_name: 'first name',
@@ -211,20 +183,6 @@ describe('putProjectSQL', () => {
       }),
       1
     );
-
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getObjectivesByProjectSQL', () => {
-  it('Null projectId', () => {
-    const response = getObjectivesByProjectSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('valid projectId', () => {
-    const response = getObjectivesByProjectSQL(1);
 
     expect(response).to.not.be.null;
   });

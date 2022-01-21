@@ -60,8 +60,7 @@ describe('AccessRequestList', () => {
             email: 'email@email.com',
             role: 2,
             identitySource: 'idir',
-            company: 'test company',
-            comments: 'test comment'
+            company: 'test company'
           },
           create_date: '2020-04-20'
         }

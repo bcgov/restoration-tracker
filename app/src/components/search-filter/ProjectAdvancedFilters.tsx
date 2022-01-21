@@ -14,7 +14,6 @@ import React from 'react';
 export interface IProjectAdvancedFilters {
   coordinator_agency: string;
   permit_number: string;
-  project_type: string;
   start_date: string;
   end_date: string;
   keyword: string;
@@ -27,7 +26,6 @@ export interface IProjectAdvancedFilters {
 export const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters = {
   coordinator_agency: '',
   permit_number: '',
-  project_type: '',
   start_date: '',
   end_date: '',
   keyword: '',

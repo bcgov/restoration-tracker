@@ -9,7 +9,6 @@ import { getMockDBConnection } from '../../../../__mocks__/db';
 import SQL from 'sql-template-strings';
 import {
   GetIUCNClassificationData,
-  GetObjectivesData,
   GetPartnershipsData,
   GetLocationData,
   GetPermitData
@@ -266,8 +265,6 @@ describe('getPublicProjectForView', () => {
       location_description: 'location description',
       start_date: '2020/04/04',
       end_date: '2020/05/05',
-      caveats: 'caveats',
-      comments: 'comment',
       coordinator_first_name: 'first',
       coordinator_last_name: 'last',
       coordinator_email_address: 'coord@email.com',
@@ -380,7 +377,6 @@ describe('getPublicProjectForView', () => {
       project: new GetPublicProjectData(projectData),
       permit: new GetPermitData([permitData]),
       coordinator: new GetPublicCoordinatorData(projectData),
-      objectives: new GetObjectivesData(projectData),
       location: new GetLocationData([locationData]),
       iucn: new GetIUCNClassificationData([iucnData]),
       funding: new GetFundingData([fundingSourceData]),
