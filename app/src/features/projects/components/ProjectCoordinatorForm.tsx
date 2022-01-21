@@ -52,7 +52,7 @@ export const ProjectCoordinatorYupSchema = yup.object().shape({
       .max(500, 'Cannot exceed 500 characters')
       .email('Must be a valid email address')
       .required('Required'),
-    coordinator_agency: yup.string().max(300, 'Cannot exceed 300 characters').required('Required'),
+    coordinator_agency: yup.string().max(300, 'Cannot exceed 300 characters').required('Required').nullable(),
     share_contact_details: yup.string().required('Required')
   })
 });
@@ -104,7 +104,7 @@ const ProjectCoordinatorForm: React.FC<IProjectCoordinatorFormProps> = (props) =
         <Grid item xs={12}>
           <AutocompleteFreeSoloField
             id="coordinator.coordinator_agency"
-            name="coordinator_agency"
+            name="coordinator.coordinator_agency"
             label="Contact Agency"
             options={props.coordinator_agency}
             required={true}

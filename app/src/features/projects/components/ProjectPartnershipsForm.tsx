@@ -21,7 +21,12 @@ export const ProjectPartnershipsFormInitialValues: IProjectPartnershipsForm = {
   }
 };
 
-export const ProjectPartnershipsFormYupSchema = yup.object().shape({});
+export const ProjectPartnershipsFormYupSchema = yup.object().shape({
+  partnerships: yup.object().shape({
+    indigenous_partnerships: yup.mixed(),
+    stakeholder_partnerships: yup.mixed()
+  })
+});
 
 export interface IProjectPartnershipsFormProps {
   first_nations: IMultiAutocompleteFieldOption[];

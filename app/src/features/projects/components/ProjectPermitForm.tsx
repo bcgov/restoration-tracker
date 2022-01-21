@@ -64,15 +64,17 @@ export const ProjectPermitFormInitialValues: IProjectPermitForm = {
 };
 
 export const ProjectPermitFormYupSchema = yup.object().shape({
-  permits: yup
-    .array()
-    .of(
-      yup.object().shape({
-        permit_number: yup.string().max(100, 'Cannot exceed 100 characters').required('Required'),
-        permit_type: yup.string().required('Required')
-      })
-    )
-    .isUniquePermitNumber('Permit numbers must be unique')
+  permit: yup.object().shape({
+    permits: yup
+      .array()
+      .of(
+        yup.object().shape({
+          permit_number: yup.string().max(100, 'Cannot exceed 100 characters').required('Required'),
+          permit_type: yup.string().required('Required')
+        })
+      )
+      .isUniquePermitNumber('Permit numbers must be unique')
+  })
 });
 
 /**

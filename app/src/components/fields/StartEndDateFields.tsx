@@ -1,6 +1,7 @@
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { DATE_LIMIT } from 'constants/dateTimeFormats';
+import { get } from 'lodash-es';
 import React from 'react';
 
 interface IStartEndDateFieldsProps {
@@ -34,11 +35,11 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
         <TextField
           fullWidth
           id="start_date"
-          name="start_date"
+          name={startName}
           label="Start Date"
           variant="outlined"
           required={startRequired}
-          value={values[startName]}
+          value={get(values, startName)}
           type="date"
           InputProps={{
             // Chrome min/max dates
@@ -51,8 +52,8 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
             'data-testid': 'start-date'
           }}
           onChange={handleChange}
-          error={touched[startName] && Boolean(errors[startName])}
-          helperText={(touched[startName] && errors[startName]) || startDateHelperText}
+          error={get(touched, startName) && Boolean(get(errors, startName))}
+          helperText={(get(touched, startName) && get(errors, startName)) || startDateHelperText}
           InputLabelProps={{
             shrink: true
           }}
@@ -62,11 +63,11 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
         <TextField
           fullWidth
           id="end_date"
-          name="end_date"
+          name={endName}
           label="End Date"
           variant="outlined"
           required={endRequired}
-          value={values[endName]}
+          value={get(values, endName)}
           type="date"
           InputProps={{
             // Chrome min/max dates
@@ -79,8 +80,8 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
             'data-testid': 'end-date'
           }}
           onChange={handleChange}
-          error={touched[endName] && Boolean(errors[endName])}
-          helperText={(touched[endName] && errors[endName]) || endDateHelperText}
+          error={get(touched, endName) && Boolean(get(errors, endName))}
+          helperText={(get(touched, endName) && get(errors, endName)) || endDateHelperText}
           InputLabelProps={{
             shrink: true
           }}

@@ -12,7 +12,7 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import React from 'react';
 import { Router } from 'react-router';
 //import { getProjectForViewResponse } from 'test-helpers/project-helpers';
-import ProjectPage from './ProjectPage';
+import ViewProjectPage from './ViewProjectPage';
 import { DialogContextProvider } from 'contexts/dialogContext';
 //import { SYSTEM_ROLE } from 'constants/roles';
 //import { AuthStateContext, IAuthState } from 'contexts/authStateContext';
@@ -55,7 +55,7 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
 //   }
 // };
 
-describe('ProjectPage', () => {
+describe('ViewProjectPage', () => {
   beforeEach(() => {
     // clear mocks before each test
     mockRestorationTrackerApi().project.deleteProject.mockClear();
@@ -72,7 +72,7 @@ describe('ProjectPage', () => {
     const { asFragment } = render(
       <DialogContextProvider>
         <Router history={history}>
-          <ProjectPage />
+          <ViewProjectPage />
         </Router>
       </DialogContextProvider>
     );
@@ -86,7 +86,7 @@ describe('ProjectPage', () => {
   //   const { asFragment, findByText } = render(
   //     <DialogContextProvider>
   //       <Router history={history}>
-  //         <ProjectPage />
+  //         <ViewProjectPage />
   //       </Router>
   //     </DialogContextProvider>
   //   );
@@ -108,7 +108,7 @@ describe('ProjectPage', () => {
   //   const { asFragment, findByText } = render(
   //     <DialogContextProvider>
   //       <Router history={history}>
-  //         <ProjectPage />
+  //         <ViewProjectPage />
   //       </Router>
   //     </DialogContextProvider>
   //   );
@@ -137,7 +137,7 @@ describe('ProjectPage', () => {
   //     <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
   //       <DialogContextProvider>
   //         <Router history={history}>
-  //           <ProjectPage />
+  //           <ViewProjectPage />
   //         </Router>
   //       </DialogContextProvider>
   //     </AuthStateContext.Provider>
@@ -177,7 +177,7 @@ describe('ProjectPage', () => {
   //     <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
   //       <DialogContextProvider>
   //         <Router history={history}>
-  //           <ProjectPage />
+  //           <ViewProjectPage />
   //         </Router>
   //       </DialogContextProvider>
   //     </AuthStateContext.Provider>
@@ -225,7 +225,7 @@ describe('ProjectPage', () => {
   //     <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
   //       <DialogContextProvider>
   //         <Router history={history}>
-  //           <ProjectPage />
+  //           <ViewProjectPage />
   //         </Router>
   //       </DialogContextProvider>
   //     </AuthStateContext.Provider>
@@ -276,7 +276,7 @@ describe('ProjectPage', () => {
   //     <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
   //       <DialogContextProvider>
   //         <Router history={history}>
-  //           <ProjectPage />
+  //           <ViewProjectPage />
   //         </Router>
   //       </DialogContextProvider>
   //     </AuthStateContext.Provider>
@@ -307,7 +307,7 @@ describe('ProjectPage', () => {
   //     <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
   //       <DialogContextProvider>
   //         <Router history={history}>
-  //           <ProjectPage />
+  //           <ViewProjectPage />
   //         </Router>
   //       </DialogContextProvider>
   //     </AuthStateContext.Provider>
@@ -334,7 +334,7 @@ describe('ProjectPage', () => {
   //     <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
   //       <DialogContextProvider>
   //         <Router history={history}>
-  //           <ProjectPage />
+  //           <ViewProjectPage />
   //         </Router>
   //       </DialogContextProvider>
   //     </AuthStateContext.Provider>
@@ -357,7 +357,7 @@ describe('ProjectPage', () => {
 
   //   const { asFragment, findByText } = render(
   //     <Router history={history}>
-  //       <ProjectPage />
+  //       <ViewProjectPage />
   //     </Router>
   //   );
 
@@ -379,7 +379,7 @@ describe('ProjectPage', () => {
   //   const { getByTestId, findByText } = render(
   //     <DialogContextProvider>
   //       <Router history={history}>
-  //         <ProjectPage />
+  //         <ViewProjectPage />
   //       </Router>
   //     </DialogContextProvider>
   //   );
@@ -420,7 +420,7 @@ describe('ProjectPage', () => {
   //   const { getByTestId, findByText, queryByText, getAllByRole } = render(
   //     <DialogContextProvider>
   //       <Router history={history}>
-  //         <ProjectPage />
+  //         <ViewProjectPage />
   //       </Router>
   //     </DialogContextProvider>
   //   );
@@ -459,7 +459,7 @@ describe('ProjectPage', () => {
   //   const { getByTestId, findByText, queryByText, getAllByRole } = render(
   //     <DialogContextProvider>
   //       <Router history={history}>
-  //         <ProjectPage />
+  //         <ViewProjectPage />
   //       </Router>
   //     </DialogContextProvider>
   //   );
