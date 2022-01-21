@@ -25,7 +25,7 @@ import yup from 'utils/YupSchema';
 
 export interface IProjectLocationForm {
   location: {
-    boundary: Feature[];
+    geometry: Feature[];
     range: string;
     priority: string;
   };
@@ -33,7 +33,7 @@ export interface IProjectLocationForm {
 
 export const ProjectLocationFormInitialValues: IProjectLocationForm = {
   location: {
-    boundary: [],
+    geometry: [],
     range: '',
     priority: 'false'
   }
@@ -41,7 +41,7 @@ export const ProjectLocationFormInitialValues: IProjectLocationForm = {
 
 export const ProjectLocationFormYupSchema = yup.object().shape({
   location: yup.object().shape({
-    boundary: yup.array().min(1, 'You must specify a project boundary').required('You must specify a project boundary'),
+    geometry: yup.array().min(1, 'You must specify a project boundary').required('You must specify a project boundary'),
     range: yup.string().required('Required'),
     priority: yup.string().required('Required')
   })
@@ -64,7 +64,8 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
   const [openUploadBoundary, setOpenUploadBoundary] = useState(false);
 
   const getUploadHandler = (): IUploadHandler => {
-    return async () => {
+    return async (file: File) => {
+      console.log(file);
       // TODO use `formikProps.setFieldValue` to manually set the form `geometry` value based on the contents of the uploaded boundary file
       return Promise.resolve();
     };
@@ -160,11 +161,16 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
           <MapContainer
             mapId={'project_location_map'}
             geometryState={{
-              geometry: values.location.boundary,
-              setGeometry: (newGeo: Feature[]) => setFieldValue('geometry', newGeo)
+              geometry: values.location.geometry,
+              setGeometry: (newGeo: Feature[]) => setFieldValue('location.geometry', newGeo)
             }}
           />
         </Box>
+        {errors?.location?.geometry && (
+          <Box pt={2}>
+            <Typography style={{ fontSize: '12px', color: '#f44336' }}>{errors?.location?.geometry}</Typography>
+          </Box>
+        )}
       </Box>
 
       <ComponentDialog

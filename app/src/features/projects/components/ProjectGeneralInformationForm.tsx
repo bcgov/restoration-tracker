@@ -1,5 +1,5 @@
-import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 import CustomTextField from 'components/fields/CustomTextField';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
@@ -43,12 +43,32 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
 const ProjectGeneralInformationForm: React.FC = () => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
+  const { values, touched, handleChange, errors } = formikProps;
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={9}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <TextField fullWidth required variant="outlined" label="Project Name" id="project.project_name"></TextField>
+            <TextField
+              name="project.project_name"
+              label="Project Name"
+              id="project.project_name"
+              onChange={handleChange}
+              variant="outlined"
+              value={values.project.project_name}
+              fullWidth={true}
+              required={true}
+              error={touched.project?.project_name && Boolean(errors.project?.project_name)}
+              helperText={touched.project?.project_name && errors.project?.project_name}
+            />
+            {/* <CustomTextField
+              name="project.project_name"
+              label="Project Name"
+              other={{
+                required: true
+              }}
+            /> */}
           </Grid>
           <StartEndDateFields
             formikProps={formikProps}
@@ -62,7 +82,7 @@ const ProjectGeneralInformationForm: React.FC = () => {
               <CustomTextField
                 name="project.objectives"
                 label="Objectives"
-                other={{ multiline: true, required: true, rows: 4 }}
+                other={{ required: true, multiline: true, rows: 4 }}
               />
             </Grid>
           </Grid>

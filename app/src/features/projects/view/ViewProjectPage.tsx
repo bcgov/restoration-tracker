@@ -17,7 +17,7 @@ import ProjectHeader from './ProjectHeader';
  *
  * @return {*}
  */
-const ProjectPage: React.FC = () => {
+const ViewProjectPage: React.FC = () => {
   const urlParams = useParams();
 
   const restorationTrackerApi = useRestorationTrackerApi();
@@ -93,4 +93,4 @@ const ProjectPage: React.FC = () => {
   );
 };
 
-export default ProjectPage;
+export default ViewProjectPage;

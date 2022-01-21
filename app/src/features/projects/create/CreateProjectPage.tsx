@@ -48,7 +48,7 @@ import ProjectPermitForm, {
   ProjectPermitFormInitialValues,
   ProjectPermitFormYupSchema
 } from 'features/projects/components/ProjectPermitForm';
-import { Formik, FormikProps } from 'formik';
+import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
 import { useQuery } from 'hooks/useQuery';
@@ -95,7 +95,6 @@ export const ProjectFormInitialValues = {
 
 export const ProjectFormYupSchema = yup
   .object()
-  .shape({})
   .concat(ProjectGeneralInformationFormYupSchema)
   .concat(ProjectIUCNFormYupSchema)
   .concat(ProjectCoordinatorYupSchema)
@@ -254,7 +253,7 @@ const CreateProjectPage: React.FC = () => {
   /**
    * Handle project creation.
    */
-  const handleProjectCreation = async () => {
+  const handleProjectCreation = async (values: ICreateProjectRequest) => {
     try {
       const response = await restorationTrackerApi.project.createProject(initialProjectFormData);
 
@@ -397,7 +396,7 @@ const CreateProjectPage: React.FC = () => {
           </Box>
 
           <Box component={Paper} p={4}>
-            <Formik
+            <Formik<ICreateProjectRequest>
               innerRef={formikRef}
               enableReinitialize={true}
               initialValues={initialProjectFormData}
@@ -405,143 +404,136 @@ const CreateProjectPage: React.FC = () => {
               validateOnBlur={true}
               validateOnChange={false}
               onSubmit={handleProjectCreation}>
-              {({ handleSubmit }) => (
-                <form onSubmit={handleSubmit}>
-                  <Box my={5}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12} md={3}>
-                        <Typography variant="h2">General Information</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={9}>
-                        <ProjectGeneralInformationForm />
-
-                        <Box component="fieldset" mt={5} mx={0}>
-                          <Typography component="legend">
-                            IUCN Conservation Actions Classifications (Optional)
-                          </Typography>
-                          <Box mb={3} maxWidth={'72ch'}>
-                            <Typography variant="body1" color="textSecondary">
-                              Conservation actions are specific actions or sets of tasks undertaken by project staff
-                              designed to reach each of the project's objectives.
-                            </Typography>
-                          </Box>
-                          <ProjectIUCNForm
-                            classifications={
-                              codes?.iucn_conservation_action_level_1_classification?.map((item) => {
-                                return { value: item.id, label: item.name };
-                              }) || []
-                            }
-                            subClassifications1={
-                              codes?.iucn_conservation_action_level_2_subclassification?.map((item) => {
-                                return { value: item.id, iucn1_id: item.iucn1_id, label: item.name };
-                              }) || []
-                            }
-                            subClassifications2={
-                              codes?.iucn_conservation_action_level_3_subclassification?.map((item) => {
-                                return { value: item.id, iucn2_id: item.iucn2_id, label: item.name };
-                              }) || []
-                            }
-                          />
-                        </Box>
-                      </Grid>
+              <Form noValidate>
+                <Box my={5}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={3}>
+                      <Typography variant="h2">General Information</Typography>
                     </Grid>
-                  </Box>
 
-                  <Divider></Divider>
+                    <Grid item xs={12} md={9}>
+                      <ProjectGeneralInformationForm />
 
-                  <Box my={5}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12} md={3}>
-                        <Typography variant="h2">Contact</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={9}>
-                        <ProjectCoordinatorForm
-                          coordinator_agency={codes.coordinator_agency.map((item) => item.name)}
+                      <Box component="fieldset" mt={5} mx={0}>
+                        <ProjectIUCNForm
+                          classifications={
+                            codes?.iucn_conservation_action_level_1_classification?.map((item) => {
+                              return { value: item.id, label: item.name };
+                            }) || []
+                          }
+                          subClassifications1={
+                            codes?.iucn_conservation_action_level_2_subclassification?.map((item) => {
+                              return { value: item.id, iucn1_id: item.iucn1_id, label: item.name };
+                            }) || []
+                          }
+                          subClassifications2={
+                            codes?.iucn_conservation_action_level_3_subclassification?.map((item) => {
+                              return { value: item.id, iucn2_id: item.iucn2_id, label: item.name };
+                            }) || []
+                          }
                         />
-                      </Grid>
+                      </Box>
                     </Grid>
-                  </Box>
+                  </Grid>
+                </Box>
 
-                  <Divider></Divider>
+                <Divider></Divider>
 
-                  <Box my={5}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12} md={3}>
-                        <Typography variant="h2">Permits</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={9}>
-                        <ProjectPermitForm />
-                      </Grid>
+                <Box my={5}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={3}>
+                      <Typography variant="h2">Contact</Typography>
                     </Grid>
-                  </Box>
 
-                  <Divider></Divider>
-
-                  <Box my={5}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12} md={3}>
-                        <Typography variant="h2">Funding and Partnerships</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={9}>
-                        <Box component="fieldset" mx={0}>
-                          <ProjectFundingForm
-                            funding_sources={codes.funding_source.map((item) => {
-                              return { value: item.id, label: item.name };
-                            })}
-                            investment_action_category={codes.investment_action_category.map((item) => {
-                              return { value: item.id, label: item.name, fs_id: item.fs_id };
-                            })}
-                          />
-                        </Box>
-                        <Box component="fieldset" mt={5} mx={0}>
-                          <ProjectPartnershipsForm
-                            first_nations={codes.first_nations.map((item) => {
-                              return { value: item.id, label: item.name };
-                            })}
-                            stakeholder_partnerships={codes.funding_source.map((item) => {
-                              return { value: item.id, label: item.name };
-                            })}
-                          />
-                        </Box>
-                      </Grid>
+                    <Grid item xs={12} md={9}>
+                      <ProjectCoordinatorForm coordinator_agency={codes.coordinator_agency.map((item) => item.name)} />
                     </Grid>
-                  </Box>
+                  </Grid>
+                </Box>
 
-                  <Divider></Divider>
+                <Divider></Divider>
 
-                  <Box my={5}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12} md={3}>
-                        <Typography variant="h2">Location</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={9}>
-                        <ProjectLocationForm
-                          ranges={[
-                            {
-                              value: 1,
-                              label: 'one'
-                            }
-                          ]}
+                <Box my={5}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={3}>
+                      <Typography variant="h2">Permits</Typography>
+                    </Grid>
+
+                    <Grid item xs={12} md={9}>
+                      <ProjectPermitForm />
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Divider></Divider>
+
+                <Box my={5}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={3}>
+                      <Typography variant="h2">Funding and Partnerships</Typography>
+                    </Grid>
+
+                    <Grid item xs={12} md={9}>
+                      <Box component="fieldset" mx={0}>
+                        <ProjectFundingForm
+                          funding_sources={codes.funding_source.map((item) => {
+                            return { value: item.id, label: item.name };
+                          })}
+                          investment_action_category={codes.investment_action_category.map((item) => {
+                            return { value: item.id, label: item.name, fs_id: item.fs_id };
+                          })}
                         />
-                      </Grid>
+                      </Box>
+
+                      <Box component="fieldset" mt={5} mx={0}>
+                        <ProjectPartnershipsForm
+                          first_nations={codes.first_nations.map((item) => {
+                            return { value: item.id, label: item.name };
+                          })}
+                          stakeholder_partnerships={codes.funding_source.map((item) => {
+                            return { value: item.id, label: item.name };
+                          })}
+                        />
+                      </Box>
                     </Grid>
-                  </Box>
+                  </Grid>
+                </Box>
 
-                  <Divider></Divider>
+                <Divider></Divider>
 
-                  <Box mt={5} className={classes.formButtons} display="flex" justifyContent="flex-end">
-                    <Button variant="outlined" color="primary" size="large" onClick={() => setOpenDraftDialog(true)}>
-                      Save Draft
-                    </Button>
-                    <Button variant="contained" color="primary" size="large" type="submit">
-                      Create Project
-                    </Button>
-                    <Button variant="text" color="primary" size="large">
-                      Cancel
-                    </Button>
-                  </Box>
-                </form>
-              )}
+                <Box my={5}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={3}>
+                      <Typography variant="h2">Location</Typography>
+                    </Grid>
+
+                    <Grid item xs={12} md={9}>
+                      <ProjectLocationForm
+                        ranges={[
+                          {
+                            value: 1,
+                            label: 'one'
+                          }
+                        ]}
+                      />
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Divider></Divider>
+
+                <Box mt={5} className={classes.formButtons} display="flex" justifyContent="flex-end">
+                  <Button variant="outlined" color="primary" size="large" onClick={() => setOpenDraftDialog(true)}>
+                    Save Draft
+                  </Button>
+                  <Button variant="contained" color="primary" size="large" type="submit">
+                    Create Project
+                  </Button>
+                  <Button variant="text" color="primary" size="large">
+                    Cancel
+                  </Button>
+                </Box>
+              </Form>
             </Formik>
           </Box>
         </Container>
