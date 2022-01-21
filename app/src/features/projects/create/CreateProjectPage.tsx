@@ -255,7 +255,7 @@ const CreateProjectPage: React.FC = () => {
    */
   const handleProjectCreation = async (values: ICreateProjectRequest) => {
     try {
-      const response = await restorationTrackerApi.project.createProject(initialProjectFormData);
+      const response = await restorationTrackerApi.project.createProject(values);
 
       if (!response?.id) {
         showCreateErrorDialog({
