@@ -116,91 +116,10 @@ exports[`ProjectDetails renders correctly 1`] = `
           <h3
             class="MuiTypography-root MuiTypography-h3 MuiTypography-colorInherit"
           >
-            Objectives
-          </h3>
-          <div
-            class="MuiBox-root MuiBox-root-7"
-          >
-            <button
-              aria-label="Edit Project Objectives"
-              class="MuiButtonBase-root MuiButton-root MuiButton-text sectionHeaderButton MuiButton-textPrimary"
-              data-testid="h3-button-toolbar-Edit"
-              id="h3-button-toolbar-Edit"
-              tabindex="0"
-              title="Edit Project Objectives"
-              type="button"
-            >
-              <span
-                class="MuiButton-label"
-              >
-                <span
-                  class="MuiButton-startIcon MuiButton-iconSizeMedium"
-                >
-                  <svg
-                    role="presentation"
-                    style="width: 1.3125rem; height: 1.3125rem;"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
-                      style="fill: currentColor;"
-                    />
-                  </svg>
-                </span>
-                <strong>
-                  Edit
-                </strong>
-              </span>
-              <span
-                class="MuiTouchRipple-root"
-              />
-            </button>
-          </div>
-        </div>
-        <hr
-          class="MuiDivider-root"
-        />
-        <div
-          class="MuiBox-root MuiBox-root-8"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-9"
-          >
-            <p
-              class="MuiTypography-root MuiTypography-body1"
-            >
-              Et ad et in culpa si
-            </p>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-10"
-          >
-            <p
-              class="MuiTypography-root MuiTypography-body1"
-            >
-              sjwer bds
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section
-      class="MuiBox-root MuiBox-root-11"
-    >
-      <div
-        class="MuiBox-root MuiBox-root-12"
-      >
-        <div
-          class="MuiToolbar-root MuiToolbar-regular"
-          style="justify-content: space-between;"
-        >
-          <h3
-            class="MuiTypography-root MuiTypography-h3 MuiTypography-colorInherit"
-          >
             Project Contact
           </h3>
           <div
-            class="MuiBox-root MuiBox-root-13"
+            class="MuiBox-root MuiBox-root-7"
           >
             <button
               aria-label="Edit Project Contact Information"
@@ -292,7 +211,7 @@ exports[`ProjectDetails renders correctly 1`] = `
       </div>
     </section>
     <section
-      class="MuiBox-root MuiBox-root-14"
+      class="MuiBox-root MuiBox-root-8"
     >
       <div
         class="MuiToolbar-root MuiToolbar-regular"
@@ -304,7 +223,7 @@ exports[`ProjectDetails renders correctly 1`] = `
           IUCN Conservation Actions Classification
         </h3>
         <div
-          class="MuiBox-root MuiBox-root-16"
+          class="MuiBox-root MuiBox-root-10"
         >
           <button
             aria-label="Edit IUCN Classifications"
@@ -343,13 +262,13 @@ exports[`ProjectDetails renders correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiBox-root MuiBox-root-17"
+        class="MuiDivider-root MuiBox-root MuiBox-root-11"
       />
       <ul
         class="MuiList-root"
       >
         <li
-          class="MuiListItem-root makeStyles-iucnListItem-15 MuiListItem-divider"
+          class="MuiListItem-root makeStyles-iucnListItem-9 MuiListItem-divider"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -366,7 +285,7 @@ exports[`ProjectDetails renders correctly 1`] = `
           </p>
         </li>
         <li
-          class="MuiListItem-root makeStyles-iucnListItem-15 MuiListItem-divider"
+          class="MuiListItem-root makeStyles-iucnListItem-9 MuiListItem-divider"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -385,10 +304,10 @@ exports[`ProjectDetails renders correctly 1`] = `
       </ul>
     </section>
     <section
-      class="MuiBox-root MuiBox-root-18"
+      class="MuiBox-root MuiBox-root-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-19"
+        class="MuiBox-root MuiBox-root-13"
       >
         <div
           class="MuiToolbar-root MuiToolbar-regular"
@@ -400,7 +319,7 @@ exports[`ProjectDetails renders correctly 1`] = `
             Project Permits
           </h3>
           <div
-            class="MuiBox-root MuiBox-root-20"
+            class="MuiBox-root MuiBox-root-14"
           >
             <button
               aria-label="Edit Permits"
@@ -487,7 +406,7 @@ exports[`ProjectDetails renders correctly 1`] = `
       </div>
     </section>
     <section
-      class="MuiBox-root MuiBox-root-21"
+      class="MuiBox-root MuiBox-root-15"
     >
       <div
         class="MuiToolbar-root MuiToolbar-regular"
@@ -499,7 +418,7 @@ exports[`ProjectDetails renders correctly 1`] = `
           Funding Sources
         </h3>
         <div
-          class="MuiBox-root MuiBox-root-23"
+          class="MuiBox-root MuiBox-root-17"
         >
           <button
             aria-label="Add Funding Source"
@@ -541,7 +460,7 @@ exports[`ProjectDetails renders correctly 1`] = `
         class="MuiTableContainer-root"
       >
         <table
-          class="MuiTable-root makeStyles-fundingSourceTable-22"
+          class="MuiTable-root makeStyles-fundingSourceTable-16"
         >
           <thead
             class="MuiTableHead-root"
@@ -684,7 +603,7 @@ exports[`ProjectDetails renders correctly 1`] = `
       </div>
     </section>
     <section
-      class="MuiBox-root MuiBox-root-24"
+      class="MuiBox-root MuiBox-root-18"
     >
       <div
         class="MuiToolbar-root MuiToolbar-regular"
@@ -696,7 +615,7 @@ exports[`ProjectDetails renders correctly 1`] = `
           Partnerships
         </h3>
         <div
-          class="MuiBox-root MuiBox-root-25"
+          class="MuiBox-root MuiBox-root-19"
         >
           <button
             aria-label="Edit Partnerships"

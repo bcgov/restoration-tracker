@@ -14,26 +14,6 @@ exports[`PublicLocationBoundary renders correctly 1`] = `
         Project Location
       </h3>
     </div>
-    <dl>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-      >
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        >
-          <dt
-            class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
-          >
-            Location Description
-          </dt>
-          <dd
-            class="MuiTypography-root MuiTypography-body1"
-          >
-            Location description
-          </dd>
-        </div>
-      </div>
-    </dl>
     <div
       class="MuiBox-root MuiBox-root-3"
     >

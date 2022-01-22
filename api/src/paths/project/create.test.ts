@@ -2,11 +2,11 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as project from './project';
-import * as db from '../database/db';
-import project_queries from '../queries/project';
-import { getMockDBConnection } from '../__mocks__/db';
-import { HTTPError } from '../errors/custom-error';
+import * as db from '../../database/db';
+import { HTTPError } from '../../errors/custom-error';
+import project_queries from '../../queries/project';
+import { getMockDBConnection } from '../../__mocks__/db';
+import * as create from './create';
 
 chai.use(sinonChai);
 
@@ -61,7 +61,7 @@ describe('createProject', () => {
     });
 
     try {
-      const result = project.createProject();
+      const result = create.createProject();
 
       await result({ ...sampleReq, body: null }, (null as unknown) as any, (null as unknown) as any);
       expect.fail();
@@ -82,7 +82,7 @@ describe('createProject', () => {
     sinon.stub(project_queries, 'postProjectSQL').returns(null);
 
     try {
-      const result = project.createProject();
+      const result = create.createProject();
 
       await result(sampleReq, (null as unknown) as any, (null as unknown) as any);
       expect.fail();

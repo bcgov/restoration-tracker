@@ -18,7 +18,9 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     ]
   },
   location: {
-    geometry: []
+    geometry: [],
+    range: '1',
+    priority: 'false'
   },
   coordinator: {
     first_name: 'Amanda',

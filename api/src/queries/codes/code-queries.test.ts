@@ -8,7 +8,6 @@ import {
   getIUCNConservationActionLevel1ClassificationSQL,
   getIUCNConservationActionLevel2SubclassificationSQL,
   getIUCNConservationActionLevel3SubclassificationSQL,
-  getProjectTypeSQL,
   getSystemRolesSQL
 } from './code-queries';
 
@@ -22,13 +21,6 @@ describe('getFirstNationsSQL', () => {
 describe('getFundingSourceSQL', () => {
   it('returns valid sql statement', () => {
     const response = getFundingSourceSQL();
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getProjectTypeSQL', () => {
-  it('returns valid sql statement', () => {
-    const response = getProjectTypeSQL();
     expect(response).to.not.be.null;
   });
 });

@@ -1,5 +1,5 @@
-import { IPermitsArrayItem } from 'features/permits/CreatePermitPage';
 import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
+import { IProjectPermitForm } from 'features/projects/components/ProjectPermitForm';
 
 /**
  * Permit response object.
@@ -15,24 +15,13 @@ export interface IGetPermitsListResponse {
   project_name: string;
 }
 
-export interface IGetNonSamplingPermit {
-  permit_id: number;
-  number: string;
-  type: string;
-}
-
 /**
  * Create permits request object.
  *
  * @export
  * @interface ICreatePermitsRequest
  */
-export interface ICreatePermitsRequest {
-  coordinator: IProjectCoordinatorForm;
-  permit: {
-    permits: IPermitsArrayItem[];
-  };
-}
+export interface ICreatePermitsRequest extends IProjectCoordinatorForm, IProjectPermitForm {}
 
 /**
  * Create permits response object.

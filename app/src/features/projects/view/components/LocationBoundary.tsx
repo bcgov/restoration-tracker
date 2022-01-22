@@ -5,7 +5,6 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import { mdiChevronRight, mdiPencilOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import FullScreenViewMapDialog from 'components/boundary/FullScreenViewMapDialog';
@@ -104,7 +103,11 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
     setLocationDataForUpdate(locationResponseData);
 
     setLocationFormData({
-      geometry: locationResponseData.geometry
+      location: {
+        geometry: locationResponseData.geometry,
+        range: locationResponseData.range,
+        priority: locationResponseData.priority
+      }
     });
 
     setOpenEditDialog(true);
@@ -112,7 +115,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
 
   const handleDialogEditSave = async (values: IProjectLocationForm) => {
     const projectData = {
-      location: { ...values, revision_count: locationDataForUpdate.revision_count }
+      location: { ...values.location, revision_count: locationDataForUpdate.revision_count }
     };
 
     try {
@@ -151,7 +154,13 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
         dialogTitle={EditLocationBoundaryI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectLocationForm ranges={[]} />,
+          element: (
+            <ProjectLocationForm
+              ranges={codes.ranges.map((item) => {
+                return { value: item.id, label: item.name };
+              })}
+            />
+          ),
           initialValues: locationFormData,
           validationSchema: ProjectLocationFormYupSchema
         }}

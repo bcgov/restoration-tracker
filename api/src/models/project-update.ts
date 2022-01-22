@@ -26,6 +26,7 @@ export class PutProjectData {
   name: string;
   start_date: string;
   end_date: string;
+  objectives: string;
   revision_count: number;
 
   constructor(obj?: any) {
@@ -34,6 +35,7 @@ export class PutProjectData {
     this.name = obj?.project_name || null;
     this.start_date = obj?.start_date || null;
     this.end_date = obj?.end_date || null;
+    this.objectives = obj?.objectives || null;
     this.revision_count = obj?.revision_count ?? null;
   }
 }

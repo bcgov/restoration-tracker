@@ -1,10 +1,11 @@
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { DialogContextProvider } from 'contexts/dialogContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { getProjectForViewResponse } from 'test-helpers/project-helpers';
+import { UPDATE_GET_ENTITIES } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
+import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import ProjectDetails from './GeneralInformation';
-import { DialogContextProvider } from 'contexts/dialogContext';
 
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
@@ -54,62 +55,62 @@ describe('ProjectDetails', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  // it('editing the project details works in the dialog', async () => {
-  //   mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
-  //     project: {
-  //       project_name: 'project name',
-  //       start_date: '2020-04-20',
-  //       end_date: '2020-05-20',
-  //       revision_count: 2
-  //     }
-  //   });
+  it('editing the project details works in the dialog', async () => {
+    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+      project: {
+        project_name: 'project name',
+        start_date: '2020-04-20',
+        end_date: '2020-05-20',
+        revision_count: 2
+      }
+    });
 
-  //   const { getByText, queryByText } = renderContainer();
+    const { getByText, queryByText } = renderContainer();
 
-  //   await waitFor(() => {
-  //     expect(getByText('General Information')).toBeVisible();
-  //   });
+    await waitFor(() => {
+      expect(getByText('General Information')).toBeVisible();
+    });
 
-  //   fireEvent.click(getByText('Edit'));
+    fireEvent.click(getByText('Edit'));
 
-  //   await waitFor(() => {
-  //     expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
-  //       UPDATE_GET_ENTITIES.project
-  //     ]);
-  //   });
+    await waitFor(() => {
+      expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
+        UPDATE_GET_ENTITIES.project
+      ]);
+    });
 
-  //   await waitFor(() => {
-  //     expect(getByText('Edit General Information')).toBeVisible();
-  //   });
+    await waitFor(() => {
+      expect(getByText('Edit General Information')).toBeVisible();
+    });
 
-  //   fireEvent.click(getByText('Cancel'));
+    fireEvent.click(getByText('Cancel'));
 
-  //   await waitFor(() => {
-  //     expect(queryByText('Edit General Information')).not.toBeInTheDocument();
-  //   });
+    await waitFor(() => {
+      expect(queryByText('Edit General Information')).not.toBeInTheDocument();
+    });
 
-  //   fireEvent.click(getByText('Edit'));
+    fireEvent.click(getByText('Edit'));
 
-  //   await waitFor(() => {
-  //     expect(getByText('Edit General Information')).toBeVisible();
-  //   });
+    await waitFor(() => {
+      expect(getByText('Edit General Information')).toBeVisible();
+    });
 
-  //   fireEvent.click(getByText('Save Changes'));
+    fireEvent.click(getByText('Save Changes'));
 
-  //   await waitFor(() => {
-  //     expect(mockRestorationTrackerApi().project.updateProject).toHaveBeenCalledTimes(1);
-  //     expect(mockRestorationTrackerApi().project.updateProject).toBeCalledWith(getProjectForViewResponse.id, {
-  //       project: {
-  //         project_name: 'project name',
-  //         start_date: '2020-04-20',
-  //         end_date: '2020-05-20',
-  //         revision_count: 2
-  //       }
-  //     });
+    await waitFor(() => {
+      expect(mockRestorationTrackerApi().project.updateProject).toHaveBeenCalledTimes(1);
+      expect(mockRestorationTrackerApi().project.updateProject).toBeCalledWith(getProjectForViewResponse.id, {
+        project: {
+          project_name: 'project name',
+          start_date: '2020-04-20',
+          end_date: '2020-05-20',
+          revision_count: 2
+        }
+      });
 
-  //     expect(mockRefresh).toBeCalledTimes(1);
-  //   });
-  // });
+      expect(mockRefresh).toBeCalledTimes(1);
+    });
+  });
 
   it('displays an error dialog when fetching the update data fails', async () => {
     mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
@@ -161,45 +162,45 @@ describe('ProjectDetails', () => {
     });
   });
 
-  // it('shows error dialog with API error message when updating details data fails', async () => {
-  //   mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
-  //     project: {
-  //       project_name: 'project name',
-  //       start_date: '2020-04-20',
-  //       end_date: '2020-05-20',
-  //       revision_count: 2
-  //     }
-  //   });
-  //   mockRestorationTrackerApi().project.updateProject = jest.fn(() => Promise.reject(new Error('API Error is Here')));
+  it('shows error dialog with API error message when updating details data fails', async () => {
+    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+      project: {
+        project_name: 'project name',
+        start_date: '2020-04-20',
+        end_date: '2020-05-20',
+        revision_count: 2
+      }
+    });
+    mockRestorationTrackerApi().project.updateProject = jest.fn(() => Promise.reject(new Error('API Error is Here')));
 
-  //   const { getByText, queryByText } = renderContainer();
+    const { getByText, queryByText } = renderContainer();
 
-  //   await waitFor(() => {
-  //     expect(getByText('General Information')).toBeVisible();
-  //   });
+    await waitFor(() => {
+      expect(getByText('General Information')).toBeVisible();
+    });
 
-  //   fireEvent.click(getByText('Edit'));
+    fireEvent.click(getByText('Edit'));
 
-  //   await waitFor(() => {
-  //     expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
-  //       UPDATE_GET_ENTITIES.project
-  //     ]);
-  //   });
+    await waitFor(() => {
+      expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
+        UPDATE_GET_ENTITIES.project
+      ]);
+    });
 
-  //   await waitFor(() => {
-  //     expect(getByText('Edit General Information')).toBeVisible();
-  //   });
+    await waitFor(() => {
+      expect(getByText('Edit General Information')).toBeVisible();
+    });
 
-  //   fireEvent.click(getByText('Save Changes'));
+    fireEvent.click(getByText('Save Changes'));
 
-  //   await waitFor(() => {
-  //     expect(queryByText('API Error is Here')).toBeInTheDocument();
-  //   });
+    await waitFor(() => {
+      expect(queryByText('API Error is Here')).toBeInTheDocument();
+    });
 
-  //   fireEvent.click(getByText('Ok'));
+    fireEvent.click(getByText('Ok'));
 
-  //   await waitFor(() => {
-  //     expect(queryByText('API Error is Here')).toBeNull();
-  //   });
-  // });
+    await waitFor(() => {
+      expect(queryByText('API Error is Here')).toBeNull();
+    });
+  });
 });

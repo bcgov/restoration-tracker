@@ -30,7 +30,7 @@ import {
   insertIndigenousNation,
   insertPermit,
   insertStakeholderPartnership
-} from '../../project';
+} from '../../project/create';
 
 const defaultLog = getLogger('paths/project/{projectId}/update');
 

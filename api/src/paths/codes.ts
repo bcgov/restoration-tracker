@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { getAPIUserDBConnection } from '../database/db';
 import { HTTP500 } from '../errors/custom-error';
-import { getAllCodeSets } from '../utils/code-utils';
+import { CodeService } from '../services/code-service';
 import { getLogger } from '../utils/logger';
 
 const defaultLog = getLogger('paths/code');
@@ -98,20 +98,6 @@ GET.apiDoc = {
                   }
                 }
               },
-              species: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    id: {
-                      type: 'number'
-                    },
-                    name: {
-                      type: 'string'
-                    }
-                  }
-                }
-              },
               iucn_conservation_action_level_1_classification: {
                 type: 'array',
                 items: {
@@ -160,7 +146,7 @@ GET.apiDoc = {
                   }
                 }
               },
-              system_role: {
+              system_roles: {
                 type: 'array',
                 items: {
                   type: 'object',
@@ -174,21 +160,7 @@ GET.apiDoc = {
                   }
                 }
               },
-              project_role: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    id: {
-                      type: 'number'
-                    },
-                    name: {
-                      type: 'string'
-                    }
-                  }
-                }
-              },
-              regional_offices: {
+              project_roles: {
                 type: 'array',
                 items: {
                   type: 'object',
@@ -203,6 +175,20 @@ GET.apiDoc = {
                 }
               },
               administrative_activity_status_type: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    id: {
+                      type: 'number'
+                    },
+                    name: {
+                      type: 'string'
+                    }
+                  }
+                }
+              },
+              ranges: {
                 type: 'array',
                 items: {
                   type: 'object',
@@ -249,7 +235,13 @@ export function getAllCodes(): RequestHandler {
     const connection = getAPIUserDBConnection();
 
     try {
-      const allCodeSets = await getAllCodeSets(connection);
+      await connection.open();
+
+      const codeService = new CodeService(connection);
+
+      const allCodeSets = await codeService.getAllCodeSets();
+
+      await connection.commit();
 
       if (!allCodeSets) {
         throw new HTTP500('Failed to fetch codes');
@@ -258,6 +250,7 @@ export function getAllCodes(): RequestHandler {
       return res.status(200).json(allCodeSets);
     } catch (error) {
       defaultLog.error({ label: 'getAllCodes', message: 'error', error });
+      await connection.rollback();
       throw error;
     } finally {
       connection.release();

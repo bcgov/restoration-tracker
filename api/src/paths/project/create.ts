@@ -1,21 +1,21 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { PROJECT_ROLE, SYSTEM_ROLE } from '../constants/roles';
-import { getDBConnection, IDBConnection } from '../database/db';
-import { HTTP400 } from '../errors/custom-error';
+import { PROJECT_ROLE, SYSTEM_ROLE } from '../../constants/roles';
+import { getDBConnection, IDBConnection } from '../../database/db';
+import { HTTP400 } from '../../errors/custom-error';
 import {
   IPostIUCN,
   IPostPermit,
   PostFundingSource,
   PostLocationData,
   PostProjectObject
-} from '../models/project-create';
-import { projectCreatePostRequestObject, projectIdResponseObject } from '../openapi/schemas/project';
-import { queries } from '../queries/queries';
-import { authorizeRequestHandler } from '../request-handlers/security/authorization';
-import { getLogger } from '../utils/logger';
+} from '../../models/project-create';
+import { geoJsonFeature } from '../../openapi/schemas/geoJson';
+import { queries } from '../../queries/queries';
+import { authorizeRequestHandler } from '../../request-handlers/security/authorization';
+import { getLogger } from '../../utils/logger';
 
-const defaultLog = getLogger('paths/project');
+const defaultLog = getLogger('paths/project/create');
 
 export const POST: Operation = [
   authorizeRequestHandler(() => {
@@ -44,7 +44,174 @@ POST.apiDoc = {
     content: {
       'application/json': {
         schema: {
-          ...(projectCreatePostRequestObject as object)
+          title: 'Project post request object',
+          type: 'object',
+          required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
+          properties: {
+            project: {
+              title: 'Project general information',
+              type: 'object',
+              properties: {
+                project_name: {
+                  type: 'string'
+                },
+                start_date: {
+                  type: 'string',
+                  description: 'ISO 8601 date string'
+                },
+                end_date: {
+                  type: 'string',
+                  description: 'ISO 8601 date string'
+                },
+                objectives: {
+                  type: 'string'
+                }
+              }
+            },
+            iucn: {
+              title: 'Project IUCN classifications',
+              type: 'object',
+              properties: {
+                classificationDetails: {
+                  type: 'array',
+                  items: {
+                    title: 'IUCN classification',
+                    type: 'object',
+                    required: ['classification', 'subClassification1', 'subClassification2'],
+                    properties: {
+                      classification: {
+                        type: 'number'
+                      },
+                      subClassification1: {
+                        type: 'number'
+                      },
+                      subClassification2: {
+                        type: 'number'
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            coordinator: {
+              title: 'Project coordinator',
+              type: 'object',
+              required: ['first_name', 'last_name', 'email_address', 'coordinator_agency', 'share_contact_details'],
+              properties: {
+                first_name: {
+                  type: 'string'
+                },
+                last_name: {
+                  type: 'string'
+                },
+                email_address: {
+                  type: 'string'
+                },
+                coordinator_agency: {
+                  type: 'string'
+                },
+                share_contact_details: {
+                  type: 'string',
+                  enum: ['true', 'false']
+                }
+              }
+            },
+            permit: {
+              title: 'Project permits',
+              type: 'object',
+              properties: {
+                permits: {
+                  type: 'array',
+                  required: ['permit_number', 'permit_type'],
+                  items: {
+                    title: 'Project permit',
+                    type: 'object',
+                    properties: {
+                      permit_number: {
+                        type: 'string'
+                      },
+                      permit_type: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            funding: {
+              title: 'Project funding sources',
+              type: 'object',
+              properties: {
+                funding_sources: {
+                  type: 'array',
+                  items: {
+                    title: 'Project funding agency',
+                    type: 'object',
+                    required: ['agency_id', 'funding_amount', 'start_date', 'end_date'],
+                    properties: {
+                      agency_id: {
+                        type: 'number'
+                      },
+                      investment_action_category: {
+                        type: 'number'
+                      },
+                      agency_project_id: {
+                        type: 'string'
+                      },
+                      funding_amount: {
+                        type: 'number'
+                      },
+                      start_date: {
+                        type: 'string',
+                        description: 'ISO 8601 date string'
+                      },
+                      end_date: {
+                        type: 'string',
+                        description: 'ISO 8601 date string'
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            partnerships: {
+              title: 'Project partnerships',
+              type: 'object',
+              properties: {
+                indigenous_partnerships: {
+                  type: 'array',
+                  items: {
+                    type: 'number'
+                  }
+                },
+                stakeholder_partnerships: {
+                  type: 'array',
+                  items: {
+                    type: 'number'
+                  }
+                }
+              }
+            },
+            location: {
+              title: 'Location',
+              type: 'object',
+              properties: {
+                range: {
+                  type: 'number'
+                },
+                priority: {
+                  type: 'string',
+                  enum: ['true', 'false']
+                },
+                geometry: {
+                  type: 'array',
+                  items: {
+                    ...(geoJsonFeature as object)
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -55,7 +222,14 @@ POST.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            ...(projectIdResponseObject as object)
+            title: 'Project Response Object',
+            type: 'object',
+            required: ['id'],
+            properties: {
+              id: {
+                type: 'number'
+              }
+            }
           }
         }
       }
@@ -307,26 +481,6 @@ export const insertPermit = async (
   }
 
   return result.id;
-};
-
-export const associateExistingPermitToProject = async (
-  permitId: number,
-  projectId: number,
-  connection: IDBConnection
-): Promise<void> => {
-  const sqlStatement = queries.permit.associatePermitToProjectSQL(permitId, projectId);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL update statement for associatePermitToProjectSQL');
-  }
-
-  const response = await connection.query(sqlStatement.text, sqlStatement.values);
-
-  const result = (response && response.rowCount) || null;
-
-  if (!result) {
-    throw new HTTP400('Failed to associate existing permit to project');
-  }
 };
 
 export const insertClassificationDetail = async (

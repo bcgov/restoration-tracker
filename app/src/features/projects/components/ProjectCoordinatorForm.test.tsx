@@ -11,11 +11,13 @@ const handleSaveAndNext = jest.fn();
 const agencies = ['Agency 1', 'Agency 2', 'Agency 3'];
 
 const projectCoordinatorFilledValues = {
-  first_name: 'Nerea',
-  last_name: 'Oneal',
-  email_address: 'quxu@mailinator.com',
-  coordinator_agency: 'Agency 3',
-  share_contact_details: 'true'
+  coordinator: {
+    first_name: 'Nerea',
+    last_name: 'Oneal',
+    email_address: 'quxu@mailinator.com',
+    coordinator_agency: 'Agency 3',
+    share_contact_details: 'true'
+  }
 };
 
 describe('Project Contact Form', () => {

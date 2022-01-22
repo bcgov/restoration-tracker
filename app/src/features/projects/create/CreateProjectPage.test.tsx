@@ -19,8 +19,13 @@ import { createMemoryHistory } from 'history';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React from 'react';
 import { MemoryRouter, Router } from 'react-router';
+import { codes } from 'test-helpers/code-helpers';
+import useCodes from 'hooks/useCodes';
 
 const history = createMemoryHistory();
+
+jest.mock('../../../hooks/useCodes');
+const mockUseCodes = ((useCodes as unknown) as jest.Mock).mockReturnValue({ codes: codes });
 
 jest.mock('../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
@@ -31,9 +36,6 @@ const mockuseRestorationTrackerApi = {
     createDraft: jest.fn<Promise<object>, []>(),
     updateDraft: jest.fn<Promise<object>, []>(),
     getDraft: jest.fn()
-  },
-  permit: {
-    getNonSamplingPermits: jest.fn<Promise<object>, []>()
   }
 };
 
@@ -58,7 +60,8 @@ describe('CreateProjectPage', () => {
     mockRestorationTrackerApi().draft.createDraft.mockClear();
     mockRestorationTrackerApi().draft.updateDraft.mockClear();
     mockRestorationTrackerApi().draft.getDraft.mockClear();
-    mockRestorationTrackerApi().permit.getNonSamplingPermits.mockClear();
+
+    mockUseCodes.mockClear();
 
     jest.spyOn(console, 'debug').mockImplementation(() => {});
   });
@@ -68,85 +71,31 @@ describe('CreateProjectPage', () => {
   });
 
   it('renders the initial default page correctly', async () => {
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'A Rocha Canada' }]
-    });
-    mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
-      { permit_id: 1, number: 1, type: 'Wildlife' }
-    ]);
-
-    const { getByText, getAllByText, asFragment } = renderContainer();
+    const { getByText } = renderContainer();
 
     await waitFor(() => {
-      expect(getAllByText('Project Contact').length).toEqual(2);
-
-      expect(getByText('Project Permits')).toBeVisible();
-
       expect(getByText('General Information')).toBeVisible();
 
-      expect(getByText('Objectives')).toBeVisible();
+      expect(getByText('Contact')).toBeVisible();
 
-      expect(getByText('Locations')).toBeVisible();
+      expect(getByText('Permits')).toBeVisible();
 
-      expect(getByText('IUCN Conservation Actions Classification')).toBeVisible();
+      expect(getByText('Funding and Partnerships')).toBeVisible();
 
-      expect(getByText('Funding')).toBeVisible();
-
-      expect(getByText('Partnerships')).toBeVisible();
-
-      expect(asFragment()).toMatchSnapshot();
+      expect(getByText('Location')).toBeVisible();
     });
   });
 
   it('shows the page title', async () => {
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'A Rocha Canada' }]
-    });
-    mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
-      { permit_id: 1, number: 1, type: 'Wildlife' }
-    ]);
-
     const { findByText } = renderContainer();
-    const PageTitle = await findByText('Create Project');
+
+    const PageTitle = await findByText('Create Restoration Project');
 
     expect(PageTitle).toBeVisible();
   });
 
-  it('navigates to a different section on click of that section label', async () => {
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'A Rocha Canada' }]
-    });
-    mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
-      { permit_id: 1, number: 1, type: 'Wildlife' }
-    ]);
-
-    const { getByText, getAllByText, queryByLabelText } = renderContainer();
-
-    // wait for initial page to load
-    await waitFor(() => {
-      expect(getAllByText('Project Contact').length).toEqual(2);
-
-      expect(getByText('Project Permits')).toBeVisible();
-
-      expect(getByText('General Information')).toBeVisible();
-    });
-
-    fireEvent.click(getByText('General Information'));
-
-    await waitFor(() => {
-      expect(getAllByText('General Information').length).toEqual(2);
-    });
-  });
-
   describe('Are you sure? Dialog', () => {
     it('shows warning dialog if the user clicks the `Cancel and Exit` button', async () => {
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'A Rocha Canada' }]
-      });
-      mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
-        { permit_id: 1, number: 1, type: 'Wildlife' }
-      ]);
-
       history.push('/home');
       history.push('/admin/projects/create');
 
@@ -164,13 +113,6 @@ describe('CreateProjectPage', () => {
     });
 
     it('calls history.push() if the user clicks `Yes`', async () => {
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'A Rocha Canada' }]
-      });
-      mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
-        { permit_id: 1, number: 1, type: 'Wildlife' }
-      ]);
-
       history.push('/home');
       history.push('/admin/projects/create');
 
@@ -186,13 +128,6 @@ describe('CreateProjectPage', () => {
     });
 
     it('does nothing if the user clicks `No`', async () => {
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'A Rocha Canada' }]
-      });
-      mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
-        { permit_id: 1, number: 1, type: 'Wildlife' }
-      ]);
-
       history.push('/home');
       history.push('/admin/projects/create');
 
@@ -209,15 +144,6 @@ describe('CreateProjectPage', () => {
   });
 
   describe('draft project', () => {
-    beforeEach(() => {
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'A Rocha Canada' }]
-      });
-      mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
-        { permit_id: 1, number: 1, type: 'Wildlife' }
-      ]);
-    });
-
     it('preloads draft data and populates on form fields', async () => {
       mockRestorationTrackerApi().draft.getDraft.mockResolvedValue({
         id: 1,
@@ -230,12 +156,12 @@ describe('CreateProjectPage', () => {
             coordinator_agency: '',
             share_contact_details: 'false'
           },
-          permit: ProjectPermitFormInitialValues,
-          project: ProjectGeneralInformationFormInitialValues,
-          location: ProjectLocationFormInitialValues,
-          iucn: ProjectIUCNFormInitialValues,
-          funding: ProjectFundingFormInitialValues,
-          partnerships: ProjectPartnershipsFormInitialValues
+          ...ProjectPermitFormInitialValues,
+          ...ProjectGeneralInformationFormInitialValues,
+          ...ProjectLocationFormInitialValues,
+          ...ProjectIUCNFormInitialValues,
+          ...ProjectFundingFormInitialValues,
+          ...ProjectPartnershipsFormInitialValues
         }
       });
 
@@ -252,10 +178,10 @@ describe('CreateProjectPage', () => {
       });
     });
 
-    it('opens the save as draft and exit dialog', async () => {
-      const { getByText, findByText } = renderContainer();
+    it('opens the save as draft dialog', async () => {
+      const { getByTestId, getByText } = renderContainer();
 
-      const saveAsDraftButton = await findByText('Save as Draft and Exit');
+      const saveAsDraftButton = await getByTestId('project-save-draft-button');
 
       fireEvent.click(saveAsDraftButton);
 
@@ -265,9 +191,9 @@ describe('CreateProjectPage', () => {
     });
 
     it('closes the dialog on cancel button click', async () => {
-      const { getByText, findByText, queryByText, getByRole } = renderContainer();
+      const { getByTestId, getByText, queryByText, getByRole } = renderContainer();
 
-      const saveAsDraftButton = await findByText('Save as Draft and Exit');
+      const saveAsDraftButton = await getByTestId('project-save-draft-button');
 
       fireEvent.click(saveAsDraftButton);
 
@@ -290,9 +216,9 @@ describe('CreateProjectPage', () => {
         date: '2021-01-20'
       });
 
-      const { getByText, findByText, queryByText, getByLabelText } = renderContainer();
+      const { getByTestId, getByText, queryByText, getByLabelText } = renderContainer();
 
-      const saveAsDraftButton = await findByText('Save as Draft and Exit');
+      const saveAsDraftButton = await getByTestId('project-save-draft-button');
 
       fireEvent.click(saveAsDraftButton);
 
@@ -302,7 +228,7 @@ describe('CreateProjectPage', () => {
 
       fireEvent.change(getByLabelText('Draft Name *'), { target: { value: 'draft name' } });
 
-      fireEvent.click(getByText('Save'));
+      fireEvent.click(getByTestId('edit-dialog-save-button'));
 
       await waitFor(() => {
         expect(mockRestorationTrackerApi().draft.createDraft).toHaveBeenCalledWith('draft name', expect.any(Object));
@@ -310,7 +236,7 @@ describe('CreateProjectPage', () => {
         expect(queryByText('Save Incomplete Project as a Draft')).not.toBeInTheDocument();
       });
 
-      fireEvent.click(getByText('Save as Draft and Exit'));
+      fireEvent.click(getByTestId('project-save-draft-button'));
 
       await waitFor(() => {
         expect(getByText('Save Incomplete Project as a Draft')).toBeVisible();
@@ -318,7 +244,7 @@ describe('CreateProjectPage', () => {
 
       fireEvent.change(getByLabelText('Draft Name *'), { target: { value: 'draft name' } });
 
-      fireEvent.click(getByText('Save'));
+      fireEvent.click(getByTestId('edit-dialog-save-button'));
 
       await waitFor(() => {
         expect(mockRestorationTrackerApi().draft.updateDraft).toHaveBeenCalledWith(1, 'draft name', expect.any(Object));
@@ -333,17 +259,17 @@ describe('CreateProjectPage', () => {
         date: '2021-01-20'
       });
 
-      const { getByText, getAllByText, findByText, queryByText, getByLabelText } = renderContainer();
+      const { getByTestId, getByText, queryByText, getByLabelText } = renderContainer();
 
       // wait for initial page to load
       await waitFor(() => {
-        expect(getAllByText('Project Contact').length).toEqual(2);
+        expect(getByText('Create Restoration Project')).toBeVisible();
       });
 
       // update first name field
       fireEvent.change(getByLabelText('First Name *'), { target: { value: 'draft first name' } });
 
-      const saveAsDraftButton = await findByText('Save as Draft and Exit');
+      const saveAsDraftButton = await getByTestId('project-save-draft-button');
 
       fireEvent.click(saveAsDraftButton);
 
@@ -353,7 +279,7 @@ describe('CreateProjectPage', () => {
 
       fireEvent.change(getByLabelText('Draft Name *'), { target: { value: 'draft name' } });
 
-      fireEvent.click(getByText('Save'));
+      fireEvent.click(getByTestId('edit-dialog-save-button'));
 
       await waitFor(() => {
         expect(mockRestorationTrackerApi().draft.createDraft).toHaveBeenCalledWith('draft name', {
@@ -366,7 +292,6 @@ describe('CreateProjectPage', () => {
           },
           permit: expect.any(Object),
           project: expect.any(Object),
-          objectives: expect.any(Object),
           location: expect.any(Object),
           iucn: expect.any(Object),
           funding: expect.any(Object),
@@ -379,7 +304,7 @@ describe('CreateProjectPage', () => {
       // update last name field
       fireEvent.change(getByLabelText('Last Name *'), { target: { value: 'draft last name' } });
 
-      fireEvent.click(getByText('Save as Draft and Exit'));
+      fireEvent.click(getByTestId('project-save-draft-button'));
 
       await waitFor(() => {
         expect(getByText('Save Incomplete Project as a Draft')).toBeVisible();
@@ -387,7 +312,7 @@ describe('CreateProjectPage', () => {
 
       fireEvent.change(getByLabelText('Draft Name *'), { target: { value: 'draft name' } });
 
-      fireEvent.click(getByText('Save'));
+      fireEvent.click(getByTestId('edit-dialog-save-button'));
 
       await waitFor(() => {
         expect(mockRestorationTrackerApi().draft.updateDraft).toHaveBeenCalledWith(1, 'draft name', {
@@ -400,7 +325,6 @@ describe('CreateProjectPage', () => {
           },
           permit: expect.any(Object),
           project: expect.any(Object),
-          objectives: expect.any(Object),
           location: expect.any(Object),
           iucn: expect.any(Object),
           funding: expect.any(Object),
@@ -416,9 +340,9 @@ describe('CreateProjectPage', () => {
         throw new Error('Draft failed exception!');
       });
 
-      const { getByText, findByText, queryByText, getByLabelText } = renderContainer();
+      const { getByTestId, getByText, queryByText, getByLabelText } = renderContainer();
 
-      const saveAsDraftButton = await findByText('Save as Draft and Exit');
+      const saveAsDraftButton = await getByTestId('project-save-draft-button');
 
       fireEvent.click(saveAsDraftButton);
 
@@ -428,7 +352,7 @@ describe('CreateProjectPage', () => {
 
       fireEvent.change(getByLabelText('Draft Name *'), { target: { value: 'draft name' } });
 
-      fireEvent.click(getByText('Save'));
+      fireEvent.click(getByTestId('edit-dialog-save-button'));
 
       await waitFor(() => {
         expect(queryByText('Save Incomplete Project as a Draft')).not.toBeInTheDocument();

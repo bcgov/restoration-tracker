@@ -71,13 +71,15 @@ describe('ProjectIUCNForm', () => {
 
   it('renders correctly with existing details values', () => {
     const existingFormValues: IProjectIUCNForm = {
-      classificationDetails: [
-        {
-          classification: 1,
-          subClassification1: 3,
-          subClassification2: 5
-        }
-      ]
+      iucn: {
+        classificationDetails: [
+          {
+            classification: 1,
+            subClassification1: 3,
+            subClassification2: 5
+          }
+        ]
+      }
     };
 
     const { asFragment } = render(
@@ -172,18 +174,20 @@ describe('ProjectIUCNForm', () => {
 
   it('renders correctly with error on the iucn classifications due to duplicates', () => {
     const existingFormValues: IProjectIUCNForm = {
-      classificationDetails: [
-        {
-          classification: 1,
-          subClassification1: 3,
-          subClassification2: 5
-        },
-        {
-          classification: 1,
-          subClassification1: 3,
-          subClassification2: 5
-        }
-      ]
+      iucn: {
+        classificationDetails: [
+          {
+            classification: 1,
+            subClassification1: 3,
+            subClassification2: 5
+          },
+          {
+            classification: 1,
+            subClassification1: 3,
+            subClassification2: 5
+          }
+        ]
+      }
     };
 
     const { asFragment } = render(
@@ -209,13 +213,15 @@ describe('ProjectIUCNForm', () => {
 
   it('renders correctly with error on the iucn classification individual fields', () => {
     const existingFormValues: IProjectIUCNForm = {
-      classificationDetails: [
-        {
-          classification: 1,
-          subClassification1: 3,
-          subClassification2: 5
-        }
-      ]
+      iucn: {
+        classificationDetails: [
+          {
+            classification: 1,
+            subClassification1: 3,
+            subClassification2: 5
+          }
+        ]
+      }
     };
 
     const { asFragment } = render(
@@ -252,13 +258,15 @@ describe('ProjectIUCNForm', () => {
 
   it('deletes existing iucn classifications when delete icon is clicked', async () => {
     const existingFormValues: IProjectIUCNForm = {
-      classificationDetails: [
-        {
-          classification: 1,
-          subClassification1: 3,
-          subClassification2: 5
-        }
-      ]
+      iucn: {
+        classificationDetails: [
+          {
+            classification: 1,
+            subClassification1: 3,
+            subClassification2: 5
+          }
+        ]
+      }
     };
 
     const { getByTestId, queryByTestId } = render(

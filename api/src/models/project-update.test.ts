@@ -592,16 +592,16 @@ describe('PutProjectData', () => {
       expect(data.name).to.equal(null);
     });
 
-    it('sets type', () => {
-      expect(data.type).to.equal(null);
-    });
-
     it('sets start_date', () => {
       expect(data.start_date).to.equal(null);
     });
 
     it('sets end_date', () => {
       expect(data.end_date).to.equal(null);
+    });
+
+    it('sets objectives', () => {
+      expect(data.objectives).to.equal(null);
     });
 
     it('sets revision_count', () => {

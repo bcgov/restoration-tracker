@@ -1,15 +1,14 @@
-import { render, fireEvent, act, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import { Formik } from 'formik';
 import React from 'react';
+import { codes } from 'test-helpers/code-helpers';
 import ProjectFundingForm, {
   IInvestmentActionCategoryOption,
   IProjectFundingForm,
   ProjectFundingFormInitialValues,
   ProjectFundingFormYupSchema
 } from './ProjectFundingForm';
-import { codes } from 'test-helpers/code-helpers';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 
 const funding_sources: IMultiAutocompleteFieldOption[] = [
   {
@@ -67,19 +66,21 @@ describe('ProjectFundingForm', () => {
 
   it('renders correctly with existing funding values', () => {
     const existingFormValues: IProjectFundingForm = {
-      funding_sources: [
-        {
-          id: 11,
-          agency_id: 1,
-          investment_action_category: 1,
-          investment_action_category_name: 'Action 23',
-          agency_project_id: '111',
-          funding_amount: 222,
-          start_date: '2021-03-14',
-          end_date: '2021-04-14',
-          revision_count: 23
-        }
-      ]
+      funding: {
+        funding_sources: [
+          {
+            id: 11,
+            agency_id: 1,
+            investment_action_category: 1,
+            investment_action_category_name: 'Action 23',
+            agency_project_id: '111',
+            funding_amount: 222,
+            start_date: '2021-03-14',
+            end_date: '2021-04-14',
+            revision_count: 23
+          }
+        ]
+      }
     };
 
     const { baseElement } = render(
@@ -89,7 +90,16 @@ describe('ProjectFundingForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectStepComponents component="ProjectFunding" codes={codes} />}
+        {() => (
+          <ProjectFundingForm
+            funding_sources={codes.funding_source.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+            investment_action_category={codes.investment_action_category.map((item) => {
+              return { value: item.id, label: item.name, fs_id: item.fs_id };
+            })}
+          />
+        )}
       </Formik>
     );
 
@@ -98,30 +108,32 @@ describe('ProjectFundingForm', () => {
 
   it('shows add funding source dialog on add click', async () => {
     const existingFormValues: IProjectFundingForm = {
-      funding_sources: [
-        {
-          id: 11,
-          agency_id: 1,
-          investment_action_category: 1,
-          investment_action_category_name: 'action 1',
-          agency_project_id: '111',
-          funding_amount: 222,
-          start_date: '2021-03-14',
-          end_date: '2021-04-14',
-          revision_count: 23
-        },
-        {
-          id: 12,
-          agency_id: 2,
-          investment_action_category: 2,
-          investment_action_category_name: 'category 1',
-          agency_project_id: '112',
-          funding_amount: 223,
-          start_date: '2021-03-15',
-          end_date: '2021-04-15',
-          revision_count: 24
-        }
-      ]
+      funding: {
+        funding_sources: [
+          {
+            id: 11,
+            agency_id: 1,
+            investment_action_category: 1,
+            investment_action_category_name: 'action 1',
+            agency_project_id: '111',
+            funding_amount: 222,
+            start_date: '2021-03-14',
+            end_date: '2021-04-14',
+            revision_count: 23
+          },
+          {
+            id: 12,
+            agency_id: 2,
+            investment_action_category: 2,
+            investment_action_category_name: 'category 1',
+            agency_project_id: '112',
+            funding_amount: 223,
+            start_date: '2021-03-15',
+            end_date: '2021-04-15',
+            revision_count: 24
+          }
+        ]
+      }
     };
 
     const { getByTestId, queryByText } = render(
@@ -131,11 +143,20 @@ describe('ProjectFundingForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectStepComponents component="ProjectFunding" codes={codes} />}
+        {() => (
+          <ProjectFundingForm
+            funding_sources={codes.funding_source.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+            investment_action_category={codes.investment_action_category.map((item) => {
+              return { value: item.id, label: item.name, fs_id: item.fs_id };
+            })}
+          />
+        )}
       </Formik>
     );
 
-    const addButton = getByTestId('add-button');
+    const addButton = getByTestId('add-funding-source-button');
 
     expect(addButton).toBeInTheDocument();
 
@@ -149,19 +170,21 @@ describe('ProjectFundingForm', () => {
   it('shows edit funding source dialog on edit click', async () => {
     await act(async () => {
       const existingFormValues: IProjectFundingForm = {
-        funding_sources: [
-          {
-            id: 11,
-            agency_id: 1,
-            investment_action_category: 1,
-            investment_action_category_name: 'action 1',
-            agency_project_id: '111',
-            funding_amount: 222,
-            start_date: '2021-03-14',
-            end_date: '2021-04-14',
-            revision_count: 23
-          }
-        ]
+        funding: {
+          funding_sources: [
+            {
+              id: 11,
+              agency_id: 1,
+              investment_action_category: 1,
+              investment_action_category_name: 'action 1',
+              agency_project_id: '111',
+              funding_amount: 222,
+              start_date: '2021-03-14',
+              end_date: '2021-04-14',
+              revision_count: 23
+            }
+          ]
+        }
       };
 
       const { getByTestId, getByText, queryByText } = render(
@@ -171,7 +194,16 @@ describe('ProjectFundingForm', () => {
           validateOnBlur={true}
           validateOnChange={false}
           onSubmit={async () => {}}>
-          {() => <ProjectStepComponents component="ProjectFunding" codes={codes} />}
+          {() => (
+            <ProjectFundingForm
+              funding_sources={codes.funding_source.map((item) => {
+                return { value: item.id, label: item.name };
+              })}
+              investment_action_category={codes.investment_action_category.map((item) => {
+                return { value: item.id, label: item.name, fs_id: item.fs_id };
+              })}
+            />
+          )}
         </Formik>
       );
 
@@ -197,19 +229,21 @@ describe('ProjectFundingForm', () => {
   it('deletes funding source dialog on delete click', async () => {
     await act(async () => {
       const existingFormValues: IProjectFundingForm = {
-        funding_sources: [
-          {
-            id: 11,
-            agency_id: 1,
-            investment_action_category: 1,
-            investment_action_category_name: 'action 1',
-            agency_project_id: '111',
-            funding_amount: 222,
-            start_date: '2021-03-14',
-            end_date: '2021-04-14',
-            revision_count: 23
-          }
-        ]
+        funding: {
+          funding_sources: [
+            {
+              id: 11,
+              agency_id: 1,
+              investment_action_category: 1,
+              investment_action_category_name: 'action 1',
+              agency_project_id: '111',
+              funding_amount: 222,
+              start_date: '2021-03-14',
+              end_date: '2021-04-14',
+              revision_count: 23
+            }
+          ]
+        }
       };
 
       const { getByTestId, queryByTestId } = render(
@@ -219,7 +253,16 @@ describe('ProjectFundingForm', () => {
           validateOnBlur={true}
           validateOnChange={false}
           onSubmit={async () => {}}>
-          {() => <ProjectStepComponents component="ProjectFunding" codes={codes} />}
+          {() => (
+            <ProjectFundingForm
+              funding_sources={codes.funding_source.map((item) => {
+                return { value: item.id, label: item.name };
+              })}
+              investment_action_category={codes.investment_action_category.map((item) => {
+                return { value: item.id, label: item.name, fs_id: item.fs_id };
+              })}
+            />
+          )}
         </Formik>
       );
 

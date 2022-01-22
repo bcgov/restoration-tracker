@@ -197,8 +197,8 @@ export const addSystemUserSQL = (userIdentifier: string, identitySource: string)
  * @param {number[]} roleIds
  * @return {*}  {(SQLStatement | null)}
  */
-export const deActivateSystemUserSQL = (userId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'deActivateSystemUserSQL', message: 'params' });
+export const deactivateSystemUserSQL = (userId: number): SQLStatement | null => {
+  defaultLog.debug({ label: 'deactivateSystemUserSQL', message: 'params' });
 
   if (!userId) {
     return null;

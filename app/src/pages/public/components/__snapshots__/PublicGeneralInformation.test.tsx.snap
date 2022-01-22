@@ -38,18 +38,6 @@ exports[`PublicGeneralInformation renders correctly 1`] = `
           <dt
             class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
           >
-            Project Type
-          </dt>
-          <dd
-            class="MuiTypography-root MuiTypography-body1"
-          />
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4"
-        >
-          <dt
-            class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
-          >
             Timeline
           </dt>
           <dd

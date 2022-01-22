@@ -1,12 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
-import { IProjectGeneralInformationForm } from 'features/projects/components/ProjectGeneralInformationForm';
-import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
-import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
-import { IProjectLocationForm } from 'features/projects/components/ProjectLocationForm';
-import { IProjectPartnershipsForm } from 'features/projects/components/ProjectPartnershipsForm';
-import { IProjectPermitForm } from 'features/projects/components/ProjectPermitForm';
+import { ICreateProjectRequest } from 'interfaces/useProjectApi.interface';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import useProjectApi, { usePublicProjectApi } from './useProjectApi';
 
@@ -200,17 +194,9 @@ describe('useProjectApi', () => {
   });
 
   it('createProject works as expected', async () => {
-    const projectData = {
-      coordinator: (null as unknown) as IProjectCoordinatorForm,
-      permit: (null as unknown) as IProjectPermitForm,
-      project: (null as unknown) as IProjectGeneralInformationForm,
-      location: (null as unknown) as IProjectLocationForm,
-      iucn: (null as unknown) as IProjectIUCNForm,
-      funding: (null as unknown) as IProjectFundingForm,
-      partnerships: (null as unknown) as IProjectPartnershipsForm
-    };
+    const projectData = ({} as unknown) as ICreateProjectRequest;
 
-    mock.onPost('/api/project').reply(200, {
+    mock.onPost('/api/project/create').reply(200, {
       id: 1
     });
 

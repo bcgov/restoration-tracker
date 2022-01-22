@@ -142,6 +142,8 @@ export interface IGetProjectForUpdateResponsePermit {
 
 export interface IGetProjectForUpdateResponseLocation {
   geometry: Feature[];
+  range: number;
+  priority: boolean;
   revision_count: number;
 }
 
@@ -230,6 +232,8 @@ export interface IGetProjectForViewResponsePermit {
 
 export interface IGetProjectForViewResponseLocation {
   geometry: Feature[];
+  range: string;
+  priority: string;
 }
 
 export interface IGetProjectForViewResponseCoordinator {

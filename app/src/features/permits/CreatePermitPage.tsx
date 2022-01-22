@@ -7,22 +7,22 @@ import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
-import { CreatePermitsI18N } from 'constants/i18n';
-import { Formik, FormikProps } from 'formik';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Prompt, useHistory, useParams } from 'react-router';
+import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import HorizontalSplitFormComponent from 'components/fields/HorizontalSplitFormComponent';
+import { CreatePermitsI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import yup from 'utils/YupSchema';
 import ProjectCoordinatorForm from 'features/projects/components/ProjectCoordinatorForm';
 import ProjectPermitForm from 'features/projects/components/ProjectPermitForm';
-import { validateFormFieldsAndReportCompletion } from 'utils/customValidation';
-import { APIError } from 'hooks/api/useAxios';
+import { Formik, FormikProps } from 'formik';
 import * as History from 'history';
-import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
+import { APIError } from 'hooks/api/useAxios';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { ICreatePermitsRequest } from 'interfaces/usePermitApi.interface';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Prompt, useHistory, useParams } from 'react-router';
+import { validateFormFieldsAndReportCompletion } from 'utils/customValidation';
+import yup from 'utils/YupSchema';
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
@@ -59,35 +59,43 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export interface IPermitsArrayItem {
+export interface ICreatePermitsFormArrayItem {
   permit_number: string;
   permit_type: string;
 }
 
 export interface ICreatePermitsForm {
-  first_name: string;
-  last_name: string;
-  email_address: string;
-  coordinator_agency: string;
-  share_contact_details: string;
-  permits: IPermitsArrayItem[];
+  coordinator: {
+    first_name: string;
+    last_name: string;
+    email_address: string;
+    coordinator_agency: string;
+    share_contact_details: string;
+  };
+  permit: {
+    permits: ICreatePermitsFormArrayItem[];
+  };
 }
 
-export const PermitsInitialValues: ICreatePermitsForm = {
-  first_name: '',
-  last_name: '',
-  email_address: '',
-  coordinator_agency: '',
-  share_contact_details: 'false',
-  permits: [
-    {
-      permit_number: '',
-      permit_type: ''
-    }
-  ]
+export const CreatePermitsFormInitialValues: ICreatePermitsForm = {
+  coordinator: {
+    first_name: '',
+    last_name: '',
+    email_address: '',
+    coordinator_agency: '',
+    share_contact_details: 'false'
+  },
+  permit: {
+    permits: [
+      {
+        permit_number: '',
+        permit_type: ''
+      }
+    ]
+  }
 };
 
-export const PermitsYupSchema = yup.object().shape({
+export const CreatePermitsFormYupSchema = yup.object().shape({
   first_name: yup.string().max(50, 'Cannot exceed 50 characters').required('Required'),
   last_name: yup.string().max(50, 'Cannot exceed 50 characters').required('Required'),
   email_address: yup
@@ -121,7 +129,7 @@ const CreatePermitPage = () => {
 
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [formikRef] = useState(useRef<FormikProps<any>>(null));
+  const formikRef = useRef<FormikProps<ICreatePermitsForm>>(null);
 
   // Ability to bypass showing the 'Are you sure you want to cancel' dialog
   const [enableCancelCheck, setEnableCancelCheck] = useState(true);
@@ -225,9 +233,7 @@ const CreatePermitPage = () => {
     }
 
     try {
-      const { permits, ...coordinator } = formikRef.current?.values;
-
-      const response = await createPermits({ coordinator, permit: { permits } });
+      const response = await createPermits(formikRef.current?.values);
 
       if (!response) {
         return;
@@ -290,10 +296,10 @@ const CreatePermitPage = () => {
             </Typography>
           </Box>
           <Box component={Paper} display="block">
-            <Formik
+            <Formik<ICreatePermitsForm>
               innerRef={formikRef}
-              initialValues={PermitsInitialValues}
-              validationSchema={PermitsYupSchema}
+              initialValues={CreatePermitsFormInitialValues}
+              validationSchema={CreatePermitsFormYupSchema}
               validateOnBlur={true}
               validateOnChange={false}
               onSubmit={() => {}}>
@@ -309,13 +315,16 @@ const CreatePermitPage = () => {
                         }) || []
                       }
                     />
-                  }></HorizontalSplitFormComponent>
+                  }
+                />
+
                 <Divider className={classes.sectionDivider} />
 
                 <HorizontalSplitFormComponent
                   title="Non-Sampling Permits"
                   summary="Enter any scientific collection, wildlife act and/or park use permits. Provide the last 6 digits of the permit number. The last 6 digits are those after the hyphen (e.g. for KA12-845782 enter 845782)."
-                  component={<ProjectPermitForm />}></HorizontalSplitFormComponent>
+                  component={<ProjectPermitForm />}
+                />
                 <Divider className={classes.sectionDivider} />
               </>
             </Formik>

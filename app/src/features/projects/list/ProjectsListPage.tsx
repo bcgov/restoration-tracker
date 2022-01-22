@@ -19,6 +19,7 @@ import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import ProjectAdvancedFilters, {
+  IProjectAdvancedFilters,
   ProjectAdvancedFiltersInitialValues
 } from 'components/search-filter/ProjectAdvancedFilters';
 import { SystemRoleGuard } from 'components/security/Guards';
@@ -79,7 +80,7 @@ const ProjectsListPage: React.FC = () => {
   const [projects, setProjects] = useState<IGetProjectsListResponse[]>([]);
   const [drafts, setDrafts] = useState<IGetDraftsListResponse[]>([]);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [formikRef] = useState(useRef<FormikProps<any>>(null));
+  const formikRef = useRef<FormikProps<IProjectAdvancedFilters>>(null);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -350,7 +351,7 @@ const ProjectsListPage: React.FC = () => {
           {isFiltersOpen && (
             <Box className={classes.filtersBox}>
               <Box px={2} py={4}>
-                <Formik
+                <Formik<IProjectAdvancedFilters>
                   innerRef={formikRef}
                   initialValues={ProjectAdvancedFiltersInitialValues}
                   onSubmit={handleSubmit}>

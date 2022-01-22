@@ -24,7 +24,7 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
   typeof mockuseRestorationTrackerApi
 >).mockReturnValue(mockuseRestorationTrackerApi);
 
-describe('CreatePermitPage', () => {
+describe.only('CreatePermitPage', () => {
   beforeEach(() => {
     // clear mocks before each test
     mockRestorationTrackerApi().permit.createPermits.mockClear();

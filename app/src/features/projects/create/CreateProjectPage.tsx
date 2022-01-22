@@ -123,7 +123,7 @@ const CreateProjectPage: React.FC = () => {
 
   // Reference to pass to the formik component in order to access its state at any time
   // Used by the draft logic to fetch the values of a step form that has not been validated/completed
-  const formikRef = useRef<FormikProps<any>>(null);
+  const formikRef = useRef<FormikProps<ICreateProjectRequest>>(null);
 
   // Ability to bypass showing the 'Are you sure you want to cancel' dialog
   const [enableCancelCheck, setEnableCancelCheck] = useState(true);
@@ -190,19 +190,13 @@ const CreateProjectPage: React.FC = () => {
 
   const handleSubmitDraft = async (values: IProjectDraftForm) => {
     try {
-      let response;
-
-      // Get the form data for all steps
-      // Fetch the data from the formikRef for whichever step is the active step
-      // Why? WIP changes to the active step will not yet be updated into its respective stepForms[n].stepInitialValues
-      const draftFormData = {};
-
       const draftId = Number(queryParams.draftId) || draft?.id;
 
+      let response;
       if (draftId) {
-        response = await restorationTrackerApi.draft.updateDraft(draftId, values.draft_name, draftFormData);
+        response = await restorationTrackerApi.draft.updateDraft(draftId, values.draft_name, formikRef.current?.values);
       } else {
-        response = await restorationTrackerApi.draft.createDraft(values.draft_name, draftFormData);
+        response = await restorationTrackerApi.draft.createDraft(values.draft_name, formikRef.current?.values);
       }
 
       setOpenDraftDialog(false);
@@ -344,7 +338,7 @@ const CreateProjectPage: React.FC = () => {
           validationSchema: ProjectDraftFormYupSchema
         }}
         onCancel={() => setOpenDraftDialog(false)}
-        onSave={(values) => handleSubmitDraft(values)}
+        onSave={handleSubmitDraft}
       />
 
       <Box my={4}>
@@ -491,12 +485,9 @@ const CreateProjectPage: React.FC = () => {
 
                     <Grid item xs={12} md={9}>
                       <ProjectLocationForm
-                        ranges={[
-                          {
-                            value: 1,
-                            label: 'one'
-                          }
-                        ]}
+                        ranges={codes.codes.ranges.map((item) => {
+                          return { value: item.id, label: item.name };
+                        })}
                       />
                     </Grid>
                   </Grid>
@@ -505,13 +496,23 @@ const CreateProjectPage: React.FC = () => {
                 <Divider></Divider>
 
                 <Box mt={5} className={classes.formButtons} display="flex" justifyContent="flex-end">
-                  <Button variant="outlined" color="primary" size="large" onClick={() => setOpenDraftDialog(true)}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    onClick={() => setOpenDraftDialog(true)}
+                    data-testid="project-save-draft-button">
                     Save Draft
                   </Button>
-                  <Button variant="contained" color="primary" size="large" type="submit">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    type="submit"
+                    data-testid="project-create-button">
                     Create Project
                   </Button>
-                  <Button variant="text" color="primary" size="large">
+                  <Button variant="text" color="primary" size="large" data-testid="project-cancel-buttton">
                     Cancel
                   </Button>
                 </Box>

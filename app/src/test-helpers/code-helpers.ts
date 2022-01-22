@@ -22,5 +22,9 @@ export const codes: IGetAllCodeSetsResponse = {
     { id: 1, name: 'Pending' },
     { id: 2, name: 'Actioned' },
     { id: 3, name: 'Rejected' }
+  ],
+  ranges: [
+    { id: 1, name: 'test 1' },
+    { id: 2, name: 'test 2' }
   ]
 };

@@ -84,13 +84,13 @@ describe('getProjectByProjectSQL', () => {
 
 describe('putProjectSQL', () => {
   it('returns null when an invalid projectId is provided', () => {
-    const response = putProjectSQL((null as unknown) as number, null, null, null, null, 1);
+    const response = putProjectSQL((null as unknown) as number, null, null, null, 1);
 
     expect(response).to.be.null;
   });
 
   it('returns null when a valid projectId but no data to update is provided', () => {
-    const response = putProjectSQL(1, null, null, null, null, 1);
+    const response = putProjectSQL(1, null, null, null, 1);
 
     expect(response).to.be.null;
   });
@@ -104,7 +104,6 @@ describe('putProjectSQL', () => {
         start_date: '2020-04-20T07:00:00.000Z',
         end_date: '2020-05-20T07:00:00.000Z'
       }),
-      null,
       null,
       null,
       1
@@ -132,7 +131,6 @@ describe('putProjectSQL', () => {
         ]
       }),
       null,
-      null,
       1
     );
 
@@ -142,7 +140,6 @@ describe('putProjectSQL', () => {
   it('returns valid sql when only coordinator data is provided', () => {
     const response = putProjectSQL(
       1,
-      null,
       null,
       null,
       new PutCoordinatorData({
