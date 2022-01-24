@@ -5,7 +5,6 @@ import {
   GetCoordinatorData,
   GetIUCNClassificationData,
   GetLocationData,
-  GetObjectivesData,
   GetPartnershipsData,
   GetPermitData,
   GetProjectData
@@ -154,45 +153,6 @@ describe('GetIUCNClassificationData', () => {
   });
 });
 
-describe('GetObjectivesData', () => {
-  describe('No values provided', () => {
-    let projectObjectivesData: GetObjectivesData;
-
-    before(() => {
-      projectObjectivesData = new GetObjectivesData(null);
-    });
-
-    it('sets objectives', function () {
-      expect(projectObjectivesData.objectives).to.equal('');
-    });
-
-    it('sets caveats', function () {
-      expect(projectObjectivesData.caveats).to.equal('');
-    });
-  });
-
-  describe('All values provided', () => {
-    let projectObjectivesData: GetObjectivesData;
-
-    const obj = {
-      objectives: 'these are the project objectives',
-      caveats: 'these are some interesting caveats'
-    };
-
-    before(() => {
-      projectObjectivesData = new GetObjectivesData(obj);
-    });
-
-    it('sets objectives', function () {
-      expect(projectObjectivesData.objectives).to.equal(obj.objectives);
-    });
-
-    it('sets caveats', function () {
-      expect(projectObjectivesData.caveats).to.equal(obj.caveats);
-    });
-  });
-});
-
 describe('GetCoordinatorData', () => {
   describe('No values provided', () => {
     let projectCoordinatorData: GetCoordinatorData;
@@ -267,10 +227,6 @@ describe('GetLocationData', () => {
       locationData = new GetLocationData(null);
     });
 
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal('');
-    });
-
     it('sets the geometry', function () {
       expect(locationData.geometry).to.eql([]);
     });
@@ -283,10 +239,6 @@ describe('GetLocationData', () => {
       locationData = new GetLocationData([]);
     });
 
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal('');
-    });
-
     it('sets the geometry', function () {
       expect(locationData.geometry).to.eql([]);
     });
@@ -295,7 +247,6 @@ describe('GetLocationData', () => {
   describe('All values provided', () => {
     let locationData: GetLocationData;
 
-    const location_description = 'location description';
     const geometry = [
       {
         type: 'Feature',
@@ -311,21 +262,15 @@ describe('GetLocationData', () => {
 
     const locationDataObj = [
       {
-        location_description,
         geometry
       },
       {
-        location_description,
         geometry
       }
     ];
 
     before(() => {
       locationData = new GetLocationData(locationDataObj);
-    });
-
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal(location_description);
     });
 
     it('sets the geometry', function () {
@@ -344,10 +289,6 @@ describe('GetProjectData', () => {
 
     it('sets name', () => {
       expect(data.project_name).to.equal('');
-    });
-
-    it('sets type', () => {
-      expect(data.project_type).to.equal('');
     });
 
     it('sets start_date', () => {
@@ -380,10 +321,6 @@ describe('GetProjectData', () => {
 
     it('sets name', () => {
       expect(data.project_name).to.equal(projectData.name);
-    });
-
-    it('sets type', () => {
-      expect(data.project_type).to.equal(projectData.type);
     });
 
     it('sets start_date', () => {

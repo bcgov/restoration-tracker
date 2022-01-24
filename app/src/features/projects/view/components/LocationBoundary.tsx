@@ -1,7 +1,10 @@
+// TODO remove these when create/vuew project is more flushed out
+/* eslint-disable */
+// @ts-nocheck
+
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import { mdiChevronRight, mdiPencilOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import FullScreenViewMapDialog from 'components/boundary/FullScreenViewMapDialog';
@@ -12,7 +15,7 @@ import MapContainer from 'components/map/MapContainer';
 import { H2ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditLocationBoundaryI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectLocationForm, {
   IProjectLocationForm,
   ProjectLocationFormInitialValues,
   ProjectLocationFormYupSchema
@@ -28,7 +31,6 @@ import {
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useState } from 'react';
 import { calculateUpdatedMapBounds } from 'utils/mapBoundaryUploadHelpers';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 
 export interface ILocationBoundaryProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -101,8 +103,11 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
     setLocationDataForUpdate(locationResponseData);
 
     setLocationFormData({
-      location_description: locationResponseData.location_description,
-      geometry: locationResponseData.geometry
+      location: {
+        geometry: locationResponseData.geometry,
+        range: locationResponseData.range,
+        priority: locationResponseData.priority
+      }
     });
 
     setOpenEditDialog(true);
@@ -110,7 +115,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
 
   const handleDialogEditSave = async (values: IProjectLocationForm) => {
     const projectData = {
-      location: { ...values, revision_count: locationDataForUpdate.revision_count }
+      location: { ...values.location, revision_count: locationDataForUpdate.revision_count }
     };
 
     try {
@@ -149,13 +154,20 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
         dialogTitle={EditLocationBoundaryI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectStepComponents component="ProjectLocation" codes={codes} />,
+          element: (
+            <ProjectLocationForm
+              ranges={codes.ranges.map((item) => {
+                return { value: item.id, label: item.name };
+              })}
+            />
+          ),
           initialValues: locationFormData,
           validationSchema: ProjectLocationFormYupSchema
         }}
         onCancel={() => setOpenEditDialog(false)}
         onSave={handleDialogEditSave}
       />
+
       <FullScreenViewMapDialog
         open={showFullScreenViewMapDialog}
         onClose={handleClose}
@@ -169,7 +181,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
             setInferredLayersInfo={setInferredLayersInfo}
           />
         }
-        description={location.location_description}
         layers={<InferredLocationDetails layers={inferredLayersInfo} />}
         backButtonTitle={'Back To Project'}
         mapTitle={'Project Location'}
@@ -194,15 +205,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
             bounds={bounds}
             setInferredLayersInfo={setInferredLayersInfo}
           />
-        </Box>
-
-        <Box my={3}>
-          <Typography variant="body2" color="textSecondary">
-            Location Description
-          </Typography>
-          <Typography variant="body1">
-            {location.location_description ? <>{location.location_description}</> : 'No Description'}
-          </Typography>
         </Box>
 
         <InferredLocationDetails layers={inferredLayersInfo} />

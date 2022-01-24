@@ -128,7 +128,6 @@
       "!<rootDir>/public/**",
       "!<rootDir>/build/**",
       "!<rootDir>/src/serviceWorker.**",
-      "!<rootDir>/src/setupProxy.*",
       "!<rootDir>/src/setupTests.*"
     ],
     "coverageThreshold": {

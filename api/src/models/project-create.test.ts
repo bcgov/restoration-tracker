@@ -3,7 +3,6 @@ import { describe } from 'mocha';
 import {
   PostIUCNData,
   PostLocationData,
-  PostObjectivesData,
   PostCoordinatorData,
   PostPartnershipsData,
   PostPermitData,
@@ -31,10 +30,6 @@ describe('PostProjectObject', () => {
 
     it('sets project', function () {
       expect(projectPostObject.project).to.equal(null);
-    });
-
-    it('sets objectives', function () {
-      expect(projectPostObject.objectives).to.equal(null);
     });
 
     it('sets location', function () {
@@ -74,17 +69,11 @@ describe('PostProjectObject', () => {
       },
       project: {
         project_name: 'name_test_data',
-        project_type: 'test_type',
         start_date: 'start_date_test_data',
         end_date: 'end_date_test_data',
-        comments: 'comments_test_data'
-      },
-      objectives: {
-        objectives: 'these are the project objectives',
-        caveats: 'these are some interesting caveats'
+        objectives: 'these are the project objectives'
       },
       location: {
-        location_description: 'a location description',
         geometry: [
           {
             type: 'Polygon',
@@ -152,20 +141,12 @@ describe('PostProjectData', () => {
       expect(projectPostData.name).to.equal(null);
     });
 
-    it('sets type', function () {
-      expect(projectPostData.type).to.equal(null);
-    });
-
     it('sets start_date', function () {
       expect(projectPostData.start_date).to.equal(null);
     });
 
     it('sets end_date', function () {
       expect(projectPostData.end_date).to.equal(null);
-    });
-
-    it('sets comments', function () {
-      expect(projectPostData.comments).to.equal(null);
     });
   });
 
@@ -174,10 +155,9 @@ describe('PostProjectData', () => {
 
     const obj = {
       project_name: 'name_test_data',
-      project_type: 'test_type',
       start_date: 'start_date_test_data',
       end_date: 'end_date_test_data',
-      comments: 'comments_test_data'
+      objectives: 'project objectives'
     };
 
     before(() => {
@@ -188,59 +168,12 @@ describe('PostProjectData', () => {
       expect(projectPostData.name).to.equal('name_test_data');
     });
 
-    it('sets type', function () {
-      expect(projectPostData.type).to.equal('test_type');
-    });
-
     it('sets start_date', function () {
       expect(projectPostData.start_date).to.equal('start_date_test_data');
     });
 
     it('sets end_date', function () {
       expect(projectPostData.end_date).to.equal('end_date_test_data');
-    });
-
-    it('sets comments', function () {
-      expect(projectPostData.comments).to.equal('comments_test_data');
-    });
-  });
-});
-
-describe('PostObjectivesData', () => {
-  describe('No values provided', () => {
-    let projectObjectivesData: PostObjectivesData;
-
-    before(() => {
-      projectObjectivesData = new PostObjectivesData(null);
-    });
-
-    it('sets objectives', function () {
-      expect(projectObjectivesData.objectives).to.equal('');
-    });
-
-    it('sets caveats', function () {
-      expect(projectObjectivesData.caveats).to.equal('');
-    });
-  });
-
-  describe('All values provided', () => {
-    let projectObjectivesData: PostObjectivesData;
-
-    const obj = {
-      objectives: 'these are the project objectives',
-      caveats: 'these are some interesting caveats'
-    };
-
-    before(() => {
-      projectObjectivesData = new PostObjectivesData(obj);
-    });
-
-    it('sets objectives', function () {
-      expect(projectObjectivesData.objectives).to.equal(obj.objectives);
-    });
-
-    it('sets caveats', function () {
-      expect(projectObjectivesData.caveats).to.equal(obj.caveats);
     });
   });
 });
@@ -286,33 +219,7 @@ describe('PostPermitData', () => {
     });
   });
 
-  describe('All values provided with sampling conducted as true', () => {
-    let projectPermitData: PostPermitData;
-
-    const obj = {
-      permits: [
-        {
-          permit_number: '1',
-          permit_type: 'permit type'
-        }
-      ]
-    };
-
-    before(() => {
-      projectPermitData = new PostPermitData(obj);
-    });
-
-    it('sets permits', function () {
-      expect(projectPermitData.permits).to.eql([
-        {
-          permit_number: '1',
-          permit_type: 'permit type'
-        }
-      ]);
-    });
-  });
-
-  describe('All values provided with sampling conducted as false', () => {
+  describe('All values provided', () => {
     let projectPermitData: PostPermitData;
 
     const obj = {
@@ -563,10 +470,6 @@ describe('PostLocationData', () => {
       projectLocationData = new PostLocationData(null);
     });
 
-    it('sets location_description', function () {
-      expect(projectLocationData.location_description).to.equal(null);
-    });
-
     it('sets geometry', function () {
       expect(projectLocationData.geometry).to.eql([]);
     });
@@ -576,7 +479,6 @@ describe('PostLocationData', () => {
     let projectLocationData: PostLocationData;
 
     const obj = {
-      location_description: 'a location description',
       geometry: [
         {
           type: 'Polygon',
@@ -598,10 +500,6 @@ describe('PostLocationData', () => {
 
     before(() => {
       projectLocationData = new PostLocationData(obj);
-    });
-
-    it('sets location_description', function () {
-      expect(projectLocationData.location_description).to.equal('a location description');
     });
 
     it('sets the geometry', function () {

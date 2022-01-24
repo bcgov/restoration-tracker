@@ -1,12 +1,12 @@
-import React from 'react';
-import { render, waitFor, fireEvent, cleanup } from '@testing-library/react';
-import LocationBoundary from './LocationBoundary';
+import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { DialogContextProvider } from 'contexts/dialogContext';
 import { Feature } from 'geojson';
-import { getProjectForViewResponse } from 'test-helpers/project-helpers';
-import { codes } from 'test-helpers/code-helpers';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { UPDATE_GET_ENTITIES } from 'interfaces/useProjectApi.interface';
-import { DialogContextProvider } from 'contexts/dialogContext';
+import React from 'react';
+import { codes } from 'test-helpers/code-helpers';
+import { getProjectForViewResponse } from 'test-helpers/project-helpers';
+import LocationBoundary from './LocationBoundary';
 
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
@@ -70,23 +70,6 @@ describe('LocationBoundary', () => {
     features: []
   });
 
-  test('matches the snapshot when there is no location description', async () => {
-    const { asFragment } = render(
-      <LocationBoundary
-        projectForViewData={{
-          ...getProjectForViewResponse,
-          location: { ...getProjectForViewResponse.location, location_description: (null as unknown) as string }
-        }}
-        codes={codes}
-        refresh={mockRefresh}
-      />
-    );
-
-    await waitFor(() => {
-      expect(asFragment()).toMatchSnapshot();
-    });
-  });
-
   test('matches the snapshot when there is no geometry', async () => {
     const { asFragment } = render(
       <LocationBoundary
@@ -124,7 +107,7 @@ describe('LocationBoundary', () => {
   test('editing the location boundary works in the dialog', async () => {
     mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
       location: {
-        location_description: 'description',
+        ...getProjectForViewResponse.location,
         geometry: sharedGeometry,
         revision_count: 1
       }
@@ -168,7 +151,7 @@ describe('LocationBoundary', () => {
       expect(mockRestorationTrackerApi().project.updateProject).toHaveBeenCalledTimes(1);
       expect(mockRestorationTrackerApi().project.updateProject).toBeCalledWith(getProjectForViewResponse.id, {
         location: {
-          location_description: 'description',
+          ...getProjectForViewResponse.location,
           geometry: sharedGeometry,
           revision_count: 1
         }
@@ -237,7 +220,7 @@ describe('LocationBoundary', () => {
   it('shows error dialog with API error message when updating location data fails', async () => {
     mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
       location: {
-        location_description: 'description',
+        ...getProjectForViewResponse.location,
         geometry: sharedGeometry,
         revision_count: 1
       }

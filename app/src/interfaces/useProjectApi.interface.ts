@@ -1,9 +1,8 @@
 import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
-import { IProjectDetailsForm } from 'features/projects/components/ProjectDetailsForm';
 import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
+import { IProjectGeneralInformationForm } from 'features/projects/components/ProjectGeneralInformationForm';
 import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
 import { IProjectLocationForm } from 'features/projects/components/ProjectLocationForm';
-import { IProjectObjectivesForm } from 'features/projects/components/ProjectObjectivesForm';
 import { IProjectPartnershipsForm } from 'features/projects/components/ProjectPartnershipsForm';
 import { IProjectPermitForm } from 'features/projects/components/ProjectPermitForm';
 import { Feature } from 'geojson';
@@ -23,7 +22,6 @@ export interface IGetProjectAttachment {
 export interface IProjectAdvancedFilterRequest {
   coordinator_agency: string;
   permit_number: string;
-  project_type: string;
   start_date: string;
   end_date: string;
   keyword: string;
@@ -69,27 +67,9 @@ export interface IGetProjectsListResponse {
   start_date: string;
   end_date: string;
   coordinator_agency: string;
-  project_type: string;
   permits_list: string;
   publish_status: string;
   completion_status: string;
-}
-
-/**
- * Create project post object.
- *
- * @export
- * @interface ICreateProjectRequest
- */
-export interface ICreateProjectRequest {
-  coordinator: IProjectCoordinatorForm;
-  permit: IProjectPermitForm;
-  project: IProjectDetailsForm;
-  objectives: IProjectObjectivesForm;
-  location: IProjectLocationForm;
-  iucn: IProjectIUCNForm;
-  funding: IProjectFundingForm;
-  partnerships: IProjectPartnershipsForm;
 }
 
 /**
@@ -101,6 +81,21 @@ export interface ICreateProjectRequest {
 export interface ICreateProjectResponse {
   id: number;
 }
+
+/**
+ * Create project post object.
+ *
+ * @export
+ * @interface ICreateProjectRequest
+ */
+export interface ICreateProjectRequest
+  extends IProjectGeneralInformationForm,
+    IProjectIUCNForm,
+    IProjectCoordinatorForm,
+    IProjectPermitForm,
+    IProjectFundingForm,
+    IProjectPartnershipsForm,
+    IProjectLocationForm {}
 
 export enum UPDATE_GET_ENTITIES {
   coordinator = 'coordinator',
@@ -120,9 +115,8 @@ export enum UPDATE_GET_ENTITIES {
  * @interface IGetProjectForUpdateResponse
  */
 export interface IGetProjectForUpdateResponse {
-  project?: IGetProjectForUpdateResponseDetails;
+  project?: IGetGeneralInformationForUpdateResponseDetails;
   permit?: IGetProjectForUpdateResponsePermit;
-  objectives?: IGetProjectForUpdateResponseObjectives;
   location?: IGetProjectForUpdateResponseLocation;
   coordinator?: IGetProjectForUpdateResponseCoordinator;
   iucn?: IGetProjectForUpdateResponseIUCN;
@@ -130,9 +124,8 @@ export interface IGetProjectForUpdateResponse {
   partnerships?: IGetProjectForUpdateResponsePartnerships;
 }
 
-export interface IGetProjectForUpdateResponseDetails {
+export interface IGetGeneralInformationForUpdateResponseDetails {
   project_name: string;
-  project_type: number;
   start_date: string;
   end_date: string;
   revision_count: number;
@@ -147,15 +140,10 @@ export interface IGetProjectForUpdateResponsePermit {
   permits: IGetProjectForUpdateResponsePermitArrayItem[];
 }
 
-export interface IGetProjectForUpdateResponseObjectives {
-  objectives: string;
-  caveats: string;
-  revision_count: number;
-}
-
 export interface IGetProjectForUpdateResponseLocation {
-  location_description: string;
   geometry: Feature[];
+  range: number;
+  priority: boolean;
   revision_count: number;
 }
 
@@ -218,7 +206,6 @@ export interface IGetProjectForViewResponse {
   id: number;
   project: IGetProjectForViewResponseDetails;
   permit: IGetProjectForViewResponsePermit;
-  objectives: IGetProjectForViewResponseObjectives;
   location: IGetProjectForViewResponseLocation;
   coordinator: IGetProjectForViewResponseCoordinator;
   iucn: IGetProjectForViewResponseIUCN;
@@ -228,7 +215,6 @@ export interface IGetProjectForViewResponse {
 
 export interface IGetProjectForViewResponseDetails {
   project_name: string;
-  project_type: string;
   start_date: string;
   end_date: string;
   completion_status: string;
@@ -244,14 +230,10 @@ export interface IGetProjectForViewResponsePermit {
   permits: IGetProjectForViewResponsePermitArrayItem[];
 }
 
-export interface IGetProjectForViewResponseObjectives {
-  objectives: string;
-  caveats: string;
-}
-
 export interface IGetProjectForViewResponseLocation {
-  location_description: string;
   geometry: Feature[];
+  range: string;
+  priority: string;
 }
 
 export interface IGetProjectForViewResponseCoordinator {

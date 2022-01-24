@@ -17,13 +17,6 @@ export const getFundingSourceSQL = (): SQLStatement =>
   SQL`SELECT funding_source_id as id, name from funding_source ORDER BY name ASC;`;
 
 /**
- * SQL query to fetch project type codes.
- *
- * @returns {SQLStatement} sql query object
- */
-export const getProjectTypeSQL = (): SQLStatement => SQL`SELECT project_type_id as id, name from project_type;`;
-
-/**
  * SQL query to fetch investment action category codes.
  *
  * @returns {SQLStatement} sql query object

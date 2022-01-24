@@ -1,6 +1,7 @@
 import { render, waitFor } from '@testing-library/react';
 import { Formik } from 'formik';
 import React from 'react';
+import { codes } from 'test-helpers/code-helpers';
 import ProjectLocationForm, {
   IProjectLocationForm,
   ProjectLocationFormInitialValues,
@@ -18,7 +19,13 @@ describe('ProjectLocationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectLocationForm />}
+        {() => (
+          <ProjectLocationForm
+            ranges={codes.ranges.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+          />
+        )}
       </Formik>
     );
 
@@ -29,19 +36,22 @@ describe('ProjectLocationForm', () => {
 
   it('renders correctly with existing location values', async () => {
     const existingFormValues: IProjectLocationForm = {
-      location_description: 'a location description',
-      geometry: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [125.6, 10.1]
-          },
-          properties: {
-            name: 'Dinagat Islands'
+      location: {
+        geometry: [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [125.6, 10.1]
+            },
+            properties: {
+              name: 'Dinagat Islands'
+            }
           }
-        }
-      ]
+        ],
+        range: '1',
+        priority: 'false'
+      }
     };
 
     const { asFragment } = render(
@@ -51,7 +61,13 @@ describe('ProjectLocationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectLocationForm />}
+        {() => (
+          <ProjectLocationForm
+            ranges={codes.ranges.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+          />
+        )}
       </Formik>
     );
 
@@ -62,19 +78,22 @@ describe('ProjectLocationForm', () => {
 
   it('renders correctly with errors on fields', async () => {
     const existingFormValues: IProjectLocationForm = {
-      location_description: 'a location description',
-      geometry: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [125.6, 10.1]
-          },
-          properties: {
-            name: 'Dinagat Islands'
+      location: {
+        geometry: [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [125.6, 10.1]
+            },
+            properties: {
+              name: 'Dinagat Islands'
+            }
           }
-        }
-      ]
+        ],
+        range: '1',
+        priority: 'false'
+      }
     };
 
     const { asFragment } = render(
@@ -83,10 +102,16 @@ describe('ProjectLocationForm', () => {
         validationSchema={ProjectLocationFormYupSchema}
         validateOnBlur={true}
         validateOnChange={false}
-        initialErrors={{ location_description: 'error is here' }}
-        initialTouched={{ location_description: true }}
+        initialErrors={{ range: 'error is here' }}
+        initialTouched={{ range: true }}
         onSubmit={async () => {}}>
-        {() => <ProjectLocationForm />}
+        {() => (
+          <ProjectLocationForm
+            ranges={codes.ranges.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+          />
+        )}
       </Formik>
     );
 

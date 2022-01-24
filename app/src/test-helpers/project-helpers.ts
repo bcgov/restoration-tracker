@@ -4,7 +4,6 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
   id: 1,
   project: {
     project_name: 'Test Project Name',
-    project_type: '1',
     start_date: '1998-10-10',
     end_date: '2021-02-26',
     completion_status: 'Active',
@@ -19,12 +18,9 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     ]
   },
   location: {
-    location_description: 'Location description',
-    geometry: []
-  },
-  objectives: {
-    objectives: 'Et ad et in culpa si',
-    caveats: 'sjwer bds'
+    geometry: [],
+    range: '1',
+    priority: 'false'
   },
   coordinator: {
     first_name: 'Amanda',

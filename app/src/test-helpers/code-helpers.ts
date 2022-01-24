@@ -5,7 +5,6 @@ export const codes: IGetAllCodeSetsResponse = {
   first_nations: [{ id: 1, name: 'First nations code' }],
   funding_source: [{ id: 1, name: 'Funding source code' }],
   investment_action_category: [{ id: 1, fs_id: 1, name: 'Investment action category' }],
-  project_type: [{ id: 1, name: 'Project type' }],
   region: [{ id: 1, name: 'Region code' }],
   species: [{ id: 1, name: 'Species code' }],
   iucn_conservation_action_level_1_classification: [{ id: 1, name: 'IUCN class' }],
@@ -23,5 +22,9 @@ export const codes: IGetAllCodeSetsResponse = {
     { id: 1, name: 'Pending' },
     { id: 2, name: 'Actioned' },
     { id: 3, name: 'Rejected' }
+  ],
+  ranges: [
+    { id: 1, name: 'test 1' },
+    { id: 2, name: 'test 2' }
   ]
 };

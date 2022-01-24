@@ -7,7 +7,6 @@ import {
   GetCoordinatorData,
   GetIUCNClassificationData,
   GetLocationData,
-  GetObjectivesData,
   GetPartnershipsData,
   GetPermitData,
   GetProjectData
@@ -80,21 +79,10 @@ GET.apiDoc = {
               project: {
                 description: 'Basic project metadata',
                 type: 'object',
-                required: [
-                  'project_name',
-                  'project_type',
-                  'start_date',
-                  'end_date',
-                  'comments',
-                  'completion_status',
-                  'publish_date'
-                ],
+                required: ['project_name', 'start_date', 'end_date', 'completion_status', 'publish_date'],
                 properties: {
                   project_name: {
                     type: 'string'
-                  },
-                  project_type: {
-                    type: 'number'
                   },
                   start_date: {
                     type: 'string',
@@ -105,10 +93,6 @@ GET.apiDoc = {
                     type: 'string',
                     format: 'date',
                     description: 'ISO 8601 date string for the project end date'
-                  },
-                  comments: {
-                    type: 'string',
-                    description: 'Comments'
                   },
                   completion_status: {
                     description: 'Status of the project being active/completed',
@@ -165,27 +149,11 @@ GET.apiDoc = {
                   }
                 }
               },
-              objectives: {
-                description: 'The project objectives and caveats',
-                type: 'object',
-                required: ['objectives', 'caveats'],
-                properties: {
-                  objectives: {
-                    type: 'string'
-                  },
-                  caveats: {
-                    type: 'string'
-                  }
-                }
-              },
               location: {
                 description: 'The project location object',
                 type: 'object',
-                required: ['location_description', 'geometry'],
+                required: ['geometry'],
                 properties: {
-                  location_description: {
-                    type: 'string'
-                  },
                   geometry: {
                     type: 'array',
                     items: {
@@ -382,8 +350,6 @@ export function getProjectForView(): RequestHandler {
 
       const getPermitData = (permitData && permitData.rows && new GetPermitData(permitData.rows)) || null;
 
-      const getObjectivesData = (projectData && projectData.rows && new GetObjectivesData(projectData.rows[0])) || null;
-
       const getLocationData = (locationData && locationData.rows && new GetLocationData(locationData.rows)) || null;
 
       const getCoordinatorData =
@@ -410,7 +376,6 @@ export function getProjectForView(): RequestHandler {
         project: getProjectData,
         permit: getPermitData,
         coordinator: getCoordinatorData,
-        objectives: getObjectivesData,
         location: getLocationData,
         iucn: getIUCNClassificationData,
         funding: getFundingData,

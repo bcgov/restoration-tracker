@@ -1,10 +1,12 @@
 import CreateProjectPage from 'features/projects/create/CreateProjectPage';
 import ProjectsListPage from 'features/projects/list/ProjectsListPage';
 import ProjectsLayout from 'features/projects/ProjectsLayout';
-import ProjectPage from 'features/projects/view/ProjectPage';
+import ViewProjectPage from 'features/projects/view/ViewProjectPage';
 import React from 'react';
 import { Redirect, Switch } from 'react-router';
 import AppRoute from 'utils/AppRoute';
+//import CreateRestoProjectPage from './create/CreateRestoProjectPage';
+import RestoProjectDetailsPage from './view/RestoProjectDetailsPage';
 import ProjectParticipantsPage from './participants/ProjectParticipantsPage';
 
 /**
@@ -24,6 +26,7 @@ const ProjectsRouter: React.FC = () => {
 
       <AppRoute exact path="/admin/projects/create" layout={ProjectsLayout}>
         <ProjectsLayout>
+          {/* <CreateRestoProjectPage /> */}
           <CreateProjectPage />
         </ProjectsLayout>
       </AppRoute>
@@ -32,7 +35,8 @@ const ProjectsRouter: React.FC = () => {
 
       <AppRoute exact path="/admin/projects/:id?/details" layout={ProjectsLayout}>
         <ProjectsLayout>
-          <ProjectPage />
+          <RestoProjectDetailsPage />
+          {/* <ViewProjectPage /> */}
         </ProjectsLayout>
       </AppRoute>
 
@@ -43,7 +47,7 @@ const ProjectsRouter: React.FC = () => {
       </AppRoute>
 
       <AppRoute exact path="/admin/projects/:id?/attachments" layout={ProjectsLayout}>
-        <ProjectPage />
+        <ViewProjectPage />
       </AppRoute>
 
       {/*  Catch any unknown routes, and re-direct to the not found page */}

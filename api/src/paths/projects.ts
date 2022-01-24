@@ -47,10 +47,6 @@ POST.apiDoc = {
               type: 'string',
               nullable: true
             },
-            project_type: {
-              type: 'string',
-              nullable: true
-            },
             start_date: {
               type: 'string',
               nullable: true
@@ -199,7 +195,6 @@ export function _extractProjects(rows: any[]): any[] {
       completion_status:
         (row.end_date && moment(row.end_date).endOf('day').isBefore(moment()) && COMPLETION_STATUS.COMPLETED) ||
         COMPLETION_STATUS.ACTIVE,
-      project_type: row.project_type,
       permits_list: row.permits_list
     };
 

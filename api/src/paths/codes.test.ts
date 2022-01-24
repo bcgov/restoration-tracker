@@ -2,11 +2,11 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as codes from './codes';
 import * as db from '../database/db';
-import * as code_utils from '../utils/code-utils';
-import { getMockDBConnection } from '../__mocks__/db';
 import { HTTPError } from '../errors/custom-error';
+import { CodeService } from '../services/code-service';
+import { getMockDBConnection } from '../__mocks__/db';
+import * as codes from './codes';
 
 chai.use(sinonChai);
 
@@ -18,7 +18,7 @@ describe('codes', () => {
   } as any;
 
   let actualResult = {
-    first_nations: null
+    management_action_type: null
   };
 
   const sampleRes = {
@@ -38,7 +38,7 @@ describe('codes', () => {
 
     it('should throw a 500 error when fails to fetch codes', async () => {
       sinon.stub(db, 'getAPIUserDBConnection').returns(dbConnectionObj);
-      sinon.stub(code_utils, 'getAllCodeSets').resolves(null);
+      sinon.stub(CodeService.prototype, 'getAllCodeSets').resolves(undefined);
 
       try {
         const result = codes.getAllCodes();
@@ -53,22 +53,22 @@ describe('codes', () => {
 
     it('should return the fetched codes on success', async () => {
       sinon.stub(db, 'getAPIUserDBConnection').returns(dbConnectionObj);
-      sinon.stub(code_utils, 'getAllCodeSets').resolves({
-        first_nations: { id: 1, name: 'a first nation' }
+      sinon.stub(CodeService.prototype, 'getAllCodeSets').resolves({
+        management_action_type: { id: 1, name: 'management action type' }
       } as any);
 
       const result = codes.getAllCodes();
 
       await result(sampleReq, sampleRes as any, (null as unknown) as any);
 
-      expect(actualResult.first_nations).to.eql({ id: 1, name: 'a first nation' });
+      expect(actualResult.management_action_type).to.eql({ id: 1, name: 'management action type' });
     });
 
     it('should throw an error when a failure occurs', async () => {
       const expectedError = new Error('cannot process request');
 
       sinon.stub(db, 'getAPIUserDBConnection').returns(dbConnectionObj);
-      sinon.stub(code_utils, 'getAllCodeSets').rejects(expectedError);
+      sinon.stub(CodeService.prototype, 'getAllCodeSets').rejects(expectedError);
 
       try {
         const result = codes.getAllCodes();

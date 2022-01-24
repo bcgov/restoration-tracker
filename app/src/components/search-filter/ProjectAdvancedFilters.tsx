@@ -4,17 +4,16 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import AutocompleteFreeSoloField from 'components/fields/AutocompleteFreeSoloField';
+import CustomTextField from 'components/fields/CustomTextField';
 import MultiAutocompleteFieldVariableSize, {
   IMultiAutocompleteFieldOption
 } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import React from 'react';
-import CustomTextField from 'components/fields/CustomTextField';
 export interface IProjectAdvancedFilters {
   coordinator_agency: string;
   permit_number: string;
-  project_type: string;
   start_date: string;
   end_date: string;
   keyword: string;
@@ -27,7 +26,6 @@ export interface IProjectAdvancedFilters {
 export const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters = {
   coordinator_agency: '',
   permit_number: '',
-  project_type: '',
   start_date: '',
   end_date: '',
   keyword: '',
@@ -62,35 +60,14 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
         <Grid item xs={12} md={3}>
           <CustomTextField name="project_name" label="Project Name" />
         </Grid>
-        <Grid item xs={12} md={3}>
-          <FormControl fullWidth variant="outlined" required={false}>
-            <InputLabel id="project_type">Project Type</InputLabel>
-            <Select
-              id="project_type"
-              name="project_type"
-              labelId="project_type"
-              label="Project Type"
-              value={values.project_type}
-              onChange={handleChange}
-              displayEmpty
-              inputProps={{ 'aria-label': 'Project Type' }}>
-              <MenuItem key={1} value="Fisheries">
-                Fisheries
-              </MenuItem>
-              <MenuItem key={2} value="Wildlife">
-                Wildlife
-              </MenuItem>
-              <MenuItem key={3} value="Aquatic Habitat">
-                Aquatic Habitat
-              </MenuItem>
-              <MenuItem key={4} value="Terrestrial Habitat">
-                Terrestrial Habitat
-              </MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
         <Grid item xs={12} md={6}>
-          <StartEndDateFields formikProps={formikProps} startRequired={false} endRequired={false} />
+          <StartEndDateFields
+            formikProps={formikProps}
+            startName={'start_date'}
+            endName={'end_date'}
+            startRequired={false}
+            endRequired={false}
+          />
         </Grid>
         <Grid item xs={12} md={3}>
           <AutocompleteFreeSoloField

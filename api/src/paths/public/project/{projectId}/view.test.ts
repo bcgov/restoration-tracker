@@ -9,7 +9,6 @@ import { getMockDBConnection } from '../../../../__mocks__/db';
 import SQL from 'sql-template-strings';
 import {
   GetIUCNClassificationData,
-  GetObjectivesData,
   GetPartnershipsData,
   GetLocationData,
   GetPermitData
@@ -247,7 +246,6 @@ describe('getPublicProjectForView', () => {
       project: null,
       permit: null,
       coordinator: null,
-      objectives: null,
       location: null,
       iucn: null,
       funding: null,
@@ -263,17 +261,13 @@ describe('getPublicProjectForView', () => {
       type: 'type',
       name: 'name',
       objectives: 'project objectives',
-      location_description: 'location description',
       start_date: '2020/04/04',
       end_date: '2020/05/05',
-      caveats: 'caveats',
-      comments: 'comment',
       coordinator_first_name: 'first',
       coordinator_last_name: 'last',
       coordinator_email_address: 'coord@email.com',
       coordinator_agency_name: 'agency 1',
       coordinator_public: true,
-      geometry: null,
       create_date: '2020/04/04',
       create_user: null,
       update_date: null,
@@ -288,7 +282,6 @@ describe('getPublicProjectForView', () => {
     };
 
     const locationData = {
-      location_description: 'location description',
       geometry: null,
       revision_count: 1
     };
@@ -380,7 +373,6 @@ describe('getPublicProjectForView', () => {
       project: new GetPublicProjectData(projectData),
       permit: new GetPermitData([permitData]),
       coordinator: new GetPublicCoordinatorData(projectData),
-      objectives: new GetObjectivesData(projectData),
       location: new GetLocationData([locationData]),
       iucn: new GetIUCNClassificationData([iucnData]),
       funding: new GetFundingData([fundingSourceData]),

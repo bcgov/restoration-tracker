@@ -14,7 +14,7 @@ const appTheme = createMuiTheme({
   palette: {
     // https://material-ui.com/customization/palette/
     background: {
-      default: '#f1f1f1'
+      default: '#f5f5f5'
     },
     primary: {
       light: '#5469a4',
@@ -54,11 +54,6 @@ const appTheme = createMuiTheme({
       h6: {
         letterSpacing: '-0.01rem',
         fontWeight: 700
-      },
-      body1: {
-        '& + p': {
-          marginTop: '1rem'
-        }
       }
     },
     MuiAlert: {
@@ -125,7 +120,12 @@ const appTheme = createMuiTheme({
     },
     MuiOutlinedInput: {
       root: {
-        background: '#ffffff'
+        background: '#f6f6f6'
+      }
+    },
+    MuiFilledInput: {
+      root: {
+        background: '#f6f6f6'
       }
     },
     MuiStepper: {

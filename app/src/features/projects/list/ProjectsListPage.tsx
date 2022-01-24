@@ -19,6 +19,7 @@ import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import ProjectAdvancedFilters, {
+  IProjectAdvancedFilters,
   ProjectAdvancedFiltersInitialValues
 } from 'components/search-filter/ProjectAdvancedFilters';
 import { SystemRoleGuard } from 'components/security/Guards';
@@ -79,7 +80,7 @@ const ProjectsListPage: React.FC = () => {
   const [projects, setProjects] = useState<IGetProjectsListResponse[]>([]);
   const [drafts, setDrafts] = useState<IGetDraftsListResponse[]>([]);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [formikRef] = useState(useRef<FormikProps<any>>(null));
+  const formikRef = useRef<FormikProps<IProjectAdvancedFilters>>(null);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -231,7 +232,6 @@ const ProjectsListPage: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Type</TableCell>
               <TableCell>Permits</TableCell>
               <TableCell>Contact Agency</TableCell>
               <TableCell>Start Date</TableCell>
@@ -256,7 +256,6 @@ const ProjectsListPage: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>Type</TableCell>
                 <TableCell>Permits</TableCell>
                 <TableCell>Contact Agency</TableCell>
                 <TableCell>Start Date</TableCell>
@@ -283,7 +282,6 @@ const ProjectsListPage: React.FC = () => {
                   <TableCell />
                   <TableCell />
                   <TableCell />
-                  <TableCell />
                   <TableCell>{getChipIcon('Draft')}</TableCell>
                   <TableCell>{getChipIcon('Unpublished')}</TableCell>
                 </TableRow>
@@ -300,7 +298,6 @@ const ProjectsListPage: React.FC = () => {
                       {row.name}
                     </Link>
                   </TableCell>
-                  <TableCell>{row.project_type}</TableCell>
                   <TableCell>{row.permits_list}</TableCell>
                   <TableCell>{row.coordinator_agency}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
@@ -353,7 +350,7 @@ const ProjectsListPage: React.FC = () => {
           {isFiltersOpen && (
             <Box className={classes.filtersBox}>
               <Box px={2} py={4}>
-                <Formik
+                <Formik<IProjectAdvancedFilters>
                   innerRef={formikRef}
                   initialValues={ProjectAdvancedFiltersInitialValues}
                   onSubmit={handleSubmit}>

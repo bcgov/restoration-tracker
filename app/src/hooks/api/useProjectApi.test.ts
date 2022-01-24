@@ -1,14 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
-import { IProjectDetailsForm } from 'features/projects/components/ProjectDetailsForm';
-import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
-import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
-import { IProjectLocationForm } from 'features/projects/components/ProjectLocationForm';
-import { IProjectObjectivesForm } from 'features/projects/components/ProjectObjectivesForm';
-import { IProjectPartnershipsForm } from 'features/projects/components/ProjectPartnershipsForm';
-import { IProjectPermitForm } from 'features/projects/components/ProjectPermitForm';
-import { UPDATE_GET_ENTITIES } from 'interfaces/useProjectApi.interface';
+import { ICreateProjectRequest } from 'interfaces/useProjectApi.interface';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import useProjectApi, { usePublicProjectApi } from './useProjectApi';
 
@@ -95,11 +87,8 @@ describe('useProjectApi', () => {
         id: 1,
         name: 'project name',
         objectives: 'objectives',
-        location_description: 'location',
         start_date: '2020/04/04',
         end_date: '2020/05/05',
-        caveats: 'caveat',
-        comments: 'comment',
         coordinator_first_name: 'first',
         coordinator_last_name: 'last',
         coordinator_email_address: 'email@example.com',
@@ -121,11 +110,8 @@ describe('useProjectApi', () => {
         id: 1,
         name: 'project name',
         objectives: 'objectives',
-        location_description: 'location',
         start_date: '2020/04/04',
         end_date: '2020/05/05',
-        caveats: 'caveat',
-        comments: 'comment',
         coordinator_first_name: 'first',
         coordinator_last_name: 'last',
         coordinator_email_address: 'email@example.com',
@@ -155,38 +141,6 @@ describe('useProjectApi', () => {
     const result = await usePublicProjectApi(axios).getProjectForView(projectId);
 
     expect(result).toEqual(getProjectForViewResponse);
-  });
-
-  it('getProjectForUpdate works as expected', async () => {
-    mock.onGet(`api/project/${projectId}/update`).reply(200, {
-      objectives: {
-        objectives: 'objectives',
-        caveats: 'caveats',
-        revision_count: 1
-      }
-    });
-
-    const result = await useProjectApi(axios).getProjectForUpdate(projectId, [UPDATE_GET_ENTITIES.objectives]);
-
-    expect(result.objectives).toEqual({
-      objectives: 'objectives',
-      caveats: 'caveats',
-      revision_count: 1
-    });
-  });
-
-  it('updateProject works as expected', async () => {
-    mock.onPut(`api/project/${projectId}/update`).reply(200, true);
-
-    const result = await useProjectApi(axios).updateProject(projectId, {
-      objectives: {
-        objectives: 'objectives',
-        caveats: 'caveats',
-        revision_count: 1
-      }
-    });
-
-    expect(result).toEqual(true);
   });
 
   it('addFundingSource works as expected', async () => {
@@ -240,18 +194,9 @@ describe('useProjectApi', () => {
   });
 
   it('createProject works as expected', async () => {
-    const projectData = {
-      coordinator: (null as unknown) as IProjectCoordinatorForm,
-      permit: (null as unknown) as IProjectPermitForm,
-      project: (null as unknown) as IProjectDetailsForm,
-      objectives: (null as unknown) as IProjectObjectivesForm,
-      location: (null as unknown) as IProjectLocationForm,
-      iucn: (null as unknown) as IProjectIUCNForm,
-      funding: (null as unknown) as IProjectFundingForm,
-      partnerships: (null as unknown) as IProjectPartnershipsForm
-    };
+    const projectData = ({} as unknown) as ICreateProjectRequest;
 
-    mock.onPost('/api/project').reply(200, {
+    mock.onPost('/api/project/create').reply(200, {
       id: 1
     });
 

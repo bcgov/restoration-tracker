@@ -9,7 +9,7 @@ import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditCoordinatorI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectCoordinatorForm, {
   IProjectCoordinatorForm,
   ProjectCoordinatorInitialValues,
   ProjectCoordinatorYupSchema
@@ -23,7 +23,6 @@ import {
   UPDATE_GET_ENTITIES
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useState } from 'react';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 
 export interface IProjectCoordinatorProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -91,11 +90,13 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
     setCoordinatorDataForUpdate(coordinatorResponseData);
 
     setCoordinatorFormData({
-      first_name: coordinatorResponseData.first_name,
-      last_name: coordinatorResponseData.last_name,
-      email_address: coordinatorResponseData.email_address,
-      coordinator_agency: coordinatorResponseData.coordinator_agency,
-      share_contact_details: coordinatorResponseData.share_contact_details
+      coordinator: {
+        first_name: coordinatorResponseData.first_name,
+        last_name: coordinatorResponseData.last_name,
+        email_address: coordinatorResponseData.email_address,
+        coordinator_agency: coordinatorResponseData.coordinator_agency,
+        share_contact_details: coordinatorResponseData.share_contact_details
+      }
     });
 
     setOpenEditDialog(true);
@@ -103,7 +104,7 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
 
   const handleDialogEditSave = async (values: IProjectCoordinatorForm) => {
     const projectData = {
-      coordinator: { ...values, revision_count: coordinatorDataForUpdate.revision_count }
+      coordinator: { ...values.coordinator, revision_count: coordinatorDataForUpdate.revision_count }
     };
 
     try {
@@ -125,7 +126,15 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
         dialogTitle={EditCoordinatorI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectStepComponents component="ProjectCoordinator" codes={codes} />,
+          element: (
+            <ProjectCoordinatorForm
+              coordinator_agency={
+                codes?.coordinator_agency?.map((item) => {
+                  return item.name;
+                }) || []
+              }
+            />
+          ),
           initialValues: coordinatorFormData,
           validationSchema: ProjectCoordinatorYupSchema
         }}

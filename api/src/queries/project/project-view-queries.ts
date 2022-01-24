@@ -19,14 +19,10 @@ export const getProjectSQL = (projectId: number): SQLStatement | null => {
   const sqlStatement = SQL`
     SELECT
       project.project_id as id,
-      project_type.name as type,
       project.name,
       project.objectives,
-      project.location_description,
       project.start_date,
       project.end_date,
-      project.caveats,
-      project.comments,
       project.coordinator_first_name,
       project.coordinator_last_name,
       project.coordinator_email_address,
@@ -41,9 +37,6 @@ export const getProjectSQL = (projectId: number): SQLStatement | null => {
       project.publish_timestamp as publish_date
     from
       project
-    left outer join
-      project_type
-        on project.project_type_id = project_type.project_type_id
     left outer join project_spatial_component psc
         on project.project_id = psc.project_id
     where
@@ -87,12 +80,9 @@ export const getProjectListSQL = (
       p.end_date,
       p.coordinator_agency_name,
       p.publish_timestamp,
-      pt.name as project_type,
       string_agg(DISTINCT pp.number, ', ') as permits_list
     from
       project as p
-    left outer join project_type as pt
-      on p.project_type_id = pt.project_type_id
     left outer join permit as pp
       on p.project_id = pp.project_id
     left outer join project_funding_source as pfs
@@ -140,10 +130,6 @@ export const getProjectListSQL = (
       sqlStatement.append(SQL` AND pp.number = ${filterFields.permit_number}`);
     }
 
-    if (filterFields.project_type) {
-      sqlStatement.append(SQL` AND pt.name = ${filterFields.project_type}`);
-    }
-
     if (filterFields.project_name) {
       sqlStatement.append(SQL` AND p.name = ${filterFields.project_name}`);
     }
@@ -172,8 +158,7 @@ export const getProjectListSQL = (
       p.start_date,
       p.end_date,
       p.coordinator_agency_name,
-      p.publish_timestamp,
-      pt.name;
+      p.publish_timestamp
   `);
 
   defaultLog.debug({

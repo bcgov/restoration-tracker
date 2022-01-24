@@ -58,12 +58,6 @@ describe('getProjectListSQL', () => {
     expect(response).to.not.be.null;
   });
 
-  it('returns a SQLStatement when filter fields provided (only project type)', () => {
-    const response = getProjectListSQL(true, 1, { project_type: 'type' });
-
-    expect(response).to.not.be.null;
-  });
-
   it('returns a SQLStatement when filter fields provided (only project name)', () => {
     const response = getProjectListSQL(true, 1, { project_name: 'name' });
 

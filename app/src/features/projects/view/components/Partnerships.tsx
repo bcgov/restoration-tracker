@@ -7,7 +7,7 @@ import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditPartnershipsI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectPartnershipsForm, {
   IProjectPartnershipsForm,
   ProjectPartnershipsFormInitialValues,
   ProjectPartnershipsFormYupSchema
@@ -17,7 +17,6 @@ import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse, UPDATE_GET_ENTITIES } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useState } from 'react';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 
 export interface IPartnershipsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -83,18 +82,18 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
     }
 
     setPartnershipsForUpdate({
-      indigenous_partnerships: partnershipsResponseData.indigenous_partnerships,
-      stakeholder_partnerships: partnershipsResponseData.stakeholder_partnerships
+      partnerships: {
+        indigenous_partnerships: partnershipsResponseData.indigenous_partnerships,
+        stakeholder_partnerships: partnershipsResponseData.stakeholder_partnerships
+      }
     });
 
     setOpenEditDialog(true);
   };
 
   const handleDialogEditSave = async (values: IProjectPartnershipsForm) => {
-    const projectData = { partnerships: values };
-
     try {
-      await restorationTrackerApi.project.updateProject(id, projectData);
+      await restorationTrackerApi.project.updateProject(id, values);
     } catch (error) {
       const apiError = error as APIError;
       showErrorDialog({ dialogText: apiError.message, open: true });
@@ -115,7 +114,20 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
         dialogTitle={EditPartnershipsI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectStepComponents component="ProjectPartnerships" codes={codes} />,
+          element: (
+            <ProjectPartnershipsForm
+              first_nations={
+                codes?.first_nations?.map((item) => {
+                  return { value: item.id, label: item.name };
+                }) || []
+              }
+              stakeholder_partnerships={
+                codes?.funding_source?.map((item) => {
+                  return { value: item.name, label: item.name };
+                }) || []
+              }
+            />
+          ),
           initialValues: partnershipsForUpdate,
           validationSchema: ProjectPartnershipsFormYupSchema
         }}

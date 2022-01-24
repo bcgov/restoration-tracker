@@ -19,14 +19,10 @@ export const getPublicProjectSQL = (projectId: number): SQLStatement | null => {
   const sqlStatement = SQL`
     SELECT
       project.project_id as id,
-      project_type.name as type,
       project.name,
       project.objectives,
-      project.location_description,
       project.start_date,
       project.end_date,
-      project.caveats,
-      project.comments,
       project.coordinator_first_name,
       project.coordinator_last_name,
       project.coordinator_email_address,
@@ -35,9 +31,6 @@ export const getPublicProjectSQL = (projectId: number): SQLStatement | null => {
       project.publish_timestamp as publish_date
     from
       project
-    left outer join
-      project_type
-        on project.project_type_id = project_type.project_type_id
     where
       project.project_id = ${projectId}
     and project.publish_timestamp is not null;
@@ -106,7 +99,6 @@ export const getLocationByPublicProjectSQL = (projectId: number): SQLStatement |
 
   const sqlStatement = SQL`
     SELECT
-      p.location_description,
       psc.geojson as geometry,
       p.revision_count
     FROM
@@ -118,7 +110,6 @@ export const getLocationByPublicProjectSQL = (projectId: number): SQLStatement |
     WHERE
       p.project_id = ${projectId}
     GROUP BY
-      p.location_description,
       psc.geojson,
       p.revision_count;
   `;
@@ -351,12 +342,9 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       p.start_date,
       p.end_date,
       p.coordinator_agency_name,
-      pt.name as project_type,
       string_agg(DISTINCT pp.number, ', ') as permits_list
     from
       project as p
-    left outer join project_type as pt
-      on p.project_type_id = pt.project_type_id
     left outer join permit as pp
       on p.project_id = pp.project_id
     where
@@ -369,8 +357,7 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       p.name,
       p.start_date,
       p.end_date,
-      p.coordinator_agency_name,
-      pt.name;
+      p.coordinator_agency_name
   `);
 
   defaultLog.debug({

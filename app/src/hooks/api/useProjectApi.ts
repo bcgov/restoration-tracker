@@ -157,7 +157,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @return {*}  {Promise<ICreateProjectResponse>}
    */
   const createProject = async (project: ICreateProjectRequest): Promise<ICreateProjectResponse> => {
-    const { data } = await axios.post('/api/project', project);
+    const { data } = await axios.post('/api/project/create', project);
 
     return data;
   };

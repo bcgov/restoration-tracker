@@ -1,12 +1,6 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
-import {
-  PostCoordinatorData,
-  PostFundingSource,
-  PostLocationData,
-  PostObjectivesData,
-  PostProjectData
-} from '../../models/project-create';
+import { PostCoordinatorData, PostFundingSource, PostLocationData, PostProjectData } from '../../models/project-create';
 import {
   postProjectBoundarySQL,
   postProjectFundingSourceSQL,
@@ -20,9 +14,7 @@ describe('postProjectSQL', () => {
   describe('Null project param provided', () => {
     it('returns null', () => {
       // force the function to accept a null value
-      const response = postProjectSQL(
-        (null as unknown) as PostProjectData & PostLocationData & PostCoordinatorData & PostObjectivesData
-      );
+      const response = postProjectSQL((null as unknown) as PostProjectData & PostLocationData & PostCoordinatorData);
 
       expect(response).to.be.null;
     });
@@ -33,9 +25,7 @@ describe('postProjectSQL', () => {
       name: 'name_test_data',
       objectives: 'objectives_test_data',
       start_date: 'start_date_test_data',
-      end_date: 'end_date_test_data',
-      caveats: 'caveats_test_data',
-      comments: 'comments_test_data'
+      end_date: 'end_date_test_data'
     };
 
     const coordinatorData = {
@@ -46,26 +36,17 @@ describe('postProjectSQL', () => {
       share_contact_details: false
     };
 
-    const locationData = {
-      location_description: 'a location description'
-    };
-
-    const objectivesData = {
-      objectives: 'an objective',
-      caveats: 'a caveat maybe'
-    };
+    const locationData = {};
 
     const postProjectData = new PostProjectData(projectData);
     const postCoordinatorData = new PostCoordinatorData(coordinatorData);
-    const postObjectivesData = new PostObjectivesData(objectivesData);
 
     it('returns a SQLStatement', () => {
       const postLocationData = new PostLocationData(locationData);
       const response = postProjectSQL({
         ...postProjectData,
         ...postCoordinatorData,
-        ...postLocationData,
-        ...postObjectivesData
+        ...postLocationData
       });
 
       expect(response).to.not.be.null;

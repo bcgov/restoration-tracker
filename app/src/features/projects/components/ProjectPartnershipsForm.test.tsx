@@ -50,8 +50,10 @@ describe('ProjectPartnershipsForm', () => {
 
   it('renders correctly with existing funding values', () => {
     const existingFormValues: IProjectPartnershipsForm = {
-      indigenous_partnerships: [1, 2],
-      stakeholder_partnerships: ['partner 1']
+      partnerships: {
+        indigenous_partnerships: [1, 2],
+        stakeholder_partnerships: ['partner 1']
+      }
     };
 
     const { asFragment } = render(

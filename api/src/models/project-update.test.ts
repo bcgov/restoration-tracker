@@ -3,10 +3,8 @@ import { describe } from 'mocha';
 import {
   GetCoordinatorData,
   GetPartnershipsData,
-  GetObjectivesData,
   PutCoordinatorData,
   PutPartnershipsData,
-  PutObjectivesData,
   GetLocationData,
   GetProjectData,
   PutProjectData,
@@ -25,10 +23,6 @@ describe('PutLocationData', () => {
       data = new PutLocationData(null);
     });
 
-    it('sets location_description', () => {
-      expect(data.location_description).to.equal(null);
-    });
-
     it('sets geometry', () => {
       expect(data.geometry).to.eql([]);
     });
@@ -42,7 +36,6 @@ describe('PutLocationData', () => {
     let data: PutLocationData;
 
     const obj = {
-      location_description: 'location',
       geometry: [
         {
           type: 'Polygon',
@@ -65,10 +58,6 @@ describe('PutLocationData', () => {
 
     before(() => {
       data = new PutLocationData(obj);
-    });
-
-    it('sets location_description', () => {
-      expect(data.location_description).to.equal(obj.location_description);
     });
 
     it('sets geometry', () => {
@@ -475,112 +464,12 @@ describe('GetPermitData', () => {
   });
 });
 
-describe('GetObjectivesData', () => {
-  describe('No values provided', () => {
-    let data: GetObjectivesData;
-
-    before(() => {
-      data = new GetObjectivesData(null);
-    });
-
-    it('sets objectives', () => {
-      expect(data.objectives).to.equal('');
-    });
-
-    it('sets caveats', () => {
-      expect(data.caveats).to.equal('');
-    });
-
-    it('sets revision_count', () => {
-      expect(data.revision_count).to.equal(null);
-    });
-  });
-
-  describe('all values provided', () => {
-    const obj = {
-      objectives: 'objectives',
-      caveats: 'caveats',
-      revision_count: 1
-    };
-
-    let data: GetObjectivesData;
-
-    before(() => {
-      data = new GetObjectivesData(obj);
-    });
-
-    it('sets objectives', () => {
-      expect(data.objectives).to.equal(obj.objectives);
-    });
-
-    it('sets caveats', () => {
-      expect(data.caveats).to.equal(obj.caveats);
-    });
-
-    it('sets revision_count', () => {
-      expect(data.revision_count).to.equal(obj.revision_count);
-    });
-  });
-});
-
-describe('PutObjectivesData', () => {
-  describe('No values provided', () => {
-    let data: PutObjectivesData;
-
-    before(() => {
-      data = new PutObjectivesData(null);
-    });
-
-    it('sets objectives', () => {
-      expect(data.objectives).to.equal('');
-    });
-
-    it('sets caveats', () => {
-      expect(data.caveats).to.equal('');
-    });
-
-    it('sets revision_count', () => {
-      expect(data.revision_count).to.equal(null);
-    });
-  });
-
-  describe('all values provided', () => {
-    const obj = {
-      objectives: 'objectives',
-      caveats: 'caveats',
-      revision_count: 1
-    };
-
-    let data: PutObjectivesData;
-
-    before(() => {
-      data = new PutObjectivesData(obj);
-    });
-
-    it('sets objectives', () => {
-      expect(data.objectives).to.equal(obj.objectives);
-    });
-
-    it('sets caveats', () => {
-      expect(data.caveats).to.equal(obj.caveats);
-    });
-
-    it('sets revision_count', () => {
-      expect(data.revision_count).to.equal(obj.revision_count);
-    });
-  });
-});
-
 describe('GetLocationData', () => {
   describe('No values provided', () => {
     let locationData: GetLocationData;
 
     before(() => {
       locationData = new GetLocationData(null);
-    });
-
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal('');
     });
 
     it('sets the geometry', function () {
@@ -595,7 +484,6 @@ describe('GetLocationData', () => {
   describe('All values provided', () => {
     let locationData: GetLocationData;
 
-    const location_description = 'location description';
     const geometry = [
       {
         type: 'Feature',
@@ -612,12 +500,10 @@ describe('GetLocationData', () => {
 
     const locationDataObj = [
       {
-        location_description,
         geometry,
         revision_count
       },
       {
-        location_description,
         geometry,
         revision_count
       }
@@ -625,10 +511,6 @@ describe('GetLocationData', () => {
 
     before(() => {
       locationData = new GetLocationData(locationDataObj);
-    });
-
-    it('sets location_description', function () {
-      expect(locationData.location_description).to.equal(location_description);
     });
 
     it('sets the geometry', function () {
@@ -653,10 +535,6 @@ describe('GetProjectData', () => {
       expect(data.project_name).to.equal('');
     });
 
-    it('sets type', () => {
-      expect(data.project_type).to.equal('');
-    });
-
     it('sets start_date', () => {
       expect(data.start_date).to.equal('');
     });
@@ -673,7 +551,6 @@ describe('GetProjectData', () => {
   describe('all values provided', () => {
     const projectData = {
       name: 'project name',
-      pt_id: 4,
       start_date: '2020-04-20T07:00:00.000Z',
       end_date: '2020-05-20T07:00:00.000Z',
       revision_count: 1
@@ -687,10 +564,6 @@ describe('GetProjectData', () => {
 
     it('sets name', () => {
       expect(data.project_name).to.equal('project name');
-    });
-
-    it('sets type', () => {
-      expect(data.project_type).to.equal(4);
     });
 
     it('sets start_date', () => {
@@ -719,16 +592,16 @@ describe('PutProjectData', () => {
       expect(data.name).to.equal(null);
     });
 
-    it('sets type', () => {
-      expect(data.type).to.equal(null);
-    });
-
     it('sets start_date', () => {
       expect(data.start_date).to.equal(null);
     });
 
     it('sets end_date', () => {
       expect(data.end_date).to.equal(null);
+    });
+
+    it('sets objectives', () => {
+      expect(data.objectives).to.equal(null);
     });
 
     it('sets revision_count', () => {
@@ -739,7 +612,6 @@ describe('PutProjectData', () => {
   describe('all values provided', () => {
     const obj = {
       project_name: 'project name',
-      project_type: 4,
       start_date: '2020-04-20T07:00:00.000Z',
       end_date: '2020-05-20T07:00:00.000Z',
       revision_count: 1
@@ -753,10 +625,6 @@ describe('PutProjectData', () => {
 
     it('sets name', () => {
       expect(data.name).to.equal('project name');
-    });
-
-    it('sets type', () => {
-      expect(data.type).to.equal(4);
     });
 
     it('sets start_date', () => {

@@ -38,14 +38,6 @@ const PublicGeneralInformation: React.FC<IPublicProjectDetailsProps> = (props) =
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <Typography component="dt" variant="subtitle2" color="textSecondary">
-              Project Type
-            </Typography>
-            <Typography component="dd" variant="body1">
-              {project.project_type}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary">
               Timeline
             </Typography>
             <Typography component="dd" variant="body1">

@@ -24,24 +24,23 @@ export class PutIUCNData {
 
 export class PutProjectData {
   name: string;
-  type: number;
   start_date: string;
   end_date: string;
+  objectives: string;
   revision_count: number;
 
   constructor(obj?: any) {
     defaultLog.debug({ label: 'PutProjectData', message: 'params', obj });
 
     this.name = obj?.project_name || null;
-    this.type = obj?.project_type || null;
     this.start_date = obj?.start_date || null;
     this.end_date = obj?.end_date || null;
+    this.objectives = obj?.objectives || null;
     this.revision_count = obj?.revision_count ?? null;
   }
 }
 
 export class PutLocationData {
-  location_description: string;
   geometry: Feature[];
   revision_count: number;
 
@@ -57,22 +56,7 @@ export class PutLocationData {
       }
     });
 
-    this.location_description = (obj && obj.location_description) || null;
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
-    this.revision_count = obj?.revision_count ?? null;
-  }
-}
-
-export class PutObjectivesData {
-  objectives: string;
-  caveats: string;
-  revision_count: number;
-
-  constructor(obj?: any) {
-    defaultLog.debug({ label: 'PutObjectivesData', message: 'params', obj });
-
-    this.objectives = obj?.objectives || '';
-    this.caveats = obj?.caveats || '';
     this.revision_count = obj?.revision_count ?? null;
   }
 }
@@ -189,20 +173,6 @@ export class GetIUCNClassificationData {
   }
 }
 
-export class GetObjectivesData {
-  objectives: string;
-  caveats: string;
-  revision_count: number;
-
-  constructor(obj?: any) {
-    defaultLog.debug({ label: 'GetObjectivesData', message: 'params', obj });
-
-    this.objectives = obj?.objectives || '';
-    this.caveats = obj?.caveats || '';
-    this.revision_count = obj?.revision_count ?? null;
-  }
-}
-
 /**
  * Pre-processes GET /projects/{id} location data
  *
@@ -210,7 +180,6 @@ export class GetObjectivesData {
  * @class GetLocationData
  */
 export class GetLocationData {
-  location_description: string;
   geometry?: Feature[];
   revision_count: number;
 
@@ -225,7 +194,6 @@ export class GetLocationData {
 
     const locationDataItem = locationData && locationData.length && locationData[0];
 
-    this.location_description = locationDataItem?.location_description || '';
     this.geometry = (locationDataItem?.geometry?.length && locationDataItem.geometry) || [];
     this.revision_count = locationDataItem?.revision_count ?? null;
   }
@@ -239,7 +207,6 @@ export class GetLocationData {
  */
 export class GetProjectData {
   project_name: string;
-  project_type: number;
   start_date: string;
   end_date: string;
   revision_count: number;
@@ -249,7 +216,6 @@ export class GetProjectData {
     defaultLog.debug({ label: 'GetProjectData', message: 'params', projectData });
 
     this.project_name = projectData?.name || '';
-    this.project_type = projectData?.pt_id || '';
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
     this.revision_count = projectData?.revision_count ?? null;

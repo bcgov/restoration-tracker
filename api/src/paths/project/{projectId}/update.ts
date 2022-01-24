@@ -3,12 +3,11 @@ import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../constants/roles';
 import { getDBConnection, IDBConnection } from '../../../database/db';
 import { HTTP400, HTTP409, HTTP500 } from '../../../errors/custom-error';
-import { IPostExistingPermit, IPostPermit, PostPermitData } from '../../../models/project-create';
+import { IPostPermit, PostPermitData } from '../../../models/project-create';
 import {
   GetCoordinatorData,
   GetIUCNClassificationData,
   GetLocationData,
-  GetObjectivesData,
   GetPartnershipsData,
   GetPermitData,
   GetProjectData,
@@ -17,7 +16,6 @@ import {
   PutFundingSource,
   PutIUCNData,
   PutLocationData,
-  PutObjectivesData,
   PutPartnershipsData,
   PutProjectData
 } from '../../../models/project-update';
@@ -28,12 +26,11 @@ import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
 import { getLogger } from '../../../utils/logger';
 import {
-  associateExistingPermitToProject,
   insertClassificationDetail,
   insertIndigenousNation,
   insertPermit,
   insertStakeholderPartnership
-} from '../../project';
+} from '../../project/create';
 
 const defaultLog = getLogger('paths/project/{projectId}/update');
 
@@ -56,7 +53,6 @@ export enum GET_ENTITIES {
   coordinator = 'coordinator',
   permit = 'permit',
   project = 'project',
-  objectives = 'objectives',
   location = 'location',
   iucn = 'iucn',
   funding = 'funding',
@@ -107,13 +103,10 @@ GET.apiDoc = {
               project: {
                 description: 'Basic project metadata',
                 type: 'object',
-                required: ['project_name', 'project_type', 'start_date', 'end_date', 'publish_date', 'revision_count'],
+                required: ['project_name', 'start_date', 'end_date', 'publish_date', 'revision_count'],
                 properties: {
                   project_name: {
                     type: 'string'
-                  },
-                  project_type: {
-                    type: 'number'
                   },
                   start_date: {
                     type: 'string',
@@ -189,27 +182,11 @@ GET.apiDoc = {
                   }
                 }
               },
-              objectives: {
-                description: 'The project objectives and caveats',
-                type: 'object',
-                required: ['objectives', 'caveats'],
-                properties: {
-                  objectives: {
-                    type: 'string'
-                  },
-                  caveats: {
-                    type: 'string'
-                  }
-                }
-              },
               location: {
                 description: 'The project location object',
                 type: 'object',
-                required: ['location_description', 'geometry'],
+                required: ['geometry'],
                 properties: {
-                  location_description: {
-                    type: 'string'
-                  },
                   geometry: {
                     type: 'array',
                     items: {
@@ -337,7 +314,6 @@ export interface IGetProjectForUpdate {
   coordinator: GetCoordinatorData | null;
   permit: any;
   project: any;
-  objectives: GetObjectivesData | null;
   location: any;
   iucn: GetIUCNClassificationData | null;
   funding: GetFundingData | null;
@@ -368,7 +344,6 @@ function getProjectForUpdate(): RequestHandler {
         coordinator: null,
         permit: null,
         project: null,
-        objectives: null,
         location: null,
         iucn: null,
         funding: null,
@@ -413,14 +388,6 @@ function getProjectForUpdate(): RequestHandler {
         promises.push(
           getIUCNClassificationData(projectId, connection).then((value) => {
             results.iucn = value;
-          })
-        );
-      }
-
-      if (entities.includes(GET_ENTITIES.objectives)) {
-        promises.push(
-          getObjectivesData(projectId, connection).then((value) => {
-            results.objectives = value;
           })
         );
       }
@@ -552,24 +519,6 @@ export const getPartnershipsData = async (projectId: number, connection: IDBConn
   }
 
   return new GetPartnershipsData(resultIndigenous, resultStakeholder);
-};
-
-export const getObjectivesData = async (projectId: number, connection: IDBConnection): Promise<GetObjectivesData> => {
-  const sqlStatement = queries.project.getObjectivesByProjectSQL(projectId);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL get statement');
-  }
-
-  const response = await connection.query(sqlStatement.text, sqlStatement.values);
-
-  const result = (response && response.rows && response.rows[0]) || null;
-
-  if (!result) {
-    throw new HTTP400('Failed to get project objectives data');
-  }
-
-  return new GetObjectivesData(result);
 };
 
 export const getProjectData = async (projectId: number, connection: IDBConnection): Promise<any> => {
@@ -758,13 +707,7 @@ export const updateProjectPermitData = async (
       return insertPermit(permit.permit_number, permit.permit_type, projectId, connection);
     }) || [];
 
-  // Handle existing non-sampling permits which are now being associated to a project
-  const updateExistingPermitPromises =
-    putPermitData?.existing_permits?.map((existing_permit: IPostExistingPermit) => {
-      return associateExistingPermitToProject(existing_permit.permit_id, projectId, connection);
-    }) || [];
-
-  await Promise.all([insertPermitPromises, updateExistingPermitPromises]);
+  await Promise.all([insertPermitPromises]);
 };
 
 export const updateProjectIUCNData = async (
@@ -851,16 +794,11 @@ export const updateProjectData = async (
 ): Promise<void> => {
   const putProjectData = (entities?.project && new PutProjectData(entities.project)) || null;
   const putLocationData = (entities?.location && new PutLocationData(entities.location)) || null;
-  const putObjectivesData = (entities?.objectives && new PutObjectivesData(entities.objectives)) || null;
   const putCoordinatorData = (entities?.coordinator && new PutCoordinatorData(entities.coordinator)) || null;
 
   // Update project table
   const revision_count =
-    putProjectData?.revision_count ??
-    putLocationData?.revision_count ??
-    putObjectivesData?.revision_count ??
-    putCoordinatorData?.revision_count ??
-    null;
+    putProjectData?.revision_count ?? putLocationData?.revision_count ?? putCoordinatorData?.revision_count ?? null;
 
   if (!revision_count && revision_count !== 0) {
     throw new HTTP400('Failed to parse request body');
@@ -870,7 +808,6 @@ export const updateProjectData = async (
     projectId,
     putProjectData,
     putLocationData,
-    putObjectivesData,
     putCoordinatorData,
     revision_count
   );

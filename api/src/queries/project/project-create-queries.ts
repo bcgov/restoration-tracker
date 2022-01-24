@@ -3,7 +3,6 @@ import {
   PostCoordinatorData,
   PostFundingSource,
   PostLocationData,
-  PostObjectivesData,
   PostProjectData,
   PostProjectObject
 } from '../../models/project-create';
@@ -15,11 +14,11 @@ const defaultLog = getLogger('queries/project/project-create-queries');
 /**
  * SQL query to insert a project row.
  *
- * @param {(PostProjectData & PostLocationData & PostCoordinatorData & PostObjectivesData)} project
+ * @param {(PostProjectData & PostLocationData & PostCoordinatorData)} project
  * @returns {SQLStatement} sql query object
  */
 export const postProjectSQL = (
-  project: PostProjectData & PostLocationData & PostCoordinatorData & PostObjectivesData
+  project: PostProjectData & PostLocationData & PostCoordinatorData
 ): SQLStatement | null => {
   defaultLog.debug({ label: 'postProjectSQL', message: 'params', PostProjectObject });
 
@@ -29,29 +28,20 @@ export const postProjectSQL = (
 
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO project (
-      project_type_id,
       name,
       objectives,
-      location_description,
       start_date,
       end_date,
-      caveats,
-      comments,
       coordinator_first_name,
       coordinator_last_name,
       coordinator_email_address,
       coordinator_agency_name,
       coordinator_public
-
     ) VALUES (
-      ${project.type},
       ${project.name},
       ${project.objectives},
-      ${project.location_description},
       ${project.start_date},
       ${project.end_date},
-      ${project.caveats},
-      ${project.comments},
       ${project.first_name},
       ${project.last_name},
       ${project.email_address},

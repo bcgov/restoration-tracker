@@ -13,10 +13,8 @@ const defaultLog = getLogger('models/project-view');
  */
 export class GetProjectData {
   project_name: string;
-  project_type: string;
   start_date: string;
   end_date: string;
-  comments: string;
   completion_status: string;
   publish_date: string;
 
@@ -28,10 +26,8 @@ export class GetProjectData {
     });
 
     this.project_name = projectData?.name || '';
-    this.project_type = projectData?.type || '';
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
-    this.comments = projectData?.comments || '';
     this.completion_status =
       (projectData &&
         projectData.end_date &&
@@ -82,7 +78,6 @@ export class GetPermitData {
  * @class GetLocationData
  */
 export class GetLocationData {
-  location_description: string;
   geometry?: Feature[];
 
   constructor(locationData?: any) {
@@ -95,31 +90,7 @@ export class GetLocationData {
     });
 
     const locationDataItem = locationData && locationData.length && locationData[0];
-
-    this.location_description = locationDataItem?.location_description || '';
     this.geometry = (locationDataItem?.geometry?.length && locationDataItem.geometry) || [];
-  }
-}
-
-/**
- * Pre-processes GET /projects/{id} objectives data
- *
- * @export
- * @class GetObjectivesData
- */
-export class GetObjectivesData {
-  objectives: string;
-  caveats: string;
-
-  constructor(objectivesData?: any) {
-    defaultLog.debug({
-      label: 'GetObjectivesData',
-      message: 'params',
-      objectivesData: { ...objectivesData, geometry: 'Too big to print' }
-    });
-
-    this.objectives = objectivesData?.objectives || '';
-    this.caveats = objectivesData?.caveats || '';
   }
 }
 

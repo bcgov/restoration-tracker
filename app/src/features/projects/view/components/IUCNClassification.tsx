@@ -12,7 +12,7 @@ import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { EditIUCNI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import {
+import ProjectIUCNForm, {
   IProjectIUCNForm,
   ProjectIUCNFormArrayItemInitialValues,
   ProjectIUCNFormInitialValues,
@@ -23,7 +23,6 @@ import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse, UPDATE_GET_ENTITIES } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useState } from 'react';
-import ProjectStepComponents from 'utils/ProjectStepComponents';
 
 export interface IIUCNClassificationProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -98,17 +97,17 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
     }
 
     setIucnFormData({
-      classificationDetails: iucnResponseData.classificationDetails
+      iucn: {
+        classificationDetails: iucnResponseData.classificationDetails
+      }
     });
 
     setOpenEditDialog(true);
   };
 
   const handleDialogEditSave = async (values: IProjectIUCNForm) => {
-    const projectData = { iucn: values };
-
     try {
-      await restorationTrackerApi.project.updateProject(id, projectData);
+      await restorationTrackerApi.project.updateProject(id, values);
     } catch (error) {
       const apiError = error as APIError;
       showErrorDialog({ dialogText: apiError.message, open: true });
@@ -128,10 +127,28 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
         dialogTitle={EditIUCNI18N.editTitle}
         open={openEditDialog}
         component={{
-          element: <ProjectStepComponents component="ProjectIUCN" codes={codes} />,
-          initialValues: iucnFormData?.classificationDetails?.length
+          element: (
+            <ProjectIUCNForm
+              classifications={
+                codes?.iucn_conservation_action_level_1_classification?.map((item) => {
+                  return { value: item.id, label: item.name };
+                }) || []
+              }
+              subClassifications1={
+                codes?.iucn_conservation_action_level_2_subclassification?.map((item) => {
+                  return { value: item.id, iucn1_id: item.iucn1_id, label: item.name };
+                }) || []
+              }
+              subClassifications2={
+                codes?.iucn_conservation_action_level_3_subclassification?.map((item) => {
+                  return { value: item.id, iucn2_id: item.iucn2_id, label: item.name };
+                }) || []
+              }
+            />
+          ),
+          initialValues: iucnFormData.iucn?.classificationDetails?.length
             ? iucnFormData
-            : { classificationDetails: [ProjectIUCNFormArrayItemInitialValues] },
+            : { iucn: { classificationDetails: [ProjectIUCNFormArrayItemInitialValues] } },
           validationSchema: ProjectIUCNFormYupSchema
         }}
         onCancel={() => setOpenEditDialog(false)}

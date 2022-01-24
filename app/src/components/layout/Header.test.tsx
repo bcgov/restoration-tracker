@@ -9,49 +9,41 @@ import Header from './Header';
 const history = createMemoryHistory();
 
 describe('Header', () => {
-  // it('renders correctly with project admin role', () => {
-  //   const mockHasSystemRole = jest.fn();
+  it('renders correctly with project admin role', () => {
+    const mockHasSystemRole = jest.fn();
 
-  //   mockHasSystemRole
-  //     .mockReturnValueOnce(true) // Return true when the `Projects` secure link is parsed
-  //     .mockReturnValueOnce(true) // Return true when the `Permits` secure link is parsed
-  //     .mockReturnValueOnce(false) // Return false when the `Manage Users` secure link is parsed
-  //     .mockReturnValueOnce(true) // Return true when the `Map` secure link is parsed
-  //     .mockReturnValueOnce(true); // Return true when the `Resources` secure link is parsed
+    mockHasSystemRole.mockReturnValueOnce(false); // Return false when the `Manage Users` secure link is parsed
 
-  //   const authState = {
-  //     keycloakWrapper: {
-  //       keycloak: {
-  //         authenticated: true
-  //       },
-  //       hasLoadedAllUserInfo: true,
-  //       systemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
-  //       getUserIdentifier: () => 'testuser',
-  //       hasAccessRequest: false,
-  //       hasSystemRole: mockHasSystemRole,
-  //       getIdentitySource: () => 'idir',
-  //       username: 'testusername',
-  //       displayName: 'testdisplayname',
-  //       email: 'test@email.com',
-  //       lastName: 'testlast',
-  //       refresh: () => {}
-  //     }
-  //   };
+    const authState = {
+      keycloakWrapper: {
+        keycloak: {
+          authenticated: true
+        },
+        hasLoadedAllUserInfo: true,
+        systemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
+        getUserIdentifier: () => 'testuser',
+        hasAccessRequest: false,
+        hasSystemRole: mockHasSystemRole,
+        getIdentitySource: () => 'idir',
+        username: 'testusername',
+        displayName: 'testdisplayname',
+        email: 'test@email.com',
+        lastName: 'testlast',
+        refresh: () => {}
+      }
+    };
 
-  //   const { getByText, queryByText } = render(
-  //     <AuthStateContext.Provider value={authState}>
-  //       <Router history={history}>
-  //         <Header />
-  //       </Router>
-  //     </AuthStateContext.Provider>
-  //   );
+    const { getByText, queryByText } = render(
+      <AuthStateContext.Provider value={authState}>
+        <Router history={history}>
+          <Header />
+        </Router>
+      </AuthStateContext.Provider>
+    );
 
-  //   expect(getByText('Projects')).toBeVisible();
-  //   expect(getByText('Permits')).toBeVisible();
-  //   expect(getByText('Map')).toBeVisible();
-  //   expect(queryByText('Manage Users')).not.toBeInTheDocument();
-  //   expect(queryByText('Resources')).toBeInTheDocument();
-  // });
+    expect(getByText('Projects')).toBeVisible();
+    expect(queryByText('Manage Users')).not.toBeInTheDocument();
+  });
 
   it('renders correctly with system admin role', () => {
     const mockHasSystemRole = jest.fn();
@@ -92,7 +84,6 @@ describe('Header', () => {
     );
 
     expect(getByText('Projects')).toBeVisible();
-    expect(getByText('Permits')).toBeVisible();
     expect(getByText('Manage Users')).toBeVisible();
   });
 

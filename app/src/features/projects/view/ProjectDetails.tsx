@@ -6,7 +6,6 @@ import GeneralInformation from 'features/projects/view/components/GeneralInforma
 import IUCNClassification from 'features/projects/view/components/IUCNClassification';
 import Partnerships from 'features/projects/view/components/Partnerships';
 import ProjectCoordinator from 'features/projects/view/components/ProjectCoordinator';
-import ProjectObjectives from 'features/projects/view/components/ProjectObjectives';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
@@ -32,9 +31,6 @@ const ProjectDetails: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="h2">Project Details</Typography>
         <Box component="section" mt={1}>
           <GeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-        </Box>
-        <Box component="section" mt={3}>
-          <ProjectObjectives projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
         <Box component="section" mt={3}>
           <ProjectCoordinator projectForViewData={projectForViewData} codes={codes} refresh={refresh} />

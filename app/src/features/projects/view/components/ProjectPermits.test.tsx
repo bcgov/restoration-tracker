@@ -37,7 +37,6 @@ describe('ProjectPermits', () => {
     // clear mocks before each test
     mockRestorationTrackerApi().project.getProjectForUpdate.mockClear();
     mockRestorationTrackerApi().project.updateProject.mockClear();
-    mockRestorationTrackerApi().permit.getNonSamplingPermits.mockClear();
   });
 
   afterEach(() => {
