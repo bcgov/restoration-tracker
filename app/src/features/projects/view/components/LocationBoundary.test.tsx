@@ -26,7 +26,7 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
 
 const mockRefresh = jest.fn();
 
-describe.only('LocationBoundary', () => {
+describe('LocationBoundary', () => {
   beforeEach(() => {
     // clear mocks before each test
     mockRestorationTrackerApi().project.getProjectForUpdate.mockClear();

@@ -1,4 +1,3 @@
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import CustomTextField from 'components/fields/CustomTextField';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
@@ -43,32 +42,18 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
 const ProjectGeneralInformationForm: React.FC = () => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
-  const { values, touched, handleChange, errors } = formikProps;
-
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={9}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <TextField
-              name="project.project_name"
-              label="Project Name"
-              id="project.project_name"
-              onChange={handleChange}
-              variant="outlined"
-              value={values.project.project_name}
-              fullWidth={true}
-              required={true}
-              error={touched.project?.project_name && Boolean(errors.project?.project_name)}
-              helperText={touched.project?.project_name && errors.project?.project_name}
-            />
-            {/* <CustomTextField
+            <CustomTextField
               name="project.project_name"
               label="Project Name"
               other={{
                 required: true
               }}
-            /> */}
+            />
           </Grid>
           <StartEndDateFields
             formikProps={formikProps}

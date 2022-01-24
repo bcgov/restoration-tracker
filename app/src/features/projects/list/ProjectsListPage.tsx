@@ -282,7 +282,6 @@ const ProjectsListPage: React.FC = () => {
                   <TableCell />
                   <TableCell />
                   <TableCell />
-                  <TableCell />
                   <TableCell>{getChipIcon('Draft')}</TableCell>
                   <TableCell>{getChipIcon('Unpublished')}</TableCell>
                 </TableRow>
