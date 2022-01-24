@@ -5,7 +5,6 @@ import ViewProjectPage from 'features/projects/view/ViewProjectPage';
 import React from 'react';
 import { Redirect, Switch } from 'react-router';
 import AppRoute from 'utils/AppRoute';
-
 import ProjectParticipantsPage from './participants/ProjectParticipantsPage';
 
 /**
@@ -25,6 +24,7 @@ const ProjectsRouter: React.FC = () => {
 
       <AppRoute exact path="/admin/projects/create" layout={ProjectsLayout}>
         <ProjectsLayout>
+          {/* <CreateRestoProjectPage /> */}
           <CreateProjectPage />
         </ProjectsLayout>
       </AppRoute>
