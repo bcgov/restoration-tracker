@@ -1,4 +1,3 @@
-import React from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -19,15 +18,17 @@ import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Select from '@material-ui/core/Select';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft } from '@mdi/js';
 import Icon from '@mdi/react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import ProjectPermits from './components/ProjectPermits';
+import IUCNClassification from 'features/projects/view/components/IUCNClassification';
+import Partnerships from 'features/projects/view/components/Partnerships';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
-import IUCNClassification from 'features/projects/view/components/IUCNClassification';
+import React from 'react';
+import ProjectPermits from './components/ProjectPermits';
 
 export interface IProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -334,6 +335,13 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                     </Box>
                   </li>
                 </ul>
+              </Box>
+              <Divider></Divider>
+
+              <Box component="section">
+                <Box component="section" mt={3}>
+                  <Partnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+                </Box>
               </Box>
             </Box>
           </Box>
