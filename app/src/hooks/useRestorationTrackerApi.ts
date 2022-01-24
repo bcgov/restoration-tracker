@@ -7,7 +7,6 @@ import useExternalApi from './api/useExternalApi';
 import useProjectApi, { usePublicProjectApi } from './api/useProjectApi';
 import useSearchApi, { usePublicSearchApi } from './api/useSearchApi';
 import useUserApi from './api/useUserApi';
-import usePermitApi from './api/usePermitApi';
 import { useContext } from 'react';
 import { ConfigContext } from 'contexts/configContext';
 
@@ -21,8 +20,6 @@ export const useRestorationTrackerApi = () => {
   const apiAxios = useAxios(config?.API_HOST);
 
   const project = useProjectApi(apiAxios);
-
-  const permit = usePermitApi(apiAxios);
 
   const search = useSearchApi(apiAxios);
 
@@ -43,7 +40,6 @@ export const useRestorationTrackerApi = () => {
 
   return {
     project,
-    permit,
     search,
     codes,
     draft,
