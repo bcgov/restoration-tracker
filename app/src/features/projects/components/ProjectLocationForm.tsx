@@ -18,9 +18,11 @@ import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { IAutocompleteFieldOption } from 'components/fields/AutocompleteField';
 import MapContainer from 'components/map/MapContainer';
+import { ProjectAttachmentValidExtensions } from 'constants/attachments';
 import { useFormikContext } from 'formik';
 import { Feature } from 'geojson';
 import React, { useState } from 'react';
+import { handleGPXUpload, handleKMLUpload, handleShapefileUpload } from 'utils/mapBoundaryUploadHelpers';
 import yup from 'utils/YupSchema';
 
 export interface IProjectLocationForm {
@@ -64,9 +66,15 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
   const [openUploadBoundary, setOpenUploadBoundary] = useState(false);
 
   const getUploadHandler = (): IUploadHandler => {
-    return async (file: File) => {
-      console.log(file);
-      // TODO use `formikProps.setFieldValue` to manually set the form `geometry` value based on the contents of the uploaded boundary file
+    return async (file) => {
+      if (file?.type.includes('zip') || file?.name.includes('.zip')) {
+        handleShapefileUpload(file, 'location.geometry', formikProps);
+      } else if (file?.type.includes('gpx') || file?.name.includes('.gpx')) {
+        handleGPXUpload(file, 'location.geometry', formikProps);
+      } else if (file?.type.includes('kml') || file?.name.includes('.kml')) {
+        handleKMLUpload(file, 'location.geometry', formikProps);
+      }
+
       return Promise.resolve();
     };
   };
@@ -177,7 +185,12 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
         open={openUploadBoundary}
         dialogTitle="Upload Project Boundary"
         onClose={() => setOpenUploadBoundary(false)}>
-        <FileUpload uploadHandler={getUploadHandler()} />
+        <FileUpload
+          uploadHandler={getUploadHandler()}
+          dropZoneProps={{
+            acceptedFileExtensions: ProjectAttachmentValidExtensions.SPATIAL
+          }}
+        />
       </ComponentDialog>
     </>
   );
