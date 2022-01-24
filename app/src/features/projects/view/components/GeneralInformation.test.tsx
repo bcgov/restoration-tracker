@@ -29,7 +29,7 @@ const renderContainer = () => {
   );
 };
 
-describe('ProjectDetails', () => {
+describe.skip('ProjectDetails', () => {
   beforeEach(() => {
     // clear mocks before each test
     mockRestorationTrackerApi().project.getProjectForUpdate.mockClear();
