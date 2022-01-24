@@ -112,8 +112,8 @@ describe('ProjectsListPage', () => {
 
     await waitFor(() => {
       expect(getByTestId('project-table')).toBeInTheDocument();
-      expect(getByText('PUBLISHED')).toBeInTheDocument();
-      expect(getByText('COMPLETED')).toBeInTheDocument();
+      expect(getByText('Published')).toBeInTheDocument();
+      expect(getByText('Completed')).toBeInTheDocument();
     });
   });
 
@@ -140,8 +140,8 @@ describe('ProjectsListPage', () => {
 
     await waitFor(() => {
       expect(getByTestId('project-table')).toBeInTheDocument();
-      expect(getByText('UNPUBLISHED')).toBeInTheDocument();
-      expect(getByText('ACTIVE')).toBeInTheDocument();
+      expect(getByText('Unpublished')).toBeInTheDocument();
+      expect(getByText('Active')).toBeInTheDocument();
     });
   });
 
