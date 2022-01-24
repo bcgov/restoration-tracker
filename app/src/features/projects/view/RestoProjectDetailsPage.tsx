@@ -243,13 +243,8 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                 <Typography variant="body1" component={'h3'}>
                   Project Permits
                 </Typography>
-                <Box component="section" mt={3}>
+                <Box component="ul" mt={3}  pl={3}>
                   <ProjectPermits projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-                </Box>
-
-                <Box component="ul" pl={3}>
-                  <li>1234567890 (Wildlife Permit - General)</li>
-                  <li>1234567890 (Wildlife Permit - General)</li>
                 </Box>
               </Box>
 
