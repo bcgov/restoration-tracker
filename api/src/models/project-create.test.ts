@@ -219,33 +219,7 @@ describe('PostPermitData', () => {
     });
   });
 
-  describe('All values provided with sampling conducted as true', () => {
-    let projectPermitData: PostPermitData;
-
-    const obj = {
-      permits: [
-        {
-          permit_number: '1',
-          permit_type: 'permit type'
-        }
-      ]
-    };
-
-    before(() => {
-      projectPermitData = new PostPermitData(obj);
-    });
-
-    it('sets permits', function () {
-      expect(projectPermitData.permits).to.eql([
-        {
-          permit_number: '1',
-          permit_type: 'permit type'
-        }
-      ]);
-    });
-  });
-
-  describe('All values provided with sampling conducted as false', () => {
+  describe('All values provided', () => {
     let projectPermitData: PostPermitData;
 
     const obj = {
