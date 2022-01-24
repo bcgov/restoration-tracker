@@ -44,7 +44,7 @@ export const handleShapefileUpload = <T>(file: File, name: string, formikProps: 
     let features: Feature[] = [];
     if (Array.isArray(geojson)) {
       geojson.forEach((item) => {
-        features.concat(item.features);
+        features = features.concat(item.features);
       });
     } else {
       features = geojson.features;
