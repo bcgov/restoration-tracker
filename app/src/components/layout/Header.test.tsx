@@ -12,8 +12,7 @@ describe('Header', () => {
   it('renders correctly with project admin role', () => {
     const mockHasSystemRole = jest.fn();
 
-    mockHasSystemRole
-      .mockReturnValueOnce(false) // Return false when the `Manage Users` secure link is parsed
+    mockHasSystemRole.mockReturnValueOnce(false); // Return false when the `Manage Users` secure link is parsed
 
     const authState = {
       keycloakWrapper: {
