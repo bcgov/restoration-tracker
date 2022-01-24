@@ -24,6 +24,15 @@ import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft } from '@mdi/js';
 import Icon from '@mdi/react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import ProjectPermits from './components/ProjectPermits';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+
+export interface IProjectDetailsProps {
+  projectForViewData: IGetProjectForViewResponse;
+  codes: IGetAllCodeSetsResponse;
+  refresh: () => void;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,7 +97,8 @@ const useStyles = makeStyles((theme: Theme) =>
  *
  * @return {*}
  */
-const RestoProjectDetailsPage: React.FC = () => {
+const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
+  const { projectForViewData, codes, refresh } = props;
   const classes = useStyles();
 
   // Funding Source Dialog Prototype
@@ -233,9 +243,8 @@ const RestoProjectDetailsPage: React.FC = () => {
                 <Typography variant="body1" component={'h3'}>
                   Project Permits
                 </Typography>
-                <Box component="ul" pl={3}>
-                  <li>1234567890 (Wildlife Permit - General)</li>
-                  <li>1234567890 (Wildlife Permit - General)</li>
+                <Box component="section" mt={3}>
+                  <ProjectPermits projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
                 </Box>
               </Box>
 
