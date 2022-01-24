@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { ConfigContext } from 'contexts/configContext';
+import { useContext } from 'react';
 import useAdminApi from './api/useAdminApi';
 import useAxios from './api/useAxios';
 import useCodesApi from './api/useCodesApi';
@@ -7,8 +9,6 @@ import useExternalApi from './api/useExternalApi';
 import useProjectApi, { usePublicProjectApi } from './api/useProjectApi';
 import useSearchApi, { usePublicSearchApi } from './api/useSearchApi';
 import useUserApi from './api/useUserApi';
-import { useContext } from 'react';
-import { ConfigContext } from 'contexts/configContext';
 
 /**
  * Returns a set of supported api methods.
