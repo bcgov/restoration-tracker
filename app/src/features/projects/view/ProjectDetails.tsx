@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import FundingSource from 'features/projects/view/components/FundingSource';
 import GeneralInformation from 'features/projects/view/components/GeneralInformation';
-import IUCNClassification from 'features/projects/view/components/IUCNClassification';
 import Partnerships from 'features/projects/view/components/Partnerships';
 import ProjectCoordinator from 'features/projects/view/components/ProjectCoordinator';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
@@ -33,9 +32,6 @@ const ProjectDetails: React.FC<IProjectDetailsProps> = (props) => {
         </Box>
         <Box component="section" mt={3}>
           <ProjectCoordinator projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-        </Box>
-        <Box component="section" mt={3}>
-          <IUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
         <Box component="section" mt={3}>
           <FundingSource projectForViewData={projectForViewData} codes={codes} refresh={refresh} />

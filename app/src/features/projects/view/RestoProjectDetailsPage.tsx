@@ -27,6 +27,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ProjectPermits from './components/ProjectPermits';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import IUCNClassification from 'features/projects/view/components/IUCNClassification';
 
 export interface IProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -232,8 +233,7 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                   IUCN Conservation Actions Classifications
                 </Typography>
                 <Box component="ul" pl={3}>
-                  <li>Classification &gt; Sub-classification &gt; Sub-classification</li>
-                  <li>Classification &gt; Sub-classification &gt; Sub-classification</li>
+                  <IUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
                 </Box>
               </Box>
 
@@ -243,7 +243,7 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                 <Typography variant="body1" component={'h3'}>
                   Project Permits
                 </Typography>
-                <Box component="ul" mt={3}  pl={3}>
+                <Box component="ul" mt={3} pl={3}>
                   <ProjectPermits projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
                 </Box>
               </Box>
