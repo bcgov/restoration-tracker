@@ -1,4 +1,4 @@
-import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
@@ -34,9 +34,9 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
         })}
 
       {!hasIucnClassifications && (
-        <Box component="ul">
-          <Box component="li">No IUCN Classifications</Box>
-        </Box>
+        <Typography component="dt" variant="body1">
+          No Classifications
+        </Typography>
       )}
     </>
   );
