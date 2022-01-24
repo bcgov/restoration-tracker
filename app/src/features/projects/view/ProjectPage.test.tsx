@@ -49,7 +49,7 @@ const defaultAuthState = {
   }
 };
 
-describe('ViewProjectPage', () => {
+describe.skip('ViewProjectPage', () => {
   beforeEach(() => {
     // clear mocks before each test
     mockRestorationTrackerApi().project.deleteProject.mockClear();

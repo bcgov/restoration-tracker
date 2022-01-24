@@ -187,7 +187,7 @@ POST.apiDoc = {
                 stakeholder_partnerships: {
                   type: 'array',
                   items: {
-                    type: 'number'
+                    type: 'string'
                   }
                 }
               }
