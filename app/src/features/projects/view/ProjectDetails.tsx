@@ -2,7 +2,6 @@ import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import FundingSource from 'features/projects/view/components/FundingSource';
-import GeneralInformation from 'features/projects/view/components/GeneralInformation';
 import ProjectCoordinator from 'features/projects/view/components/ProjectCoordinator';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
@@ -26,9 +25,6 @@ const ProjectDetails: React.FC<IProjectDetailsProps> = (props) => {
     <>
       <Box component={Paper} p={3}>
         <Typography variant="h2">Project Details</Typography>
-        <Box component="section" mt={1}>
-          <GeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-        </Box>
         <Box component="section" mt={3}>
           <ProjectCoordinator projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
