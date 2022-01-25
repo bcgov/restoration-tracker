@@ -29,9 +29,9 @@ export const postProjectSQL = (
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO project (
       name,
-      objectives,
       start_date,
       end_date,
+      objectives,
       coordinator_first_name,
       coordinator_last_name,
       coordinator_email_address,
