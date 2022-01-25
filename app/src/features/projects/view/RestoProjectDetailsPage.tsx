@@ -28,6 +28,7 @@ import Partnerships from 'features/projects/view/components/Partnerships';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import GeneralInformation from './components/GeneralInformation';
 import ProjectPermits from './components/ProjectPermits';
 
 export interface IProjectDetailsProps {
@@ -168,35 +169,9 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'}>
-                  General Information
-                </Typography>
-                <dl>
-                  <div>
-                    <Typography variant="body2" component="dd" color="textSecondary">
-                      Project Type:
-                    </Typography>
-                    <Typography variant="body2" component="dt">
-                      Project Type
-                    </Typography>
-                  </div>
-                  <div>
-                    <Typography variant="body2" component="dd" color="textSecondary">
-                      Start Date:
-                    </Typography>
-                    <Typography variant="body2" component="dt">
-                      MMM DD, YYYY
-                    </Typography>
-                  </div>
-                  <div>
-                    <Typography variant="body2" component="dd" color="textSecondary">
-                      Completion Date:
-                    </Typography>
-                    <Typography variant="body2" component="dt">
-                      MMM DD, YYYY
-                    </Typography>
-                  </div>
-                </dl>
+                <Box component="section" mt={3}>
+                  <GeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+                </Box>
               </Box>
 
               <Divider></Divider>
@@ -226,6 +201,8 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                   </li>
                 </ul>
               </Box>
+
+              <Divider></Divider>
 
               <Divider></Divider>
 
