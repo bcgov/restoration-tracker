@@ -21,7 +21,6 @@ import {
 } from '../../../models/project-update';
 import { GetFundingData } from '../../../models/project-view-update';
 import { geoJsonFeature } from '../../../openapi/schemas/geoJson';
-import { projectIdResponseObject, projectUpdatePutRequestObject } from '../../../openapi/schemas/project';
 import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
 import { getLogger } from '../../../utils/logger';
@@ -98,7 +97,7 @@ GET.apiDoc = {
           schema: {
             title: 'Project get response object, for update purposes',
             type: 'object',
-            required: ['project', 'permit', 'coordinator', 'objectives', 'location', 'iucn', 'funding', 'partnerships'],
+            required: ['project', 'permit', 'coordinator', 'location', 'iucn', 'funding', 'partnerships'],
             properties: {
               project: {
                 description: 'Basic project metadata',
@@ -118,9 +117,7 @@ GET.apiDoc = {
                     format: 'date',
                     description: 'ISO 8601 date string for the project end date'
                   },
-                  publish_date: {
-                    description: 'Status of the project being published/unpublished',
-                    format: 'date',
+                  objectives: {
                     type: 'string'
                   },
                   revision_count: {
@@ -402,7 +399,7 @@ function getProjectForUpdate(): RequestHandler {
       if (entities.includes(GET_ENTITIES.funding)) {
         promises.push(
           getProjectData(projectId, connection).then((value) => {
-            results.project = value;
+            results.funding = value;
           })
         );
       }
@@ -567,8 +564,49 @@ PUT.apiDoc = {
     content: {
       'application/json': {
         schema: {
-          // TODO this is currently empty, and needs updating
-          ...(projectUpdatePutRequestObject as object)
+          title: 'Project Put Object',
+          type: 'object',
+          properties: {
+            coordinator: {
+              type: 'object',
+              properties: {
+                first_name: { type: 'string' },
+                last_name: { type: 'string' },
+                email_address: { type: 'string' },
+                coordinator_agency: { type: 'string' },
+                share_contact_details: { type: 'string' },
+                revision_count: { type: 'number' }
+              }
+            },
+            permit: { type: 'object', properties: {} },
+            project: { type: 'object', properties: {} },
+            location: { type: 'object', properties: {} },
+            iucn: {
+              type: 'object',
+              properties: {
+                classificationDetails: {
+                  type: 'array',
+                  items: {
+                    title: 'IUCN classification',
+                    type: 'object',
+                    properties: {
+                      classification: {
+                        type: 'number'
+                      },
+                      subClassification1: {
+                        type: 'number'
+                      },
+                      subClassification2: {
+                        type: 'number'
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            funding: { type: 'object', properties: {} },
+            partnerships: { type: 'object', properties: {} }
+          }
         }
       }
     }
@@ -579,8 +617,14 @@ PUT.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            // TODO is there any return value? or is it just an HTTP status with no content?
-            ...(projectIdResponseObject as object)
+            title: 'Project Response Object',
+            type: 'object',
+            required: ['id'],
+            properties: {
+              id: {
+                type: 'number'
+              }
+            }
           }
         }
       }
@@ -607,7 +651,6 @@ export interface IUpdateProject {
   coordinator: object | null;
   permit: object | null;
   project: object | null;
-  objectives: object | null;
   location: object | null;
   iucn: object | null;
   funding: object | null;
@@ -644,7 +687,7 @@ function updateProject(): RequestHandler {
         promises.push(updateProjectPartnershipsData(projectId, entities, connection));
       }
 
-      if (entities?.project || entities?.location || entities?.objectives || entities?.coordinator) {
+      if (entities?.project || entities?.coordinator) {
         promises.push(updateProjectData(projectId, entities, connection));
       }
 
@@ -793,24 +836,16 @@ export const updateProjectData = async (
   connection: IDBConnection
 ): Promise<void> => {
   const putProjectData = (entities?.project && new PutProjectData(entities.project)) || null;
-  const putLocationData = (entities?.location && new PutLocationData(entities.location)) || null;
   const putCoordinatorData = (entities?.coordinator && new PutCoordinatorData(entities.coordinator)) || null;
 
   // Update project table
-  const revision_count =
-    putProjectData?.revision_count ?? putLocationData?.revision_count ?? putCoordinatorData?.revision_count ?? null;
+  const revision_count = putProjectData?.revision_count ?? putCoordinatorData?.revision_count ?? null;
 
   if (!revision_count && revision_count !== 0) {
     throw new HTTP400('Failed to parse request body');
   }
 
-  const sqlUpdateProject = queries.project.putProjectSQL(
-    projectId,
-    putProjectData,
-    putLocationData,
-    putCoordinatorData,
-    revision_count
-  );
+  const sqlUpdateProject = queries.project.putProjectSQL(projectId, putProjectData, putCoordinatorData, revision_count);
 
   if (!sqlUpdateProject) {
     throw new HTTP400('Failed to build SQL update statement');

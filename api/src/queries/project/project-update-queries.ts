@@ -1,5 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
-import { PutCoordinatorData, PutFundingSource, PutLocationData, PutProjectData } from '../../models/project-update';
+import { PutCoordinatorData, PutFundingSource, PutProjectData } from '../../models/project-update';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-update-queries');
@@ -173,6 +173,7 @@ export const getProjectByProjectSQL = (projectId: number): SQLStatement | null =
       name,
       start_date,
       end_date,
+      objectives,
       revision_count
     FROM
       project
@@ -193,13 +194,12 @@ export const getProjectByProjectSQL = (projectId: number): SQLStatement | null =
 /**
  * SQL query to update a project row.
  *
- * @param {(PutProjectData & PutLocationData & PutCoordinatorData)} project
+ * @param {(PutProjectData & PutCoordinatorData)} project
  * @returns {SQLStatement} sql query object
  */
 export const putProjectSQL = (
   projectId: number,
   project: PutProjectData | null,
-  location: PutLocationData | null,
   coordinator: PutCoordinatorData | null,
   revision_count: number
 ): SQLStatement | null => {
@@ -208,7 +208,6 @@ export const putProjectSQL = (
     message: 'params',
     projectId,
     project,
-    location,
     coordinator,
     revision_count
   });
@@ -217,7 +216,7 @@ export const putProjectSQL = (
     return null;
   }
 
-  if (!project && !location && !coordinator) {
+  if (!project && !coordinator) {
     // Nothing to update
     return null;
   }
@@ -230,6 +229,7 @@ export const putProjectSQL = (
     sqlSetStatements.push(SQL`name = ${project.name}`);
     sqlSetStatements.push(SQL`start_date = ${project.start_date}`);
     sqlSetStatements.push(SQL`end_date = ${project.end_date}`);
+    sqlSetStatements.push(SQL`objectives = ${project.objectives}`);
   }
 
   if (coordinator) {

@@ -333,7 +333,7 @@ const CreateProjectPage: React.FC = () => {
         component={{
           element: <ProjectDraftForm />,
           initialValues: {
-            draft_name: '' // TODO
+            draft_name: formikRef.current?.values.project.project_name || ''
           },
           validationSchema: ProjectDraftFormYupSchema
         }}
