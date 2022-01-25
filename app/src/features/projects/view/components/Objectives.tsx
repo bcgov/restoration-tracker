@@ -1,14 +1,10 @@
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { DATE_FORMAT } from 'constants/dateTimeFormats';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
-import { getFormattedDate } from 'utils/Utils';
 
-export interface IProjectGeneralInformationProps {
+export interface IProjectObjectivesProps {
   projectForViewData: IGetProjectForViewResponse;
-  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 
@@ -17,7 +13,7 @@ export interface IProjectGeneralInformationProps {
  *
  * @return {*}
  */
-const Objectives: React.FC<IProjectGeneralInformationProps> = (props) => {
+const Objectives: React.FC<IProjectObjectivesProps> = (props) => {
   const {
     projectForViewData: { project }
   } = props;

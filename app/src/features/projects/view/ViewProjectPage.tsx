@@ -4,14 +4,13 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
 //import ProjectAttachments from 'features/projects/view/ProjectAttachments';
-import ProjectDetails from 'features/projects/view/ProjectDetails';
+//import ProjectDetails from 'features/projects/view/ProjectDetails';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import ProjectHeader from './ProjectHeader';
-import { Divider } from '@material-ui/core';
 import RestoProjectDetailsPage from './../view/RestoProjectDetailsPage';
 
 /**
@@ -79,7 +78,7 @@ const ViewProjectPage: React.FC = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} lg={8}>
               <Box>
-                <ProjectDetails projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+                <RestoProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
               </Box>
               {/* <Box mt={3}>
                 <ProjectAttachments projectForViewData={projectWithDetails} />
@@ -91,10 +90,6 @@ const ViewProjectPage: React.FC = () => {
           </Grid>
         </Box>
       </Container>
-
-      <Divider></Divider>
-
-      <RestoProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
     </>
   );
 };

@@ -12,7 +12,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
-import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
@@ -27,10 +26,14 @@ import IUCNClassification from 'features/projects/view/components/IUCNClassifica
 import Partnerships from 'features/projects/view/components/Partnerships';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
-import React from 'react';
 import GeneralInformation from './components/GeneralInformation';
 import Objectives from './components/Objectives';
+import ProjectCoordinator from './components/ProjectCoordinator';
 import ProjectPermits from './components/ProjectPermits';
+import React, { useCallback, useEffect, useState } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useParams } from 'react-router';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 
 export interface IProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -102,8 +105,9 @@ const useStyles = makeStyles((theme: Theme) =>
  * @return {*}
  */
 const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
-  const { projectForViewData, codes, refresh } = props;
+  const { projectForViewData, refresh } = props;
   const classes = useStyles();
+  const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
 
   // Funding Source Dialog Prototype
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -134,6 +138,55 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     setTreatmentImplementedValue((event.target as HTMLInputElement).value);
   };
 
+  const urlParams = useParams();
+
+  const restorationTrackerApi = useRestorationTrackerApi();
+
+  const [isLoadingProject, setIsLoadingProject] = useState(false);
+
+  const [isLoadingCodes, setIsLoadingCodes] = useState(false);
+  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
+
+  useEffect(() => {
+    const getCodes = async () => {
+      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
+
+      if (!codesResponse) {
+        // TODO error handling/messaging
+        return;
+      }
+
+      setCodes(codesResponse);
+    };
+
+    if (!isLoadingCodes && !codes) {
+      getCodes();
+      setIsLoadingCodes(true);
+    }
+  }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
+
+  const getProject = useCallback(async () => {
+    const projectWithDetailsResponse = await restorationTrackerApi.project.getProjectForView(urlParams['id']);
+
+    if (!projectWithDetailsResponse) {
+      // TODO error handling/messaging
+      return;
+    }
+
+    setProjectWithDetails(projectWithDetailsResponse);
+  }, [restorationTrackerApi.project, urlParams]);
+
+  useEffect(() => {
+    if (!isLoadingProject && !projectWithDetails) {
+      getProject();
+      setIsLoadingProject(true);
+    }
+  }, [isLoadingProject, projectWithDetails, getProject]);
+
+  if (!codes || !projectWithDetails) {
+    return <CircularProgress className="pageProgress" size={40} />;
+  }
+
   return (
     <>
       <Box display="flex" position="absolute" width="100%" height="100%" overflow="hidden">
@@ -154,7 +207,7 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
             <Box flex="1 auto" p={3} className={classes.projectMetadata}>
               <Box component="section">
                 <Box component="section" mt={3}>
-                  <Objectives projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+                  <Objectives projectForViewData={projectForViewData} refresh={refresh} />
                 </Box>
               </Box>
 
@@ -169,29 +222,9 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'}>
-                  Project Contacts
-                </Typography>
-                <ul className={classes.projectContactList}>
-                  <li>
-                    <div>
-                      <strong>Contact Name</strong>
-                    </div>
-                    <div>
-                      <Link href="#">email@email.com</Link>
-                    </div>
-                    <div>Agency Name</div>
-                  </li>
-                  <li>
-                    <div>
-                      <strong>Contact Name</strong>
-                    </div>
-                    <div>
-                      <Link href="#">email@email.com</Link>
-                    </div>
-                    <div>Agency Name</div>
-                  </li>
-                </ul>
+                <Box component="section" mt={3}>
+                  <ProjectCoordinator projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+                </Box>
               </Box>
 
               <Divider></Divider>
