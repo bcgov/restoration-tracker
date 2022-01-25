@@ -111,7 +111,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @param {number} projectId
    * @return {*} {Promise<IGetProjectForViewResponse>}
    */
-  const getProjectForView = async (projectId: number): Promise<IGetProjectForViewResponse> => {
+  const getProjectById = async (projectId: number): Promise<IGetProjectForViewResponse> => {
     const { data } = await axios.get(`/api/project/${projectId}/view`);
 
     return data;
@@ -320,7 +320,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     getAllUserProjectsForView,
     getProjectsList,
     createProject,
-    getProjectForView,
+    getProjectById,
     uploadProjectAttachments,
     getProjectForUpdate,
     updateProject,

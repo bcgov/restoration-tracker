@@ -13,9 +13,9 @@ import {
   GetPartnershipsData,
   GetProjectData,
   GetLocationData,
-  GetPermitData
+  GetPermitData,
+  GetFundingData
 } from '../../../models/project-view';
-import { GetFundingData } from '../../../models/project-view-update';
 import { HTTPError } from '../../../errors/custom-error';
 
 chai.use(sinonChai);
@@ -308,11 +308,11 @@ describe('getProjectForView', () => {
     };
 
     const indigenousData = {
-      first_nations_name: 'fn name'
+      name: 'fn name'
     };
 
     const stakeholderData = {
-      partnership_name: 'sp name'
+      name: 'sp name'
     };
 
     // getProjectSQL mock

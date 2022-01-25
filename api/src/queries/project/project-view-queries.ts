@@ -18,27 +18,9 @@ export const getProjectSQL = (projectId: number): SQLStatement | null => {
 
   const sqlStatement = SQL`
     SELECT
-      project.project_id as id,
-      project.name,
-      project.objectives,
-      project.start_date,
-      project.end_date,
-      project.coordinator_first_name,
-      project.coordinator_last_name,
-      project.coordinator_email_address,
-      project.coordinator_agency_name,
-      project.coordinator_public,
-      psc.geojson as geometry,
-      project.create_date,
-      project.create_user,
-      project.update_date,
-      project.update_user,
-      project.revision_count,
-      project.publish_timestamp as publish_date
+      *
     from
       project
-    left outer join project_spatial_component psc
-        on project.project_id = psc.project_id
     where
       project.project_id = ${projectId};
   `;
@@ -235,8 +217,8 @@ export const getIndigenousPartnershipsByProjectSQL = (projectId: number): SQLSta
 
   const sqlStatement = SQL`
     SELECT
-      fn.first_nations_id as id,
-      fn.name as first_nations_name
+      fn.first_nations_id,
+      fn.name
     FROM
       project_first_nation pfn
     LEFT OUTER JOIN

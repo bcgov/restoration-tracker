@@ -1,22 +1,22 @@
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { SYSTEM_ROLE } from 'constants/roles';
+import { AuthStateContext, IAuthState } from 'contexts/authStateContext';
+import { DialogContextProvider } from 'contexts/dialogContext';
 import { createMemoryHistory } from 'history';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import { Router } from 'react-router';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import ViewProjectPage from './ViewProjectPage';
-import { DialogContextProvider } from 'contexts/dialogContext';
-import { SYSTEM_ROLE } from 'constants/roles';
-import { AuthStateContext, IAuthState } from 'contexts/authStateContext';
 
 const history = createMemoryHistory({ initialEntries: ['/admin/projects/1'] });
 
 jest.mock('../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
   project: {
-    getProjectForView: jest.fn<Promise<IGetProjectForViewResponse>, [number]>(),
+    getProjectById: jest.fn<Promise<IGetProjectForViewResponse>, [number]>(),
     deleteProject: jest.fn(),
     publishProject: jest.fn()
   },
@@ -53,7 +53,7 @@ describe.skip('ViewProjectPage', () => {
   beforeEach(() => {
     // clear mocks before each test
     mockRestorationTrackerApi().project.deleteProject.mockClear();
-    mockRestorationTrackerApi().project.getProjectForView.mockClear();
+    mockRestorationTrackerApi().project.getProjectById.mockClear();
     mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
     mockRestorationTrackerApi().project.publishProject.mockClear();
   });
@@ -75,7 +75,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('renders project page when project is loaded (project is active)', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
 
     const { asFragment, findByText } = render(
       <DialogContextProvider>
@@ -94,7 +94,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('renders project page when project is loaded (project is completed)', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, completion_status: 'Completed' }
     });
@@ -116,7 +116,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('deletes project and takes user to the projects list page when user is a system administrator', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
     mockRestorationTrackerApi().project.deleteProject.mockResolvedValue(true);
 
     const authState = {
@@ -156,7 +156,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('shows basic error dialog when deleting project call has no response', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
     mockRestorationTrackerApi().project.deleteProject.mockResolvedValue(null);
 
     const authState = {
@@ -204,7 +204,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('shows error dialog with API error message when deleting project fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
     mockRestorationTrackerApi().project.deleteProject = jest.fn(() => Promise.reject(new Error('API Error is Here')));
 
     const authState = {
@@ -252,7 +252,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('sees delete project button as enabled when accessing an unpublished project as a project administrator', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '' }
     });
@@ -283,7 +283,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('sees delete project button as disabled when accessing a published project as a project administrator', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '2021-07-07' }
     });
@@ -314,7 +314,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('does not see the delete button when accessing project as non admin user', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
 
     const authState = {
       keycloakWrapper: {
@@ -341,7 +341,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('renders correctly with no end date', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: {
         ...getProjectForViewResponse.project,
@@ -364,7 +364,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('publishes and unpublishes a project', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '' }
     });
@@ -382,7 +382,7 @@ describe.skip('ViewProjectPage', () => {
     expect(publishButtonText1).toBeVisible();
 
     //re-mock response to return the project with a non-null publish date
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '2021-10-10' }
     });
@@ -393,7 +393,7 @@ describe.skip('ViewProjectPage', () => {
     expect(unpublishButtonText).toBeVisible();
 
     //re-mock response to return the project with a null publish date
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '' }
     });
@@ -405,7 +405,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('shows API error when fails to publish project', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '' }
     });
@@ -423,7 +423,7 @@ describe.skip('ViewProjectPage', () => {
     expect(publishButtonText1).toBeVisible();
 
     //re-mock response to return the project with a non-null publish date
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '2021-10-10' }
     });
@@ -444,7 +444,7 @@ describe.skip('ViewProjectPage', () => {
   });
 
   it('shows basic error dialog when publish project returns null response', async () => {
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '' }
     });
@@ -462,7 +462,7 @@ describe.skip('ViewProjectPage', () => {
     expect(publishButtonText1).toBeVisible();
 
     //re-mock response to return the project with a non-null publish date
-    mockRestorationTrackerApi().project.getProjectForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, publish_date: '2021-10-10' }
     });

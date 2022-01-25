@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../constants/roles';
@@ -19,7 +22,7 @@ import {
   PutPartnershipsData,
   PutProjectData
 } from '../../../models/project-update';
-import { GetFundingData } from '../../../models/project-view-update';
+import { GetFundingData } from '../../../models/project-view';
 import { geoJsonFeature } from '../../../openapi/schemas/geoJson';
 import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
@@ -396,9 +399,10 @@ function getProjectForUpdate(): RequestHandler {
           })
         );
       }
+
       if (entities.includes(GET_ENTITIES.funding)) {
         promises.push(
-          getProjectData(projectId, connection).then((value) => {
+          getFundingData(projectId, connection).then((value) => {
             results.funding = value;
           })
         );
@@ -534,6 +538,24 @@ export const getProjectData = async (projectId: number, connection: IDBConnectio
   }
 
   return new GetProjectData(resultDetails);
+};
+
+export const getFundingData = async (projectId: number, connection: IDBConnection): Promise<any> => {
+  const sqlStatementDetails = queries.project.getFundingSourceByProjectSQL(projectId);
+
+  if (!sqlStatementDetails) {
+    throw new HTTP400('Failed to build SQL get statement');
+  }
+
+  const [responseDetails] = await Promise.all([connection.query(sqlStatementDetails.text, sqlStatementDetails.values)]);
+
+  const resultDetails = (responseDetails && responseDetails.rows && responseDetails.rows) || null;
+
+  if (!resultDetails) {
+    throw new HTTP400('Failed to get project funding data');
+  }
+
+  return new GetFundingData(resultDetails);
 };
 
 export const PUT: Operation = [

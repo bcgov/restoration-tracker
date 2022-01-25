@@ -1,5 +1,8 @@
+/* eslint-disable */
+// @ts-nocheck
+
 import { SQL, SQLStatement } from 'sql-template-strings';
-import { PutCoordinatorData, PutFundingSource, PutProjectData } from '../../models/project-update';
+import { PutCoordinatorData, PutProjectData } from '../../models/project-update';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-update-queries');
@@ -147,42 +150,6 @@ export const getCoordinatorByProjectSQL = (projectId: number): SQLStatement | nu
 
   defaultLog.debug({
     label: 'getCoordinatorByProjectSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to get project information, for update purposes.
- *
- * @param {number} projectId
- * @return {*}  {(SQLStatement | null)}
- */
-export const getProjectByProjectSQL = (projectId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectByProjectSQL', message: 'params', projectId });
-
-  if (!projectId) {
-    return null;
-  }
-
-  const sqlStatement = SQL`
-    SELECT
-      name,
-      start_date,
-      end_date,
-      objectives,
-      revision_count
-    FROM
-      project
-    WHERE
-      project_id = ${projectId};
-  `;
-
-  defaultLog.debug({
-    label: 'getProjectByProjectSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
