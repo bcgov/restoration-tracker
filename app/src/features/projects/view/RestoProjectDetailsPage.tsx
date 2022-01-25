@@ -24,6 +24,7 @@ import { mdiArrowLeft } from '@mdi/js';
 import Icon from '@mdi/react';
 import IUCNClassification from 'features/projects/view/components/IUCNClassification';
 import Partnerships from 'features/projects/view/components/Partnerships';
+import FundingSource from './components/FundingSource';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import GeneralInformation from './components/GeneralInformation';
@@ -246,89 +247,9 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'}>
-                  Funding Sources
-                </Typography>
-                <ul className={classes.projectContactList}>
-                  <li>
-                    <div>
-                      <strong>Funding Source Agency</strong>
-                    </div>
-                    <Box component="dl" mt={0.5} mb={0}>
-                      <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">
-                          Amount:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          $1,000,000
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">
-                          Project ID:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          1234567890
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">
-                          Start Date:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          MMM DD, YYYY
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">
-                          End Date:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          MMM DD, YYYY
-                        </Typography>
-                      </div>
-                    </Box>
-                  </li>
-                  <li>
-                    <div>
-                      <strong>Funding Source Agency</strong>
-                    </div>
-                    <Box component="dl" mt={0.5} mb={0}>
-                      <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">
-                          Amount:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          $1,000,000
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">
-                          Project ID:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          1234567890
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">
-                          Start Date:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          MMM DD, YYYY
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dd" color="textSecondary">
-                          End Date:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          MMM DD, YYYY
-                        </Typography>
-                      </div>
-                    </Box>
-                  </li>
-                </ul>
+                <Box component="section" mt={3}>
+                  <FundingSource projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+                </Box>
               </Box>
               <Divider></Divider>
 
