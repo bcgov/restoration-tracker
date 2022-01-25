@@ -399,7 +399,7 @@ function getProjectForUpdate(): RequestHandler {
       if (entities.includes(GET_ENTITIES.funding)) {
         promises.push(
           getProjectData(projectId, connection).then((value) => {
-            results.project = value;
+            results.funding = value;
           })
         );
       }
