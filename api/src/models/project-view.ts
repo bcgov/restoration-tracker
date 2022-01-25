@@ -17,6 +17,7 @@ export class GetProjectData {
   end_date: string;
   completion_status: string;
   publish_date: string;
+  objectives: string;
 
   constructor(projectData?: any) {
     defaultLog.debug({
@@ -35,6 +36,7 @@ export class GetProjectData {
         COMPLETION_STATUS.COMPLETED) ||
       COMPLETION_STATUS.ACTIVE;
     this.publish_date = projectData?.publish_date || '';
+    this.objectives = projectData?.objectives || '';
   }
 }
 

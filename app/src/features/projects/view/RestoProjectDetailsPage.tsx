@@ -29,6 +29,7 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import GeneralInformation from './components/GeneralInformation';
+import Objectives from './components/Objectives';
 import ProjectPermits from './components/ProjectPermits';
 
 export interface IProjectDetailsProps {
@@ -152,17 +153,8 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
             {/* Project Metadata */}
             <Box flex="1 auto" p={3} className={classes.projectMetadata}>
               <Box component="section">
-                <Typography variant="body1" component={'h3'}>
-                  Objectives
-                </Typography>
-                <Box mt={2}>
-                  <Typography variant="body2" color="textSecondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                  </Typography>
+                <Box component="section" mt={3}>
+                  <Objectives projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
                 </Box>
               </Box>
 
@@ -201,8 +193,6 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                   </li>
                 </ul>
               </Box>
-
-              <Divider></Divider>
 
               <Divider></Divider>
 
