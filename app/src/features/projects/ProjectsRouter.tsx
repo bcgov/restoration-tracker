@@ -33,7 +33,6 @@ const ProjectsRouter: React.FC = () => {
 
       <AppRoute exact path="/admin/projects/:id?/details" layout={ProjectsLayout}>
         <ProjectsLayout>
-
           <ViewProjectPage />
         </ProjectsLayout>
       </AppRoute>

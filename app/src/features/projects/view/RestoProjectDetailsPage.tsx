@@ -235,7 +235,6 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                 </Box>
               </Box>
 
-
               <Divider></Divider>
 
               <Box component="section">

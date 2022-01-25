@@ -94,8 +94,7 @@ const ViewProjectPage: React.FC = () => {
 
       <Divider></Divider>
 
-      <RestoProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject}/>
-
+      <RestoProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
     </>
   );
 };
