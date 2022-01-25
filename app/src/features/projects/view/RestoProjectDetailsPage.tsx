@@ -230,21 +230,16 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'}>
-                  IUCN Conservation Actions Classifications
-                </Typography>
-                <Box component="ul" pl={3}>
+                <Box component="section" mt={3}>
                   <IUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
                 </Box>
               </Box>
 
+
               <Divider></Divider>
 
               <Box component="section">
-                <Typography variant="body1" component={'h3'}>
-                  Project Permits
-                </Typography>
-                <Box component="ul" mt={3} pl={3}>
+                <Box component="section" mt={3}>
                   <ProjectPermits projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
                 </Box>
               </Box>

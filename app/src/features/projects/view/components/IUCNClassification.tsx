@@ -2,6 +2,7 @@ import Typography from '@material-ui/core/Typography';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import Box from '@material-ui/core/Box';
 
 export interface IIUCNClassificationProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -23,21 +24,29 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
 
   return (
     <>
-      {hasIucnClassifications &&
-        iucn.classificationDetails.map((classificationDetail: any, index: number) => {
-          return (
-            <li key={index}>
-              {classificationDetail.classification} &gt; {classificationDetail.subClassification1} &gt;
-              {classificationDetail.subClassification2}
-            </li>
-          );
-        })}
-
-      {!hasIucnClassifications && (
-        <Typography component="dt" variant="body1">
-          No Classifications
+      <Box component="section" mt={3}>
+        <Typography variant="body1" component={'h3'}>
+          IUCN Conservation Actions Classifications
         </Typography>
-      )}
+      </Box>
+
+      <Box mt={3} component="ul" pl={3}>
+        {hasIucnClassifications &&
+          iucn.classificationDetails.map((classificationDetail: any, index: number) => {
+            return (
+              <li key={index}>
+                {classificationDetail.classification} &gt; {classificationDetail.subClassification1} &gt;
+                {classificationDetail.subClassification2}
+              </li>
+            );
+          })}
+
+        {!hasIucnClassifications && (
+          <Typography component="dt" variant="body1">
+            No Classifications
+          </Typography>
+        )}
+      </Box>
     </>
   );
 };

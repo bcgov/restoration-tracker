@@ -2,6 +2,7 @@ import Box from '@material-ui/core/Box';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 export interface IProjectPermitsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -23,14 +24,24 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
 
   return (
     <>
-      <Box>
+      <Box component="section" mt={3}>
+        <Typography variant="body1" component={'h3'}>
+          Permits
+        </Typography>
+      </Box>
+      <Box mt={3} component="ul" pl={3}>
         {hasPermits &&
           permit.permits.map((item: any) => (
             <li key={item.permit_number}>
               {item.permit_type} - {item.permit_number}
             </li>
           ))}
-        {!hasPermits && 'No Permits'}
+
+        {!hasPermits && (
+          <Typography component="dt" variant="body1">
+            No permits
+          </Typography>
+        )}
       </Box>
     </>
   );
