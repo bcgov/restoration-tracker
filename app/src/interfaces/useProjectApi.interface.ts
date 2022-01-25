@@ -219,6 +219,7 @@ export interface IGetProjectForViewResponseDetails {
   end_date: string;
   completion_status: string;
   publish_date: string;
+  objectives: string;
 }
 
 interface IGetProjectForViewResponsePermitArrayItem {
