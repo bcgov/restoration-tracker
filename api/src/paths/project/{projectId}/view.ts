@@ -2,19 +2,9 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../constants/roles';
 import { getDBConnection } from '../../../database/db';
-import { HTTP400 } from '../../../errors/custom-error';
-import {
-  GetCoordinatorData,
-  GetIUCNClassificationData,
-  GetLocationData,
-  GetPartnershipsData,
-  GetPermitData,
-  GetProjectData
-} from '../../../models/project-view';
-import { GetFundingData } from '../../../models/project-view-update';
 import { geoJsonFeature } from '../../../openapi/schemas/geoJson';
-import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
+import { ProjectService } from '../../../services/project-service';
 import { getLogger } from '../../../utils/logger';
 
 const defaultLog = getLogger('paths/project/{projectId}/view');
@@ -287,100 +277,13 @@ export function getProjectForView(): RequestHandler {
     const connection = getDBConnection(req['keycloak_token']);
 
     try {
-      const getProjectSQLStatement = queries.project.getProjectSQL(Number(req.params.projectId));
-      const getProjectPermitsSQLStatement = queries.project.getProjectPermitsSQL(Number(req.params.projectId));
-      const getProjectLocationSQLStatement = queries.project.getLocationByProjectSQL(Number(req.params.projectId));
-      const getProjectIUCNActionClassificationSQLStatement = queries.project.getIUCNActionClassificationByProjectSQL(
-        Number(req.params.projectId)
-      );
-      const getProjectFundingSourceSQLStatement = queries.project.getFundingSourceByProjectSQL(
-        Number(req.params.projectId)
-      );
-      const getProjectIndigenousPartnershipsSQLStatement = queries.project.getIndigenousPartnershipsByProjectSQL(
-        Number(req.params.projectId)
-      );
-      const getProjectStakeholderPartnershipsSQLStatement = queries.project.getStakeholderPartnershipsByProjectSQL(
-        Number(req.params.projectId)
-      );
-
-      if (
-        !getProjectSQLStatement ||
-        !getProjectPermitsSQLStatement ||
-        !getProjectLocationSQLStatement ||
-        !getProjectIUCNActionClassificationSQLStatement ||
-        !getProjectFundingSourceSQLStatement ||
-        !getProjectIndigenousPartnershipsSQLStatement ||
-        !getProjectStakeholderPartnershipsSQLStatement
-      ) {
-        throw new HTTP400('Failed to build SQL get statement');
-      }
-
       await connection.open();
 
-      const [
-        projectData,
-        permitData,
-        locationData,
-        iucnClassificationData,
-        fundingData,
-        indigenousPartnerships,
-        stakeholderPartnerships
-      ] = await Promise.all([
-        await connection.query(getProjectSQLStatement.text, getProjectSQLStatement.values),
-        await connection.query(getProjectPermitsSQLStatement.text, getProjectPermitsSQLStatement.values),
-        await connection.query(getProjectLocationSQLStatement.text, getProjectLocationSQLStatement.values),
-        await connection.query(
-          getProjectIUCNActionClassificationSQLStatement.text,
-          getProjectIUCNActionClassificationSQLStatement.values
-        ),
-        await connection.query(getProjectFundingSourceSQLStatement.text, getProjectFundingSourceSQLStatement.values),
-        await connection.query(
-          getProjectIndigenousPartnershipsSQLStatement.text,
-          getProjectIndigenousPartnershipsSQLStatement.values
-        ),
-        await connection.query(
-          getProjectStakeholderPartnershipsSQLStatement.text,
-          getProjectStakeholderPartnershipsSQLStatement.values
-        )
-      ]);
+      const projectService = new ProjectService(connection);
+
+      const result = await projectService.getProjectById(Number(req.params.projectId));
 
       await connection.commit();
-
-      const getProjectData = (projectData && projectData.rows && new GetProjectData(projectData.rows[0])) || null;
-
-      const getPermitData = (permitData && permitData.rows && new GetPermitData(permitData.rows)) || null;
-
-      const getLocationData = (locationData && locationData.rows && new GetLocationData(locationData.rows)) || null;
-
-      const getCoordinatorData =
-        (projectData && projectData.rows && new GetCoordinatorData(projectData.rows[0])) || null;
-
-      const getPartnershipsData =
-        (indigenousPartnerships &&
-          indigenousPartnerships.rows &&
-          stakeholderPartnerships &&
-          stakeholderPartnerships.rows &&
-          new GetPartnershipsData(indigenousPartnerships.rows, stakeholderPartnerships.rows)) ||
-        null;
-
-      const getIUCNClassificationData =
-        (iucnClassificationData &&
-          iucnClassificationData.rows &&
-          new GetIUCNClassificationData(iucnClassificationData.rows)) ||
-        null;
-
-      const getFundingData = (fundingData && fundingData.rows && new GetFundingData(fundingData.rows)) || null;
-
-      const result = {
-        id: req.params.projectId,
-        project: getProjectData,
-        permit: getPermitData,
-        coordinator: getCoordinatorData,
-        location: getLocationData,
-        iucn: getIUCNClassificationData,
-        funding: getFundingData,
-        partnerships: getPartnershipsData
-      };
 
       return res.status(200).json(result);
     } catch (error) {

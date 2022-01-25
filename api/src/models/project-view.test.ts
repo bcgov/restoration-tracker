@@ -46,7 +46,7 @@ describe('GetPartnershipsData', () => {
   describe('indigenous_partnerships values provided', () => {
     let data: GetPartnershipsData;
 
-    const indigenous_partnerships = [{ first_nations_name: 'nation 1' }, { first_nations_name: 'nation 2' }];
+    const indigenous_partnerships = [{ name: 'nation 1' }, { name: 'nation 2' }];
     const stakeholder_partnerships: string[] = [];
 
     before(() => {
@@ -66,7 +66,7 @@ describe('GetPartnershipsData', () => {
     let data: GetPartnershipsData;
 
     const indigenous_partnerships: string[] = [];
-    const stakeholder_partnerships = [{ partnership_name: 'partner 1' }, { partnership_name: 'partner 2' }];
+    const stakeholder_partnerships = [{ name: 'partner 1' }, { name: 'partner 2' }];
 
     before(() => {
       data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);
@@ -84,8 +84,8 @@ describe('GetPartnershipsData', () => {
   describe('All values provided', () => {
     let data: GetPartnershipsData;
 
-    const indigenous_partnerships = [{ first_nations_name: 'nation 1' }, { first_nations_name: 'nation 2' }];
-    const stakeholder_partnerships = [{ partnership_name: 'partner 3' }, { partnership_name: 'partner 4' }];
+    const indigenous_partnerships = [{ name: 'nation 1' }, { name: 'nation 2' }];
+    const stakeholder_partnerships = [{ name: 'partner 3' }, { name: 'partner 4' }];
 
     before(() => {
       data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);

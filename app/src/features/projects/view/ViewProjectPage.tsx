@@ -48,7 +48,7 @@ const ViewProjectPage: React.FC = () => {
   }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
 
   const getProject = useCallback(async () => {
-    const projectWithDetailsResponse = await restorationTrackerApi.project.getProjectForView(urlParams['id']);
+    const projectWithDetailsResponse = await restorationTrackerApi.project.getProjectById(urlParams['id']);
 
     if (!projectWithDetailsResponse) {
       // TODO error handling/messaging

@@ -18,19 +18,11 @@ export const getLocationByProjectSQL = (projectId: number): SQLStatement | null 
 
   const sqlStatement = SQL`
     SELECT
-      psc.geojson as geometry,
-      p.revision_count
+      geojson
     FROM
-      project p
-    LEFT OUTER JOIN
       project_spatial_component psc
-    ON
-      p.project_id = psc.project_id
     WHERE
-      p.project_id = ${projectId}
-    GROUP BY
-      psc.geojson,
-      p.revision_count;
+      p.project_id = ${projectId};
   `;
 
   defaultLog.debug({
@@ -58,7 +50,7 @@ export const getStakeholderPartnershipsByProjectSQL = (projectId: number): SQLSt
 
   const sqlStatement = SQL`
     SELECT
-      name as partnership_name
+      name
     FROM
       stakeholder_partnership
     WHERE
