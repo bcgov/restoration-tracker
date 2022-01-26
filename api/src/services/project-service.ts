@@ -199,9 +199,9 @@ export class ProjectService extends DBService {
   async getIUCNClassificationData(projectId: number): Promise<GetIUCNClassificationData> {
     const sqlStatement = SQL`
       SELECT
-        ical1c.name as classification,
-        ical2s.name as subClassification1,
-        ical3s.name as subClassification2
+        ical1c.iucn_conservation_action_level_1_classification_id as classification,
+        ical2s.iucn_conservation_action_level_2_subclassification_id as subClassification1,
+        ical3s.iucn_conservation_action_level_3_subclassification_id as subClassification2
       FROM
         project_iucn_action_classification as piac
       LEFT OUTER JOIN
@@ -219,9 +219,9 @@ export class ProjectService extends DBService {
       WHERE
         piac.project_id = ${projectId}
       GROUP BY
-        ical2s.name,
-        ical1c.name,
-        ical3s.name;
+        ical1c.iucn_conservation_action_level_1_classification_id,
+        ical2s.iucn_conservation_action_level_2_subclassification_id,
+        ical3s.iucn_conservation_action_level_3_subclassification_id;
   `;
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
