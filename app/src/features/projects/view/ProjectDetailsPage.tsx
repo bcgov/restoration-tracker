@@ -2,28 +2,11 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Select from '@material-ui/core/Select';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import clsx from 'clsx';
@@ -154,35 +137,6 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
   const { projectForViewData, refresh } = props;
   const classes = useStyles();
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
-
-  // Funding Source Dialog Prototype
-  const [openDialog, setOpenDialog] = React.useState(false);
-
-  const fundingSourceDialogOpen = () => {
-    setOpenDialog(true);
-  };
-
-  const fundingSourceDialogClose = () => {
-    setOpenDialog(false);
-  };
-
-  // Radio Group Prototype
-  const [reconValue, setReconValue] = React.useState('No');
-  const handleReconValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setReconValue((event.target as HTMLInputElement).value);
-  };
-
-  // Treatments
-  const [treatmentValue, setTreatmentValue] = React.useState('No');
-  const handleTreatmentValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTreatmentValue((event.target as HTMLInputElement).value);
-  };
-
-  // Treatments
-  const [treatmentImplementedValue, setTreatmentImplementedValue] = React.useState('No');
-  const handleTreatmentImplementedValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTreatmentImplementedValue((event.target as HTMLInputElement).value);
-  };
 
   const urlParams = useParams();
 
@@ -439,157 +393,7 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
             </Box>
           </Box>
         </Drawer>
-
-        <Box
-          display="flex"
-          flex="1 1 auto"
-          alignItems="center"
-          justifyContent="center"
-          className={classes.projectDetailMain}>
-          <div>Project Boundary Map</div>
-
-          <Container maxWidth="xl" className={classes.treatmentsContainer}>
-            <Box p={3}>
-              <Box mb={1} display="flex" alignItems="center" justifyContent="space-between">
-                <Typography variant="h2" className={classes.contentTitle}>
-                  Treatment Units
-                </Typography>
-                <Button size="large" variant="contained" color="primary" onClick={fundingSourceDialogOpen}>
-                  Add Treatment Unit
-                </Button>
-              </Box>
-              <Box mb={5}>
-                <Typography variant="body1" color="textSecondary">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                  dolore magna aliqua.
-                </Typography>
-              </Box>
-              <Box>
-                <Paper variant="outlined">
-                  <Box p={3}></Box>
-                </Paper>
-              </Box>
-            </Box>
-          </Container>
-        </Box>
       </Box>
-
-      <Dialog open={openDialog} fullWidth aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Add Treatment Unit</DialogTitle>
-        <DialogContent>
-          <Box py={1}>
-            <Box mb={4}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <TextField fullWidth variant="outlined" label="ID"></TextField>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <FormControl fullWidth variant="outlined">
-                    <InputLabel id="linear-feature-type">Linear Feature Type</InputLabel>
-                    <Select labelId="linear-feature-type" label="Linear Feature Type" id="linear-feature-type-select">
-                      <MenuItem value={1}>Pipeline</MenuItem>
-                      <MenuItem value={2}>Railway</MenuItem>
-                      <MenuItem value={3}>Roads</MenuItem>
-                      <MenuItem value={4}>Seismic Lines</MenuItem>
-                      <MenuItem value={5}>Trail</MenuItem>
-                      <MenuItem value={6}>Transmission Line</MenuItem>
-                      <MenuItem value={7}>Other</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Description of Treatment Unit"
-                    multiline
-                    rows={3}></TextField>
-                </Grid>
-              </Grid>
-            </Box>
-            <Box mb={3}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Was reconnaissance conducted for this treatment unit?</FormLabel>
-                <Box mt={2}>
-                  <RadioGroup aria-label="gender" name="priorityArea" value={reconValue} onChange={handleReconValue}>
-                    <FormControlLabel value="priorityAreaYes" control={<Radio color="primary" />} label="Yes" />
-                    <FormControlLabel value="priorityAreaNo" control={<Radio color="primary" />} label="No" />
-                  </RadioGroup>
-                </Box>
-              </FormControl>
-            </Box>
-            <Box mb={3}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Leave treatment unit for natural recovery?</FormLabel>
-                <Box mt={2}>
-                  <RadioGroup
-                    aria-label="priorityArea"
-                    name="priorityArea"
-                    value={treatmentValue}
-                    onChange={handleTreatmentValue}>
-                    <FormControlLabel
-                      value="treatmentNaturalRecoveryYes"
-                      control={<Radio color="primary" />}
-                      label="Yes"
-                    />
-                    <FormControlLabel
-                      value="treatmentNaturalRecoveryNo"
-                      control={<Radio color="primary" />}
-                      label="No"
-                    />
-                  </RadioGroup>
-                </Box>
-              </FormControl>
-            </Box>
-
-            <Box mb={3}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Was treatment implemented?</FormLabel>
-                <Box mt={2}>
-                  <RadioGroup
-                    aria-label="gender"
-                    name="treatmentImplemented"
-                    value={treatmentImplementedValue}
-                    onChange={handleTreatmentImplementedValue}>
-                    <FormControlLabel value="treatmentImplementedYes" control={<Radio color="primary" />} label="Yes" />
-                    <FormControlLabel value="treatmentImplementedNo" control={<Radio color="primary" />} label="No" />
-                  </RadioGroup>
-                </Box>
-              </FormControl>
-            </Box>
-
-            {treatmentImplementedValue === 'treatmentImplementedYes' && (
-              <Box>
-                <Box mb={2}>
-                  <Typography variant="body1" color="textSecondary">
-                    Specify treatments applied to this unit
-                  </Typography>
-                </Box>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel id="treatments-label">Treatments</InputLabel>
-                  <Select labelId="treatments-label" label="Treatments" id="treatment-type-select">
-                    <MenuItem value={1}>Debris rollback</MenuItem>
-                    <MenuItem value={2}>Hummock placing</MenuItem>
-                    <MenuItem value={3}>Screef</MenuItem>
-                    <MenuItem value={4}>Seeding</MenuItem>
-                    <MenuItem value={5}>Seedling Planting</MenuItem>
-                    <MenuItem value={6}>Tree Bending</MenuItem>
-                    <MenuItem value={7}>Tree Felling</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            )}
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="primary" onClick={fundingSourceDialogClose}>
-            Add
-          </Button>
-          <Button variant="outlined" color="primary" onClick={fundingSourceDialogClose}>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };

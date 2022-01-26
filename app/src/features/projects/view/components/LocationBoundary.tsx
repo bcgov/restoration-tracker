@@ -150,24 +150,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
 
   return (
     <>
-      <EditDialog
-        dialogTitle={EditLocationBoundaryI18N.editTitle}
-        open={openEditDialog}
-        component={{
-          element: (
-            <ProjectLocationForm
-              ranges={codes.ranges.map((item) => {
-                return { value: item.id, label: item.name };
-              })}
-            />
-          ),
-          initialValues: locationFormData,
-          validationSchema: ProjectLocationFormYupSchema
-        }}
-        onCancel={() => setOpenEditDialog(false)}
-        onSave={handleDialogEditSave}
-      />
-
       <FullScreenViewMapDialog
         open={showFullScreenViewMapDialog}
         onClose={handleClose}
@@ -187,16 +169,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
       />
 
       <Box component={Paper} px={3} pt={1} pb={3}>
-        <H2ButtonToolbar
-          label="Project Location"
-          buttonLabel="Edit"
-          buttonTitle="Edit Project Location"
-          buttonStartIcon={<Icon path={mdiPencilOutline} size={0.875} />}
-          buttonOnClick={() => handleDialogEditOpen()}
-          buttonProps={{ variant: 'text' }}
-          toolbarProps={{ disableGutters: true }}
-        />
-
         <Box mt={2} height={350}>
           <MapContainer
             mapId="project_location_form_map"

@@ -12,7 +12,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import ProjectDetailsPage from './ProjectDetailsPage';
 
-
 /**
  * Page to display a single Project.
  *
@@ -74,15 +73,16 @@ const ViewProjectPage: React.FC = () => {
       <Container maxWidth="xl">
         <Box my={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={8}>
+            <Grid item xs={12} lg={4}>
               <Box>
                 <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
               </Box>
+
               {/* <Box mt={3}>
                 <ProjectAttachments projectForViewData={projectWithDetails} />
               </Box> */}
             </Grid>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} lg={8}>
               <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
             </Grid>
           </Grid>
