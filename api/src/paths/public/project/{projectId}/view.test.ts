@@ -272,8 +272,7 @@ describe('getPublicProjectForView', () => {
       create_user: null,
       update_date: null,
       update_user: null,
-      revision_count: 1,
-      publish_date: null
+      revision_count: 1
     };
 
     const permitData = {
