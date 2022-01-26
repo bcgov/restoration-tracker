@@ -523,7 +523,7 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                 <FormLabel component="legend">Leave treatment unit for natural recovery?</FormLabel>
                 <Box mt={2}>
                   <RadioGroup
-                    aria-label="gender"
+                    aria-label="priorityArea"
                     name="priorityArea"
                     value={treatmentValue}
                     onChange={handleTreatmentValue}>

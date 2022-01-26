@@ -10,8 +10,8 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-//import ProjectHeader from './ProjectHeader';
-import RestoProjectDetailsPage from './../view/RestoProjectDetailsPage';
+import ProjectDetailsPage from './ProjectDetailsPage';
+
 
 /**
  * Page to display a single Project.
@@ -71,14 +71,12 @@ const ViewProjectPage: React.FC = () => {
 
   return (
     <>
-      {/* <ProjectHeader projectWithDetails={projectWithDetails} refresh={getProject} /> */}
-
       <Container maxWidth="xl">
         <Box my={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={8}>
               <Box>
-                <RestoProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+                <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
               </Box>
               {/* <Box mt={3}>
                 <ProjectAttachments projectForViewData={projectWithDetails} />
