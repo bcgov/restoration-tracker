@@ -21,8 +21,7 @@ import ProjectGeneralInformationForm from 'features/projects/components/ProjectG
 import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm'; //ProjectIUCNFormYupSchema //ProjectIUCNFormInitialValues,
 import ProjectLocationForm from 'features/projects/components/ProjectLocationForm'; //ProjectLocationFormYupSchema //ProjectLocationFormInitialValues,
 import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm'; //ProjectPartnershipsFormYupSchema //ProjectPartnershipsFormInitialValues,
-import ProjectPermitForm from //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
-//ProjectPermitFormYupSchema
+import ProjectPermitForm from //ProjectPermitFormYupSchema //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
 'features/projects/components/ProjectPermitForm';
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
@@ -169,12 +168,12 @@ const EditProjectPage: React.FC = () => {
     }
   };
 
-
-  const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(ProjectFormInitialValues);
+  const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(
+    ProjectFormInitialValues
+  );
 
   useEffect(() => {
     const getEditProjectFields = async () => {
-
       console.log('codes////////////////////////////////////////////////////');
       console.log(JSON.stringify(codes));
 

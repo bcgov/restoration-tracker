@@ -48,7 +48,7 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
 
             return (
               <li key={index}>
-                {iucn1_name} &gt; {iucn2_name} &gt;{iucn3_name}
+                {iucn1_name} &gt; {iucn2_name} &gt; {iucn3_name}
               </li>
             );
           })}
