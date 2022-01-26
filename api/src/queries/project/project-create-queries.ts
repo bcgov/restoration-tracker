@@ -39,9 +39,9 @@ export const postProjectSQL = (
       coordinator_public
     ) VALUES (
       ${project.name},
-      ${project.objectives},
       ${project.start_date},
       ${project.end_date},
+      ${project.objectives},
       ${project.first_name},
       ${project.last_name},
       ${project.email_address},
