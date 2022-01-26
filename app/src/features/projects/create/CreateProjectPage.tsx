@@ -467,7 +467,7 @@ const CreateProjectPage: React.FC = () => {
                             return { value: item.id, label: item.name };
                           })}
                           stakeholder_partnerships={codes.codes.funding_source.map((item) => {
-                            return { value: item.id, label: item.name };
+                            return { value: item.name, label: item.name };
                           })}
                         />
                       </Box>
