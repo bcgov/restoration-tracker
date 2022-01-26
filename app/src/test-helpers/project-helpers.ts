@@ -61,7 +61,7 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     ]
   },
   partnerships: {
-    indigenous_partnerships: ['partner 1', 'partner 2'],
-    stakeholder_partnerships: ['partner 3', 'partner 4']
+    indigenous_partnerships: [0, 1],
+    stakeholder_partnerships: [2, 3]
   }
 };

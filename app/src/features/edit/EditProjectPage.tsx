@@ -119,8 +119,8 @@ export const ProjectFormInitialValues = {
     fundingSources: []
   } as IGetProjectForViewResponseFundingData,
   partnerships: {
-    indigenous_partnerships: ['string'],
-    stakeholder_partnerships: ['string']
+    indigenous_partnerships: [],
+    stakeholder_partnerships: []
   } as IGetProjectForViewResponsePartnerships
 } as IGetProjectForViewResponse;
 
@@ -176,12 +176,15 @@ const EditProjectPage: React.FC = () => {
     }
   };
 
-  const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(
-    ProjectFormInitialValues
-  );
+
+  const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(ProjectFormInitialValues);
 
   useEffect(() => {
     const getEditProjectFields = async () => {
+
+      console.log('codes////////////////////////////////////////////////////');
+      console.log(JSON.stringify(codes));
+
       console.log('start////////////////////////////////////////////////////');
       var id = urlParams['id'];
       const response = await restorationTrackerApi.project.getProjectById(id);
@@ -195,7 +198,7 @@ const EditProjectPage: React.FC = () => {
 
       console.log(JSON.stringify(initialProjectFormData));
 
-      if (!response || !response.project) {
+      if (!response || !response.id) {
         return;
       }
 
