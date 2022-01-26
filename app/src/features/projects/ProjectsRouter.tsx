@@ -1,4 +1,5 @@
 import CreateProjectPage from 'features/projects/create/CreateProjectPage';
+import EditProjectPage from 'features/edit/EditProjectPage';
 import ProjectsListPage from 'features/projects/list/ProjectsListPage';
 import ProjectsLayout from 'features/projects/ProjectsLayout';
 import ViewProjectPage from 'features/projects/view/ViewProjectPage';
@@ -26,6 +27,12 @@ const ProjectsRouter: React.FC = () => {
         <ProjectsLayout>
           {/* <CreateRestoProjectPage /> */}
           <CreateProjectPage />
+        </ProjectsLayout>
+      </AppRoute>
+
+      <AppRoute exact path="/admin/projects/:id?/edit" layout={ProjectsLayout}>
+        <ProjectsLayout>
+          <EditProjectPage />
         </ProjectsLayout>
       </AppRoute>
 

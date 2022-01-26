@@ -125,7 +125,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    */
   const getProjectForUpdate = async (
     projectId: number,
-    entities: UPDATE_GET_ENTITIES[]
+    entities?: UPDATE_GET_ENTITIES[]
   ): Promise<IGetProjectForUpdateResponse> => {
     const { data } = await axios.get(`api/project/${projectId}/update`, {
       params: { entity: entities },

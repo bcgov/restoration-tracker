@@ -190,7 +190,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
         component={{
           element: (
             <ProjectFundingItemForm
-              funding_sources={
+              fundingSources={
                 codes?.funding_source?.map((item) => {
                   return { value: item.id, label: item.name };
                 }) || []
