@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import { getFormattedAmount } from 'utils/Utils';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -107,7 +108,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                           Amount:
                         </Typography>
                         <Typography variant="body2" component="dt">
-                          {item.funding_amount}
+                          {getFormattedAmount(item.funding_amount)}
                         </Typography>
                       </div>
                       <div>

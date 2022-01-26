@@ -33,10 +33,22 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
       <Box mt={3} component="ul" pl={3}>
         {hasIucnClassifications &&
           iucn.classificationDetails.map((classificationDetail: any, index: number) => {
+            const iucn1_name =
+              props.codes.iucn_conservation_action_level_1_classification[classificationDetail.classification - 1].name;
+
+            const iucn2_name =
+              props.codes.iucn_conservation_action_level_2_subclassification[
+                classificationDetail.subClassification1 - 1
+              ].name;
+
+            const iucn3_name =
+              props.codes.iucn_conservation_action_level_3_subclassification[
+                classificationDetail.subClassification2 - 1
+              ].name;
+
             return (
               <li key={index}>
-                {classificationDetail.classification} &gt; {classificationDetail.subClassification1} &gt;
-                {classificationDetail.subClassification2}
+                {iucn1_name} &gt; {iucn2_name} &gt; {iucn3_name}
               </li>
             );
           })}
