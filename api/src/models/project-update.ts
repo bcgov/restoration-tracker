@@ -1,10 +1,8 @@
-/* eslint-disable */
-// @ts-nocheck
-
 import { Feature } from 'geojson';
+import { IPostIUCN, PostFundingSource } from './project-create';
 
 export class PutIUCNData {
-  classificationDetails: IGetPutIUCN[];
+  classificationDetails: IPostIUCN[];
 
   constructor(obj?: any) {
     this.classificationDetails =
@@ -105,25 +103,10 @@ export class GetPartnershipsData {
 }
 
 export class PutFundingData {
-  id: number;
-  investment_action_category: number;
-  agency_project_id: string;
-  funding_amount: number;
-  start_date: string;
-  end_date: string;
-  revision_count: number;
+  fundingSources: PostFundingSource[];
 
   constructor(obj?: any) {
-    defaultLog.debug({ label: 'PutFundingSource', message: 'params', obj });
-
-    const fundingSource = obj?.fundingSources?.length && obj.fundingSources[0];
-
-    this.id = fundingSource?.id || null;
-    this.investment_action_category = fundingSource?.investment_action_category || null;
-    this.agency_project_id = fundingSource?.agency_project_id || null;
-    this.funding_amount = fundingSource?.funding_amount || null;
-    this.start_date = fundingSource?.start_date || null;
-    this.end_date = fundingSource?.end_date || null;
-    this.revision_count = fundingSource?.revision_count ?? null;
+    this.fundingSources =
+      (obj?.fundingSources?.length && obj.fundingSources.map((item: any) => new PostFundingSource(item))) || [];
   }
 }

@@ -811,30 +811,22 @@ export class ProjectService extends DBService {
   }
 
   async updateProjectFundingData(projectId: number, entities: IUpdateProject): Promise<void> {
-    const putFundingSource = entities?.funding && new models.project.PutFundingData(entities.funding);
+    const deleteSQLStatement = SQL`
+      DELETE
+        from project_funding_source
+      WHERE
+        project_id = ${projectId};
+    `;
 
-    const projectFundingSourceDeleteStatement = queries.project.deleteProjectFundingSourceSQL(
-      projectId,
-      putFundingSource?.id
+    await this.connection.query(deleteSQLStatement.text, deleteSQLStatement.values);
+
+    const putFundingSources = entities?.funding && new models.project.PutFundingData(entities.funding);
+
+    await Promise.all(
+      putFundingSources?.fundingSources?.map((item) => {
+        return this.insertFundingSource(item, projectId);
+      }) || []
     );
-
-    if (!projectFundingSourceDeleteStatement) {
-      throw new HTTP400('Failed to build SQL delete statement');
-    }
-
-    await this.connection.query(projectFundingSourceDeleteStatement.text, projectFundingSourceDeleteStatement.values);
-
-    const sqlInsertStatement = queries.project.putProjectFundingSourceSQL(putFundingSource, projectId);
-
-    if (!sqlInsertStatement) {
-      throw new HTTP400('Failed to build SQL insert statement');
-    }
-
-    const insertResult = await this.connection.query(sqlInsertStatement.text, sqlInsertStatement.values);
-
-    if (!insertResult) {
-      throw new HTTP409('Failed to insert project funding source');
-    }
   }
 
   async updateProjectSpatialData(projectId: number, entities: IUpdateProject): Promise<void> {

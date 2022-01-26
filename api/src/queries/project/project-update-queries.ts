@@ -1,5 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
-import { PutCoordinatorData, PutFundingData, PutProjectData } from '../../models/project-update';
+import { PutCoordinatorData, PutProjectData } from '../../models/project-update';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-update-queries');
@@ -220,52 +220,6 @@ export const putProjectSQL = (
 
   defaultLog.debug({
     label: 'putProjectSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to put (insert) a project funding source row.
- *
- * @param {PutFundingSource} fundingSource
- * @returns {SQLStatement} sql query object
- */
-export const putProjectFundingSourceSQL = (
-  fundingSource: PutFundingData | null,
-  projectId: number
-): SQLStatement | null => {
-  defaultLog.debug({ label: 'putProjectFundingSourceSQL', message: 'params', fundingSource, projectId });
-
-  if (!fundingSource || !projectId) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-      INSERT INTO project_funding_source (
-        project_id,
-        investment_action_category_id,
-        funding_source_project_id,
-        funding_amount,
-        funding_start_date,
-        funding_end_date
-      ) VALUES (
-        ${projectId},
-        ${fundingSource.investment_action_category},
-        ${fundingSource.agency_project_id},
-        ${fundingSource.funding_amount},
-        ${fundingSource.start_date},
-        ${fundingSource.end_date}
-      )
-      RETURNING
-        project_funding_source_id as id;
-    `;
-
-  defaultLog.debug({
-    label: 'putProjectFundingSourceSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
