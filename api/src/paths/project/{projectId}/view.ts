@@ -50,17 +50,7 @@ GET.apiDoc = {
           schema: {
             title: 'Project get response object, for view purposes',
             type: 'object',
-            required: [
-              'id',
-              'project',
-              'permit',
-              'coordinator',
-              'objectives',
-              'location',
-              'iucn',
-              'funding',
-              'partnerships'
-            ],
+            required: ['id', 'project', 'permit', 'coordinator', 'location', 'iucn', 'funding', 'partnerships'],
             properties: {
               id: {
                 description: 'Project id',
@@ -84,71 +74,16 @@ GET.apiDoc = {
                     format: 'date',
                     description: 'ISO 8601 date string for the project end date'
                   },
-                  completion_status: {
-                    description: 'Status of the project being active/completed',
+                  objectives: {
                     type: 'string'
                   },
                   publish_date: {
                     description: 'Status of the project being published/unpublished',
                     format: 'date',
                     type: 'string'
-                  }
-                }
-              },
-              permit: {
-                type: 'object',
-                required: ['permits'],
-                properties: {
-                  permits: {
-                    type: 'array',
-                    items: {
-                      title: 'Project permit',
-                      type: 'object',
-                      properties: {
-                        permit_number: {
-                          type: 'string'
-                        },
-                        permit_type: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              coordinator: {
-                title: 'Project coordinator',
-                type: 'object',
-                required: ['first_name', 'last_name', 'email_address', 'coordinator_agency', 'share_contact_details'],
-                properties: {
-                  first_name: {
-                    type: 'string'
                   },
-                  last_name: {
-                    type: 'string'
-                  },
-                  email_address: {
-                    type: 'string'
-                  },
-                  coordinator_agency: {
-                    type: 'string'
-                  },
-                  share_contact_details: {
-                    type: 'string',
-                    enum: ['true', 'false']
-                  }
-                }
-              },
-              location: {
-                description: 'The project location object',
-                type: 'object',
-                required: ['geometry'],
-                properties: {
-                  geometry: {
-                    type: 'array',
-                    items: {
-                      ...(geoJsonFeature as object)
-                    }
+                  revision_count: {
+                    type: 'number'
                   }
                 }
               },
@@ -176,6 +111,54 @@ GET.apiDoc = {
                   }
                 }
               },
+              coordinator: {
+                title: 'Project coordinator',
+                type: 'object',
+                required: ['first_name', 'last_name', 'email_address', 'coordinator_agency', 'share_contact_details'],
+                properties: {
+                  first_name: {
+                    type: 'string'
+                  },
+                  last_name: {
+                    type: 'string'
+                  },
+                  email_address: {
+                    type: 'string'
+                  },
+                  coordinator_agency: {
+                    type: 'string'
+                  },
+                  share_contact_details: {
+                    type: 'string',
+                    enum: ['true', 'false']
+                  },
+                  revision_count: {
+                    type: 'number'
+                  }
+                }
+              },
+              permit: {
+                type: 'object',
+                required: ['permits'],
+                properties: {
+                  permits: {
+                    type: 'array',
+                    items: {
+                      title: 'Project permit',
+                      required: ['permit_number', 'permit_type'],
+                      type: 'object',
+                      properties: {
+                        permit_number: {
+                          type: 'string'
+                        },
+                        permit_type: {
+                          type: 'string'
+                        }
+                      }
+                    }
+                  }
+                }
+              },
               funding: {
                 description: 'The project funding details',
                 type: 'object',
@@ -185,6 +168,7 @@ GET.apiDoc = {
                     type: 'array',
                     items: {
                       type: 'object',
+                      required: [], // TODO double check which fields are required
                       properties: {
                         id: {
                           type: 'number'
@@ -240,6 +224,19 @@ GET.apiDoc = {
                     type: 'array',
                     items: {
                       type: 'string'
+                    }
+                  }
+                }
+              },
+              location: {
+                description: 'The project location object',
+                type: 'object',
+                required: ['geometry'],
+                properties: {
+                  geometry: {
+                    type: 'array',
+                    items: {
+                      ...(geoJsonFeature as object)
                     }
                   }
                 }

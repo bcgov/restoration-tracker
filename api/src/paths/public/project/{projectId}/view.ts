@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { getAPIUserDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
+import { GetCoordinatorData } from '../../../../models/project-update';
 import {
   GetFundingData,
   GetIUCNClassificationData,
@@ -9,10 +10,10 @@ import {
   GetPartnershipsData,
   GetPermitData
 } from '../../../../models/project-view';
-import { GetPublicCoordinatorData, GetPublicProjectData } from '../../../../models/public/project';
+import { GetPublicProjectData } from '../../../../models/public/project';
+import { geoJsonFeature } from '../../../../openapi/schemas/geoJson';
 import { queries } from '../../../../queries/queries';
 import { getLogger } from '../../../../utils/logger';
-import { geoJsonFeature } from '../../../../openapi/schemas/geoJson';
 
 const defaultLog = getLogger('paths/public/project/{projectId}/view');
 
@@ -332,7 +333,7 @@ export function getPublicProjectForView(): RequestHandler {
       const getLocationData = (locationData && locationData.rows && new GetLocationData(locationData.rows)) || null;
 
       const getCoordinatorData =
-        (projectData && projectData.rows && new GetPublicCoordinatorData(projectData.rows[0])) || null;
+        (projectData && projectData.rows && new GetCoordinatorData(projectData.rows[0])) || null;
 
       const getPartnershipsData =
         (indigenousPartnerships &&

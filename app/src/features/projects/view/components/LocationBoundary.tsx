@@ -86,7 +86,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
     let locationResponseData;
 
     try {
-      const response = await restorationTrackerApi.project.getProjectForUpdate(id, [UPDATE_GET_ENTITIES.location]);
+      const response = await restorationTrackerApi.project.getProjectById(id, [UPDATE_GET_ENTITIES.location]);
 
       if (!response?.location) {
         showErrorDialog({ open: true });

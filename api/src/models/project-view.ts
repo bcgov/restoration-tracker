@@ -42,15 +42,17 @@ export class GetLocationData {
 
   constructor(locationData?: any) {
     const locationDataItem = locationData && locationData.length && locationData[0];
-    this.geometry = (locationDataItem?.geometry?.length && locationDataItem.geometry) || [];
+    this.geometry = (locationDataItem?.geojson?.length && locationDataItem.geojson) || [];
   }
 }
+
 export class GetCoordinatorData {
   first_name: string;
   last_name: string;
   email_address: string;
   coordinator_agency: string;
   share_contact_details: string;
+  revision_count: number;
 
   constructor(coordinatorData?: any) {
     this.first_name = coordinatorData?.coordinator_first_name || '';
@@ -58,6 +60,7 @@ export class GetCoordinatorData {
     this.email_address = coordinatorData?.coordinator_email_address || '';
     this.coordinator_agency = coordinatorData?.coordinator_agency_name || '';
     this.share_contact_details = coordinatorData?.coordinator_public ? 'true' : 'false';
+    this.revision_count = coordinatorData?.revision_count ?? 0;
   }
 }
 
@@ -125,7 +128,7 @@ export class GetFundingData {
             start_date: item.start_date,
             end_date: item.end_date,
             agency_project_id: item.agency_project_id,
-            revision_count: item.revision_count
+            revision_count: item.revision_count ?? 0
           };
         })) ||
       [];

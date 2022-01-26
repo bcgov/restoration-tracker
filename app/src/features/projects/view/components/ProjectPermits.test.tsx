@@ -10,7 +10,7 @@ import ProjectPermits from './ProjectPermits';
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
   project: {
-    getProjectForUpdate: jest.fn<Promise<object>, []>(),
+    getProjectById: jest.fn<Promise<object>, []>(),
     updateProject: jest.fn()
   },
   permit: {
@@ -35,7 +35,7 @@ const renderContainer = () => {
 describe('ProjectPermits', () => {
   beforeEach(() => {
     // clear mocks before each test
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockClear();
+    mockRestorationTrackerApi().project.getProjectById.mockClear();
     mockRestorationTrackerApi().project.updateProject.mockClear();
   });
 
@@ -67,7 +67,7 @@ describe('ProjectPermits', () => {
   });
 
   it('editing the permits works in the dialog', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       permit: {
         permits: [
           {
@@ -98,7 +98,7 @@ describe('ProjectPermits', () => {
     fireEvent.click(getByText('Edit'));
 
     await waitFor(() => {
-      expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
+      expect(mockRestorationTrackerApi().project.getProjectById).toBeCalledWith(getProjectForViewResponse.id, [
         UPDATE_GET_ENTITIES.permit,
         UPDATE_GET_ENTITIES.coordinator
       ]);
@@ -148,7 +148,7 @@ describe('ProjectPermits', () => {
   });
 
   it('displays an error dialog when fetching the update data fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       permit: null
     });
     mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
@@ -175,7 +175,7 @@ describe('ProjectPermits', () => {
   });
 
   it('shows error dialog with API error message when getting permit data for update fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate = jest.fn(() =>
+    mockRestorationTrackerApi().project.getProjectById = jest.fn(() =>
       Promise.reject(new Error('API Error is Here'))
     );
     mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
@@ -202,7 +202,7 @@ describe('ProjectPermits', () => {
   });
 
   it('shows error dialog with API error message when updating permit data fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       permit: {
         permits: [
           {
@@ -234,7 +234,7 @@ describe('ProjectPermits', () => {
     fireEvent.click(getByText('Edit'));
 
     await waitFor(() => {
-      expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
+      expect(mockRestorationTrackerApi().project.getProjectById).toBeCalledWith(getProjectForViewResponse.id, [
         UPDATE_GET_ENTITIES.permit,
         UPDATE_GET_ENTITIES.coordinator
       ]);

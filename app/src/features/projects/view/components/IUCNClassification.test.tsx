@@ -10,7 +10,7 @@ import { DialogContextProvider } from 'contexts/dialogContext';
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
   project: {
-    getProjectForUpdate: jest.fn<Promise<object>, []>(),
+    getProjectById: jest.fn<Promise<object>, []>(),
     updateProject: jest.fn()
   }
 };
@@ -32,7 +32,7 @@ const renderContainer = () => {
 describe('IUCNClassification', () => {
   beforeEach(() => {
     // clear mocks before each test
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockClear();
+    mockRestorationTrackerApi().project.getProjectById.mockClear();
     mockRestorationTrackerApi().project.updateProject.mockClear();
   });
 
@@ -64,7 +64,7 @@ describe('IUCNClassification', () => {
   });
 
   it('editing the IUCN classification works in the dialog', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       iucn: {
         classificationDetails: [
           {
@@ -85,7 +85,7 @@ describe('IUCNClassification', () => {
     fireEvent.click(getByText('Edit'));
 
     await waitFor(() => {
-      expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
+      expect(mockRestorationTrackerApi().project.getProjectById).toBeCalledWith(getProjectForViewResponse.id, [
         UPDATE_GET_ENTITIES.iucn
       ]);
     });
@@ -127,7 +127,7 @@ describe('IUCNClassification', () => {
   });
 
   it('displays an error dialog when fetching the update data fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       iucn: null
     });
 
@@ -151,7 +151,7 @@ describe('IUCNClassification', () => {
   });
 
   it('shows error dialog with API error message when getting IUCN data for update fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate = jest.fn(() =>
+    mockRestorationTrackerApi().project.getProjectById = jest.fn(() =>
       Promise.reject(new Error('API Error is Here'))
     );
 
@@ -175,7 +175,7 @@ describe('IUCNClassification', () => {
   });
 
   it('shows error dialog with API error message when updating IUCN data fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       iucn: {
         classificationDetails: [
           {
@@ -197,7 +197,7 @@ describe('IUCNClassification', () => {
     fireEvent.click(getByText('Edit'));
 
     await waitFor(() => {
-      expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
+      expect(mockRestorationTrackerApi().project.getProjectById).toBeCalledWith(getProjectForViewResponse.id, [
         UPDATE_GET_ENTITIES.iucn
       ]);
     });

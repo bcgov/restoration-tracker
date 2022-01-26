@@ -128,6 +128,7 @@ export interface IGetGeneralInformationForUpdateResponseDetails {
   project_name: string;
   start_date: string;
   end_date: string;
+  objectives: string;
   revision_count: number;
 }
 
@@ -142,8 +143,8 @@ export interface IGetProjectForUpdateResponsePermit {
 
 export interface IGetProjectForUpdateResponseLocation {
   geometry: Feature[];
-  range: number;
-  priority: boolean;
+  range: string;
+  priority: string;
   revision_count: number;
 }
 
