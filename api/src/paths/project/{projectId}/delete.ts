@@ -93,7 +93,7 @@ export function deleteProject(): RequestHandler {
 
       const projectResult = (projectData && projectData.rows && projectData.rows[0]) || null;
 
-      if (!projectResult || !projectResult.id) {
+      if (!projectResult || !projectResult.project_id) {
         throw new HTTP400('Failed to get the project');
       }
 
