@@ -40,6 +40,7 @@ POST.apiDoc = {
           title: 'Project post request object',
           type: 'object',
           required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
+          additionalProperties: false,
           properties: {
             project: {
               title: 'Project general information',
@@ -64,6 +65,8 @@ POST.apiDoc = {
             iucn: {
               title: 'Project IUCN classifications',
               type: 'object',
+              required: ['classificationDetails'],
+              additionalProperties: false,
               properties: {
                 classificationDetails: {
                   type: 'array',
@@ -112,6 +115,8 @@ POST.apiDoc = {
             permit: {
               title: 'Project permits',
               type: 'object',
+              required: ['permits'],
+              additionalProperties: false,
               properties: {
                 permits: {
                   type: 'array',
@@ -134,6 +139,7 @@ POST.apiDoc = {
             funding: {
               title: 'Project funding sources',
               type: 'object',
+              additionalProperties: false,
               properties: {
                 funding_sources: {
                   type: 'array',
@@ -170,6 +176,7 @@ POST.apiDoc = {
             partnerships: {
               title: 'Project partnerships',
               type: 'object',
+              additionalProperties: false,
               properties: {
                 indigenous_partnerships: {
                   type: 'array',
@@ -188,6 +195,7 @@ POST.apiDoc = {
             location: {
               title: 'Location',
               type: 'object',
+              additionalProperties: false,
               properties: {
                 range: {
                   type: 'number'

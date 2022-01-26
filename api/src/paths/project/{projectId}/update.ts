@@ -41,6 +41,7 @@ PUT.apiDoc = {
           title: 'Project Put Object',
           required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
           type: 'object',
+          additionalProperties: false,
           properties: {
             project: {
               type: 'object',
@@ -75,6 +76,7 @@ PUT.apiDoc = {
             iucn: {
               type: 'object',
               required: ['classificationDetails'],
+              additionalProperties: false,
               properties: {
                 classificationDetails: {
                   type: 'array',
@@ -131,6 +133,7 @@ PUT.apiDoc = {
             permit: {
               type: 'object',
               required: ['permits'],
+              additionalProperties: false,
               properties: {
                 permits: {
                   type: 'array',
@@ -154,6 +157,7 @@ PUT.apiDoc = {
               description: 'The project funding details',
               type: 'object',
               required: ['fundingSources'],
+              additionalProperties: false,
               properties: {
                 fundingSources: {
                   type: 'array',
@@ -204,6 +208,7 @@ PUT.apiDoc = {
               description: 'The project partners',
               type: 'object',
               required: ['indigenous_partnerships', 'stakeholder_partnerships'],
+              additionalProperties: false,
               properties: {
                 indigenous_partnerships: {
                   type: 'array',
