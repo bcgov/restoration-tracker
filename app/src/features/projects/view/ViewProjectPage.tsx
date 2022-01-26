@@ -10,7 +10,7 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import ProjectHeader from './ProjectHeader';
+//import ProjectHeader from './ProjectHeader';
 import RestoProjectDetailsPage from './../view/RestoProjectDetailsPage';
 
 /**
@@ -71,7 +71,7 @@ const ViewProjectPage: React.FC = () => {
 
   return (
     <>
-      <ProjectHeader projectWithDetails={projectWithDetails} refresh={getProject} />
+      {/* <ProjectHeader projectWithDetails={projectWithDetails} refresh={getProject} /> */}
 
       <Container maxWidth="xl">
         <Box my={3}>

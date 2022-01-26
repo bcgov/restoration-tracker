@@ -14,30 +14,23 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import ProjectCoordinatorForm from //ProjectCoordinatorInitialValues,
-//ProjectCoordinatorYupSchema
+import ProjectCoordinatorForm from //ProjectCoordinatorYupSchema //ProjectCoordinatorInitialValues,
 'features/projects/components/ProjectCoordinatorForm';
 
-import ProjectFundingForm from //ProjectFundingFormInitialValues,
-//ProjectFundingFormYupSchema
+import ProjectFundingForm from //ProjectFundingFormYupSchema //ProjectFundingFormInitialValues,
 'features/projects/components/ProjectFundingForm';
-import ProjectGeneralInformationForm from //ProjectGeneralInformationFormInitialValues,
-//ProjectGeneralInformationFormYupSchema
+import ProjectGeneralInformationForm from //ProjectGeneralInformationFormYupSchema //ProjectGeneralInformationFormInitialValues,
 'features/projects/components/ProjectGeneralInformationForm';
-import ProjectIUCNForm from //ProjectIUCNFormInitialValues,
-//ProjectIUCNFormYupSchema
+import ProjectIUCNForm from //ProjectIUCNFormYupSchema //ProjectIUCNFormInitialValues,
 'features/projects/components/ProjectIUCNForm';
-import ProjectLocationForm from //ProjectLocationFormInitialValues,
-//ProjectLocationFormYupSchema
+import ProjectLocationForm from //ProjectLocationFormYupSchema //ProjectLocationFormInitialValues,
 'features/projects/components/ProjectLocationForm';
-import ProjectPartnershipsForm from //ProjectPartnershipsFormInitialValues,
-//ProjectPartnershipsFormYupSchema
+import ProjectPartnershipsForm from //ProjectPartnershipsFormYupSchema //ProjectPartnershipsFormInitialValues,
 'features/projects/components/ProjectPartnershipsForm';
-import ProjectPermitForm, {
-  //IProjectPermitFormArrayItem
-  //ProjectPermitFormInitialValues,
-  //ProjectPermitFormYupSchema
-} from 'features/projects/components/ProjectPermitForm';
+import ProjectPermitForm from //IProjectPermitFormArrayItem
+//ProjectPermitFormInitialValues,
+//ProjectPermitFormYupSchema
+'features/projects/components/ProjectPermitForm';
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
@@ -97,7 +90,7 @@ export const ProjectFormInitialValues = {
     project_name: 'string',
     start_date: 'string',
     end_date: 'string',
-    objectives: 'string',
+    objectives: 'string'
   } as IGetProjectForViewResponseDetails,
   permit: {
     permits: [
@@ -183,12 +176,12 @@ const EditProjectPage: React.FC = () => {
     }
   };
 
-
-  const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(ProjectFormInitialValues);
+  const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(
+    ProjectFormInitialValues
+  );
 
   useEffect(() => {
     const getEditProjectFields = async () => {
-
       console.log('start////////////////////////////////////////////////////');
       var id = urlParams['id'];
       const response = await restorationTrackerApi.project.getProjectById(id);
@@ -214,15 +207,12 @@ const EditProjectPage: React.FC = () => {
     }
 
     getEditProjectFields();
-
   }, [hasLoadedDraftData, restorationTrackerApi.project, urlParams]);
 
   const handleCancel = () => {
     dialogContext.setYesNoDialog(defaultCancelDialogProps);
     history.push('/admin/projects');
   };
-
-
 
   /**
    * Handle project creation.
@@ -232,9 +222,8 @@ const EditProjectPage: React.FC = () => {
       var id = urlParams['id'];
       const hold = false;
 
-      if (hold){
-
-        const response = {id: id}
+      if (hold) {
+        const response = { id: id };
 
         //await restorationTrackerApi.project.updateProject(id, values);
 
@@ -250,7 +239,6 @@ const EditProjectPage: React.FC = () => {
         history.push(`/admin/projects/${response.id}`);
       }
       console.log(JSON.stringify(values));
-
     } catch (error) {
       showCreateErrorDialog({
         dialogTitle: 'Error Creating Project',
@@ -259,8 +247,6 @@ const EditProjectPage: React.FC = () => {
       });
     }
   };
-
-
 
   const showCreateErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
     dialogContext.setErrorDialog({
@@ -305,8 +291,6 @@ const EditProjectPage: React.FC = () => {
   return (
     <>
       <Prompt when={enableCancelCheck} message={handleLocationChange} />
-
-
 
       <Box my={4}>
         <Container maxWidth="xl">

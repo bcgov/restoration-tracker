@@ -1,5 +1,6 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Dialog from '@material-ui/core/Dialog';
@@ -25,15 +26,20 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
+import clsx from 'clsx';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
+import { DeleteProjectI18N } from 'constants/i18n';
+import { ProjectStatusType } from 'constants/misc';
 import { SYSTEM_ROLE } from 'constants/roles';
 import { AuthStateContext } from 'contexts/authStateContext';
+import { DialogContext } from 'contexts/dialogContext';
 import IUCNClassification from 'features/projects/view/components/IUCNClassification';
 import Partnerships from 'features/projects/view/components/Partnerships';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import FundingSource from './components/FundingSource';
@@ -41,12 +47,6 @@ import GeneralInformation from './components/GeneralInformation';
 import Objectives from './components/Objectives';
 import ProjectCoordinator from './components/ProjectCoordinator';
 import ProjectPermits from './components/ProjectPermits';
-import { DialogContext } from 'contexts/dialogContext';
-import { DeleteProjectI18N } from 'constants/i18n';
-import { ProjectStatusType } from 'constants/misc';
-import moment from 'moment';
-import Chip from '@material-ui/core/Chip';
-import clsx from 'clsx';
 
 export interface IProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -138,6 +138,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     chipPriority: {
       backgroundColor: theme.palette.info.dark
+    },
+    chipNotAPriority: {
+      backgroundColor: theme.palette.text.disabled
     }
   })
 );
@@ -247,7 +250,8 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
 
-  const priority_status = ProjectStatusType.PRIORITY;
+  //const priority_status = ProjectStatusType.PRIORITY;
+  const priority_status = ProjectStatusType.NOT_A_PRIORITY;
 
   const getChipIcon = (status_name: string) => {
     let chipLabel;
@@ -265,6 +269,9 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     } else if (ProjectStatusType.PRIORITY === status_name) {
       chipLabel = 'Priority';
       chipStatusClass = classes.chipPriority;
+    } else if (ProjectStatusType.NOT_A_PRIORITY === status_name) {
+      chipLabel = 'Priority';
+      chipStatusClass = classes.chipNotAPriority;
     }
 
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;

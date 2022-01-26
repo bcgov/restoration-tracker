@@ -175,9 +175,7 @@ describe('ProjectPermits', () => {
   });
 
   it('shows error dialog with API error message when getting permit data for update fails', async () => {
-    mockRestorationTrackerApi().project.getProjectById = jest.fn(() =>
-      Promise.reject(new Error('API Error is Here'))
-    );
+    mockRestorationTrackerApi().project.getProjectById = jest.fn(() => Promise.reject(new Error('API Error is Here')));
     mockRestorationTrackerApi().permit.getNonSamplingPermits.mockResolvedValue([
       { permit_id: 1, number: 1, type: 'Wildlife' }
     ]);

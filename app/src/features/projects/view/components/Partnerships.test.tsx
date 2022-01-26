@@ -160,9 +160,7 @@ describe('Partnerships', () => {
   });
 
   it('shows error dialog with API error message when getting partnerships data for update fails', async () => {
-    mockRestorationTrackerApi().project.getProjectById = jest.fn(() =>
-      Promise.reject(new Error('API Error is Here'))
-    );
+    mockRestorationTrackerApi().project.getProjectById = jest.fn(() => Promise.reject(new Error('API Error is Here')));
 
     const { getByText, queryByText, getAllByRole } = render(
       <DialogContextProvider>
