@@ -38,7 +38,7 @@ const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
             <Typography component="dt" variant="subtitle2" color="textSecondary">
               Indigenous Partnerships
             </Typography>
-            {indigenous_partnerships?.map((indigenousPartnership: string, index: number) => {
+            {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
               return (
                 <Typography component="dd" variant="body1" key={index}>
                   {indigenousPartnership}
@@ -56,7 +56,7 @@ const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
             <Typography component="dt" variant="subtitle2" color="textSecondary">
               Other Partnerships
             </Typography>
-            {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
+            {stakeholder_partnerships?.map((stakeholderPartnership: number, index: number) => {
               return (
                 <Typography component="dd" variant="body1" key={index}>
                   {stakeholderPartnership}

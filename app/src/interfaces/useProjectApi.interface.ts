@@ -274,8 +274,8 @@ export interface IGetProjectForViewResponseFundingData {
 }
 
 export interface IGetProjectForViewResponsePartnerships {
-  indigenous_partnerships: string[];
-  stakeholder_partnerships: string[];
+  indigenous_partnerships: number[];
+  stakeholder_partnerships: number[];
 }
 
 /**
