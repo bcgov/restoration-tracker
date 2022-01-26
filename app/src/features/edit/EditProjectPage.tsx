@@ -14,21 +14,14 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import ProjectCoordinatorForm from //ProjectCoordinatorYupSchema //ProjectCoordinatorInitialValues,
-'features/projects/components/ProjectCoordinatorForm';
+import ProjectCoordinatorForm from 'features/projects/components/ProjectCoordinatorForm'; //ProjectCoordinatorYupSchema //ProjectCoordinatorInitialValues,
 
-import ProjectFundingForm from //ProjectFundingFormYupSchema //ProjectFundingFormInitialValues,
-'features/projects/components/ProjectFundingForm';
-import ProjectGeneralInformationForm from //ProjectGeneralInformationFormYupSchema //ProjectGeneralInformationFormInitialValues,
-'features/projects/components/ProjectGeneralInformationForm';
-import ProjectIUCNForm from //ProjectIUCNFormYupSchema //ProjectIUCNFormInitialValues,
-'features/projects/components/ProjectIUCNForm';
-import ProjectLocationForm from //ProjectLocationFormYupSchema //ProjectLocationFormInitialValues,
-'features/projects/components/ProjectLocationForm';
-import ProjectPartnershipsForm from //ProjectPartnershipsFormYupSchema //ProjectPartnershipsFormInitialValues,
-'features/projects/components/ProjectPartnershipsForm';
-import ProjectPermitForm from //IProjectPermitFormArrayItem
-//ProjectPermitFormInitialValues,
+import ProjectFundingForm from 'features/projects/components/ProjectFundingForm'; //ProjectFundingFormYupSchema //ProjectFundingFormInitialValues,
+import ProjectGeneralInformationForm from 'features/projects/components/ProjectGeneralInformationForm'; //ProjectGeneralInformationFormYupSchema //ProjectGeneralInformationFormInitialValues,
+import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm'; //ProjectIUCNFormYupSchema //ProjectIUCNFormInitialValues,
+import ProjectLocationForm from 'features/projects/components/ProjectLocationForm'; //ProjectLocationFormYupSchema //ProjectLocationFormInitialValues,
+import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm'; //ProjectPartnershipsFormYupSchema //ProjectPartnershipsFormInitialValues,
+import ProjectPermitForm from //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
 //ProjectPermitFormYupSchema
 'features/projects/components/ProjectPermitForm';
 import { Form, Formik, FormikProps } from 'formik';

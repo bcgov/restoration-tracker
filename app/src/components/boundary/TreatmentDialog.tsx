@@ -220,7 +220,7 @@ export const TreatmentDialog: React.FC = () => {
               <FormControl component="fieldset">
                 <FormLabel component="legend">Was reconnaissance conducted for this treatment unit?</FormLabel>
                 <Box mt={2}>
-                  <RadioGroup aria-label="gender" name="priorityArea" value={reconValue} onChange={handleReconValue}>
+                  <RadioGroup aria-label="priority" name="priorityArea" value={reconValue} onChange={handleReconValue}>
                     <FormControlLabel value="priorityAreaYes" control={<Radio color="primary" />} label="Yes" />
                     <FormControlLabel value="priorityAreaNo" control={<Radio color="primary" />} label="No" />
                   </RadioGroup>

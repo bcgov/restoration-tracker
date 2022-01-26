@@ -25,7 +25,6 @@ const ProjectsRouter: React.FC = () => {
 
       <AppRoute exact path="/admin/projects/create" layout={ProjectsLayout}>
         <ProjectsLayout>
-          {/* <CreateRestoProjectPage /> */}
           <CreateProjectPage />
         </ProjectsLayout>
       </AppRoute>
