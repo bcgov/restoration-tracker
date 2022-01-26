@@ -14,12 +14,10 @@ const defaultLog = getLogger('queries/project/project-create-queries');
 /**
  * SQL query to insert a project row.
  *
- * @param {(PostProjectData & PostLocationData & PostCoordinatorData)} project
+ * @param {(PostProjectData & PostCoordinatorData)} project
  * @returns {SQLStatement} sql query object
  */
-export const postProjectSQL = (
-  project: PostProjectData & PostLocationData & PostCoordinatorData
-): SQLStatement | null => {
+export const postProjectSQL = (project: PostProjectData & PostCoordinatorData): SQLStatement | null => {
   defaultLog.debug({ label: 'postProjectSQL', message: 'params', PostProjectObject });
 
   if (!project) {

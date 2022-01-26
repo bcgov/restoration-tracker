@@ -3,7 +3,7 @@ import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../constants/roles';
 import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
-import { PostFundingSource } from '../../../../models/project-create';
+import { models } from '../../../../models/models';
 import { queries } from '../../../../queries/queries';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { getLogger } from '../../../../utils/logger';
@@ -43,7 +43,7 @@ export function addFundingSource(): RequestHandler {
 
     const connection = getDBConnection(req['keycloak_token']);
 
-    const sanitizedPostFundingSource = req.body && new PostFundingSource(req.body);
+    const sanitizedPostFundingSource = req.body && new models.project.PostFundingSource(req.body);
 
     if (!sanitizedPostFundingSource) {
       throw new HTTP400('Missing funding source data');

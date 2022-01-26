@@ -1,8 +1,5 @@
-/* eslint-disable */
-// @ts-nocheck
-
 import { SQL, SQLStatement } from 'sql-template-strings';
-import { PutCoordinatorData, PutProjectData } from '../../models/project-update';
+import { PutCoordinatorData, PutFundingData, PutProjectData } from '../../models/project-update';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-update-queries');
@@ -238,7 +235,7 @@ export const putProjectSQL = (
  * @returns {SQLStatement} sql query object
  */
 export const putProjectFundingSourceSQL = (
-  fundingSource: PutFundingSource | null,
+  fundingSource: PutFundingData | null,
   projectId: number
 ): SQLStatement | null => {
   defaultLog.debug({ label: 'putProjectFundingSourceSQL', message: 'params', fundingSource, projectId });

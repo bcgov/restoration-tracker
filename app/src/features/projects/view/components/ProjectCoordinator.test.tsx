@@ -10,7 +10,7 @@ import { DialogContextProvider } from 'contexts/dialogContext';
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
   project: {
-    getProjectForUpdate: jest.fn<Promise<object>, []>(),
+    getProjectById: jest.fn<Promise<object>, []>(),
     updateProject: jest.fn()
   }
 };
@@ -32,7 +32,7 @@ const renderContainer = () => {
 describe('ProjectCoordinator', () => {
   beforeEach(() => {
     // clear mocks before each test
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockClear();
+    mockRestorationTrackerApi().project.getProjectById.mockClear();
     mockRestorationTrackerApi().project.updateProject.mockClear();
   });
 
@@ -47,7 +47,7 @@ describe('ProjectCoordinator', () => {
   });
 
   it('editing the project contact works in the dialog', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       coordinator: {
         first_name: 'first name',
         last_name: 'last name',
@@ -67,7 +67,7 @@ describe('ProjectCoordinator', () => {
     fireEvent.click(getByText('Edit'));
 
     await waitFor(() => {
-      expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
+      expect(mockRestorationTrackerApi().project.getProjectById).toBeCalledWith(getProjectForViewResponse.id, [
         UPDATE_GET_ENTITIES.coordinator
       ]);
     });
@@ -108,7 +108,7 @@ describe('ProjectCoordinator', () => {
   });
 
   it('displays an error dialog when fetching the update data fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       coordinator: undefined
     });
 
@@ -132,7 +132,7 @@ describe('ProjectCoordinator', () => {
   });
 
   it('shows error dialog with API error message when getting coordinator data for update fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate = jest.fn(() =>
+    mockRestorationTrackerApi().project.getProjectById = jest.fn(() =>
       Promise.reject(new Error('API Error is Here'))
     );
 
@@ -156,7 +156,7 @@ describe('ProjectCoordinator', () => {
   });
 
   it('shows error dialog with API error message when updating coordinator data fails', async () => {
-    mockRestorationTrackerApi().project.getProjectForUpdate.mockResolvedValue({
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue({
       coordinator: {
         first_name: 'first name',
         last_name: 'last name',
@@ -177,7 +177,7 @@ describe('ProjectCoordinator', () => {
     fireEvent.click(getByText('Edit'));
 
     await waitFor(() => {
-      expect(mockRestorationTrackerApi().project.getProjectForUpdate).toBeCalledWith(getProjectForViewResponse.id, [
+      expect(mockRestorationTrackerApi().project.getProjectById).toBeCalledWith(getProjectForViewResponse.id, [
         UPDATE_GET_ENTITIES.coordinator
       ]);
     });
