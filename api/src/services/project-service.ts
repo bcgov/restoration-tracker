@@ -531,12 +531,18 @@ export class ProjectService extends DBService {
     return result.id;
   }
 
-  async insertIndigenousNation(indigenousNationId: number, project_id: number): Promise<number> {
-    const sqlStatement = queries.project.postProjectIndigenousNationSQL(indigenousNationId, project_id);
-
-    if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL insert statement');
-    }
+  async insertIndigenousNation(indigenousNationId: number, projectId: number): Promise<number> {
+    const sqlStatement = SQL`
+      INSERT INTO project_first_nation (
+        project_id,
+        first_nations_id
+      ) VALUES (
+        ${projectId},
+        ${indigenousNationId}
+      )
+      RETURNING
+        project_first_nation_id as id;
+    `;
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
@@ -549,12 +555,18 @@ export class ProjectService extends DBService {
     return result.id;
   }
 
-  async insertStakeholderPartnership(stakeholderPartner: string, project_id: number): Promise<number> {
-    const sqlStatement = queries.project.postProjectStakeholderPartnershipSQL(stakeholderPartner, project_id);
-
-    if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL insert statement');
-    }
+  async insertStakeholderPartnership(stakeholderPartner: string, projectId: number): Promise<number> {
+    const sqlStatement = SQL`
+      INSERT INTO stakeholder_partnership (
+        project_id,
+        name
+      ) VALUES (
+        ${projectId},
+        ${stakeholderPartner}
+      )
+      RETURNING
+        stakeholder_partnership_id as id;
+    `;
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
@@ -574,11 +586,21 @@ export class ProjectService extends DBService {
       throw new HTTP400('Failed to identify system user ID');
     }
 
-    const sqlStatement = queries.permit.postProjectPermitSQL(permitNumber, permitType, projectId, systemUserId);
-
-    if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL insert statement');
-    }
+    const sqlStatement = SQL`
+      INSERT INTO permit (
+        project_id,
+        number,
+        type,
+        system_user_id
+      ) VALUES (
+        ${projectId},
+        ${permitNumber},
+        ${permitType},
+        ${systemUserId}
+      )
+      RETURNING
+        permit_id as id;
+    `;
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
