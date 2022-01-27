@@ -138,7 +138,7 @@ describe('useProjectApi', () => {
   it('getProjectById works as expected (public)', async () => {
     mock.onGet(`/api/public/project/${projectId}/view`).reply(200, getProjectForViewResponse);
 
-    const result = await usePublicProjectApi(axios).getProjectById(projectId);
+    const result = await usePublicProjectApi(axios).getProjectForView(projectId);
 
     expect(result).toEqual(getProjectForViewResponse);
   });

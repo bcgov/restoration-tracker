@@ -14,14 +14,13 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { EditProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import ProjectCoordinatorForm from 'features/projects/components/ProjectCoordinatorForm'; //ProjectCoordinatorYupSchema //ProjectCoordinatorInitialValues,
-
-import ProjectFundingForm from 'features/projects/components/ProjectFundingForm'; //ProjectFundingFormYupSchema //ProjectFundingFormInitialValues,
-import ProjectGeneralInformationForm from 'features/projects/components/ProjectGeneralInformationForm'; //ProjectGeneralInformationFormYupSchema //ProjectGeneralInformationFormInitialValues,
-import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm'; //ProjectIUCNFormYupSchema //ProjectIUCNFormInitialValues,
-import ProjectLocationForm from 'features/projects/components/ProjectLocationForm'; //ProjectLocationFormYupSchema //ProjectLocationFormInitialValues,
-import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm'; //ProjectPartnershipsFormYupSchema //ProjectPartnershipsFormInitialValues,
-import ProjectPermitForm from 'features/projects/components/ProjectPermitForm'; //ProjectPermitFormYupSchema //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
+import ProjectCoordinatorForm from 'features/projects/components/ProjectCoordinatorForm';
+import ProjectFundingForm from 'features/projects/components/ProjectFundingForm';
+import ProjectGeneralInformationForm from 'features/projects/components/ProjectGeneralInformationForm';
+import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm';
+import ProjectLocationForm from 'features/projects/components/ProjectLocationForm';
+import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm';
+import ProjectPermitForm from 'features/projects/components/ProjectPermitForm';
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
