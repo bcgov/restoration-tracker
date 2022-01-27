@@ -5,6 +5,7 @@ export class GetProjectData {
   start_date: string;
   end_date: string;
   objectives: string;
+  publish_date: string;
   revision_count: number;
 
   constructor(projectData?: any) {
@@ -12,6 +13,7 @@ export class GetProjectData {
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
     this.objectives = projectData?.objectives || '';
+    this.publish_date = projectData?.publish_timestamp || '';
     this.revision_count = projectData?.revision_count ?? 0;
   }
 }

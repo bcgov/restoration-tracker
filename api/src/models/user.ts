@@ -12,9 +12,9 @@ export class UserObject {
   constructor(obj?: any) {
     defaultLog.debug({ label: 'UserObject', message: 'params', obj });
 
-    this.id = obj?.system_user_id || null;
-    this.user_identifier = obj?.user_identifier || null;
-    this.record_end_date = obj?.record_end_date || null;
+    this.id = obj?.system_user_id || undefined;
+    this.user_identifier = obj?.user_identifier || undefined;
+    this.record_end_date = obj?.record_end_date || undefined;
     this.role_ids = (obj?.role_ids?.length && obj.role_ids) || [];
     this.role_names = (obj?.role_names?.length && obj.role_names) || [];
   }
