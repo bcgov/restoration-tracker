@@ -21,8 +21,7 @@ import ProjectGeneralInformationForm from 'features/projects/components/ProjectG
 import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm'; //ProjectIUCNFormYupSchema //ProjectIUCNFormInitialValues,
 import ProjectLocationForm from 'features/projects/components/ProjectLocationForm'; //ProjectLocationFormYupSchema //ProjectLocationFormInitialValues,
 import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm'; //ProjectPartnershipsFormYupSchema //ProjectPartnershipsFormInitialValues,
-import ProjectPermitForm from //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
-//ProjectPermitFormYupSchema
+import ProjectPermitForm from //ProjectPermitFormYupSchema //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
 'features/projects/components/ProjectPermitForm';
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
@@ -194,21 +193,15 @@ const EditProjectPage: React.FC = () => {
 
   useEffect(() => {
     const getEditProjectFields = async () => {
-      console.log('codes////////////////////////////////////////////////////');
-      console.log(JSON.stringify(codes));
-
-      console.log('start////////////////////////////////////////////////////');
       var id = urlParams['id'];
       const response = await restorationTrackerApi.project.getProjectById(id);
 
       setInitialProjectFormData(response);
 
-      console.log('response////////////////////////////////////////////////////');
-
-      console.log(JSON.stringify(response));
-      console.log('initaia; valiues////////////////////////////////////////////////////');
-
-      console.log(JSON.stringify(initialProjectFormData));
+      // console.log('response////////////////////////////////////////////////////');
+      // console.log(JSON.stringify(response));
+      // console.log('initaia; valiues////////////////////////////////////////////////////');
+      // console.log(JSON.stringify(initialProjectFormData));
 
       if (!response || !response.id) {
         return;
@@ -230,7 +223,7 @@ const EditProjectPage: React.FC = () => {
   };
 
   /**
-   * Handle project creation.
+   * Handle project edits.
    */
   const handleProjectEdits = async (values: IGetProjectForViewResponse) => {
     try {
@@ -249,8 +242,6 @@ const EditProjectPage: React.FC = () => {
       setEnableCancelCheck(false);
 
       history.push(`/admin/projects/${response.id}`);
-
-      console.log(JSON.stringify(values));
     } catch (error) {
       showCreateErrorDialog({
         dialogTitle: 'Error Creating Project',
