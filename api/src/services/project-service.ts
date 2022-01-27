@@ -678,6 +678,10 @@ export class ProjectService extends DBService {
       promises.push(this.updateProjectFundingData(projectId, entities));
     }
 
+    if (entities?.location) {
+      promises.push(this.updateProjectSpatialData(projectId, entities));
+    }
+
     await Promise.all(promises);
   }
 

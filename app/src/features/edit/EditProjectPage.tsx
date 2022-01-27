@@ -21,8 +21,7 @@ import ProjectGeneralInformationForm from 'features/projects/components/ProjectG
 import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm'; //ProjectIUCNFormYupSchema //ProjectIUCNFormInitialValues,
 import ProjectLocationForm from 'features/projects/components/ProjectLocationForm'; //ProjectLocationFormYupSchema //ProjectLocationFormInitialValues,
 import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm'; //ProjectPartnershipsFormYupSchema //ProjectPartnershipsFormInitialValues,
-import ProjectPermitForm from //ProjectPermitFormYupSchema //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
-'features/projects/components/ProjectPermitForm';
+import ProjectPermitForm from 'features/projects/components/ProjectPermitForm'; //ProjectPermitFormYupSchema //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
@@ -38,21 +37,10 @@ import {
   IGetProjectForViewResponseIUCN,
   IGetProjectForViewResponseFundingData,
   IGetProjectForViewResponsePartnerships
-
-  //IGetProjectForUpdateResponse,
-  //IGetGeneralInformationForUpdateResponseDetails,
-  //IGetProjectForUpdateResponsePermit,
-  //IGetProjectForUpdateResponseLocation,
-  //IGetProjectForUpdateResponseCoordinator,
-  //IGetProjectForUpdateResponseIUCN,
-  //IGetProjectForUpdateResponseFundingData,
-  //IGetProjectForUpdateResponsePartnerships
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Prompt } from 'react-router-dom';
-//import { number } from 'yup';
-//import yup from 'utils/YupSchema';
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
@@ -79,64 +67,40 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const ProjectFormInitialValues = {
   id: 0,
   project: {
-    project_name: 'string',
-    start_date: '1999-07-22',
-    end_date: '2022-07-22',
-    objectives: 'string'
+    project_name: '',
+    start_date: '',
+    end_date: '',
+    objectives: ''
   } as IGetProjectForViewResponseDetails,
   permit: {
-    permits: [
-      {
-        permit_number: 'a23123',
-        permit_type: 'Wildlife Permit - General'
-      }
-    ]
+    permits: []
   } as IGetProjectForViewResponsePermit,
   location: {
     geometry: [],
-    range: '1',
-    priority: 'false'
+    range: '',
+    priority: ''
   } as IGetProjectForViewResponseLocation,
   coordinator: {
-    first_name: 'string',
-    last_name: 'string',
-    email_address: 'string',
-    coordinator_agency: 'string',
-    share_contact_details: 'true'
+    first_name: '',
+    last_name: '',
+    email_address: '',
+    coordinator_agency: '',
+    share_contact_details: ''
   } as IGetProjectForViewResponseCoordinator,
   iucn: {
-    classificationDetails: [
-      {
-        classification: 1,
-        subClassification1: 1,
-        subClassification2: 4
-      }
-    ]
+    classificationDetails: []
   } as IGetProjectForViewResponseIUCN,
   funding: {
-    fundingSources: [
-      {
-        id: 1,
-        agency_id: 17,
-        investment_action_category: 56,
-        investment_action_category_name: 'Not Applicable',
-        agency_name: 'Canadian Wildlife Services',
-        funding_amount: 123132,
-        start_date: '2022-01-26',
-        end_date: '2022-02-01',
-        agency_project_id: '231231',
-        revision_count: 0
-      }
-    ]
+    fundingSources: []
   } as IGetProjectForViewResponseFundingData,
   partnerships: {
-    indigenous_partnerships: [1, 2, 3],
-    stakeholder_partnerships: ['BC Parks Living Labs', 'Caribou Recovery Fund']
+    indigenous_partnerships: [],
+    stakeholder_partnerships: []
   } as IGetProjectForViewResponsePartnerships
 } as IGetProjectForViewResponse;
 
 /**
- * Page for creating a new project.
+ * Page for editing a project.
  *
  * @return {*}
  */
@@ -162,31 +126,6 @@ const EditProjectPage: React.FC = () => {
 
   const dialogContext = useContext(DialogContext);
 
-  const defaultCancelDialogProps = {
-    dialogTitle: EditProjectI18N.cancelTitle,
-    dialogText: EditProjectI18N.cancelText,
-    open: false,
-    onClose: () => {
-      dialogContext.setYesNoDialog({ open: false });
-    },
-    onNo: () => {
-      dialogContext.setYesNoDialog({ open: false });
-    },
-    onYes: () => {
-      dialogContext.setYesNoDialog({ open: false });
-      history.push('/admin/projects');
-    }
-  };
-
-  const defaultErrorDialogProps = {
-    onClose: () => {
-      dialogContext.setErrorDialog({ open: false });
-    },
-    onOk: () => {
-      dialogContext.setErrorDialog({ open: false });
-    }
-  };
-
   const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(
     ProjectFormInitialValues
   );
@@ -197,11 +136,6 @@ const EditProjectPage: React.FC = () => {
       const response = await restorationTrackerApi.project.getProjectById(id);
 
       setInitialProjectFormData(response);
-
-      // console.log('response////////////////////////////////////////////////////');
-      // console.log(JSON.stringify(response));
-      // console.log('initaia; valiues////////////////////////////////////////////////////');
-      // console.log(JSON.stringify(initialProjectFormData));
 
       if (!response || !response.id) {
         return;
@@ -217,11 +151,6 @@ const EditProjectPage: React.FC = () => {
     getEditProjectFields();
   }, [hasLoadedDraftData, restorationTrackerApi.project, urlParams]);
 
-  const handleCancel = () => {
-    dialogContext.setYesNoDialog(defaultCancelDialogProps);
-    history.push('/admin/projects');
-  };
-
   /**
    * Handle project edits.
    */
@@ -232,8 +161,7 @@ const EditProjectPage: React.FC = () => {
       const response = await restorationTrackerApi.project.updateProject(id, values);
 
       if (!response?.id) {
-        console.log(JSON.stringify(response));
-        showCreateErrorDialog({
+        showEditErrorDialog({
           dialogError: 'The response from the server was null, or did not contain a project ID.'
         });
         return;
@@ -243,15 +171,45 @@ const EditProjectPage: React.FC = () => {
 
       history.push(`/admin/projects/${response.id}`);
     } catch (error) {
-      showCreateErrorDialog({
-        dialogTitle: 'Error Creating Project',
+      showEditErrorDialog({
+        dialogTitle: 'Error Editing Project',
         dialogError: (error as APIError)?.message,
         dialogErrorDetails: (error as APIError)?.errors
       });
     }
   };
 
-  const showCreateErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
+  const handleCancel = () => {
+    dialogContext.setYesNoDialog(defaultCancelDialogProps);
+    history.push(`/admin/projects/${urlParams['id']}`);
+  };
+
+  const defaultErrorDialogProps = {
+    onClose: () => {
+      dialogContext.setErrorDialog({ open: false });
+    },
+    onOk: () => {
+      dialogContext.setErrorDialog({ open: false });
+    }
+  };
+
+  const defaultCancelDialogProps = {
+    dialogTitle: EditProjectI18N.cancelTitle,
+    dialogText: EditProjectI18N.cancelText,
+    open: false,
+    onClose: () => {
+      dialogContext.setYesNoDialog({ open: false });
+    },
+    onNo: () => {
+      dialogContext.setYesNoDialog({ open: false });
+    },
+    onYes: () => {
+      dialogContext.setYesNoDialog({ open: false });
+      history.push(`/admin/projects/${urlParams['id']}`);
+    }
+  };
+
+  const showEditErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
     dialogContext.setErrorDialog({
       dialogTitle: EditProjectI18N.editErrorTitle,
       dialogText: EditProjectI18N.editErrorText,
@@ -446,7 +404,7 @@ const EditProjectPage: React.FC = () => {
                     color="primary"
                     size="large"
                     type="submit"
-                    data-testid="project-create-button">
+                    data-testid="project-save-button">
                     Save Project
                   </Button>
                   <Button variant="text" color="primary" size="large" data-testid="project-cancel-buttton">
