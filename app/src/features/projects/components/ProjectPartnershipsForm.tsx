@@ -10,7 +10,7 @@ import yup from 'utils/YupSchema';
 export interface IProjectPartnershipsForm {
   partnerships: {
     indigenous_partnerships: number[];
-    stakeholder_partnerships: number[];
+    stakeholder_partnerships: string[];
   };
 }
 

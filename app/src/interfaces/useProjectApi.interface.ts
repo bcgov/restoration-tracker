@@ -247,9 +247,9 @@ export interface IGetProjectForViewResponseCoordinator {
 }
 
 interface IGetProjectForViewResponseIUCNArrayItem {
-  classification: string;
-  subClassification1: string;
-  subClassification2: string;
+  classification: number;
+  subClassification1: number;
+  subClassification2: number;
 }
 
 export interface IGetProjectForViewResponseIUCN {

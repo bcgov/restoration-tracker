@@ -9,7 +9,7 @@ import {
   IGetProjectsListResponse,
   IGetUserProjectsListResponse,
   IProjectAdvancedFilterRequest,
-  IUpdateProjectRequest,
+  //IUpdateProjectRequest,
   IUploadAttachmentResponse
 } from 'interfaces/useProjectApi.interface';
 
@@ -118,10 +118,10 @@ const useProjectApi = (axios: AxiosInstance) => {
    * Update an existing project.
    *
    * @param {number} projectId
-   * @param {IUpdateProjectRequest} projectData
+   * @param {IGetProjectForViewResponse} projectData
    * @return {*}  {Promise<any>}
    */
-  const updateProject = async (projectId: number, projectData: IUpdateProjectRequest): Promise<any> => {
+  const updateProject = async (projectId: number, projectData: IGetProjectForViewResponse): Promise<any> => {
     const { data } = await axios.put(`api/project/${projectId}/update`, projectData);
 
     return data;

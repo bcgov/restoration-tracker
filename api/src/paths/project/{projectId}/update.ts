@@ -39,10 +39,13 @@ PUT.apiDoc = {
       'application/json': {
         schema: {
           title: 'Project Put Object',
-          required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
+          required: ['id', 'project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
           type: 'object',
           additionalProperties: false,
           properties: {
+            id:{
+              type: 'number'
+            },
             project: {
               type: 'object',
               required: ['project_name', 'start_date', 'end_date', 'objectives'],
@@ -213,7 +216,7 @@ PUT.apiDoc = {
                 indigenous_partnerships: {
                   type: 'array',
                   items: {
-                    type: 'string'
+                    type: 'number'
                   }
                 },
                 stakeholder_partnerships: {
