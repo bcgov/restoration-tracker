@@ -3,6 +3,8 @@ apiVersion: v1
 metadata:
   name: migration
   creationTimestamp: null
+annotations:
+  iconClass: iconpostgresql
 parameters:
   - name: IMAGE
     description: 'Image for pod'

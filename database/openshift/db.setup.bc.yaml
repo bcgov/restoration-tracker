@@ -5,6 +5,8 @@ metadata:
   labels:
     build: restoration-tracker-db-setup
   name: restoration-tracker-db-setup
+annotations:
+  iconClass: iconpostgresql
 parameters:
   - name: NAME
     displayName: Name
