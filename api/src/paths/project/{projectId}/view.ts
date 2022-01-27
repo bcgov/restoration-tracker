@@ -79,6 +79,7 @@ GET.apiDoc = {
                   },
                   publish_date: {
                     description: 'Status of the project being published/unpublished',
+                    nullable: true,
                     format: 'date',
                     type: 'string'
                   },

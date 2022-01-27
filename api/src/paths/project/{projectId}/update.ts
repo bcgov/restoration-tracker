@@ -43,7 +43,7 @@ PUT.apiDoc = {
           type: 'object',
           additionalProperties: false,
           properties: {
-            id:{
+            id: {
               type: 'number'
             },
             project: {
@@ -68,6 +68,7 @@ PUT.apiDoc = {
                 },
                 publish_date: {
                   description: 'Status of the project being published/unpublished',
+                  nullable: true,
                   format: 'date',
                   type: 'string'
                 },
@@ -321,7 +322,7 @@ function updateProject(): RequestHandler {
 
       await connection.commit();
 
-      return res.status(200).send();
+      return res.status(200).json({ id: projectId });
     } catch (error) {
       defaultLog.error({ label: 'updateProject', message: 'error', error });
       await connection.rollback();

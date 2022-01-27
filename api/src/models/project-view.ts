@@ -13,7 +13,7 @@ export class GetProjectData {
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
     this.objectives = projectData?.objectives || '';
-    this.publish_date = projectData?.publish_timestamp || '';
+    this.publish_date = projectData?.publish_timestamp || null;
     this.revision_count = projectData?.revision_count ?? 0;
   }
 }

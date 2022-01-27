@@ -316,6 +316,15 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
                       onClick={() => history.push('users')}>
                       Manage Team
                     </Button>
+                    <Button
+                      variant="outlined"
+                      disableElevation
+                      className={classes.actionButton}
+                      data-testid="edit-project-button"
+                      aria-label="Edit Project"
+                      onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
+                      Edit Project
+                    </Button>
                     {showDeleteProjectButton && (
                       <Tooltip
                         arrow
