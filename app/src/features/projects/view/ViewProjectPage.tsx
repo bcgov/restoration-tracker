@@ -3,8 +3,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
-//import ProjectAttachments from 'features/projects/view/ProjectAttachments';
-//import ProjectDetails from 'features/projects/view/ProjectDetails';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
@@ -73,16 +71,10 @@ const ViewProjectPage: React.FC = () => {
       <Container maxWidth="xl">
         <Box my={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={4}>
-              <Box>
-                <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
-              </Box>
-
-              {/* <Box mt={3}>
-                <ProjectAttachments projectForViewData={projectWithDetails} />
-              </Box> */}
+            <Grid item xs={12} md={5} lg={4}>
+              <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
             </Grid>
-            <Grid item xs={12} lg={8}>
+            <Grid item xs={12} md={7} lg={8}>
               <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
             </Grid>
           </Grid>
