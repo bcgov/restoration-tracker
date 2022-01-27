@@ -2,7 +2,6 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { getDBConnection } from '../database/db';
 import { HTTP400 } from '../errors/custom-error';
-import { SYSTEM_ROLE } from '../constants/roles';
 import { draftResponseObject } from '../openapi/schemas/draft';
 import { queries } from '../queries/queries';
 import { authorizeRequestHandler } from '../request-handlers/security/authorization';
@@ -15,7 +14,6 @@ export const GET: Operation = [
     return {
       and: [
         {
-          validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR],
           discriminator: 'SystemUser'
         }
       ]
