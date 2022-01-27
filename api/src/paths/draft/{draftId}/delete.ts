@@ -14,6 +14,7 @@ export const DELETE: Operation = [
     return {
       and: [
         {
+          //do not include DATA_ADMINISTRATOR as per requirements
           validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.PROJECT_CREATOR],
           discriminator: 'SystemRole'
         }
