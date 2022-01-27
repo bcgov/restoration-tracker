@@ -139,9 +139,10 @@ POST.apiDoc = {
             funding: {
               title: 'Project funding sources',
               type: 'object',
+              required: ['fundingSources'],
               additionalProperties: false,
               properties: {
-                funding_sources: {
+                fundingSources: {
                   type: 'array',
                   items: {
                     title: 'Project funding agency',
