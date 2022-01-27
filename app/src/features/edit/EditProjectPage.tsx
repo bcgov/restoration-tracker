@@ -12,7 +12,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
-import { CreateProjectI18N } from 'constants/i18n';
+import { EditProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import ProjectCoordinatorForm from 'features/projects/components/ProjectCoordinatorForm'; //ProjectCoordinatorYupSchema //ProjectCoordinatorInitialValues,
 
@@ -21,7 +21,8 @@ import ProjectGeneralInformationForm from 'features/projects/components/ProjectG
 import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm'; //ProjectIUCNFormYupSchema //ProjectIUCNFormInitialValues,
 import ProjectLocationForm from 'features/projects/components/ProjectLocationForm'; //ProjectLocationFormYupSchema //ProjectLocationFormInitialValues,
 import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm'; //ProjectPartnershipsFormYupSchema //ProjectPartnershipsFormInitialValues,
-import ProjectPermitForm from //ProjectPermitFormYupSchema //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
+import ProjectPermitForm from //ProjectPermitFormInitialValues, //IProjectPermitFormArrayItem
+//ProjectPermitFormYupSchema
 'features/projects/components/ProjectPermitForm';
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
@@ -80,21 +81,21 @@ export const ProjectFormInitialValues = {
   id: 0,
   project: {
     project_name: 'string',
-    start_date: 'string',
-    end_date: 'string',
+    start_date: '1999-07-22',
+    end_date: '2022-07-22',
     objectives: 'string'
   } as IGetProjectForViewResponseDetails,
   permit: {
     permits: [
       {
-        permit_number: '',
-        permit_type: ''
+        permit_number: 'a23123',
+        permit_type: 'Wildlife Permit - General'
       }
     ]
   } as IGetProjectForViewResponsePermit,
   location: {
     geometry: [],
-    range: '0',
+    range: '1',
     priority: 'false'
   } as IGetProjectForViewResponseLocation,
   coordinator: {
@@ -102,17 +103,36 @@ export const ProjectFormInitialValues = {
     last_name: 'string',
     email_address: 'string',
     coordinator_agency: 'string',
-    share_contact_details: 'string'
+    share_contact_details: 'true'
   } as IGetProjectForViewResponseCoordinator,
   iucn: {
-    classificationDetails: []
+    classificationDetails: [
+      {
+        classification: 1,
+        subClassification1: 1,
+        subClassification2: 4
+      }
+    ]
   } as IGetProjectForViewResponseIUCN,
   funding: {
-    fundingSources: []
+    fundingSources: [
+      {
+        id: 1,
+        agency_id: 17,
+        investment_action_category: 56,
+        investment_action_category_name: 'Not Applicable',
+        agency_name: 'Canadian Wildlife Services',
+        funding_amount: 123132,
+        start_date: '2022-01-26',
+        end_date: '2022-02-01',
+        agency_project_id: '231231',
+        revision_count: 0
+      }
+    ]
   } as IGetProjectForViewResponseFundingData,
   partnerships: {
-    indigenous_partnerships: [],
-    stakeholder_partnerships: []
+    indigenous_partnerships: [1, 2, 3],
+    stakeholder_partnerships: ['BC Parks Living Labs', 'Caribou Recovery Fund']
   } as IGetProjectForViewResponsePartnerships
 } as IGetProjectForViewResponse;
 
@@ -144,8 +164,8 @@ const EditProjectPage: React.FC = () => {
   const dialogContext = useContext(DialogContext);
 
   const defaultCancelDialogProps = {
-    dialogTitle: CreateProjectI18N.cancelTitle,
-    dialogText: CreateProjectI18N.cancelText,
+    dialogTitle: EditProjectI18N.cancelTitle,
+    dialogText: EditProjectI18N.cancelText,
     open: false,
     onClose: () => {
       dialogContext.setYesNoDialog({ open: false });
@@ -215,24 +235,21 @@ const EditProjectPage: React.FC = () => {
   const handleProjectEdits = async (values: IGetProjectForViewResponse) => {
     try {
       var id = urlParams['id'];
-      const hold = false;
 
-      if (hold) {
-        const response = { id: id };
+      const response = await restorationTrackerApi.project.updateProject(id, values);
 
-        //await restorationTrackerApi.project.updateProject(id, values);
-
-        if (!response?.id) {
-          showCreateErrorDialog({
-            dialogError: 'The response from the server was null, or did not contain a project ID.'
-          });
-          return;
-        }
-
-        setEnableCancelCheck(false);
-
-        history.push(`/admin/projects/${response.id}`);
+      if (!response?.id) {
+        console.log(JSON.stringify(response));
+        showCreateErrorDialog({
+          dialogError: 'The response from the server was null, or did not contain a project ID.'
+        });
+        return;
       }
+
+      setEnableCancelCheck(false);
+
+      history.push(`/admin/projects/${response.id}`);
+
       console.log(JSON.stringify(values));
     } catch (error) {
       showCreateErrorDialog({
@@ -245,8 +262,8 @@ const EditProjectPage: React.FC = () => {
 
   const showCreateErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
     dialogContext.setErrorDialog({
-      dialogTitle: CreateProjectI18N.createErrorTitle,
-      dialogText: CreateProjectI18N.createErrorText,
+      dialogTitle: EditProjectI18N.editErrorTitle,
+      dialogText: EditProjectI18N.editErrorText,
       ...defaultErrorDialogProps,
       ...textDialogProps,
       open: true
@@ -404,7 +421,7 @@ const EditProjectPage: React.FC = () => {
                             return { value: item.id, label: item.name };
                           })}
                           stakeholder_partnerships={codes.codes.funding_source.map((item) => {
-                            return { value: item.id, label: item.name };
+                            return { value: item.name, label: item.name };
                           })}
                         />
                       </Box>
