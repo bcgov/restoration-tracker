@@ -30,7 +30,7 @@ GET.apiDoc = {
     }
   ],
   responses: {
-    '200': {
+    200: {
       description: 'User details for the currently authenticated user.',
       content: {
         'application/json': {
