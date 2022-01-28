@@ -20,7 +20,6 @@ import {
   add_partnerships,
   publish_project,
   attach_file,
-  add_survey,
 } from "../page-functions/project/project-create-page";
 
 beforeEach(() => {
@@ -41,35 +40,19 @@ while (n < 1) {
     /* ==== Open Create Project ==== */
     navigate_project();
 
-    add_coordinator_info(null, null, null, null, null, false); //navloc,fname,lname,email,agency,noshare
-    next_page_project();
-
-    add_permits(null, null, null, "true"); //navloc, permit_nr, permit_type, sampling
-    next_page_project();
-
     add_project_info(null, null, null, null); //project_name, project_type, start_date, end_date
-    next_page_project();
-
-    add_objectives(null, null); //objectives, caveats
-    next_page_project();
-
+    add_objectives(null, null); //objectives
+    add_classification(null, null, null); //classification, sub_classification1, sub_classification2
+    add_coordinator_info(null, null, null, null, null, false); //navloc,fname,lname,email,agency,noshare
+    add_permits(null, null, null, "true"); //navloc, permit_nr, permit_type, sampling
+    add_funding(null,null);
+    add_partnerships();
     add_locations(null, null); //description, kml_file
     add_gpx(null); // gpx_file
-    next_page_project();
-
-    add_classification(null, null, null); //classification, sub_classification1, sub_classification2
-    next_page_project();
-
-    add_funding(null,null);
-    next_page_project();
-
-    add_partnerships();
     submit_project();
     cy.wait(10000);
 
-    publish_project();
-
-    attach_file();
+    //publish_project();
 
   });
   n++;
