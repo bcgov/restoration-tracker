@@ -5,14 +5,10 @@ import {
   GetPartnershipsData,
   PutCoordinatorData,
   PutPartnershipsData,
-  GetLocationData,
-  GetProjectData,
   PutProjectData,
   PutIUCNData,
-  GetIUCNClassificationData,
   PutLocationData,
-  PutFundingSource,
-  GetPermitData
+  PutFundingData
 } from './project-update';
 
 describe('PutLocationData', () => {
@@ -70,12 +66,12 @@ describe('PutLocationData', () => {
   });
 });
 
-describe('GetIUCNClassificationData', () => {
+describe('PutIUCNData', () => {
   describe('No values provided', () => {
-    let data: GetIUCNClassificationData;
+    let data: PutIUCNData;
 
     before(() => {
-      data = new GetIUCNClassificationData((null as unknown) as any[]);
+      data = new PutIUCNData((null as unknown) as any[]);
     });
 
     it('sets classification details', () => {
@@ -92,10 +88,10 @@ describe('GetIUCNClassificationData', () => {
       }
     ];
 
-    let data: GetIUCNClassificationData;
+    let data: PutIUCNData;
 
     before(() => {
-      data = new GetIUCNClassificationData(obj);
+      data = new PutIUCNData(obj);
     });
 
     it('sets classification details', () => {
@@ -426,159 +422,10 @@ describe('PutCoordinatorData', () => {
   });
 });
 
-describe('GetPermitData', () => {
-  describe('No values provided', () => {
-    let projectPermitData: GetPermitData;
 
-    before(() => {
-      projectPermitData = new GetPermitData((null as unknown) as any[]);
-    });
 
-    it('sets permits', function () {
-      expect(projectPermitData.permits).to.eql([]);
-    });
-  });
 
-  describe('All values provided', () => {
-    let projectPermitData: GetPermitData;
 
-    const permits = [
-      {
-        number: '1',
-        type: 'permit type'
-      }
-    ];
-
-    before(() => {
-      projectPermitData = new GetPermitData(permits);
-    });
-
-    it('sets permits', function () {
-      expect(projectPermitData.permits).to.eql([
-        {
-          permit_number: '1',
-          permit_type: 'permit type'
-        }
-      ]);
-    });
-  });
-});
-
-describe('GetLocationData', () => {
-  describe('No values provided', () => {
-    let locationData: GetLocationData;
-
-    before(() => {
-      locationData = new GetLocationData(null);
-    });
-
-    it('sets the geometry', function () {
-      expect(locationData.geometry).to.eql([]);
-    });
-
-    it('sets revision_count', () => {
-      expect(locationData.revision_count).to.equal(null);
-    });
-  });
-
-  describe('All values provided', () => {
-    let locationData: GetLocationData;
-
-    const geometry = [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [125.6, 10.1]
-        },
-        properties: {
-          name: 'Dinagat Islands'
-        }
-      }
-    ];
-    const revision_count = 1;
-
-    const locationDataObj = [
-      {
-        geometry,
-        revision_count
-      },
-      {
-        geometry,
-        revision_count
-      }
-    ];
-
-    before(() => {
-      locationData = new GetLocationData(locationDataObj);
-    });
-
-    it('sets the geometry', function () {
-      expect(locationData.geometry).to.eql(geometry);
-    });
-
-    it('sets revision_count', () => {
-      expect(locationData.revision_count).to.equal(revision_count);
-    });
-  });
-});
-
-describe('GetProjectData', () => {
-  describe('No values provided', () => {
-    let data: GetProjectData;
-
-    before(() => {
-      data = new GetProjectData();
-    });
-
-    it('sets name', () => {
-      expect(data.project_name).to.equal('');
-    });
-
-    it('sets start_date', () => {
-      expect(data.start_date).to.equal('');
-    });
-
-    it('sets end_date', () => {
-      expect(data.end_date).to.equal('');
-    });
-
-    it('sets revision_count', () => {
-      expect(data.revision_count).to.equal(null);
-    });
-  });
-
-  describe('all values provided', () => {
-    const projectData = {
-      name: 'project name',
-      start_date: '2020-04-20T07:00:00.000Z',
-      end_date: '2020-05-20T07:00:00.000Z',
-      revision_count: 1
-    };
-
-    let data: GetProjectData;
-
-    before(() => {
-      data = new GetProjectData(projectData);
-    });
-
-    it('sets name', () => {
-      expect(data.project_name).to.equal('project name');
-    });
-
-    it('sets start_date', () => {
-      expect(data.start_date).to.equal('2020-04-20T07:00:00.000Z');
-    });
-
-    it('sets end_date', () => {
-      expect(data.end_date).to.equal('2020-05-20T07:00:00.000Z');
-    });
-
-    it('sets revision_count', () => {
-      expect(data.revision_count).to.equal(1);
-    });
-  });
-});
 
 describe('PutProjectData', () => {
   describe('No values provided', () => {
@@ -641,51 +488,26 @@ describe('PutProjectData', () => {
   });
 });
 
-describe('PutFundingSource', () => {
+describe('PutFundingData', () => {
   describe('No values provided', () => {
-    let data: PutFundingSource;
+    let data: PutFundingData;
 
     before(() => {
-      data = new PutFundingSource(null);
+      data = new PutFundingData(null);
     });
 
-    it('sets id', () => {
-      expect(data.id).to.equal(null);
-    });
-
-    it('sets investment_action_category', () => {
-      expect(data.investment_action_category).to.equal(null);
-    });
-
-    it('sets agency_project_id', () => {
-      expect(data.agency_project_id).to.equal(null);
-    });
-
-    it('sets funding_amount', () => {
-      expect(data.funding_amount).to.equal(null);
-    });
-
-    it('sets start_date', () => {
-      expect(data.start_date).to.equal(null);
-    });
-
-    it('sets end_date', () => {
-      expect(data.end_date).to.equal(null);
-    });
-
-    it('sets revision_count', () => {
-      expect(data.revision_count).to.equal(null);
+    it('sets funding sources', () => {
+      expect(data.fundingSources).to.equal(null);
     });
   });
 
   describe('All values provided', () => {
-    let data: PutFundingSource;
+    let data: PutFundingData;
 
     before(() => {
-      data = new PutFundingSource({
+      data = new PutFundingData({
         fundingSources: [
           {
-            id: 1,
             investment_action_category: 1,
             agency_project_id: 'agency project id',
             funding_amount: 20,
@@ -697,32 +519,24 @@ describe('PutFundingSource', () => {
       });
     });
 
-    it('sets id', () => {
-      expect(data.id).to.equal(1);
-    });
-
     it('sets investment_action_category', () => {
-      expect(data.investment_action_category).to.equal(1);
+      expect(data.fundingSources[0].investment_action_category).to.equal(1);
     });
 
     it('sets agency_project_id', () => {
-      expect(data.agency_project_id).to.equal('agency project id');
+      expect(data.fundingSources[0].agency_project_id).to.equal('agency project id');
     });
 
     it('sets funding_amount', () => {
-      expect(data.funding_amount).to.equal(20);
+      expect(data.fundingSources[0].funding_amount).to.equal(20);
     });
 
     it('sets start_date', () => {
-      expect(data.start_date).to.equal('2020/04/04');
+      expect(data.fundingSources[0].start_date).to.equal('2020/04/04');
     });
 
     it('sets end_date', () => {
-      expect(data.end_date).to.equal('2020/05/05');
-    });
-
-    it('sets revision_count', () => {
-      expect(data.revision_count).to.equal(1);
+      expect(data.fundingSources[0].end_date).to.equal('2020/05/05');
     });
   });
 });
