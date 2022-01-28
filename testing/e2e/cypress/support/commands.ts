@@ -9,7 +9,7 @@
 // ***********************************************
 
 import "cypress-file-upload";
-import "./keycloak.js"
+import "./keycloak.js";
 
 Cypress.Commands.overwrite('login', (originalFn) => {
   originalFn({

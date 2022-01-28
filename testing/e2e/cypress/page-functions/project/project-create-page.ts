@@ -3,9 +3,9 @@ import * as faker from "faker";
 
 export function navigate_project() {
   // Create project
-  cy.wait(5000);
+  cy.wait(1000);
   cy.visit("/admin/projects/create");
-  cy.wait(5000);
+  cy.wait(1000);
 }
 
 // Add Coordinator takes variables or when omitted (NULL), it will use fake data)
@@ -18,28 +18,25 @@ export function add_coordinator_info(
   share
 ) {
   // Coordinator Info
-  cy.get("span.MuiStepLabel-iconContainer")
-    .eq(navloc || 0)
-    .click(); // Click on the Navigation bar
-  cy.contains("Project Contact").should("be.visible");
-  cy.get("#first_name").clear();
-  cy.get("#first_name").type(fname || faker.name.firstName());
-  cy.get("#last_name").clear();
-  cy.get("#last_name").type(lname || faker.name.lastName());
-  cy.get("#email_address").clear();
-  cy.get("#email_address").type(email || faker.internet.email());
-  cy.get("#coordinator_agency").click();
+  cy.get("h1").contains("Create Restoration Project").should("be.visible");
+  cy.get("#coordinator\\.first_name").clear();
+  cy.get("#coordinator\\.first_name").type(fname || faker.name.firstName());
+  cy.get("#coordinator\\.last_name").clear();
+  cy.get("#coordinator\\.last_name").type(lname || faker.name.lastName());
+  cy.get("#coordinator\\.email_address").clear();
+  cy.get("#coordinator\\.email_address").type(email || faker.internet.email());
+  cy.get("#coordinator\\.coordinator_agency").click();
 
   // Agency is the sequential number for the shown agency in the drop down.
   cy.get(
-    "#coordinator_agency-option-" +
+    "#coordinator\\.coordinator_agency-option-" +
       (agency || faker.random.number({ min: 0, max: 264 }))
   ).click();
 
   // Select the Radiobutton
   // the Share parameter takes 'Yes', 'No' or NULL, which defaults to 'Yes'
 
-  cy.get('[name="share_contact_details"][type="radio"]').check({
+  cy.get('[name="coordinator.share_contact_details"][type="radio"]').check({
     force: share,
   });
   //cy.get('input[name="share_contact_details"]').uncheck()
@@ -47,29 +44,23 @@ export function add_coordinator_info(
 
 export function add_permits(navloc, permit_nr, permit_type, sampling) {
   // Permits Info
-  cy.get("span.MuiStepLabel-iconContainer")
-    .eq(navloc || 1)
-    .click(); // Click on the Navigation bar
-  cy.contains("Permits").should("be.visible");
-  cy.get("button").contains("Add New Permit").click();
-  cy.get("#permits\\.\\[0\\]\\.permit_number").clear();
-  cy.get("#permits\\.\\[0\\]\\.permit_number").type(
+
+  cy.get("h2").contains("Permits").should("be.visible");
+  cy.get('#permit-type-select').click();
+  cy.get('[name="permit.permits.[0].permit_type"]').focus();
+  cy.get("#menu-permit\\.permits\\.\\[0\\]\\.permit_type > div.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul > li:nth-child(" + faker.random.number({ min: 1, max: 2 }) +")").click();
+  cy.get('[name="permit.permits.[0].permit_number"]').clear();
+  cy.get('[name="permit.permits.[0].permit_number"]').type(
     permit_nr || faker.random.number()
   );
-  cy.get("#permits\\.\\[0\\]\\.permit_type").focus().type("{enter}");
-  cy.get("div.MuiPaper-root > ul.MuiList-root > li.MuiButtonBase-root", {
-    includeShadowDom: true,
-  })
-    .eq(faker.random.number({ min: 0, max: 2 }))
-    .click({ force: true });
 }
 
 export function add_locations(description, kml_file) {
   // Locations
-  cy.get("span.MuiStepLabel-iconContainer").eq(4).click(); // Click on the Navigation bar
-  cy.contains("Locations").should("be.visible");
-  cy.get("#location_description").type(description || faker.lorem.paragraph());
-  cy.get('[data-testid="boundary_file-upload"]').click();
+  cy.get('h2').contains("Location").should("be.visible");
+  cy.get("#caribou-range-select").type("{enter}");
+  cy.get('li[data-value="1"]').click();
+  cy.get('[data-testid="project-boundary-upload"]').click();
   cy.get('[data-testid="drop-zone-input"]').attachFile(
     "shapes/" + (kml_file || faker.random.number({ min: 1, max: 9 })) + ".kml"
   );
@@ -79,7 +70,7 @@ export function add_locations(description, kml_file) {
 
 export function add_gpx(gpx_file) {
   // GPX Flight Path upload
-  cy.get('[data-testid="boundary_file-upload"]').click();
+  cy.get('[data-testid="project-boundary-upload"]').click();
   cy.get('[data-testid="drop-zone-input"]').attachFile(
     "shapes/" + (gpx_file || faker.random.number({ min: 1, max: 8 })) + ".gpx"
   );
@@ -103,23 +94,15 @@ export function add_project_info(
   start_date,
   end_date
 ) {
-  cy.get("span.MuiStepLabel-iconContainer").eq(2).click(); // Click on the Navigation bar
-  cy.contains("General Information").should("be.visible");
-  cy.get("#project_name").clear();
-  cy.get("#project_name").type(
+
+  cy.get('h2').contains("General Information").should("be.visible");
+  cy.get("#project\\.project_name").clear();
+  cy.get("#project\\.project_name").type(
     (
       project_name || faker.company.catchPhrase() + " " + faker.company.bs()
     ).substring(0, 50)
   );
-  cy.get("body").click();
-  cy.get("#project_type").focus().type("{enter}");
-  if (project_type) {
-    cy.get('[data-value="' + project_type + '"]').click();
-  } else {
-    cy.get(
-      '[data-value="' + faker.random.number({ min: 1, max: 4 }) + '"]'
-    ).click();
-  }
+
   cy.get("#start_date").type(
     start_date ||
       "20" +
@@ -127,7 +110,7 @@ export function add_project_info(
         "-" +
         faker.random.number({ min: 10, max: 12 }) +
         "-" +
-        faker.random.number({ min: 10, max: 28 })
+        faker.random.number({ min: 10, max: 28 }), {force:true}
   );
   cy.get("#end_date").type(
     end_date ||
@@ -136,17 +119,13 @@ export function add_project_info(
         "-" +
         faker.random.number({ min: 10, max: 12 }) +
         "-" +
-        faker.random.number({ min: 10, max: 28 })
+        faker.random.number({ min: 10, max: 28 }), {force:true}
   );
 }
 
 export function add_objectives(objectives, caveats) {
-  cy.get("span.MuiStepLabel-iconContainer").eq(3).click(); // Click on the Navigation bar
-  cy.contains("Objectives").should("be.visible");
-  cy.get("#objectives").click();
-  cy.get("#objectives").type(objectives || faker.lorem.paragraph());
-  cy.get("#caveats").click();
-  cy.get("#caveats").type(caveats || faker.lorem.paragraph());
+  cy.get("#project\\.objectives").click();
+  cy.get("#project\\.objectives").type(objectives || faker.lorem.paragraph());
 }
 
 export function add_classification(
@@ -155,11 +134,9 @@ export function add_classification(
   sub_classification2
 ) {
   var subclass1_count, subclass2_count;
-  cy.get("span.MuiStepLabel-iconContainer").eq(5).click(); // Click on the Navigation bar
-  cy.contains("IUCN Conservation Actions Classification").should("be.visible");
 
   cy.get("button").contains("Add Classification").click();
-  cy.get("#classificationDetails\\.\\[0\\]\\.classification")
+  cy.get("#iucn\\.classificationDetails\\.\\[0\\]\\.classification")
     .focus()
     .type("{enter}");
   if (classification) {
@@ -170,21 +147,20 @@ export function add_classification(
     ).click();
   }
 
-  cy.get("#classificationDetails\\.\\[0\\]\\.subClassification1")
+  cy.get("#iucn\\.classificationDetails\\.\\[0\\]\\.subClassification1")
     .focus()
     .type("{downarrow}{enter}"); // Select the first Entry
 
-  cy.get("#classificationDetails\\.\\[0\\]\\.subClassification2")
+  cy.get("#iucn\\.classificationDetails\\.\\[0\\]\\.subClassification2")
     .focus()
     .type("{downarrow}{enter}"); // Select the first Entry
 
-  cy.wait(5000);
 }
 
 export function add_funding(start_date, end_date) {
-  cy.get("span.MuiStepLabel-iconContainer").eq(6).click(); // Click on the Navigation bar
-  cy.contains("Funding").should("be.visible");
-  cy.get('button[data-testid="add-button"]')
+
+  cy.get('h2').contains("Funding and Partnerships").should("be.visible");
+  cy.get('button[data-testid="add-funding-source-button"]')
     .contains("Add Funding Source")
     .click();
   cy.get("#agency_id").focus().type("{downarrow}{enter}");
@@ -194,7 +170,7 @@ export function add_funding(start_date, end_date) {
   cy.get("#funding_amount").type(
     faker.random.number({ min: 100, max: 100000 })
   );
-  cy.get("#start_date").type(
+  cy.get("#funding_amount").tab().type(
     start_date ||
       "20" +
         faker.random.number({ min: 19, max: 21 }) +
@@ -203,7 +179,7 @@ export function add_funding(start_date, end_date) {
         "-" +
         faker.random.number({ min: 10, max: 28 })
   );
-  cy.get("#end_date").type(
+  cy.get("#funding_amount").tab().tab().type(
     end_date ||
       "20" +
         faker.random.number({ min: 22, max: 30 }) +
@@ -213,17 +189,15 @@ export function add_funding(start_date, end_date) {
         faker.random.number({ min: 10, max: 28 })
   );
   cy.get("button").contains("Save Changes").click();
-  cy.wait(5000);
+
+  cy.wait(1000);
 }
 
 export function add_partnerships() {
-  cy.get("span.MuiStepLabel-iconContainer").eq(7).click(); // Click on the Navigation bar
-  cy.contains("Partnerships").should("be.visible");
+  cy.get("#partnerships\\.indigenous_partnerships").focus().type("{downarrow}{enter}");
+  cy.get("#partnerships\\.stakeholder_partnerships").focus().type("{downarrow}{enter}").tab();
 
-  cy.get("#indigenous_partnerships").focus().type("{downarrow}{enter}");
-  cy.get("#stakeholder_partnerships").focus().type("{downarrow}{enter}");
-
-  cy.wait(5000);
+  cy.wait(1000);
 }
 
 export function publish_project() {
@@ -248,7 +222,7 @@ export function attach_file() {
 }
 
 export function submit_project() {
-  cy.get('button[data-testid="stepper_submit"]').click();
+  cy.get('button[data-testid="project-create-button"]').click();
   cy.wait(5000);
 }
 
