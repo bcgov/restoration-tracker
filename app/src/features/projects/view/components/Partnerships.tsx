@@ -30,26 +30,26 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
     <>
       <dl className="ddInline">
         <Box component="section" mt={3}>
-          <Typography variant="body1" component={'h3'}>
+          <Typography variant="body1" component={'h3'} data-testid="PartnershipTitle">
             Partnerships
           </Typography>
 
           <Box mt={3}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="body2" component="dt" color="textSecondary">
+                <Typography variant="body2" component="dt" color="textSecondary" data-testid="IndigenousPartners">
                   Indigenous Partnerships
                 </Typography>
                 {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
                   return (
-                    <Typography variant="body2" component="dt" key={index}>
+                    <Typography variant="body2" component="dt" key={index} >
                       {indigenousPartnership}
                     </Typography>
                   );
                 })}
 
                 {!hasIndigenousPartnerships && (
-                  <Typography component="dt" variant="body1">
+                  <Typography component="dt" variant="body1" data-testid="NoIndigenousPartners">
                     No Indigenous Partnerships
                   </Typography>
                 )}
@@ -57,7 +57,7 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="body2" component="dt" color="textSecondary">
+                <Typography variant="body2" component="dt" color="textSecondary" data-testid="OtherPartners">
                   Other Partnerships
                 </Typography>
                 {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
@@ -69,7 +69,7 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
                 })}
 
                 {!hasStakeholderPartnerships && (
-                  <Typography component="dt" variant="body1">
+                  <Typography component="dt" variant="body1" data-testid="NoOtherPartners">
                     No Other Partnerships
                   </Typography>
                 )}

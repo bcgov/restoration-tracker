@@ -89,7 +89,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
       <dl className="ddInline">
         <Box>
           <Box component="section" mt={3}>
-            <Typography variant="body1" component={'h3'}>
+            <Typography variant="body1" component={'h3'} data-testid="FundingSourceTitle">
               Funding Sources
             </Typography>
           </Box>
@@ -97,7 +97,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
           <Box mt={3}>
             {hasFundingSources &&
               funding.fundingSources.map((item: any, index: number) => (
-                <ul className={classes.projectContactList} key={index}>
+                <ul className={classes.projectContactList} key={index} data-testid="fundingData">
                   <li>
                     <div>
                       <strong>{item.agency_name}</strong>
@@ -141,7 +141,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
               ))}
 
             {!hasFundingSources && (
-              <Typography component="dt" variant="body1">
+              <Typography component="dt" variant="body1" data-testid='NoFundingLoaded'>
                 No Funding Sources
               </Typography>
             )}

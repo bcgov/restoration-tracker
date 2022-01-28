@@ -83,13 +83,13 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
   return (
     <>
       <Box component="section">
-        <Typography variant="body1" component={'h3'}>
+        <Typography variant="body1" component={'h3'} data-testid="CoordinatorTitle">
           Project Contacts
         </Typography>
         <ul className={classes.projectContactList}>
           <li>
             <div>
-              <strong>
+              <strong data-testid='CoordinatorName'>
                 {' '}
                 {coordinator.first_name} {coordinator.last_name}
               </strong>

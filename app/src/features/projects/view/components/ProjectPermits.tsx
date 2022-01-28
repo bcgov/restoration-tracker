@@ -25,20 +25,20 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
   return (
     <>
       <Box component="section" mt={3}>
-        <Typography variant="body1" component={'h3'}>
+        <Typography variant="body1" component={'h3'} data-testid="PermitsTitle">
           Permits
         </Typography>
       </Box>
       <Box mt={3} component="ul" pl={3}>
         {hasPermits &&
           permit.permits.map((item: any) => (
-            <li key={item.permit_number}>
+            <li key={item.permit_number} data-testid="PermitItem">
               {item.permit_type} - {item.permit_number}
             </li>
           ))}
 
         {!hasPermits && (
-          <Typography component="dt" variant="body1">
+          <Typography component="dt" variant="body1" data-testid="NoPermitsLoaded">
             No permits
           </Typography>
         )}
