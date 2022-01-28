@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { COMPLETION_STATUS } from '../constants/status';
 import { describe } from 'mocha';
 import {
   GetCoordinatorData,
@@ -298,10 +297,6 @@ describe('GetProjectData', () => {
     it('sets end_date', () => {
       expect(data.end_date).to.equal('');
     });
-
-    it('sets completion_status', () => {
-      expect(data.completion_status).to.equal(COMPLETION_STATUS.ACTIVE);
-    });
   });
 
   describe('all values provided', () => {
@@ -329,10 +324,6 @@ describe('GetProjectData', () => {
 
     it('sets end_date', () => {
       expect(data.end_date).to.equal('2020-05-20T07:00:00.000Z');
-    });
-
-    it('sets completion_status', () => {
-      expect(data.completion_status).to.equal(COMPLETION_STATUS.COMPLETED);
     });
   });
 });
