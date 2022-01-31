@@ -27,7 +27,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
       <Box>
         <dl>
           <Box component="section" mt={3}>
-            <Typography variant="body1" component={'h3'}>
+            <Typography variant="body1" component={'h3'} data-testid="GeneralInfoTitle">
               General Information
             </Typography>
 

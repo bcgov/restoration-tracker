@@ -27,7 +27,7 @@ const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
   return (
     <>
       <Box>
-        <Box mb={2} height="2rem">
+        <Box mb={2} height="2rem" data-testid="partnershipsTitle">
           <Typography variant="h3">Partnerships</Typography>
         </Box>
       </Box>
@@ -35,7 +35,7 @@ const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
       <dl className="ddInline">
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary">
+            <Typography component="dt" variant="subtitle2" color="textSecondary" data-testid="indigenousData">
               Indigenous Partnerships
             </Typography>
             {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
@@ -53,7 +53,7 @@ const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
             )}
           </Grid>
           <Grid item xs={12}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary">
+            <Typography component="dt" variant="subtitle2" color="textSecondary" data-testid="stakeholderData">
               Other Partnerships
             </Typography>
             {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {

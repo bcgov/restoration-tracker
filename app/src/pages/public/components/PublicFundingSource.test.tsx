@@ -7,10 +7,11 @@ const mockRefresh = jest.fn();
 
 describe('PublicFundingSource', () => {
   it('renders correctly', () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <PublicFundingSource projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId("fundingSourcesTitle")).toBeVisible();
+    expect(getByTestId("agencyTitle")).toBeVisible();
   });
 });

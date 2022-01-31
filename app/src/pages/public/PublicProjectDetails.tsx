@@ -43,7 +43,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
 
   return (
     <>
-      <Box mb={5}>
+      <Box mb={5} data-testid="projectDetailsTitle">
         <Typography variant="h2">Project Details</Typography>
       </Box>
 

@@ -3,11 +3,22 @@ import { Feature } from 'geojson';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import LocationBoundary from './LocationBoundary';
 
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 
 const mockRefresh = jest.fn();
+
+const mockuseRestorationTrackerApi = {
+  external: {
+    post: jest.fn()
+  }
+};
+
+const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest.Mock<
+  typeof mockuseRestorationTrackerApi
+>).mockReturnValue(mockuseRestorationTrackerApi);
 
 describe('LocationBoundary', () => {
   const sharedGeometry: Feature[] = [
@@ -33,6 +44,7 @@ describe('LocationBoundary', () => {
   ];
 
   test('matches the snapshot when there is no geometry', async () => {
+    mockRestorationTrackerApi().external.post.mockResolvedValue([]);
     const { getByTestId } = render(
       <LocationBoundary
         projectForViewData={{
@@ -50,6 +62,8 @@ describe('LocationBoundary', () => {
   });
 
   test('it renders large map properly', async () => {
+    mockRestorationTrackerApi().external.post.mockResolvedValue([]);
+
     const { getByTestId, getByText } = render(
       <LocationBoundary
         projectForViewData={{
