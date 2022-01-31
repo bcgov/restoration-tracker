@@ -53,10 +53,7 @@ describe('ProjectFundingForm', () => {
         validateOnChange={false}
         onSubmit={async () => {}}>
         {() => (
-          <ProjectFundingForm
-            fundingSources={fundingSources}
-            investment_action_category={investment_action_category}
-          />
+          <ProjectFundingForm fundingSources={fundingSources} investment_action_category={investment_action_category} />
         )}
       </Formik>
     );

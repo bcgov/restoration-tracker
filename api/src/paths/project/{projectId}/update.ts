@@ -297,7 +297,7 @@ export interface IUpdateProject {
  *
  * @returns {RequestHandler}
  */
-function updateProject(): RequestHandler {
+export function updateProject(): RequestHandler {
   return async (req, res) => {
     const connection = getDBConnection(req['keycloak_token']);
 

@@ -422,11 +422,6 @@ describe('PutCoordinatorData', () => {
   });
 });
 
-
-
-
-
-
 describe('PutProjectData', () => {
   describe('No values provided', () => {
     let data: PutProjectData;

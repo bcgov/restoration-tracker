@@ -2,103 +2,105 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as update from './update';
 import * as db from '../../../database/db';
-import { IUpdateProject } from './update';
-import project_queries from '../../../queries/project';
-import SQL from 'sql-template-strings';
-import { getMockDBConnection } from '../../../__mocks__/db';
 import { HTTPError } from '../../../errors/custom-error';
+//import { UserService } from '../../../services/user-service';
+import { getMockDBConnection, getRequestHandlerMocks } from '../../../__mocks__/db';
+import * as update from './update';
 
 chai.use(sinonChai);
 
-describe('updateProjectPermitData', () => {
-  afterEach(() => {
-    sinon.restore();
-  });
+describe('update', () => {
+  describe('updateProject', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
 
-  const dbConnectionObj = getMockDBConnection();
+    it('should throw a 400 error when no req body', async () => {
+      const dbConnectionObj = getMockDBConnection();
 
-  const projectId = 1;
-  const entities = {
-    permit: {
-      permits: [
-        {
-          permit_number: 1,
-          permit_type: 'type'
-        }
-      ]
-    },
-    coordinator: {
-      first_name: 'first',
-      last_name: 'last',
-      email_address: 'email@example.com',
-      coordinator_agency: 'agency',
-      share_contact_details: 'true',
-      revision_count: 1
-    }
-  } as IUpdateProject;
+      const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-  it('should throw a 400 error when no permit entities', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
+      mockReq.body = null;
+
+      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+
+      try {
+        const requestHandler = update.updateProject();
+
+        await requestHandler(mockReq, mockRes, mockNext);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).status).to.equal(400);
+        expect((actualError as HTTPError).message).to.equal('Missing required body param: userIdentifier');
       }
     });
 
-    try {
-      await update.updateProjectPermitData(projectId, { ...entities, permit: null }, dbConnectionObj);
+    // it('should throw a 400 error when no userIdentifier', async () => {
+    //   const dbConnectionObj = getMockDBConnection();
 
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing request body entity `permit`');
-    }
-  });
+    //   const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-  it('should throw a 400 error when failed to generate delete permit SQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      }
-    });
+    //   mockReq.body = {
+    //     userIdentifier: null,
+    //     identitySource: 'idsource'
+    //   };
 
-    sinon.stub(project_queries, 'deletePermitSQL').returns(null);
+    //   sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    try {
-      await update.updateProjectPermitData(projectId, entities, dbConnectionObj);
+    //   try {
+    //     const requestHandler = update.updateProject();
 
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to build SQL delete statement');
-    }
-  });
+    //     await requestHandler(mockReq, mockRes, mockNext);
+    //     expect.fail();
+    //   } catch (actualError) {
+    //     expect((actualError as HTTPError).status).to.equal(400);
+    //     expect((actualError as HTTPError).message).to.equal('Missing required body param: userIdentifier');
+    //   }
+    // });
 
-  it('should throw a 409 error when failed to delete permit', async () => {
-    const mockQuery = sinon.stub();
+    // it('should throw a 400 error when no identitySource', async () => {
+    //   const dbConnectionObj = getMockDBConnection();
 
-    mockQuery.resolves(null);
+    //   const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      },
-      query: mockQuery
-    });
+    //   mockReq.body = {
+    //     userIdentifier: 'uid',
+    //     identitySource: null
+    //   };
 
-    sinon.stub(project_queries, 'deletePermitSQL').returns(SQL`something`);
+    //   sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    try {
-      await update.updateProjectPermitData(projectId, entities, dbConnectionObj);
+    //   try {
+    //     const requestHandler = update.updateProject();
 
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(409);
-      expect((actualError as HTTPError).message).to.equal('Failed to delete project permit data');
-    }
+    //     await requestHandler(mockReq, mockRes, mockNext);
+    //     expect.fail();
+    //   } catch (actualError) {
+    //     expect((actualError as HTTPError).status).to.equal(400);
+    //     expect((actualError as HTTPError).message).to.equal('Missing required body param: identitySource');
+    //   }
+    // });
+
+    // it('adds a system user and returns 200 on success', async () => {
+    //   const dbConnectionObj = getMockDBConnection();
+
+    //   const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
+
+    //   mockReq.body = {
+    //     userIdentifier: 'uid',
+    //     identitySource: 'idsource'
+    //   };
+
+    //   sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+
+    //   sinon.stub(UserService.prototype, 'addSystemUser').resolves();
+
+    //   const requestHandler = update.updateProject();
+
+    //   await requestHandler(mockReq, mockRes, mockNext);
+
+    //   expect(mockRes.statusValue).to.equal(200);
+    // });
   });
 });
