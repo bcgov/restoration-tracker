@@ -11,60 +11,61 @@ import { createProject, POST } from './create';
 
 chai.use(sinonChai);
 
-describe.only('openapi schema', () => {
-  const ajv = new Ajv();
+describe('project/create', () => {
+  describe('openapi schema', () => {
+    const ajv = new Ajv();
 
-  it('is valid openapi v3 schema', () => {
-    expect(ajv.validateSchema((POST.apiDoc as unknown) as object)).to.be.true;
-  });
-});
-
-describe.only('createProject', () => {
-  afterEach(() => {
-    sinon.restore();
+    it('is valid openapi v3 schema', () => {
+      expect(ajv.validateSchema((POST.apiDoc as unknown) as object)).to.be.true;
+    });
   });
 
-  it('creates a new project', async () => {
-    const dbConnectionObj = getMockDBConnection();
+  describe('createProject', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
 
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+    it('creates a new project', async () => {
+      const dbConnectionObj = getMockDBConnection();
 
-    sinon.stub(ProjectService.prototype, 'createProject').resolves(1);
+      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
+      sinon.stub(ProjectService.prototype, 'createProject').resolves(1);
 
-    try {
-      const requestHandler = createProject();
+      const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-      await requestHandler(mockReq, mockRes, mockNext);
-    } catch (actualError) {
-      expect.fail();
-    }
+      try {
+        const requestHandler = createProject();
 
-    expect(mockRes.statusValue).to.equal(200);
-    expect(mockRes.jsonValue).to.eql({ id: 1 });
-  });
+        await requestHandler(mockReq, mockRes, mockNext);
+      } catch (actualError) {
+        expect.fail();
+      }
 
-  it('catches error, calls rollback, and re-throws error', async () => {
-    const rollbackStub = sinon.stub();
+      expect(mockRes.statusValue).to.equal(200);
+      expect(mockRes.jsonValue).to.eql({ id: 1 });
+    });
 
-    const dbConnectionObj = getMockDBConnection({ rollback: rollbackStub });
+    it('catches error, calls rollback, and re-throws error', async () => {
+      const dbConnectionObj = getMockDBConnection({ rollback: sinon.stub(), release: sinon.stub() });
 
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    sinon.stub(ProjectService.prototype, 'createProject').rejects(new Error('a test error'));
+      sinon.stub(ProjectService.prototype, 'createProject').rejects(new Error('a test error'));
 
-    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
+      const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-    try {
-      const requestHandler = createProject();
+      try {
+        const requestHandler = createProject();
 
-      await requestHandler(mockReq, mockRes, mockNext);
-      expect.fail();
-    } catch (actualError) {
-      expect(dbConnectionObj.rollback).to.have.been.called;
+        await requestHandler(mockReq, mockRes, mockNext);
+        expect.fail();
+      } catch (actualError) {
+        expect(dbConnectionObj.rollback).to.have.been.called;
+        expect(dbConnectionObj.release).to.have.been.called;
 
-      expect((actualError as HTTPError).message).to.equal('a test error');
-    }
+        expect((actualError as HTTPError).message).to.equal('a test error');
+      }
+    });
   });
 });
