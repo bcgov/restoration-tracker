@@ -33,14 +33,14 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
   iucn: {
     classificationDetails: [
       {
-        classification: 0,
+        classification: 1,
         subClassification1: 1,
-        subClassification2: 2
+        subClassification2: 1
       },
       {
-        classification: 3,
-        subClassification1: 4,
-        subClassification2: 5
+        classification: 1,
+        subClassification1: 1,
+        subClassification2: 1
       }
     ]
   },

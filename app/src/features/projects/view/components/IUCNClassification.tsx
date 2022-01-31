@@ -25,7 +25,7 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
   return (
     <>
       <Box component="section" mt={3}>
-        <Typography variant="body1" component={'h3'}>
+        <Typography variant="body1" component={'h3'} data-testid="IUCNTitle">
           IUCN Conservation Actions Classifications
         </Typography>
       </Box>
@@ -47,14 +47,14 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
               ].name;
 
             return (
-              <li key={index}>
+              <li key={index} data-testid="IUCNData">
                 {iucn1_name} &gt; {iucn2_name} &gt; {iucn3_name}
               </li>
             );
           })}
 
         {!hasIucnClassifications && (
-          <Typography component="dt" variant="body1">
+          <Typography component="dt" variant="body1" data-testid="NoClassification">
             No Classifications
           </Typography>
         )}
