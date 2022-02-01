@@ -1,7 +1,6 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -23,7 +22,7 @@ import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useHistory, useParams } from 'react-router';
 import FundingSource from './components/FundingSource';
 import GeneralInformation from './components/GeneralInformation';
@@ -138,18 +137,13 @@ const useStyles = makeStyles((theme: Theme) =>
  * @return {*}
  */
 const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
-  const { projectForViewData, refresh } = props;
+  const { projectForViewData, codes, refresh } = props;
   const classes = useStyles();
-  const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
 
   const urlParams = useParams();
 
   const restorationTrackerApi = useRestorationTrackerApi();
 
-  const [isLoadingProject, setIsLoadingProject] = useState(false);
-
-  const [isLoadingCodes, setIsLoadingCodes] = useState(false);
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
   const history = useHistory();
   const dialogContext = useContext(DialogContext);
 
@@ -163,45 +157,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     onYes: () => dialogContext.setYesNoDialog({ open: false })
   };
 
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        // TODO error handling/messaging
-        return;
-      }
-
-      setCodes(codesResponse);
-    };
-
-    if (!isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(true);
-    }
-  }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
-
-  const getProject = useCallback(async () => {
-    const projectWithDetailsResponse = await restorationTrackerApi.project.getProjectById(urlParams['id']);
-
-    if (!projectWithDetailsResponse) {
-      // TODO error handling/messaging
-      return;
-    }
-
-    setProjectWithDetails(projectWithDetailsResponse);
-  }, [restorationTrackerApi.project, urlParams]);
-
-  useEffect(() => {
-    if (!isLoadingProject && !projectWithDetails) {
-      getProject();
-      setIsLoadingProject(true);
-    }
-  }, [isLoadingProject, projectWithDetails, getProject]);
-
-  if (!codes || !projectWithDetails) {
-    return <CircularProgress className="pageProgress" size={40} />;
-  }
 
   const end_date = projectForViewData.project.end_date;
   const completion_status =
@@ -261,12 +216,12 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
   };
 
   const deleteProject = async () => {
-    if (!projectWithDetails) {
+    if (!projectForViewData) {
       return;
     }
 
     try {
-      const response = await restorationTrackerApi.project.deleteProject(projectWithDetails.project.project_id);
+      const response = await restorationTrackerApi.project.deleteProject(projectForViewData.project.project_id);
 
       if (!response) {
         showDeleteErrorDialog({ open: true });
@@ -289,7 +244,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
   // Enable delete button if you a system admin OR a project admin and the project is not published
   const enableDeleteProjectButton =
     keycloakWrapper?.hasSystemRole([SYSTEM_ROLE.SYSTEM_ADMIN]) ||
-    (keycloakWrapper?.hasSystemRole([SYSTEM_ROLE.PROJECT_CREATOR]) && !projectWithDetails.project.publish_date);
+    (keycloakWrapper?.hasSystemRole([SYSTEM_ROLE.PROJECT_CREATOR]) && !projectForViewData.project.publish_date);
 
   return (
     <Drawer variant="permanent" className={classes.projectDetailDrawer}>
