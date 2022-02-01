@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     projectDetailMain: {
-      background: '#ffffff',
+      background: '#ffffff'
     }
   })
 );
@@ -79,18 +79,23 @@ const ViewProjectPage: React.FC = () => {
   }, [isLoadingProject, projectWithDetails, getProject]);
 
   if (!codes || !projectWithDetails) {
-    return <CircularProgress className="pageProgress" size={40} />;
+    return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
 
   return (
     <>
-      <Box display="flex" position="absolute" width="100%" height="100%" overflow="hidden">
-        
+      <Box
+        display="flex"
+        position="absolute"
+        width="100%"
+        height="100%"
+        overflow="hidden"
+        data-testid="view_project_page_component">
         {/* Details Container */}
         <Drawer variant="permanent" className={classes.projectDetailDrawer}>
           <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
         </Drawer>
-        
+
         {/* Map Container */}
         <Box
           display="flex"
