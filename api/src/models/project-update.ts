@@ -90,18 +90,6 @@ export class GetCoordinatorData {
   }
 }
 
-export class GetPartnershipsData {
-  indigenous_partnerships: number[];
-  stakeholder_partnerships: string[];
-
-  constructor(indigenous_partnerships?: any[], stakeholder_partnerships?: any[]) {
-    this.indigenous_partnerships =
-      (indigenous_partnerships?.length && indigenous_partnerships.map((item: any) => item.id)) || [];
-    this.stakeholder_partnerships =
-      (stakeholder_partnerships?.length && stakeholder_partnerships.map((item: any) => item.name)) || [];
-  }
-}
-
 export class PutFundingData {
   fundingSources: PostFundingSource[];
 
