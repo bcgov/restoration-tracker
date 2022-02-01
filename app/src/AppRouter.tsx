@@ -16,6 +16,7 @@ import LogOutPage from 'pages/logout/LogOutPage';
 import React from 'react';
 import { Redirect, Switch, useLocation } from 'react-router-dom';
 import AppRoute from 'utils/AppRoute';
+import SearchPage from 'features/search/SearchPage';
 
 const AppRouter: React.FC = () => {
   const location = useLocation();
@@ -69,6 +70,12 @@ const AppRouter: React.FC = () => {
           <SystemRoleRouteGuard validRoles={[SYSTEM_ROLE.SYSTEM_ADMIN]}>
             <AdminUsersRouter />
           </SystemRoleRouteGuard>
+        </AuthenticatedRouteGuard>
+      </AppRoute>
+
+      <AppRoute path="/admin/search" title={getTitle('Search')} layout={PublicLayout}>
+        <AuthenticatedRouteGuard>
+          <SearchPage />
         </AuthenticatedRouteGuard>
       </AppRoute>
 
