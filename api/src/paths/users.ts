@@ -50,7 +50,7 @@ GET.apiDoc = {
                 role_ids: {
                   type: 'array',
                   items: {
-                    type: 'string'
+                    type: 'number'
                   }
                 },
                 role_names: {
@@ -98,6 +98,8 @@ export function getUserList(): RequestHandler {
       const userService = new UserService(connection);
 
       const response = await userService.listSystemUsers();
+
+      console.log('user list: ', response);
 
       await connection.commit();
 
