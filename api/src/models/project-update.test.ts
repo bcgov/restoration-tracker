@@ -483,7 +483,7 @@ describe('PutProjectData', () => {
   });
 });
 
-describe.only('PutFundingData', () => {
+describe('PutFundingData', () => {
   describe('No values provided', () => {
     let data: PutFundingData;
 
