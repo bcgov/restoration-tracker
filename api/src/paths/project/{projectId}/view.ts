@@ -50,17 +50,17 @@ GET.apiDoc = {
           schema: {
             title: 'Project get response object, for view purposes',
             type: 'object',
-            required: ['id', 'project', 'permit', 'coordinator', 'location', 'iucn', 'funding', 'partnerships'],
+            required: ['project', 'permit', 'coordinator', 'location', 'iucn', 'funding', 'partnerships'],
             properties: {
-              id: {
-                description: 'Project id',
-                type: 'number'
-              },
               project: {
                 description: 'Basic project metadata',
                 type: 'object',
-                required: ['project_name', 'start_date', 'end_date', 'publish_date'],
+                required: ['project_id', 'project_name', 'start_date', 'end_date', 'publish_date'],
                 properties: {
+                  id: {
+                    description: 'Project id',
+                    type: 'number'
+                  },
                   project_name: {
                     type: 'string'
                   },

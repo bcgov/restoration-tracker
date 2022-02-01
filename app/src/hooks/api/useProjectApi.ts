@@ -9,7 +9,6 @@ import {
   IGetProjectsListResponse,
   IGetUserProjectsListResponse,
   IProjectAdvancedFilterRequest,
-  //IUpdateProjectRequest,
   IUploadAttachmentResponse
 } from 'interfaces/useProjectApi.interface';
 

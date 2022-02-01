@@ -9,7 +9,6 @@ jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockRefresh = jest.fn();
 
 describe('ProjectPermits', () => {
-
   it('renders correctly with sampling conducted true', () => {
     const { getByTestId } = render(
       <ProjectPermits

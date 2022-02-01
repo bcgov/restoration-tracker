@@ -1,8 +1,8 @@
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 
 export const getProjectForViewResponse: IGetProjectForViewResponse = {
-  id: 1,
   project: {
+    project_id: 1,
     project_name: 'Test Project Name',
     start_date: '1998-10-10',
     end_date: '2021-02-26',

@@ -7,7 +7,6 @@ jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockRefresh = jest.fn();
 
 describe('FundingSource', () => {
-
   it('renders component correctly', () => {
     const { getByTestId } = render(
       <FundingSource projectForViewData={getProjectForViewResponse} codes={codes} refresh={mockRefresh} />

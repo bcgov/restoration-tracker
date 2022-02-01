@@ -189,22 +189,12 @@ export interface IGetProjectForUpdateResponsePartnerships {
 }
 
 /**
- * An interface for a single instance of project metadata, for update-only use cases.
- *
- * @export
- * @interface IUpdateProjectRequest
- * @extends {IGetProjectForUpdateResponse}
- */
-export interface IUpdateProjectRequest extends IGetProjectForUpdateResponse {}
-
-/**
  * An interface for a single instance of project metadata, for view-only use cases.
  *
  * @export
  * @interface IGetProjectForViewResponse
  */
 export interface IGetProjectForViewResponse {
-  id: number;
   project: IGetProjectForViewResponseDetails;
   permit: IGetProjectForViewResponsePermit;
   location: IGetProjectForViewResponseLocation;
@@ -215,6 +205,7 @@ export interface IGetProjectForViewResponse {
 }
 
 export interface IGetProjectForViewResponseDetails {
+  project_id: number;
   project_name: string;
   start_date: string;
   end_date: string;

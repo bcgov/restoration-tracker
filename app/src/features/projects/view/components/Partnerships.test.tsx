@@ -9,7 +9,6 @@ jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockRefresh = jest.fn();
 
 describe('Partnerships', () => {
-
   it('renders correctly with default empty values', () => {
     const { getByTestId } = render(
       <Partnerships
@@ -50,13 +49,17 @@ describe('Partnerships', () => {
 
   it('renders correctly with existing partnership values', () => {
     const { getByTestId } = render(
-      <Partnerships projectForViewData={{...getProjectForViewResponse,
-        partnerships: {
-          indigenous_partnerships: [0, 1],
-          stakeholder_partnerships: ['partner2', 'partner3']
-        }
-      }}
-      codes={codes} refresh={mockRefresh} />
+      <Partnerships
+        projectForViewData={{
+          ...getProjectForViewResponse,
+          partnerships: {
+            indigenous_partnerships: [0, 1],
+            stakeholder_partnerships: ['partner2', 'partner3']
+          }
+        }}
+        codes={codes}
+        refresh={mockRefresh}
+      />
     );
 
     expect(getByTestId('IndigenousPartners')).toBeVisible();

@@ -137,7 +137,7 @@ const useStyles = makeStyles((theme: Theme) =>
  *
  * @return {*}
  */
-const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
+const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
   const { projectForViewData, refresh } = props;
   const classes = useStyles();
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
@@ -267,7 +267,7 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     }
 
     try {
-      const response = await restorationTrackerApi.project.deleteProject(projectWithDetails.id);
+      const response = await restorationTrackerApi.project.deleteProject(projectWithDetails.project.project_id);
 
       if (!response) {
         showDeleteErrorDialog({ open: true });
@@ -407,4 +407,4 @@ const RestoProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
   );
 };
 
-export default RestoProjectDetailsPage;
+export default ProjectDetailsPage;

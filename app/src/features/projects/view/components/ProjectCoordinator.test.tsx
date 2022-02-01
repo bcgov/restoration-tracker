@@ -18,7 +18,6 @@ const renderContainer = () => {
 };
 
 describe('ProjectCoordinator', () => {
-
   it('renders component correctly', async () => {
     const { getByTestId } = renderContainer();
 
