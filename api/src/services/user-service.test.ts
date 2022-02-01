@@ -292,7 +292,7 @@ describe('UserService', () => {
       const result = await userService.ensureSystemUser(userIdentifier, identitySource);
 
       expect(result.id).to.equal(2);
-      expect(result.record_end_date).to.equal(null);
+      expect(result.record_end_date).to.equal(undefined);
 
       expect(getUserByIdentifierStub).to.have.been.calledOnce;
       expect(addSystemUserStub).to.have.been.calledOnce;
@@ -325,7 +325,7 @@ describe('UserService', () => {
       const result = await userService.ensureSystemUser(userIdentifier, identitySource);
 
       expect(result.id).to.equal(2);
-      expect(result.record_end_date).to.equal(null);
+      expect(result.record_end_date).to.equal(undefined);
 
       expect(getUserByIdentifierStub).to.have.been.calledOnce;
       expect(addSystemUserStub).not.to.have.been.called;
@@ -406,7 +406,7 @@ describe('UserService', () => {
       const result = await userService.ensureSystemUser(userIdentifier, identitySource);
 
       expect(result.id).to.equal(2);
-      expect(result.record_end_date).to.equal(null);
+      expect(result.record_end_date).to.equal(undefined);
 
       expect(getUserByIdentifierStub).to.have.been.calledOnce;
       expect(addSystemUserStub).not.to.have.been.called;
