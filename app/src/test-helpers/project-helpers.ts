@@ -1,13 +1,14 @@
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 
 export const getProjectForViewResponse: IGetProjectForViewResponse = {
-  id: 1,
   project: {
+    project_id: 1,
     project_name: 'Test Project Name',
     start_date: '1998-10-10',
     end_date: '2021-02-26',
     completion_status: 'Active',
-    publish_date: '2021-01-26'
+    publish_date: '2021-01-26',
+    objectives: 'Project objectives'
   },
   permit: {
     permits: [
@@ -32,14 +33,9 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
   iucn: {
     classificationDetails: [
       {
-        classification: 'classification',
-        subClassification1: 'sub classification 1',
-        subClassification2: 'sub classification 2'
-      },
-      {
-        classification: 'classification again',
-        subClassification1: 'sub classification 1 again',
-        subClassification2: 'sub classification 2 again'
+        classification: 1,
+        subClassification1: 1,
+        subClassification2: 1
       }
     ]
   },
@@ -60,7 +56,7 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     ]
   },
   partnerships: {
-    indigenous_partnerships: ['partner 1', 'partner 2'],
-    stakeholder_partnerships: ['partner 3', 'partner 4']
+    indigenous_partnerships: [0, 1],
+    stakeholder_partnerships: ['partner2', 'partner3']
   }
 };

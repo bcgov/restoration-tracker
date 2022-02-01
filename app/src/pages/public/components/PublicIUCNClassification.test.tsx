@@ -7,10 +7,11 @@ const mockRefresh = jest.fn();
 
 describe('PublicIUCNClassification', () => {
   it('renders correctly', () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <PublicIUCNClassification projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('IUCNTitle')).toBeVisible();
+    expect(getByTestId('IUCNData')).toBeVisible();
   });
 });

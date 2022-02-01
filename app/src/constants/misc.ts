@@ -9,9 +9,9 @@ export enum AdministrativeActivityStatusType {
 }
 
 export enum ProjectStatusType {
-  UNPUBLISHED = 'Unpublished',
-  PUBLISHED = 'Published',
   COMPLETED = 'Completed',
   ACTIVE = 'Active',
-  DRAFT = 'Draft'
+  DRAFT = 'Draft',
+  PRIORITY = 'Priority',
+  NOT_A_PRIORITY = 'NotPriority'
 }

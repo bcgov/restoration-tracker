@@ -10,7 +10,7 @@ import ProjectFundingForm, {
   ProjectFundingFormYupSchema
 } from './ProjectFundingForm';
 
-const funding_sources: IMultiAutocompleteFieldOption[] = [
+const fundingSources: IMultiAutocompleteFieldOption[] = [
   {
     value: 1,
     label: 'agency 1'
@@ -53,10 +53,7 @@ describe('ProjectFundingForm', () => {
         validateOnChange={false}
         onSubmit={async () => {}}>
         {() => (
-          <ProjectFundingForm
-            funding_sources={funding_sources}
-            investment_action_category={investment_action_category}
-          />
+          <ProjectFundingForm fundingSources={fundingSources} investment_action_category={investment_action_category} />
         )}
       </Formik>
     );
@@ -67,7 +64,7 @@ describe('ProjectFundingForm', () => {
   it('renders correctly with existing funding values', () => {
     const existingFormValues: IProjectFundingForm = {
       funding: {
-        funding_sources: [
+        fundingSources: [
           {
             id: 11,
             agency_id: 1,
@@ -92,7 +89,7 @@ describe('ProjectFundingForm', () => {
         onSubmit={async () => {}}>
         {() => (
           <ProjectFundingForm
-            funding_sources={codes.funding_source.map((item) => {
+            fundingSources={codes.funding_source.map((item) => {
               return { value: item.id, label: item.name };
             })}
             investment_action_category={codes.investment_action_category.map((item) => {
@@ -109,7 +106,7 @@ describe('ProjectFundingForm', () => {
   it('shows add funding source dialog on add click', async () => {
     const existingFormValues: IProjectFundingForm = {
       funding: {
-        funding_sources: [
+        fundingSources: [
           {
             id: 11,
             agency_id: 1,
@@ -145,7 +142,7 @@ describe('ProjectFundingForm', () => {
         onSubmit={async () => {}}>
         {() => (
           <ProjectFundingForm
-            funding_sources={codes.funding_source.map((item) => {
+            fundingSources={codes.funding_source.map((item) => {
               return { value: item.id, label: item.name };
             })}
             investment_action_category={codes.investment_action_category.map((item) => {
@@ -171,7 +168,7 @@ describe('ProjectFundingForm', () => {
     await act(async () => {
       const existingFormValues: IProjectFundingForm = {
         funding: {
-          funding_sources: [
+          fundingSources: [
             {
               id: 11,
               agency_id: 1,
@@ -196,7 +193,7 @@ describe('ProjectFundingForm', () => {
           onSubmit={async () => {}}>
           {() => (
             <ProjectFundingForm
-              funding_sources={codes.funding_source.map((item) => {
+              fundingSources={codes.funding_source.map((item) => {
                 return { value: item.id, label: item.name };
               })}
               investment_action_category={codes.investment_action_category.map((item) => {
@@ -230,7 +227,7 @@ describe('ProjectFundingForm', () => {
     await act(async () => {
       const existingFormValues: IProjectFundingForm = {
         funding: {
-          funding_sources: [
+          fundingSources: [
             {
               id: 11,
               agency_id: 1,
@@ -255,7 +252,7 @@ describe('ProjectFundingForm', () => {
           onSubmit={async () => {}}>
           {() => (
             <ProjectFundingForm
-              funding_sources={codes.funding_source.map((item) => {
+              fundingSources={codes.funding_source.map((item) => {
                 return { value: item.id, label: item.name };
               })}
               investment_action_category={codes.investment_action_category.map((item) => {

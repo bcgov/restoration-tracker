@@ -12,7 +12,6 @@ export interface IFullScreenViewMapProps {
   open: boolean;
   onClose: () => void;
   map: any;
-  description: any;
   layers: any;
   mapTitle: string;
   backButtonTitle: string;
@@ -47,12 +46,6 @@ export const FullScreenViewMapDialog: React.FC<IFullScreenViewMapProps> = (props
         <Box flex="0 0 auto" p={3} width="400px" overflow="auto">
           <Box mb={3}>
             <Typography variant="h2">{props.mapTitle}</Typography>
-          </Box>
-          <Box mb={3}>
-            <Typography variant="body2" color="textSecondary">
-              Location description
-            </Typography>
-            <Typography variant="body1">{props.description ? <>{props.description}</> : 'No Description'}</Typography>
           </Box>
           {props.layers}
         </Box>

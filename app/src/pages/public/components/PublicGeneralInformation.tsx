@@ -23,7 +23,7 @@ const PublicGeneralInformation: React.FC<IPublicProjectDetailsProps> = (props) =
 
   return (
     <Box>
-      <Box mb={2} height="2rem">
+      <Box mb={2} height="2rem" data-testid="generalInfoTitle">
         <Typography variant="h3">General Information</Typography>
       </Box>
       <dl>

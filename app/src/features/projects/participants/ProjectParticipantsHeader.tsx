@@ -89,7 +89,7 @@ const ProjectParticipantsHeader: React.FC<IProjectParticipantsHeaderProps> = (pr
             </Link>
             <Link
               color="primary"
-              onClick={() => history.push(`/admin/projects/${props.projectWithDetails.id}`)}
+              onClick={() => history.push(`/admin/projects/${props.projectWithDetails.project.project_id}`)}
               aria-current="page">
               <Typography variant="body2">{props.projectWithDetails.project.project_name}</Typography>
             </Link>

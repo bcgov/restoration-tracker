@@ -21,10 +21,10 @@ describe('PublicProjectDetails', () => {
   const component = <PublicProjectDetails projectForViewData={getProjectForViewResponse} refresh={jest.fn()} />;
 
   it('renders correctly', async () => {
-    const { asFragment } = render(component);
+    const { getByTestId } = render(component);
 
     await waitFor(() => {
-      expect(asFragment()).toMatchSnapshot();
+      expect(getByTestId('projectDetailsTitle')).toBeVisible();
     });
   });
 });

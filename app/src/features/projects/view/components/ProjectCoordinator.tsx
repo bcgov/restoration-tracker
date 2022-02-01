@@ -1,28 +1,10 @@
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { mdiPencilOutline } from '@mdi/js';
-import Icon from '@mdi/react';
-import EditDialog from 'components/dialog/EditDialog';
-import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
-import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
-import { EditCoordinatorI18N } from 'constants/i18n';
-import { DialogContext } from 'contexts/dialogContext';
-import ProjectCoordinatorForm, {
-  IProjectCoordinatorForm,
-  ProjectCoordinatorInitialValues,
-  ProjectCoordinatorYupSchema
-} from 'features/projects/components/ProjectCoordinatorForm';
-import { APIError } from 'hooks/api/useAxios';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import {
-  IGetProjectForUpdateResponseCoordinator,
-  IGetProjectForViewResponse,
-  UPDATE_GET_ENTITIES
-} from 'interfaces/useProjectApi.interface';
-import React, { useContext, useState } from 'react';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import React from 'react';
 
 export interface IProjectCoordinatorProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -30,6 +12,63 @@ export interface IProjectCoordinatorProps {
   refresh: () => void;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    projectDetailDrawer: {
+      '& .MuiDrawer-paper': {
+        position: 'relative',
+        overflow: 'hidden'
+      }
+    },
+    projectDetailMain: {
+      background: '#ffffff'
+    },
+    projectTitle: {
+      margin: 0,
+      fontSize: '1.5rem',
+      fontWeight: 400
+    },
+    contentTitle: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+      fontSize: '2rem'
+    },
+    projectMetadata: {
+      overflowY: 'auto',
+      backgroundColor: '#f5f5f5',
+
+      // Metadata Definition Lists
+      '& dl div + div': {
+        marginTop: theme.spacing(0.25)
+      },
+      '& dd, dt': {
+        display: 'inline-block',
+        width: '50%'
+      },
+
+      '& h3': {
+        // textTransform: 'uppercase',
+        fontWeight: 700
+      },
+      '& section + hr': {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3)
+      }
+    },
+    projectContactList: {
+      marginLeft: 0,
+      marginRight: 0,
+      padding: 0,
+      listStyleType: 'none',
+      '& li + li': {
+        marginTop: theme.spacing(1.5)
+      }
+    },
+    treatmentsContainer: {
+      display: 'none'
+    }
+  })
+);
 /**
  * Project coordinator content for a project.
  *
@@ -37,148 +76,30 @@ export interface IProjectCoordinatorProps {
  */
 const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
   const {
-    projectForViewData: { coordinator, id },
-    codes
+    projectForViewData: { coordinator }
   } = props;
-
-  const restorationTrackerApi = useRestorationTrackerApi();
-
-  const dialogContext = useContext(DialogContext);
-
-  const defaultErrorDialogProps = {
-    dialogTitle: EditCoordinatorI18N.editErrorTitle,
-    dialogText: EditCoordinatorI18N.editErrorText,
-    open: false,
-    onClose: () => {
-      dialogContext.setErrorDialog({ open: false });
-    },
-    onOk: () => {
-      dialogContext.setErrorDialog({ open: false });
-    }
-  };
-
-  const showErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
-    dialogContext.setErrorDialog({ ...defaultErrorDialogProps, ...textDialogProps, open: true });
-  };
-
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [coordinatorDataForUpdate, setCoordinatorDataForUpdate] = useState<IGetProjectForUpdateResponseCoordinator>(
-    null as any
-  );
-  const [coordinatorFormData, setCoordinatorFormData] = useState<IProjectCoordinatorForm>(
-    ProjectCoordinatorInitialValues
-  );
-
-  const handleDialogEditOpen = async () => {
-    let coordinatorResponseData;
-
-    try {
-      const response = await restorationTrackerApi.project.getProjectForUpdate(id, [UPDATE_GET_ENTITIES.coordinator]);
-
-      if (!response?.coordinator) {
-        showErrorDialog({ open: true });
-        return;
-      }
-
-      coordinatorResponseData = response.coordinator;
-    } catch (error) {
-      const apiError = error as APIError;
-      showErrorDialog({ dialogText: apiError.message, open: true });
-      return;
-    }
-
-    setCoordinatorDataForUpdate(coordinatorResponseData);
-
-    setCoordinatorFormData({
-      coordinator: {
-        first_name: coordinatorResponseData.first_name,
-        last_name: coordinatorResponseData.last_name,
-        email_address: coordinatorResponseData.email_address,
-        coordinator_agency: coordinatorResponseData.coordinator_agency,
-        share_contact_details: coordinatorResponseData.share_contact_details
-      }
-    });
-
-    setOpenEditDialog(true);
-  };
-
-  const handleDialogEditSave = async (values: IProjectCoordinatorForm) => {
-    const projectData = {
-      coordinator: { ...values.coordinator, revision_count: coordinatorDataForUpdate.revision_count }
-    };
-
-    try {
-      await restorationTrackerApi.project.updateProject(id, projectData);
-    } catch (error) {
-      const apiError = error as APIError;
-      showErrorDialog({ dialogText: apiError.message, open: true });
-      return;
-    } finally {
-      setOpenEditDialog(false);
-    }
-
-    props.refresh();
-  };
+  const classes = useStyles();
 
   return (
     <>
-      <EditDialog
-        dialogTitle={EditCoordinatorI18N.editTitle}
-        open={openEditDialog}
-        component={{
-          element: (
-            <ProjectCoordinatorForm
-              coordinator_agency={
-                codes?.coordinator_agency?.map((item) => {
-                  return item.name;
-                }) || []
-              }
-            />
-          ),
-          initialValues: coordinatorFormData,
-          validationSchema: ProjectCoordinatorYupSchema
-        }}
-        onCancel={() => setOpenEditDialog(false)}
-        onSave={handleDialogEditSave}
-      />
-      <Box>
-        <H3ButtonToolbar
-          label="Project Contact"
-          buttonLabel="Edit"
-          buttonTitle="Edit Project Contact Information"
-          buttonStartIcon={<Icon path={mdiPencilOutline} size={0.875} />}
-          buttonOnClick={() => handleDialogEditOpen()}
-          toolbarProps={{ disableGutters: true }}
-        />
-        <Divider></Divider>
-        <dl>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={4}>
-              <Typography component="dt" variant="subtitle2" color="textSecondary">
-                Name
-              </Typography>
-              <Typography component="dd" variant="body1">
+      <Box component="section">
+        <Typography variant="body1" component={'h3'} data-testid="CoordinatorTitle">
+          Project Contacts
+        </Typography>
+        <ul className={classes.projectContactList}>
+          <li>
+            <div>
+              <strong data-testid="CoordinatorName">
+                {' '}
                 {coordinator.first_name} {coordinator.last_name}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Typography component="dt" variant="subtitle2" color="textSecondary">
-                Email Address
-              </Typography>
-              <Typography component="dd" variant="body1">
-                {coordinator.email_address}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Typography component="dt" variant="subtitle2" color="textSecondary">
-                Agency
-              </Typography>
-              <Typography component="dd" variant="body1">
-                {coordinator.coordinator_agency}
-              </Typography>
-            </Grid>
-          </Grid>
-        </dl>
+              </strong>
+            </div>
+            <div>
+              <Link href="#"> {coordinator.email_address}</Link>
+            </div>
+            <div>{coordinator.coordinator_agency}</div>
+          </li>
+        </ul>
       </Box>
     </>
   );

@@ -28,19 +28,19 @@ import ProjectFundingItemForm, {
 
 export interface IProjectFundingForm {
   funding: {
-    funding_sources: IProjectFundingFormArrayItem[];
+    fundingSources: IProjectFundingFormArrayItem[];
   };
 }
 
 export const ProjectFundingFormInitialValues: IProjectFundingForm = {
   funding: {
-    funding_sources: []
+    fundingSources: []
   }
 };
 
 export const ProjectFundingFormYupSchema = yup.object().shape({
   funding: yup.object().shape({
-    funding_sources: yup.array().of(ProjectFundingFormArrayItemYupSchema)
+    fundingSources: yup.array().of(ProjectFundingFormArrayItemYupSchema)
   })
 });
 
@@ -49,7 +49,7 @@ export interface IInvestmentActionCategoryOption extends IMultiAutocompleteField
 }
 
 export interface IProjectFundingFormProps {
-  funding_sources: IMultiAutocompleteFieldOption[];
+  fundingSources: IMultiAutocompleteFieldOption[];
   investment_action_category: IInvestmentActionCategoryOption[];
 }
 
@@ -112,7 +112,7 @@ const ProjectFundingForm: React.FC<IProjectFundingFormProps> = (props) => {
 
       <Box>
         <FieldArray
-          name="funding.funding_sources"
+          name="funding.fundingSources"
           render={(arrayHelpers) => (
             <Box mb={2}>
               <EditDialog
@@ -121,7 +121,7 @@ const ProjectFundingForm: React.FC<IProjectFundingFormProps> = (props) => {
                 component={{
                   element: (
                     <ProjectFundingItemForm
-                      funding_sources={props.funding_sources}
+                      fundingSources={props.fundingSources}
                       investment_action_category={props.investment_action_category}
                     />
                   ),
@@ -130,7 +130,7 @@ const ProjectFundingForm: React.FC<IProjectFundingFormProps> = (props) => {
                 }}
                 onCancel={() => setIsModalOpen(false)}
                 onSave={(projectFundingItemValues) => {
-                  if (currentProjectFundingFormArrayItem.index < values.funding.funding_sources.length) {
+                  if (currentProjectFundingFormArrayItem.index < values.funding.fundingSources.length) {
                     // Update an existing item
                     arrayHelpers.replace(currentProjectFundingFormArrayItem.index, projectFundingItemValues);
                   } else {
@@ -143,14 +143,14 @@ const ProjectFundingForm: React.FC<IProjectFundingFormProps> = (props) => {
                 }}
               />
               <List dense disablePadding>
-                {!values.funding.funding_sources.length && (
+                {!values.funding.fundingSources.length && (
                   <ListItem dense component={Paper}>
                     <Box display="flex" flexGrow={1} justifyContent="center" alignContent="middle" p={2}>
                       <Typography variant="subtitle2">No Funding Sources</Typography>
                     </Box>
                   </ListItem>
                 )}
-                {values.funding.funding_sources.map((fundingSource, index) => {
+                {values.funding.fundingSources.map((fundingSource, index) => {
                   const investment_action_category_label =
                     (fundingSource.agency_id === 1 && 'Investment Action') ||
                     (fundingSource.agency_id === 2 && 'Investment Category') ||
@@ -165,7 +165,7 @@ const ProjectFundingForm: React.FC<IProjectFundingFormProps> = (props) => {
                       <Paper className={classes.fundingListItemInner}>
                         <Toolbar className={classes.fundingListItemToolbar}>
                           <Typography className={classes.title}>
-                            {getCodeValueNameByID(props.funding_sources, fundingSource.agency_id)}
+                            {getCodeValueNameByID(props.fundingSources, fundingSource.agency_id)}
                             {investment_action_category_label && (
                               <span className={classes.titleDesc}>({investment_action_category_value})</span>
                             )}
@@ -179,7 +179,7 @@ const ProjectFundingForm: React.FC<IProjectFundingFormProps> = (props) => {
                             onClick={() => {
                               setCurrentProjectFundingFormArrayItem({
                                 index: index,
-                                values: values.funding.funding_sources[index]
+                                values: values.funding.fundingSources[index]
                               });
                               setIsModalOpen(true);
                             }}>
@@ -244,7 +244,7 @@ const ProjectFundingForm: React.FC<IProjectFundingFormProps> = (props) => {
         data-testid="add-funding-source-button"
         onClick={() => {
           setCurrentProjectFundingFormArrayItem({
-            index: values.funding.funding_sources.length,
+            index: values.funding.fundingSources.length,
             values: ProjectFundingFormArrayItemInitialValues
           });
           setIsModalOpen(true);

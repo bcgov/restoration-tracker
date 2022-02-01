@@ -1,13 +1,11 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
-import { PutCoordinatorData, PutLocationData, PutProjectData, PutFundingSource } from '../../models/project-update';
+import { PutCoordinatorData, PutProjectData } from '../../models/project-update';
 import {
   getIndigenousPartnershipsByProjectSQL,
   getCoordinatorByProjectSQL,
   getIUCNActionClassificationByProjectSQL,
-  getProjectByProjectSQL,
   putProjectSQL,
-  putProjectFundingSourceSQL,
   getPermitsByProjectSQL,
   updateProjectPublishStatusSQL
 } from './project-update-queries';
@@ -68,29 +66,15 @@ describe('getCoordinatorByProjectSQL', () => {
   });
 });
 
-describe('getProjectByProjectSQL', () => {
-  it('Null projectId', () => {
-    const response = getProjectByProjectSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('valid projectId', () => {
-    const response = getProjectByProjectSQL(1);
-
-    expect(response).to.not.be.null;
-  });
-});
-
 describe('putProjectSQL', () => {
   it('returns null when an invalid projectId is provided', () => {
-    const response = putProjectSQL((null as unknown) as number, null, null, null, 1);
+    const response = putProjectSQL((null as unknown) as number, null, null, 1);
 
     expect(response).to.be.null;
   });
 
   it('returns null when a valid projectId but no data to update is provided', () => {
-    const response = putProjectSQL(1, null, null, null, 1);
+    const response = putProjectSQL(1, null, null, 1);
 
     expect(response).to.be.null;
   });
@@ -105,32 +89,6 @@ describe('putProjectSQL', () => {
         end_date: '2020-05-20T07:00:00.000Z'
       }),
       null,
-      null,
-      1
-    );
-
-    expect(response).to.not.be.null;
-  });
-
-  it('returns valid sql when only location data is provided', () => {
-    const response = putProjectSQL(
-      1,
-      null,
-      new PutLocationData({
-        geometry: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [125.6, 10.1]
-            },
-            properties: {
-              name: 'Dinagat Islands'
-            }
-          }
-        ]
-      }),
-      null,
       1
     );
 
@@ -140,7 +98,6 @@ describe('putProjectSQL', () => {
   it('returns valid sql when only coordinator data is provided', () => {
     const response = putProjectSQL(
       1,
-      null,
       null,
       new PutCoordinatorData({
         first_name: 'first name',
@@ -166,7 +123,6 @@ describe('putProjectSQL', () => {
         end_date: '2020-05-20T07:00:00.000Z',
         objectives: 'project objectives'
       }),
-      new PutLocationData({}),
       new PutCoordinatorData({
         first_name: 'first name',
         last_name: 'last name',
@@ -179,49 +135,6 @@ describe('putProjectSQL', () => {
     );
 
     expect(response).to.not.be.null;
-  });
-});
-
-describe('putProjectFundingSourceSQL', () => {
-  describe('with invalid parameters', () => {
-    it('returns null when funding source is null', () => {
-      const response = putProjectFundingSourceSQL((null as unknown) as PutFundingSource, 1);
-
-      expect(response).to.be.null;
-    });
-
-    it('returns null when project id is null', () => {
-      const response = putProjectFundingSourceSQL(new PutFundingSource({}), (null as unknown) as number);
-
-      expect(response).to.be.null;
-    });
-  });
-
-  describe('with valid parameters', () => {
-    it('returns a SQLStatement when all fields are passed in as expected', () => {
-      const response = putProjectFundingSourceSQL(
-        new PutFundingSource({
-          fundingSources: [
-            {
-              investment_action_category: 222,
-              agency_project_id: 'funding source name',
-              funding_amount: 10000,
-              start_date: '2020-02-02',
-              end_date: '2020-03-02',
-              revision_count: 11
-            }
-          ]
-        }),
-        1
-      );
-
-      expect(response).to.not.be.null;
-      expect(response?.values).to.deep.include(222);
-      expect(response?.values).to.deep.include('funding source name');
-      expect(response?.values).to.deep.include(10000);
-      expect(response?.values).to.deep.include('2020-02-02');
-      expect(response?.values).to.deep.include('2020-03-02');
-    });
   });
 });
 

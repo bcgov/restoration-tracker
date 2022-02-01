@@ -57,7 +57,7 @@ describe('ProjectFundingItemForm', () => {
         onSubmit={async () => {}}>
         {() => (
           <ProjectFundingItemForm
-            funding_sources={funding_sources}
+            fundingSources={funding_sources}
             investment_action_category={investment_action_category}
           />
         )}
@@ -89,7 +89,7 @@ describe('ProjectFundingItemForm', () => {
         onSubmit={async () => {}}>
         {() => (
           <ProjectFundingItemForm
-            funding_sources={funding_sources}
+            fundingSources={funding_sources}
             investment_action_category={investment_action_category}
           />
         )}
@@ -121,7 +121,7 @@ describe('ProjectFundingItemForm', () => {
         onSubmit={async () => {}}>
         {() => (
           <ProjectFundingItemForm
-            funding_sources={funding_sources}
+            fundingSources={funding_sources}
             investment_action_category={investment_action_category}
           />
         )}
@@ -153,7 +153,7 @@ describe('ProjectFundingItemForm', () => {
         onSubmit={async () => {}}>
         {() => (
           <ProjectFundingItemForm
-            funding_sources={funding_sources}
+            fundingSources={funding_sources}
             investment_action_category={investment_action_category}
           />
         )}
@@ -173,7 +173,7 @@ describe('ProjectFundingItemForm', () => {
         onSubmit={async () => {}}>
         {() => (
           <ProjectFundingItemForm
-            funding_sources={funding_sources}
+            fundingSources={funding_sources}
             investment_action_category={investment_action_category}
           />
         )}

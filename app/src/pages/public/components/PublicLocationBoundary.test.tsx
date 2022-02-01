@@ -9,12 +9,12 @@ jest.spyOn(console, 'debug').mockImplementation(() => {});
 
 describe('PublicLocationBoundary', () => {
   it('renders correctly', async () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <PublicLocationBoundary projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
     await waitFor(() => {
-      expect(asFragment()).toMatchSnapshot();
+      expect(getByTestId('projectLocationTitle')).toBeVisible();
     });
   });
 });

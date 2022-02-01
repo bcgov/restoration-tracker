@@ -1,35 +1,15 @@
-// TODO remove these when create/vuew project is more flushed out
-/* eslint-disable */
-// @ts-nocheck
-
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { mdiChevronRight, mdiPencilOutline } from '@mdi/js';
+import { mdiChevronRight } from '@mdi/js';
 import Icon from '@mdi/react';
 import FullScreenViewMapDialog from 'components/boundary/FullScreenViewMapDialog';
 import InferredLocationDetails, { IInferredLayers } from 'components/boundary/InferredLocationDetails';
-import EditDialog from 'components/dialog/EditDialog';
-import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import MapContainer from 'components/map/MapContainer';
-import { H2ButtonToolbar } from 'components/toolbar/ActionToolbars';
-import { EditLocationBoundaryI18N } from 'constants/i18n';
-import { DialogContext } from 'contexts/dialogContext';
-import ProjectLocationForm, {
-  IProjectLocationForm,
-  ProjectLocationFormInitialValues,
-  ProjectLocationFormYupSchema
-} from 'features/projects/components/ProjectLocationForm';
 import { Feature } from 'geojson';
-import { APIError } from 'hooks/api/useAxios';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import {
-  IGetProjectForUpdateResponseLocation,
-  IGetProjectForViewResponse,
-  UPDATE_GET_ENTITIES
-} from 'interfaces/useProjectApi.interface';
-import React, { useContext, useEffect, useState } from 'react';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import React, { useEffect, useState } from 'react';
 import { calculateUpdatedMapBounds } from 'utils/mapBoundaryUploadHelpers';
 
 export interface ILocationBoundaryProps {
@@ -45,33 +25,9 @@ export interface ILocationBoundaryProps {
  */
 const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
   const {
-    projectForViewData: { location, id },
-    codes
+    projectForViewData: { location }
   } = props;
 
-  const restorationTrackerApi = useRestorationTrackerApi();
-
-  const dialogContext = useContext(DialogContext);
-
-  const defaultErrorDialogProps = {
-    dialogTitle: EditLocationBoundaryI18N.editErrorTitle,
-    dialogText: EditLocationBoundaryI18N.editErrorText,
-    open: false,
-    onClose: () => {
-      dialogContext.setErrorDialog({ open: false });
-    },
-    onOk: () => {
-      dialogContext.setErrorDialog({ open: false });
-    }
-  };
-
-  const showErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
-    dialogContext.setErrorDialog({ ...defaultErrorDialogProps, ...textDialogProps, open: true });
-  };
-
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [locationDataForUpdate, setLocationDataForUpdate] = useState<IGetProjectForUpdateResponseLocation>(null as any);
-  const [locationFormData, setLocationFormData] = useState<IProjectLocationForm>(ProjectLocationFormInitialValues);
   const [inferredLayersInfo, setInferredLayersInfo] = useState<IInferredLayers>({
     parks: [],
     nrm: [],
@@ -81,55 +37,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
   const [bounds, setBounds] = useState<any[] | undefined>([]);
   const [nonEditableGeometries, setNonEditableGeometries] = useState<any[]>([]);
   const [showFullScreenViewMapDialog, setShowFullScreenViewMapDialog] = useState<boolean>(false);
-
-  const handleDialogEditOpen = async () => {
-    let locationResponseData;
-
-    try {
-      const response = await restorationTrackerApi.project.getProjectForUpdate(id, [UPDATE_GET_ENTITIES.location]);
-
-      if (!response?.location) {
-        showErrorDialog({ open: true });
-        return;
-      }
-
-      locationResponseData = response.location;
-    } catch (error) {
-      const apiError = error as APIError;
-      showErrorDialog({ dialogText: apiError.message, open: true });
-      return;
-    }
-
-    setLocationDataForUpdate(locationResponseData);
-
-    setLocationFormData({
-      location: {
-        geometry: locationResponseData.geometry,
-        range: locationResponseData.range,
-        priority: locationResponseData.priority
-      }
-    });
-
-    setOpenEditDialog(true);
-  };
-
-  const handleDialogEditSave = async (values: IProjectLocationForm) => {
-    const projectData = {
-      location: { ...values.location, revision_count: locationDataForUpdate.revision_count }
-    };
-
-    try {
-      await restorationTrackerApi.project.updateProject(id, projectData);
-    } catch (error) {
-      const apiError = error as APIError;
-      showErrorDialog({ dialogText: apiError.message, open: true });
-      return;
-    } finally {
-      setOpenEditDialog(false);
-    }
-
-    props.refresh();
-  };
 
   useEffect(() => {
     const nonEditableGeometriesResult = location.geometry.map((geom: Feature) => {
@@ -150,24 +57,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
 
   return (
     <>
-      <EditDialog
-        dialogTitle={EditLocationBoundaryI18N.editTitle}
-        open={openEditDialog}
-        component={{
-          element: (
-            <ProjectLocationForm
-              ranges={codes.ranges.map((item) => {
-                return { value: item.id, label: item.name };
-              })}
-            />
-          ),
-          initialValues: locationFormData,
-          validationSchema: ProjectLocationFormYupSchema
-        }}
-        onCancel={() => setOpenEditDialog(false)}
-        onSave={handleDialogEditSave}
-      />
-
       <FullScreenViewMapDialog
         open={showFullScreenViewMapDialog}
         onClose={handleClose}
@@ -176,6 +65,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
             mapId="project_location_form_map"
             hideDrawControls={true}
             scrollWheelZoom={true}
+            data-testid="LargeMapContainer"
             nonEditableGeometries={nonEditableGeometries}
             bounds={bounds}
             setInferredLayersInfo={setInferredLayersInfo}
@@ -187,17 +77,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
       />
 
       <Box component={Paper} px={3} pt={1} pb={3}>
-        <H2ButtonToolbar
-          label="Project Location"
-          buttonLabel="Edit"
-          buttonTitle="Edit Project Location"
-          buttonStartIcon={<Icon path={mdiPencilOutline} size={0.875} />}
-          buttonOnClick={() => handleDialogEditOpen()}
-          buttonProps={{ variant: 'text' }}
-          toolbarProps={{ disableGutters: true }}
-        />
-
-        <Box mt={2} height={350}>
+        <Box mt={2} height={350} data-testid="mapContainer">
           <MapContainer
             mapId="project_location_form_map"
             hideDrawControls={true}

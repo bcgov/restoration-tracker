@@ -11,55 +11,34 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import EditDialog from 'components/dialog/EditDialog';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
-import { DATE_FORMAT } from 'constants/dateTimeFormats';
-import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
+import { EditProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import ProjectCoordinatorForm, {
-  ProjectCoordinatorInitialValues,
-  ProjectCoordinatorYupSchema
-} from 'features/projects/components/ProjectCoordinatorForm';
-import ProjectDraftForm, {
-  IProjectDraftForm,
-  ProjectDraftFormYupSchema
-} from 'features/projects/components/ProjectDraftForm';
-import ProjectFundingForm, {
-  ProjectFundingFormInitialValues,
-  ProjectFundingFormYupSchema
-} from 'features/projects/components/ProjectFundingForm';
-import ProjectGeneralInformationForm, {
-  ProjectGeneralInformationFormInitialValues,
-  ProjectGeneralInformationFormYupSchema
-} from 'features/projects/components/ProjectGeneralInformationForm';
-import ProjectIUCNForm, {
-  ProjectIUCNFormInitialValues,
-  ProjectIUCNFormYupSchema
-} from 'features/projects/components/ProjectIUCNForm';
-import ProjectLocationForm, {
-  ProjectLocationFormInitialValues,
-  ProjectLocationFormYupSchema
-} from 'features/projects/components/ProjectLocationForm';
-import ProjectPartnershipsForm, {
-  ProjectPartnershipsFormInitialValues,
-  ProjectPartnershipsFormYupSchema
-} from 'features/projects/components/ProjectPartnershipsForm';
-import ProjectPermitForm, {
-  ProjectPermitFormInitialValues,
-  ProjectPermitFormYupSchema
-} from 'features/projects/components/ProjectPermitForm';
+import ProjectCoordinatorForm from 'features/projects/components/ProjectCoordinatorForm';
+import ProjectFundingForm from 'features/projects/components/ProjectFundingForm';
+import ProjectGeneralInformationForm from 'features/projects/components/ProjectGeneralInformationForm';
+import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm';
+import ProjectLocationForm from 'features/projects/components/ProjectLocationForm';
+import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm';
+import ProjectPermitForm from 'features/projects/components/ProjectPermitForm';
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
 import useCodes from 'hooks/useCodes';
-import { useQuery } from 'hooks/useQuery';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { ICreateProjectRequest } from 'interfaces/useProjectApi.interface';
+import {
+  IGetProjectForViewResponse,
+  IGetProjectForViewResponseCoordinator,
+  IGetProjectForViewResponseDetails,
+  IGetProjectForViewResponseFundingData,
+  IGetProjectForViewResponseIUCN,
+  IGetProjectForViewResponseLocation,
+  IGetProjectForViewResponsePartnerships,
+  IGetProjectForViewResponsePermit
+} from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Prompt } from 'react-router-dom';
-import { getFormattedDate } from 'utils/Utils';
-import yup from 'utils/YupSchema';
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
@@ -84,66 +63,122 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const ProjectFormInitialValues = {
-  ...ProjectGeneralInformationFormInitialValues,
-  ...ProjectIUCNFormInitialValues,
-  ...ProjectCoordinatorInitialValues,
-  ...ProjectPermitFormInitialValues,
-  ...ProjectFundingFormInitialValues,
-  ...ProjectPartnershipsFormInitialValues,
-  ...ProjectLocationFormInitialValues
-};
-
-export const ProjectFormYupSchema = yup
-  .object()
-  .concat(ProjectGeneralInformationFormYupSchema)
-  .concat(ProjectIUCNFormYupSchema)
-  .concat(ProjectCoordinatorYupSchema)
-  .concat(ProjectPermitFormYupSchema)
-  .concat(ProjectFundingFormYupSchema)
-  .concat(ProjectPartnershipsFormYupSchema)
-  .concat(ProjectLocationFormYupSchema);
+  id: 0,
+  project: {
+    project_name: '',
+    start_date: '',
+    end_date: '',
+    objectives: ''
+  } as IGetProjectForViewResponseDetails,
+  permit: {
+    permits: []
+  } as IGetProjectForViewResponsePermit,
+  location: {
+    geometry: [],
+    range: '',
+    priority: ''
+  } as IGetProjectForViewResponseLocation,
+  coordinator: {
+    first_name: '',
+    last_name: '',
+    email_address: '',
+    coordinator_agency: '',
+    share_contact_details: ''
+  } as IGetProjectForViewResponseCoordinator,
+  iucn: {
+    classificationDetails: []
+  } as IGetProjectForViewResponseIUCN,
+  funding: {
+    fundingSources: []
+  } as IGetProjectForViewResponseFundingData,
+  partnerships: {
+    indigenous_partnerships: [],
+    stakeholder_partnerships: []
+  } as IGetProjectForViewResponsePartnerships
+} as IGetProjectForViewResponse;
 
 /**
- * Page for creating a new project.
+ * Page for editing a project.
  *
  * @return {*}
  */
-const CreateProjectPage: React.FC = () => {
+const EditProjectPage: React.FC = () => {
   const classes = useStyles();
 
   const history = useHistory();
 
   const restorationTrackerApi = useRestorationTrackerApi();
 
-  const queryParams = useQuery();
+  const urlParams = useParams();
 
   const codes = useCodes();
 
-  const [hasLoadedDraftData, setHasLoadedDraftData] = useState(!queryParams.draftId);
+  const [hasLoadedDraftData, setHasLoadedDraftData] = useState(false);
 
   // Reference to pass to the formik component in order to access its state at any time
   // Used by the draft logic to fetch the values of a step form that has not been validated/completed
-  const formikRef = useRef<FormikProps<ICreateProjectRequest>>(null);
+  const formikRef = useRef<FormikProps<IGetProjectForViewResponse>>(null);
 
   // Ability to bypass showing the 'Are you sure you want to cancel' dialog
   const [enableCancelCheck, setEnableCancelCheck] = useState(true);
 
   const dialogContext = useContext(DialogContext);
 
-  const defaultCancelDialogProps = {
-    dialogTitle: CreateProjectI18N.cancelTitle,
-    dialogText: CreateProjectI18N.cancelText,
-    open: false,
-    onClose: () => {
-      dialogContext.setYesNoDialog({ open: false });
-    },
-    onNo: () => {
-      dialogContext.setYesNoDialog({ open: false });
-    },
-    onYes: () => {
-      dialogContext.setYesNoDialog({ open: false });
-      history.push('/admin/projects');
+  const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(
+    ProjectFormInitialValues
+  );
+
+  useEffect(() => {
+    const getEditProjectFields = async () => {
+      const response = await restorationTrackerApi.project.getProjectById(urlParams['id']);
+
+      setInitialProjectFormData(response);
+
+      if (!response || !response.project.project_id) {
+        return;
+      }
+
+      setHasLoadedDraftData(true);
+    };
+
+    if (hasLoadedDraftData) {
+      return;
     }
+
+    getEditProjectFields();
+  }, [hasLoadedDraftData, restorationTrackerApi.project, urlParams]);
+
+  /**
+   * Handle project edits.
+   */
+  const handleProjectEdits = async (values: IGetProjectForViewResponse) => {
+    try {
+      var id = urlParams['id'];
+
+      const response = await restorationTrackerApi.project.updateProject(id, values);
+
+      if (!response?.id) {
+        showEditErrorDialog({
+          dialogError: 'The response from the server was null, or did not contain a project ID.'
+        });
+        return;
+      }
+
+      setEnableCancelCheck(false);
+
+      history.push(`/admin/projects/${response.id}`);
+    } catch (error) {
+      showEditErrorDialog({
+        dialogTitle: 'Error Editing Project',
+        dialogError: (error as APIError)?.message,
+        dialogErrorDetails: (error as APIError)?.errors
+      });
+    }
+  };
+
+  const handleCancel = () => {
+    dialogContext.setYesNoDialog(defaultCancelDialogProps);
+    history.push(`/admin/projects/${urlParams['id']}`);
   };
 
   const defaultErrorDialogProps = {
@@ -155,144 +190,33 @@ const CreateProjectPage: React.FC = () => {
     }
   };
 
-  // Whether or not to show the 'Save as draft' dialog
-  const [openDraftDialog, setOpenDraftDialog] = useState(false);
-
-  const [draft, setDraft] = useState({ id: 0, date: '' });
-
-  const [initialProjectFormData, setInitialProjectFormData] = useState<ICreateProjectRequest>(ProjectFormInitialValues);
-
-  // Get draft project fields if draft id exists
-  useEffect(() => {
-    const getDraftProjectFields = async () => {
-      const response = await restorationTrackerApi.draft.getDraft(queryParams.draftId);
-
-      setHasLoadedDraftData(true);
-
-      if (!response || !response.data) {
-        return;
-      }
-
-      setInitialProjectFormData(response.data);
-    };
-
-    if (hasLoadedDraftData) {
-      return;
-    }
-
-    getDraftProjectFields();
-  }, [restorationTrackerApi.draft, hasLoadedDraftData, queryParams.draftId]);
-
-  const handleCancel = () => {
-    dialogContext.setYesNoDialog(defaultCancelDialogProps);
-    history.push('/admin/projects');
-  };
-
-  const handleSubmitDraft = async (values: IProjectDraftForm) => {
-    try {
-      const draftId = Number(queryParams.draftId) || draft?.id;
-
-      let response;
-      if (draftId) {
-        response = await restorationTrackerApi.draft.updateDraft(draftId, values.draft_name, formikRef.current?.values);
-      } else {
-        response = await restorationTrackerApi.draft.createDraft(values.draft_name, formikRef.current?.values);
-      }
-
-      setOpenDraftDialog(false);
-
-      if (!response?.id) {
-        showCreateErrorDialog({
-          dialogError: 'The response from the server was null, or did not contain a draft project ID.'
-        });
-
-        return;
-      }
-
-      setDraft({ id: response.id, date: response.date });
-      setEnableCancelCheck(false);
-
-      history.push(`/admin/projects`);
-    } catch (error) {
-      setOpenDraftDialog(false);
-
-      const apiError = error as APIError;
-      showDraftErrorDialog({
-        dialogError: apiError?.message,
-        dialogErrorDetails: apiError?.errors
-      });
+  const defaultCancelDialogProps = {
+    dialogTitle: EditProjectI18N.cancelTitle,
+    dialogText: EditProjectI18N.cancelText,
+    open: false,
+    onClose: () => {
+      dialogContext.setYesNoDialog({ open: false });
+    },
+    onNo: () => {
+      dialogContext.setYesNoDialog({ open: false });
+    },
+    onYes: () => {
+      dialogContext.setYesNoDialog({ open: false });
+      history.push(`/admin/projects/${urlParams['id']}`);
     }
   };
 
-  /**
-   * Handle project creation.
-   */
-  const handleProjectCreation = async (values: ICreateProjectRequest) => {
-    try {
-      const response = await restorationTrackerApi.project.createProject(values);
-
-      if (!response?.id) {
-        showCreateErrorDialog({
-          dialogError: 'The response from the server was null, or did not contain a project ID.'
-        });
-        return;
-      }
-
-      await deleteDraft();
-
-      setEnableCancelCheck(false);
-
-      history.push(`/admin/projects/${response.id}`);
-    } catch (error) {
-      showCreateErrorDialog({
-        dialogTitle: 'Error Creating Project',
-        dialogError: (error as APIError)?.message,
-        dialogErrorDetails: (error as APIError)?.errors
-      });
-    }
-  };
-
-  /**
-   * Deletes the draft record used when creating this project, if one exists.
-   *
-   * @param {number} draftId
-   * @returns {*}
-   */
-  const deleteDraft = async () => {
-    const draftId = Number(queryParams.draftId);
-
-    if (!draftId) {
-      return;
-    }
-
-    try {
-      await restorationTrackerApi.draft.deleteDraft(draftId);
-    } catch (error) {
-      return error;
-    }
-  };
-
-  const showDraftErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
+  const showEditErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
     dialogContext.setErrorDialog({
-      dialogTitle: CreateProjectDraftI18N.draftErrorTitle,
-      dialogText: CreateProjectDraftI18N.draftErrorText,
+      dialogTitle: EditProjectI18N.editErrorTitle,
+      dialogText: EditProjectI18N.editErrorText,
       ...defaultErrorDialogProps,
       ...textDialogProps,
       open: true
     });
   };
 
-  const showCreateErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
-    dialogContext.setErrorDialog({
-      dialogTitle: CreateProjectI18N.createErrorTitle,
-      dialogText: CreateProjectI18N.createErrorText,
-      ...defaultErrorDialogProps,
-      ...textDialogProps,
-      open: true
-    });
-  };
-
-  if (!codes.codes) {
+  if (!codes.codes || !hasLoadedDraftData) {
     return <CircularProgress className="pageProgress" size={40} />;
   }
 
@@ -326,21 +250,6 @@ const CreateProjectPage: React.FC = () => {
     <>
       <Prompt when={enableCancelCheck} message={handleLocationChange} />
 
-      <EditDialog
-        dialogTitle="Save Incomplete Project as a Draft"
-        dialogSaveButtonLabel="Save"
-        open={openDraftDialog}
-        component={{
-          element: <ProjectDraftForm />,
-          initialValues: {
-            draft_name: '' // TODO
-          },
-          validationSchema: ProjectDraftFormYupSchema
-        }}
-        onCancel={() => setOpenDraftDialog(false)}
-        onSave={handleSubmitDraft}
-      />
-
       <Box my={4}>
         <Container maxWidth="xl">
           <Box mb={3}>
@@ -354,30 +263,21 @@ const CreateProjectPage: React.FC = () => {
 
           <Box mb={5}>
             <Box mb={1}>
-              <Typography variant="h1">Create Restoration Project</Typography>
+              <Typography variant="h1">Edit Restoration Project</Typography>
             </Box>
             <Typography variant="body1" color="textSecondary">
-              Configure and submit a new restoration project
+              Configure and submit updated restoration project
             </Typography>
           </Box>
 
-          <Box display="flex" justifyContent="flex-end">
-            <Box visibility={(draft?.date && 'visible') || 'hidden'}>
-              <Typography component="span" variant="subtitle2" color="textSecondary">
-                {`Draft saved on ${getFormattedDate(DATE_FORMAT.ShortMediumDateTimeFormat, draft.date)}`}
-              </Typography>
-            </Box>
-          </Box>
-
           <Box component={Paper} p={4}>
-            <Formik<ICreateProjectRequest>
+            <Formik<IGetProjectForViewResponse>
               innerRef={formikRef}
               enableReinitialize={true}
               initialValues={initialProjectFormData}
-              validationSchema={ProjectFormYupSchema}
               validateOnBlur={true}
               validateOnChange={false}
-              onSubmit={handleProjectCreation}>
+              onSubmit={handleProjectEdits}>
               <Form noValidate>
                 <Box my={5}>
                   <Grid container spacing={3}>
@@ -497,20 +397,12 @@ const CreateProjectPage: React.FC = () => {
 
                 <Box mt={5} className={classes.formButtons} display="flex" justifyContent="flex-end">
                   <Button
-                    variant="outlined"
-                    color="primary"
-                    size="large"
-                    onClick={() => setOpenDraftDialog(true)}
-                    data-testid="project-save-draft-button">
-                    Save Draft
-                  </Button>
-                  <Button
                     variant="contained"
                     color="primary"
                     size="large"
                     type="submit"
-                    data-testid="project-create-button">
-                    Create Project
+                    data-testid="project-save-button">
+                    Save Project
                   </Button>
                   <Button variant="text" color="primary" size="large" data-testid="project-cancel-buttton">
                     Cancel
@@ -525,4 +417,4 @@ const CreateProjectPage: React.FC = () => {
   );
 };
 
-export default CreateProjectPage;
+export default EditProjectPage;

@@ -43,7 +43,7 @@ const PublicProjectPermits: React.FC<IPublicProjectPermitsProps> = (props) => {
 
   return (
     <Box>
-      <Box mb={2} height="2rem">
+      <Box mb={2} height="2rem" data-testid="projectPermitsTitle">
         <Typography variant="h3">Project Permits</Typography>
       </Box>
 
