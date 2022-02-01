@@ -2,13 +2,12 @@ import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
   GetCoordinatorData,
-  GetPartnershipsData,
   PutCoordinatorData,
-  PutPartnershipsData,
-  PutProjectData,
+  PutFundingData,
   PutIUCNData,
   PutLocationData,
-  PutFundingData
+  PutPartnershipsData,
+  PutProjectData
 } from './project-update';
 
 describe('PutLocationData', () => {
@@ -80,21 +79,19 @@ describe('PutIUCNData', () => {
   });
 
   describe('All values provided', () => {
-    const obj = [
-      {
-        classification: 1,
-        subclassification1: 2,
-        subclassification2: 2
-      }
-    ];
-
-    let data: PutIUCNData;
-
-    before(() => {
-      data = new PutIUCNData(obj);
-    });
-
     it('sets classification details', () => {
+      const obj = {
+        classificationDetails: [
+          {
+            classification: 1,
+            subClassification1: 2,
+            subClassification2: 2
+          }
+        ]
+      };
+
+      const data = new PutIUCNData(obj);
+
       expect(data.classificationDetails).to.eql([
         {
           classification: 1,
@@ -108,35 +105,27 @@ describe('PutIUCNData', () => {
 
 describe('PutIUCNData', () => {
   describe('No values provided', () => {
-    let data: PutIUCNData;
-
-    before(() => {
-      data = new PutIUCNData(null);
-    });
-
     it('sets classification details', () => {
+      const data = new PutIUCNData(null);
+
       expect(data.classificationDetails).to.eql([]);
     });
   });
 
   describe('All values provided', () => {
-    const obj = {
-      classificationDetails: [
-        {
-          classification: 1,
-          subClassification1: 2,
-          subClassification2: 2
-        }
-      ]
-    };
-
-    let data: PutIUCNData;
-
-    before(() => {
-      data = new PutIUCNData(obj);
-    });
-
     it('sets classification details', () => {
+      const obj = {
+        classificationDetails: [
+          {
+            classification: 1,
+            subClassification1: 2,
+            subClassification2: 2
+          }
+        ]
+      };
+
+      const data = new PutIUCNData(obj);
+
       expect(data.classificationDetails).to.eql(obj.classificationDetails);
     });
   });
@@ -177,97 +166,6 @@ describe('PutPartnershipsData', () => {
 
     it('sets stakeholder_partnerships', () => {
       expect(data.stakeholder_partnerships).to.eql(obj.stakeholder_partnerships);
-    });
-  });
-});
-
-describe('GetPartnershipsData', () => {
-  describe('No values provided', () => {
-    let data: GetPartnershipsData;
-
-    before(() => {
-      data = new GetPartnershipsData((null as unknown) as any[], (null as unknown) as any[]);
-    });
-
-    it('sets indigenous_partnerships', function () {
-      expect(data.indigenous_partnerships).to.eql([]);
-    });
-
-    it('sets stakeholder_partnerships', function () {
-      expect(data.stakeholder_partnerships).to.eql([]);
-    });
-  });
-
-  describe('Empty arrays as values provided', () => {
-    let data: GetPartnershipsData;
-
-    before(() => {
-      data = new GetPartnershipsData([], []);
-    });
-
-    it('sets indigenous_partnerships', function () {
-      expect(data.indigenous_partnerships).to.eql([]);
-    });
-
-    it('sets stakeholder_partnerships', function () {
-      expect(data.stakeholder_partnerships).to.eql([]);
-    });
-  });
-
-  describe('indigenous_partnerships values provided', () => {
-    let data: GetPartnershipsData;
-
-    const indigenous_partnerships = [{ id: 1 }, { id: 2 }];
-    const stakeholder_partnerships: string[] = [];
-
-    before(() => {
-      data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);
-    });
-
-    it('sets indigenous_partnerships', function () {
-      expect(data.indigenous_partnerships).to.eql([1, 2]);
-    });
-
-    it('sets stakeholder_partnerships', function () {
-      expect(data.stakeholder_partnerships).to.eql([]);
-    });
-  });
-
-  describe('stakeholder_partnerships values provided', () => {
-    let data: GetPartnershipsData;
-
-    const indigenous_partnerships: string[] = [];
-    const stakeholder_partnerships = [{ name: 'partner 1' }, { name: 'partner 2' }];
-
-    before(() => {
-      data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);
-    });
-
-    it('sets indigenous_partnerships', function () {
-      expect(data.indigenous_partnerships).to.eql([]);
-    });
-
-    it('sets stakeholder_partnerships', function () {
-      expect(data.stakeholder_partnerships).to.eql(['partner 1', 'partner 2']);
-    });
-  });
-
-  describe('All values provided', () => {
-    let data: GetPartnershipsData;
-
-    const indigenous_partnerships = [{ id: 1 }, { id: 2 }];
-    const stakeholder_partnerships = [{ name: 'partner 3' }, { name: 'partner 4' }];
-
-    before(() => {
-      data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);
-    });
-
-    it('sets indigenous_partnerships', function () {
-      expect(data.indigenous_partnerships).to.eql([1, 2]);
-    });
-
-    it('sets stakeholder_partnerships', function () {
-      expect(data.stakeholder_partnerships).to.eql(['partner 3', 'partner 4']);
     });
   });
 });
