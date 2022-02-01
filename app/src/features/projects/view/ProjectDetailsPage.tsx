@@ -208,7 +208,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
 
-  //const priority_status = ProjectStatusType.PRIORITY;
   const priority_status = ProjectStatusType.NOT_A_PRIORITY;
 
   const getChipIcon = (status_name: string) => {

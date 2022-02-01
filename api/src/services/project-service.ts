@@ -313,9 +313,7 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    const result = (response && response.rows) || null;
-
-    return result;
+    return (response && response.rows) || null;
   }
 
   async getStakeholderPartnershipsRows(projectId: number): Promise<any[]> {

@@ -25,20 +25,19 @@ import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
 import useCodes from 'hooks/useCodes';
-import { useParams } from 'react-router';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import {
   IGetProjectForViewResponse,
-  IGetProjectForViewResponseDetails,
-  IGetProjectForViewResponsePermit,
-  IGetProjectForViewResponseLocation,
   IGetProjectForViewResponseCoordinator,
-  IGetProjectForViewResponseIUCN,
+  IGetProjectForViewResponseDetails,
   IGetProjectForViewResponseFundingData,
-  IGetProjectForViewResponsePartnerships
+  IGetProjectForViewResponseIUCN,
+  IGetProjectForViewResponseLocation,
+  IGetProjectForViewResponsePartnerships,
+  IGetProjectForViewResponsePermit
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Prompt } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
