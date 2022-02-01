@@ -86,68 +86,59 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
 
   return (
     <>
-      <dl className="ddInline">
-        <Box>
-          <Box component="section" mt={3}>
-            <Typography variant="body1" component={'h3'} data-testid="FundingSourceTitle">
-              Funding Sources
+      <ul className={classes.projectContactList}>
+        
+        {hasFundingSources && funding.fundingSources.map((item: any, index: number) => (
+          <li key={index} data-testid="fundingData">
+            <div>
+              <strong>{item.agency_name}</strong>
+            </div>
+            <Box component="dl" mt={0.5} mb={0}>
+              <div>
+                <Typography variant="body2" component="dt" color="textSecondary">
+                  Amount:
+                </Typography>
+                <Typography variant="body2" component="dt">
+                  {getFormattedAmount(item.funding_amount)}
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2" component="dt" color="textSecondary">
+                  Project ID:
+                </Typography>
+                <Typography variant="body2" component="dt">
+                  {item.agency_project_id}
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2" component="dt" color="textSecondary">
+                  Start Date:
+                </Typography>
+                <Typography variant="body2" component="dt">
+                  {item.start_date}
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2" component="dt" color="textSecondary">
+                  End Date:
+                </Typography>
+                <Typography variant="body2" component="dt">
+                  {item.end_date}
+                </Typography>
+              </div>
+            </Box>
+          </li>
+        ))}
+
+        {!hasFundingSources && (
+          <li>
+            <Typography variant="body2" data-testid="NoFundingLoaded">
+              No Funding Sources
             </Typography>
-          </Box>
+          </li>
+        )}
 
-          <Box mt={3}>
-            {hasFundingSources &&
-              funding.fundingSources.map((item: any, index: number) => (
-                <ul className={classes.projectContactList} key={index} data-testid="fundingData">
-                  <li>
-                    <div>
-                      <strong>{item.agency_name}</strong>
-                    </div>
-                    <Box component="dl" mt={0.5} mb={0}>
-                      <div>
-                        <Typography variant="body2" component="dt" color="textSecondary">
-                          Amount:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          {getFormattedAmount(item.funding_amount)}
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dt" color="textSecondary">
-                          Project ID:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          {item.agency_project_id}
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dt" color="textSecondary">
-                          Start Date:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          {item.start_date}
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body2" component="dt" color="textSecondary">
-                          End Date:
-                        </Typography>
-                        <Typography variant="body2" component="dt">
-                          {item.end_date}
-                        </Typography>
-                      </div>
-                    </Box>
-                  </li>
-                </ul>
-              ))}
-
-            {!hasFundingSources && (
-              <Typography component="dt" variant="body1" data-testid="NoFundingLoaded">
-                No Funding Sources
-              </Typography>
-            )}
-          </Box>
-        </Box>
-      </dl>
+      </ul>
     </>
   );
 };

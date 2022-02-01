@@ -3,6 +3,7 @@ import EditProjectPage from 'features/edit/EditProjectPage';
 import ProjectsListPage from 'features/projects/list/ProjectsListPage';
 import ProjectsLayout from 'features/projects/ProjectsLayout';
 import ViewProjectPage from 'features/projects/view/ViewProjectPage';
+import RestoProjectDetailsPage from 'features/projects/view/RestoProjectDetailsPage';
 import React from 'react';
 import { Redirect, Switch } from 'react-router';
 import AppRoute from 'utils/AppRoute';
@@ -26,6 +27,12 @@ const ProjectsRouter: React.FC = () => {
       <AppRoute exact path="/admin/projects/create" layout={ProjectsLayout}>
         <ProjectsLayout>
           <CreateProjectPage />
+        </ProjectsLayout>
+      </AppRoute>
+
+      <AppRoute exact path="/admin/projects/prototype-view-page" layout={ProjectsLayout}>
+        <ProjectsLayout>
+          <RestoProjectDetailsPage />
         </ProjectsLayout>
       </AppRoute>
 
