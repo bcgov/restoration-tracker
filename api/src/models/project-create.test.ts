@@ -525,7 +525,7 @@ describe('PostFundingData', () => {
     let data: PostFundingData;
 
     const obj = {
-      funding_sources: null
+      fundingSources: null
     };
 
     before(() => {
@@ -541,7 +541,7 @@ describe('PostFundingData', () => {
     let data: PostFundingData;
 
     const obj = {
-      funding_sources: []
+      fundingSources: []
     };
 
     before(() => {
@@ -557,7 +557,7 @@ describe('PostFundingData', () => {
     let data: PostFundingData;
 
     const obj = {
-      funding_sources: [
+      fundingSources: [
         {
           agency_id: 1,
           investment_action_category: 1,
@@ -574,7 +574,7 @@ describe('PostFundingData', () => {
     });
 
     it('sets funding_sources', () => {
-      expect(data.funding_sources).to.eql(obj.funding_sources);
+      expect(data.funding_sources).to.eql(obj.fundingSources);
     });
   });
 });
