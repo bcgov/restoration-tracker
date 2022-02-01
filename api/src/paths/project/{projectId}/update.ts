@@ -301,11 +301,7 @@ export function updateProject(): RequestHandler {
     try {
       const projectId = Number(req.params?.projectId);
 
-      console.log('params', req.params);
-
       const entities: IUpdateProject = req.body;
-
-      console.log('entities ', entities);
 
       if (!projectId) {
         throw new HTTP400('Missing required path parameter: projectId');
@@ -322,8 +318,6 @@ export function updateProject(): RequestHandler {
       await projectService.updateProject(projectId, entities);
 
       await connection.commit();
-
-      console.log('response is', res);
 
       return res.status(200).json({ id: projectId });
     } catch (error) {
