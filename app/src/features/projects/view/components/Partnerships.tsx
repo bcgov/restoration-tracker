@@ -18,7 +18,8 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
   const {
     projectForViewData: {
       partnerships: { indigenous_partnerships, stakeholder_partnerships }
-    }
+    },
+    codes
   } = props;
 
   const hasIndigenousPartnerships = indigenous_partnerships && indigenous_partnerships.length > 0;
@@ -34,13 +35,10 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
 
           <Typography component="dd" variant="body2">
             {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
-              return (
-                <span key={index}>{indigenousPartnership}</span>
-              );
+              const codeValue = codes.first_nations.find((code) => code.id === indigenousPartnership);
+              return <span key={index}>{codeValue?.name}</span>;
             })}
-            {!hasIndigenousPartnerships && (
-              <span>None</span>
-            )}
+            {!hasIndigenousPartnerships && <span>None</span>}
           </Typography>
         </div>
 
@@ -51,13 +49,9 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
 
           <Typography component="dd" variant="body2">
             {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
-              return (
-                <span key={index}>{stakeholderPartnership}</span>
-              );
+              return <span key={index}>{stakeholderPartnership}</span>;
             })}
-            {!hasStakeholderPartnerships && (
-              <span>None</span>
-            )}
+            {!hasStakeholderPartnerships && <span>None</span>}
           </Typography>
         </div>
       </dl>
