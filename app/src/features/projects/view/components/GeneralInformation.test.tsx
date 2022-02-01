@@ -14,7 +14,7 @@ describe('ProjectDetails', () => {
       <ProjectDetails projectForViewData={{ ...getProjectForViewResponse }} codes={codes} refresh={mockRefresh} />
     );
 
-    expect(getByTestId('GeneralInfoTitle')).toBeVisible();
+    expect(getByTestId('general_info_component')).toBeVisible();
   });
 
   it('renders correctly with no end date (only start date)', () => {
@@ -30,5 +30,20 @@ describe('ProjectDetails', () => {
     );
 
     expect(getByText('---')).toBeVisible();
+  });
+
+  it('renders correctly with end date', () => {
+    const { getByText } = render(
+      <ProjectDetails
+        projectForViewData={{
+          ...getProjectForViewResponse,
+          project: { ...getProjectForViewResponse.project, end_date: '2021-01-26' as string }
+        }}
+        codes={codes}
+        refresh={mockRefresh}
+      />
+    );
+
+    expect(getByText('Jan 26, 2021')).toBeVisible();
   });
 });

@@ -24,7 +24,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
   return (
     <>
-      <Box component="dl">
+      <Box component="dl" data-testid="general_info_component">
         <div>
           <Typography variant="body2" component="dd" color="textSecondary">
             Project Name:

@@ -1,4 +1,4 @@
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { SYSTEM_ROLE } from 'constants/roles';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
@@ -9,7 +9,7 @@ import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import React from 'react';
 import ViewProjectPage from './ViewProjectPage';
 import { AuthStateContext, IAuthState } from 'contexts/authStateContext';
-import { DialogContextProvider } from 'contexts/dialogContext';
+import { codes } from 'test-helpers/code-helpers';
 
 //import { codes } from 'test-helpers/code-helpers';
 
@@ -50,7 +50,7 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
 >).mockReturnValue(mockuseRestorationTrackerApi);
 //const mockRefresh = jest.fn();
 
-describe('IUCNClassification', () => {
+describe('ViewProjectPage', () => {
   beforeEach(() => {
     mockRestorationTrackerApi().project.getProjectById.mockClear();
     mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
@@ -63,9 +63,7 @@ describe('IUCNClassification', () => {
   it('renders component correctly', async () => {
     history.push('/admin/projects/1/details');
 
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'agency 1' }]
-    } as any);
+    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue(codes);
 
     mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
 
@@ -79,14 +77,66 @@ describe('IUCNClassification', () => {
 
     const { getByTestId } = render(
       <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
-        <DialogContextProvider>
           <Router history={history}>
             <ViewProjectPage />
           </Router>
-        </DialogContextProvider>
       </AuthStateContext.Provider>
     );
 
-    expect(getByTestId('viewProjectPageContainer')).toBeVisible();
+    await waitFor(() => {
+      expect(getByTestId('view_project_page_component')).toBeVisible();
+    });
+  });
+
+  it('renders spinner when no codes is loaded', async () => {
+    history.push('/admin/projects/1/details');
+
+    mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
+
+    const authState = {
+      keycloakWrapper: {
+        ...defaultAuthState.keycloakWrapper,
+        systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN] as string[],
+        hasSystemRole: () => true
+      }
+    };
+
+    const { getByTestId } = render(
+      <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
+          <Router history={history}>
+            <ViewProjectPage />
+          </Router>
+      </AuthStateContext.Provider>
+    );
+
+    await waitFor(() => {
+      expect(getByTestId('loading_spinner')).toBeVisible();
+    });
+  });
+
+  it('renders spinner when no project is loaded', async () => {
+    history.push('/admin/projects/1/details');
+
+    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue(codes);
+
+    const authState = {
+      keycloakWrapper: {
+        ...defaultAuthState.keycloakWrapper,
+        systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN] as string[],
+        hasSystemRole: () => true
+      }
+    };
+
+    const { getByTestId } = render(
+      <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
+          <Router history={history}>
+            <ViewProjectPage />
+          </Router>
+      </AuthStateContext.Provider>
+    );
+
+    await waitFor(() => {
+      expect(getByTestId('loading_spinner')).toBeVisible();
+    });
   });
 });
