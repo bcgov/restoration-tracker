@@ -36,11 +36,6 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
         classification: 1,
         subClassification1: 1,
         subClassification2: 1
-      },
-      {
-        classification: 1,
-        subClassification1: 1,
-        subClassification2: 1
       }
     ]
   },

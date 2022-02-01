@@ -8,7 +8,7 @@ jest.mock('../../../../hooks/useRestorationTrackerApi');
 
 const mockRefresh = jest.fn();
 
-describe.skip('ProjectDetails', () => {
+describe('ProjectDetails', () => {
   it('renders component correctly ', () => {
     const { getByTestId } = render(
       <ProjectDetails projectForViewData={{ ...getProjectForViewResponse }} codes={codes} refresh={mockRefresh} />

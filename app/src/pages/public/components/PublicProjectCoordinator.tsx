@@ -21,7 +21,7 @@ const PublicProjectCoordinator: React.FC<IPublicProjectCoordinatorProps> = (prop
 
   return (
     <Box>
-      <Box mb={2}>
+      <Box mb={2} data-testid="projectContactTitle">
         <Typography variant="h3">Project Contact</Typography>
       </Box>
       <dl>

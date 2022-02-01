@@ -21,7 +21,7 @@ export const GET: Operation = [
       ]
     };
   }),
-  getProjectForView()
+  viewProject()
 ];
 
 GET.apiDoc = {
@@ -270,7 +270,7 @@ GET.apiDoc = {
  *
  * @returns {RequestHandler}
  */
-export function getProjectForView(): RequestHandler {
+export function viewProject(): RequestHandler {
   return async (req, res) => {
     const connection = getDBConnection(req['keycloak_token']);
 
@@ -285,7 +285,7 @@ export function getProjectForView(): RequestHandler {
 
       return res.status(200).json(result);
     } catch (error) {
-      defaultLog.error({ label: 'getProjectForView', message: 'error', error });
+      defaultLog.error({ label: 'viewProject', message: 'error', error });
       throw error;
     } finally {
       connection.release();
