@@ -10,7 +10,7 @@ import * as update from './update';
 
 chai.use(sinonChai);
 
-describe.only('update', () => {
+describe('update', () => {
   describe('updateProject', () => {
     afterEach(() => {
       sinon.restore();
