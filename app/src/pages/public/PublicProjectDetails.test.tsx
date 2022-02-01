@@ -24,7 +24,7 @@ describe('PublicProjectDetails', () => {
     const { getByTestId } = render(component);
 
     await waitFor(() => {
-      expect(getByTestId("projectDetailsTitle")).toBeVisible();
+      expect(getByTestId('projectDetailsTitle')).toBeVisible();
     });
   });
 });

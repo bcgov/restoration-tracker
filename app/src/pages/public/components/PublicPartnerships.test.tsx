@@ -11,8 +11,8 @@ describe('PublicPartnerships', () => {
       <PublicPartnerships projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
-    expect(getByTestId("partnershipsTitle")).toBeVisible();
-    expect(getByTestId("indigenousData")).toBeVisible();
-    expect(getByTestId("stakeholderData")).toBeVisible();
+    expect(getByTestId('partnershipsTitle')).toBeVisible();
+    expect(getByTestId('indigenousData')).toBeVisible();
+    expect(getByTestId('stakeholderData')).toBeVisible();
   });
 });

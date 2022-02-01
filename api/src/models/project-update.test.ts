@@ -483,16 +483,16 @@ describe('PutProjectData', () => {
   });
 });
 
-describe('PutFundingData', () => {
+describe.only('PutFundingData', () => {
   describe('No values provided', () => {
     let data: PutFundingData;
 
     before(() => {
-      data = new PutFundingData(null);
+      data = new PutFundingData({ fundingSources: null });
     });
 
     it('sets funding sources', () => {
-      expect(data.fundingSources).to.equal(null);
+      expect(data.fundingSources[0]).to.equal(undefined);
     });
   });
 
