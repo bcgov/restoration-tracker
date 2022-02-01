@@ -157,7 +157,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     onYes: () => dialogContext.setYesNoDialog({ open: false })
   };
 
-
   const end_date = projectForViewData.project.end_date;
   const completion_status =
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
