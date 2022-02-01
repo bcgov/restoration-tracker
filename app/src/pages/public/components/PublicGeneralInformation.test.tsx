@@ -11,6 +11,6 @@ describe('PublicGeneralInformation', () => {
       <PublicGeneralInformation projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
-    expect(getByTestId("generalInfoTitle")).toBeVisible();
+    expect(getByTestId('generalInfoTitle')).toBeVisible();
   });
 });

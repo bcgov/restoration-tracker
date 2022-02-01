@@ -11,6 +11,6 @@ describe('PublicProjectCoordinator', () => {
       <PublicProjectCoordinator projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
-    expect(getByTestId("projectContactTitle")).toBeVisible();
+    expect(getByTestId('projectContactTitle')).toBeVisible();
   });
 });

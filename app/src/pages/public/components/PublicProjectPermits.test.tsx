@@ -11,6 +11,6 @@ describe('PublicProjectPermits', () => {
       <PublicProjectPermits projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
-    expect(getByTestId("projectPermitsTitle")).toBeVisible();
+    expect(getByTestId('projectPermitsTitle')).toBeVisible();
   });
 });

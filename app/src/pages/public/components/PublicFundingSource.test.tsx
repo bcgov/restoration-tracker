@@ -11,7 +11,7 @@ describe('PublicFundingSource', () => {
       <PublicFundingSource projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
-    expect(getByTestId("fundingSourcesTitle")).toBeVisible();
-    expect(getByTestId("agencyTitle")).toBeVisible();
+    expect(getByTestId('fundingSourcesTitle')).toBeVisible();
+    expect(getByTestId('agencyTitle')).toBeVisible();
   });
 });
