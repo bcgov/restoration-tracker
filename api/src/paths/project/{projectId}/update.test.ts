@@ -82,7 +82,7 @@ describe('update', () => {
       }
     });
 
-    it.only('updates a project with all valid entries and returns 200 on success', async () => {
+    it('updates a project with all valid entries and returns 200 on success', async () => {
       const dbConnectionObj = getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
