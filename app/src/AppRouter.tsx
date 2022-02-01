@@ -37,6 +37,12 @@ const AppRouter: React.FC = () => {
         </UnAuthenticatedRouteGuard>
       </AppRoute>
 
+      <AppRoute path="/search" title={getTitle('Search')} layout={PublicLayout}>
+        <UnAuthenticatedRouteGuard>
+          <SearchPage />
+        </UnAuthenticatedRouteGuard>
+      </AppRoute>
+
       <AppRoute path="/page-not-found" title={getTitle('Page Not Found')} layout={PublicLayout}>
         <NotFoundPage />
       </AppRoute>
