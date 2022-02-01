@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as db from '../../../database/db';
 import { HTTPError } from '../../../errors/custom-error';
-//import { UserService } from '../../../services/user-service';
+import { ProjectService } from '../../../services/project-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../__mocks__/db';
 import * as update from './update';
 
@@ -32,75 +32,92 @@ describe('update', () => {
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).status).to.equal(400);
-        expect((actualError as HTTPError).message).to.equal('Missing required body param: userIdentifier');
+        expect((actualError as HTTPError).message).to.equal('Missing required path parameter: projectId');
       }
     });
 
-    // it('should throw a 400 error when no userIdentifier', async () => {
-    //   const dbConnectionObj = getMockDBConnection();
+    it('should throw a 400 error when no projectId', async () => {
+      const dbConnectionObj = getMockDBConnection();
 
-    //   const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
+      const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-    //   mockReq.body = {
-    //     userIdentifier: null,
-    //     identitySource: 'idsource'
-    //   };
+      mockReq.params = {
+        projectId: ''
+      };
 
-    //   sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    //   try {
-    //     const requestHandler = update.updateProject();
+      try {
+        const requestHandler = update.updateProject();
 
-    //     await requestHandler(mockReq, mockRes, mockNext);
-    //     expect.fail();
-    //   } catch (actualError) {
-    //     expect((actualError as HTTPError).status).to.equal(400);
-    //     expect((actualError as HTTPError).message).to.equal('Missing required body param: userIdentifier');
-    //   }
-    // });
+        await requestHandler(mockReq, mockRes, mockNext);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).status).to.equal(400);
+        expect((actualError as HTTPError).message).to.equal('Missing required path parameter: projectId');
+      }
+    });
 
-    // it('should throw a 400 error when no identitySource', async () => {
-    //   const dbConnectionObj = getMockDBConnection();
+    it('should throw a 400 error when no request body', async () => {
+      const dbConnectionObj = getMockDBConnection();
 
-    //   const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
+      const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-    //   mockReq.body = {
-    //     userIdentifier: 'uid',
-    //     identitySource: null
-    //   };
+      mockReq.params = {
+        projectId: '1'
+      };
 
-    //   sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      mockReq.body = null;
 
-    //   try {
-    //     const requestHandler = update.updateProject();
+      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    //     await requestHandler(mockReq, mockRes, mockNext);
-    //     expect.fail();
-    //   } catch (actualError) {
-    //     expect((actualError as HTTPError).status).to.equal(400);
-    //     expect((actualError as HTTPError).message).to.equal('Missing required body param: identitySource');
-    //   }
-    // });
+      try {
+        const requestHandler = update.updateProject();
 
-    // it('adds a system user and returns 200 on success', async () => {
-    //   const dbConnectionObj = getMockDBConnection();
+        await requestHandler(mockReq, mockRes, mockNext);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).status).to.equal(400);
+        expect((actualError as HTTPError).message).to.equal('Missing required request body');
+      }
+    });
 
-    //   const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
+    it.only('updates a project with all valid entries and returns 200 on success', async () => {
+      const dbConnectionObj = getMockDBConnection();
 
-    //   mockReq.body = {
-    //     userIdentifier: 'uid',
-    //     identitySource: 'idsource'
-    //   };
+      const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-    //   sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      mockReq.params = {
+        projectId: '1'
+      };
 
-    //   sinon.stub(UserService.prototype, 'addSystemUser').resolves();
+      mockReq.body = {
+        id: 1,
+        project: {
+          project_name: 'Project 1',
+          start_date: '2022-02-02',
+          end_date: '2022-02-30',
+          objectives: 'my objectives',
+          publish_date: '2022-02-02',
+          revision_count: 0
+        },
+        iucn: {},
+        coordinator: {},
+        permit: {},
+        funding: {},
+        partnerships: {},
+        location: {}
+      };
 
-    //   const requestHandler = update.updateProject();
+      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    //   await requestHandler(mockReq, mockRes, mockNext);
+      sinon.stub(ProjectService.prototype, 'updateProject').resolves();
 
-    //   expect(mockRes.statusValue).to.equal(200);
-    // });
+      const requestHandler = update.updateProject();
+
+      await requestHandler(mockReq, mockRes, mockNext);
+
+      expect(mockRes.statusValue).to.equal(200);
+    });
   });
 });

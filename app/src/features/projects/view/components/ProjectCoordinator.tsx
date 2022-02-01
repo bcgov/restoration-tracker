@@ -89,7 +89,7 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
         <ul className={classes.projectContactList}>
           <li>
             <div>
-              <strong data-testid='CoordinatorName'>
+              <strong data-testid="CoordinatorName">
                 {' '}
                 {coordinator.first_name} {coordinator.last_name}
               </strong>

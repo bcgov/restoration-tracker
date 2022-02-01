@@ -164,7 +164,6 @@ export class ProjectService extends DBService {
     ]);
 
     return {
-      id: projectId,
       project: projectData,
       iucn: iucnData,
       coordinator: coordinatorData,

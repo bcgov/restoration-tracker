@@ -141,7 +141,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
               ))}
 
             {!hasFundingSources && (
-              <Typography component="dt" variant="body1" data-testid='NoFundingLoaded'>
+              <Typography component="dt" variant="body1" data-testid="NoFundingLoaded">
                 No Funding Sources
               </Typography>
             )}

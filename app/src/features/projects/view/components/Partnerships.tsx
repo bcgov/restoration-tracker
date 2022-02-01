@@ -42,7 +42,7 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
                 </Typography>
                 {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
                   return (
-                    <Typography variant="body2" component="dt" key={index} >
+                    <Typography variant="body2" component="dt" key={index}>
                       {indigenousPartnership}
                     </Typography>
                   );

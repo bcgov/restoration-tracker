@@ -131,12 +131,11 @@ const EditProjectPage: React.FC = () => {
 
   useEffect(() => {
     const getEditProjectFields = async () => {
-      var id = urlParams['id'];
-      const response = await restorationTrackerApi.project.getProjectById(id);
+      const response = await restorationTrackerApi.project.getProjectById(urlParams['id']);
 
       setInitialProjectFormData(response);
 
-      if (!response || !response.id) {
+      if (!response || !response.project.project_id) {
         return;
       }
 
