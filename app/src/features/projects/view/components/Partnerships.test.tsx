@@ -24,8 +24,8 @@ describe('Partnerships', () => {
       />
     );
 
-    expect(getByTestId('NoIndigenousPartners')).toBeVisible();
-    expect(getByTestId('NoOtherPartners')).toBeVisible();
+    expect(getByTestId('no_indigenous_partners_data')).toBeVisible();
+    expect(getByTestId('no_stakeholder_partners_data')).toBeVisible();
   });
 
   it('renders correctly with invalid null values', () => {
@@ -43,12 +43,12 @@ describe('Partnerships', () => {
       />
     );
 
-    expect(getByTestId('NoIndigenousPartners')).toBeVisible();
-    expect(getByTestId('NoOtherPartners')).toBeVisible();
+    expect(getByTestId('no_indigenous_partners_data')).toBeVisible();
+    expect(getByTestId('no_stakeholder_partners_data')).toBeVisible();
   });
 
   it('renders correctly with existing partnership values', () => {
-    const { getByTestId } = render(
+    const { getAllByTestId } = render(
       <Partnerships
         projectForViewData={{
           ...getProjectForViewResponse,
@@ -62,7 +62,7 @@ describe('Partnerships', () => {
       />
     );
 
-    expect(getByTestId('IndigenousPartners')).toBeVisible();
-    expect(getByTestId('OtherPartners')).toBeVisible();
+    expect(getAllByTestId('indigenous_partners_data').length).toEqual(2);
+    expect(getAllByTestId('stakeholder_partners_data').length).toEqual(2);
   });
 });

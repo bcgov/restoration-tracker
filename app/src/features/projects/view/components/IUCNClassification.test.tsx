@@ -9,20 +9,6 @@ jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockRefresh = jest.fn();
 
 describe('IUCNClassification', () => {
-  it('renders component correctly', () => {
-    const { getByTestId } = render(
-      <IUCNClassification
-        projectForViewData={{
-          ...getProjectForViewResponse
-        }}
-        codes={codes}
-        refresh={mockRefresh}
-      />
-    );
-
-    expect(getByTestId('IUCNTitle')).toBeVisible();
-  });
-
   it('renders correctly with no classification details', () => {
     const { getByTestId } = render(
       <IUCNClassification
@@ -37,7 +23,7 @@ describe('IUCNClassification', () => {
       />
     );
 
-    expect(getByTestId('NoClassification')).toBeVisible();
+    expect(getByTestId('no_classification')).toBeVisible();
   });
 
   it('renders correctly with classification details', () => {
@@ -60,6 +46,6 @@ describe('IUCNClassification', () => {
       />
     );
 
-    expect(getByTestId('IUCNData')).toBeVisible();
+    expect(getByTestId('iucn_data')).toBeVisible();
   });
 });

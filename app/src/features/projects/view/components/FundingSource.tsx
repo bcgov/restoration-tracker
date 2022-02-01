@@ -87,57 +87,56 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
   return (
     <>
       <ul className={classes.projectContactList}>
-        
-        {hasFundingSources && funding.fundingSources.map((item: any, index: number) => (
-          <li key={index} data-testid="fundingData">
-            <div>
-              <strong>{item.agency_name}</strong>
-            </div>
-            <Box component="dl" mt={0.5} mb={0}>
+        {hasFundingSources &&
+          funding.fundingSources.map((item: any, index: number) => (
+            <li key={index} data-testid="funding_data">
               <div>
-                <Typography variant="body2" component="dt" color="textSecondary">
-                  Amount:
-                </Typography>
-                <Typography variant="body2" component="dt">
-                  {getFormattedAmount(item.funding_amount)}
-                </Typography>
+                <strong>{item.agency_name}</strong>
               </div>
-              <div>
-                <Typography variant="body2" component="dt" color="textSecondary">
-                  Project ID:
-                </Typography>
-                <Typography variant="body2" component="dt">
-                  {item.agency_project_id}
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="body2" component="dt" color="textSecondary">
-                  Start Date:
-                </Typography>
-                <Typography variant="body2" component="dt">
-                  {item.start_date}
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="body2" component="dt" color="textSecondary">
-                  End Date:
-                </Typography>
-                <Typography variant="body2" component="dt">
-                  {item.end_date}
-                </Typography>
-              </div>
-            </Box>
-          </li>
-        ))}
+              <Box component="dl" mt={0.5} mb={0}>
+                <div>
+                  <Typography variant="body2" component="dt" color="textSecondary">
+                    Amount:
+                  </Typography>
+                  <Typography variant="body2" component="dt">
+                    {getFormattedAmount(item.funding_amount)}
+                  </Typography>
+                </div>
+                <div>
+                  <Typography variant="body2" component="dt" color="textSecondary">
+                    Project ID:
+                  </Typography>
+                  <Typography variant="body2" component="dt">
+                    {item.agency_project_id}
+                  </Typography>
+                </div>
+                <div>
+                  <Typography variant="body2" component="dt" color="textSecondary">
+                    Start Date:
+                  </Typography>
+                  <Typography variant="body2" component="dt">
+                    {item.start_date}
+                  </Typography>
+                </div>
+                <div>
+                  <Typography variant="body2" component="dt" color="textSecondary">
+                    End Date:
+                  </Typography>
+                  <Typography variant="body2" component="dt">
+                    {item.end_date}
+                  </Typography>
+                </div>
+              </Box>
+            </li>
+          ))}
 
         {!hasFundingSources && (
           <li>
-            <Typography variant="body2" data-testid="NoFundingLoaded">
+            <Typography variant="body2" data-testid="no_funding_loaded">
               No Funding Sources
             </Typography>
           </li>
         )}
-
       </ul>
     </>
   );

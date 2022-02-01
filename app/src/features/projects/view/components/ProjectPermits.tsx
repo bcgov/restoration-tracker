@@ -27,14 +27,14 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
       <Box component="ul" pl={3}>
         {hasPermits &&
           permit.permits.map((item: any) => (
-            <li key={item.permit_number} data-testid="PermitItem">
+            <li key={item.permit_number} data-testid="permit_item">
               {item.permit_type} - {item.permit_number}
             </li>
           ))}
 
         {!hasPermits && (
           <li>
-            <Typography variant="body2" data-testid="NoPermitsLoaded">
+            <Typography variant="body2" data-testid="no_permits_loaded">
               No permits
             </Typography>
           </li>

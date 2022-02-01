@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Feature } from 'geojson';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
@@ -49,25 +49,6 @@ describe('LocationBoundary', () => {
       <LocationBoundary
         projectForViewData={{
           ...getProjectForViewResponse,
-          location: { ...getProjectForViewResponse.location, geometry: [] }
-        }}
-        codes={codes}
-        refresh={mockRefresh}
-      />
-    );
-
-    await waitFor(() => {
-      expect(getByTestId('mapContainer')).toBeVisible();
-    });
-  });
-
-  test('it renders large map properly', async () => {
-    mockRestorationTrackerApi().external.post.mockResolvedValue([]);
-
-    const { getByTestId, getByText } = render(
-      <LocationBoundary
-        projectForViewData={{
-          ...getProjectForViewResponse,
           location: { ...getProjectForViewResponse.location, geometry: sharedGeometry }
         }}
         codes={codes}
@@ -76,14 +57,7 @@ describe('LocationBoundary', () => {
     );
 
     await waitFor(() => {
-      expect(getByTestId('mapContainer')).toBeVisible();
-      expect(getByText('Show More')).toBeVisible();
-    });
-
-    fireEvent.click(getByText('Show More'));
-
-    await waitFor(() => {
-      expect(getByText('Project Location')).toBeVisible();
+      expect(getByTestId('map_container')).toBeVisible();
     });
   });
 });

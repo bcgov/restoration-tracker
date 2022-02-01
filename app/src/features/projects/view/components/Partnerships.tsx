@@ -29,29 +29,37 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
     <>
       <dl>
         <div>
-          <Typography component="dt" variant="body2" color="textSecondary" data-testid="IndigenousPartners">
+          <Typography component="dt" variant="body2" color="textSecondary">
             Indigenous Partners:
           </Typography>
 
           <Typography component="dd" variant="body2">
             {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
               const codeValue = codes.first_nations.find((code) => code.id === indigenousPartnership);
-              return <span key={index}>{codeValue?.name}</span>;
+              return (
+                <span key={index} data-testid="indigenous_partners_data">
+                  {codeValue?.name}
+                </span>
+              );
             })}
-            {!hasIndigenousPartnerships && <span>None</span>}
+            {!hasIndigenousPartnerships && <span data-testid="no_indigenous_partners_data">None</span>}
           </Typography>
         </div>
 
         <div>
-          <Typography component="dt" variant="body2" color="textSecondary" data-testid="OtherPartners">
+          <Typography component="dt" variant="body2" color="textSecondary">
             Other Partners:
           </Typography>
 
           <Typography component="dd" variant="body2">
             {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
-              return <span key={index}>{stakeholderPartnership}</span>;
+              return (
+                <span key={index} data-testid="stakeholder_partners_data">
+                  {stakeholderPartnership}
+                </span>
+              );
             })}
-            {!hasStakeholderPartnerships && <span>None</span>}
+            {!hasStakeholderPartnerships && <span data-testid="no_stakeholder_partners_data">None</span>}
           </Typography>
         </div>
       </dl>

@@ -77,9 +77,9 @@ describe('ViewProjectPage', () => {
 
     const { getByTestId } = render(
       <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
-          <Router history={history}>
-            <ViewProjectPage />
-          </Router>
+        <Router history={history}>
+          <ViewProjectPage />
+        </Router>
       </AuthStateContext.Provider>
     );
 
@@ -103,9 +103,9 @@ describe('ViewProjectPage', () => {
 
     const { getByTestId } = render(
       <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
-          <Router history={history}>
-            <ViewProjectPage />
-          </Router>
+        <Router history={history}>
+          <ViewProjectPage />
+        </Router>
       </AuthStateContext.Provider>
     );
 
@@ -129,9 +129,9 @@ describe('ViewProjectPage', () => {
 
     const { getByTestId } = render(
       <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
-          <Router history={history}>
-            <ViewProjectPage />
-          </Router>
+        <Router history={history}>
+          <ViewProjectPage />
+        </Router>
       </AuthStateContext.Provider>
     );
 

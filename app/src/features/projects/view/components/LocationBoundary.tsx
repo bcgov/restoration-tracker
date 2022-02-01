@@ -75,7 +75,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
         mapTitle={'Project Location'}
       />
 
-      <Box width="100%" height="100%" overflow="hidden" data-testid="mapContainer">
+      <Box width="100%" height="100%" overflow="hidden" data-testid="map_container">
         <MapContainer
           mapId="project_location_form_map"
           hideDrawControls={true}
@@ -98,7 +98,6 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
           Show More
         </Button>
       </Box>
-
     </>
   );
 };

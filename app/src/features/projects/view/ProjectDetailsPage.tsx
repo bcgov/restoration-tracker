@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'inline-block'
       },
       '& h3': {
-        fontWeight: 700,
+        fontWeight: 700
       },
       '& section + hr': {
         marginTop: theme.spacing(3),
@@ -158,7 +158,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     onNo: () => dialogContext.setYesNoDialog({ open: false }),
     onYes: () => dialogContext.setYesNoDialog({ open: false })
   };
-
 
   const end_date = projectForViewData.project.end_date;
   const completion_status =
@@ -304,7 +303,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
 
       {/* Project Metadata */}
       <Box flex="1 auto" p={3} className={classes.projectMetadata}>
-
         <Box component="section">
           <Typography variant="body1" component={'h3'}>
             Objectives
@@ -367,7 +365,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
           </Typography>
           <Partnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
-
       </Box>
     </Box>
   );
