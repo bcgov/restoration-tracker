@@ -171,19 +171,19 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     let chipStatusClass;
 
     if (ProjectStatusType.ACTIVE === status_name) {
-      chipLabel = 'In Progress';
+      chipLabel = 'Active';
       chipStatusClass = classes.chipActive;
     } else if (ProjectStatusType.COMPLETED === status_name) {
-      chipLabel = 'Complete';
+      chipLabel = 'Completed';
       chipStatusClass = classes.chipPublishedCompleted;
     } else if (ProjectStatusType.DRAFT === status_name) {
       chipLabel = 'Draft';
       chipStatusClass = classes.chipDraft;
     } else if (ProjectStatusType.PRIORITY === status_name) {
-      chipLabel = 'Priority Area';
+      chipLabel = 'Priority';
       chipStatusClass = classes.chipPriority;
     } else if (ProjectStatusType.NOT_A_PRIORITY === status_name) {
-      chipLabel = 'Priority Area';
+      chipLabel = 'Priority';
       chipStatusClass = classes.chipNotAPriority;
     }
 
