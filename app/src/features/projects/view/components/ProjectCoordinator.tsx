@@ -1,7 +1,5 @@
-import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
@@ -14,47 +12,6 @@ export interface IProjectCoordinatorProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    projectDetailDrawer: {
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        overflow: 'hidden'
-      }
-    },
-    projectDetailMain: {
-      background: '#ffffff'
-    },
-    projectTitle: {
-      margin: 0,
-      fontSize: '1.5rem',
-      fontWeight: 400
-    },
-    contentTitle: {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-      fontSize: '2rem'
-    },
-    projectMetadata: {
-      overflowY: 'auto',
-      backgroundColor: '#f5f5f5',
-
-      // Metadata Definition Lists
-      '& dl div + div': {
-        marginTop: theme.spacing(0.25)
-      },
-      '& dd, dt': {
-        display: 'inline-block',
-        width: '50%'
-      },
-
-      '& h3': {
-        // textTransform: 'uppercase',
-        fontWeight: 700
-      },
-      '& section + hr': {
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3)
-      }
-    },
     projectContactList: {
       marginLeft: 0,
       marginRight: 0,
@@ -63,9 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
       '& li + li': {
         marginTop: theme.spacing(1.5)
       }
-    },
-    treatmentsContainer: {
-      display: 'none'
     }
   })
 );
@@ -82,25 +36,20 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
 
   return (
     <>
-      <Box component="section">
-        <Typography variant="body1" component={'h3'} data-testid="CoordinatorTitle">
-          Project Contacts
-        </Typography>
-        <ul className={classes.projectContactList}>
-          <li>
-            <div>
-              <strong data-testid="CoordinatorName">
-                {' '}
-                {coordinator.first_name} {coordinator.last_name}
-              </strong>
-            </div>
-            <div>
-              <Link href="#"> {coordinator.email_address}</Link>
-            </div>
-            <div>{coordinator.coordinator_agency}</div>
-          </li>
-        </ul>
-      </Box>
+      <ul className={classes.projectContactList}>
+        <li>
+          <div>
+            <strong data-testid="coordinator_name">
+              {' '}
+              {coordinator.first_name} {coordinator.last_name}
+            </strong>
+          </div>
+          <div>
+            <Link href="#">{coordinator.email_address}</Link>
+          </div>
+          <div>{coordinator.coordinator_agency}</div>
+        </li>
+      </ul>
     </>
   );
 };

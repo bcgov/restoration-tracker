@@ -2,7 +2,6 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -29,6 +28,7 @@ import GeneralInformation from './components/GeneralInformation';
 import Objectives from './components/Objectives';
 import ProjectCoordinator from './components/ProjectCoordinator';
 import ProjectPermits from './components/ProjectPermits';
+import Typography from '@material-ui/core/Typography';
 
 export interface IProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -71,11 +71,13 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       '& dd, dt': {
         display: 'inline-block',
-        width: '50%'
+        width: '50%',
+        verticalAlign: 'top'
       },
-
+      '& dd span': {
+        display: 'inline-block'
+      },
       '& h3': {
-        // textTransform: 'uppercase',
         fontWeight: 700
       },
       '& section + hr': {
@@ -246,117 +248,125 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
     (keycloakWrapper?.hasSystemRole([SYSTEM_ROLE.PROJECT_CREATOR]) && !projectForViewData.project.publish_date);
 
   return (
-    <Drawer variant="permanent" className={classes.projectDetailDrawer}>
-      <Box display="flex" flexDirection="column">
-        <Box flex="0 auto" p={3}>
-          <Box mb={2}>
-            <Button href="/projects" size="small" startIcon={<Icon path={mdiArrowLeft} size={0.875}></Icon>}>
-              Back to Projects
-            </Button>
-          </Box>
-          <h1 className={classes.projectTitle}>
-            <b>Project -</b> {projectForViewData.project.project_name}
-            <Box display="flex" flexDirection="column">
-              <Box mb={1} display="flex" flexDirection={'row'}>
-                <Box mr={1}>{getChipIcon(priority_status)}</Box>
-                <Box>{getChipIcon(completion_status)}</Box>
-              </Box>
-              <Box>
-                <Button
-                  variant="outlined"
-                  disableElevation
-                  className={classes.actionButton}
-                  data-testid="manage-project-team-button"
-                  aria-label="Manage Project Team"
-                  onClick={() => history.push('users')}>
-                  Manage Team
-                </Button>
-                <Button
-                  variant="outlined"
-                  disableElevation
-                  className={classes.actionButton}
-                  data-testid="edit-project-button"
-                  aria-label="Edit Project"
-                  onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
-                  Edit Project
-                </Button>
-                {showDeleteProjectButton && (
-                  <Tooltip
-                    arrow
-                    color="secondary"
-                    title={!enableDeleteProjectButton ? 'Cannot delete a published project' : ''}>
-                    <>
-                      <IconButton
-                        data-testid="delete-project-button"
-                        onClick={showDeleteProjectDialog}
-                        disabled={!enableDeleteProjectButton}>
-                        <Icon path={mdiTrashCanOutline} size={1} />
-                      </IconButton>
-                    </>
-                  </Tooltip>
-                )}
-              </Box>
+    <Box display="flex" flexDirection="column" height="100%">
+      <Box flex="0 auto" p={3}>
+        <Box mb={2}>
+          <Button href="/projects" size="small" startIcon={<Icon path={mdiArrowLeft} size={0.875}></Icon>}>
+            Back to Projects
+          </Button>
+        </Box>
+        <h1 className={classes.projectTitle}>
+          <b>Project -</b> {projectForViewData.project.project_name}
+          <Box display="flex" flexDirection="column">
+            <Box mb={1} display="flex" flexDirection={'row'}>
+              <Box mr={1}>{getChipIcon(priority_status)}</Box>
+              <Box>{getChipIcon(completion_status)}</Box>
             </Box>
-          </h1>
+            <Box>
+              <Button
+                variant="outlined"
+                disableElevation
+                className={classes.actionButton}
+                data-testid="manage-project-team-button"
+                aria-label="Manage Project Team"
+                onClick={() => history.push('users')}>
+                Manage Team
+              </Button>
+              <Button
+                variant="outlined"
+                disableElevation
+                className={classes.actionButton}
+                data-testid="edit-project-button"
+                aria-label="Edit Project"
+                onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
+                Edit Project
+              </Button>
+              {showDeleteProjectButton && (
+                <Tooltip
+                  arrow
+                  color="secondary"
+                  title={!enableDeleteProjectButton ? 'Cannot delete a published project' : ''}>
+                  <>
+                    <IconButton
+                      data-testid="delete-project-button"
+                      onClick={showDeleteProjectDialog}
+                      disabled={!enableDeleteProjectButton}>
+                      <Icon path={mdiTrashCanOutline} size={1} />
+                    </IconButton>
+                  </>
+                </Tooltip>
+              )}
+            </Box>
+          </Box>
+        </h1>
+      </Box>
+
+      {/* Project Metadata */}
+      <Box flex="1 auto" p={3} className={classes.projectMetadata}>
+        <Box component="section">
+          <Typography variant="body1" component={'h3'}>
+            Objectives
+          </Typography>
+          <Box mt={2}>
+            <Objectives projectForViewData={projectForViewData} refresh={refresh} />
+          </Box>
         </Box>
 
-        {/* Project Metadata */}
-        <Box flex="1 auto" p={3} className={classes.projectMetadata}>
-          <Box component="section">
-            <Box component="section" mt={3}>
-              <Objectives projectForViewData={projectForViewData} refresh={refresh} />
-            </Box>
-          </Box>
+        <Divider></Divider>
 
-          <Divider></Divider>
+        <Box component="section" mt={3}>
+          <Typography variant="body1" component={'h3'} data-testid="GeneralInfoTitle">
+            General Information
+          </Typography>
+          <GeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+        </Box>
 
-          <Box component="section">
-            <Box component="section" mt={3}>
-              <GeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-            </Box>
-          </Box>
+        <Divider></Divider>
 
-          <Divider></Divider>
+        <Box component="section" mt={3}>
+          <Typography variant="body1" component={'h3'} data-testid="CoordinatorTitle">
+            Project Contacts
+          </Typography>
+          <ProjectCoordinator projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+        </Box>
 
-          <Box component="section">
-            <Box component="section" mt={3}>
-              <ProjectCoordinator projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-            </Box>
-          </Box>
+        <Divider></Divider>
 
-          <Divider></Divider>
+        <Box component="section" mt={3}>
+          <Typography variant="body1" component={'h3'} data-testid="IUCNTitle">
+            IUCN Conservation Actions Classifications
+          </Typography>
+          <IUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+        </Box>
 
-          <Box component="section">
-            <Box component="section" mt={3}>
-              <IUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-            </Box>
-          </Box>
+        <Divider></Divider>
 
-          <Divider></Divider>
+        <Box component="section" mt={3}>
+          <Typography variant="body1" component={'h3'} data-testid="PermitsTitle">
+            Permits
+          </Typography>
+          <ProjectPermits projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+        </Box>
 
-          <Box component="section">
-            <Box component="section" mt={3}>
-              <ProjectPermits projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-            </Box>
-          </Box>
+        <Divider></Divider>
 
-          <Divider></Divider>
+        <Box component="section" mt={3}>
+          <Typography variant="body1" component={'h3'} data-testid="FundingSourceTitle">
+            Funding Sources
+          </Typography>
+          <FundingSource projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+        </Box>
 
-          <Box component="section">
-            <Box component="section" mt={3}>
-              <FundingSource projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-            </Box>
-          </Box>
-          <Divider></Divider>
+        <Divider></Divider>
 
-          <Box component="section">
-            <Box component="section" mt={3}>
-              <Partnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-            </Box>
-          </Box>
+        <Box component="section" mt={3}>
+          <Typography variant="body1" component={'h3'} data-testid="PartnershipTitle">
+            Partnerships
+          </Typography>
+          <Partnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
       </Box>
-    </Drawer>
+    </Box>
   );
 };
 

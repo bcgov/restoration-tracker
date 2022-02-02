@@ -1,5 +1,3 @@
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
@@ -20,7 +18,8 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
   const {
     projectForViewData: {
       partnerships: { indigenous_partnerships, stakeholder_partnerships }
-    }
+    },
+    codes
   } = props;
 
   const hasIndigenousPartnerships = indigenous_partnerships && indigenous_partnerships.length > 0;
@@ -28,55 +27,41 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
 
   return (
     <>
-      <dl className="ddInline">
-        <Box component="section" mt={3}>
-          <Typography variant="body1" component={'h3'} data-testid="PartnershipTitle">
-            Partnerships
+      <dl>
+        <div>
+          <Typography component="dt" variant="body2" color="textSecondary">
+            Indigenous Partners:
           </Typography>
 
-          <Box mt={3}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="body2" component="dt" color="textSecondary" data-testid="IndigenousPartners">
-                  Indigenous Partnerships
-                </Typography>
-                {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
-                  return (
-                    <Typography variant="body2" component="dt" key={index}>
-                      {indigenousPartnership}
-                    </Typography>
-                  );
-                })}
+          <Typography component="dd" variant="body2">
+            {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
+              const codeValue = codes.first_nations.find((code) => code.id === indigenousPartnership);
+              return (
+                <span key={index} data-testid="indigenous_partners_data">
+                  {codeValue?.name}
+                </span>
+              );
+            })}
+            {!hasIndigenousPartnerships && <span data-testid="no_indigenous_partners_data">None</span>}
+          </Typography>
+        </div>
 
-                {!hasIndigenousPartnerships && (
-                  <Typography component="dt" variant="body1" data-testid="NoIndigenousPartners">
-                    No Indigenous Partnerships
-                  </Typography>
-                )}
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="body2" component="dt" color="textSecondary" data-testid="OtherPartners">
-                  Other Partnerships
-                </Typography>
-                {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
-                  return (
-                    <Typography variant="body2" component="dt" key={index}>
-                      {stakeholderPartnership}
-                    </Typography>
-                  );
-                })}
+        <div>
+          <Typography component="dt" variant="body2" color="textSecondary">
+            Other Partners:
+          </Typography>
 
-                {!hasStakeholderPartnerships && (
-                  <Typography component="dt" variant="body1" data-testid="NoOtherPartners">
-                    No Other Partnerships
-                  </Typography>
-                )}
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
+          <Typography component="dd" variant="body2">
+            {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
+              return (
+                <span key={index} data-testid="stakeholder_partners_data">
+                  {stakeholderPartnership}
+                </span>
+              );
+            })}
+            {!hasStakeholderPartnerships && <span data-testid="no_stakeholder_partners_data">None</span>}
+          </Typography>
+        </div>
       </dl>
     </>
   );

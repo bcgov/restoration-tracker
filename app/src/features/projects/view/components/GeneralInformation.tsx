@@ -24,41 +24,31 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
   return (
     <>
-      <Box>
-        <dl>
-          <Box component="section" mt={3}>
-            <Typography variant="body1" component={'h3'} data-testid="GeneralInfoTitle">
-              General Information
-            </Typography>
-
-            <Box mt={3}>
-              <div>
-                <Typography variant="body2" component="dd" color="textSecondary">
-                  Project Name:
-                </Typography>
-                <Typography variant="body2" component="dt">
-                  {project.project_name}
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="body2" component="dd" color="textSecondary">
-                  Start Date:
-                </Typography>
-                <Typography variant="body2" component="dt">
-                  {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="body2" component="dd" color="textSecondary">
-                  Completion Date:
-                </Typography>
-                <Typography variant="body2" component="dt">
-                  {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
-                </Typography>
-              </div>
-            </Box>
-          </Box>
-        </dl>
+      <Box component="dl" data-testid="general_info_component">
+        <div>
+          <Typography variant="body2" component="dd" color="textSecondary">
+            Project Name:
+          </Typography>
+          <Typography variant="body2" component="dt">
+            {project.project_name}
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="body2" component="dd" color="textSecondary">
+            Start Date:
+          </Typography>
+          <Typography variant="body2" component="dt">
+            {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="body2" component="dd" color="textSecondary">
+            Completion Date:
+          </Typography>
+          <Typography variant="body2" component="dt">
+            {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
+          </Typography>
+        </div>
       </Box>
     </>
   );

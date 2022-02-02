@@ -9,20 +9,6 @@ jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockRefresh = jest.fn();
 
 describe('ProjectPermits', () => {
-  it('renders correctly with sampling conducted true', () => {
-    const { getByTestId } = render(
-      <ProjectPermits
-        projectForViewData={{
-          ...getProjectForViewResponse
-        }}
-        codes={codes}
-        refresh={mockRefresh}
-      />
-    );
-
-    expect(getByTestId('PermitsTitle')).toBeVisible();
-  });
-
   it('renders correctly with no permits', () => {
     const { getByTestId } = render(
       <ProjectPermits
@@ -37,7 +23,7 @@ describe('ProjectPermits', () => {
       />
     );
 
-    expect(getByTestId('NoPermitsLoaded')).toBeVisible();
+    expect(getByTestId('no_permits_loaded')).toBeVisible();
   });
 
   it('renders permits data correctly', async () => {
@@ -59,6 +45,6 @@ describe('ProjectPermits', () => {
       />
     );
 
-    expect(getByTestId('PermitItem')).toBeInTheDocument();
+    expect(getByTestId('permit_item')).toBeInTheDocument();
   });
 });

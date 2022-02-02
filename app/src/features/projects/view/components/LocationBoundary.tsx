@@ -1,6 +1,5 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import { mdiChevronRight } from '@mdi/js';
 import Icon from '@mdi/react';
 import FullScreenViewMapDialog from 'components/boundary/FullScreenViewMapDialog';
@@ -76,19 +75,18 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
         mapTitle={'Project Location'}
       />
 
-      <Box component={Paper} px={3} pt={1} pb={3}>
-        <Box mt={2} height={350} data-testid="mapContainer">
-          <MapContainer
-            mapId="project_location_form_map"
-            hideDrawControls={true}
-            nonEditableGeometries={nonEditableGeometries}
-            bounds={bounds}
-            setInferredLayersInfo={setInferredLayersInfo}
-          />
-        </Box>
+      <Box width="100%" height="100%" overflow="hidden" data-testid="map_container">
+        <MapContainer
+          mapId="project_location_form_map"
+          hideDrawControls={true}
+          nonEditableGeometries={nonEditableGeometries}
+          bounds={bounds}
+          setInferredLayersInfo={setInferredLayersInfo}
+        />
+      </Box>
 
+      <Box hidden>
         <InferredLocationDetails layers={inferredLayersInfo} />
-
         <Button
           variant="text"
           color="primary"

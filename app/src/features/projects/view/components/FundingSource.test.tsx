@@ -7,14 +7,6 @@ jest.mock('../../../../hooks/useRestorationTrackerApi');
 const mockRefresh = jest.fn();
 
 describe('FundingSource', () => {
-  it('renders component correctly', () => {
-    const { getByTestId } = render(
-      <FundingSource projectForViewData={getProjectForViewResponse} codes={codes} refresh={mockRefresh} />
-    );
-
-    expect(getByTestId('FundingSourceTitle')).toBeVisible();
-  });
-
   it('renders data correctly', async () => {
     const { getByTestId } = render(
       <FundingSource
@@ -42,7 +34,7 @@ describe('FundingSource', () => {
       />
     );
 
-    expect(getByTestId('fundingData')).toBeInTheDocument();
+    expect(getByTestId('funding_data')).toBeInTheDocument();
   });
 
   it('renders correctly with no funding', () => {
@@ -59,6 +51,6 @@ describe('FundingSource', () => {
       />
     );
 
-    expect(getByTestId('NoFundingLoaded')).toBeVisible();
+    expect(getByTestId('no_funding_loaded')).toBeVisible();
   });
 });
