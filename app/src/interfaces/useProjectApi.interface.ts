@@ -128,6 +128,7 @@ export interface IGetGeneralInformationForUpdateResponseDetails {
   project_name: string;
   start_date: string;
   end_date: string;
+  objectives: string;
   revision_count: number;
 }
 
@@ -142,8 +143,8 @@ export interface IGetProjectForUpdateResponsePermit {
 
 export interface IGetProjectForUpdateResponseLocation {
   geometry: Feature[];
-  range: number;
-  priority: boolean;
+  range: string;
+  priority: string;
   revision_count: number;
 }
 
@@ -188,22 +189,12 @@ export interface IGetProjectForUpdateResponsePartnerships {
 }
 
 /**
- * An interface for a single instance of project metadata, for update-only use cases.
- *
- * @export
- * @interface IUpdateProjectRequest
- * @extends {IGetProjectForUpdateResponse}
- */
-export interface IUpdateProjectRequest extends IGetProjectForUpdateResponse {}
-
-/**
  * An interface for a single instance of project metadata, for view-only use cases.
  *
  * @export
  * @interface IGetProjectForViewResponse
  */
 export interface IGetProjectForViewResponse {
-  id: number;
   project: IGetProjectForViewResponseDetails;
   permit: IGetProjectForViewResponsePermit;
   location: IGetProjectForViewResponseLocation;
@@ -214,11 +205,13 @@ export interface IGetProjectForViewResponse {
 }
 
 export interface IGetProjectForViewResponseDetails {
+  project_id: number;
   project_name: string;
   start_date: string;
   end_date: string;
   completion_status: string;
   publish_date: string;
+  objectives: string;
 }
 
 interface IGetProjectForViewResponsePermitArrayItem {
@@ -245,9 +238,9 @@ export interface IGetProjectForViewResponseCoordinator {
 }
 
 interface IGetProjectForViewResponseIUCNArrayItem {
-  classification: string;
-  subClassification1: string;
-  subClassification2: string;
+  classification: number;
+  subClassification1: number;
+  subClassification2: number;
 }
 
 export interface IGetProjectForViewResponseIUCN {
@@ -272,7 +265,7 @@ export interface IGetProjectForViewResponseFundingData {
 }
 
 export interface IGetProjectForViewResponsePartnerships {
-  indigenous_partnerships: string[];
+  indigenous_partnerships: number[];
   stakeholder_partnerships: string[];
 }
 

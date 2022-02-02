@@ -1,16 +1,29 @@
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import Drawer from '@material-ui/core/Drawer';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
-import ProjectAttachments from 'features/projects/view/ProjectAttachments';
-import ProjectDetails from 'features/projects/view/ProjectDetails';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import ProjectHeader from './ProjectHeader';
+import ProjectDetailsPage from './ProjectDetailsPage';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    projectDetailDrawer: {
+      '& .MuiDrawer-paper': {
+        position: 'relative',
+        overflow: 'hidden',
+        width: '30rem'
+      }
+    },
+    projectDetailMain: {
+      background: '#ffffff'
+    }
+  })
+);
 
 /**
  * Page to display a single Project.
@@ -18,6 +31,7 @@ import ProjectHeader from './ProjectHeader';
  * @return {*}
  */
 const ViewProjectPage: React.FC = () => {
+  const classes = useStyles();
   const urlParams = useParams();
 
   const restorationTrackerApi = useRestorationTrackerApi();
@@ -47,7 +61,7 @@ const ViewProjectPage: React.FC = () => {
   }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
 
   const getProject = useCallback(async () => {
-    const projectWithDetailsResponse = await restorationTrackerApi.project.getProjectForView(urlParams['id']);
+    const projectWithDetailsResponse = await restorationTrackerApi.project.getProjectById(urlParams['id']);
 
     if (!projectWithDetailsResponse) {
       // TODO error handling/messaging
@@ -65,30 +79,33 @@ const ViewProjectPage: React.FC = () => {
   }, [isLoadingProject, projectWithDetails, getProject]);
 
   if (!codes || !projectWithDetails) {
-    return <CircularProgress className="pageProgress" size={40} />;
+    return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
 
   return (
     <>
-      <ProjectHeader projectWithDetails={projectWithDetails} refresh={getProject} />
+      <Box
+        display="flex"
+        position="absolute"
+        width="100%"
+        height="100%"
+        overflow="hidden"
+        data-testid="view_project_page_component">
+        {/* Details Container */}
+        <Drawer variant="permanent" className={classes.projectDetailDrawer}>
+          <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+        </Drawer>
 
-      <Container maxWidth="xl">
-        <Box my={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={8}>
-              <Box>
-                <ProjectDetails projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
-              </Box>
-              <Box mt={3}>
-                <ProjectAttachments projectForViewData={projectWithDetails} />
-              </Box>
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
-            </Grid>
-          </Grid>
+        {/* Map Container */}
+        <Box
+          display="flex"
+          flex="1 1 auto"
+          alignItems="center"
+          justifyContent="center"
+          className={classes.projectDetailMain}>
+          <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
         </Box>
-      </Container>
+      </Box>
     </>
   );
 };

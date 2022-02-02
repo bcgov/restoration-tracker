@@ -168,10 +168,10 @@ describe('getLogOutUrl', () => {
   });
 
   it('returns a log out url', () => {
-    // @ts-ignore
+    // @ts-ignore: delete non-optional property
     delete window.location;
 
-    // @ts-ignore
+    // @ts-ignore: reassign location despite missing properties
     window.location = {
       origin: 'https://restoration-tracker.com'
     };

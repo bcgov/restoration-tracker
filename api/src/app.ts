@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { initialize } from 'express-openapi';
 import multer from 'multer';
 import { OpenAPIV3 } from 'openapi-types';
+import swaggerUIExperss from 'swagger-ui-express';
 import { defaultPoolConfig, initDBPool } from './database/db';
 import { ensureHTTPError } from './errors/custom-error';
 import { rootAPIDoc } from './openapi/root-api-doc';
@@ -36,14 +37,19 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 });
 
 // Initialize express-openapi framework
-initialize({
-  apiDoc: rootAPIDoc as OpenAPIV3.Document, // base open api spec
+const openAPIFramework = initialize({
+  apiDoc: {
+    ...(rootAPIDoc as OpenAPIV3.Document),
+    'x-express-openapi-additional-middleware': [validateAllResponses],
+    'x-express-openapi-validation-strict': true
+  }, // base open api spec
   app: app, // express app to initialize
   paths: './src/paths', // base folder for endpoint routes
   pathsIgnore: new RegExp('.(spec|test)$'), // ignore test files in paths
   routesGlob: '**/*.{ts,js}', // updated default to allow .ts
   routesIndexFileRegExp: /(?:index)?\.[tj]s$/, // updated default to allow .ts
   promiseMode: true, // allow endpoint handlers to return promises
+  docsPath: '/raw-api-docs', // path to view raw openapi spec
   consumesMiddleware: {
     'application/json': express.json({ limit: MAX_REQ_BODY_SIZE }),
     'multipart/form-data': function (req, res, next) {
@@ -91,6 +97,9 @@ initialize({
   }
 });
 
+// Path to view beautified openapi spec
+app.use('/api-docs', swaggerUIExperss.serve, swaggerUIExperss.setup(openAPIFramework.apiDoc));
+
 // Start api
 try {
   initDBPool(defaultPoolConfig);
@@ -101,4 +110,57 @@ try {
 } catch (error) {
   defaultLog.error({ label: 'start api', message: 'error', error });
   process.exit(1);
+}
+
+/**
+ * Middleware to apply openapi response validation to all routes.
+ *
+ * Note: validates `<data>` sent via `res.status(<status>).json(<data>)` against the matching openapi response schema
+ * for `<status>`.
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
+function validateAllResponses(req: Request, res: Response, next: NextFunction) {
+  const isStrictValidation = !!req['apiDoc']['x-express-openapi-validation-strict'] || false;
+
+  if (typeof res['validateResponse'] === 'function') {
+    const json = res.json;
+
+    res.json = (...args) => {
+      if (res.get('x-express-openapi-validation-error-for')) {
+        // Already validated, return
+        return json.apply(res, args);
+      }
+
+      const body = args[0];
+
+      const validationResult: { message: any; errors: any[] } | undefined = res['validateResponse'](
+        res.statusCode,
+        body
+      );
+
+      let validationMessage;
+
+      if (validationResult?.errors) {
+        const errorList = Array.from(validationResult.errors)
+          .map((item: any) => item.message)
+          .join(',');
+
+        validationMessage = `Invalid response for status code ${res.statusCode}: ${errorList}`;
+
+        // Set to avoid a loop, and to provide the original status code
+        res.set('x-express-openapi-validation-error-for', res.statusCode.toString());
+      }
+
+      if (!isStrictValidation || !validationResult?.errors) {
+        return json.apply(res, args);
+      } else {
+        return res.status(500).json({ error: validationMessage });
+      }
+    };
+  }
+
+  next();
 }

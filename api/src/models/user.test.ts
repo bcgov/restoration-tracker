@@ -11,11 +11,11 @@ describe('UserObject', () => {
     });
 
     it('sets id', function () {
-      expect(data.id).to.equal(null);
+      expect(data.id).to.equal(undefined);
     });
 
     it('sets user_identifier', function () {
-      expect(data.user_identifier).to.equal(null);
+      expect(data.user_identifier).to.equal(undefined);
     });
 
     it('sets role_names', function () {

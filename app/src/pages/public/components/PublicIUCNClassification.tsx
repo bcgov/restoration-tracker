@@ -39,7 +39,7 @@ const PublicIUCNClassification: React.FC<IPublicIUCNClassificationProps> = (prop
 
   return (
     <>
-      <Box mb={2} height="2rem">
+      <Box mb={2} height="2rem" data-testid="IUCNTitle">
         <Typography variant="h3">IUCN Conservation Actions Classification</Typography>
       </Box>
 
@@ -50,7 +50,7 @@ const PublicIUCNClassification: React.FC<IPublicIUCNClassificationProps> = (prop
               <Box component="li" key={index} className={classes.iucnListItem}>
                 <Divider />
                 <Box>
-                  <Typography component="span" variant="body1">
+                  <Typography component="span" variant="body1" data-testid="IUCNData">
                     {classificationDetail.classification} <span>{'>'}</span> {classificationDetail.subClassification1}{' '}
                     <span>{'>'}</span> {classificationDetail.subClassification2}
                   </Typography>

@@ -11,10 +11,10 @@ import {
   GetIUCNClassificationData,
   GetPartnershipsData,
   GetLocationData,
-  GetPermitData
+  GetPermitData,
+  GetFundingData
 } from '../../../../models/project-view';
 import { GetPublicProjectData, GetPublicCoordinatorData } from '../../../../models/public/project';
-import { GetFundingData } from '../../../../models/project-view-update';
 import { HTTPError } from '../../../../errors/custom-error';
 
 chai.use(sinonChai);
@@ -272,8 +272,7 @@ describe('getPublicProjectForView', () => {
       create_user: null,
       update_date: null,
       update_user: null,
-      revision_count: 1,
-      publish_date: null
+      revision_count: 1
     };
 
     const permitData = {
@@ -306,11 +305,11 @@ describe('getPublicProjectForView', () => {
     };
 
     const indigenousData = {
-      first_nations_name: 'fn name'
+      name: 'fn name'
     };
 
     const stakeholderData = {
-      partnership_name: 'sp name'
+      name: 'sp name'
     };
 
     // getProjectSQL mock

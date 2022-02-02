@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
-import { GetFundingData } from './project-view-update';
+import { GetFundingData } from './project-view';
 
 describe('GetFundingData', () => {
   describe('No values provided', () => {

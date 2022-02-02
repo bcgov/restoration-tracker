@@ -59,7 +59,7 @@ export const ProjectFundingFormArrayItemYupSchema = yup.object().shape({
 });
 
 export interface IProjectFundingItemFormProps {
-  funding_sources: IMultiAutocompleteFieldOption[];
+  fundingSources: IMultiAutocompleteFieldOption[];
   investment_action_category: IInvestmentActionCategoryOption[];
 }
 
@@ -118,7 +118,7 @@ const ProjectFundingItemForm: React.FC<IProjectFundingItemFormProps> = (props) =
                 error={touched.agency_id && Boolean(errors.agency_id)}
                 displayEmpty
                 inputProps={{ 'aria-label': 'Agency Name', 'data-testid': 'agency-id' }}>
-                {props.funding_sources.map((item) => (
+                {props.fundingSources.map((item) => (
                   <MenuItem key={item.value} value={item.value}>
                     {item.label}
                   </MenuItem>

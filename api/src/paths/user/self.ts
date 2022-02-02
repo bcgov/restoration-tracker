@@ -116,7 +116,7 @@ export function getUser(): RequestHandler {
 
       await connection.commit();
 
-      return res.status(200).json(userObject);
+      return res.status(200).json({ ...userObject });
     } catch (error) {
       defaultLog.error({ label: 'getUser', message: 'error', error });
       await connection.rollback();

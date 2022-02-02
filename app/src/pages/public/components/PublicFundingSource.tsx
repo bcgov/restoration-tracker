@@ -26,7 +26,7 @@ const PublicFundingSource: React.FC<IPublicProjectFundingProps> = (props) => {
 
   return (
     <>
-      <Box component="header" mb={2}>
+      <Box component="header" mb={2} data-testid="fundingSourcesTitle">
         <Typography variant="h3">Funding Sources</Typography>
       </Box>
 
@@ -35,7 +35,7 @@ const PublicFundingSource: React.FC<IPublicProjectFundingProps> = (props) => {
           <Fragment key={item.id}>
             <Box mt={3}>
               <Divider />
-              <Box my={2} height="2.25rem">
+              <Box my={2} height="2.25rem" data-testid="agencyTitle">
                 <Typography variant="h4">{item.agency_name}</Typography>
               </Box>
               <dl>

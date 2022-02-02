@@ -93,6 +93,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
 
   useEffect(() => {
     if (currentAttachment) {
+      // do nothing for now
     }
   }, [currentAttachment]);
 

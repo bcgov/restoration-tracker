@@ -452,7 +452,7 @@ const CreateProjectPage: React.FC = () => {
                     <Grid item xs={12} md={9}>
                       <Box component="fieldset" mx={0}>
                         <ProjectFundingForm
-                          funding_sources={codes.codes.funding_source.map((item) => {
+                          fundingSources={codes.codes.funding_source.map((item) => {
                             return { value: item.id, label: item.name };
                           })}
                           investment_action_category={codes.codes.investment_action_category.map((item) => {

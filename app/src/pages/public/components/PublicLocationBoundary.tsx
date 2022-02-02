@@ -42,7 +42,7 @@ const PublicLocationBoundary: React.FC<IPublicLocationBoundaryProps> = (props) =
 
   return (
     <Box>
-      <Box mb={2}>
+      <Box mb={2} data-testid="projectLocationTitle">
         <Typography variant="h3">Project Location</Typography>
       </Box>
       <Box mt={4} mb={4} height={500}>

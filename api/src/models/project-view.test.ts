@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { COMPLETION_STATUS } from '../constants/status';
 import { describe } from 'mocha';
 import {
   GetCoordinatorData,
@@ -46,7 +45,7 @@ describe('GetPartnershipsData', () => {
   describe('indigenous_partnerships values provided', () => {
     let data: GetPartnershipsData;
 
-    const indigenous_partnerships = [{ first_nations_name: 'nation 1' }, { first_nations_name: 'nation 2' }];
+    const indigenous_partnerships = [{ first_nations_id: 1 }, { first_nations_id: 2 }];
     const stakeholder_partnerships: string[] = [];
 
     before(() => {
@@ -54,7 +53,7 @@ describe('GetPartnershipsData', () => {
     });
 
     it('sets indigenous_partnerships', function () {
-      expect(data.indigenous_partnerships).to.eql(['nation 1', 'nation 2']);
+      expect(data.indigenous_partnerships).to.eql([1, 2]);
     });
 
     it('sets stakeholder_partnerships', function () {
@@ -66,7 +65,7 @@ describe('GetPartnershipsData', () => {
     let data: GetPartnershipsData;
 
     const indigenous_partnerships: string[] = [];
-    const stakeholder_partnerships = [{ partnership_name: 'partner 1' }, { partnership_name: 'partner 2' }];
+    const stakeholder_partnerships = [{ name: 'partner 1' }, { name: 'partner 2' }];
 
     before(() => {
       data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);
@@ -84,15 +83,15 @@ describe('GetPartnershipsData', () => {
   describe('All values provided', () => {
     let data: GetPartnershipsData;
 
-    const indigenous_partnerships = [{ first_nations_name: 'nation 1' }, { first_nations_name: 'nation 2' }];
-    const stakeholder_partnerships = [{ partnership_name: 'partner 3' }, { partnership_name: 'partner 4' }];
+    const indigenous_partnerships = [{ first_nations_id: 1 }, { first_nations_id: 2 }];
+    const stakeholder_partnerships = [{ name: 'partner 3' }, { name: 'partner 4' }];
 
     before(() => {
       data = new GetPartnershipsData(indigenous_partnerships, stakeholder_partnerships);
     });
 
     it('sets indigenous_partnerships', function () {
-      expect(data.indigenous_partnerships).to.eql(['nation 1', 'nation 2']);
+      expect(data.indigenous_partnerships).to.eql([1, 2]);
     });
 
     it('sets stakeholder_partnerships', function () {
@@ -103,45 +102,33 @@ describe('GetPartnershipsData', () => {
 
 describe('GetIUCNClassificationData', () => {
   describe('No values provided', () => {
-    let iucnClassificationData: GetIUCNClassificationData;
-
-    before(() => {
-      iucnClassificationData = new GetIUCNClassificationData((null as unknown) as any[]);
-    });
-
     it('sets classification details', function () {
+      const iucnClassificationData = new GetIUCNClassificationData((null as unknown) as any[]);
+
       expect(iucnClassificationData.classificationDetails).to.eql([]);
     });
   });
 
   describe('Empty array as values provided', () => {
-    let iucnClassificationData: GetIUCNClassificationData;
-
-    before(() => {
-      iucnClassificationData = new GetIUCNClassificationData([]);
-    });
-
     it('sets classification details', function () {
+      const iucnClassificationData = new GetIUCNClassificationData([]);
+
       expect(iucnClassificationData.classificationDetails).to.eql([]);
     });
   });
 
   describe('All values provided', () => {
-    let iucnClassificationData: GetIUCNClassificationData;
-
-    const iucnClassificationDataObj = [
-      {
-        classification: 'class',
-        subclassification1: 'subclass1',
-        subclassification2: 'subclass2'
-      }
-    ];
-
-    before(() => {
-      iucnClassificationData = new GetIUCNClassificationData(iucnClassificationDataObj);
-    });
-
     it('sets classification details', function () {
+      const iucnClassificationDataObj = [
+        {
+          classification: 'class',
+          subclassification1: 'subclass1',
+          subclassification2: 'subclass2'
+        }
+      ];
+
+      const iucnClassificationData = new GetIUCNClassificationData(iucnClassificationDataObj);
+
       expect(iucnClassificationData.classificationDetails).to.eql([
         {
           classification: 'class',
@@ -262,10 +249,10 @@ describe('GetLocationData', () => {
 
     const locationDataObj = [
       {
-        geometry
+        geojson: geometry
       },
       {
-        geometry
+        geojson: []
       }
     ];
 
@@ -298,10 +285,6 @@ describe('GetProjectData', () => {
     it('sets end_date', () => {
       expect(data.end_date).to.equal('');
     });
-
-    it('sets completion_status', () => {
-      expect(data.completion_status).to.equal(COMPLETION_STATUS.ACTIVE);
-    });
   });
 
   describe('all values provided', () => {
@@ -329,10 +312,6 @@ describe('GetProjectData', () => {
 
     it('sets end_date', () => {
       expect(data.end_date).to.equal('2020-05-20T07:00:00.000Z');
-    });
-
-    it('sets completion_status', () => {
-      expect(data.completion_status).to.equal(COMPLETION_STATUS.COMPLETED);
     });
   });
 });

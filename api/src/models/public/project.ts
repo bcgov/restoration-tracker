@@ -15,7 +15,6 @@ export class GetPublicProjectData {
   start_date: string;
   end_date: string;
   completion_status: string;
-  publish_date: string;
 
   constructor(projectData?: any) {
     defaultLog.debug({ label: 'GetPublicProjectData', message: 'params', projectData });
@@ -29,7 +28,6 @@ export class GetPublicProjectData {
         moment(projectData.end_date).endOf('day').isBefore(moment()) &&
         COMPLETION_STATUS.COMPLETED) ||
       COMPLETION_STATUS.ACTIVE;
-    this.publish_date = projectData?.publish_date || '';
   }
 }
 
