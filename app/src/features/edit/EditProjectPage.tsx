@@ -153,7 +153,7 @@ const EditProjectPage: React.FC = () => {
    */
   const handleProjectEdits = async (values: IGetProjectForViewResponse) => {
     try {
-      var id = urlParams['id'];
+      const id = urlParams['id'];
 
       const response = await restorationTrackerApi.project.updateProject(id, values);
 

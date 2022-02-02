@@ -1,7 +1,7 @@
 import useCodes, { IUseCodes } from 'hooks/useCodes';
 import React from 'react';
 
-export interface ICodesContext extends IUseCodes {}
+export type ICodesContext = IUseCodes;
 
 export const CodesContext = React.createContext<ICodesContext>({ codes: undefined, isLoading: false, isReady: false });
 
