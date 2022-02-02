@@ -1,3 +1,4 @@
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
@@ -27,7 +28,7 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
 
   return (
     <>
-      <dl>
+      <Box component="dl" mb={0}>
         <div>
           <Typography component="dt" variant="body2" color="textSecondary">
             Indigenous Partners:
@@ -62,7 +63,7 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
             {!hasStakeholderPartnerships && <span data-testid="no_stakeholder_partners_data">None</span>}
           </Typography>
         </div>
-      </dl>
+      </Box>
     </>
   );
 };
