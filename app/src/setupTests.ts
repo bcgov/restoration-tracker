@@ -20,7 +20,7 @@ const createElementNSOrig = global.document.createElementNS;
 
 global.document.createElementNS = function (namespaceURI, qualifiedName) {
   if (namespaceURI === 'http://www.w3.org/2000/svg' && qualifiedName === 'svg') {
-    const element = createElementNSOrig.apply(this, arguments);
+    const element = createElementNSOrig.apply(this, rest);
 
     element.createSVGRect = function () {
       // This is intentional
@@ -29,7 +29,7 @@ global.document.createElementNS = function (namespaceURI, qualifiedName) {
     return element;
   }
 
-  return createElementNSOrig.apply(this, arguments);
+  return createElementNSOrig.apply(this, rest);
 };
 
 /*
