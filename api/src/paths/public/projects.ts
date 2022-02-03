@@ -57,8 +57,6 @@ export function getPublicProjectsList(): RequestHandler {
     const connection = getAPIUserDBConnection();
 
     try {
-      await connection.open();
-
       const getProjectListSQLStatement = queries.public.getPublicProjectListSQL();
 
       if (!getProjectListSQLStatement) {
