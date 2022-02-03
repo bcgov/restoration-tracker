@@ -19,9 +19,7 @@ const Objectives: React.FC<IProjectObjectivesProps> = (props) => {
 
   return (
     <>
-      <Typography variant="body2" color="textSecondary">
-        {project.objectives}
-      </Typography>
+      <Typography variant="body2">{project.objectives}</Typography>
     </>
   );
 };
