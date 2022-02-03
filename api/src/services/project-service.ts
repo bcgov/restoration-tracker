@@ -175,14 +175,11 @@ export class ProjectService extends DBService {
   }
 
   async getProjectData(projectId: number): Promise<GetProjectData> {
-    const sqlStatement = SQL`
-      SELECT
-        *
-      FROM
-        project
-      WHERE
-        project_id = ${projectId};
-    `;
+    const sqlStatement = queries.project.getProjectSQL(projectId);
+
+    if (!sqlStatement) {
+      throw new HTTP400('Failed to build SQL insert statement');
+    }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
@@ -328,13 +325,7 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    const result = (response && response.rows) || null;
-
-    if (!result) {
-      throw new HTTP400('Failed to get stakeholder partnership data');
-    }
-
-    return result;
+    return (response && response.rows) || null;
   }
 
   async getFundingData(projectId: number): Promise<GetFundingData> {

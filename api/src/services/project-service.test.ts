@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import { HTTPError } from '../errors/custom-error';
+import * as projectViewModels from '../models/project-view';
 import { queries } from '../queries/queries';
 import { getMockDBConnection } from '../__mocks__/db';
 import { ProjectService } from './project-service';
@@ -283,6 +284,360 @@ describe('ProjectService', () => {
 
       expect(addProjectRoleByRoleIdSQLStub).to.have.been.calledOnce;
       expect(mockQuery).to.have.been.calledOnce;
+    });
+  });
+
+  describe('getProjectData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 error when no sql statement produced', async () => {
+      const mockDBConnection = getMockDBConnection();
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(null);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getProjectData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL insert statement');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getProjectData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get project data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when there are no rows', async () => {
+      const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getProjectData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get project data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getProjectData(projectId);
+
+      expect(result).to.deep.include(new projectViewModels.GetProjectData(mockRowObj[0]));
+    });
+  });
+
+  describe('getIUCNClassificationData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getIUCNClassificationData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get project IUCN data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getIUCNClassificationData(projectId);
+
+      expect(result).to.deep.include(new projectViewModels.GetIUCNClassificationData(mockRowObj));
+    });
+  });
+
+  describe('getCoordinatorData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getCoordinatorData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get project coordinator data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when there are no rows', async () => {
+      const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getCoordinatorData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get project coordinator data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getCoordinatorData(projectId);
+
+      expect(result).to.deep.include(new projectViewModels.GetCoordinatorData(mockRowObj[0]));
+    });
+  });
+
+  describe('getPermitData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getPermitData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get project permit data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getPermitData(projectId);
+
+      expect(result).to.deep.include(new projectViewModels.GetPermitData(mockRowObj));
+    });
+  });
+
+  describe('getPartnershipsData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when getIndigenousPartnershipsRows response has no rowCount', async () => {
+      const mockDBConnection = getMockDBConnection();
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      sinon.stub(projectService, 'getIndigenousPartnershipsRows').resolves();
+
+      const projectId = 1;
+
+      try {
+        await projectService.getPartnershipsData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get indigenous partnership data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when getStakeholderPartnershipsRows response has no rowCount', async () => {
+      const mockDBConnection = getMockDBConnection();
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      sinon.stub(projectService, 'getIndigenousPartnershipsRows').resolves([]);
+      sinon.stub(projectService, 'getStakeholderPartnershipsRows').resolves();
+
+      const projectId = 1;
+
+      try {
+        await projectService.getPartnershipsData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get stakeholder partnership data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getPartnershipsData(projectId);
+
+      expect(result).to.deep.include(new projectViewModels.GetPartnershipsData(mockRowObj, mockRowObj));
+    });
+  });
+
+  describe('getFundingData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getFundingData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get project funding data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getFundingData(projectId);
+
+      expect(result).to.deep.include(new projectViewModels.GetFundingData(mockRowObj));
+    });
+  });
+
+  describe('getLocationData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getLocationData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get project location data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getLocationData(projectId);
+
+      expect(result).to.deep.include(new projectViewModels.GetLocationData(mockRowObj));
     });
   });
 });
