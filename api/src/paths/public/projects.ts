@@ -32,6 +32,9 @@ GET.apiDoc = {
     400: {
       $ref: '#/components/responses/400'
     },
+    401: {
+      $ref: '#/components/responses/401'
+    },
     403: {
       $ref: '#/components/responses/401'
     },
@@ -54,6 +57,8 @@ export function getPublicProjectsList(): RequestHandler {
     const connection = getAPIUserDBConnection();
 
     try {
+      await connection.open();
+
       const getProjectListSQLStatement = queries.public.getPublicProjectListSQL();
 
       if (!getProjectListSQLStatement) {
@@ -62,24 +67,25 @@ export function getPublicProjectsList(): RequestHandler {
 
       await connection.open();
 
-      const getProjectListResponse = await connection.query(
-        getProjectListSQLStatement.text,
-        getProjectListSQLStatement.values
-      );
+      const response = await connection.query(getProjectListSQLStatement.text, getProjectListSQLStatement.values);
 
       await connection.commit();
 
-      let rows: any[] = [];
-
-      if (getProjectListResponse && getProjectListResponse.rows) {
-        rows = getProjectListResponse.rows;
+      if (!response || !response.rows) {
+        return res.status(200).json(null);
       }
 
-      const result: any[] = _extractProjects(rows);
+      const project_rows = response.rows;
+
+      console.log(' project list from DB', project_rows);
+
+      const result: any[] = _extractProjects(project_rows);
+
+      console.log(' project list formatted for list', result);
 
       return res.status(200).json(result);
     } catch (error) {
-      defaultLog.error({ label: 'getPublicProjectsList', message: 'error', error });
+      defaultLog.error({ label: 'getProjectList', message: 'error', error });
       throw error;
     } finally {
       connection.release();
