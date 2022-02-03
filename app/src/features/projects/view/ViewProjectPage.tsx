@@ -97,13 +97,10 @@ const ViewProjectPage: React.FC = () => {
         </Drawer>
 
         {/* Map Container */}
-        <Box
-          display="flex"
-          flex="1 1 auto"
-          alignItems="center"
-          justifyContent="center"
-          className={classes.projectDetailMain}>
-          <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+        <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectDetailMain}>
+          <Box flex="1 1 auto">
+            <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+          </Box>
         </Box>
       </Box>
     </>

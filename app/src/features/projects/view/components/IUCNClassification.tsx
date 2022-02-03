@@ -24,7 +24,7 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
 
   return (
     <>
-      <Box component="ul" pl={3}>
+      <Box component="ul" mb={0} pl={3}>
         {hasIucnClassifications &&
           iucn.classificationDetails.map((classificationDetail: any, index: number) => {
             const iucn1_name =

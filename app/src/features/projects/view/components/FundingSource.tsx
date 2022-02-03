@@ -1,65 +1,23 @@
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
-import { getFormattedAmount } from 'utils/Utils';
+import { getFormattedAmount, getFormattedDate } from 'utils/Utils';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    projectDetailDrawer: {
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        overflow: 'hidden'
-      }
-    },
-    projectDetailMain: {
-      background: '#ffffff'
-    },
-    projectTitle: {
+    projectFundingList: {
       margin: 0,
-      fontSize: '1.5rem',
-      fontWeight: 400
-    },
-    contentTitle: {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-      fontSize: '2rem'
-    },
-    projectMetadata: {
-      overflowY: 'auto',
-      backgroundColor: '#f5f5f5',
-
-      // Metadata Definition Lists
-      '& dl div + div': {
-        marginTop: theme.spacing(0.25)
-      },
-      '& dd, dt': {
-        display: 'inline-block',
-        width: '50%'
-      },
-
-      '& h3': {
-        // textTransform: 'uppercase',
-        fontWeight: 700
-      },
-      '& section + hr': {
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3)
-      }
-    },
-    projectContactList: {
-      marginLeft: 0,
-      marginRight: 0,
       padding: 0,
-      listStyleType: 'none',
+      paddingLeft: theme.spacing(3),
       '& li + li': {
-        marginTop: theme.spacing(1.5)
+        marginTop: theme.spacing(2),
+        paddingTop: theme.spacing(2),
+        borderTop: '1px solid #dddddd'
       }
-    },
-    treatmentsContainer: {
-      display: 'none'
     }
   })
 );
@@ -86,17 +44,17 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
 
   return (
     <>
-      <ul className={classes.projectContactList}>
+      <ul className={classes.projectFundingList}>
         {hasFundingSources &&
           funding.fundingSources.map((item: any, index: number) => (
             <li key={index} data-testid="funding_data">
-              <div>
+              <Box>
                 <strong>{item.agency_name}</strong>
-              </div>
+              </Box>
               <Box component="dl" mt={0.5} mb={0}>
                 <div>
                   <Typography variant="body2" component="dt" color="textSecondary">
-                    Amount:
+                    Funding Amount:
                   </Typography>
                   <Typography variant="body2" component="dt">
                     {getFormattedAmount(item.funding_amount)}
@@ -115,7 +73,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                     Start Date:
                   </Typography>
                   <Typography variant="body2" component="dt">
-                    {item.start_date}
+                    {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.start_date)}
                   </Typography>
                 </div>
                 <div>
@@ -123,7 +81,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                     End Date:
                   </Typography>
                   <Typography variant="body2" component="dt">
-                    {item.end_date}
+                    {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.end)}
                   </Typography>
                 </div>
               </Box>

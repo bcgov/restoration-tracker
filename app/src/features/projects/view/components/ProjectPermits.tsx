@@ -24,11 +24,14 @@ const ProjectPermits: React.FC<IProjectPermitsProps> = (props) => {
 
   return (
     <>
-      <Box component="ul" pl={3}>
+      <Box component="ul" mb={0} pl={3}>
         {hasPermits &&
           permit.permits.map((item: any) => (
             <li key={item.permit_number} data-testid="permit_item">
-              {item.permit_type} - {item.permit_number}
+              <strong>{item.permit_number}</strong> -{' '}
+              <Typography component="span" variant="body2" color="textSecondary">
+                {item.permit_type}
+              </Typography>
             </li>
           ))}
 
