@@ -1,12 +1,13 @@
 import CreateProjectPage from 'features/projects/create/CreateProjectPage';
 import EditProjectPage from 'features/edit/EditProjectPage';
-import ProjectsListPage from 'features/projects/list/ProjectsListPage';
 import ProjectsLayout from 'features/projects/ProjectsLayout';
 import ViewProjectPage from 'features/projects/view/ViewProjectPage';
 import React from 'react';
 import { Redirect, Switch } from 'react-router';
 import AppRoute from 'utils/AppRoute';
 import ProjectParticipantsPage from './participants/ProjectParticipantsPage';
+import ProjectsPage from './ProjectsPage';
+//import ProjectsListPage from 'features/projects/list/ProjectsListPage';
 
 /**
  * Router for all `/admin/project/*` pages.
@@ -19,7 +20,7 @@ const ProjectsRouter: React.FC = () => {
     <Switch>
       <AppRoute exact path="/admin/projects" layout={ProjectsLayout}>
         <ProjectsLayout>
-          <ProjectsListPage />
+          <ProjectsPage />
         </ProjectsLayout>
       </AppRoute>
 
