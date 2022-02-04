@@ -99,8 +99,6 @@ export function getUserList(): RequestHandler {
 
       const response = await userService.listSystemUsers();
 
-      console.log('user list: ', response);
-
       await connection.commit();
 
       return res.status(200).json(response);
