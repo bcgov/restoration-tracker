@@ -69,17 +69,13 @@ export function getPublicProjectsList(): RequestHandler {
 
       await connection.commit();
 
-      if (!response || !response.rows) {
+      if (!response.rows) {
         return res.status(200).json(null);
       }
 
       const project_rows = response.rows;
 
-      console.log(' project list from DB', project_rows);
-
       const result: any[] = _extractProjects(project_rows);
-
-      console.log(' project list formatted for list', result);
 
       return res.status(200).json(result);
     } catch (error) {
