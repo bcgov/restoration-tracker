@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import ProjectCoordinatorForm, {
   ProjectCoordinatorInitialValues,
   ProjectCoordinatorYupSchema
-} from 'features/projects/components/ProjectCoordinatorForm';
+} from 'features/projects/components/ProjectContactForm';
 import { Formik } from 'formik';
 import React from 'react';
 

@@ -1,4 +1,4 @@
-import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
+import { IProjectContactForm } from 'features/projects/components/ProjectContactForm';
 import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
 import { IProjectGeneralInformationForm } from 'features/projects/components/ProjectGeneralInformationForm';
 import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
@@ -91,7 +91,7 @@ export interface ICreateProjectResponse {
 export interface ICreateProjectRequest
   extends IProjectGeneralInformationForm,
     IProjectIUCNForm,
-    IProjectCoordinatorForm,
+    IProjectContactForm,
     IProjectPermitForm,
     IProjectFundingForm,
     IProjectPartnershipsForm,
