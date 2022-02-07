@@ -11,10 +11,10 @@ import Typography from '@material-ui/core/Typography';
 import { FieldArray, useFormikContext } from 'formik';
 import React, { useState } from 'react';
 import yup from 'utils/YupSchema';
-import ProjectCoordinatorForm, { 
-  IProjectCoordinatorForm, 
-  IProjectCoordinatorFormProps, 
-  ProjectCoordinatorInitialValues, 
+import ProjectCoordinatorForm, {
+  IProjectCoordinatorForm,
+  IProjectCoordinatorFormProps,
+  ProjectCoordinatorInitialValues,
   ProjectCoordinatorYupSchema
 } from './ProjectCoordinatorForm';
 import { Icon } from '@mdi/react';
@@ -32,7 +32,7 @@ export interface IProjectContactForm {
   contact: {
     coordinators: IProjectCoordinatorForm[];
     share_contact_details: string;
-  }
+  };
 }
 
 export const ProjectContactInitialValues: IProjectContactForm = {
@@ -49,7 +49,7 @@ export const ProjectContactYupSchema = yup.object().shape({
   })
 });
 
-export interface IProjectContactFormProps extends IProjectCoordinatorFormProps {}
+export type IProjectContactFormProps = IProjectCoordinatorFormProps;
 
 const useStyles = makeStyles((theme: Theme) => ({
   legend: {
@@ -91,9 +91,7 @@ const useStyles = makeStyles((theme: Theme) => ({
  *
  * @return {*}
  */
-const ProjectContactForm: React.FC<IProjectContactFormProps> = ({
-  coordinator_agency
-}) => {
+const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_agency }) => {
   const classes = useStyles();
 
   const { values, touched, errors, handleChange } = useFormikContext<IProjectContactForm>();
@@ -124,13 +122,13 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({
                 dialogTitle={'Add Coordinator'}
                 open={isModalOpen}
                 component={{
-                  element: (<ProjectCoordinatorForm coordinator_agency={coordinator_agency} />),
+                  element: <ProjectCoordinatorForm coordinator_agency={coordinator_agency} />,
                   initialValues: currentProjectCoordinator.values,
                   validationSchema: ProjectCoordinatorYupSchema
                 }}
                 onCancel={() => setIsModalOpen(false)}
                 onSave={(projectCoordinatorValues) => {
-                  console.log(projectCoordinatorValues)
+                  console.log(projectCoordinatorValues);
                   if (currentProjectCoordinator.index < values.contact.coordinators.length) {
                     // Update an existing item
                     arrayHelpers.replace(currentProjectCoordinator.index, projectCoordinatorValues);
@@ -223,7 +221,7 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({
         }}>
         Add Coordinator
       </Button>
-      { values.contact.coordinators.length?
+      {values.contact.coordinators.length ? (
         <Box mt={4}>
           <FormControl
             required={true}
@@ -255,8 +253,10 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({
               </RadioGroup>
             </Box>
           </FormControl>
-        </Box> : <></>
-      }
+        </Box>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
