@@ -341,12 +341,16 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       p.name,
       p.start_date,
       p.end_date,
-      p.coordinator_agency_name,
+      pc.agency,
       string_agg(DISTINCT pp.number, ', ') as permits_list
     from
       project as p
     left outer join permit as pp
       on p.project_id = pp.project_id
+    left outer join project_contact as pc
+      on pc.project_id = p.project_id
+    where
+      pc.is_primary = 'Y'
   `;
 
   sqlStatement.append(SQL`
@@ -355,7 +359,7 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       p.name,
       p.start_date,
       p.end_date,
-      p.coordinator_agency_name
+      pc.agency
   `);
 
   defaultLog.debug({
