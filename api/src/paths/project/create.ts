@@ -59,6 +59,12 @@ POST.apiDoc = {
                 },
                 objectives: {
                   type: 'string'
+                },
+                species: {
+                  type: 'array',
+                  items: {
+                    type: 'number'
+                  }
                 }
               }
             },
@@ -210,6 +216,9 @@ POST.apiDoc = {
                   items: {
                     ...(geoJsonFeature as object)
                   }
+                },
+                region: {
+                  type: 'number'
                 }
               }
             }

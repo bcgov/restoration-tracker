@@ -213,6 +213,7 @@ export interface IGetProjectForViewResponseDetails {
   publish_date: string;
   objectives: string;
   region: string;
+  species: string[];
 }
 
 interface IGetProjectForViewResponsePermitArrayItem {

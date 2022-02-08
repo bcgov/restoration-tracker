@@ -2,7 +2,6 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { getDBConnection } from '../database/db';
 import { HTTP400 } from '../errors/custom-error';
-import { draftResponseObject } from '../openapi/schemas/draft';
 import { queries } from '../queries/queries';
 import { authorizeRequestHandler } from '../request-handlers/security/authorization';
 import { getLogger } from '../utils/logger';
@@ -38,7 +37,17 @@ GET.apiDoc = {
           schema: {
             type: 'array',
             items: {
-              ...(draftResponseObject as object)
+              title: 'Draft Response Object',
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number'
+                },
+                date: {
+                  type: 'object',
+                  description: 'The date this draft was last updated or created'
+                }
+              }
             }
           }
         }

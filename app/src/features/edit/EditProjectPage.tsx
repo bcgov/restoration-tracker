@@ -286,7 +286,13 @@ const EditProjectPage: React.FC = () => {
                     </Grid>
 
                     <Grid item xs={12} md={9}>
-                      <ProjectGeneralInformationForm />
+                      <ProjectGeneralInformationForm
+                        species={
+                          codes.codes.species.map((item) => {
+                            return { value: item.id, label: item.name };
+                          }) || []
+                        }
+                      />
 
                       <Box component="fieldset" mt={5} mx={0}>
                         <ProjectIUCNForm
@@ -386,6 +392,9 @@ const EditProjectPage: React.FC = () => {
                     <Grid item xs={12} md={9}>
                       <ProjectLocationForm
                         ranges={codes.codes.ranges.map((item) => {
+                          return { value: item.id, label: item.name };
+                        })}
+                        regions={codes.codes.regions.map((item) => {
                           return { value: item.id, label: item.name };
                         })}
                       />

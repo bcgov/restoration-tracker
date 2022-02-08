@@ -189,6 +189,7 @@ const CreateProjectPage: React.FC = () => {
   };
 
   const handleSubmitDraft = async (values: IProjectDraftForm) => {
+    console.log('the draft values are: ', values);
     try {
       const draftId = Number(queryParams.draftId) || draft?.id;
 
@@ -228,6 +229,7 @@ const CreateProjectPage: React.FC = () => {
    * Handle project creation.
    */
   const handleProjectCreation = async (values: ICreateProjectRequest) => {
+    console.log('values are: ', values);
     try {
       const response = await restorationTrackerApi.project.createProject(values);
 
@@ -386,7 +388,13 @@ const CreateProjectPage: React.FC = () => {
                     </Grid>
 
                     <Grid item xs={12} md={9}>
-                      <ProjectGeneralInformationForm />
+                      <ProjectGeneralInformationForm
+                        species={
+                          codes.codes.species.map((item) => {
+                            return { value: item.id, label: item.name };
+                          }) || []
+                        }
+                      />
 
                       <Box component="fieldset" mt={5} mx={0}>
                         <ProjectIUCNForm
@@ -486,6 +494,9 @@ const CreateProjectPage: React.FC = () => {
                     <Grid item xs={12} md={9}>
                       <ProjectLocationForm
                         ranges={codes.codes.ranges.map((item) => {
+                          return { value: item.id, label: item.name };
+                        })}
+                        regions={codes.codes.regions.map((item) => {
                           return { value: item.id, label: item.name };
                         })}
                       />

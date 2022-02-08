@@ -266,7 +266,7 @@ export const coordinator_agency = [
   { id: 265, name: 'Other' }
 ];
 
-export const region = [
+export const regions = [
   { id: 1, name: 'West Coast' },
   { id: 2, name: 'South Coast' },
   { id: 3, name: 'Kootenay-Boundary' },

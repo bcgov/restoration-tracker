@@ -30,6 +30,7 @@ export interface IProjectLocationForm {
     geometry: Feature[];
     range: string;
     priority: string;
+    region: string;
   };
 }
 
@@ -37,7 +38,8 @@ export const ProjectLocationFormInitialValues: IProjectLocationForm = {
   location: {
     geometry: [],
     range: '',
-    priority: 'false'
+    priority: 'false',
+    region: ''
   }
 };
 
@@ -45,12 +47,14 @@ export const ProjectLocationFormYupSchema = yup.object().shape({
   location: yup.object().shape({
     geometry: yup.array().min(1, 'You must specify a project boundary').required('You must specify a project boundary'),
     range: yup.string().required('Required'),
-    priority: yup.string().required('Required')
+    priority: yup.string().required('Required'),
+    region: yup.string().required('Required')
   })
 });
 
 export interface IProjectLocationFormProps {
   ranges: IAutocompleteFieldOption<number>[];
+  regions: IAutocompleteFieldOption<number>[];
 }
 
 /**
@@ -82,6 +86,30 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
   return (
     <>
       <Box mb={5}>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <FormControl component="fieldset" required={true} fullWidth variant="outlined">
+              <InputLabel id="caribou-range-select-label">NRM Region</InputLabel>
+              <Select
+                id="nrm-region-select"
+                name="location.region"
+                labelId="nrm-region-select-label"
+                label="NRM Region"
+                value={values.location.region}
+                onChange={formikProps.handleChange}
+                error={touched?.location?.region && Boolean(errors?.location?.region)}
+                displayEmpty
+                inputProps={{ 'aria-label': 'NRM Region' }}>
+                {props.regions.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>{errors?.location?.region}</FormHelperText>
+            </FormControl>
+          </Grid>
+        </Grid>
         <Box mb={2} maxWidth={'72ch'}>
           <Typography variant="body1" color="textSecondary">
             Specify the caribou range associate with this project.

@@ -3,7 +3,6 @@ import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../../../constants/roles';
 import { getDBConnection } from '../../../database/db';
 import { HTTP400 } from '../../../errors/custom-error';
-import { draftGetResponseObject } from '../../../openapi/schemas/draft';
 import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
 import { getLogger } from '../../../utils/logger';
@@ -44,11 +43,22 @@ GET.apiDoc = {
   ],
   responses: {
     200: {
-      description: 'Draft with matching draftId.',
+      description: 'Draft Project with matching projectId.',
       content: {
         'application/json': {
           schema: {
-            ...(draftGetResponseObject as object)
+            title: 'Project GET response object, for a given draft project',
+            type: 'object',
+            properties: {
+              id: {
+                description: 'Project id',
+                type: 'number'
+              },
+              date: {
+                type: 'object',
+                description: 'ISO 8601 date string for the project start date'
+              }
+            }
           }
         }
       }
