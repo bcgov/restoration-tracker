@@ -1,10 +1,5 @@
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
@@ -31,14 +26,12 @@ import Grid from '@material-ui/core/Grid';
 export interface IProjectContactForm {
   contact: {
     coordinators: IProjectCoordinatorForm[];
-    share_contact_details: string;
   };
 }
 
 export const ProjectContactInitialValues: IProjectContactForm = {
   contact: {
-    coordinators: [],
-    share_contact_details: 'false'
+    coordinators: []
   }
 };
 
@@ -87,14 +80,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 /**
- * Create project - coordinator fields
+ * Create project - contact section
  *
  * @return {*}
  */
 const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_agency }) => {
   const classes = useStyles();
 
-  const { values, touched, errors, handleChange } = useFormikContext<IProjectContactForm>();
+  const { values } = useFormikContext<IProjectContactForm>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -221,42 +214,6 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
         }}>
         Add Coordinator
       </Button>
-      {values.contact.coordinators.length ? (
-        <Box mt={4}>
-          <FormControl
-            required={true}
-            component="fieldset"
-            error={touched.contact?.share_contact_details && Boolean(errors.contact?.share_contact_details)}>
-            <Box component="legend" className={classes.legend}>
-              Share Contact Details
-            </Box>
-            <Typography color="textSecondary">
-              Do you want the project contact’s name and email address visible to the public?
-            </Typography>
-            <Box mt={2} pl={1}>
-              <RadioGroup
-                name="contact.share_contact_details"
-                aria-label="Share Contact Details"
-                value={values.contact?.share_contact_details}
-                onChange={handleChange}>
-                <FormControlLabel
-                  value="false"
-                  control={<Radio required={true} color="primary" size="small" />}
-                  label="No"
-                />
-                <FormControlLabel
-                  value="true"
-                  control={<Radio required={true} color="primary" size="small" />}
-                  label="Yes"
-                />
-                <FormHelperText>{errors.contact?.share_contact_details}</FormHelperText>
-              </RadioGroup>
-            </Box>
-          </FormControl>
-        </Box>
-      ) : (
-        <></>
-      )}
     </>
   );
 };
