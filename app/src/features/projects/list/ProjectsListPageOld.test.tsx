@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter, Router } from 'react-router-dom';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import ProjectsListPage from './ProjectsListPage';
+import ProjectsListPage from './ProjectsListPageOld';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { createMemoryHistory } from 'history';
 import { AuthStateContext, IAuthState } from 'contexts/authStateContext';
