@@ -24,14 +24,6 @@ import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
 
-export type ListSystemUsers = {
-  id: number;
-  user_identifier: string;
-  record_end_date: string;
-  role_ids: number[];
-  role_names: string[];
-};
-
 export class ProjectService extends DBService {
   /**
    * Gets the project participant, adding them if they do not already exist.
@@ -138,13 +130,31 @@ export class ProjectService extends DBService {
   }
 
   /**
-   *
+   * Get a project by its id.
    *
    * @param {number} projectId
-   * @return {*}
+   * @return {*}  {Promise<{
+   *     project: GetProjectData;
+   *     iucn: GetIUCNClassificationData;
+   *     coordinator: GetCoordinatorData;
+   *     permit: GetPermitData;
+   *     partnerships: GetPartnershipsData;
+   *     funding: GetFundingData;
+   *     location: GetLocationData;
+   *   }>}
    * @memberof ProjectService
    */
-  async getProjectById(projectId: number) {
+  async getProjectById(
+    projectId: number
+  ): Promise<{
+    project: GetProjectData;
+    iucn: GetIUCNClassificationData;
+    coordinator: GetCoordinatorData;
+    permit: GetPermitData;
+    partnerships: GetPartnershipsData;
+    funding: GetFundingData;
+    location: GetLocationData;
+  }> {
     const [
       projectData,
       iucnData,
@@ -848,5 +858,16 @@ export class ProjectService extends DBService {
     if (!result || !result.rowCount) {
       throw new HTTP409('Failed to insert project spatial data');
     }
+  }
+
+  /**
+   * Get projects by their ids.
+   *
+   * @param {number[]} projectIds
+   * @return {*}
+   * @memberof ProjectService
+   */
+  async getProjectsByIds(projectIds: number[]) {
+    return Promise.all(projectIds.map(async (projectId) => this.getProjectById(projectId)));
   }
 }

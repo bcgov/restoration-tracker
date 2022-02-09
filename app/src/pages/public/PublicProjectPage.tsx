@@ -17,6 +17,7 @@ import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ProjectStatusType } from 'constants/misc';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
@@ -91,6 +92,15 @@ const PublicProjectPage = () => {
     }
   }, [isLoadingProject, projectWithDetails, getProject]);
 
+  const getProjectStatusType = (projectData: IGetProjectForViewResponse): ProjectStatusType => {
+    return (
+      (projectData.project.end_date &&
+        moment(projectData.project.end_date).endOf('day').isBefore(moment()) &&
+        ProjectStatusType.COMPLETED) ||
+      ProjectStatusType.ACTIVE
+    );
+  };
+
   const getChipIcon = (status_name: string) => {
     let chipLabel;
     let chipStatusClass;
@@ -120,7 +130,7 @@ const PublicProjectPage = () => {
                 <Typography className={classes.spacingRight} variant="h1">
                   {projectWithDetails.project.project_name}
                 </Typography>
-                {getChipIcon(projectWithDetails.project.completion_status)}
+                {getChipIcon(getProjectStatusType(projectWithDetails))}
               </Box>
               <Box>
                 <Typography variant="subtitle1" color="textSecondary">

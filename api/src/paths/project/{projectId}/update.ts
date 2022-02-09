@@ -52,21 +52,15 @@ PUT.apiDoc = {
                 },
                 start_date: {
                   type: 'string',
-                  format: 'date',
+                  oneOf: [{ format: 'date' }, { format: 'date-time' }],
                   description: 'ISO 8601 date string for the project start date'
                 },
                 end_date: {
                   type: 'string',
-                  format: 'date',
+                  oneOf: [{ format: 'date' }, { format: 'date-time' }, { nullable: true }],
                   description: 'ISO 8601 date string for the project end date'
                 },
                 objectives: {
-                  type: 'string'
-                },
-                publish_date: {
-                  description: 'Status of the project being published/unpublished',
-                  nullable: true,
-                  format: 'date',
                   type: 'string'
                 },
                 revision_count: {
@@ -186,12 +180,12 @@ PUT.apiDoc = {
                       },
                       start_date: {
                         type: 'string',
-                        format: 'date',
+                        oneOf: [{ format: 'date' }, { format: 'date-time' }],
                         description: 'ISO 8601 date string for the funding start date'
                       },
                       end_date: {
                         type: 'string',
-                        format: 'date',
+                        oneOf: [{ format: 'date' }, { format: 'date-time' }],
                         description: 'ISO 8601 date string for the funding end_date'
                       },
                       agency_project_id: {

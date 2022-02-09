@@ -39,21 +39,11 @@ export const getProjectSQL = (projectId: number): SQLStatement | null => {
  * SQL query to get all projects.
  *
  * @param {boolean} isUserAdmin
- * @param {number | null} systemUserId
+ * @param {number} systemUserId
  * @param {any} filterFields
  * @returns {SQLStatement} sql query object
  */
-export const getProjectListSQL = (
-  isUserAdmin: boolean,
-  systemUserId: number | null,
-  filterFields?: any
-): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectListSQL', message: 'params', isUserAdmin, systemUserId, filterFields });
-
-  if (!systemUserId) {
-    return null;
-  }
-
+export const getProjectListSQL = (isUserAdmin: boolean, systemUserId?: number, filterFields?: any): SQLStatement => {
   const sqlStatement = SQL`
     SELECT
       p.project_id as id,
@@ -142,13 +132,6 @@ export const getProjectListSQL = (
       p.coordinator_agency_name,
       p.publish_timestamp
   `);
-
-  defaultLog.debug({
-    label: 'getProjectListSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
 
   return sqlStatement;
 };
