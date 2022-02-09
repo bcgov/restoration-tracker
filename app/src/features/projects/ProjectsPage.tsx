@@ -29,16 +29,15 @@ const ProjectsPage: React.FC = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<IGetProjectsListResponse[]>([]);
   const [drafts, setDrafts] = useState<IGetDraftsListResponse[]>([]);
+
   const restorationTrackerApi = useRestorationTrackerApi();
   const dialogContext = useContext(DialogContext);
 
   const formikRef = useRef<FormikProps<IProjectAdvancedFilters>>(null);
 
-
-  const collectParams = useCallback( (): IProjectAdvancedFilters => {
-    const urlParams = qs.parse(location.search.replace('?', ''));
-
-    if (urlParams) {
+  const collectParams = useCallback((): IProjectAdvancedFilters => {
+    if (location.search) {
+      const urlParams = qs.parse(location.search.replace('?', ''));
       const formikValues = {
         coordinator_agency: urlParams.coordinator_agency,
         permit_number: urlParams.permit_number,
@@ -56,7 +55,30 @@ const ProjectsPage: React.FC = (props) => {
     return ProjectAdvancedFiltersInitialValues;
   }, [location.search]);
 
-  const [initialFormikValues, setInitialFormikValues] = useState<IProjectAdvancedFilters>(collectParams);
+  const [formikValues, setFormikValues] = useState<IProjectAdvancedFilters>(collectParams);
+  const [filterChipValues, setFilterChipValues] = useState<IProjectAdvancedFilters>(collectParams);
+
+  const handleParams = async () => {
+    const urlParams = qs.stringify(formikRef.current?.values);
+    history.push({
+      search: `?${urlParams}`
+    });
+  };
+
+  const handleResetParams = () => {
+    history.push({
+      search: ``
+    });
+  };
+
+  const handleReset = async () => {
+    const projectsResponse = await restorationTrackerApi.project.getProjectsList();
+     setProjects(projectsResponse);
+     setFormikValues(ProjectAdvancedFiltersInitialValues);
+     setFilterChipValues(ProjectAdvancedFiltersInitialValues);
+
+    handleResetParams();
+  };
 
   const handleSubmit = async () => {
     if (!formikRef?.current) {
@@ -73,6 +95,7 @@ const ProjectsPage: React.FC = (props) => {
       }
 
       setProjects(response);
+      setFilterChipValues(formikRef.current.values);
     } catch (error) {
       const apiError = error as APIError;
       showFilterErrorDialog({
@@ -81,13 +104,6 @@ const ProjectsPage: React.FC = (props) => {
         dialogErrorDetails: apiError?.errors
       });
     }
-  };
-
-  const handleParams = async () => {
-    const urlParams = qs.stringify(formikRef.current?.values);
-    history.push({
-      search: `?${urlParams}`
-    });
   };
 
   const showFilterErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
@@ -151,25 +167,27 @@ const ProjectsPage: React.FC = (props) => {
   useEffect(() => {
     const getParams = async () => {
       const params = await collectParams();
-      setInitialFormikValues(params);
+      setFormikValues(params);
     };
 
     if (isLoading) {
       setIsLoading(false);
       getParams();
     }
-  }, [isLoading, location.search, initialFormikValues, collectParams]);
+  }, [isLoading, location.search, formikValues, collectParams]);
 
   //reload projects
   useEffect(() => {
     const getProjects = async () => {
-
-      const projectsResponse = await restorationTrackerApi.project.getProjectsList(initialFormikValues);
+      const projectsResponse = await restorationTrackerApi.project.getProjectsList(formikValues);
       setProjects(projectsResponse);
+      setIsLoading(false);
     };
 
-    getProjects();
-  }, [initialFormikValues]);
+    if (isLoading) {
+      getProjects();
+    }
+  }, [formikValues, restorationTrackerApi.project, isLoading]);
 
   return (
     <Container maxWidth="xl">
@@ -183,10 +201,28 @@ const ProjectsPage: React.FC = (props) => {
       <Box m={5}>
         <Formik<IProjectAdvancedFilters>
           innerRef={formikRef}
-          initialValues={initialFormikValues}
+          initialValues={formikValues}
           onSubmit={handleSubmit}
+          onReset={handleReset}
           enableReinitialize={true}>
-          <ProjectFilter />
+          <ProjectFilter
+            coordinator_agency={
+              codes?.coordinator_agency?.map((item: any) => {
+                return item.name;
+              }) || []
+            }
+            species={
+              codes?.species?.map((item) => {
+                return { value: item.id, label: item.name };
+              }) || []
+            }
+            funding_sources={
+              codes?.funding_source?.map((item) => {
+                return { value: item.id, label: item.name };
+              }) || []
+            }
+            filterChipParams={filterChipValues}
+          />
         </Formik>
       </Box>
 
