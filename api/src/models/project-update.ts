@@ -44,24 +44,6 @@ export class PutLocationData {
   }
 }
 
-export class PutCoordinatorData {
-  first_name: string;
-  last_name: string;
-  email_address: string;
-  coordinator_agency: string;
-  share_contact_details: boolean;
-  revision_count: number;
-
-  constructor(obj?: any) {
-    this.first_name = obj?.first_name || null;
-    this.last_name = obj?.last_name || null;
-    this.email_address = obj?.email_address || null;
-    this.coordinator_agency = obj?.coordinator_agency || null;
-    this.share_contact_details = (obj?.share_contact_details === 'true' && true) || false;
-    this.revision_count = obj?.revision_count ?? null;
-  }
-}
-
 export class PutPartnershipsData {
   indigenous_partnerships: number[];
   stakeholder_partnerships: string[];

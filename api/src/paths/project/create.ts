@@ -39,7 +39,7 @@ POST.apiDoc = {
         schema: {
           title: 'Project post request object',
           type: 'object',
-          required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
+          required: ['project', 'iucn', 'contact', 'permit', 'funding', 'partnerships', 'location'],
           additionalProperties: false,
           properties: {
             project: {
@@ -89,26 +89,41 @@ POST.apiDoc = {
                 }
               }
             },
-            coordinator: {
-              title: 'Project coordinator',
+            contact: {
+              title: 'Project contact',
               type: 'object',
-              required: ['first_name', 'last_name', 'email_address', 'coordinator_agency', 'share_contact_details'],
+              required: ['contacts'],
+              additionalProperties: false,
               properties: {
-                first_name: {
-                  type: 'string'
-                },
-                last_name: {
-                  type: 'string'
-                },
-                email_address: {
-                  type: 'string'
-                },
-                coordinator_agency: {
-                  type: 'string'
-                },
-                share_contact_details: {
-                  type: 'string',
-                  enum: ['true', 'false']
+                contacts: {
+                  type: 'array',
+                  items: {
+                    title: 'contacts',
+                    type: 'object',
+                    required: ['first_name', 'last_name', 'email_address', 'agency', 'is_public', 'is_primary'],
+                    properties: {
+                      first_name: {
+                        type: 'string'
+                      },
+                      last_name: {
+                        type: 'string'
+                      },
+                      email_address: {
+                        type: 'string'
+                      },
+                      agency: {
+                        type: 'string'
+                      },
+                      is_public: {
+                        type: 'string',
+                        enum: ['true', 'false']
+                      },
+                      is_primary: {
+                        type: 'string',
+                        enum: ['true', 'false']
+                      }
+                    }
+                  }
                 }
               }
             },

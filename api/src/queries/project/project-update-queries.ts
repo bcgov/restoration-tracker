@@ -1,5 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
-import { PutCoordinatorData, PutProjectData } from '../../models/project-update';
+import { PutProjectData } from '../../models/project-update';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-update-queries');
@@ -120,42 +120,6 @@ export const getPermitsByProjectSQL = (projectId: number): SQLStatement | null =
 };
 
 /**
- * SQL query to get coordinator information, for update purposes.
- *
- * @param {number} projectId
- * @return {*}  {(SQLStatement | null)}
- */
-export const getCoordinatorByProjectSQL = (projectId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'getCoordinatorByProjectSQL', message: 'params', projectId });
-
-  if (!projectId) {
-    return null;
-  }
-  const sqlStatement = SQL`
-    SELECT
-      coordinator_first_name,
-      coordinator_last_name,
-      coordinator_email_address,
-      coordinator_agency_name,
-      coordinator_public,
-      revision_count
-    FROM
-      project
-    WHERE
-      project_id = ${projectId};
-  `;
-
-  defaultLog.debug({
-    label: 'getCoordinatorByProjectSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
  * SQL query to update a project row.
  *
  * @param {(PutProjectData & PutCoordinatorData)} project
@@ -164,7 +128,6 @@ export const getCoordinatorByProjectSQL = (projectId: number): SQLStatement | nu
 export const putProjectSQL = (
   projectId: number,
   project: PutProjectData | null,
-  coordinator: PutCoordinatorData | null,
   revision_count: number
 ): SQLStatement | null => {
   defaultLog.debug({
@@ -172,16 +135,10 @@ export const putProjectSQL = (
     message: 'params',
     projectId,
     project,
-    coordinator,
     revision_count
   });
 
-  if (!projectId) {
-    return null;
-  }
-
-  if (!project && !coordinator) {
-    // Nothing to update
+  if (!projectId || !project) {
     return null;
   }
 
@@ -194,14 +151,6 @@ export const putProjectSQL = (
     sqlSetStatements.push(SQL`start_date = ${project.start_date}`);
     sqlSetStatements.push(SQL`end_date = ${project.end_date}`);
     sqlSetStatements.push(SQL`objectives = ${project.objectives}`);
-  }
-
-  if (coordinator) {
-    sqlSetStatements.push(SQL`coordinator_first_name = ${coordinator.first_name}`);
-    sqlSetStatements.push(SQL`coordinator_last_name = ${coordinator.last_name}`);
-    sqlSetStatements.push(SQL`coordinator_email_address = ${coordinator.email_address}`);
-    sqlSetStatements.push(SQL`coordinator_agency_name = ${coordinator.coordinator_agency}`);
-    sqlSetStatements.push(SQL`coordinator_public = ${coordinator.share_contact_details}`);
   }
 
   sqlSetStatements.forEach((item, index) => {
