@@ -8,7 +8,7 @@ const defaultLog = getLogger('queries/project/project-create-queries');
 /**
  * SQL query to insert a project row.
  *
- * @param {(PostProjectData & PostCoordinatorData)} project
+ * @param {(PostProjectData)} project
  * @returns {SQLStatement} sql query object
  */
 export const postProjectSQL = (project: PostProjectData): SQLStatement | null => {

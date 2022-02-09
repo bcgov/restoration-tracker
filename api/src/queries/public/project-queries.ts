@@ -23,11 +23,6 @@ export const getPublicProjectSQL = (projectId: number): SQLStatement | null => {
       project.objectives,
       project.start_date,
       project.end_date,
-      project.coordinator_first_name,
-      project.coordinator_last_name,
-      project.coordinator_email_address,
-      project.coordinator_agency_name,
-      project.coordinator_public,
       project.publish_timestamp as publish_date
     from
       project
@@ -350,7 +345,7 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
     left outer join project_contact as pc
       on pc.project_id = p.project_id
     where
-      pc.is_primary = 'Y'
+      pc.is_public = 'Y'
   `;
 
   sqlStatement.append(SQL`

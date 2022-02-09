@@ -290,7 +290,7 @@ export function viewProject(): RequestHandler {
 
       const projectService = new ProjectService(connection);
 
-      const result = await projectService.getProjectById(Number(req.params.projectId));
+      const result = await projectService.getProjectById(Number(req.params.projectId), false);
 
       await connection.commit();
 

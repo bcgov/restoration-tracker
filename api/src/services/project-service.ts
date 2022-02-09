@@ -144,7 +144,7 @@ export class ProjectService extends DBService {
    * @return {*}
    * @memberof ProjectService
    */
-  async getProjectById(projectId: number) {
+  async getProjectById(projectId: number, isPublic: boolean) {
     const [
       projectData,
       iucnData,
@@ -156,7 +156,7 @@ export class ProjectService extends DBService {
     ] = await Promise.all([
       this.getProjectData(projectId),
       this.getIUCNClassificationData(projectId),
-      this.getContactData(projectId),
+      this.getContactData(projectId, isPublic),
       this.getPermitData(projectId),
       this.getPartnershipsData(projectId),
       this.getFundingData(projectId),
@@ -231,22 +231,28 @@ export class ProjectService extends DBService {
     return new GetIUCNClassificationData(result);
   }
 
-  async getContactData(projectId: number): Promise<GetContactData> {
+  async getContactData(projectId: number, isPublic: boolean): Promise<GetContactData> {
     const sqlStatement = SQL`
       SELECT
         *
       FROM
         project_contact
       WHERE
-        project_id = ${projectId};
+        project_id = ${projectId}
     `;
+
+    if (isPublic) {
+      sqlStatement.append(SQL`
+        AND is_public = 'Y'
+      `);
+    }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
     const result = (response && response.rows) || null;
 
     if (!result) {
-      throw new HTTP400('Failed to get project coordinator data');
+      throw new HTTP400('Failed to get project contact data');
     }
 
     return new GetContactData(result);

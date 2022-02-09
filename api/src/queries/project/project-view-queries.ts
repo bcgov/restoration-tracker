@@ -92,8 +92,8 @@ export const getProjectListSQL = (
   }
 
   if (filterFields && Object.keys(filterFields).length !== 0 && filterFields.constructor === Object) {
-    if (filterFields.coordinator_agency) {
-      sqlStatement.append(SQL` AND pc.agency = ${filterFields.coordinator_agency}`);
+    if (filterFields.contact_agency) {
+      sqlStatement.append(SQL` AND pc.agency = ${filterFields.contact_agency}`);
     }
 
     if (filterFields.start_date && !filterFields.end_date) {

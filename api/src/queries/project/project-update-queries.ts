@@ -122,7 +122,7 @@ export const getPermitsByProjectSQL = (projectId: number): SQLStatement | null =
 /**
  * SQL query to update a project row.
  *
- * @param {(PutProjectData & PutCoordinatorData)} project
+ * @param {(PutProjectData)} project
  * @returns {SQLStatement} sql query object
  */
 export const putProjectSQL = (
