@@ -2,6 +2,7 @@ import { coordinator_agency, regions } from '../constants/codes';
 import { queries } from '../queries/queries';
 import { getLogger } from '../utils/logger';
 import { DBService } from './service';
+//import {getNRMRegions}from './../utils/spatial-utils';
 
 const defaultLog = getLogger('queries/code-queries');
 
@@ -101,3 +102,4 @@ export class CodeService extends DBService {
     };
   }
 }
+

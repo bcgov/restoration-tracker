@@ -1,3 +1,5 @@
+import * as https from 'https';
+
 export interface IUTM {
   easting: number;
   northing: number;
@@ -116,4 +118,12 @@ export function parseLatLongString(latLong: string): ILatLong | null {
   }
 
   return { lat, long };
+}
+
+export function getNRMRegions() {
+  const NRM_REGIONS_URL =
+    'https://openmaps.gov.bc.ca/geo/pub/wfs?service=WFS&valueReference=the_geom&version=1.3.0&request=GetFeature&typeName=pub:WHSE_ADMIN_BOUNDARIES.ADM_NR_REGIONS_SPG&outputFormat=json&srsName=epsg:4326';
+  const nrm_regions = https.get(NRM_REGIONS_URL);
+
+  console.log('nrm_regions', nrm_regions);
 }
