@@ -27,16 +27,22 @@ describe('ProjectsListPage', () => {
   test('renders with a proper list of a single project', async () => {
     const projectArray = [
       {
-        id: 1,
-        name: 'project name',
-        start_date: '2022-02-09',
-        end_date: '2022-02-09',
-        coordinator_agency: 'string',
-        permits_list: 'string',
-        publish_status: 'string',
-        completion_status: 'Active'
-      } as IGetProjectsListResponse
-    ];
+        project: {
+          project_id: 1,
+          project_name: 'Project 1',
+          start_date: null,
+          end_date: '2020-01-01', // date in the past
+          project_type: 'project type',
+          publish_status: 'Published'
+        },
+        permit: {
+          permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
+        },
+        coordinator: {
+          coordinator_agency: 'contact agency'
+        }
+      }
+    ]);
 
     const { getByText, getByTestId } = render(
       <MemoryRouter>
@@ -54,14 +60,20 @@ describe('ProjectsListPage', () => {
   test('renders with a proper list of multiple projects and drafts', async () => {
     const projectArray = [
       {
-        id: 1,
-        name: 'project name',
-        start_date: '2022-02-09',
-        end_date: '2022-02-09',
-        coordinator_agency: 'string',
-        permits_list: 'string',
-        publish_status: 'string',
-        completion_status: 'Active'
+        project: {
+          project_id: 1,
+          project_name: 'Project 1',
+          start_date: null,
+          end_date: null,
+          project_type: 'project type',
+          publish_status: 'Unpublished'
+        },
+        permit: {
+          permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
+        },
+        coordinator: {
+          coordinator_agency: 'contact agency'
+        }
       } as IGetProjectsListResponse,
       {
         id: 2,
@@ -138,16 +150,21 @@ describe('ProjectsListPage', () => {
   test('navigating to the project works', async () => {
     const draftArray = [
       {
-        id: 1,
-        name: 'Draft 1',
-        start_date: '2022-02-09',
-        end_date: '2022-02-09',
-        coordinator_agency: 'string',
-        permits_list: 'string',
-        publish_status: 'string',
-        completion_status: 'Draft'
-      } as IGetProjectsListResponse
-    ];
+        project: {
+          project_id: 1,
+          project_name: 'Project 1',
+          start_date: null,
+          end_date: null,
+          publish_status: 'Published'
+        },
+        permit: {
+          permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
+        },
+        coordinator: {
+          coordinator_agency: 'contact agency'
+        }
+      }
+    ]);
 
     const { getByTestId } = render(
       <Router history={history}>
