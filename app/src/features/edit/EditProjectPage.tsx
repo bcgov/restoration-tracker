@@ -28,7 +28,7 @@ import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import {
   IGetProjectForViewResponse,
-  IGetProjectForViewResponseCoordinator,
+  IGetProjectForViewResponseContact,
   IGetProjectForViewResponseDetails,
   IGetProjectForViewResponseFundingData,
   IGetProjectForViewResponseIUCN,
@@ -78,13 +78,9 @@ export const ProjectFormInitialValues = {
     range: '',
     priority: ''
   } as IGetProjectForViewResponseLocation,
-  coordinator: {
-    first_name: '',
-    last_name: '',
-    email_address: '',
-    coordinator_agency: '',
-    share_contact_details: ''
-  } as IGetProjectForViewResponseCoordinator,
+  contact: {
+    contacts: []
+  } as IGetProjectForViewResponseContact,
   iucn: {
     classificationDetails: []
   } as IGetProjectForViewResponseIUCN,

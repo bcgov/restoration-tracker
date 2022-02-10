@@ -328,7 +328,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Divider></Divider>
 
         <Box component="section">
-          <Typography variant="body1" component={'h3'} data-testid="CoordinatorTitle">
+          <Typography variant="body1" component={'h3'} data-testid="ContactsTitle">
             Project Contacts
           </Typography>
           <ProjectCoordinator projectForViewData={projectForViewData} codes={codes} refresh={refresh} />

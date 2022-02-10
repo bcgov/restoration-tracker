@@ -198,7 +198,7 @@ export interface IGetProjectForViewResponse {
   project: IGetProjectForViewResponseDetails;
   permit: IGetProjectForViewResponsePermit;
   location: IGetProjectForViewResponseLocation;
-  coordinator: IGetProjectForViewResponseCoordinator;
+  contact: IGetProjectForViewResponseContact;
   iucn: IGetProjectForViewResponseIUCN;
   funding: IGetProjectForViewResponseFundingData;
   partnerships: IGetProjectForViewResponsePartnerships;
@@ -229,12 +229,17 @@ export interface IGetProjectForViewResponseLocation {
   priority: string;
 }
 
-export interface IGetProjectForViewResponseCoordinator {
+interface IGetProjectForViewResponseContactArrayItem {
   first_name: string;
   last_name: string;
   email_address: string;
-  coordinator_agency: string;
-  share_contact_details: string;
+  agency: string;
+  is_public: string;
+  is_primary: string;
+}
+
+export interface IGetProjectForViewResponseContact {
+  contacts: IGetProjectForViewResponseContactArrayItem[];
 }
 
 interface IGetProjectForViewResponseIUCNArrayItem {

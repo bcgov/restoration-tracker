@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
   const {
-    projectForViewData: { coordinator }
+    projectForViewData: { contact }
   } = props;
   const classes = useStyles();
 
@@ -52,13 +52,13 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
             <div>
               <strong data-testid="coordinator_name">
                 {' '}
-                {coordinator.first_name} {coordinator.last_name}
+                {contact.contacts[0].first_name} {contact.contacts[0].last_name}
               </strong>
             </div>
             <div>
-              <Link href="#">{coordinator.email_address}</Link>
+              <Link href="#">{contact.contacts[0].email_address}</Link>
             </div>
-            <div>{coordinator.coordinator_agency}</div>
+            <div>{contact.contacts[0].agency}</div>
           </div>
         </Box>
       </ul>
