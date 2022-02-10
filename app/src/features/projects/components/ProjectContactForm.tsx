@@ -37,7 +37,7 @@ export const ProjectContactInitialValues: IProjectContactForm = {
 
 export const ProjectContactYupSchema = yup.object().shape({
   contact: yup.object().shape({
-    contacts: yup.array().of(ProjectContactItemYupSchema),
+    contacts: yup.array().of(ProjectContactItemYupSchema)
   })
 });
 

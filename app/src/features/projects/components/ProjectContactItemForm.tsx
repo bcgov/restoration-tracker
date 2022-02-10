@@ -104,10 +104,7 @@ const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) =
         </Grid>
       </Box>
       <Box mt={4}>
-        <FormControl
-          required={true}
-          component="fieldset"
-          error={touched.is_public && Boolean(errors.is_public)}>
+        <FormControl required={true} component="fieldset" error={touched.is_public && Boolean(errors.is_public)}>
           <Typography id="agency_details" component="legend">
             Share Contact Details
           </Typography>

@@ -40,8 +40,8 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = ({ projectForView
   const classes = useStyles();
 
   return (
-    <>{
-      contact.contacts.map(contactDetails =>
+    <>
+      {contact.contacts.map((contactDetails) => (
         <ul className={classes.projectContactList}>
           <Box component="li" display="flex" flexDirection="row">
             <Box mr={2}>
@@ -61,8 +61,8 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = ({ projectForView
             </div>
           </Box>
         </ul>
-      )
-    }</>
+      ))}
+    </>
   );
 };
 

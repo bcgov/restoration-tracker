@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     minWidth: 650
   },
   heading: {
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   tableCellBorderTop: {
     borderTop: '100px solid rgba(224, 224, 224, 1)'
@@ -71,7 +71,7 @@ const PublicProjectCoordinator: React.FC<IPublicProjectCoordinatorProps> = (prop
             ))}
           </Table>
         </TableContainer>
-      ): (
+      ) : (
         <Box component="ul" className="listNoBullets">
           <Box component="li">
             <Typography component="dd" variant="body1">

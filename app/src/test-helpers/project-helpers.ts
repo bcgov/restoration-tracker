@@ -24,14 +24,16 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     priority: 'false'
   },
   contact: {
-    contacts: [{
-      first_name: 'Amanda',
-      last_name: 'Christensen',
-      email_address: 'amanda@christensen.com',
-      agency: 'Amanda and associates',
-      is_public: 'true',
-      is_primary: 'true'
-    }]
+    contacts: [
+      {
+        first_name: 'Amanda',
+        last_name: 'Christensen',
+        email_address: 'amanda@christensen.com',
+        agency: 'Amanda and associates',
+        is_public: 'true',
+        is_primary: 'true'
+      }
+    ]
   },
   iucn: {
     classificationDetails: [
