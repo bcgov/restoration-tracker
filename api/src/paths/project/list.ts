@@ -100,7 +100,7 @@ GET.apiDoc = {
                   type: 'string',
                   oneOf: [{ format: 'date' }, { format: 'date-time' }],
                   description: 'ISO 8601 date string',
-                  nullable: true,
+                  nullable: true
                 }
               }
             }
