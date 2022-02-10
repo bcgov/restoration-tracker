@@ -1,4 +1,4 @@
-import { Box, Button, Card, Chip, CircularProgress, Grid, Input, Typography } from '@material-ui/core';
+import { Box, Button, Card, Chip, Divider, Grid, Input, Typography } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Icon } from '@mdi/react';
@@ -63,15 +63,15 @@ export interface IProjectAdvancedFilters {
 }
 
 export const ProjectAdvancedFiltersKeyLabels = {
-  coordinator_agency: 'Coordinator Agency',
-  permit_number: 'Permit Number',
-  start_date: 'Start Date',
-  end_date: 'End Date',
-  keyword: 'Keyword',
-  project_name: 'Project Name',
-  agency_id: 'Agency Name',
-  agency_project_id: 'Agency Project',
-  species: 'Species'
+  coordinator_agency: { label: 'Coordinator Agency' },
+  permit_number: { label: 'Permit Number' },
+  start_date: { label: 'Start Date' },
+  end_date: { label: 'End Date' },
+  keyword: { label: 'Keyword' },
+  project_name: { label: 'Project Name' },
+  agency_id: { label: 'Agency Name', codeSet: 'funding_sources' },
+  agency_project_id: { label: 'Agency Project' },
+  species: { label: 'Species', codeSet: 'species' }
 };
 
 export interface IProjectAdvancedFiltersProps {
@@ -90,7 +90,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const classes = useStyles();
   const { filterChipParams, coordinator_agency, species, funding_sources } = props;
 
-  const [isAdvancedFitersOpen, setIsAdvancedFitersOpen] = useState(false);
+  const [isAdvancedFiltersOpen, setIsAdvancedFiltersOpen] = useState(false);
   const [isFiltersChipsOpen, setIsFiltersChipsOpen] = useState(false);
 
   const formikProps = useFormikContext<IProjectAdvancedFilters>();
@@ -103,7 +103,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
 
     if (JSON.stringify(values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)) {
       handleFilterReset();
-    }else{
+    } else {
       handleSubmit();
     }
   };
@@ -114,15 +114,16 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   };
 
   const handleFilterUpdate = () => {
-    if (values === ProjectAdvancedFiltersInitialValues) {
+    if (JSON.stringify(values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)) {
       return;
     }
 
     setIsFiltersChipsOpen(true);
-    setIsAdvancedFitersOpen(false);
+    setIsAdvancedFiltersOpen(false);
     handleSubmit();
   };
 
+  //Filter chip collection
   useEffect(() => {
     const setInitialFilterChips = () => {
       if (filterChipParams !== ProjectAdvancedFiltersInitialValues) {
@@ -133,36 +134,39 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
     setInitialFilterChips();
   }, [filterChipParams]);
 
-  const isValueValid = (value: any): boolean => {
+  const isFilterValueNotEmpty = (value: any): boolean => {
     if (Array.isArray(value)) {
       return !!value.length;
     }
     return !!value;
   };
 
-  const generateLabel = (key: string, value: string): string => {
-
-    if(!funding_sources?.entries){
+  const getChipLabel = (key: string, value: string) => {
+    if (!funding_sources?.entries) {
       return '';
     }
 
-    const keyLabel = ProjectAdvancedFiltersKeyLabels[key];
-    let valueLabel = '';
+    const filterKeyLabel = ProjectAdvancedFiltersKeyLabels[key].label;
+    let filterValueLabel = '';
 
-    if (key === 'agency_id') {
-      const tempValueFind = funding_sources.filter((item) => item.value === value);
-      valueLabel = tempValueFind[0]?.label || '';
+    if (ProjectAdvancedFiltersKeyLabels[key]?.codeSet) {
+      const filterKeyCodeSet = props[ProjectAdvancedFiltersKeyLabels[key].codeSet];
+
+      const filterValueObject = filterKeyCodeSet.filter(
+        (item: IMultiAutocompleteFieldOption) => String(item.value) === String(value)
+      );
+
+      filterValueLabel = filterValueObject[0]?.label || '';
     } else {
-      valueLabel = value;
+      filterValueLabel = value;
     }
 
-    return `${keyLabel}: ${valueLabel}`;
+    return (
+      <>
+        <strong>{filterKeyLabel}:</strong> {filterValueLabel}
+      </>
+    );
   };
-
-  if(!funding_sources){
-    return <CircularProgress className="pageProgress" size={40} />;
-  };
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -196,10 +200,10 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
                   fullWidth
                   disableRipple={true}
                   endIcon={
-                    (!isAdvancedFitersOpen && <Icon path={mdiMenuDown} size={1} />) ||
-                    (isAdvancedFitersOpen && <Icon path={mdiMenuUp} size={1} />)
+                    (!isAdvancedFiltersOpen && <Icon path={mdiMenuDown} size={1} />) ||
+                    (isAdvancedFiltersOpen && <Icon path={mdiMenuUp} size={1} />)
                   }
-                  onClick={() => setIsAdvancedFitersOpen(!isAdvancedFitersOpen)}>
+                  onClick={() => setIsAdvancedFiltersOpen(!isAdvancedFiltersOpen)}>
                   <Typography style={{ fontWeight: 600, fontSize: '14px' }}>Advanced</Typography>
                 </Button>
               </Box>
@@ -227,10 +231,10 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
                 </Grid>
                 {Object.entries(filterChipParams).map(
                   ([key, value], index) =>
-                    isValueValid(value) && (
+                    isFilterValueNotEmpty(value) && (
                       <Grid item xs="auto" key={`${key}${index}`}>
                         <Chip
-                          label={generateLabel(key, value)}
+                          label={getChipLabel(key, value)}
                           className={classes.chipStyle}
                           clickable={false}
                           onDelete={() => handleDelete(key)}
@@ -246,14 +250,45 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
             </Box>
           )}
 
-          {isAdvancedFitersOpen && (
-            <ProjectAdvancedFilters
-              coordinator_agency={coordinator_agency}
-              species={species}
-              funding_sources={funding_sources}
-              handleFilterUpdate={handleFilterUpdate}
-              handleFilterReset={handleFilterReset}
-            />
+          {isAdvancedFiltersOpen && (
+            <Box>
+              <ProjectAdvancedFilters
+                coordinator_agency={coordinator_agency}
+                species={species}
+                funding_sources={funding_sources}
+              />
+
+              <Box my={3}>
+                <Divider></Divider>
+              </Box>
+
+              <Grid container direction="row" justify="flex-end" alignItems="center" spacing={1}>
+                <Grid item xs={1}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    fullWidth
+                    className={classes.actionButton}
+                    onClick={handleFilterUpdate}>
+                    Apply
+                  </Button>
+                </Grid>
+                <Grid item xs={1}>
+                  <Button
+                    type="reset"
+                    variant="outlined"
+                    color="primary"
+                    size="medium"
+                    fullWidth
+                    className={classes.actionButton}
+                    onClick={handleFilterReset}>
+                    Reset
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
           )}
         </Box>
       </Card>

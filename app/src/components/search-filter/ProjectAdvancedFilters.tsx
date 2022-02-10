@@ -1,16 +1,4 @@
-import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  Grid,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-  Theme,
-  Typography
-} from '@material-ui/core';
+import { Box, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 import AutocompleteFreeSoloField from 'components/fields/AutocompleteFreeSoloField';
 import CustomTextField from 'components/fields/CustomTextField';
 import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteField';
@@ -20,21 +8,10 @@ import { useFormikContext } from 'formik';
 import React from 'react';
 import { IProjectAdvancedFilters } from './ProjectFilter';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  actionButton: {
-    minWidth: '6rem',
-    '& + button': {
-      marginLeft: '0.5rem'
-    }
-  }
-}));
-
 export interface IProjectAdvancedFiltersProps {
   species: IMultiAutocompleteFieldOption[];
   funding_sources: IMultiAutocompleteFieldOption[];
   coordinator_agency: string[];
-  handleFilterUpdate: () => void;
-  handleFilterReset: () => void;
 }
 
 /**
@@ -43,8 +20,6 @@ export interface IProjectAdvancedFiltersProps {
  * @return {*}
  */
 const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) => {
-  const classes = useStyles();
-
   const formikProps = useFormikContext<IProjectAdvancedFilters>();
   const { handleChange, values } = formikProps;
 
@@ -143,37 +118,6 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={3}>
           <MultiAutocompleteFieldVariableSize id="species" label="Species" options={props.species} required={false} />
-        </Grid>
-      </Grid>
-
-      <Box my={3}>
-        <Divider></Divider>
-      </Box>
-
-      <Grid container direction="row" justify="flex-end" alignItems="center" spacing={1}>
-        <Grid item xs={1}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="medium"
-            fullWidth
-            className={classes.actionButton}
-            onClick={props.handleFilterUpdate}>
-            Apply
-          </Button>
-        </Grid>
-        <Grid item xs={1}>
-          <Button
-            type="reset"
-            variant="outlined"
-            color="primary"
-            size="medium"
-            fullWidth
-            className={classes.actionButton}
-            onClick={props.handleFilterReset}>
-            Reset
-          </Button>
         </Grid>
       </Grid>
     </Box>

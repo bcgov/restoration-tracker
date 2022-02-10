@@ -34,7 +34,8 @@ const ProjectsPage: React.FC = () => {
 
   const formikRef = useRef<FormikProps<IProjectAdvancedFilters>>(null);
 
-  const collectParams = useCallback((): IProjectAdvancedFilters => {
+  //collection of params from url location.search
+  const collectFilterParams = useCallback((): IProjectAdvancedFilters => {
     if (location.search) {
       const urlParams = qs.parse(location.search.replace('?', ''));
       const formikValues = {
@@ -58,17 +59,18 @@ const ProjectsPage: React.FC = () => {
     return ProjectAdvancedFiltersInitialValues;
   }, [location.search]);
 
-  const [formikValues, setFormikValues] = useState<IProjectAdvancedFilters>(collectParams);
-  const [filterChipValues, setFilterChipValues] = useState<IProjectAdvancedFilters>(collectParams);
+  const [formikValues, setFormikValues] = useState<IProjectAdvancedFilters>(collectFilterParams);
+  const [filterChipValues, setFilterChipValues] = useState<IProjectAdvancedFilters>(collectFilterParams);
 
-  const handleParams = () => {
+  //push params to url
+  const handleFilterParams = () => {
     const urlParams = qs.stringify(formikRef.current?.values);
     history.push({
       search: `?${urlParams}`
     });
   };
 
-  const handleResetParams = () => {
+  const handleResetFilterParams = () => {
     history.push({
       search: ``
     });
@@ -79,7 +81,7 @@ const ProjectsPage: React.FC = () => {
     setProjects(projectsResponse);
     setFormikValues(ProjectAdvancedFiltersInitialValues);
     setFilterChipValues(ProjectAdvancedFiltersInitialValues);
-    handleResetParams();
+    handleResetFilterParams();
   };
 
   const handleSubmit = async () => {
@@ -87,7 +89,8 @@ const ProjectsPage: React.FC = () => {
       return;
     }
 
-    if(formikRef?.current.values === ProjectAdvancedFiltersInitialValues){
+    //empty Filters
+    if(JSON.stringify(formikRef.current.values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)){
       return;
     }
 
@@ -99,7 +102,7 @@ const ProjectsPage: React.FC = () => {
       }
 
       setProjects(response);
-      handleParams();
+      handleFilterParams();
       setFilterChipValues(formikRef.current.values);
     } catch (error) {
       const apiError = error as APIError;
@@ -167,7 +170,7 @@ const ProjectsPage: React.FC = () => {
   //Search Params
   useEffect(() => {
     const getParams = async () => {
-      const params = await collectParams();
+      const params = await collectFilterParams();
       setFormikValues(params);
     };
 
@@ -175,7 +178,7 @@ const ProjectsPage: React.FC = () => {
       setIsLoading(false);
       getParams();
     }
-  }, [isLoading, location.search, formikValues, collectParams]);
+  }, [isLoading, location.search, formikValues, collectFilterParams]);
 
   if(!isLoadingCodes){
     return <CircularProgress data-testid="project-loading" className="pageProgress" size={40} />;

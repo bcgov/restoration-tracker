@@ -69,8 +69,7 @@ POST.apiDoc = {
                   type: 'number'
                 },
                 {
-                  type: 'string',
-                  maxLength: 0
+                  type: 'string'
                 }
               ],
               nullable: true
