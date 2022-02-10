@@ -13,23 +13,25 @@ import { useFormikContext } from 'formik';
 import React from 'react';
 import yup from 'utils/YupSchema';
 
-export interface IProjectCoordinatorForm {
+export interface IProjectContactItemForm {
   first_name: string;
   last_name: string;
   email_address: string;
-  coordinator_agency: string;
-  share_contact_details: string;
+  agency: string;
+  is_public: string;
+  is_primary: string;
 }
 
-export const ProjectCoordinatorInitialValues: IProjectCoordinatorForm = {
+export const ProjectContactItemInitialValues: IProjectContactItemForm = {
   first_name: '',
   last_name: '',
   email_address: '',
-  coordinator_agency: '',
-  share_contact_details: 'false'
+  agency: '',
+  is_public: 'false',
+  is_primary: 'false'
 };
 
-export const ProjectCoordinatorYupSchema = yup.object().shape({
+export const ProjectContactItemYupSchema = yup.object().shape({
   first_name: yup.string().max(50, 'Cannot exceed 50 characters').required('Required'),
   last_name: yup.string().max(50, 'Cannot exceed 50 characters').required('Required'),
   email_address: yup
@@ -37,28 +39,30 @@ export const ProjectCoordinatorYupSchema = yup.object().shape({
     .max(500, 'Cannot exceed 500 characters')
     .email('Must be a valid email address')
     .required('Required'),
-  coordinator_agency: yup.string().max(300, 'Cannot exceed 300 characters').required('Required').nullable()
+  agency: yup.string().max(300, 'Cannot exceed 300 characters').required('Required').nullable(),
+  is_public: yup.string().required('Required'),
+  is_primary: yup.string().required('Required')
 });
 
-export interface IProjectCoordinatorFormProps {
+export interface IProjectContactItemFormProps {
   coordinator_agency: string[];
 }
 
 /**
- * A modal form for a single project coordinator.
+ * A modal form for a single project contact.
  *
  * @See ProjectContactForm.tsx
  *
  * @return {*}
  */
-const ProjectCoordinatorForm: React.FC<IProjectCoordinatorFormProps> = (props) => {
-  const { values, touched, errors, handleChange } = useFormikContext<IProjectCoordinatorForm>();
+const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) => {
+  const { values, touched, errors, handleChange } = useFormikContext<IProjectContactItemForm>();
 
   return (
-    <form data-testid="coordinator-form">
+    <form data-testid="contact-item-form">
       <Box component="fieldset">
         <Typography id="agency_details" component="legend">
-          Coordinator Details
+          Contact Details
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
@@ -90,8 +94,8 @@ const ProjectCoordinatorForm: React.FC<IProjectCoordinatorFormProps> = (props) =
           </Grid>
           <Grid item xs={12} md={6}>
             <AutocompleteFreeSoloField
-              id="coordinator_agency"
-              name="coordinator_agency"
+              id="contact_agency"
+              name="agency"
               label="Contact Agency"
               options={props.coordinator_agency}
               required={true}
@@ -103,7 +107,7 @@ const ProjectCoordinatorForm: React.FC<IProjectCoordinatorFormProps> = (props) =
         <FormControl
           required={true}
           component="fieldset"
-          error={touched.share_contact_details && Boolean(errors.share_contact_details)}>
+          error={touched.is_public && Boolean(errors.is_public)}>
           <Typography id="agency_details" component="legend">
             Share Contact Details
           </Typography>
@@ -112,9 +116,9 @@ const ProjectCoordinatorForm: React.FC<IProjectCoordinatorFormProps> = (props) =
           </Typography>
           <Box mt={2} pl={1}>
             <RadioGroup
-              name="share_contact_details"
+              name="is_public"
               aria-label="Share Contact Details"
-              value={values.share_contact_details}
+              value={values.is_public}
               onChange={handleChange}>
               <FormControlLabel
                 value="false"
@@ -126,7 +130,7 @@ const ProjectCoordinatorForm: React.FC<IProjectCoordinatorFormProps> = (props) =
                 control={<Radio required={true} color="primary" size="small" />}
                 label="Yes"
               />
-              <FormHelperText>{errors.share_contact_details}</FormHelperText>
+              <FormHelperText>{errors.is_public}</FormHelperText>
             </RadioGroup>
           </Box>
         </FormControl>
@@ -138,4 +142,4 @@ const ProjectCoordinatorForm: React.FC<IProjectCoordinatorFormProps> = (props) =
   );
 };
 
-export default ProjectCoordinatorForm;
+export default ProjectContactItemForm;

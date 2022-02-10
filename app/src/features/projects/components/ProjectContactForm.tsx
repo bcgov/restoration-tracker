@@ -6,12 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import { FieldArray, useFormikContext } from 'formik';
 import React, { useState } from 'react';
 import yup from 'utils/YupSchema';
-import ProjectCoordinatorForm, {
-  IProjectCoordinatorForm,
-  IProjectCoordinatorFormProps,
-  ProjectCoordinatorInitialValues,
-  ProjectCoordinatorYupSchema
-} from './ProjectCoordinatorForm';
+import ProjectContactItemForm, {
+  IProjectContactItemForm,
+  IProjectContactItemFormProps,
+  ProjectContactItemInitialValues,
+  ProjectContactItemYupSchema
+} from './ProjectContactItemForm';
 import { Icon } from '@mdi/react';
 import { mdiPencilOutline, mdiPlus, mdiTrashCanOutline } from '@mdi/js';
 import EditDialog from 'components/dialog/EditDialog';
@@ -25,24 +25,23 @@ import Grid from '@material-ui/core/Grid';
 
 export interface IProjectContactForm {
   contact: {
-    coordinators: IProjectCoordinatorForm[];
+    contacts: IProjectContactItemForm[];
   };
 }
 
 export const ProjectContactInitialValues: IProjectContactForm = {
   contact: {
-    coordinators: []
+    contacts: []
   }
 };
 
 export const ProjectContactYupSchema = yup.object().shape({
   contact: yup.object().shape({
-    coordinators: yup.array().of(ProjectCoordinatorYupSchema),
-    share_contact_details: yup.string().required('Required')
+    contacts: yup.array().of(ProjectContactItemYupSchema),
   })
 });
 
-export type IProjectContactFormProps = IProjectCoordinatorFormProps;
+export type IProjectContactFormProps = IProjectContactItemFormProps;
 
 const useStyles = makeStyles((theme: Theme) => ({
   legend: {
@@ -91,43 +90,40 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Tracks information about the coordinator that is being added/edited
-  const [currentProjectCoordinator, setCurrentProjectCoordinator] = useState({
+  // Tracks information about the contact that is being added/edited
+  const [currentProjectContact, setCurrentProjectContact] = useState({
     index: 0,
-    values: ProjectCoordinatorInitialValues
+    values: ProjectContactItemInitialValues
   });
 
   return (
     <>
-      <Typography component="legend">Coordinators</Typography>
-
       <Box mb={3} maxWidth={'72ch'}>
         <Typography variant="body1" color="textSecondary">
-          Specify all coordinators for the project.
+          Specify all contacts for the project.
         </Typography>
       </Box>
       <Box>
         <FieldArray
-          name="contact.coordinators"
+          name="contact.contacts"
           render={(arrayHelpers) => (
             <Box mb={2}>
               <EditDialog
-                dialogTitle={'Add Coordinator'}
+                dialogTitle={'Add Contact'}
                 open={isModalOpen}
                 component={{
-                  element: <ProjectCoordinatorForm coordinator_agency={coordinator_agency} />,
-                  initialValues: currentProjectCoordinator.values,
-                  validationSchema: ProjectCoordinatorYupSchema
+                  element: <ProjectContactItemForm coordinator_agency={coordinator_agency} />,
+                  initialValues: currentProjectContact.values,
+                  validationSchema: ProjectContactItemYupSchema
                 }}
                 onCancel={() => setIsModalOpen(false)}
-                onSave={(projectCoordinatorValues) => {
-                  console.log(projectCoordinatorValues);
-                  if (currentProjectCoordinator.index < values.contact.coordinators.length) {
+                onSave={(projectContactValues) => {
+                  if (currentProjectContact.index < values.contact.contacts.length) {
                     // Update an existing item
-                    arrayHelpers.replace(currentProjectCoordinator.index, projectCoordinatorValues);
+                    arrayHelpers.replace(currentProjectContact.index, projectContactValues);
                   } else {
                     // Add a new item
-                    arrayHelpers.push(projectCoordinatorValues);
+                    arrayHelpers.push(projectContactValues);
                   }
 
                   // Close the modal
@@ -135,30 +131,30 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
                 }}
               />
               <List dense disablePadding>
-                {!values.contact.coordinators.length && (
+                {!values.contact.contacts.length && (
                   <ListItem dense component={Paper}>
                     <Box display="flex" flexGrow={1} justifyContent="center" alignContent="middle" p={2}>
-                      <Typography variant="subtitle2">No Coordinators</Typography>
+                      <Typography variant="subtitle2">No Contacts</Typography>
                     </Box>
                   </ListItem>
                 )}
-                {values.contact.coordinators.map((coordinator, index) => (
+                {values.contact.contacts.map((contact, index) => (
                   <ListItem dense className={classes.contactListItem} key={index}>
                     <Paper className={classes.contactListItemInner}>
                       <Toolbar className={classes.contactListItemToolbar}>
                         <Typography className={classes.title}>
-                          {`${coordinator.first_name} ${coordinator.last_name}`}
+                          {`${contact.first_name} ${contact.last_name}`}
                         </Typography>
 
                         <IconButton
                           color="primary"
                           data-testid={'edit-button-' + index}
-                          title="Edit Coordinator"
-                          aria-label="Edit Coordinator"
+                          title="Edit Contact"
+                          aria-label="Edit Contact"
                           onClick={() => {
-                            setCurrentProjectCoordinator({
+                            setCurrentProjectContact({
                               index: index,
-                              values: values.contact.coordinators[index]
+                              values: values.contact.contacts[index]
                             });
                             setIsModalOpen(true);
                           }}>
@@ -167,8 +163,8 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
                         <IconButton
                           color="primary"
                           data-testid={'delete-button-' + index}
-                          title="Remove Coordinator"
-                          aria-label="Remove Coordinator"
+                          title="Remove Contact"
+                          aria-label="Remove Contact"
                           onClick={() => arrayHelpers.remove(index)}>
                           <Icon path={mdiTrashCanOutline} size={1} />
                         </IconButton>
@@ -180,13 +176,13 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
                             <Typography variant="body2" color="textSecondary">
                               Agency
                             </Typography>
-                            <Typography variant="body1">{coordinator.coordinator_agency}</Typography>
+                            <Typography variant="body1">{contact.agency}</Typography>
                           </Grid>
                           <Grid item xs={12} sm={6} md={4}>
                             <Typography variant="body2" color="textSecondary">
                               Email
                             </Typography>
-                            <Typography variant="body1">{coordinator.email_address}</Typography>
+                            <Typography variant="body1">{contact.email_address}</Typography>
                           </Grid>
                         </Grid>
                       </Box>
@@ -201,18 +197,18 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
       <Button
         variant="outlined"
         color="primary"
-        title="Add Coordinator"
-        aria-label="Add Coordinator"
+        title="Add Contact"
+        aria-label="Add Contact"
         startIcon={<Icon path={mdiPlus} size={1}></Icon>}
-        data-testid="add-coordinator-button"
+        data-testid="add-contact-button"
         onClick={() => {
-          setCurrentProjectCoordinator({
-            index: values.contact.coordinators.length,
-            values: ProjectCoordinatorInitialValues
+          setCurrentProjectContact({
+            index: values.contact.contacts.length,
+            values: ProjectContactItemInitialValues
           });
           setIsModalOpen(true);
         }}>
-        Add Coordinator
+        Add Contact
       </Button>
     </>
   );
