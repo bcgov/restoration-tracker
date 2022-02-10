@@ -2,7 +2,7 @@
 -- ER/Studio Data Architect SQL Code Generation
 -- Project :      Restoration.DM1
 --
--- Date Created : Friday, February 04, 2022 11:05:41
+-- Date Created : Thursday, February 10, 2022 13:42:02
 -- Target DBMS : PostgreSQL 10.x-12.x
 --
 
@@ -183,6 +183,59 @@ COMMENT ON TABLE audit_log IS 'Holds record level audit log data for the entire 
 ;
 
 -- 
+-- TABLE: caribou_population_unit 
+--
+
+CREATE TABLE caribou_population_unit(
+    caribou_population_unit_id    integer                     GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                          varchar(300),
+    description                   varchar(3000),
+    geometry                      geometry(geometry, 3005),
+    geography                     geography(geometry),
+    geojson                       jsonb,
+    record_effective_date         date                        NOT NULL,
+    record_end_date               date,
+    create_date                   timestamptz(6)              DEFAULT now() NOT NULL,
+    create_user                   integer                     NOT NULL,
+    update_date                   timestamptz(6),
+    update_user                   integer,
+    revision_count                integer                     DEFAULT 0 NOT NULL,
+    CONSTRAINT caribou_population_unit_pk PRIMARY KEY (caribou_population_unit_id)
+)
+;
+
+
+
+COMMENT ON COLUMN caribou_population_unit.caribou_population_unit_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN caribou_population_unit.name IS 'The name of the record.'
+;
+COMMENT ON COLUMN caribou_population_unit.description IS 'The description of the record.'
+;
+COMMENT ON COLUMN caribou_population_unit.geometry IS 'The containing geometry of the record.'
+;
+COMMENT ON COLUMN caribou_population_unit.geography IS 'The containing geography of the record.'
+;
+COMMENT ON COLUMN caribou_population_unit.geojson IS 'A JSON representation of the geometry that provides necessary details for shape manipulation in client side tools.'
+;
+COMMENT ON COLUMN caribou_population_unit.record_effective_date IS 'Record level effective date.'
+;
+COMMENT ON COLUMN caribou_population_unit.record_end_date IS 'Record level end date.'
+;
+COMMENT ON COLUMN caribou_population_unit.create_date IS 'The datetime the record was created.'
+;
+COMMENT ON COLUMN caribou_population_unit.create_user IS 'The id of the user who created the record as identified in the system user table.'
+;
+COMMENT ON COLUMN caribou_population_unit.update_date IS 'The datetime the record was updated.'
+;
+COMMENT ON COLUMN caribou_population_unit.update_user IS 'The id of the user who updated the record as identified in the system user table.'
+;
+COMMENT ON COLUMN caribou_population_unit.revision_count IS 'Revision count used for concurrency control.'
+;
+COMMENT ON TABLE caribou_population_unit IS 'A list of caribou population units.'
+;
+
+-- 
 -- TABLE: contact_type 
 --
 
@@ -268,50 +321,6 @@ COMMENT ON COLUMN first_nations.update_user IS 'The id of the user who updated t
 COMMENT ON COLUMN first_nations.revision_count IS 'Revision count used for concurrency control.'
 ;
 COMMENT ON TABLE first_nations IS 'A list of first nations.'
-;
-
--- 
--- TABLE: focal_population_units 
---
-
-CREATE TABLE focal_population_units(
-    id                integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id        integer           NOT NULL,
-    name              varchar(300)      NOT NULL,
-    description       varchar(3000),
-    key               varchar(1000)     NOT NULL,
-    create_date       timestamptz(6)    DEFAULT now() NOT NULL,
-    create_user       integer           NOT NULL,
-    update_date       timestamptz(6),
-    update_user       integer,
-    revision_count    integer           DEFAULT 0 NOT NULL,
-    CONSTRAINT focal_population_units_pk PRIMARY KEY (id)
-)
-;
-
-
-
-COMMENT ON COLUMN focal_population_units.id IS 'System generated surrogate primary key identifier.'
-;
-COMMENT ON COLUMN focal_population_units.project_id IS 'System generated surrogate primary key identifier.'
-;
-COMMENT ON COLUMN focal_population_units.name IS 'The name of the record.'
-;
-COMMENT ON COLUMN focal_population_units.description IS 'The description of the record.'
-;
-COMMENT ON COLUMN focal_population_units.key IS 'The identifying key to the file in the storage system.'
-;
-COMMENT ON COLUMN focal_population_units.create_date IS 'The datetime the record was created.'
-;
-COMMENT ON COLUMN focal_population_units.create_user IS 'The id of the user who created the record as identified in the system user table.'
-;
-COMMENT ON COLUMN focal_population_units.update_date IS 'The datetime the record was updated.'
-;
-COMMENT ON COLUMN focal_population_units.update_user IS 'The id of the user who updated the record as identified in the system user table.'
-;
-COMMENT ON COLUMN focal_population_units.revision_count IS 'Revision count used for concurrency control.'
-;
-COMMENT ON TABLE focal_population_units IS 'Provides a listing of focal population units for a project.'
 ;
 
 -- 
@@ -592,6 +601,47 @@ COMMENT ON TABLE linear_feature_type IS 'A list of linear feature types.'
 ;
 
 -- 
+-- TABLE: nrm_region 
+--
+
+CREATE TABLE nrm_region(
+    nrm_region_id     integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id        integer           NOT NULL,
+    name              varchar(300)      NOT NULL,
+    objectid          integer           NOT NULL,
+    create_date       timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user       integer           NOT NULL,
+    update_date       timestamptz(6),
+    update_user       integer,
+    revision_count    integer           DEFAULT 0 NOT NULL,
+    CONSTRAINT nrm_region_pl PRIMARY KEY (nrm_region_id)
+)
+;
+
+
+
+COMMENT ON COLUMN nrm_region.nrm_region_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN nrm_region.project_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN nrm_region.name IS 'The name of the record.'
+;
+COMMENT ON COLUMN nrm_region.objectid IS 'The objectid supplied by the BCGW layer.'
+;
+COMMENT ON COLUMN nrm_region.create_date IS 'The datetime the record was created.'
+;
+COMMENT ON COLUMN nrm_region.create_user IS 'The id of the user who created the record as identified in the system user table.'
+;
+COMMENT ON COLUMN nrm_region.update_date IS 'The datetime the record was updated.'
+;
+COMMENT ON COLUMN nrm_region.update_user IS 'The id of the user who updated the record as identified in the system user table.'
+;
+COMMENT ON COLUMN nrm_region.revision_count IS 'Revision count used for concurrency control.'
+;
+COMMENT ON TABLE nrm_region IS 'Natural Resource (NR) Region, are administrative areas established by the Ministry, within NR Areas. These boundaries are designated by the Lieutenant Governor in council and published as regulations which establishes the Ministry''s management areas. The source of truth for this data is the BCGW layer WHSE_ADMIN_BOUNDARIES.ADM_NR_REGIONS_SPG.'
+;
+
+-- 
 -- TABLE: permit 
 --
 
@@ -763,6 +813,44 @@ COMMENT ON COLUMN project_attachment.update_user IS 'The id of the user who upda
 COMMENT ON COLUMN project_attachment.revision_count IS 'Revision count used for concurrency control.'
 ;
 COMMENT ON TABLE project_attachment IS 'A list of project attachments.'
+;
+
+-- 
+-- TABLE: project_caribou_population_unit 
+--
+
+CREATE TABLE project_caribou_population_unit(
+    project_caribou_population_unit_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id                            integer           NOT NULL,
+    caribou_population_unit_id            integer           NOT NULL,
+    create_date                           timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                           integer           NOT NULL,
+    update_date                           timestamptz(6),
+    update_user                           integer,
+    revision_count                        integer           DEFAULT 0 NOT NULL,
+    CONSTRAINT "PK63" PRIMARY KEY (project_caribou_population_unit_id)
+)
+;
+
+
+
+COMMENT ON COLUMN project_caribou_population_unit.project_caribou_population_unit_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN project_caribou_population_unit.project_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN project_caribou_population_unit.caribou_population_unit_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN project_caribou_population_unit.create_date IS 'The datetime the record was created.'
+;
+COMMENT ON COLUMN project_caribou_population_unit.create_user IS 'The id of the user who created the record as identified in the system user table.'
+;
+COMMENT ON COLUMN project_caribou_population_unit.update_date IS 'The datetime the record was updated.'
+;
+COMMENT ON COLUMN project_caribou_population_unit.update_user IS 'The id of the user who updated the record as identified in the system user table.'
+;
+COMMENT ON COLUMN project_caribou_population_unit.revision_count IS 'Revision count used for concurrency control.'
+;
+COMMENT ON TABLE project_caribou_population_unit IS 'A associative entity that joins projects and caribou population units.'
 ;
 
 -- 
@@ -1851,37 +1939,31 @@ CREATE INDEX "Ref1612" ON administrative_activity(administrative_activity_status
 -- INDEX: administrative_activity_status_type_nuk1 
 --
 
-CREATE UNIQUE INDEX administrative_activity_status_type_nuk1 ON administrative_activity_status_type(name, record_end_date)
+CREATE UNIQUE INDEX administrative_activity_status_type_nuk1 ON administrative_activity_status_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: administrative_activity_type_nuk1 
 --
 
-CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity_type(name, record_end_date)
+CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity_type(name, (record_end_date is NULL)) where record_end_date is null
+;
+-- 
+-- INDEX: caribou_population_unit_nuk1 
+--
+
+CREATE UNIQUE INDEX caribou_population_unit_nuk1 ON caribou_population_unit(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: first_nations_nuk1 
 --
 
-CREATE UNIQUE INDEX first_nations_nuk1 ON first_nations(name, record_end_date)
-;
--- 
--- INDEX: focal_population_units_uk1 
---
-
-CREATE UNIQUE INDEX focal_population_units_uk1 ON focal_population_units(project_id, key)
-;
--- 
--- INDEX: "Ref1337" 
---
-
-CREATE INDEX "Ref1337" ON focal_population_units(project_id)
+CREATE UNIQUE INDEX first_nations_nuk1 ON first_nations(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: funding_source_nuk1 
 --
 
-CREATE UNIQUE INDEX funding_source_nuk1 ON funding_source(name, record_end_date)
+CREATE UNIQUE INDEX funding_source_nuk1 ON funding_source(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: investment_action_category_nuk1 
@@ -1899,7 +1981,7 @@ CREATE INDEX "Ref253" ON investment_action_category(funding_source_id)
 -- INDEX: iucn_conservation_action_level_1_classification_nuk1 
 --
 
-CREATE UNIQUE INDEX iucn_conservation_action_level_1_classification_nuk1 ON iucn_conservation_action_level_1_classification(name, record_end_date)
+CREATE UNIQUE INDEX iucn_conservation_action_level_1_classification_nuk1 ON iucn_conservation_action_level_1_classification(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: iucn_conservation_action_level_2_subclassification_nuk1 
@@ -1929,7 +2011,19 @@ CREATE INDEX "Ref727" ON iucn_conservation_action_level_3_subclassification(iucn
 -- INDEX: linear_feature_type_nuk1 
 --
 
-CREATE UNIQUE INDEX linear_feature_type_nuk1 ON linear_feature_type(name, record_end_date)
+CREATE UNIQUE INDEX linear_feature_type_nuk1 ON linear_feature_type(name, (record_end_date is NULL)) where record_end_date is null
+;
+-- 
+-- INDEX: nrm_region_uk1 
+--
+
+CREATE UNIQUE INDEX nrm_region_uk1 ON nrm_region(project_id, objectid)
+;
+-- 
+-- INDEX: "Ref1346" 
+--
+
+CREATE INDEX "Ref1346" ON nrm_region(project_id)
 ;
 -- 
 -- INDEX: permit_uk1 
@@ -1960,6 +2054,18 @@ CREATE UNIQUE INDEX project_attachment_uk1 ON project_attachment(project_id, fil
 --
 
 CREATE INDEX "Ref1313" ON project_attachment(project_id)
+;
+-- 
+-- INDEX: "Ref1347" 
+--
+
+CREATE INDEX "Ref1347" ON project_caribou_population_unit(project_id)
+;
+-- 
+-- INDEX: "Ref6748" 
+--
+
+CREATE INDEX "Ref6748" ON project_caribou_population_unit(caribou_population_unit_id)
 ;
 -- 
 -- INDEX: "Ref1340" 
@@ -2055,7 +2161,7 @@ CREATE INDEX "Ref1516" ON project_participation(project_role_id)
 -- INDEX: project_role_nuk1 
 --
 
-CREATE UNIQUE INDEX project_role_nuk1 ON project_role(name, record_end_date)
+CREATE UNIQUE INDEX project_role_nuk1 ON project_role(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: project_spatial_component_uk1 
@@ -2079,7 +2185,7 @@ CREATE INDEX "Ref2422" ON project_spatial_component(project_spatial_component_ty
 -- INDEX: project_spatial_component_type_uk1 
 --
 
-CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_component_type(name, record_end_date)
+CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_component_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: project_species_uk1 
@@ -2127,7 +2233,7 @@ CREATE UNIQUE INDEX system_metadata_constant_id_uk1 ON system_metadata_constant(
 -- INDEX: system_role_nuk1 
 --
 
-CREATE UNIQUE INDEX system_role_nuk1 ON system_role(name, record_end_date)
+CREATE UNIQUE INDEX system_role_nuk1 ON system_role(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: system_user_nuk1 
@@ -2181,7 +2287,7 @@ CREATE INDEX "Ref3236" ON treatment(treatment_unit_id)
 -- INDEX: treatment_type_nuk1 
 --
 
-CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, record_end_date)
+CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: treatment_unit_uk1 
@@ -2223,13 +2329,13 @@ CREATE INDEX "Ref3234" ON treatment_unit_spatial_component(treatment_unit_id)
 -- INDEX: treatment_unit_spatial_component_type_nuk1 
 --
 
-CREATE UNIQUE INDEX treatment_unit_spatial_component_type_nuk1 ON treatment_unit_spatial_component_type(name, record_end_date)
+CREATE UNIQUE INDEX treatment_unit_spatial_component_type_nuk1 ON treatment_unit_spatial_component_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: user_identity_source_nuk1 
 --
 
-CREATE UNIQUE INDEX user_identity_source_nuk1 ON user_identity_source(name, record_end_date)
+CREATE UNIQUE INDEX user_identity_source_nuk1 ON user_identity_source(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: "Ref298" 
@@ -2259,16 +2365,6 @@ ALTER TABLE administrative_activity ADD CONSTRAINT "Refadministrative_activity_t
 ALTER TABLE administrative_activity ADD CONSTRAINT "Refadministrative_activity_status_type12" 
     FOREIGN KEY (administrative_activity_status_type_id)
     REFERENCES administrative_activity_status_type(administrative_activity_status_type_id)
-;
-
-
--- 
--- TABLE: focal_population_units 
---
-
-ALTER TABLE focal_population_units ADD CONSTRAINT "Refproject37" 
-    FOREIGN KEY (project_id)
-    REFERENCES project(project_id)
 ;
 
 
@@ -2303,6 +2399,16 @@ ALTER TABLE iucn_conservation_action_level_3_subclassification ADD CONSTRAINT "R
 
 
 -- 
+-- TABLE: nrm_region 
+--
+
+ALTER TABLE nrm_region ADD CONSTRAINT "Refproject46" 
+    FOREIGN KEY (project_id)
+    REFERENCES project(project_id)
+;
+
+
+-- 
 -- TABLE: permit 
 --
 
@@ -2324,6 +2430,21 @@ ALTER TABLE permit ADD CONSTRAINT "Refproject39"
 ALTER TABLE project_attachment ADD CONSTRAINT "Refproject13" 
     FOREIGN KEY (project_id)
     REFERENCES project(project_id)
+;
+
+
+-- 
+-- TABLE: project_caribou_population_unit 
+--
+
+ALTER TABLE project_caribou_population_unit ADD CONSTRAINT "Refproject47" 
+    FOREIGN KEY (project_id)
+    REFERENCES project(project_id)
+;
+
+ALTER TABLE project_caribou_population_unit ADD CONSTRAINT "Refcaribou_population_unit48" 
+    FOREIGN KEY (caribou_population_unit_id)
+    REFERENCES caribou_population_unit(caribou_population_unit_id)
 ;
 
 

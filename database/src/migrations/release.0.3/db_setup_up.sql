@@ -75,6 +75,7 @@ alter role restoration_api set search_path to restoration_dapi_v1, restoration, 
 \i populate_treatment_type.sql
 \i populate_linear_feature_type.sql
 \i populate_contact_type.sql
+\i populate_project_caribou_population_unit.sql
 
 -- temporary external interface tables
 \i populate_wldtaxonomic_units.sql
