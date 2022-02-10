@@ -29,22 +29,12 @@ export const postProjectSQL = (project: PostProjectData & PostCoordinatorData): 
       name,
       start_date,
       end_date,
-      objectives,
-      coordinator_first_name,
-      coordinator_last_name,
-      coordinator_email_address,
-      coordinator_agency_name,
-      coordinator_public
+      objectives
     ) VALUES (
       ${project.name},
       ${project.start_date},
       ${project.end_date},
-      ${project.objectives},
-      ${project.first_name},
-      ${project.last_name},
-      ${project.email_address},
-      ${project.coordinator_agency},
-      ${project.share_contact_details}
+      ${project.objectives}
 
   `;
   sqlStatement.append(SQL`

@@ -1,4 +1,4 @@
-import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
+//import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
 import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
 import { IProjectGeneralInformationForm } from 'features/projects/components/ProjectGeneralInformationForm';
 import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
@@ -66,7 +66,7 @@ export interface IGetProjectsListResponse {
   name: string;
   start_date: string;
   end_date: string;
-  coordinator_agency: string;
+  //coordinator_agency: string;
   permits_list: string;
   publish_status: string;
   completion_status: string;
@@ -91,14 +91,14 @@ export interface ICreateProjectResponse {
 export interface ICreateProjectRequest
   extends IProjectGeneralInformationForm,
     IProjectIUCNForm,
-    IProjectCoordinatorForm,
+    //IProjectCoordinatorForm,
     IProjectPermitForm,
     IProjectFundingForm,
     IProjectPartnershipsForm,
     IProjectLocationForm {}
 
 export enum UPDATE_GET_ENTITIES {
-  coordinator = 'coordinator',
+  //coordinator = 'coordinator',
   permit = 'permit',
   project = 'project',
   objectives = 'objectives',
@@ -118,7 +118,7 @@ export interface IGetProjectForUpdateResponse {
   project?: IGetGeneralInformationForUpdateResponseDetails;
   permit?: IGetProjectForUpdateResponsePermit;
   location?: IGetProjectForUpdateResponseLocation;
-  coordinator?: IGetProjectForUpdateResponseCoordinator;
+  //coordinator?: IGetProjectForUpdateResponseCoordinator;
   iucn?: IGetProjectForUpdateResponseIUCN;
   funding?: IGetProjectForUpdateResponseFundingData;
   partnerships?: IGetProjectForUpdateResponsePartnerships;

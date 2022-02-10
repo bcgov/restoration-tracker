@@ -40,7 +40,8 @@ POST.apiDoc = {
         schema: {
           title: 'Project post request object',
           type: 'object',
-          required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
+          //required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
+          required: ['project', 'iucn', 'permit', 'funding', 'partnerships', 'location'],
           additionalProperties: false,
           properties: {
             project: {
