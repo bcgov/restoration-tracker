@@ -5,7 +5,7 @@ import path from 'path';
 const DB_USER_API_PASS = process.env.DB_USER_API_PASS;
 const DB_USER_API = process.env.DB_USER_API;
 
-const DB_RELEASE = 'release.0.2';
+const DB_RELEASE = 'release.0.3';
 
 /**
  * Apply restoration release changes.
@@ -77,6 +77,7 @@ export async function up(knex: Knex): Promise<void> {
   const populate_linear_feature_type = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_linear_feature_type.sql')
   );
+  const populate_contact_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_contact_type.sql'));
 
   const vw_generated_dapi_views = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'vw_generated_dapi_views.sql'));
 
@@ -142,6 +143,7 @@ export async function up(knex: Knex): Promise<void> {
     ${populate_treatment_unit_spatial_component_type}
     ${populate_treatment_type}
     ${populate_linear_feature_type}
+    ${populate_contact_type}
 
     -- create the views
     set search_path = restoration_dapi_v1;
