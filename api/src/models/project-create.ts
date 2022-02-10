@@ -95,6 +95,7 @@ export class PostProjectData {
   start_date: string;
   end_date: string;
   objectives: string;
+  species: number[];
 
   constructor(obj?: any) {
     defaultLog.debug({ label: 'PostProjectData', message: 'params', obj });
@@ -103,6 +104,7 @@ export class PostProjectData {
     this.start_date = obj?.start_date || null;
     this.end_date = obj?.end_date || null;
     this.objectives = obj?.objectives || null;
+    this.species = (obj?.species?.length && obj.species) || [];
   }
 }
 

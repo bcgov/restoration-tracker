@@ -144,7 +144,7 @@ export const getNRMRegions = async () => {
   const NRM_REGIONS_URL = buildWFSURLByBoundingBox(typeName, defaultWFSParams);
 
   try {
-    const response = await axios.get(NRM_REGIONS_URL);
+    const response = await axios.post(NRM_REGIONS_URL);
 
     const features = response.data.features;
 

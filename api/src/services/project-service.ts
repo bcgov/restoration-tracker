@@ -448,13 +448,9 @@ export class ProjectService extends DBService {
       )
     );
 
-    // Handle project IUCN classifications
+    // Handle species associated to this survey
     promises.push(
-      Promise.all(
-        postProjectData.iucn.classificationDetails.map((classificationDetail: IPostIUCN) =>
-          this.insertClassificationDetail(classificationDetail.subClassification2, projectId)
-        )
-      )
+      Promise.all(postProjectData.project.species.map((speciesId: number) => this.insertSpecies(speciesId, projectId)))
     );
 
     await Promise.all(promises);
@@ -640,6 +636,25 @@ export class ProjectService extends DBService {
 
     if (!response || !response.rowCount) {
       throw new HTTP400('Failed to insert project team member');
+    }
+  }
+
+  async insertSpecies(species_id: number, projectId: number): Promise<void> {
+    const systemUserId = this.connection.systemUserId();
+
+    if (!systemUserId) {
+      throw new HTTP400('Failed to identify system user ID');
+    }
+    const sqlStatement = queries.project.postProjectSpeciesSQL(species_id, projectId);
+
+    if (!sqlStatement) {
+      throw new HTTP400('Failed to build SQL insert statement');
+    }
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    if (!response || !response.rowCount) {
+      throw new HTTP400('Failed to insert project species');
     }
   }
 

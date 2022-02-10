@@ -57,7 +57,8 @@ export class CodeService extends DBService {
       iucn_conservation_action_level_3_subclassification,
       system_roles,
       project_roles,
-      administrative_activity_status_type
+      administrative_activity_status_type,
+      species
     ] = await Promise.all([
       await this.connection.query(queries.codes.getFirstNationsSQL().text),
       await this.connection.query(queries.codes.getFundingSourceSQL().text),
@@ -67,7 +68,8 @@ export class CodeService extends DBService {
       await this.connection.query(queries.codes.getIUCNConservationActionLevel3SubclassificationSQL().text),
       await this.connection.query(queries.codes.getSystemRolesSQL().text),
       await this.connection.query(queries.codes.getProjectRolesSQL().text),
-      await this.connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text)
+      await this.connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text),
+      await this.connection.query(queries.codes.getTaxonsSQL().text)
     ]);
 
     return {
@@ -88,16 +90,13 @@ export class CodeService extends DBService {
       project_roles: (project_roles && project_roles.rows) || [],
       administrative_activity_status_type:
         (administrative_activity_status_type && administrative_activity_status_type.rows) || [],
+      species: (species && species.rows) || [],
       // TODO Temporarily hard coded list of code values below
       coordinator_agency,
       regions: (await getNRMRegions()) || [],
       ranges: [
         { id: 1, name: 'range 1' },
         { id: 2, name: 'range 2' }
-      ],
-      species: [
-        { id: 1, name: 'species 1' },
-        { id: 2, name: 'species 2' }
       ]
     };
   }
