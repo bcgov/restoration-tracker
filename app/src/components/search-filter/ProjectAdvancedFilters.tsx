@@ -1,44 +1,40 @@
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import {
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  Grid,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Select,
+  Theme,
+  Typography
+} from '@material-ui/core';
 import AutocompleteFreeSoloField from 'components/fields/AutocompleteFreeSoloField';
 import CustomTextField from 'components/fields/CustomTextField';
-import MultiAutocompleteFieldVariableSize, {
-  IMultiAutocompleteFieldOption
-} from 'components/fields/MultiAutocompleteFieldVariableSize';
+import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteField';
+import MultiAutocompleteFieldVariableSize from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import React from 'react';
-export interface IProjectAdvancedFilters {
-  coordinator_agency: string;
-  permit_number: string;
-  start_date: string;
-  end_date: string;
-  keyword: string;
-  project_name: string;
-  agency_id: number;
-  agency_project_id: string;
-  species: number[];
-}
+import { IProjectAdvancedFilters } from './ProjectFilter';
 
-export const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters = {
-  coordinator_agency: '',
-  permit_number: '',
-  start_date: '',
-  end_date: '',
-  keyword: '',
-  project_name: '',
-  agency_id: ('' as unknown) as number,
-  agency_project_id: '',
-  species: []
-};
+const useStyles = makeStyles((theme: Theme) => ({
+  actionButton: {
+    minWidth: '6rem',
+    '& + button': {
+      marginLeft: '0.5rem'
+    }
+  }
+}));
 
 export interface IProjectAdvancedFiltersProps {
   species: IMultiAutocompleteFieldOption[];
   funding_sources: IMultiAutocompleteFieldOption[];
   coordinator_agency: string[];
+  handleFilterUpdate: () => void;
+  handleFilterReset: () => void;
 }
 
 /**
@@ -47,28 +43,18 @@ export interface IProjectAdvancedFiltersProps {
  * @return {*}
  */
 const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) => {
-  const formikProps = useFormikContext<IProjectAdvancedFilters>();
+  const classes = useStyles();
 
-  const { handleSubmit, handleChange, values } = formikProps;
+  const formikProps = useFormikContext<IProjectAdvancedFilters>();
+  const { handleChange, values } = formikProps;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <CustomTextField name="keyword" label="Keyword (or any portion of any word)" />
+    <Box my={3}>
+      <Grid container spacing={3} justify="flex-start">
+        <Grid item xs={12} md={2}>
+          <Typography style={{ fontWeight: 600 }}>Agency</Typography>
         </Grid>
-        <Grid item xs={12} md={3}>
-          <CustomTextField name="project_name" label="Project Name" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <StartEndDateFields
-            formikProps={formikProps}
-            startName={'start_date'}
-            endName={'end_date'}
-            startRequired={false}
-            endRequired={false}
-          />
-        </Grid>
+        <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={3}>
           <AutocompleteFreeSoloField
             id="coordinator_agency"
@@ -78,9 +64,17 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
             required={false}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
-          <CustomTextField name="permit_number" label="Permit Number" />
+      </Grid>
+
+      <Box my={3}>
+        <Divider></Divider>
+      </Box>
+
+      <Grid container spacing={3} justify="flex-start">
+        <Grid item xs={12} md={2}>
+          <Typography style={{ fontWeight: 600 }}>Funding Agencies and Partnerships</Typography>
         </Grid>
+        <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={3}>
           <FormControl fullWidth variant="outlined" required={false}>
             <InputLabel id="agency_id-label">Funding Agency Name</InputLabel>
@@ -89,8 +83,9 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
               name="agency_id"
               labelId="agency_id-label"
               label="Funding Agency Name"
-              value={values.agency_id}
+              value={values.agency_id ?? ''}
               onChange={handleChange}
+              defaultValue=""
               displayEmpty
               inputProps={{ 'aria-label': 'Funding Agency Name', 'data-testid': 'agency-id' }}>
               {props.funding_sources.map((item) => (
@@ -101,14 +96,87 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={3}>
-          <CustomTextField name="agency_project_id" label="Funding Agency Project ID" />
+      </Grid>
+
+      <Box my={3}>
+        <Divider></Divider>
+      </Box>
+
+      <Grid container spacing={3} justify="flex-start">
+        <Grid item xs={12} md={2}>
+          <Typography style={{ fontWeight: 600 }}>Permits</Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={1}></Grid>
+        <Grid item xs={12} md={3}>
+          <CustomTextField name="permit_number" label="Permit Number" />
+        </Grid>
+      </Grid>
+
+      <Box my={3}>
+        <Divider></Divider>
+      </Box>
+
+      <Grid container spacing={3} justify="flex-start">
+        <Grid item xs={12} md={2}>
+          <Typography style={{ fontWeight: 600 }}>Date Range</Typography>
+        </Grid>
+        <Grid item xs={12} md={1}></Grid>
+        <Grid item xs={12} md={6}>
+          <StartEndDateFields
+            formikProps={formikProps}
+            startName={'start_date'}
+            endName={'end_date'}
+            startRequired={false}
+            endRequired={false}
+          />
+        </Grid>
+      </Grid>
+
+      <Box my={3}>
+        <Divider></Divider>
+      </Box>
+
+      <Grid container spacing={3} justify="flex-start">
+        <Grid item xs={12} md={2}>
+          <Typography style={{ fontWeight: 600 }}>Species</Typography>
+        </Grid>
+        <Grid item xs={12} md={1}></Grid>
+        <Grid item xs={12} md={3}>
           <MultiAutocompleteFieldVariableSize id="species" label="Species" options={props.species} required={false} />
         </Grid>
       </Grid>
-    </form>
+
+      <Box my={3}>
+        <Divider></Divider>
+      </Box>
+
+      <Grid container direction="row" justify="flex-end" alignItems="center" spacing={1}>
+        <Grid item xs={1}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            size="medium"
+            fullWidth
+            className={classes.actionButton}
+            onClick={props.handleFilterUpdate}>
+            Apply
+          </Button>
+        </Grid>
+        <Grid item xs={1}>
+          <Button
+            type="reset"
+            variant="outlined"
+            color="primary"
+            size="medium"
+            fullWidth
+            className={classes.actionButton}
+            onClick={props.handleFilterReset}>
+            Reset
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

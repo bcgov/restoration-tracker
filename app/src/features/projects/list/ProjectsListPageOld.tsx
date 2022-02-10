@@ -18,10 +18,10 @@ import { mdiFilterOutline, mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
-import ProjectAdvancedFilters, {
+import ProjectFilter, {
   IProjectAdvancedFilters,
   ProjectAdvancedFiltersInitialValues
-} from 'components/search-filter/ProjectAdvancedFilters';
+} from 'components/search-filter/ProjectFilter';
 import { SystemRoleGuard } from 'components/security/Guards';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ProjectStatusType } from 'constants/misc';
@@ -345,7 +345,7 @@ const ProjectsListPage: React.FC = () => {
                   innerRef={formikRef}
                   initialValues={ProjectAdvancedFiltersInitialValues}
                   onSubmit={handleSubmit}>
-                  <ProjectAdvancedFilters
+                  <ProjectFilter
                     coordinator_agency={
                       codes?.coordinator_agency?.map((item: any) => {
                         return item.name;
@@ -361,6 +361,7 @@ const ProjectsListPage: React.FC = () => {
                         return { value: item.id, label: item.name };
                       }) || []
                     }
+                    filterChipParams={ProjectAdvancedFiltersInitialValues}
                   />
                 </Formik>
                 <Box mt={4} display="flex" alignItems="center" justifyContent="flex-end">

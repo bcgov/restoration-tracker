@@ -1,28 +1,12 @@
-import {
-  Box,
-  Button,
-  Card,
-  Chip,
-  Divider,
-  FormControl,
-  Grid,
-  Input,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography
-} from '@material-ui/core';
+import { Box, Button, Card, Chip, CircularProgress, Grid, Input, Typography } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Icon } from '@mdi/react';
 import { mdiMagnify, mdiMenuDown, mdiMenuUp, mdiClose } from '@mdi/js';
 import { useFormikContext } from 'formik';
 import React, { useEffect, useState } from 'react';
-import CustomTextField from 'components/fields/CustomTextField';
-import StartEndDateFields from 'components/fields/StartEndDateFields';
-import AutocompleteFreeSoloField from 'components/fields/AutocompleteFreeSoloField';
 import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteField';
-import MultiAutocompleteFieldVariableSize from 'components/fields/MultiAutocompleteFieldVariableSize';
+import ProjectAdvancedFilters from './ProjectAdvancedFilters';
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
@@ -30,9 +14,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     '& + button': {
       marginLeft: '0.5rem'
     }
-  },
-  filtersBox: {
-    background: '#f7f8fa'
   },
   keywordSearch: {
     display: 'flex',
@@ -81,6 +62,18 @@ export interface IProjectAdvancedFilters {
   species: number[];
 }
 
+export const ProjectAdvancedFiltersKeyLabels = {
+  coordinator_agency: 'Coordinator Agency',
+  permit_number: 'Permit Number',
+  start_date: 'Start Date',
+  end_date: 'End Date',
+  keyword: 'Keyword',
+  project_name: 'Project Name',
+  agency_id: 'Agency Name',
+  agency_project_id: 'Agency Project',
+  species: 'Species'
+};
+
 export interface IProjectAdvancedFiltersProps {
   species: IMultiAutocompleteFieldOption[];
   funding_sources: IMultiAutocompleteFieldOption[];
@@ -95,29 +88,36 @@ export interface IProjectAdvancedFiltersProps {
  */
 const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const classes = useStyles();
+  const { filterChipParams, coordinator_agency, species, funding_sources } = props;
 
   const [isAdvancedFitersOpen, setIsAdvancedFitersOpen] = useState(false);
   const [isFiltersChipsOpen, setIsFiltersChipsOpen] = useState(false);
-
-  const { filterChipParams } = props;
 
   const formikProps = useFormikContext<IProjectAdvancedFilters>();
   const { handleSubmit, handleChange, handleReset, values } = formikProps;
 
   const handleDelete = (key: string) => {
-    console.log(JSON.stringify(values));
-    values[key] = '';
+    values[key] = ProjectAdvancedFiltersInitialValues[key];
+
     handleChange(values[key]);
-    console.log(JSON.stringify(values));
-    handleSubmit();
+
+    if (JSON.stringify(values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)) {
+      handleFilterReset();
+    }else{
+      handleSubmit();
+    }
   };
 
-  const handleFilterReset= () => {
+  const handleFilterReset = () => {
     setIsFiltersChipsOpen(false);
     handleReset();
   };
 
   const handleFilterUpdate = () => {
+    if (values === ProjectAdvancedFiltersInitialValues) {
+      return;
+    }
+
     setIsFiltersChipsOpen(true);
     setIsAdvancedFitersOpen(false);
     handleSubmit();
@@ -132,6 +132,36 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
 
     setInitialFilterChips();
   }, [filterChipParams]);
+
+  const isValueValid = (value: any): boolean => {
+    if (Array.isArray(value)) {
+      return !!value.length;
+    }
+    return !!value;
+  };
+
+  const generateLabel = (key: string, value: string): string => {
+
+    if(!funding_sources?.entries){
+      return '';
+    }
+
+    const keyLabel = ProjectAdvancedFiltersKeyLabels[key];
+    let valueLabel = '';
+
+    if (key === 'agency_id') {
+      const tempValueFind = funding_sources.filter((item) => item.value === value);
+      valueLabel = tempValueFind[0]?.label || '';
+    } else {
+      valueLabel = value;
+    }
+
+    return `${keyLabel}: ${valueLabel}`;
+  };
+
+  if(!funding_sources){
+    return <CircularProgress className="pageProgress" size={40} />;
+  };
 
 
   return (
@@ -197,114 +227,33 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
                 </Grid>
                 {Object.entries(filterChipParams).map(
                   ([key, value], index) =>
-                    value && (
+                    isValueValid(value) && (
                       <Grid item xs="auto" key={`${key}${index}`}>
                         <Chip
-                          label={`${key}: ${value}`}
+                          label={generateLabel(key, value)}
                           className={classes.chipStyle}
+                          clickable={false}
                           onDelete={() => handleDelete(key)}
-                          deleteIcon={<Icon path={mdiClose} color='white' size={1} />}
+                          deleteIcon={<Icon path={mdiClose} color="white" size={1} />}
                         />
                       </Grid>
                     )
                 )}
                 <Grid item>
-                  <Chip label={'Clear all'} onClick={handleFilterReset}/>
+                  <Chip label={'Clear all'} onClick={handleFilterReset} />
                 </Grid>
               </Grid>
             </Box>
           )}
 
           {isAdvancedFitersOpen && (
-            <Box my={2}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={3}>
-                  <CustomTextField name="project_name" label="Project Name" />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <StartEndDateFields
-                    formikProps={formikProps}
-                    startName={'start_date'}
-                    endName={'end_date'}
-                    startRequired={false}
-                    endRequired={false}
-                  />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <AutocompleteFreeSoloField
-                    id="coordinator_agency"
-                    name="coordinator_agency"
-                    label="Contact Agency"
-                    options={props.coordinator_agency}
-                    required={false}
-                  />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <CustomTextField name="permit_number" label="Permit Number" />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <FormControl fullWidth variant="outlined" required={false}>
-                    <InputLabel id="agency_id-label">Funding Agency Name</InputLabel>
-                    <Select
-                      id="agency_id"
-                      name="agency_id"
-                      labelId="agency_id-label"
-                      label="Funding Agency Name"
-                      value={values.agency_id ?? ''}
-                      onChange={handleChange}
-                      defaultValue=""
-                      displayEmpty
-                      inputProps={{ 'aria-label': 'Funding Agency Name', 'data-testid': 'agency-id' }}>
-                      {props.funding_sources.map((item) => (
-                        <MenuItem key={item.value} value={item.value}>
-                          {item.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <CustomTextField name="agency_project_id" label="Funding Agency Project ID" />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <MultiAutocompleteFieldVariableSize
-                    id="species"
-                    label="Species"
-                    options={props.species}
-                    required={false}
-                  />
-                </Grid>
-              </Grid>
-              <Box my={2}>
-                <Divider></Divider>
-              </Box>
-              <Grid container direction="row" justify="flex-end" alignItems="center" spacing={1}>
-                <Grid item xs={1}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    fullWidth
-                    className={classes.actionButton}
-                    onClick={handleFilterUpdate}>
-                    Apply
-                  </Button>
-                </Grid>
-                <Grid item xs={1}>
-                  <Button
-                    type="reset"
-                    variant="outlined"
-                    color="primary"
-                    size="medium"
-                    fullWidth
-                    className={classes.actionButton}
-                    onClick={handleFilterReset}>
-                    Reset
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
+            <ProjectAdvancedFilters
+              coordinator_agency={coordinator_agency}
+              species={species}
+              funding_sources={funding_sources}
+              handleFilterUpdate={handleFilterUpdate}
+              handleFilterReset={handleFilterReset}
+            />
           )}
         </Box>
       </Card>

@@ -1,4 +1,4 @@
-import { Container, Typography } from '@material-ui/core';
+import { CircularProgress, Container, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import ProjectFilter, {
   IProjectAdvancedFilters,
@@ -18,20 +18,19 @@ import { useHistory, useLocation } from 'react-router';
 import qs from 'qs';
 
 /**
- *
+ * Main Project Page
  */
-const ProjectsPage: React.FC = (props) => {
-  //const classes = useStyles();
+const ProjectsPage: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
+  const restorationTrackerApi = useRestorationTrackerApi();
+  const dialogContext = useContext(DialogContext);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
   const [projects, setProjects] = useState<IGetProjectsListResponse[]>([]);
   const [drafts, setDrafts] = useState<IGetDraftsListResponse[]>([]);
-
-  const restorationTrackerApi = useRestorationTrackerApi();
-  const dialogContext = useContext(DialogContext);
 
   const formikRef = useRef<FormikProps<IProjectAdvancedFilters>>(null);
 
@@ -50,6 +49,10 @@ const ProjectsPage: React.FC = (props) => {
         species: (urlParams.species as unknown) as number[]
       } as IProjectAdvancedFilters;
 
+      if(formikValues.species === undefined){
+        formikValues.species = [];
+      }
+
       return formikValues;
     }
     return ProjectAdvancedFiltersInitialValues;
@@ -58,7 +61,7 @@ const ProjectsPage: React.FC = (props) => {
   const [formikValues, setFormikValues] = useState<IProjectAdvancedFilters>(collectParams);
   const [filterChipValues, setFilterChipValues] = useState<IProjectAdvancedFilters>(collectParams);
 
-  const handleParams = async () => {
+  const handleParams = () => {
     const urlParams = qs.stringify(formikRef.current?.values);
     history.push({
       search: `?${urlParams}`
@@ -73,10 +76,9 @@ const ProjectsPage: React.FC = (props) => {
 
   const handleReset = async () => {
     const projectsResponse = await restorationTrackerApi.project.getProjectsList();
-     setProjects(projectsResponse);
-     setFormikValues(ProjectAdvancedFiltersInitialValues);
-     setFilterChipValues(ProjectAdvancedFiltersInitialValues);
-
+    setProjects(projectsResponse);
+    setFormikValues(ProjectAdvancedFiltersInitialValues);
+    setFilterChipValues(ProjectAdvancedFiltersInitialValues);
     handleResetParams();
   };
 
@@ -85,7 +87,9 @@ const ProjectsPage: React.FC = (props) => {
       return;
     }
 
-    handleParams();
+    if(formikRef?.current.values === ProjectAdvancedFiltersInitialValues){
+      return;
+    }
 
     try {
       const response = await restorationTrackerApi.project.getProjectsList(formikRef.current.values);
@@ -95,6 +99,7 @@ const ProjectsPage: React.FC = (props) => {
       }
 
       setProjects(response);
+      handleParams();
       setFilterChipValues(formikRef.current.values);
     } catch (error) {
       const apiError = error as APIError;
@@ -127,7 +132,6 @@ const ProjectsPage: React.FC = (props) => {
       if (!codesResponse) {
         return;
       }
-
       setCodes(codesResponse);
     };
 
@@ -139,13 +143,10 @@ const ProjectsPage: React.FC = (props) => {
 
   //projects and drafts
   useEffect(() => {
-    const getProjects = async () => {
-      const projectsResponse = await restorationTrackerApi.project.getProjectsList();
-
-      setProjects(() => {
-        setIsLoading(false);
-        return projectsResponse;
-      });
+    const getFilteredProjects = async () => {
+      const projectsResponse = await restorationTrackerApi.project.getProjectsList(formikValues);
+      setIsLoading(false);
+      setProjects(projectsResponse);
     };
 
     const getDrafts = async () => {
@@ -158,10 +159,10 @@ const ProjectsPage: React.FC = (props) => {
     };
 
     if (isLoading) {
-      getProjects();
+      getFilteredProjects();
       getDrafts();
     }
-  }, [restorationTrackerApi, isLoading]);
+  }, [restorationTrackerApi, isLoading, formikValues]);
 
   //Search Params
   useEffect(() => {
@@ -176,18 +177,9 @@ const ProjectsPage: React.FC = (props) => {
     }
   }, [isLoading, location.search, formikValues, collectParams]);
 
-  //reload projects
-  useEffect(() => {
-    const getProjects = async () => {
-      const projectsResponse = await restorationTrackerApi.project.getProjectsList(formikValues);
-      setProjects(projectsResponse);
-      setIsLoading(false);
-    };
-
-    if (isLoading) {
-      getProjects();
-    }
-  }, [formikValues, restorationTrackerApi.project, isLoading]);
+  if(!isLoadingCodes){
+    return <CircularProgress data-testid="project-loading" className="pageProgress" size={40} />;
+  }
 
   return (
     <Container maxWidth="xl">
@@ -229,7 +221,6 @@ const ProjectsPage: React.FC = (props) => {
       <Box m={5}>
         <ProjectsListPage projects={projects} drafts={drafts} />
       </Box>
-      {/* <ProjectAdvancedFilters coordinator_agency={[]} species={[]} funding_sources={[]} /> */}
     </Container>
   );
 };
