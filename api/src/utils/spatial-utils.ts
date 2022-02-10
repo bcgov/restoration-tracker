@@ -1,4 +1,22 @@
-import * as https from 'https';
+import axios from 'axios';
+
+export interface IWFSParams {
+  url?: string;
+  version?: string;
+  srsName?: string;
+  request?: string;
+  outputFormat?: string;
+  bboxSrsName?: string;
+}
+
+export const defaultWFSParams: IWFSParams = {
+  url: 'https://openmaps.gov.bc.ca/geo/pub/wfs',
+  version: '1.3.0',
+  srsName: 'epsg:4326',
+  request: 'GetFeature',
+  outputFormat: 'json',
+  bboxSrsName: 'epsg:4326'
+};
 
 export interface IUTM {
   easting: number;
@@ -120,10 +138,45 @@ export function parseLatLongString(latLong: string): ILatLong | null {
   return { lat, long };
 }
 
-export function getNRMRegions() {
-  const NRM_REGIONS_URL =
-    'https://openmaps.gov.bc.ca/geo/pub/wfs?service=WFS&valueReference=the_geom&version=1.3.0&request=GetFeature&typeName=pub:WHSE_ADMIN_BOUNDARIES.ADM_NR_REGIONS_SPG&outputFormat=json&srsName=epsg:4326';
-  const nrm_regions = https.get(NRM_REGIONS_URL);
+export const getNRMRegions = async () => {
+  const typeName = 'pub:WHSE_ADMIN_BOUNDARIES.ADM_NR_REGIONS_SPG';
 
-  console.log('nrm_regions', nrm_regions);
-}
+  const NRM_REGIONS_URL = buildWFSURLByBoundingBox(typeName, defaultWFSParams);
+
+  try {
+    const response = await axios.get(NRM_REGIONS_URL);
+
+    const features = response.data.features;
+
+    const region_list = features.map((item: any) => {
+      const region = {
+        id: item.properties.OBJECTID,
+        name: item.properties.REGION_NAME
+      };
+      return region;
+    });
+
+    return region_list;
+  } catch (error) {
+    return error;
+  }
+};
+
+/**
+ * Construct a WFS url to fetch layer information based on a bounding box.
+ *
+ * @param {string} typeName layer name
+ * @param {string} bbox bounding box string
+ * @param {IWFSParams} [wfsParams=defaultWFSParams] wfs url parameters. Will use defaults specified in
+ * `defaultWFSParams` for any properties not provided.
+ * @return {*}
+ */
+export const buildWFSURLByBoundingBox = (typeName: string, wfsParams: IWFSParams = defaultWFSParams, bbox?: string) => {
+  const params = { ...defaultWFSParams, ...wfsParams };
+
+  if (!bbox) {
+    return `${params.url}?service=WFS&&version=${params.version}&request=${params.request}&typeName=${typeName}&outputFormat=${params.outputFormat}&srsName=${params.srsName}`;
+  }
+
+  return `${params.url}?service=WFS&&version=${params.version}&request=${params.request}&typeName=${typeName}&outputFormat=${params.outputFormat}&srsName=${params.srsName}&bbox=${bbox},${params.bboxSrsName}`;
+};

@@ -1,8 +1,8 @@
-import { coordinator_agency, regions } from '../constants/codes';
+import { coordinator_agency } from '../constants/codes';
 import { queries } from '../queries/queries';
 import { getLogger } from '../utils/logger';
 import { DBService } from './service';
-//import {getNRMRegions}from './../utils/spatial-utils';
+import { getNRMRegions } from './../utils/spatial-utils';
 
 const defaultLog = getLogger('queries/code-queries');
 
@@ -90,7 +90,7 @@ export class CodeService extends DBService {
         (administrative_activity_status_type && administrative_activity_status_type.rows) || [],
       // TODO Temporarily hard coded list of code values below
       coordinator_agency,
-      regions,
+      regions: (await getNRMRegions()) || [],
       ranges: [
         { id: 1, name: 'range 1' },
         { id: 2, name: 'range 2' }
@@ -102,4 +102,3 @@ export class CodeService extends DBService {
     };
   }
 }
-

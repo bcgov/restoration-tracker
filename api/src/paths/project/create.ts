@@ -7,7 +7,7 @@ import { geoJsonFeature } from '../../openapi/schemas/geoJson';
 import { authorizeRequestHandler } from '../../request-handlers/security/authorization';
 import { ProjectService } from '../../services/project-service';
 import { getLogger } from '../../utils/logger';
-import { getNRMRegions } from './../../utils/spatial-utils';
+//import { getNRMRegions } from './../../utils/spatial-utils';
 
 const defaultLog = getLogger('paths/project/create');
 
@@ -271,13 +271,13 @@ POST.apiDoc = {
  */
 export function createProject(): RequestHandler {
   return async (req, res) => {
+    // const nrm_regions = await getNRMRegions();
+
+    // console.log('NRM regions in the code-service', nrm_regions);
+
     const connection = getDBConnection(req['keycloak_token']);
 
     const sanitizedProjectPostData = new PostProjectObject(req.body);
-
-    const nrm_regions = getNRMRegions();
-
-    console.log('NRM regions in the code-service', nrm_regions);
 
     try {
       await connection.open();
