@@ -1,8 +1,26 @@
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650
+  },
+  heading: {
+    fontWeight: 'bold',
+  },
+  tableCellBorderTop: {
+    borderTop: '100px solid rgba(224, 224, 224, 1)'
+  }
+});
 
 export interface IPublicProjectCoordinatorProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -19,43 +37,49 @@ const PublicProjectCoordinator: React.FC<IPublicProjectCoordinatorProps> = (prop
     projectForViewData: { contact }
   } = props;
 
+  const classes = useStyles();
+
   return (
     <Box>
       <Box mb={2} data-testid="projectContactTitle">
-        <Typography variant="h3">Project Contact</Typography>
+        <Typography variant="h3">Project Contacts</Typography>
       </Box>
-      <dl>
-        <Grid container spacing={2}>
-          {contact.contacts[0].is_public === 'true' && (
-            <>
-              <Grid item xs={12} sm={6} md={4}>
-                <Typography component="dt" variant="subtitle2" color="textSecondary">
-                  Name
-                </Typography>
-                <Typography component="dd" variant="body1">
-                  {contact.contacts[0].first_name} {contact.contacts[0].last_name}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <Typography component="dt" variant="subtitle2" color="textSecondary">
-                  Email Address
-                </Typography>
-                <Typography component="dd" variant="body1">
-                  {contact.contacts[0].email_address}
-                </Typography>
-              </Grid>
-            </>
-          )}
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary">
-              Agency
-            </Typography>
+      {contact.contacts.length ? (
+        <TableContainer>
+          <Table className={classes.table} aria-label="permits-list-table">
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.heading}>Name</TableCell>
+                <TableCell className={classes.heading}>Email Address</TableCell>
+                <TableCell className={classes.heading}>Agency</TableCell>
+              </TableRow>
+            </TableHead>
+            {contact.contacts.map((item, i) => (
+              <TableBody key={i}>
+                <TableRow>
+                  <TableCell component="th" scope="row">
+                    {item.first_name} {item.last_name}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {item.email_address}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {item.agency}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            ))}
+          </Table>
+        </TableContainer>
+      ): (
+        <Box component="ul" className="listNoBullets">
+          <Box component="li">
             <Typography component="dd" variant="body1">
-              {contact.contacts[0].agency}
+              No Contacts
             </Typography>
-          </Grid>
-        </Grid>
-      </dl>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };

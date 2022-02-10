@@ -336,16 +336,14 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       p.name,
       p.start_date,
       p.end_date,
-      pc.agency,
+      string_agg(DISTINCT pc.agency, ', ') as agency_list,
       string_agg(DISTINCT pp.number, ', ') as permits_list
     from
       project as p
     left outer join permit as pp
       on p.project_id = pp.project_id
     left outer join project_contact as pc
-      on pc.project_id = p.project_id
-    where
-      pc.is_public = 'Y'
+      on p.project_id = pc.project_id
   `;
 
   sqlStatement.append(SQL`
@@ -353,8 +351,7 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       p.project_id,
       p.name,
       p.start_date,
-      p.end_date,
-      pc.agency
+      p.end_date
   `);
 
   defaultLog.debug({

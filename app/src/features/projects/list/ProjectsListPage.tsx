@@ -291,7 +291,7 @@ const ProjectsListPage: React.FC = () => {
                     </Link>
                   </TableCell>
                   <TableCell>{row.permits_list}</TableCell>
-                  <TableCell>{row.coordinator_agency}</TableCell>
+                  <TableCell>{row.contact_agency_list}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.end_date)}</TableCell>
                   <TableCell>{getChipIcon(row.completion_status)}</TableCell>

@@ -60,8 +60,8 @@ export const getProjectListSQL = (
       p.name,
       p.start_date,
       p.end_date,
-      pc.agency,
       p.publish_timestamp,
+      string_agg(DISTINCT pc.agency, ', ') as agency_list,
       string_agg(DISTINCT pp.number, ', ') as permits_list
     from
       project as p
@@ -141,7 +141,6 @@ export const getProjectListSQL = (
       p.name,
       p.start_date,
       p.end_date,
-      pc.agency,
       p.publish_timestamp
   `);
 

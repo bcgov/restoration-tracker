@@ -107,7 +107,7 @@ export function _extractProjects(rows: any[]): any[] {
       name: row.name,
       start_date: row.start_date,
       end_date: row.end_date,
-      contact_agency: row.agency,
+      contact_agency_list: row.agency_list,
       completion_status:
         (row.end_date && moment(row.end_date).endOf('day').isBefore(moment()) && COMPLETION_STATUS.COMPLETED) ||
         COMPLETION_STATUS.ACTIVE,

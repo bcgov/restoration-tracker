@@ -35,34 +35,34 @@ const useStyles = makeStyles((theme: Theme) =>
  *
  * @return {*}
  */
-const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
-  const {
-    projectForViewData: { contact }
-  } = props;
+const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = ({ projectForViewData }) => {
+  const { contact } = projectForViewData;
   const classes = useStyles();
 
   return (
-    <>
-      <ul className={classes.projectContactList}>
-        <Box component="li" display="flex" flexDirection="row">
-          <Box mr={2}>
-            <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
+    <>{
+      contact.contacts.map(contactDetails =>
+        <ul className={classes.projectContactList}>
+          <Box component="li" display="flex" flexDirection="row">
+            <Box mr={2}>
+              <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
+            </Box>
+            <div>
+              <div>
+                <strong data-testid="coordinator_name">
+                  {' '}
+                  {contactDetails.first_name} {contactDetails.last_name}
+                </strong>
+              </div>
+              <div>
+                <Link href="#">{contactDetails.email_address}</Link>
+              </div>
+              <div>{contactDetails.agency}</div>
+            </div>
           </Box>
-          <div>
-            <div>
-              <strong data-testid="coordinator_name">
-                {' '}
-                {contact.contacts[0].first_name} {contact.contacts[0].last_name}
-              </strong>
-            </div>
-            <div>
-              <Link href="#">{contact.contacts[0].email_address}</Link>
-            </div>
-            <div>{contact.contacts[0].agency}</div>
-          </div>
-        </Box>
-      </ul>
-    </>
+        </ul>
+      )
+    }</>
   );
 };
 

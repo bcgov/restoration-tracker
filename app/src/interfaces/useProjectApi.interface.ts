@@ -66,7 +66,7 @@ export interface IGetProjectsListResponse {
   name: string;
   start_date: string;
   end_date: string;
-  coordinator_agency: string;
+  contact_agency_list: string;
   permits_list: string;
   publish_status: string;
   completion_status: string;
