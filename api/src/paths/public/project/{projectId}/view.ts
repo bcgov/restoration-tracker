@@ -1,17 +1,8 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { getAPIUserDBConnection } from '../../../../database/db';
-import { HTTP400 } from '../../../../errors/custom-error';
-import {
-  GetFundingData,
-  GetIUCNClassificationData,
-  GetLocationData,
-  GetPartnershipsData,
-  GetPermitData
-} from '../../../../models/project-view';
-import { GetPublicCoordinatorData, GetPublicProjectData } from '../../../../models/public/project';
 import { geoJsonFeature } from '../../../../openapi/schemas/geoJson';
-import { queries } from '../../../../queries/queries';
+import { ProjectService } from '../../../../services/project-service';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('paths/public/project/{projectId}/view');
@@ -39,27 +30,17 @@ GET.apiDoc = {
           schema: {
             title: 'Project get response object, for view purposes',
             type: 'object',
-            required: [
-              'id',
-              'project',
-              'permit',
-              'coordinator',
-              'objectives',
-              'location',
-              'iucn',
-              'funding',
-              'partnerships'
-            ],
+            required: ['project', 'permit', 'coordinator', 'location', 'iucn', 'funding', 'partnerships'],
             properties: {
-              id: {
-                description: 'Project id',
-                type: 'number'
-              },
               project: {
                 description: 'Basic project metadata',
                 type: 'object',
-                required: ['project_name', 'start_date', 'end_date', 'completion_status', 'publish_date'],
+                required: ['project_id', 'project_name', 'start_date', 'end_date', 'publish_date'],
                 properties: {
+                  id: {
+                    description: 'Project id',
+                    type: 'number'
+                  },
                   project_name: {
                     type: 'string'
                   },
@@ -73,32 +54,38 @@ GET.apiDoc = {
                     format: 'date',
                     description: 'ISO 8601 date string for the project end date'
                   },
-                  completion_status: {
-                    description: 'Status of the project being active/completed',
+                  objectives: {
                     type: 'string'
                   },
                   publish_date: {
                     description: 'Status of the project being published/unpublished',
+                    nullable: true,
                     format: 'date',
                     type: 'string'
+                  },
+                  revision_count: {
+                    type: 'number'
                   }
                 }
               },
-              permit: {
+              iucn: {
+                description: 'The International Union for Conservation of Nature number',
                 type: 'object',
-                required: ['permits'],
+                required: ['classificationDetails'],
                 properties: {
-                  permits: {
+                  classificationDetails: {
                     type: 'array',
                     items: {
-                      title: 'Project permit',
                       type: 'object',
                       properties: {
-                        permit_number: {
-                          type: 'string'
+                        classification: {
+                          type: 'number'
                         },
-                        permit_type: {
-                          type: 'string'
+                        subClassification1: {
+                          type: 'number'
+                        },
+                        subClassification2: {
+                          type: 'number'
                         }
                       }
                     }
@@ -125,39 +112,27 @@ GET.apiDoc = {
                   share_contact_details: {
                     type: 'string',
                     enum: ['true', 'false']
+                  },
+                  revision_count: {
+                    type: 'number'
                   }
                 }
               },
-              location: {
-                description: 'The project location object',
+              permit: {
                 type: 'object',
-                required: ['geometry'],
+                required: ['permits'],
                 properties: {
-                  geometry: {
+                  permits: {
                     type: 'array',
                     items: {
-                      ...(geoJsonFeature as object)
-                    }
-                  }
-                }
-              },
-              iucn: {
-                description: 'The International Union for Conservation of Nature number',
-                type: 'object',
-                required: ['classificationDetails'],
-                properties: {
-                  classificationDetails: {
-                    type: 'array',
-                    items: {
+                      title: 'Project permit',
+                      required: ['permit_number', 'permit_type'],
                       type: 'object',
                       properties: {
-                        classification: {
+                        permit_number: {
                           type: 'string'
                         },
-                        subClassification1: {
-                          type: 'string'
-                        },
-                        subClassification2: {
+                        permit_type: {
                           type: 'string'
                         }
                       }
@@ -174,6 +149,7 @@ GET.apiDoc = {
                     type: 'array',
                     items: {
                       type: 'object',
+                      required: [], // TODO double check which fields are required
                       properties: {
                         id: {
                           type: 'number'
@@ -222,13 +198,26 @@ GET.apiDoc = {
                   indigenous_partnerships: {
                     type: 'array',
                     items: {
-                      type: 'string'
+                      type: 'number'
                     }
                   },
                   stakeholder_partnerships: {
                     type: 'array',
                     items: {
                       type: 'string'
+                    }
+                  }
+                }
+              },
+              location: {
+                description: 'The project location object',
+                type: 'object',
+                required: ['geometry'],
+                properties: {
+                  geometry: {
+                    type: 'array',
+                    items: {
+                      ...(geoJsonFeature as object)
                     }
                   }
                 }
@@ -266,104 +255,17 @@ export function getPublicProjectForView(): RequestHandler {
     const connection = getAPIUserDBConnection();
 
     try {
-      const getProjectSQLStatement = queries.public.getPublicProjectSQL(Number(req.params.projectId));
-      const getProjectPermitsSQLStatement = queries.public.getPublicProjectPermitsSQL(Number(req.params.projectId));
-      const getProjectLocationSQLStatement = queries.public.getLocationByPublicProjectSQL(Number(req.params.projectId));
-      const getProjectIUCNActionClassificationSQLStatement = queries.public.getIUCNActionClassificationByPublicProjectSQL(
-        Number(req.params.projectId)
-      );
-      const getProjectFundingSourceSQLStatement = queries.public.getFundingSourceByPublicProjectSQL(
-        Number(req.params.projectId)
-      );
-      const getProjectIndigenousPartnershipsSQLStatement = queries.public.getIndigenousPartnershipsByPublicProjectSQL(
-        Number(req.params.projectId)
-      );
-      const getProjectStakeholderPartnershipsSQLStatement = queries.public.getStakeholderPartnershipsByPublicProjectSQL(
-        Number(req.params.projectId)
-      );
-
-      if (
-        !getProjectSQLStatement ||
-        !getProjectPermitsSQLStatement ||
-        !getProjectLocationSQLStatement ||
-        !getProjectIUCNActionClassificationSQLStatement ||
-        !getProjectFundingSourceSQLStatement ||
-        !getProjectIndigenousPartnershipsSQLStatement ||
-        !getProjectStakeholderPartnershipsSQLStatement
-      ) {
-        throw new HTTP400('Failed to build SQL get statement');
-      }
-
       await connection.open();
 
-      const [
-        projectData,
-        permitData,
-        locationData,
-        iucnClassificationData,
-        fundingData,
-        indigenousPartnerships,
-        stakeholderPartnerships
-      ] = await Promise.all([
-        await connection.query(getProjectSQLStatement.text, getProjectSQLStatement.values),
-        await connection.query(getProjectPermitsSQLStatement.text, getProjectPermitsSQLStatement.values),
-        await connection.query(getProjectLocationSQLStatement.text, getProjectLocationSQLStatement.values),
-        await connection.query(
-          getProjectIUCNActionClassificationSQLStatement.text,
-          getProjectIUCNActionClassificationSQLStatement.values
-        ),
-        await connection.query(getProjectFundingSourceSQLStatement.text, getProjectFundingSourceSQLStatement.values),
-        await connection.query(
-          getProjectIndigenousPartnershipsSQLStatement.text,
-          getProjectIndigenousPartnershipsSQLStatement.values
-        ),
-        await connection.query(
-          getProjectStakeholderPartnershipsSQLStatement.text,
-          getProjectStakeholderPartnershipsSQLStatement.values
-        )
-      ]);
+      const projectService = new ProjectService(connection);
+
+      const result = await projectService.getProjectById(Number(req.params.projectId));
 
       await connection.commit();
 
-      const getProjectData = (projectData && projectData.rows && new GetPublicProjectData(projectData.rows[0])) || null;
-
-      const getPermitData = (permitData && permitData.rows && new GetPermitData(permitData.rows)) || null;
-
-      const getLocationData = (locationData && locationData.rows && new GetLocationData(locationData.rows)) || null;
-
-      const getCoordinatorData =
-        (projectData && projectData.rows && new GetPublicCoordinatorData(projectData.rows[0])) || null;
-
-      const getPartnershipsData =
-        (indigenousPartnerships &&
-          indigenousPartnerships.rows &&
-          stakeholderPartnerships &&
-          stakeholderPartnerships.rows &&
-          new GetPartnershipsData(indigenousPartnerships.rows, stakeholderPartnerships.rows)) ||
-        null;
-
-      const getIUCNClassificationData =
-        (iucnClassificationData &&
-          iucnClassificationData.rows &&
-          new GetIUCNClassificationData(iucnClassificationData.rows)) ||
-        null;
-
-      const getFundingData = (fundingData && fundingData.rows && new GetFundingData(fundingData.rows)) || null;
-
-      const result = {
-        id: req.params.projectId,
-        project: getProjectData,
-        permit: getPermitData,
-        coordinator: getCoordinatorData,
-        location: getLocationData,
-        iucn: getIUCNClassificationData,
-        funding: getFundingData,
-        partnerships: getPartnershipsData
-      };
-
       return res.status(200).json(result);
     } catch (error) {
-      defaultLog.error({ label: 'getPublicProjectForView', message: 'error', error });
+      defaultLog.error({ label: 'viewProject', message: 'error', error });
       throw error;
     } finally {
       connection.release();

@@ -347,8 +347,6 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       project as p
     left outer join permit as pp
       on p.project_id = pp.project_id
-    where
-      p.publish_timestamp is not null
   `;
 
   sqlStatement.append(SQL`
