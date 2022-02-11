@@ -18,7 +18,9 @@ export interface IProjectGeneralInformationForm {
     start_date: string;
     end_date: string;
     objectives: string;
-    species: string[];
+  };
+  species: {
+    focal_species: string[];
   };
 }
 
@@ -27,8 +29,10 @@ export const ProjectGeneralInformationFormInitialValues: IProjectGeneralInformat
     project_name: '',
     start_date: '',
     end_date: '',
-    objectives: '',
-    species: []
+    objectives: ''
+  },
+  species: {
+    focal_species: []
   }
 };
 
@@ -40,11 +44,13 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
     objectives: yup
       .string()
       .max(3000, 'Cannot exceed 3000 characters')
-      .required('You must provide objectives for the project'),
-
-    species: yup.array().min(1, 'You must specify a focal species').required('Required')
+      .required('You must provide objectives for the project')
+  }),
+  species: yup.object().shape({
+    focal_species: yup.array().min(1, 'You must specify a focal species').required('Required')
   })
 });
+
 /**
  * Create project - General information section
  *
@@ -87,7 +93,7 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
               <MultiAutocompleteFieldVariableSize
-                id="project.species"
+                id="species.focal_species"
                 label="Focal Species"
                 options={props.species}
                 required={true}

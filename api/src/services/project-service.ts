@@ -18,7 +18,8 @@ import {
   GetLocationData,
   GetPartnershipsData,
   GetPermitData,
-  GetProjectData
+  GetProjectData,
+  GetSpeciesData
 } from '../models/project-view';
 import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
@@ -147,6 +148,7 @@ export class ProjectService extends DBService {
   async getProjectById(projectId: number) {
     const [
       projectData,
+      speciesData,
       iucnData,
       coordinatorData,
       permitData,
@@ -155,6 +157,7 @@ export class ProjectService extends DBService {
       locationData
     ] = await Promise.all([
       this.getProjectData(projectId),
+      this.getSpeciesData(projectId),
       this.getIUCNClassificationData(projectId),
       this.getCoordinatorData(projectId),
       this.getPermitData(projectId),
@@ -165,6 +168,7 @@ export class ProjectService extends DBService {
 
     return {
       project: projectData,
+      species: speciesData,
       iucn: iucnData,
       coordinator: coordinatorData,
       permit: permitData,
@@ -178,7 +182,7 @@ export class ProjectService extends DBService {
     const sqlStatement = queries.project.getProjectSQL(projectId);
 
     if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL insert statement');
+      throw new HTTP400('Failed to build SQL get statement');
     }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
@@ -190,6 +194,35 @@ export class ProjectService extends DBService {
     }
 
     return new GetProjectData(result);
+  }
+
+  async getSpeciesData(projectId: number): Promise<GetSpeciesData> {
+    const sqlStatement = SQL`
+      SELECT
+       *
+      FROM
+        wldtaxonomic_units as wtu
+      LEFT OUTER JOIN
+        project_species as ps
+      ON
+        ps.wldtaxonomic_units_id = wtu.wldtaxonomic_units_id
+      WHERE
+        ps.project_id = ${projectId};
+      `;
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    console.log('species response is : ', response);
+
+    const result = response.rows || null;
+
+    console.log('species result is :', result);
+
+    if (!result) {
+      throw new HTTP400('Failed to get species data');
+    }
+
+    return new GetSpeciesData(result);
   }
 
   async getIUCNClassificationData(projectId: number): Promise<GetIUCNClassificationData> {
@@ -264,7 +297,11 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
+    console.log('permit response:', response);
+
     const result = (response && response.rows) || null;
+
+    console.log('permit result :', result);
 
     if (!result) {
       throw new HTTP400('Failed to get project permit data');

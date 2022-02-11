@@ -50,7 +50,7 @@ GET.apiDoc = {
           schema: {
             title: 'Project get response object, for view purposes',
             type: 'object',
-            required: ['project', 'permit', 'coordinator', 'location', 'iucn', 'funding', 'partnerships'],
+            required: ['project', 'species', 'permit', 'coordinator', 'location', 'iucn', 'funding', 'partnerships'],
             properties: {
               project: {
                 description: 'Basic project metadata',
@@ -85,6 +85,19 @@ GET.apiDoc = {
                   },
                   revision_count: {
                     type: 'number'
+                  }
+                }
+              },
+              species: {
+                description: 'The project species',
+                type: 'object',
+                required: ['focal_species'],
+                properties: {
+                  focal_species: {
+                    type: 'array',
+                    items: {
+                      type: 'string'
+                    }
                   }
                 }
               },
@@ -280,6 +293,8 @@ export function viewProject(): RequestHandler {
       const projectService = new ProjectService(connection);
 
       const result = await projectService.getProjectById(Number(req.params.projectId));
+
+      console.log('view project result is: ', result);
 
       await connection.commit();
 

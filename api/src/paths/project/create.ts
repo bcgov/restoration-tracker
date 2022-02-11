@@ -41,7 +41,7 @@ POST.apiDoc = {
           title: 'Project post request object',
           type: 'object',
           //required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
-          required: ['project', 'iucn', 'permit', 'funding', 'partnerships', 'location'],
+          required: ['project', 'species', 'iucn', 'permit', 'funding', 'partnerships', 'location'],
           additionalProperties: false,
           properties: {
             project: {
@@ -61,8 +61,16 @@ POST.apiDoc = {
                 },
                 objectives: {
                   type: 'string'
-                },
-                species: {
+                }
+              }
+            },
+            species: {
+              title: 'Project species',
+              type: 'object',
+              required: ['focal_species'],
+              additionalProperties: false,
+              properties: {
+                focal_species: {
                   type: 'array',
                   items: {
                     type: 'number'
