@@ -78,9 +78,9 @@ export async function up(knex: Knex): Promise<void> {
     path.join(__dirname, DB_RELEASE, 'populate_linear_feature_type.sql')
   );
   const populate_contact_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_contact_type.sql'));
-  const populate_project_caribou_population_unit = fs.readFileSync(
-    path.join(__dirname, DB_RELEASE, 'populate_project_caribou_population_unit.sql')
-  );
+  /*  const populate_caribou_population_unit = fs.readFileSync(
+    path.join(__dirname, DB_RELEASE, 'populate_\dtcaribou_population_unit.sql')
+  );*/
   const populate_wldtaxonomic_units = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_wldtaxonomic_units.sql')
   );
@@ -134,7 +134,7 @@ export async function up(knex: Knex): Promise<void> {
     ${api_delete_project}
 
     -- populate look up tables
-    set search_path = restoration;
+    set search_path = restoration, public;
     ${populate_system_constants}
     ${populate_first_nations}
     ${populate_funding_source}
@@ -150,7 +150,6 @@ export async function up(knex: Knex): Promise<void> {
     ${populate_treatment_type}
     ${populate_linear_feature_type}
     ${populate_contact_type}
-    ${populate_project_caribou_population_unit}
 
     -- temporary external interface tables
     ${populate_wldtaxonomic_units}
