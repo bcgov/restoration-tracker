@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as listAttachments from './list';
-import * as db from '../../../../database/db';
+
 import project_queries from '../../../../queries/project';
 import SQL from 'sql-template-strings';
 import { getMockDBConnection } from '../../../../__mocks__/db';
@@ -12,8 +12,6 @@ import { HTTPError } from '../../../../errors/custom-error';
 chai.use(sinonChai);
 
 describe('lists the project attachments', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {},
     body: {},
@@ -39,8 +37,7 @@ describe('lists the project attachments', () => {
   });
 
   it('should throw a 400 error when no sql statement returned for getProjectAttachmentsSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -75,8 +72,7 @@ describe('lists the project attachments', () => {
       ]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -118,8 +114,7 @@ describe('lists the project attachments', () => {
       ]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -150,8 +145,7 @@ describe('lists the project attachments', () => {
 
     mockQuery.resolves({ rows: undefined });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -168,8 +162,6 @@ describe('lists the project attachments', () => {
   });
 
   it('should throw a 400 error when no projectId is provided', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = listAttachments.getAttachments();
       await result(

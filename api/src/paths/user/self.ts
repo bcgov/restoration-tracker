@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { getDBConnection } from '../../database/db';
+import { KnexDBConnection } from '../../database/knex-db';
 import { HTTP400 } from '../../errors/custom-error';
 import { authorizeRequestHandler } from '../../request-handlers/security/authorization';
 import { UserService } from '../../services/user-service';
@@ -94,7 +94,7 @@ GET.apiDoc = {
  */
 export function getUser(): RequestHandler {
   return async (req, res) => {
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -120,8 +120,6 @@ export function getUser(): RequestHandler {
       defaultLog.error({ label: 'getUser', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

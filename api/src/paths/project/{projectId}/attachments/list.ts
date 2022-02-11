@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../constants/roles';
-import { getDBConnection } from '../../../../database/db';
+import { KnexDBConnection } from '../../../../database/knex-db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { GetAttachmentsData } from '../../../../models/project-attachments';
 import { queries } from '../../../../queries/queries';
@@ -84,7 +84,7 @@ export function getAttachments(): RequestHandler {
       throw new HTTP400('Missing required path param `projectId`');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsSQL(Number(req.params.projectId));
@@ -110,8 +110,6 @@ export function getAttachments(): RequestHandler {
       defaultLog.error({ label: 'getProjectAttachments', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

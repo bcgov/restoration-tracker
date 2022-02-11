@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as list from './list';
-import * as db from '../../../../../database/db';
+
 import public_queries from '../../../../../queries/public';
 import SQL from 'sql-template-strings';
 import { getMockDBConnection } from '../../../../../__mocks__/db';
@@ -12,8 +12,6 @@ import { HTTPError } from '../../../../../errors/custom-error';
 chai.use(sinonChai);
 
 describe('getPublicProjectAttachments', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {},
     body: {},
@@ -39,8 +37,6 @@ describe('getPublicProjectAttachments', () => {
   });
 
   it('should throw a 400 error when no projectId is provided', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = list.getPublicProjectAttachments();
       await result(
@@ -56,8 +52,7 @@ describe('getPublicProjectAttachments', () => {
   });
 
   it('should throw a 400 error when no sql statement returned for getProjectAttachmentsSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -92,8 +87,7 @@ describe('getPublicProjectAttachments', () => {
       ]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -135,8 +129,7 @@ describe('getPublicProjectAttachments', () => {
       ]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -167,8 +160,7 @@ describe('getPublicProjectAttachments', () => {
 
     mockQuery.resolves({ rows: undefined });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },

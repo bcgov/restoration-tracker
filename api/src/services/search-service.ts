@@ -1,5 +1,4 @@
 import { Knex } from 'knex';
-import { KnexDBConnection } from '../database/knex-db';
 import { DBService } from './service';
 
 export type ProjectSearchCriteria = {
@@ -10,7 +9,7 @@ export type ProjectSearchCriteria = {
   end_date?: string;
 };
 
-export class SearchService extends DBService<KnexDBConnection> {
+export class SearchService extends DBService {
   /**
    * Returns a Knex query builder that returns project_ids that match the provided search `criteria`.
    *

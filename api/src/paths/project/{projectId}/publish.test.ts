@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as publish from './publish';
-import * as db from '../../../database/db';
+
 import project_queries from '../../../queries/project';
 import { QueryResult } from 'pg';
 import SQL from 'sql-template-strings';
@@ -11,8 +11,6 @@ import { getMockDBConnection } from '../../../__mocks__/db';
 import { HTTPError } from '../../../errors/custom-error';
 
 chai.use(sinonChai);
-
-const dbConnectionObj = getMockDBConnection();
 
 const sampleReq = {
   keycloak_token: {},
@@ -44,8 +42,7 @@ describe('project/{projectId}/publish', () => {
   });
 
   it('should throw a 400 error when missing request param projectId', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -67,8 +64,7 @@ describe('project/{projectId}/publish', () => {
   });
 
   it('should throw a 400 error when missing request body', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -90,8 +86,7 @@ describe('project/{projectId}/publish', () => {
   });
 
   it('should throw a 400 error when missing publish flag in request body', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -113,8 +108,7 @@ describe('project/{projectId}/publish', () => {
   });
 
   it('should throw a 400 error when no sql statement produced', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -133,8 +127,7 @@ describe('project/{projectId}/publish', () => {
   });
 
   it('should throw a 500 error when no result', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -159,8 +152,7 @@ describe('project/{projectId}/publish', () => {
   });
 
   it('should return the project id on success', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },

@@ -1,4 +1,4 @@
-import { IDBConnection } from '../database/db';
+import { KnexDBConnection } from '../database/knex-db';
 import { HTTP400 } from '../errors/custom-error';
 import { queries } from '../queries/queries';
 
@@ -6,12 +6,12 @@ import { queries } from '../queries/queries';
  * Get db character metadata constants.
  *
  * @param {string} constantName
- * @param {IDBConnection} connection
+ * @param {KnexDBConnection} connection
  * @return {*} {Promise<void>}
  */
 export const getDbCharacterSystemMetaDataConstant = async (
   constantName: string,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ): Promise<string | null> => {
   const sqlStatement = queries.codes.getDbCharacterSystemMetaDataConstantSQL(constantName);
 

@@ -2,13 +2,12 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as get_signed_url from './getSignedUrl';
-import * as db from '../../../../../../database/db';
-import public_queries from '../../../../../../queries/public';
 import SQL from 'sql-template-strings';
+import { HTTPError } from '../../../../../../errors/custom-error';
+import public_queries from '../../../../../../queries/public';
 import * as file_utils from '../../../../../../utils/file-utils';
 import { getMockDBConnection } from '../../../../../../__mocks__/db';
-import { HTTPError } from '../../../../../../errors/custom-error';
+import * as get_signed_url from './getSignedUrl';
 
 chai.use(sinonChai);
 
@@ -16,8 +15,6 @@ describe('getAttachmentSignedURL', () => {
   afterEach(() => {
     sinon.restore();
   });
-
-  const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
     keycloak_token: {},
@@ -40,8 +37,6 @@ describe('getAttachmentSignedURL', () => {
   };
 
   it('should throw an error when projectId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = get_signed_url.getAttachmentSignedURL();
 
@@ -58,8 +53,6 @@ describe('getAttachmentSignedURL', () => {
   });
 
   it('should throw an error when attachmentId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = get_signed_url.getAttachmentSignedURL();
 
@@ -80,8 +73,7 @@ describe('getAttachmentSignedURL', () => {
 
     mockQuery.resolves({ rows: [{ key: 's3Key' }] });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -100,8 +92,7 @@ describe('getAttachmentSignedURL', () => {
 
   describe('attachments', () => {
     it('should throw a 400 error when no sql statement returned', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         }
@@ -125,8 +116,7 @@ describe('getAttachmentSignedURL', () => {
 
       mockQuery.resolves({ rows: [{ key: 's3Key' }] });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },

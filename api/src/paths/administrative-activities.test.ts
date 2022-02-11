@@ -2,12 +2,11 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as administrative_activities from './administrative-activities';
-import administrative_queries from '../queries/administrative-activity';
-import * as db from '../database/db';
-import { getMockDBConnection } from '../__mocks__/db';
 import SQL from 'sql-template-strings';
 import { HTTPError } from '../errors/custom-error';
+import administrative_queries from '../queries/administrative-activity';
+import { getMockDBConnection } from '../__mocks__/db';
+import * as administrative_activities from './administrative-activities';
 
 chai.use(sinonChai);
 
@@ -15,8 +14,6 @@ describe('getAdministrativeActivities', () => {
   afterEach(() => {
     sinon.restore();
   });
-
-  const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
     keycloak_token: {},
@@ -39,7 +36,8 @@ describe('getAdministrativeActivities', () => {
   };
 
   it('should throw a 400 error when failed to build getAdministrativeActivitiesSQL statement', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+    getMockDBConnection();
+
     sinon.stub(administrative_queries, 'getAdministrativeActivitiesSQL').returns(null);
 
     try {
@@ -63,7 +61,7 @@ describe('getAdministrativeActivities', () => {
       rowCount: 0
     });
 
-    sinon.stub(db, 'getDBConnection').returns({ ...dbConnectionObj, query: mockQuery });
+    getMockDBConnection({ query: mockQuery });
 
     const result = administrative_activities.getAdministrativeActivities();
 
@@ -94,7 +92,7 @@ describe('getAdministrativeActivities', () => {
       rowCount: 1
     });
 
-    sinon.stub(db, 'getDBConnection').returns({ ...dbConnectionObj, query: mockQuery });
+    getMockDBConnection({ query: mockQuery });
 
     const result = administrative_activities.getAdministrativeActivities();
 

@@ -2,18 +2,15 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as drafts from './drafts';
-import * as db from '../database/db';
-import draft_queries from '../queries/project/draft';
 import SQL from 'sql-template-strings';
-import { getMockDBConnection } from '../__mocks__/db';
 import { HTTPError } from '../errors/custom-error';
+import draft_queries from '../queries/project/draft';
+import { getMockDBConnection } from '../__mocks__/db';
+import * as drafts from './drafts';
 
 chai.use(sinonChai);
 
 describe('drafts', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {}
   } as any;
@@ -36,9 +33,9 @@ describe('drafts', () => {
     });
 
     it('should throw a 400 error when no system user id', async () => {
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
       try {
+        getMockDBConnection();
+
         const result = drafts.getDraftList();
 
         await result(sampleReq, (null as unknown) as any, (null as unknown) as any);
@@ -50,8 +47,7 @@ describe('drafts', () => {
     });
 
     it('should throw a 400 error when no sql statement produced', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         }
@@ -70,8 +66,7 @@ describe('drafts', () => {
     });
 
     it('should throw a 400 error when no rows in result', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },
@@ -96,8 +91,7 @@ describe('drafts', () => {
     });
 
     it('should return result on success', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },

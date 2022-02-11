@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import moment from 'moment';
 import { COMPLETION_STATUS } from '../../constants/status';
-import { getAPIUserDBConnection } from '../../database/db';
+import { APIKnexDBConnection } from '../../database/knex-db';
 import { HTTP400 } from '../../errors/custom-error';
 import { projectIdResponseObject } from '../../openapi/schemas/project';
 import { queries } from '../../queries/queries';
@@ -54,7 +54,7 @@ GET.apiDoc = {
  */
 export function getPublicProjectsList(): RequestHandler {
   return async (req, res) => {
-    const connection = getAPIUserDBConnection();
+    const connection = new APIKnexDBConnection();
 
     try {
       const getProjectListSQLStatement = queries.public.getPublicProjectListSQL();
@@ -81,8 +81,6 @@ export function getPublicProjectsList(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'getProjectList', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

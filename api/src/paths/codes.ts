@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { getAPIUserDBConnection } from '../database/db';
+import { APIKnexDBConnection } from '../database/knex-db';
 import { HTTP500 } from '../errors/custom-error';
 import { CodeService } from '../services/code-service';
 import { getLogger } from '../utils/logger';
@@ -232,7 +232,7 @@ GET.apiDoc = {
  */
 export function getAllCodes(): RequestHandler {
   return async (req, res) => {
-    const connection = getAPIUserDBConnection();
+    const connection = new APIKnexDBConnection();
 
     try {
       await connection.open();
@@ -252,8 +252,6 @@ export function getAllCodes(): RequestHandler {
       defaultLog.error({ label: 'getAllCodes', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

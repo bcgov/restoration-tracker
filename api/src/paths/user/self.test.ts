@@ -2,7 +2,6 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../../database/db';
 import { HTTPError } from '../../errors/custom-error';
 import { UserService } from '../../services/user-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../__mocks__/db';
@@ -16,11 +15,9 @@ describe('getUser', () => {
   });
 
   it('should throw a 400 error when no system user id', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     try {
       const requestHandler = self.getUser();
@@ -34,11 +31,9 @@ describe('getUser', () => {
   });
 
   it('should throw a 400 error when no sql statement produced', async () => {
-    const dbConnectionObj = getMockDBConnection({ systemUserId: () => 1 });
+    getMockDBConnection({ systemUserId: () => 1 });
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(UserService.prototype, 'getUserById').resolves(null);
 
@@ -54,11 +49,9 @@ describe('getUser', () => {
   });
 
   it('should return the user row on success', async () => {
-    const dbConnectionObj = getMockDBConnection({ systemUserId: () => 1 });
+    getMockDBConnection({ systemUserId: () => 1 });
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(UserService.prototype, 'getUserById').resolves({
       id: 1,
@@ -79,14 +72,11 @@ describe('getUser', () => {
   });
 
   it('should throw an error when a failure occurs', async () => {
-    const dbConnectionObj = getMockDBConnection({ systemUserId: () => 1 });
-
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     const expectedError = new Error('cannot process query');
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         throw expectedError;
       }

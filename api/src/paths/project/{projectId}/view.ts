@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../constants/roles';
-import { getDBConnection } from '../../../database/db';
+import { KnexDBConnection } from '../../../database/knex-db';
 import { geoJsonFeature } from '../../../openapi/schemas/geoJson';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
 import { ProjectService } from '../../../services/project-service';
@@ -268,7 +268,7 @@ GET.apiDoc = {
  */
 export function viewProject(): RequestHandler {
   return async (req, res) => {
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -283,8 +283,6 @@ export function viewProject(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'viewProject', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

@@ -4,18 +4,15 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import { SYSTEM_ROLE } from '../constants/roles';
-import * as db from '../database/db';
 import { HTTPError } from '../errors/custom-error';
 import search_queries from '../queries/search';
-import * as authorization from '../request-handlers/security/authorization';
+import { AuthorizationService } from '../services/authorization-service';
 import { getMockDBConnection } from '../__mocks__/db';
 import * as search from './search';
 
 chai.use(sinonChai);
 
 describe('search', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {},
     system_user: {
@@ -41,13 +38,12 @@ describe('search', () => {
     });
 
     it('should throw a 400 error when fails to get sql statement', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         }
       });
-      sinon.stub(authorization, 'userHasValidRole').returns(true);
+      sinon.stub(AuthorizationService, 'userHasValidRole').returns(true);
       sinon.stub(search_queries, 'getSpatialSearchResultsSQL').returns(null);
 
       try {
@@ -66,14 +62,13 @@ describe('search', () => {
 
       mockQuery.resolves({ rows: null });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },
         query: mockQuery
       });
-      sinon.stub(authorization, 'userHasValidRole').returns(true);
+      sinon.stub(AuthorizationService, 'userHasValidRole').returns(true);
       sinon.stub(search_queries, 'getSpatialSearchResultsSQL').returns(SQL`something`);
 
       const result = search.getSearchResults();
@@ -88,14 +83,13 @@ describe('search', () => {
 
       mockQuery.resolves({ rows: [] });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },
         query: mockQuery
       });
-      sinon.stub(authorization, 'userHasValidRole').returns(true);
+      sinon.stub(AuthorizationService, 'userHasValidRole').returns(true);
       sinon.stub(search_queries, 'getSpatialSearchResultsSQL').returns(SQL`something`);
 
       const result = search.getSearchResults();
@@ -118,14 +112,13 @@ describe('search', () => {
 
       mockQuery.resolves({ rows: searchList });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },
         query: mockQuery
       });
-      sinon.stub(authorization, 'userHasValidRole').returns(true);
+      sinon.stub(AuthorizationService, 'userHasValidRole').returns(true);
       sinon.stub(search_queries, 'getSpatialSearchResultsSQL').returns(SQL`something`);
 
       const result = search.getSearchResults();

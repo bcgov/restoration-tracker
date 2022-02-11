@@ -1,36 +1,61 @@
 import { Request, Response } from 'express';
-import { QueryResult } from 'pg';
+import { Knex } from 'knex';
 import sinon from 'sinon';
-import { IDBConnection } from '../database/db';
+import * as knexdb from '../database/knex-db';
 
 /**
- * Returns a mock `IDBConnection` with empty methods.
+ * Creates a stubbed version of `KnexDBConnection` and registers stubs for each of its methods.
  *
- * @param {Partial<IDBConnection>} [config] Initial method overrides
- * @return {*}  {IDBConnection}
+ * Example 1:
+ *
+ *   registerKnexDBMock({ systemUserId: () => 20, open: () => { throw Error() });
+ *
+ * Example 2:
+ *
+ *   const knexDBMock = registerKnexDBMock();
+ *
+ *   knexDBMock.systemUserId.returns(20)
+ *   knexDBMock.open.rejects(new Error())
+ *
+ * Example 3:
+ *
+ *   const knexDBMock = registerKnexDBMock({ systemUserId: () => 20 });
+ *
+ *   knexDBMock.open.rejects(new Error())
+ *
+ * @param {SinonOverridesType<KnexDBConnection>} [overrides]
+ * @return {*}
  */
-export const getMockDBConnection = (config?: Partial<IDBConnection>): IDBConnection => {
-  return {
-    systemUserId: () => {
-      return null;
-    },
-    open: async () => {
-      // do nothing
-    },
-    release: () => {
-      // do nothing
-    },
-    commit: async () => {
-      // do nothing
-    },
-    rollback: async () => {
-      // do nothing
-    },
-    query: async () => {
-      return (undefined as unknown) as QueryResult<any>;
-    },
-    ...config
-  };
+export const getMockDBConnection = (
+  config?: { [key in keyof knexdb.KnexDBConnection]?: typeof knexdb.KnexDBConnection.prototype[key] }
+) => {
+  // Stub the `KnexDB` object returned by `getKnexDB`
+  const knexStub = sinon.stub(Knex);
+  sinon.stub(knexdb, 'getKnexDB').returns((knexStub as unknown) as Knex);
+
+  // Create a stub instance of `KnexDBConnection`
+  const stubKnexDBConnection = sinon.createStubInstance(knexdb.KnexDBConnection, {
+    systemUserId: sinon.stub()
+  });
+
+  // Get all class properties from the stub instance
+  const properties = Object.getOwnPropertyNames(stubKnexDBConnection);
+
+  // Register a stub for each of the properties, and assign it back onto the stub instance
+  properties.forEach((property: any) => {
+    // Register stub for the property
+    const stub = sinon.stub(knexdb.KnexDBConnection.prototype, property);
+
+    if (config?.[property]) {
+      // Pre-load an optional fake function
+      stub.callsFake(config[property]);
+    }
+
+    // Assign the registered stub to the stub instance
+    stubKnexDBConnection[property] = stub;
+  });
+
+  return stubKnexDBConnection;
 };
 
 export type ExtendedMockReq = MockReq & Request;

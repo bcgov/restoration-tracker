@@ -2,18 +2,15 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as search from './search';
-import * as db from '../../database/db';
-import public_queries from '../../queries/public';
 import SQL from 'sql-template-strings';
-import { getMockDBConnection } from '../../__mocks__/db';
 import { HTTPError } from '../../errors/custom-error';
+import public_queries from '../../queries/public';
+import { getMockDBConnection } from '../../__mocks__/db';
+import * as search from './search';
 
 chai.use(sinonChai);
 
 describe('search', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {}
   } as any;
@@ -36,8 +33,7 @@ describe('search', () => {
     });
 
     it('should throw a 400 error when fails to get sql statement', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         }
@@ -60,8 +56,7 @@ describe('search', () => {
 
       mockQuery.resolves({ rows: null });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },
@@ -81,8 +76,7 @@ describe('search', () => {
 
       mockQuery.resolves({ rows: [] });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },
@@ -110,8 +104,7 @@ describe('search', () => {
 
       mockQuery.resolves({ rows: searchList });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },

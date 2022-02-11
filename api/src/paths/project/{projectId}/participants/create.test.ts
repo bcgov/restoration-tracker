@@ -2,7 +2,6 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../../../../database/db';
 import { HTTPError } from '../../../../errors/custom-error';
 import { UserService } from '../../../../services/user-service';
 import { getMockDBConnection } from '../../../../__mocks__/db';
@@ -11,8 +10,6 @@ import * as create_project_participants from './create';
 chai.use(sinonChai);
 
 describe('createProjectParticipants', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {},
     body: {
@@ -28,8 +25,6 @@ describe('createProjectParticipants', () => {
   });
 
   it('should throw a 400 error when no projectId in the param', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = create_project_participants.createProjectParticipants();
       await result(
@@ -45,8 +40,6 @@ describe('createProjectParticipants', () => {
   });
 
   it('should throw a 400 error when no participants in the request body', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = create_project_participants.createProjectParticipants();
       await result(
@@ -68,7 +61,8 @@ describe('createProjectParticipants', () => {
       rows: null
     });
 
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+    getMockDBConnection({ query: mockQuery });
+
     sinon.stub(UserService.prototype, 'ensureSystemUser').rejects(new Error('an error'));
 
     try {

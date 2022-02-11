@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../../constants/roles';
-import { getDBConnection } from '../../database/db';
+import { KnexDBConnection } from '../../database/knex-db';
 import { PostProjectObject } from '../../models/project-create';
 import { geoJsonFeature } from '../../openapi/schemas/geoJson';
 import { authorizeRequestHandler } from '../../request-handlers/security/authorization';
@@ -261,7 +261,7 @@ POST.apiDoc = {
  */
 export function createProject(): RequestHandler {
   return async (req, res) => {
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     const sanitizedProjectPostData = new PostProjectObject(req.body);
 
@@ -279,8 +279,6 @@ export function createProject(): RequestHandler {
       defaultLog.error({ label: 'createProject', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

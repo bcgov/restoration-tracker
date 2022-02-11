@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../constants/roles';
-import { getAPIUserDBConnection, getDBConnection, IDBConnection } from '../database/db';
+import { APIKnexDBConnection, KnexDBConnection } from '../database/knex-db';
 import { HTTP400, HTTP500 } from '../errors/custom-error';
 import {
   administrativeActivityResponseObject,
@@ -123,7 +123,7 @@ GET.apiDoc = {
  */
 export function createAdministrativeActivity(): RequestHandler {
   return async (req, res) => {
-    const connection = getAPIUserDBConnection();
+    const connection = new APIKnexDBConnection();
 
     try {
       await connection.open();
@@ -167,8 +167,6 @@ export function createAdministrativeActivity(): RequestHandler {
       defaultLog.error({ label: 'administrativeActivity', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
@@ -180,7 +178,7 @@ export function createAdministrativeActivity(): RequestHandler {
  */
 export function getPendingAccessRequestsCount(): RequestHandler {
   return async (req, res) => {
-    const connection = getAPIUserDBConnection();
+    const connection = new APIKnexDBConnection();
 
     try {
       const userIdentifier = getUserIdentifier(req['keycloak_token']);
@@ -208,8 +206,6 @@ export function getPendingAccessRequestsCount(): RequestHandler {
       defaultLog.error({ label: 'getPendingAccessRequestsCount', message: 'error', error });
 
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
@@ -304,7 +300,7 @@ export function getUpdateAdministrativeActivityHandler(): RequestHandler {
       throw new HTTP400('Missing required body parameter: status');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -317,8 +313,6 @@ export function getUpdateAdministrativeActivityHandler(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'getUpdateAdministrativeActivityHandler', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
@@ -328,12 +322,12 @@ export function getUpdateAdministrativeActivityHandler(): RequestHandler {
  *
  * @param {number} administrativeActivityId
  * @param {number} administrativeActivityStatusTypeId
- * @param {IDBConnection} connection
+ * @param {KnexDBConnection} connection
  */
 export const updateAdministrativeActivity = async (
   administrativeActivityId: number,
   administrativeActivityStatusTypeId: number,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ) => {
   const sqlStatement = queries.administrativeActivity.putAdministrativeActivitySQL(
     administrativeActivityId,

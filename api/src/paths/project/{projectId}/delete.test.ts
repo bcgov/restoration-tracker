@@ -5,12 +5,11 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import { SYSTEM_ROLE } from '../../../constants/roles';
-import * as db from '../../../database/db';
+import { HTTPError } from '../../../errors/custom-error';
 import project_queries from '../../../queries/project';
+import * as file_utils from '../../../utils/file-utils';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../__mocks__/db';
 import * as delete_project from './delete';
-import * as file_utils from '../../../utils/file-utils';
-import { HTTPError } from '../../../errors/custom-error';
 
 chai.use(sinonChai);
 
@@ -20,10 +19,6 @@ describe('deleteProject', () => {
   });
 
   it('should throw an error when projectId is missing', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     try {
@@ -38,9 +33,7 @@ describe('deleteProject', () => {
   });
 
   it('should throw a 400 error when no sql statement returned for getProjectSQL', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -61,10 +54,7 @@ describe('deleteProject', () => {
   });
 
   it('should throw a 400 error when fails to get the project cause no rows', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       query: async () => {
         return {
           rows: [null]
@@ -91,8 +81,6 @@ describe('deleteProject', () => {
   });
 
   it('should throw a 400 error when user has insufficient role to delete published project', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
     const mockQuery = sinon.stub();
 
     // mock project query
@@ -106,8 +94,7 @@ describe('deleteProject', () => {
       ]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       query: mockQuery
     });
 
@@ -132,8 +119,6 @@ describe('deleteProject', () => {
   });
 
   it('should throw a 400 error when failed to get result for project attachments', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
     const mockQuery = sinon.stub();
 
     // mock project query
@@ -149,8 +134,7 @@ describe('deleteProject', () => {
     // mock attachments query
     mockQuery.onCall(1).resolves({ rows: null });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       query: mockQuery
     });
 
@@ -174,8 +158,6 @@ describe('deleteProject', () => {
   });
 
   it('should throw a 400 error when failed to build deleteProjectSQL statement', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
     const mockQuery = sinon.stub();
 
     // mock project query
@@ -191,8 +173,7 @@ describe('deleteProject', () => {
     // mock attachments query
     mockQuery.onCall(1).resolves({ rows: [{ key: 'key' }] });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       query: mockQuery
     });
 
@@ -217,8 +198,6 @@ describe('deleteProject', () => {
   });
 
   it('should return null when no delete result', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
     const mockQuery = sinon.stub();
 
     // mock project query
@@ -237,8 +216,7 @@ describe('deleteProject', () => {
     // mock delete project query
     mockQuery.onCall(2).resolves();
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       query: mockQuery
     });
 
@@ -260,8 +238,6 @@ describe('deleteProject', () => {
   });
 
   it('should return true on successful delete', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
     const mockQuery = sinon.stub();
 
     // mock project query
@@ -280,8 +256,7 @@ describe('deleteProject', () => {
     // mock delete project query
     mockQuery.onCall(2).resolves();
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       query: mockQuery
     });
 

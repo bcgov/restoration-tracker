@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { getDBConnection } from '../database/db';
+import { KnexDBConnection } from '../database/knex-db';
 import { HTTP400 } from '../errors/custom-error';
 import { draftResponseObject } from '../openapi/schemas/draft';
 import { queries } from '../queries/queries';
@@ -69,7 +69,7 @@ GET.apiDoc = {
  */
 export function getDraftList(): RequestHandler {
   return async (req, res) => {
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -101,8 +101,6 @@ export function getDraftList(): RequestHandler {
       defaultLog.error({ label: 'getDraftsList', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

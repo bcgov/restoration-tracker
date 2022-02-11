@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../../../constants/roles';
-import { getDBConnection, IDBConnection } from '../../../database/db';
+import { KnexDBConnection } from '../../../database/knex-db';
 import { HTTP400 } from '../../../errors/custom-error';
 import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
@@ -74,7 +74,7 @@ export function removeSystemUser(): RequestHandler {
       throw new HTTP400('Missing required path param: userId');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -106,13 +106,11 @@ export function removeSystemUser(): RequestHandler {
       defaultLog.error({ label: 'removeSystemUser', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
 
-export const checkIfUserIsOnlyProjectLeadOnAnyProject = async (userId: number, connection: IDBConnection) => {
+export const checkIfUserIsOnlyProjectLeadOnAnyProject = async (userId: number, connection: KnexDBConnection) => {
   const getAllParticipantsResponse = await getAllParticipantsFromSystemUsersProjects(userId, connection);
 
   // No projects associated to user, skip Project Lead role check
@@ -127,7 +125,7 @@ export const checkIfUserIsOnlyProjectLeadOnAnyProject = async (userId: number, c
   }
 };
 
-export const deleteAllProjectRoles = async (userId: number, connection: IDBConnection) => {
+export const deleteAllProjectRoles = async (userId: number, connection: KnexDBConnection) => {
   const sqlStatement = queries.users.deleteAllProjectRolesSQL(userId);
 
   if (!sqlStatement) {
@@ -141,12 +139,12 @@ export const deleteAllProjectRoles = async (userId: number, connection: IDBConne
  * collect all participants associated with user across all projects.
  *
  * @param {number} userId
- * @param {IDBConnection} connection
+ * @param {KnexDBConnection} connection
  * @return {*}  {Promise<any[]>}
  */
 export const getAllParticipantsFromSystemUsersProjects = async (
   userId: number,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ): Promise<any[]> => {
   const getParticipantsFromAllSystemUsersProjectsSQLStatment = queries.projectParticipation.getParticipantsFromAllSystemUsersProjectsSQL(
     userId

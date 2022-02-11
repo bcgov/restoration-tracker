@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { getAPIUserDBConnection } from '../../database/db';
+import { APIKnexDBConnection } from '../../database/knex-db';
 import { HTTP400 } from '../../errors/custom-error';
 import { queries } from '../../queries/queries';
 import { getLogger } from '../../utils/logger';
@@ -49,7 +49,7 @@ GET.apiDoc = {
  */
 export function getSearchResults(): RequestHandler {
   return async (req, res) => {
-    const connection = getAPIUserDBConnection();
+    const connection = new APIKnexDBConnection();
 
     try {
       const getSpatialSearchResultsSQLStatement = queries.public.getPublicSpatialSearchResultsSQL();
@@ -77,8 +77,6 @@ export function getSearchResults(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'getSearchResults', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

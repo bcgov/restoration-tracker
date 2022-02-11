@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as upload from './upload';
-import * as db from '../../../../database/db';
+
 import * as file_utils from '../../../../utils/file-utils';
 import { getMockDBConnection } from '../../../../__mocks__/db';
 import { HTTPError } from '../../../../errors/custom-error';
@@ -14,8 +14,6 @@ describe('uploadMedia', () => {
   afterEach(() => {
     sinon.restore();
   });
-
-  const dbConnectionObj = getMockDBConnection();
 
   const mockReq = {
     keycloak_token: {},
@@ -48,8 +46,6 @@ describe('uploadMedia', () => {
   } as any;
 
   it('should throw an error when projectId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = upload.uploadMedia();
 
@@ -66,8 +62,6 @@ describe('uploadMedia', () => {
   });
 
   it('should throw an error when files are missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = upload.uploadMedia();
 
@@ -80,8 +74,7 @@ describe('uploadMedia', () => {
   });
 
   it('should throw a 400 error when file format incorrect', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -101,8 +94,7 @@ describe('uploadMedia', () => {
   });
 
   it('should throw a 400 error when file contains malicious content', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -124,8 +116,7 @@ describe('uploadMedia', () => {
   });
 
   it('should return id and revision_count on success (with username and email) with valid parameters', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }

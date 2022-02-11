@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { getAPIUserDBConnection } from '../../../../database/db';
+import { APIKnexDBConnection } from '../../../../database/knex-db';
 import { geoJsonFeature } from '../../../../openapi/schemas/geoJson';
 import { ProjectService } from '../../../../services/project-service';
 import { getLogger } from '../../../../utils/logger';
@@ -248,7 +248,7 @@ GET.apiDoc = {
  */
 export function getPublicProjectForView(): RequestHandler {
   return async (req, res) => {
-    const connection = getAPIUserDBConnection();
+    const connection = new APIKnexDBConnection();
 
     try {
       await connection.open();
@@ -263,8 +263,6 @@ export function getPublicProjectForView(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'viewProject', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

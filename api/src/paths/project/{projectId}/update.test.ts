@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../../../database/db';
+
 import { HTTPError } from '../../../errors/custom-error';
 import { ProjectService } from '../../../services/project-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../__mocks__/db';
@@ -17,13 +17,11 @@ describe('update', () => {
     });
 
     it('should throw a 400 error when no req body', async () => {
-      const dbConnectionObj = getMockDBConnection();
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
       mockReq.body = null;
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
       try {
         const requestHandler = update.updateProject();
@@ -37,15 +35,13 @@ describe('update', () => {
     });
 
     it('should throw a 400 error when no projectId', async () => {
-      const dbConnectionObj = getMockDBConnection();
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
       mockReq.params = {
         projectId: ''
       };
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
       try {
         const requestHandler = update.updateProject();
@@ -59,7 +55,7 @@ describe('update', () => {
     });
 
     it('should throw a 400 error when no request body', async () => {
-      const dbConnectionObj = getMockDBConnection();
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -68,8 +64,6 @@ describe('update', () => {
       };
 
       mockReq.body = null;
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
       try {
         const requestHandler = update.updateProject();
@@ -83,7 +77,7 @@ describe('update', () => {
     });
 
     it('updates a project with all valid entries and returns 200 on success', async () => {
-      const dbConnectionObj = getMockDBConnection();
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -108,8 +102,6 @@ describe('update', () => {
         partnerships: {},
         location: {}
       };
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
       sinon.stub(ProjectService.prototype, 'updateProject').resolves();
 

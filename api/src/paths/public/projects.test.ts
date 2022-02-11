@@ -2,13 +2,12 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as projects from './projects';
-import * as db from '../../database/db';
-import public_queries from '../../queries/public';
 import SQL from 'sql-template-strings';
 import { COMPLETION_STATUS } from '../../constants/status';
-import { getMockDBConnection } from '../../__mocks__/db';
 import { HTTPError } from '../../errors/custom-error';
+import public_queries from '../../queries/public';
+import { getMockDBConnection } from '../../__mocks__/db';
+import * as projects from './projects';
 
 chai.use(sinonChai);
 
@@ -16,8 +15,6 @@ describe('getPublicProjectsList', () => {
   afterEach(() => {
     sinon.restore();
   });
-
-  const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
     keycloak_token: {}
@@ -36,8 +33,7 @@ describe('getPublicProjectsList', () => {
   };
 
   it('should throw a 400 error when no sql statement returned for getPublicProjectListSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -72,8 +68,7 @@ describe('getPublicProjectsList', () => {
 
     mockQuery.resolves({ rows: projectsList });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },

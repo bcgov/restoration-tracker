@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
-import * as db from '../../../database/db';
+
 import { HTTPError } from '../../../errors/custom-error';
 import project_participation_queries from '../../../queries/project-participation';
 import user_queries from '../../../queries/users';
@@ -19,11 +19,9 @@ describe('removeSystemUser', () => {
   });
 
   it('should throw a 400 error when missing required path param: userId', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     try {
       const requestHandler = delete_endpoint.removeSystemUser();
@@ -36,14 +34,12 @@ describe('removeSystemUser', () => {
   });
 
   it('should throw a 400 error when no sql statement returned from `getParticipantsFromAllSystemUsersProjectsSQL`', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '1' };
     mockReq.body = { roles: [1, 2] };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(project_participation_queries, 'getParticipantsFromAllSystemUsersProjectsSQL').returns(null);
 
@@ -59,8 +55,6 @@ describe('removeSystemUser', () => {
   });
 
   it('should throw a 400 error if the user is the only Project Lead role on one or more projects', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '33' };
@@ -95,8 +89,7 @@ describe('removeSystemUser', () => {
       ]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       query: mockQuery
     });
 
@@ -116,14 +109,12 @@ describe('removeSystemUser', () => {
   });
 
   it('should throw a 400 error when it fails to get the system user', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '1' };
     mockReq.body = { roles: [1, 2] };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(delete_endpoint, 'checkIfUserIsOnlyProjectLeadOnAnyProject').resolves();
 
@@ -141,14 +132,12 @@ describe('removeSystemUser', () => {
   });
 
   it('should throw a 400 error when user record has expired', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '1' };
     mockReq.body = { roles: [1, 2] };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(delete_endpoint, 'checkIfUserIsOnlyProjectLeadOnAnyProject').resolves();
 
@@ -173,14 +162,12 @@ describe('removeSystemUser', () => {
   });
 
   it('should throw a 400 error when no sql statement returned for `deleteAllProjectRolesSql`', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '1' };
     mockReq.body = { roles: [1, 2] };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(delete_endpoint, 'checkIfUserIsOnlyProjectLeadOnAnyProject').resolves();
 
@@ -208,14 +195,12 @@ describe('removeSystemUser', () => {
   });
 
   it('should catch and re-throw an error if the database fails to delete all project roles', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '1' };
     mockReq.body = { roles: [1, 2] };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(delete_endpoint, 'checkIfUserIsOnlyProjectLeadOnAnyProject').resolves();
 
@@ -241,14 +226,12 @@ describe('removeSystemUser', () => {
   });
 
   it('should catch and re-throw an error if the database fails to delete all system roles', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '1' };
     mockReq.body = { roles: [1, 2] };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(delete_endpoint, 'checkIfUserIsOnlyProjectLeadOnAnyProject').resolves();
 
@@ -276,14 +259,12 @@ describe('removeSystemUser', () => {
   });
 
   it('should catch and re-throw an error if the database fails to deactivate the system user', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '1' };
     mockReq.body = { roles: [1, 2] };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(delete_endpoint, 'checkIfUserIsOnlyProjectLeadOnAnyProject').resolves();
 
@@ -312,14 +293,12 @@ describe('removeSystemUser', () => {
   });
 
   it('should return 200 on success', async () => {
-    const dbConnectionObj = getMockDBConnection();
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     mockReq.params = { userId: '1' };
     mockReq.body = { roles: [1, 2] };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     sinon.stub(delete_endpoint, 'checkIfUserIsOnlyProjectLeadOnAnyProject').resolves();
 

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../constants/roles';
-import { getDBConnection, IDBConnection } from '../../../../database/db';
+import { KnexDBConnection } from '../../../../database/knex-db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { ProjectService } from '../../../../services/project-service';
@@ -108,7 +108,7 @@ export function createProjectParticipants(): RequestHandler {
       throw new HTTP400('Missing required body param `participants`');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       const projectId = Number(req.params.projectId);
@@ -131,8 +131,6 @@ export function createProjectParticipants(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'insertProjectParticipants', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
@@ -140,7 +138,7 @@ export function createProjectParticipants(): RequestHandler {
 export const ensureSystemUserAndProjectParticipantUser = async (
   projectId: number,
   participant: { userIdentifier: string; identitySource: string; roleId: number },
-  connection: IDBConnection
+  connection: KnexDBConnection
 ) => {
   const userService = new UserService(connection);
 

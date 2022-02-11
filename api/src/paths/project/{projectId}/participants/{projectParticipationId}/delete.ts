@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../../constants/roles';
-import { getDBConnection, IDBConnection } from '../../../../../database/db';
+import { KnexDBConnection } from '../../../../../database/knex-db';
 import { HTTP400, HTTP500 } from '../../../../../errors/custom-error';
 import { queries } from '../../../../../queries/queries';
 import { authorizeRequestHandler } from '../../../../../request-handlers/security/authorization';
@@ -86,7 +86,7 @@ export function deleteProjectParticipant(): RequestHandler {
       throw new HTTP400('Missing required path param `projectParticipationId`');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -122,15 +122,13 @@ export function deleteProjectParticipant(): RequestHandler {
       defaultLog.error({ label: 'deleteProjectParticipant', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
 
 export const deleteProjectParticipationRecord = async (
   projectParticipationId: number,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ): Promise<any> => {
   const sqlStatement = queries.projectParticipation.deleteProjectParticipationSQL(projectParticipationId);
 

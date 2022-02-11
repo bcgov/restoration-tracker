@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../../constants/roles';
-import { getDBConnection, IDBConnection } from '../../../../../database/db';
+import { KnexDBConnection } from '../../../../../database/knex-db';
 import { HTTP400 } from '../../../../../errors/custom-error';
 import { queries } from '../../../../../queries/queries';
 import { authorizeRequestHandler } from '../../../../../request-handlers/security/authorization';
@@ -73,7 +73,7 @@ export function deleteAttachment(): RequestHandler {
       throw new HTTP400('Missing required path param `attachmentId`');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -97,13 +97,11 @@ export function deleteAttachment(): RequestHandler {
       defaultLog.error({ label: 'deleteAttachment', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
 
-const unsecureProjectAttachmentRecord = async (securityToken: any, connection: IDBConnection): Promise<void> => {
+const unsecureProjectAttachmentRecord = async (securityToken: any, connection: KnexDBConnection): Promise<void> => {
   const unsecureRecordSQLStatement = queries.security.unsecureAttachmentRecordSQL('project_attachment', securityToken);
 
   if (!unsecureRecordSQLStatement) {
@@ -122,7 +120,7 @@ const unsecureProjectAttachmentRecord = async (securityToken: any, connection: I
 
 export const deleteProjectAttachment = async (
   attachmentId: number,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ): Promise<{ key: string }> => {
   const sqlStatement = queries.project.deleteProjectAttachmentSQL(attachmentId);
 

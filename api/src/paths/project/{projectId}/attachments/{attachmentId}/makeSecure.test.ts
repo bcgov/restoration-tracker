@@ -2,12 +2,11 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as makeSecure from './makeSecure';
-import * as db from '../../../../../database/db';
-import security_queries from '../../../../../queries/security';
 import SQL from 'sql-template-strings';
-import { getMockDBConnection } from '../../../../../__mocks__/db';
 import { HTTPError } from '../../../../../errors/custom-error';
+import security_queries from '../../../../../queries/security';
+import { getMockDBConnection } from '../../../../../__mocks__/db';
+import * as makeSecure from './makeSecure';
 
 chai.use(sinonChai);
 
@@ -15,8 +14,6 @@ describe('makeProjectAttachmentSecure', () => {
   afterEach(() => {
     sinon.restore();
   });
-
-  const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
     keycloak_token: {},
@@ -39,8 +36,6 @@ describe('makeProjectAttachmentSecure', () => {
   };
 
   it('should throw an error when projectId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = makeSecure.makeProjectAttachmentSecure();
 
@@ -57,8 +52,6 @@ describe('makeProjectAttachmentSecure', () => {
   });
 
   it('should throw an error when attachmentId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = makeSecure.makeProjectAttachmentSecure();
 
@@ -75,7 +68,8 @@ describe('makeProjectAttachmentSecure', () => {
   });
 
   it('should throw an error when fails to build secureAttachmentRecordSQL statement', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+    getMockDBConnection();
+
     sinon.stub(security_queries, 'secureAttachmentRecordSQL').returns(null);
 
     try {
@@ -96,7 +90,8 @@ describe('makeProjectAttachmentSecure', () => {
       rowCount: null
     });
 
-    sinon.stub(db, 'getDBConnection').returns({ ...dbConnectionObj, query: mockQuery });
+    getMockDBConnection({ query: mockQuery });
+
     sinon.stub(security_queries, 'secureAttachmentRecordSQL').returns(SQL`something`);
 
     try {
@@ -117,7 +112,8 @@ describe('makeProjectAttachmentSecure', () => {
       rowCount: 1
     });
 
-    sinon.stub(db, 'getDBConnection').returns({ ...dbConnectionObj, query: mockQuery });
+    getMockDBConnection({ query: mockQuery });
+
     sinon.stub(security_queries, 'secureAttachmentRecordSQL').returns(SQL`something`);
 
     const result = makeSecure.makeProjectAttachmentSecure();

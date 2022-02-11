@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../../../constants/roles';
-import { getDBConnection } from '../../../database/db';
+import { KnexDBConnection } from '../../../database/knex-db';
 import { HTTP400 } from '../../../errors/custom-error';
 import { draftGetResponseObject } from '../../../openapi/schemas/draft';
 import { queries } from '../../../queries/queries';
@@ -78,7 +78,7 @@ GET.apiDoc = {
  */
 export function getSingleDraft(): RequestHandler {
   return async (req, res) => {
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       const getDraftSQLStatement = queries.project.draft.getDraftSQL(Number(req.params.draftId));
@@ -99,8 +99,6 @@ export function getSingleDraft(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'getSingleDraft', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

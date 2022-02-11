@@ -105,7 +105,6 @@ export class UserService extends DBService {
    *
    * @param {string} userIdentifier
    * @param {string} identitySource
-   * @param {IDBConnection} connection
    * @return {*}  {Promise<UserObject>}
    * @memberof UserService
    */

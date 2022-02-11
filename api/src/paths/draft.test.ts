@@ -4,7 +4,6 @@ import { QueryResult } from 'pg';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
-import * as db from '../database/db';
 import { HTTPError } from '../errors/custom-error';
 import draft_queries from '../queries/project/draft';
 import { getMockDBConnection } from '../__mocks__/db';
@@ -13,8 +12,6 @@ import * as draft from './draft';
 chai.use(sinonChai);
 
 describe('draft', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {},
     body: {
@@ -45,7 +42,7 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when no system user id', async () => {
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       try {
         const result = draft.createDraft();
@@ -59,12 +56,10 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when no sql statement produced', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(10);
+
       sinon.stub(draft_queries, 'postDraftSQL').returns(null);
 
       try {
@@ -79,12 +74,9 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when missing request body param name', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
 
       try {
         const result = draft.createDraft();
@@ -102,12 +94,9 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when missing request body param data', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
 
       try {
         const result = draft.createDraft();
@@ -125,22 +114,18 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when no id in result', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: async () => {
-          return {
-            rowCount: 1,
-            rows: [
-              {
-                id: null
-              }
-            ]
-          } as QueryResult<any>;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+
+      knexDBMock.query.resolves({
+        rowCount: 1,
+        rows: [
+          {
+            id: null
+          }
+        ]
+      } as QueryResult);
 
       sinon.stub(draft_queries, 'postDraftSQL').returns(SQL`some query`);
 
@@ -156,17 +141,13 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when no result', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: async () => {
-          return {
-            rows: null
-          } as any;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+
+      knexDBMock.query.resolves(({
+        rows: null
+      } as unknown) as QueryResult);
 
       sinon.stub(draft_queries, 'postDraftSQL').returns(SQL`some query`);
 
@@ -182,24 +163,19 @@ describe('draft', () => {
     });
 
     it('should return the draft id and update date on success', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: async () => {
-          return {
-            rowCount: 1,
-            rows: [
-              {
-                id: 1,
-                create_date: '2020/04/04',
-                update_date: '2020/05/05'
-              }
-            ]
-          } as QueryResult<any>;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+      knexDBMock.query.resolves({
+        rowCount: 1,
+        rows: [
+          {
+            id: 1,
+            create_date: '2020/04/04',
+            update_date: '2020/05/05'
+          }
+        ]
+      } as QueryResult);
 
       sinon.stub(draft_queries, 'postDraftSQL').returns(SQL`some query`);
 
@@ -212,23 +188,18 @@ describe('draft', () => {
     });
 
     it('should return the draft id and create date on success', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: async () => {
-          return {
-            rowCount: 1,
-            rows: [
-              {
-                id: 1,
-                create_date: '2020/04/04'
-              }
-            ]
-          } as QueryResult<any>;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+      knexDBMock.query.resolves({
+        rowCount: 1,
+        rows: [
+          {
+            id: 1,
+            create_date: '2020/04/04'
+          }
+        ]
+      } as QueryResult);
 
       sinon.stub(draft_queries, 'postDraftSQL').returns(SQL`some query`);
 
@@ -243,12 +214,9 @@ describe('draft', () => {
     it('should throw an error when a failure occurs', async () => {
       const expectedError = new Error('cannot process query');
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          throw expectedError;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.throws(expectedError);
 
       try {
         const result = draft.createDraft();
@@ -267,12 +235,9 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when missing request body param id', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
 
       try {
         const result = draft.updateDraft();
@@ -290,12 +255,9 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when missing request body param name', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
 
       try {
         const result = draft.updateDraft();
@@ -313,12 +275,9 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when missing request body param data', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
 
       try {
         const result = draft.updateDraft();
@@ -336,12 +295,10 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when no sql statement produced', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+
       sinon.stub(draft_queries, 'putDraftSQL').returns(null);
 
       try {
@@ -356,22 +313,18 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when no id in result', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: async () => {
-          return {
-            rowCount: 1,
-            rows: [
-              {
-                id: null
-              }
-            ]
-          } as QueryResult<any>;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+
+      knexDBMock.query.resolves({
+        rowCount: 1,
+        rows: [
+          {
+            id: null
+          }
+        ]
+      } as QueryResult);
 
       sinon.stub(draft_queries, 'putDraftSQL').returns(SQL`some query`);
 
@@ -387,17 +340,13 @@ describe('draft', () => {
     });
 
     it('should throw a 400 error when no result', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: async () => {
-          return {
-            rows: null
-          } as any;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+
+      knexDBMock.query.resolves(({
+        rows: null
+      } as unknown) as QueryResult);
 
       sinon.stub(draft_queries, 'putDraftSQL').returns(SQL`some query`);
 
@@ -413,24 +362,20 @@ describe('draft', () => {
     });
 
     it('should return the draft id and update date on success', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: async () => {
-          return {
-            rowCount: 1,
-            rows: [
-              {
-                id: 1,
-                create_date: '2020/04/04',
-                update_date: '2020/05/05'
-              }
-            ]
-          } as QueryResult<any>;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+
+      knexDBMock.query.resolves({
+        rowCount: 1,
+        rows: [
+          {
+            id: 1,
+            create_date: '2020/04/04',
+            update_date: '2020/05/05'
+          }
+        ]
+      } as QueryResult);
 
       sinon.stub(draft_queries, 'putDraftSQL').returns(SQL`some query`);
 
@@ -443,23 +388,19 @@ describe('draft', () => {
     });
 
     it('should return the draft id and create date on success', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: async () => {
-          return {
-            rowCount: 1,
-            rows: [
-              {
-                id: 1,
-                create_date: '2020/04/04'
-              }
-            ]
-          } as QueryResult<any>;
-        }
-      });
+      const knexDBMock = getMockDBConnection();
+
+      knexDBMock.systemUserId.returns(20);
+
+      knexDBMock.query.resolves({
+        rowCount: 1,
+        rows: [
+          {
+            id: 1,
+            create_date: '2020/04/04'
+          }
+        ]
+      } as QueryResult);
 
       sinon.stub(draft_queries, 'putDraftSQL').returns(SQL`some query`);
 

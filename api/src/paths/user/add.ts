@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../../constants/roles';
-import { getDBConnection } from '../../database/db';
+import { KnexDBConnection } from '../../database/knex-db';
 import { HTTP400 } from '../../errors/custom-error';
 import { authorizeRequestHandler } from '../../request-handlers/security/authorization';
 import { UserService } from '../../services/user-service';
@@ -85,7 +85,7 @@ POST.apiDoc = {
  */
 export function addSystemRoleUser(): RequestHandler {
   return async (req, res) => {
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     const userIdentifier = req.body?.userIdentifier || null;
     const identitySource = req.body?.identitySource || null;
@@ -121,8 +121,6 @@ export function addSystemRoleUser(): RequestHandler {
       defaultLog.error({ label: 'getUser', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

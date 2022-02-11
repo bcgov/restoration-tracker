@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../constants/roles';
-import { getDBConnection } from '../../../../database/db';
+import { KnexDBConnection } from '../../../../database/knex-db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { models } from '../../../../models/models';
 import { queries } from '../../../../queries/queries';
@@ -41,7 +41,7 @@ export function addFundingSource(): RequestHandler {
       throw new HTTP400('Missing required path param `projectId`');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     const sanitizedPostFundingSource = req.body && new models.project.PostFundingSource(req.body);
 
@@ -76,8 +76,6 @@ export function addFundingSource(): RequestHandler {
       defaultLog.error({ label: 'addFundingSource', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

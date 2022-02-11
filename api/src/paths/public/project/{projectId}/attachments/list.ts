@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { getAPIUserDBConnection } from '../../../../../database/db';
+import { APIKnexDBConnection } from '../../../../../database/knex-db';
 import { HTTP400 } from '../../../../../errors/custom-error';
 import { GetPublicAttachmentsData } from '../../../../../models/public/project';
 import { queries } from '../../../../../queries/queries';
@@ -64,7 +64,7 @@ export function getPublicProjectAttachments(): RequestHandler {
       throw new HTTP400('Missing required path param `projectId`');
     }
 
-    const connection = getAPIUserDBConnection();
+    const connection = new APIKnexDBConnection();
 
     try {
       const getPublicProjectAttachmentsSQLStatement = queries.public.getPublicProjectAttachmentsSQL(
@@ -92,8 +92,6 @@ export function getPublicProjectAttachments(): RequestHandler {
       defaultLog.error({ label: 'getPublicProjectAttachments', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

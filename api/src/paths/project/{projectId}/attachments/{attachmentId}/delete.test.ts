@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as delete_attachment from './delete';
-import * as db from '../../../../../database/db';
+
 import project_queries from '../../../../../queries/project';
 import security_queries from '../../../../../queries/security';
 import SQL from 'sql-template-strings';
@@ -18,8 +18,6 @@ describe('deleteAttachment', () => {
   afterEach(() => {
     sinon.restore();
   });
-
-  const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
     keycloak_token: {},
@@ -48,8 +46,6 @@ describe('deleteAttachment', () => {
   };
 
   it('should throw an error when projectId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = delete_attachment.deleteAttachment();
 
@@ -66,8 +62,6 @@ describe('deleteAttachment', () => {
   });
 
   it('should throw an error when attachmentId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = delete_attachment.deleteAttachment();
 
@@ -84,8 +78,7 @@ describe('deleteAttachment', () => {
   });
 
   it('should throw a 400 error when no sql statement returned for unsecureAttachmentRecordSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -109,8 +102,7 @@ describe('deleteAttachment', () => {
 
     mockQuery.onFirstCall().resolves({ rowCount: null });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -135,8 +127,7 @@ describe('deleteAttachment', () => {
 
     mockQuery.onFirstCall().resolves({ rowCount: 1 });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -166,8 +157,7 @@ describe('deleteAttachment', () => {
       .onSecondCall()
       .resolves({ rowCount: 1, rows: [{ key: 's3Key' }] });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -194,8 +184,7 @@ describe('deleteAttachment', () => {
       .onSecondCall()
       .resolves({ rows: [{ key: 's3Key' }], rowCount: 1 });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },

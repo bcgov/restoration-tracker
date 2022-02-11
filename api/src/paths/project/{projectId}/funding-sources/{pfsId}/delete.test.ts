@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as deleteFundingSource from './delete';
-import * as db from '../../../../../database/db';
+
 import project_queries from '../../../../../queries/project';
 import SQL from 'sql-template-strings';
 import { getMockDBConnection } from '../../../../../__mocks__/db';
@@ -12,8 +12,6 @@ import { HTTPError } from '../../../../../errors/custom-error';
 chai.use(sinonChai);
 
 describe('delete a funding source', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {},
     body: {},
@@ -40,8 +38,6 @@ describe('delete a funding source', () => {
   });
 
   it('should throw a 400 error when no projectId is provided', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = deleteFundingSource.deleteFundingSource();
       await result(
@@ -57,8 +53,6 @@ describe('delete a funding source', () => {
   });
 
   it('should throw a 400 error when no pfsId is provided', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = deleteFundingSource.deleteFundingSource();
       await result(
@@ -74,8 +68,7 @@ describe('delete a funding source', () => {
   });
 
   it('should throw a 400 error when no sql statement returned for deleteProjectFundingSourceSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -99,8 +92,7 @@ describe('delete a funding source', () => {
 
     mockQuery.resolves({ rowCount: 1 });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },

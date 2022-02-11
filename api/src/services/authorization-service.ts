@@ -43,7 +43,7 @@ export type AuthorizeConfigAnd = {
 
 export type AuthorizationScheme = AuthorizeConfigAnd | AuthorizeConfigOr;
 
-export class AuthorizationService extends DBService<KnexDBConnection> {
+export class AuthorizationService extends DBService {
   _userService = new UserService(this.connection);
   _systemUser: UserObject | undefined = undefined;
 
@@ -62,7 +62,6 @@ export class AuthorizationService extends DBService<KnexDBConnection> {
    *
    * @param {UserObject} systemUserObject
    * @param {AuthorizationScheme} authorizationScheme
-   * @param {IDBConnection} connection
    * @return {*}  {Promise<boolean>} `true` if the `authorizationScheme` indicates the user has access, `false` otherwise.
    */
   async executeAuthorizationScheme(authorizationScheme: AuthorizationScheme): Promise<boolean> {
@@ -154,7 +153,6 @@ export class AuthorizationService extends DBService<KnexDBConnection> {
    * Check that the user has at least on of the valid project roles specified in `authorizeProjectRoles.validProjectRoles`.
    *
    * @param {AuthorizeByProjectRoles} authorizeProjectRoles
-   * @param {IDBConnection} connection
    * @return {*}  {Promise<boolean>} `Promise<true>` if the user has at least one valid project role, or no valid project
    * roles are specified; `Promise<false>` otherwise.
    */
@@ -284,7 +282,6 @@ export class AuthorizationService extends DBService<KnexDBConnection> {
    * Get a user's project roles, for a single project.
    *
    * @param {number} projectId
-   * @param {IDBConnection} connection
    * @return {*}  {Promise<string[]>}
    */
   async getProjectUserWithRoles(projectId: number): Promise<any> {

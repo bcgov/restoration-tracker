@@ -2,7 +2,6 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../database/db';
 import { HTTPError } from '../errors/custom-error';
 import { UserService } from '../services/user-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../__mocks__/db';
@@ -17,13 +16,11 @@ describe('user', () => {
     });
 
     it('should throw a 400 error when no req body', async () => {
-      const dbConnectionObj = getMockDBConnection();
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
       mockReq.body = null;
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
       try {
         const requestHandler = user.addUser();
@@ -37,7 +34,7 @@ describe('user', () => {
     });
 
     it('should throw a 400 error when no userIdentifier', async () => {
-      const dbConnectionObj = getMockDBConnection();
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -45,8 +42,6 @@ describe('user', () => {
         userIdentifier: null,
         identitySource: 'idsource'
       };
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
       try {
         const requestHandler = user.addUser();
@@ -60,7 +55,7 @@ describe('user', () => {
     });
 
     it('should throw a 400 error when no identitySource', async () => {
-      const dbConnectionObj = getMockDBConnection();
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -68,8 +63,6 @@ describe('user', () => {
         userIdentifier: 'uid',
         identitySource: null
       };
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
       try {
         const requestHandler = user.addUser();
@@ -83,7 +76,7 @@ describe('user', () => {
     });
 
     it('adds a system user and returns 200 on success', async () => {
-      const dbConnectionObj = getMockDBConnection();
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -91,8 +84,6 @@ describe('user', () => {
         userIdentifier: 'uid',
         identitySource: 'idsource'
       };
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
       sinon.stub(UserService.prototype, 'addSystemUser').resolves();
 

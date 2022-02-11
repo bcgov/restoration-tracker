@@ -2,7 +2,6 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../database/db';
 import { HTTPError } from '../errors/custom-error';
 import { UserObject } from '../models/user';
 import * as administrative_activity from '../paths/administrative-activity';
@@ -92,13 +91,11 @@ describe('updateAccessRequest', () => {
   });
 
   it('re-throws any error that is thrown', async () => {
-    const mockDBConnection = getMockDBConnection({
+    getMockDBConnection({
       open: () => {
         throw new Error('test error');
       }
     });
-
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -121,9 +118,7 @@ describe('updateAccessRequest', () => {
   });
 
   it('adds new system roles and updates administrative activity', async () => {
-    const mockDBConnection = getMockDBConnection();
-
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 

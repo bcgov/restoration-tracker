@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../constants/roles';
-import { getDBConnection } from '../../../database/db';
+import { KnexDBConnection } from '../../../database/knex-db';
 import { HTTP400 } from '../../../errors/custom-error';
 import { geoJsonFeature } from '../../../openapi/schemas/geoJson';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
@@ -290,7 +290,7 @@ export interface IUpdateProject {
  */
 export function updateProject(): RequestHandler {
   return async (req, res) => {
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       const projectId = Number(req.params?.projectId);
@@ -318,8 +318,6 @@ export function updateProject(): RequestHandler {
       defaultLog.error({ label: 'updateProject', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

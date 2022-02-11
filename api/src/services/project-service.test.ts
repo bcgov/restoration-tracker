@@ -4,6 +4,7 @@ import { QueryResult } from 'pg';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
+import { KnexDBConnection } from '../database/knex-db';
 import { HTTPError } from '../errors/custom-error';
 import * as projectViewModels from '../models/project-view';
 import { queries } from '../queries/queries';
@@ -31,7 +32,7 @@ describe('ProjectService', () => {
       const systemUserId = 1;
       const projectParticipantRoleId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.ensureProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
@@ -54,7 +55,7 @@ describe('ProjectService', () => {
       const systemUserId = 1;
       const projectParticipantRoleId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.ensureProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
@@ -80,7 +81,7 @@ describe('ProjectService', () => {
       const projectId = 1;
       const systemUserId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getProjectParticipant(projectId, systemUserId);
@@ -100,7 +101,7 @@ describe('ProjectService', () => {
       const projectId = 1;
       const systemUserId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getProjectParticipant(projectId, systemUserId);
@@ -120,7 +121,7 @@ describe('ProjectService', () => {
       const projectId = 1;
       const systemUserId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getProjectParticipant(projectId, systemUserId);
 
@@ -137,7 +138,7 @@ describe('ProjectService', () => {
       const projectId = 1;
       const systemUserId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getProjectParticipant(projectId, systemUserId);
 
@@ -157,7 +158,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getProjectParticipants(projectId);
@@ -176,7 +177,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getProjectParticipants(projectId);
@@ -195,7 +196,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getProjectParticipants(projectId);
 
@@ -211,7 +212,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getProjectParticipants(projectId);
 
@@ -233,7 +234,7 @@ describe('ProjectService', () => {
       const systemUserId = 1;
       const projectParticipantRoleId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.addProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
@@ -254,7 +255,7 @@ describe('ProjectService', () => {
       const systemUserId = 1;
       const projectParticipantRoleId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.addProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
@@ -278,7 +279,7 @@ describe('ProjectService', () => {
       const systemUserId = 1;
       const projectParticipantRoleId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       await projectService.addProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
 
@@ -299,7 +300,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getProjectData(projectId);
@@ -318,7 +319,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getProjectData(projectId);
@@ -337,7 +338,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getProjectData(projectId);
@@ -358,7 +359,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getProjectData(projectId);
 
@@ -377,7 +378,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getIUCNClassificationData(projectId);
@@ -398,7 +399,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getIUCNClassificationData(projectId);
 
@@ -417,7 +418,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getCoordinatorData(projectId);
@@ -434,7 +435,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getCoordinatorData(projectId);
@@ -455,7 +456,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getCoordinatorData(projectId);
 
@@ -474,7 +475,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getPermitData(projectId);
@@ -495,7 +496,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getPermitData(projectId);
 
@@ -511,7 +512,7 @@ describe('ProjectService', () => {
     it('should throw a 400 response when getIndigenousPartnershipsRows response has no rowCount', async () => {
       const mockDBConnection = getMockDBConnection();
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       sinon.stub(projectService, 'getIndigenousPartnershipsRows').resolves();
 
@@ -529,7 +530,7 @@ describe('ProjectService', () => {
     it('should throw a 400 response when getStakeholderPartnershipsRows response has no rowCount', async () => {
       const mockDBConnection = getMockDBConnection();
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       sinon.stub(projectService, 'getIndigenousPartnershipsRows').resolves([]);
       sinon.stub(projectService, 'getStakeholderPartnershipsRows').resolves();
@@ -553,7 +554,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getPartnershipsData(projectId);
 
@@ -572,7 +573,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getFundingData(projectId);
@@ -593,7 +594,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getFundingData(projectId);
 
@@ -612,7 +613,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await projectService.getLocationData(projectId);
@@ -633,7 +634,7 @@ describe('ProjectService', () => {
 
       const projectId = 1;
 
-      const projectService = new ProjectService(mockDBConnection);
+      const projectService = new ProjectService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await projectService.getLocationData(projectId);
 

@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as addFunding from './add';
-import * as db from '../../../../database/db';
+
 import project_queries from '../../../../queries/project';
 import SQL from 'sql-template-strings';
 import { getMockDBConnection } from '../../../../__mocks__/db';
@@ -12,8 +12,6 @@ import { HTTPError } from '../../../../errors/custom-error';
 chai.use(sinonChai);
 
 describe('add a funding source', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {},
     body: {
@@ -47,8 +45,6 @@ describe('add a funding source', () => {
   });
 
   it('should throw a 400 error when no projectId is provided', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = addFunding.addFundingSource();
       await result(
@@ -64,8 +60,7 @@ describe('add a funding source', () => {
   });
 
   it('should throw a 400 error when no request body present', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -87,8 +82,7 @@ describe('add a funding source', () => {
 
     mockQuery.resolves({ rows: null });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -109,8 +103,7 @@ describe('add a funding source', () => {
   });
 
   it('should throw a 400 error when no sql statement returned for addFundingSourceSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -134,8 +127,7 @@ describe('add a funding source', () => {
 
     mockQuery.resolves({ rows: [{ id: null }] });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -160,8 +152,7 @@ describe('add a funding source', () => {
 
     mockQuery.resolves({ rows: [{ id: 23 }] });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },

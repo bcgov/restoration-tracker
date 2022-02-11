@@ -2,7 +2,6 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../../database/db';
 import { HTTPError } from '../../errors/custom-error';
 import { UserObject } from '../../models/user';
 import { UserService } from '../../services/user-service';
@@ -18,9 +17,7 @@ describe('user', () => {
     });
 
     it('should throw a 400 error when no req body', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -38,9 +35,7 @@ describe('user', () => {
     });
 
     it('should throw a 400 error when no userIdentifier', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -61,9 +56,7 @@ describe('user', () => {
     });
 
     it('should throw a 400 error when no identitySource', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -84,9 +77,7 @@ describe('user', () => {
     });
 
     it('should throw a 400 error when no roleId', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -107,9 +98,7 @@ describe('user', () => {
     });
 
     it('adds a system user and returns 200 on success', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 

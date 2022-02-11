@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
-import * as db from '../../../../../database/db';
+
 import { HTTPError } from '../../../../../errors/custom-error';
 import * as queries from '../../../../../queries/queries';
 import { ProjectService } from '../../../../../services/project-service';
@@ -19,9 +19,7 @@ describe('Delete a project participant.', () => {
 
   it('should throw a 400 error when no projectId is provided', async () => {
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-    const dbConnectionObj = getMockDBConnection();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+    getMockDBConnection();
 
     mockReq.params = { projectId: '', projectParticipationId: '2' };
 
@@ -38,9 +36,7 @@ describe('Delete a project participant.', () => {
 
   it('should throw a 400 error when no projectParticipationId is provided', async () => {
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-    const dbConnectionObj = getMockDBConnection();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+    getMockDBConnection();
 
     mockReq.params = { projectId: '1', projectParticipationId: '' };
 
@@ -57,9 +53,7 @@ describe('Delete a project participant.', () => {
 
   it('should throw a 400 error when no roleId is provided', async () => {
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-    const dbConnectionObj = getMockDBConnection();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+    getMockDBConnection();
 
     mockReq.params = { projectId: '1', projectParticipationId: '2' };
     mockReq.body = { roleId: '' };
@@ -77,7 +71,6 @@ describe('Delete a project participant.', () => {
 
   it('should throw a 400 error when deleteProjectParticipationSQL query fails', async () => {
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-    const dbConnectionObj = getMockDBConnection();
 
     mockReq.params = { projectId: '1', projectParticipationId: '2' };
     mockReq.body = { roleId: '1' };
@@ -86,8 +79,7 @@ describe('Delete a project participant.', () => {
     sinon.stub(ProjectService.prototype, 'getProjectParticipants').resolves([{ id: 1 }]);
     sinon.stub(doAllProjectsHaveAProjectLead, 'doAllProjectsHaveAProjectLead').returns(true);
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -106,7 +98,6 @@ describe('Delete a project participant.', () => {
 
   it('should throw a 400 error when connection query fails', async () => {
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-    const dbConnectionObj = getMockDBConnection();
 
     mockReq.params = { projectId: '1', projectParticipationId: '2' };
     mockReq.body = { roleId: '1' };
@@ -115,8 +106,7 @@ describe('Delete a project participant.', () => {
     sinon.stub(ProjectService.prototype, 'getProjectParticipants').resolves([{ id: 1 }]);
     sinon.stub(doAllProjectsHaveAProjectLead, 'doAllProjectsHaveAProjectLead').returns(true);
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -135,7 +125,6 @@ describe('Delete a project participant.', () => {
 
   it('should throw a 400 error when user is only project lead', async () => {
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-    const dbConnectionObj = getMockDBConnection();
 
     mockReq.params = { projectId: '1', projectParticipationId: '2' };
     mockReq.body = { roleId: '1' };
@@ -156,8 +145,7 @@ describe('Delete a project participant.', () => {
       rowCount: 1
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -179,7 +167,6 @@ describe('Delete a project participant.', () => {
 
   it('should not throw an error', async () => {
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-    const dbConnectionObj = getMockDBConnection();
 
     mockReq.params = { projectId: '1', projectParticipationId: '2' };
     mockReq.body = { roleId: '1' };
@@ -200,8 +187,7 @@ describe('Delete a project participant.', () => {
       rowCount: 1
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },

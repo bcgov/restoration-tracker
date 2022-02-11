@@ -4,6 +4,7 @@ import { QueryResult } from 'pg';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
+import { KnexDBConnection } from '../database/knex-db';
 import { ApiError } from '../errors/custom-error';
 import { UserObject } from '../models/user';
 import { queries } from '../queries/queries';
@@ -24,7 +25,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = null;
       sinon.stub(queries.users, 'getUserByIdSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.getUserById(1);
@@ -41,7 +42,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'getUserByIdSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.getUserById(1);
 
@@ -56,7 +57,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'getUserByIdSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.getUserById(1);
 
@@ -75,7 +76,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = null;
       sinon.stub(queries.users, 'getUserByUserIdentifierSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.getUserByIdentifier('identifier');
@@ -92,7 +93,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'getUserByUserIdentifierSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.getUserByIdentifier('identifier');
 
@@ -107,7 +108,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'getUserByUserIdentifierSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.getUserByIdentifier('identifier');
 
@@ -123,7 +124,7 @@ describe('UserService', () => {
     it('should throw an error when no sql statement produced', async () => {
       const mockDBConnection = getMockDBConnection();
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       sinon.stub(queries.users, 'addSystemUserSQL').returns(null);
 
@@ -142,7 +143,7 @@ describe('UserService', () => {
       const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       sinon.stub(queries.users, 'addSystemUserSQL').returns(SQL`valid sql`);
 
@@ -163,7 +164,7 @@ describe('UserService', () => {
       const mockQuery = sinon.fake.resolves(mockQueryResponse);
       const mockDBConnection = getMockDBConnection({ query: mockQuery });
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const addSystemUserSQLStub = sinon.stub(queries.users, 'addSystemUserSQL').returns(SQL`valid sql`);
 
@@ -190,7 +191,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = null;
       sinon.stub(queries.users, 'getUserListSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.listSystemUsers();
@@ -207,7 +208,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'getUserListSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.listSystemUsers();
 
@@ -226,7 +227,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'getUserListSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.listSystemUsers();
 
@@ -244,7 +245,7 @@ describe('UserService', () => {
     });
 
     it('throws an error if it fails to get the current system user id', async () => {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => null });
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => (null as unknown) as number });
 
       const existingSystemUser = null;
       const getUserByIdentifierStub = sinon
@@ -257,7 +258,7 @@ describe('UserService', () => {
       const userIdentifier = 'username';
       const identitySource = 'idir';
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.ensureSystemUser(userIdentifier, identitySource);
@@ -287,7 +288,7 @@ describe('UserService', () => {
       const userIdentifier = 'username';
       const identitySource = 'idir';
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.ensureSystemUser(userIdentifier, identitySource);
 
@@ -320,7 +321,7 @@ describe('UserService', () => {
       const userIdentifier = 'username';
       const identitySource = 'idir';
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.ensureSystemUser(userIdentifier, identitySource);
 
@@ -356,7 +357,7 @@ describe('UserService', () => {
       const userIdentifier = 'username';
       const identitySource = 'idir';
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.ensureSystemUser(userIdentifier, identitySource);
@@ -401,7 +402,7 @@ describe('UserService', () => {
       const userIdentifier = 'username';
       const identitySource = 'idir';
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.ensureSystemUser(userIdentifier, identitySource);
 
@@ -426,7 +427,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = null;
       sinon.stub(queries.users, 'activateSystemUserSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.activateSystemUser(1);
@@ -443,7 +444,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'activateSystemUserSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.activateSystemUser(1);
@@ -460,7 +461,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'activateSystemUserSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.activateSystemUser(1);
 
@@ -479,7 +480,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = null;
       sinon.stub(queries.users, 'deactivateSystemUserSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.deactivateSystemUser(1);
@@ -496,7 +497,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'deactivateSystemUserSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.deactivateSystemUser(1);
@@ -513,7 +514,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'deactivateSystemUserSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.deactivateSystemUser(1);
 
@@ -532,7 +533,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = null;
       sinon.stub(queries.users, 'deleteAllSystemRolesSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.deleteUserSystemRoles(1);
@@ -549,7 +550,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'deleteAllSystemRolesSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.deleteUserSystemRoles(1);
@@ -566,7 +567,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'deleteAllSystemRolesSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.deleteUserSystemRoles(1);
 
@@ -585,7 +586,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = null;
       sinon.stub(queries.users, 'postSystemRolesSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.addUserSystemRoles(1, [1]);
@@ -602,7 +603,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'postSystemRolesSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       try {
         await userService.addUserSystemRoles(1, [1]);
@@ -619,7 +620,7 @@ describe('UserService', () => {
       const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
       sinon.stub(queries.users, 'postSystemRolesSQL').returns(mockUsersByIdSQLResponse);
 
-      const userService = new UserService(mockDBConnection);
+      const userService = new UserService((mockDBConnection as unknown) as KnexDBConnection);
 
       const result = await userService.addUserSystemRoles(1, [1]);
 

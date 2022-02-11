@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
-import * as db from '../../../../database/db';
+
 import { HTTPError } from '../../../../errors/custom-error';
 import project_participation_queries from '../../../../queries/project-participation';
 import { getMockDBConnection } from '../../../../__mocks__/db';
@@ -12,8 +12,6 @@ import * as projects from './get';
 chai.use(sinonChai);
 
 describe('projects', () => {
-  const dbConnectionObj = getMockDBConnection();
-
   describe('getAllUserProjects', () => {
     afterEach(() => {
       sinon.restore();
@@ -39,8 +37,6 @@ describe('projects', () => {
     };
 
     it('should throw a 400 error when no params are sent', async () => {
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
       try {
         const result = projects.getAllUserProjects();
 
@@ -53,8 +49,6 @@ describe('projects', () => {
     });
 
     it('should throw a 400 error when no user Id is sent', async () => {
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
       try {
         const result = projects.getAllUserProjects();
 
@@ -71,8 +65,7 @@ describe('projects', () => {
     });
 
     it('should throw a 400 error when no sql statement returned for getProjectSQL', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         }
@@ -98,8 +91,7 @@ describe('projects', () => {
         rows: [{ project_id: 123, name: 'test', system_user_id: 12, project_role_id: 42, project_participation_id: 88 }]
       });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },

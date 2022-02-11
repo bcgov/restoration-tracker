@@ -2,6 +2,7 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import { KnexDBConnection } from '../database/knex-db';
 import { getMockDBConnection } from '../__mocks__/db';
 import { CodeService } from './code-service';
 
@@ -21,7 +22,7 @@ describe('CodeService', () => {
 
       const mockDBConnection = getMockDBConnection({ query: mockQuery });
 
-      const codeService = new CodeService(mockDBConnection);
+      const codeService = new CodeService((mockDBConnection as unknown) as KnexDBConnection);
 
       const response = await codeService.getAllCodeSets();
 

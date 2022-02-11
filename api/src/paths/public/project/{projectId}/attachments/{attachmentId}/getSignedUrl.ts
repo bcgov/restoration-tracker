@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { getAPIUserDBConnection, IDBConnection } from '../../../../../../database/db';
+import { APIKnexDBConnection, KnexDBConnection } from '../../../../../../database/knex-db';
 import { HTTP400 } from '../../../../../../errors/custom-error';
 import { queries } from '../../../../../../queries/queries';
 import { getS3SignedURL } from '../../../../../../utils/file-utils';
@@ -77,7 +77,7 @@ export function getAttachmentSignedURL(): RequestHandler {
       throw new HTTP400('Missing required path param `attachmentId`');
     }
 
-    const connection = getAPIUserDBConnection();
+    const connection = new APIKnexDBConnection();
 
     await connection.open();
 
@@ -103,8 +103,6 @@ export function getAttachmentSignedURL(): RequestHandler {
       defaultLog.error({ label: 'getAttachmentSignedURL', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
@@ -112,7 +110,7 @@ export function getAttachmentSignedURL(): RequestHandler {
 export const getPublicProjectAttachmentS3Key = async (
   projectId: number,
   attachmentId: number,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ): Promise<string> => {
   const sqlStatement = queries.public.getPublicProjectAttachmentS3KeySQL(projectId, attachmentId);
 

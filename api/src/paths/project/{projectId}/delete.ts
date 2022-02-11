@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../../../constants/roles';
-import { getDBConnection } from '../../../database/db';
+import { KnexDBConnection } from '../../../database/knex-db';
 import { HTTP400 } from '../../../errors/custom-error';
 import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
@@ -73,7 +73,7 @@ export function deleteProject(): RequestHandler {
       throw new HTTP400('Missing required path param: `projectId`');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       /**
@@ -160,8 +160,6 @@ export function deleteProject(): RequestHandler {
       defaultLog.error({ label: 'deleteProject', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

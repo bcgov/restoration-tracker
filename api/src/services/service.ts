@@ -1,4 +1,3 @@
-import { IDBConnection } from '../database/db';
 import { KnexDBConnection } from '../database/knex-db';
 
 /**
@@ -7,10 +6,10 @@ import { KnexDBConnection } from '../database/knex-db';
  * @export
  * @class DBService
  */
-export class DBService<T = IDBConnection | KnexDBConnection> {
-  connection: T;
+export class DBService {
+  connection: KnexDBConnection;
 
-  constructor(connection: T) {
+  constructor(connection: KnexDBConnection) {
     this.connection = connection;
   }
 }

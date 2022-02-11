@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as get_signed_url from './getSignedUrl';
-import * as db from '../../../../../database/db';
+
 import project_queries from '../../../../../queries/project';
 import SQL from 'sql-template-strings';
 import * as file_utils from '../../../../../utils/file-utils';
@@ -16,8 +16,6 @@ describe('getProjectAttachmentSignedURL', () => {
   afterEach(() => {
     sinon.restore();
   });
-
-  const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
     keycloak_token: {},
@@ -40,8 +38,6 @@ describe('getProjectAttachmentSignedURL', () => {
   };
 
   it('should throw an error when projectId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = get_signed_url.getProjectAttachmentSignedURL();
 
@@ -58,8 +54,6 @@ describe('getProjectAttachmentSignedURL', () => {
   });
 
   it('should throw an error when attachmentId is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
     try {
       const result = get_signed_url.getProjectAttachmentSignedURL();
 
@@ -80,8 +74,7 @@ describe('getProjectAttachmentSignedURL', () => {
 
     mockQuery.resolves({ rows: [{ key: 's3Key' }] });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -100,8 +93,7 @@ describe('getProjectAttachmentSignedURL', () => {
 
   describe('attachments', () => {
     it('should throw a 400 error when no sql statement returned', async () => {
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         }
@@ -125,8 +117,7 @@ describe('getProjectAttachmentSignedURL', () => {
 
       mockQuery.resolves({ rows: [{ key: 's3Key' }] });
 
-      sinon.stub(db, 'getDBConnection').returns({
-        ...dbConnectionObj,
+      getMockDBConnection({
         systemUserId: () => {
           return 20;
         },

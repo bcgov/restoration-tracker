@@ -3,7 +3,6 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../../../../database/db';
 import { HTTPError } from '../../../../errors/custom-error';
 import { ProjectService } from '../../../../services/project-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../../__mocks__/db';
@@ -26,9 +25,7 @@ describe('project/{projectId}/view', () => {
     });
 
     it('fetches a project', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const viewProjectResult = { id: 1 };
 
@@ -49,9 +46,7 @@ describe('project/{projectId}/view', () => {
     });
 
     it('catches and re-throws error', async () => {
-      const dbConnectionObj = getMockDBConnection({ release: sinon.stub() });
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       sinon.stub(ProjectService.prototype, 'getProjectById').rejects(new Error('a test error'));
 
@@ -63,8 +58,6 @@ describe('project/{projectId}/view', () => {
         await requestHandler(mockReq, mockRes, mockNext);
         expect.fail();
       } catch (actualError) {
-        expect(dbConnectionObj.release).to.have.been.called;
-
         expect((actualError as HTTPError).message).to.equal('a test error');
       }
     });

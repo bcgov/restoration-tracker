@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../constants/roles';
-import { getDBConnection } from '../database/db';
+import { KnexDBConnection } from '../database/knex-db';
 import { HTTP400 } from '../errors/custom-error';
 import { queries } from '../queries/queries';
 import { authorizeRequestHandler } from '../request-handlers/security/authorization';
@@ -138,7 +138,7 @@ GET.apiDoc = {
  */
 export function getAdministrativeActivities(): RequestHandler {
   return async (req, res) => {
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       const administrativeActivityTypeName = (req.query?.type as string) || undefined;
@@ -167,8 +167,6 @@ export function getAdministrativeActivities(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'getAdministrativeActivities', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

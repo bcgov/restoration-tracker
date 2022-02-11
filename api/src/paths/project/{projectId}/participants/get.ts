@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../constants/roles';
-import { getDBConnection } from '../../../../database/db';
+import { KnexDBConnection } from '../../../../database/knex-db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { ProjectService } from '../../../../services/project-service';
@@ -113,7 +113,7 @@ export function getParticipants(): RequestHandler {
       throw new HTTP400('Missing required param `projectId`');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       const projectId = Number(req.params.projectId);
@@ -130,8 +130,6 @@ export function getParticipants(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'getAllProjectParticipantsSQL', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

@@ -6,10 +6,17 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../../constants/roles';
-import * as db from '../../database/db';
-import { HTTPError } from '../../errors/custom-error';
+import { KnexDBConnection } from '../../database/knex-db';
+import { ApiError, HTTPError } from '../../errors/custom-error';
 import { ProjectUserObject, UserObject } from '../../models/user';
 import project_participation_queries from '../../queries/project-participation';
+import {
+  AuthorizationScheme,
+  AuthorizationService,
+  AuthorizeByProjectRoles,
+  AuthorizeBySystemRoles,
+  AuthorizeRule
+} from '../../services/authorization-service';
 import { UserService } from '../../services/user-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../__mocks__/db';
 import * as authorization from './authorization';
@@ -22,8 +29,7 @@ describe('authorizeRequestHandler', function () {
   });
 
   it('throws a 403 error if the user is not authorized', async function () {
-    const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -47,8 +53,7 @@ describe('authorizeRequestHandler', function () {
   });
 
   it('calls next if the user is authorized', async function () {
-    const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    getMockDBConnection();
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -72,11 +77,10 @@ describe('authorizeRequest', function () {
   });
 
   it('returns false if systemUserObject is null', async function () {
-    const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    getMockDBConnection();
 
     const mockSystemUserObject = (undefined as unknown) as UserObject;
-    sinon.stub(authorization, 'getSystemUserObject').resolves(mockSystemUserObject);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserObject').resolves(mockSystemUserObject);
 
     const mockReq = ({ authorization_scheme: {} } as unknown) as Request;
     const isAuthorized = await authorization.authorizeRequest(mockReq);
@@ -85,13 +89,12 @@ describe('authorizeRequest', function () {
   });
 
   it('returns true if the user is a system administrator', async function () {
-    const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    getMockDBConnection();
 
     const mockSystemUserObject = ({ role_names: [] } as unknown) as UserObject;
-    sinon.stub(authorization, 'getSystemUserObject').resolves(mockSystemUserObject);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserObject').resolves(mockSystemUserObject);
 
-    sinon.stub(authorization, 'authorizeSystemAdministrator').resolves(true);
+    sinon.stub(AuthorizationService.prototype, 'authorizeSystemAdministrator').resolves(true);
 
     const mockReq = ({ authorization_scheme: {} } as unknown) as Request;
     const isAuthorized = await authorization.authorizeRequest(mockReq);
@@ -100,13 +103,12 @@ describe('authorizeRequest', function () {
   });
 
   it('returns true if the authorization_scheme is undefined', async function () {
-    const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    getMockDBConnection();
 
     const mockSystemUserObject = ({ role_names: [] } as unknown) as UserObject;
-    sinon.stub(authorization, 'getSystemUserObject').resolves(mockSystemUserObject);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserObject').resolves(mockSystemUserObject);
 
-    sinon.stub(authorization, 'authorizeSystemAdministrator').resolves(false);
+    sinon.stub(AuthorizationService.prototype, 'authorizeSystemAdministrator').resolves(false);
 
     const mockReq = ({ authorization_scheme: undefined } as unknown) as Request;
     const isAuthorized = await authorization.authorizeRequest(mockReq);
@@ -115,15 +117,14 @@ describe('authorizeRequest', function () {
   });
 
   it('returns true if the user is authorized against the authorization_scheme', async function () {
-    const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    getMockDBConnection();
 
     const mockSystemUserObject = ({ role_names: [] } as unknown) as UserObject;
-    sinon.stub(authorization, 'getSystemUserObject').resolves(mockSystemUserObject);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserObject').resolves(mockSystemUserObject);
 
-    sinon.stub(authorization, 'authorizeSystemAdministrator').resolves(false);
+    sinon.stub(AuthorizationService.prototype, 'authorizeSystemAdministrator').resolves(false);
 
-    sinon.stub(authorization, 'executeAuthorizationScheme').resolves(true);
+    sinon.stub(AuthorizationService.prototype, 'executeAuthorizationScheme').resolves(true);
 
     const mockReq = ({ authorization_scheme: {} } as unknown) as Request;
     const isAuthorized = await authorization.authorizeRequest(mockReq);
@@ -132,15 +133,14 @@ describe('authorizeRequest', function () {
   });
 
   it('returns false if the user is not authorized against the authorization_scheme', async function () {
-    const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    getMockDBConnection();
 
     const mockSystemUserObject = ({ role_names: [] } as unknown) as UserObject;
-    sinon.stub(authorization, 'getSystemUserObject').resolves(mockSystemUserObject);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserObject').resolves(mockSystemUserObject);
 
-    sinon.stub(authorization, 'authorizeSystemAdministrator').resolves(false);
+    sinon.stub(AuthorizationService.prototype, 'authorizeSystemAdministrator').resolves(false);
 
-    sinon.stub(authorization, 'executeAuthorizationScheme').resolves(false);
+    sinon.stub(AuthorizationService.prototype, 'executeAuthorizationScheme').resolves(false);
 
     const mockReq = ({ authorization_scheme: {} } as unknown) as Request;
     const isAuthorized = await authorization.authorizeRequest(mockReq);
@@ -149,12 +149,11 @@ describe('authorizeRequest', function () {
   });
 
   it('returns false if an error is thrown', async function () {
-    const mockDBConnection = getMockDBConnection({
+    getMockDBConnection({
       open: () => {
         throw new Error('Test Error');
       }
     });
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const mockReq = ({ authorization_scheme: {} } as unknown) as Request;
     const isAuthorized = await authorization.authorizeRequest(mockReq);
@@ -169,65 +168,53 @@ describe('executeAuthorizationScheme', function () {
   });
 
   it('returns false if any AND authorizationScheme rules return false', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizationScheme = ({ and: [] } as unknown) as authorization.AuthorizationScheme;
+    const mockAuthorizationScheme = ({ and: [] } as unknown) as AuthorizationScheme;
     const mockDBConnection = getMockDBConnection();
 
-    sinon.stub(authorization, 'executeAuthorizeConfig').resolves([true, false, true]);
+    sinon.stub(AuthorizationService.prototype, 'executeAuthorizeConfig').resolves([true, false, true]);
 
-    const isAuthorized = await authorization.executeAuthorizationScheme(
-      mockReq,
-      mockAuthorizationScheme,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorized = await authorizationService.executeAuthorizationScheme(mockAuthorizationScheme);
 
     expect(isAuthorized).to.equal(false);
   });
 
   it('returns true if all AND authorizationScheme rules return true', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizationScheme = ({ and: [] } as unknown) as authorization.AuthorizationScheme;
+    const mockAuthorizationScheme = ({ and: [] } as unknown) as AuthorizationScheme;
     const mockDBConnection = getMockDBConnection();
 
-    sinon.stub(authorization, 'executeAuthorizeConfig').resolves([true, true, true]);
+    sinon.stub(AuthorizationService.prototype, 'executeAuthorizeConfig').resolves([true, true, true]);
 
-    const isAuthorized = await authorization.executeAuthorizationScheme(
-      mockReq,
-      mockAuthorizationScheme,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorized = await authorizationService.executeAuthorizationScheme(mockAuthorizationScheme);
 
     expect(isAuthorized).to.equal(true);
   });
 
   it('returns false if all OR authorizationScheme rules return false', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizationScheme = ({ or: [] } as unknown) as authorization.AuthorizationScheme;
+    const mockAuthorizationScheme = ({ or: [] } as unknown) as AuthorizationScheme;
     const mockDBConnection = getMockDBConnection();
 
-    sinon.stub(authorization, 'executeAuthorizeConfig').resolves([false, false, false]);
+    sinon.stub(AuthorizationService.prototype, 'executeAuthorizeConfig').resolves([false, false, false]);
 
-    const isAuthorized = await authorization.executeAuthorizationScheme(
-      mockReq,
-      mockAuthorizationScheme,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorized = await authorizationService.executeAuthorizationScheme(mockAuthorizationScheme);
 
     expect(isAuthorized).to.equal(false);
   });
 
   it('returns true if any OR authorizationScheme rules return true', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizationScheme = ({ or: [] } as unknown) as authorization.AuthorizationScheme;
+    const mockAuthorizationScheme = ({ or: [] } as unknown) as AuthorizationScheme;
     const mockDBConnection = getMockDBConnection();
 
-    sinon.stub(authorization, 'executeAuthorizeConfig').resolves([false, true, false]);
+    sinon.stub(AuthorizationService.prototype, 'executeAuthorizeConfig').resolves([false, true, false]);
 
-    const isAuthorized = await authorization.executeAuthorizationScheme(
-      mockReq,
-      mockAuthorizationScheme,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorized = await authorizationService.executeAuthorizationScheme(mockAuthorizationScheme);
 
     expect(isAuthorized).to.equal(true);
   });
@@ -239,8 +226,7 @@ describe('executeAuthorizeConfig', function () {
   });
 
   it('returns an array of authorizeRule results', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizeRules: authorization.AuthorizeRule[] = [
+    const mockAuthorizeRules: AuthorizeRule[] = [
       {
         validSystemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
         discriminator: 'SystemRole'
@@ -256,11 +242,13 @@ describe('executeAuthorizeConfig', function () {
     ];
     const mockDBConnection = getMockDBConnection();
 
-    sinon.stub(authorization, 'authorizeBySystemRole').resolves(true);
-    sinon.stub(authorization, 'authorizeByProjectRole').resolves(false);
-    sinon.stub(authorization, 'authorizeBySystemUser').resolves(true);
+    sinon.stub(AuthorizationService.prototype, 'authorizeBySystemRole').resolves(true);
+    sinon.stub(AuthorizationService.prototype, 'authorizeByProjectRole').resolves(false);
+    sinon.stub(AuthorizationService.prototype, 'authorizeBySystemUser').resolves(true);
 
-    const authorizeResults = await authorization.executeAuthorizeConfig(mockReq, mockAuthorizeRules, mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const authorizeResults = await authorizationService.executeAuthorizeConfig(mockAuthorizeRules);
 
     expect(authorizeResults).to.eql([true, false, true]);
   });
@@ -272,86 +260,77 @@ describe('authorizeBySystemRole', function () {
   });
 
   it('returns false if `authorizeSystemRoles` is null', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizeSystemRoles = (null as unknown) as authorization.AuthorizeBySystemRoles;
+    const mockAuthorizeSystemRoles = (null as unknown) as AuthorizeBySystemRoles;
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeBySystemRole(
-      mockReq,
-      mockAuthorizeSystemRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeBySystemRole(mockAuthorizeSystemRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(false);
   });
 
   it('returns false if `systemUserObject` is null', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizeSystemRoles: authorization.AuthorizeBySystemRoles = {
+    const mockAuthorizeSystemRoles: AuthorizeBySystemRoles = {
       validSystemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
       discriminator: 'SystemRole'
     };
     const mockDBConnection = getMockDBConnection();
 
     const mockGetSystemUsersObjectResponse = (null as unknown) as UserObject;
-    sinon.stub(authorization, 'getSystemUserObject').resolves(mockGetSystemUsersObjectResponse);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserObject').resolves(mockGetSystemUsersObjectResponse);
 
-    const isAuthorizedBySystemRole = await authorization.authorizeBySystemRole(
-      mockReq,
-      mockAuthorizeSystemRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeBySystemRole(mockAuthorizeSystemRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(false);
   });
 
   it('returns true if `authorizeSystemRoles` specifies no valid roles', async function () {
-    const mockReq = ({ system_user: {} } as unknown) as Request;
-    const mockAuthorizeSystemRoles: authorization.AuthorizeBySystemRoles = {
+    const mockAuthorizeSystemRoles: AuthorizeBySystemRoles = {
       validSystemRoles: [],
       discriminator: 'SystemRole'
     };
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeBySystemRole(
-      mockReq,
-      mockAuthorizeSystemRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection, {
+      systemUser: ({} as unknown) as UserObject
+    });
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeBySystemRole(mockAuthorizeSystemRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(true);
   });
 
   it('returns false if the user does not have any valid roles', async function () {
-    const mockReq = ({ system_user: { role_names: [] } } as unknown) as Request;
-    const mockAuthorizeSystemRoles: authorization.AuthorizeBySystemRoles = {
+    const mockAuthorizeSystemRoles: AuthorizeBySystemRoles = {
       validSystemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
       discriminator: 'SystemRole'
     };
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeBySystemRole(
-      mockReq,
-      mockAuthorizeSystemRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection, {
+      systemUser: ({ role_names: [] } as unknown) as UserObject
+    });
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeBySystemRole(mockAuthorizeSystemRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(false);
   });
 
   it('returns true if the user has at least one of the valid roles', async function () {
-    const mockReq = ({ system_user: { role_names: [SYSTEM_ROLE.PROJECT_CREATOR] } } as unknown) as Request;
-    const mockAuthorizeSystemRoles: authorization.AuthorizeBySystemRoles = {
+    const mockAuthorizeSystemRoles: AuthorizeBySystemRoles = {
       validSystemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
       discriminator: 'SystemRole'
     };
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeBySystemRole(
-      mockReq,
-      mockAuthorizeSystemRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection, {
+      systemUser: ({ role_names: [SYSTEM_ROLE.PROJECT_CREATOR] } as unknown) as UserObject
+    });
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeBySystemRole(mockAuthorizeSystemRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(true);
   });
@@ -363,58 +342,48 @@ describe('authorizeByProjectRole', function () {
   });
 
   it('returns false if `authorizeByProjectRole` is null', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizeProjectRoles = (null as unknown) as authorization.AuthorizeByProjectRoles;
+    const mockAuthorizeProjectRoles = (null as unknown) as AuthorizeByProjectRoles;
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeByProjectRole(
-      mockReq,
-      mockAuthorizeProjectRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeByProjectRole(mockAuthorizeProjectRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(false);
   });
 
   it('returns false if `authorizeProjectRoles.projectId` is null', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizeProjectRoles: authorization.AuthorizeByProjectRoles = {
+    const mockAuthorizeProjectRoles: AuthorizeByProjectRoles = {
       validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD],
       projectId: (null as unknown) as number,
       discriminator: 'ProjectRole'
     };
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeByProjectRole(
-      mockReq,
-      mockAuthorizeProjectRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeByProjectRole(mockAuthorizeProjectRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(false);
   });
 
   it('returns true if `authorizeByProjectRole` specifies no valid roles', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizeProjectRoles: authorization.AuthorizeByProjectRoles = {
+    const mockAuthorizeProjectRoles: AuthorizeByProjectRoles = {
       validProjectRoles: [],
       projectId: 1,
       discriminator: 'ProjectRole'
     };
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeByProjectRole(
-      mockReq,
-      mockAuthorizeProjectRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeByProjectRole(mockAuthorizeProjectRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(true);
   });
 
   it('returns false if it fails to fetch the users project role information', async function () {
-    const mockReq = ({} as unknown) as Request;
-    const mockAuthorizeProjectRoles: authorization.AuthorizeByProjectRoles = {
+    const mockAuthorizeProjectRoles: AuthorizeByProjectRoles = {
       validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD],
       projectId: 1,
       discriminator: 'ProjectRole'
@@ -422,51 +391,49 @@ describe('authorizeByProjectRole', function () {
     const mockDBConnection = getMockDBConnection();
 
     const mockProjectUserObject = (undefined as unknown) as ProjectUserObject;
-    sinon.stub(authorization, 'getProjectUserObject').resolves(mockProjectUserObject);
+    sinon.stub(AuthorizationService.prototype, 'getProjectUserObject').resolves(mockProjectUserObject);
 
-    const isAuthorizedBySystemRole = await authorization.authorizeByProjectRole(
-      mockReq,
-      mockAuthorizeProjectRoles,
-      mockDBConnection
-    );
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeByProjectRole(mockAuthorizeProjectRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(false);
   });
 
   it('returns false if the user does not have any valid roles', async function () {
-    const mockProjectUserObject = ({ project_role_names: [] } as unknown) as ProjectUserObject;
-    const mockReq = ({ project_user: mockProjectUserObject } as unknown) as Request;
-    const mockAuthorizeProjectRoles: authorization.AuthorizeByProjectRoles = {
+    const mockAuthorizeProjectRoles: AuthorizeByProjectRoles = {
       validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD],
       projectId: 1,
       discriminator: 'ProjectRole'
     };
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeByProjectRole(
-      mockReq,
-      mockAuthorizeProjectRoles,
-      mockDBConnection
-    );
+    sinon
+      .stub(AuthorizationService.prototype, 'getProjectUserObject')
+      .resolves(({ project_role_names: [] } as unknown) as ProjectUserObject);
+
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeByProjectRole(mockAuthorizeProjectRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(false);
   });
 
   it('returns true if the user has at lest one of the valid roles', async function () {
-    const mockProjectUserObject = ({ project_role_names: [PROJECT_ROLE.PROJECT_LEAD] } as unknown) as ProjectUserObject;
-    const mockReq = ({ project_user: mockProjectUserObject } as unknown) as Request;
-    const mockAuthorizeProjectRoles: authorization.AuthorizeByProjectRoles = {
+    const mockAuthorizeProjectRoles: AuthorizeByProjectRoles = {
       validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD],
       projectId: 1,
       discriminator: 'ProjectRole'
     };
     const mockDBConnection = getMockDBConnection();
 
-    const isAuthorizedBySystemRole = await authorization.authorizeByProjectRole(
-      mockReq,
-      mockAuthorizeProjectRoles,
-      mockDBConnection
-    );
+    sinon
+      .stub(AuthorizationService.prototype, 'getProjectUserObject')
+      .resolves(({ project_role_names: [PROJECT_ROLE.PROJECT_LEAD] } as unknown) as ProjectUserObject);
+
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeByProjectRole(mockAuthorizeProjectRoles);
 
     expect(isAuthorizedBySystemRole).to.equal(true);
   });
@@ -478,25 +445,29 @@ describe('authorizeBySystemUser', function () {
   });
 
   it('returns false if `systemUserObject` is null', async function () {
-    const mockReq = ({} as unknown) as Request;
     const mockDBConnection = getMockDBConnection();
 
     const mockGetSystemUsersObjectResponse = (null as unknown) as UserObject;
-    sinon.stub(authorization, 'getSystemUserObject').resolves(mockGetSystemUsersObjectResponse);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserObject').resolves(mockGetSystemUsersObjectResponse);
 
-    const isAuthorizedBySystemRole = await authorization.authorizeBySystemUser(mockReq, mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeBySystemUser();
 
     expect(isAuthorizedBySystemRole).to.equal(false);
   });
 
   it('returns true if `systemUserObject` is not null', async function () {
-    const mockReq = ({ system_user: {} } as unknown) as Request;
     const mockDBConnection = getMockDBConnection();
 
     const mockGetSystemUsersObjectResponse = (null as unknown) as UserObject;
-    sinon.stub(authorization, 'getSystemUserObject').resolves(mockGetSystemUsersObjectResponse);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserObject').resolves(mockGetSystemUsersObjectResponse);
 
-    const isAuthorizedBySystemRole = await authorization.authorizeBySystemUser(mockReq, mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection, {
+      systemUser: ({} as unknown) as UserObject
+    });
+
+    const isAuthorizedBySystemRole = await authorizationService.authorizeBySystemUser();
 
     expect(isAuthorizedBySystemRole).to.equal(true);
   });
@@ -506,25 +477,25 @@ describe('userHasValidRole', () => {
   describe('validSystemRoles is a string', () => {
     describe('userSystemRoles is a string', () => {
       it('returns true if the valid roles is empty', () => {
-        const response = authorization.userHasValidRole('', '');
+        const response = AuthorizationService.userHasValidRole('', '');
 
         expect(response).to.be.true;
       });
 
       it('returns false if the user has no roles', () => {
-        const response = authorization.userHasValidRole('admin', '');
+        const response = AuthorizationService.userHasValidRole('admin', '');
 
         expect(response).to.be.false;
       });
 
       it('returns false if the user has no matching roles', () => {
-        const response = authorization.userHasValidRole('admin', 'user');
+        const response = AuthorizationService.userHasValidRole('admin', 'user');
 
         expect(response).to.be.false;
       });
 
       it('returns true if the user has a matching role', () => {
-        const response = authorization.userHasValidRole('admin', 'admin');
+        const response = AuthorizationService.userHasValidRole('admin', 'admin');
 
         expect(response).to.be.true;
       });
@@ -532,25 +503,25 @@ describe('userHasValidRole', () => {
 
     describe('userSystemRoles is an array', () => {
       it('returns true if the valid roles is empty', () => {
-        const response = authorization.userHasValidRole('', []);
+        const response = AuthorizationService.userHasValidRole('', []);
 
         expect(response).to.be.true;
       });
 
       it('returns false if the user has no matching roles', () => {
-        const response = authorization.userHasValidRole('admin', []);
+        const response = AuthorizationService.userHasValidRole('admin', []);
 
         expect(response).to.be.false;
       });
 
       it('returns false if the user has no matching roles', () => {
-        const response = authorization.userHasValidRole('admin', ['user']);
+        const response = AuthorizationService.userHasValidRole('admin', ['user']);
 
         expect(response).to.be.false;
       });
 
       it('returns true if the user has a matching role', () => {
-        const response = authorization.userHasValidRole('admin', ['admin']);
+        const response = AuthorizationService.userHasValidRole('admin', ['admin']);
 
         expect(response).to.be.true;
       });
@@ -560,25 +531,25 @@ describe('userHasValidRole', () => {
   describe('validSystemRoles is an array', () => {
     describe('userSystemRoles is a string', () => {
       it('returns true if the valid roles is empty', () => {
-        const response = authorization.userHasValidRole([], '');
+        const response = AuthorizationService.userHasValidRole([], '');
 
         expect(response).to.be.true;
       });
 
       it('returns false if the user has no roles', () => {
-        const response = authorization.userHasValidRole(['admin'], '');
+        const response = AuthorizationService.userHasValidRole(['admin'], '');
 
         expect(response).to.be.false;
       });
 
       it('returns false if the user has no matching roles', () => {
-        const response = authorization.userHasValidRole(['admin'], 'user');
+        const response = AuthorizationService.userHasValidRole(['admin'], 'user');
 
         expect(response).to.be.false;
       });
 
       it('returns true if the user has a matching role', () => {
-        const response = authorization.userHasValidRole(['admin'], 'admin');
+        const response = AuthorizationService.userHasValidRole(['admin'], 'admin');
 
         expect(response).to.be.true;
       });
@@ -586,25 +557,25 @@ describe('userHasValidRole', () => {
 
     describe('userSystemRoles is an array', () => {
       it('returns true if the valid roles is empty', () => {
-        const response = authorization.userHasValidRole([], []);
+        const response = AuthorizationService.userHasValidRole([], []);
 
         expect(response).to.be.true;
       });
 
       it('returns false if the user has no matching roles', () => {
-        const response = authorization.userHasValidRole(['admin'], []);
+        const response = AuthorizationService.userHasValidRole(['admin'], []);
 
         expect(response).to.be.false;
       });
 
       it('returns false if the user has no matching roles', () => {
-        const response = authorization.userHasValidRole(['admin'], ['user']);
+        const response = AuthorizationService.userHasValidRole(['admin'], ['user']);
 
         expect(response).to.be.false;
       });
 
       it('returns true if the user has a matching role', () => {
-        const response = authorization.userHasValidRole(['admin'], ['admin']);
+        const response = AuthorizationService.userHasValidRole(['admin'], ['admin']);
 
         expect(response).to.be.true;
       });
@@ -619,45 +590,46 @@ describe('getSystemUserObject', function () {
 
   it('throws an HTTP500 error if fetching the system user throws an error', async function () {
     const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
-    sinon.stub(authorization, 'getSystemUserWithRoles').callsFake(() => {
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserWithRoles').callsFake(() => {
       throw new Error('Test Error');
     });
 
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
     try {
-      await authorization.getSystemUserObject(mockDBConnection);
+      await authorizationService.getSystemUserObject();
       expect.fail();
     } catch (error) {
-      expect((error as HTTPError).message).to.equal('failed to get system user');
-      expect((error as HTTPError).status).to.equal(500);
+      expect((error as ApiError).message).to.equal('failed to get system user');
     }
   });
 
   it('throws an HTTP500 error if the system user is null', async function () {
     const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const mockSystemUserWithRolesResponse = null;
-    sinon.stub(authorization, 'getSystemUserWithRoles').resolves(mockSystemUserWithRolesResponse);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserWithRoles').resolves(mockSystemUserWithRolesResponse);
+
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
 
     try {
-      await authorization.getSystemUserObject(mockDBConnection);
+      await authorizationService.getSystemUserObject();
       expect.fail();
     } catch (error) {
-      expect((error as HTTPError).message).to.equal('system user was null');
-      expect((error as HTTPError).status).to.equal(500);
+      expect((error as ApiError).message).to.equal('system user was null');
     }
   });
 
   it('returns a `UserObject`', async function () {
     const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const mockSystemUserWithRolesResponse = new UserObject();
-    sinon.stub(authorization, 'getSystemUserWithRoles').resolves(mockSystemUserWithRolesResponse);
+    sinon.stub(AuthorizationService.prototype, 'getSystemUserWithRoles').resolves(mockSystemUserWithRolesResponse);
 
-    const systemUserObject = await authorization.getSystemUserObject(mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const systemUserObject = await authorizationService.getSystemUserObject();
 
     expect(systemUserObject).to.equal(mockSystemUserWithRolesResponse);
   });
@@ -669,22 +641,24 @@ describe('getSystemUserWithRoles', function () {
   });
 
   it('returns null if the system user id is null', async function () {
-    const mockDBConnection = getMockDBConnection({ systemUserId: () => null });
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    const mockDBConnection = getMockDBConnection({ systemUserId: () => (null as unknown) as number });
 
-    const result = await authorization.getSystemUserWithRoles(mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const result = await authorizationService.getSystemUserWithRoles();
 
     expect(result).to.be.null;
   });
 
   it('returns a UserObject', async function () {
     const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const mockUsersByIdSQLResponse = new UserObject();
     sinon.stub(UserService.prototype, 'getUserById').resolves(mockUsersByIdSQLResponse);
 
-    const result = await authorization.getSystemUserWithRoles(mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const result = await authorizationService.getSystemUserWithRoles();
 
     expect(result).to.equal(mockUsersByIdSQLResponse);
   });
@@ -697,45 +671,46 @@ describe('getProjectUserObject', function () {
 
   it('throws an HTTP500 error if fetching the system user throws an error', async function () {
     const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
-    sinon.stub(authorization, 'getProjectUserWithRoles').callsFake(() => {
+    sinon.stub(AuthorizationService.prototype, 'getProjectUserWithRoles').callsFake(() => {
       throw new Error('Test Error');
     });
 
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
     try {
-      await authorization.getProjectUserObject(1, mockDBConnection);
+      await authorizationService.getProjectUserObject(1);
       expect.fail();
     } catch (error) {
-      expect((error as HTTPError).message).to.equal('failed to get project user');
-      expect((error as HTTPError).status).to.equal(500);
+      expect((error as ApiError).message).to.equal('failed to get project user');
     }
   });
 
   it('throws an HTTP500 error if the system user is null', async function () {
     const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const mockSystemUserWithRolesResponse = null;
-    sinon.stub(authorization, 'getProjectUserWithRoles').resolves(mockSystemUserWithRolesResponse);
+    sinon.stub(AuthorizationService.prototype, 'getProjectUserWithRoles').resolves(mockSystemUserWithRolesResponse);
+
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
 
     try {
-      await authorization.getProjectUserObject(1, mockDBConnection);
+      await authorizationService.getProjectUserObject(1);
       expect.fail();
     } catch (error) {
-      expect((error as HTTPError).message).to.equal('project user was null');
-      expect((error as HTTPError).status).to.equal(500);
+      expect((error as ApiError).message).to.equal('project user was null');
     }
   });
 
   it('returns a `ProjectUserObject`', async function () {
     const mockDBConnection = getMockDBConnection();
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const mockSystemUserWithRolesResponse = {};
-    sinon.stub(authorization, 'getProjectUserWithRoles').resolves(mockSystemUserWithRolesResponse);
+    sinon.stub(AuthorizationService.prototype, 'getProjectUserWithRoles').resolves(mockSystemUserWithRolesResponse);
 
-    const systemUserObject = await authorization.getProjectUserObject(1, mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const systemUserObject = await authorizationService.getProjectUserObject(1);
 
     expect(systemUserObject).to.be.instanceOf(ProjectUserObject);
   });
@@ -747,24 +722,26 @@ describe('getProjectUserWithRoles', function () {
   });
 
   it('returns null if the system user id is null', async function () {
-    const mockDBConnection = getMockDBConnection({ systemUserId: () => null });
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
+    const mockDBConnection = getMockDBConnection({ systemUserId: () => (null as unknown) as number });
 
-    const result = await authorization.getProjectUserWithRoles(1, mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const result = await authorizationService.getProjectUserWithRoles(1);
 
     expect(result).to.be.null;
   });
 
   it('returns null if the get user by id SQL statement is null', async function () {
     const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const mockUsersByIdSQLResponse = null;
     sinon
       .stub(project_participation_queries, 'getProjectParticipationBySystemUserSQL')
       .returns(mockUsersByIdSQLResponse);
 
-    const result = await authorization.getProjectUserWithRoles(1, mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const result = await authorizationService.getProjectUserWithRoles(1);
 
     expect(result).to.be.null;
   });
@@ -773,14 +750,15 @@ describe('getProjectUserWithRoles', function () {
     const mockResponseRow = { 'Test Column': 'Test Value' };
     const mockQueryResponse = ({ rowCount: 1, rows: [mockResponseRow] } as unknown) as QueryResult<any>;
     const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
-    sinon.stub(db, 'getDBConnection').returns(mockDBConnection);
 
     const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
     sinon
       .stub(project_participation_queries, 'getProjectParticipationBySystemUserSQL')
       .returns(mockUsersByIdSQLResponse);
 
-    const result = await authorization.getProjectUserWithRoles(1, mockDBConnection);
+    const authorizationService = new AuthorizationService((mockDBConnection as unknown) as KnexDBConnection);
+
+    const result = await authorizationService.getProjectUserWithRoles(1);
 
     expect(result).to.eql(mockResponseRow);
   });

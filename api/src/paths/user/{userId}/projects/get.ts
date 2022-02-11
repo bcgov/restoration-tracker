@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { getDBConnection } from '../../../../database/db';
+import { KnexDBConnection } from '../../../../database/knex-db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { queries } from '../../../../queries/queries';
 import { getLogger } from '../../../../utils/logger';
@@ -105,7 +105,7 @@ export function getAllUserProjects(): RequestHandler {
       throw new HTTP400('Missing required param: userId');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       const userId = Number(req.params.userId);
@@ -137,8 +137,6 @@ export function getAllUserProjects(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'getAllUserProjects', message: 'error', error });
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

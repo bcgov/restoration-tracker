@@ -2,13 +2,13 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as administrative_activity from './administrative-activity';
-import administrative_queries from '../queries/administrative-activity';
-import * as db from '../database/db';
-import { getMockDBConnection } from '../__mocks__/db';
 import SQL from 'sql-template-strings';
-import * as keycloak_utils from '../utils/keycloak-utils';
+import * as db from '../database/knex-db';
 import { HTTPError } from '../errors/custom-error';
+import administrative_queries from '../queries/administrative-activity';
+import * as keycloak_utils from '../utils/keycloak-utils';
+import { getMockDBConnection } from '../__mocks__/db';
+import * as administrative_activity from './administrative-activity';
 
 chai.use(sinonChai);
 
@@ -16,8 +16,6 @@ describe('updateAccessRequest', () => {
   afterEach(() => {
     sinon.restore();
   });
-
-  const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
     keycloak_token: {}
@@ -36,10 +34,9 @@ describe('updateAccessRequest', () => {
   };
 
   it('should throw a 400 error when no system user id', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
-        return null;
+        return 0;
       }
     });
 
@@ -55,8 +52,7 @@ describe('updateAccessRequest', () => {
   });
 
   it('should throw a 400 error when failed to build postAdministrativeActivitySQL statement', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -81,8 +77,7 @@ describe('updateAccessRequest', () => {
       rows: [null]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -113,8 +108,7 @@ describe('updateAccessRequest', () => {
       ]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -145,8 +139,7 @@ describe('updateAccessRequest', () => {
       ]
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -170,8 +163,6 @@ describe('getPendingAccessRequestsCount', () => {
     sinon.restore();
   });
 
-  const dbConnectionObj = getMockDBConnection();
-
   const sampleReq = {
     keycloak_token: {}
   } as any;
@@ -189,6 +180,8 @@ describe('getPendingAccessRequestsCount', () => {
   };
 
   it('should throw a 400 error when no user identifier', async () => {
+    getMockDBConnection();
+
     sinon.stub(keycloak_utils, 'getUserIdentifier').returns(null);
 
     try {
@@ -204,8 +197,7 @@ describe('getPendingAccessRequestsCount', () => {
 
   it('should throw a 400 error when failed to build countPendingAdministrativeActivitiesSQL statement', async () => {
     sinon.stub(keycloak_utils, 'getUserIdentifier').returns('identifier');
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       }
@@ -232,8 +224,7 @@ describe('getPendingAccessRequestsCount', () => {
       rowCount: null
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -257,8 +248,7 @@ describe('getPendingAccessRequestsCount', () => {
       rowCount: 23
     });
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    getMockDBConnection({
       systemUserId: () => {
         return 20;
       },
@@ -321,18 +311,21 @@ describe('updateAdministrativeActivity', () => {
     sinon.restore();
   });
 
-  const dbConnectionObj = getMockDBConnection();
-
   it('should throw a 400 error when failed to build putAdministrativeActivitySQL statement', async () => {
     sinon.stub(administrative_queries, 'putAdministrativeActivitySQL').returns(null);
 
+    const dbConnectionObj = getMockDBConnection({
+      systemUserId: () => {
+        return 20;
+      }
+    });
+
     try {
-      await administrative_activity.updateAdministrativeActivity(1, 2, {
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
+      await administrative_activity.updateAdministrativeActivity(
+        1,
+        2,
+        (dbConnectionObj as unknown) as db.KnexDBConnection
+      );
 
       expect.fail();
     } catch (actualError) {
@@ -350,14 +343,19 @@ describe('updateAdministrativeActivity', () => {
       rowCount: null
     });
 
+    const dbConnectionObj = getMockDBConnection({
+      systemUserId: () => {
+        return 20;
+      },
+      query: mockQuery
+    });
+
     try {
-      await administrative_activity.updateAdministrativeActivity(1, 2, {
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        },
-        query: mockQuery
-      });
+      await administrative_activity.updateAdministrativeActivity(
+        1,
+        2,
+        (dbConnectionObj as unknown) as db.KnexDBConnection
+      );
 
       expect.fail();
     } catch (actualError) {

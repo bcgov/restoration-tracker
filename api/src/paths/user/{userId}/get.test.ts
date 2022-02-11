@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../../../database/db';
+
 import { HTTPError } from '../../../errors/custom-error';
 import { UserService } from '../../../services/user-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../__mocks__/db';
@@ -17,9 +17,7 @@ describe('user', () => {
     });
 
     it('should throw a 400 error when no user Id is sent', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -39,9 +37,7 @@ describe('user', () => {
     });
 
     it('should throw a 400 error if it fails to get the system user', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -63,9 +59,7 @@ describe('user', () => {
     });
 
     it('finds user by Id and returns 200 and requestHandler on success', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+      getMockDBConnection();
 
       const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 

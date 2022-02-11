@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../../constants/roles';
-import { getDBConnection } from '../../../../../database/db';
+import { KnexDBConnection } from '../../../../../database/knex-db';
 import { HTTP400, HTTP500 } from '../../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../../request-handlers/security/authorization';
 import { ProjectService } from '../../../../../services/project-service';
@@ -105,7 +105,7 @@ export function updateProjectParticipantRole(): RequestHandler {
       throw new HTTP400('Missing required body param `roleId`');
     }
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -148,8 +148,6 @@ export function updateProjectParticipantRole(): RequestHandler {
       defaultLog.error({ label: 'updateProjectParticipantRole', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }

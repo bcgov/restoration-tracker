@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../constants/roles';
-import { getDBConnection, IDBConnection } from '../../../../database/db';
+import { KnexDBConnection } from '../../../../database/knex-db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { queries } from '../../../../queries/queries';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
@@ -108,7 +108,7 @@ export function uploadMedia(): RequestHandler {
       file: { ...rawMediaFile, buffer: 'Too big to print' }
     });
 
-    const connection = getDBConnection(req['keycloak_token']);
+    const connection = new KnexDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
@@ -137,8 +137,6 @@ export function uploadMedia(): RequestHandler {
       defaultLog.error({ label: 'uploadMedia', message: 'error', error });
       await connection.rollback();
       throw error;
-    } finally {
-      connection.release();
     }
   };
 }
@@ -146,7 +144,7 @@ export function uploadMedia(): RequestHandler {
 export const upsertProjectAttachment = async (
   file: Express.Multer.File,
   projectId: number,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ): Promise<{ id: number; revision_count: number; key: string }> => {
   const getSqlStatement = queries.project.getProjectAttachmentByFileNameSQL(projectId, file.originalname);
 
@@ -175,7 +173,7 @@ export const insertProjectAttachment = async (
   file: Express.Multer.File,
   projectId: number,
   key: string,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ): Promise<{ id: number; revision_count: number }> => {
   const sqlStatement = queries.project.postProjectAttachmentSQL(file.originalname, file.size, projectId, key);
 
@@ -195,7 +193,7 @@ export const insertProjectAttachment = async (
 export const updateProjectAttachment = async (
   file: Express.Multer.File,
   projectId: number,
-  connection: IDBConnection
+  connection: KnexDBConnection
 ): Promise<{ id: number; revision_count: number }> => {
   const sqlStatement = queries.project.putProjectAttachmentSQL(projectId, file.originalname);
 

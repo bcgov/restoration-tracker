@@ -295,13 +295,17 @@ export class KnexDBConnection {
 }
 
 /**
- * Returns a KnexDBConnection where the system user context is set to the API's system user.
+ * A special instance of a KnexDBConnection where the system user context is set to the API's system user.
  *
  * Note: Use of this should be limited to requests that are impossible to initiated under a real user context (ie: when
  * an unknown user is requesting access to BioHub and therefore does not yet have a user in the system).
  *
- * @return {*}  {KnexDBConnection}
+ * @export
+ * @class APIKnexDBConnection
+ * @extends {KnexDBConnection}
  */
-export const getAPIUserKnexDBConnection = (): KnexDBConnection => {
-  return new KnexDBConnection({ preferred_username: 'restoration_api@database' });
-};
+export class APIKnexDBConnection extends KnexDBConnection {
+  constructor() {
+    super({ preferred_username: 'restoration_api@database' });
+  }
+}
