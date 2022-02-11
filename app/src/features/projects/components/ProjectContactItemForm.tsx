@@ -1,4 +1,5 @@
 import Box from '@material-ui/core/Box';
+import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -105,7 +106,7 @@ const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) =
       </Box>
       <Box mt={4}>
         <FormControl required={true} component="fieldset" error={touched.is_public && Boolean(errors.is_public)}>
-          <Typography id="agency_details" component="legend">
+          <Typography id="share_contact_details" component="legend">
             Share Contact Details
           </Typography>
           <Typography color="textSecondary">
@@ -131,6 +132,22 @@ const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) =
             </RadioGroup>
           </Box>
         </FormControl>
+      </Box>
+      <Box mt={4}>
+        <Typography id="primary_contact_details" component="legend">
+          Primary Contact Details
+        </Typography>
+        <Typography color="textSecondary">
+          Do you want this contact to be primary?
+          <Checkbox
+            color="primary"
+            name="is_primary"
+            aria-label="Primary Contact Details"
+            checked={JSON.parse(values.is_primary)}
+            value={String(!values.is_primary)}
+            onChange={handleChange}
+          />
+        </Typography>
       </Box>
       <Box mt={4}>
         <Divider />
