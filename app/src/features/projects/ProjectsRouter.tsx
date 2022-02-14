@@ -7,7 +7,6 @@ import { Redirect, Switch } from 'react-router';
 import AppRoute from 'utils/AppRoute';
 import ProjectParticipantsPage from './participants/ProjectParticipantsPage';
 import ProjectsPage from './ProjectsPage';
-//import ProjectsListPage from 'features/projects/list/ProjectsListPage';
 
 /**
  * Router for all `/admin/project/*` pages.
