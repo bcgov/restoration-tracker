@@ -15,7 +15,7 @@ import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetDraftsListResponse } from 'interfaces/useDraftApi.interface';
-import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
@@ -33,7 +33,7 @@ const ProjectsPage: React.FC = () => {
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [projects, setProjects] = useState<IGetProjectsListResponse[]>([]);
+  const [projects, setProjects] = useState<IGetProjectForViewResponse[]>([]);
   const [drafts, setDrafts] = useState<IGetDraftsListResponse[]>([]);
 
   const formikRef = useRef<FormikProps<IProjectAdvancedFilters>>(null);
