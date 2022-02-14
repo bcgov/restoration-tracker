@@ -7,7 +7,7 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 
-export interface IProjectCoordinatorProps {
+export interface IProjectContactProps {
   projectForViewData: IGetProjectForViewResponse;
   codes: IGetAllCodeSetsResponse;
   refresh: () => void;
@@ -31,25 +31,25 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 /**
- * Project coordinator content for a project.
+ * Project contact content for a project.
  *
  * @return {*}
  */
-const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = ({ projectForViewData }) => {
+const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) => {
   const { contact } = projectForViewData;
   const classes = useStyles();
 
   return (
     <>
-      {contact.contacts.map((contactDetails) => (
-        <ul className={classes.projectContactList}>
+      {contact.contacts.map((contactDetails, index) => (
+        <ul className={classes.projectContactList} key={index}>
           <Box component="li" display="flex" flexDirection="row">
             <Box mr={2}>
               <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
             </Box>
             <div>
               <div>
-                <strong data-testid="coordinator_name">
+                <strong data-testid="contact_name">
                   {' '}
                   {contactDetails.first_name} {contactDetails.last_name}
                 </strong>
@@ -66,4 +66,4 @@ const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = ({ projectForView
   );
 };
 
-export default ProjectCoordinator;
+export default ProjectContact;

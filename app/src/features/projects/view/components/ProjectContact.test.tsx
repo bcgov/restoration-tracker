@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
-import ProjectCoordinator from './ProjectCoordinator';
+import ProjectCoordinator from './ProjectContact';
 
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 

@@ -22,17 +22,17 @@ const useStyles = makeStyles({
   }
 });
 
-export interface IPublicProjectCoordinatorProps {
+export interface IPublicProjectContactProps {
   projectForViewData: IGetProjectForViewResponse;
   refresh: () => void;
 }
 
 /**
- * Project coordinator content for a public (published) project.
+ * Project contact content for a public (published) project.
  *
  * @return {*}
  */
-const PublicProjectCoordinator: React.FC<IPublicProjectCoordinatorProps> = (props) => {
+const PublicProjectContact: React.FC<IPublicProjectContactProps> = (props) => {
   const {
     projectForViewData: { contact }
   } = props;
@@ -84,4 +84,4 @@ const PublicProjectCoordinator: React.FC<IPublicProjectCoordinatorProps> = (prop
   );
 };
 
-export default PublicProjectCoordinator;
+export default PublicProjectContact;

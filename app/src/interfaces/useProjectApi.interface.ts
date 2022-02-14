@@ -98,7 +98,7 @@ export interface ICreateProjectRequest
     IProjectLocationForm {}
 
 export enum UPDATE_GET_ENTITIES {
-  coordinator = 'coordinator',
+  contact = 'contact',
   permit = 'permit',
   project = 'project',
   objectives = 'objectives',
@@ -118,7 +118,7 @@ export interface IGetProjectForUpdateResponse {
   project?: IGetGeneralInformationForUpdateResponseDetails;
   permit?: IGetProjectForUpdateResponsePermit;
   location?: IGetProjectForUpdateResponseLocation;
-  coordinator?: IGetProjectForUpdateResponseCoordinator;
+  contact?: IGetProjectForUpdateResponseContact;
   iucn?: IGetProjectForUpdateResponseIUCN;
   funding?: IGetProjectForUpdateResponseFundingData;
   partnerships?: IGetProjectForUpdateResponsePartnerships;
@@ -148,13 +148,17 @@ export interface IGetProjectForUpdateResponseLocation {
   revision_count: number;
 }
 
-export interface IGetProjectForUpdateResponseCoordinator {
+export interface IGetProjectForUpdateResponseContactArrayItem {
   first_name: string;
   last_name: string;
   email_address: string;
-  coordinator_agency: string;
-  share_contact_details: string;
-  revision_count: number;
+  agency: string;
+  is_public: string;
+  is_primary: string;
+}
+
+export interface IGetProjectForUpdateResponseContact {
+  contacts: IGetProjectForUpdateResponseContactArrayItem[]
 }
 
 interface IGetProjectForUpdateResponseIUCNArrayItem {

@@ -29,7 +29,7 @@ import { useHistory, useParams } from 'react-router';
 import FundingSource from './components/FundingSource';
 import GeneralInformation from './components/GeneralInformation';
 import Objectives from './components/Objectives';
-import ProjectCoordinator from './components/ProjectCoordinator';
+import ProjectContact from './components/ProjectContact';
 import ProjectPermits from './components/ProjectPermits';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -331,7 +331,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
           <Typography variant="body1" component={'h3'} data-testid="ContactsTitle">
             Project Contacts
           </Typography>
-          <ProjectCoordinator projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+          <ProjectContact projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
 
         <Divider></Divider>
