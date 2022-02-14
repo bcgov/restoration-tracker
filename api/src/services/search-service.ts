@@ -27,13 +27,13 @@ export class SearchService extends DBService {
 
       queryBuilder.or.whereILike('project.coordinator_agency_name', `%${criteria.keyword}%`);
 
-      queryBuilder.fullOuterJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
-      queryBuilder.fullOuterJoin(
+      queryBuilder.leftJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
+      queryBuilder.leftJoin(
         'investment_action_category',
         'project_funding_source.investment_action_category_id',
         'investment_action_category.investment_action_category_id'
       );
-      queryBuilder.fullOuterJoin(
+      queryBuilder.leftJoin(
         'funding_source',
         'investment_action_category.funding_source_id',
         'funding_source.funding_source_id'
@@ -42,13 +42,13 @@ export class SearchService extends DBService {
     }
 
     if (criteria.funding_agency) {
-      queryBuilder.fullOuterJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
-      queryBuilder.fullOuterJoin(
+      queryBuilder.leftJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
+      queryBuilder.leftJoin(
         'investment_action_category',
         'project_funding_source.investment_action_category_id',
         'investment_action_category.investment_action_category_id'
       );
-      queryBuilder.fullOuterJoin(
+      queryBuilder.leftJoin(
         'funding_source',
         'investment_action_category.funding_source_id',
         'funding_source.funding_source_id'
@@ -58,7 +58,7 @@ export class SearchService extends DBService {
     }
 
     if (criteria.permit_number) {
-      queryBuilder.fullOuterJoin('permit', 'project.project_id', 'permit.project_id');
+      queryBuilder.leftJoin('permit', 'project.project_id', 'permit.project_id');
 
       queryBuilder.and.whereIn(
         'permit.number',

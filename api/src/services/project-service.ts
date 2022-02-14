@@ -188,7 +188,7 @@ export class ProjectService extends DBService {
     const sqlStatement = queries.project.getProjectSQL(projectId);
 
     if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL insert statement');
+      throw new HTTP400('Failed to build SQL get statement');
     }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
