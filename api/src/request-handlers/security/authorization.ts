@@ -73,5 +73,7 @@ export const authorizeRequest = async (req: Request): Promise<boolean> => {
     defaultLog.error({ label: 'authorize', message: 'error', error });
     await connection.rollback();
     return false;
+  } finally {
+    connection.release();
   }
 };

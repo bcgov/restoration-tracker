@@ -162,8 +162,6 @@ const ProjectsPage: React.FC = () => {
     const getFilteredProjects = async () => {
       const projectsResponse = await restorationTrackerApi.project.getProjectsList(formikValues);
 
-      console.log(projectsResponse);
-
       setIsLoading(false);
       setProjects(projectsResponse);
     };
