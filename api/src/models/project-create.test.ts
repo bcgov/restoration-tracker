@@ -3,7 +3,7 @@ import { describe } from 'mocha';
 import {
   PostIUCNData,
   PostLocationData,
-  PostCoordinatorData,
+  PostContactData,
   PostPartnershipsData,
   PostPermitData,
   PostProjectData,
@@ -20,8 +20,8 @@ describe('PostProjectObject', () => {
       projectPostObject = new PostProjectObject(null);
     });
 
-    it('sets coordinator', function () {
-      expect(projectPostObject.coordinator).to.equal(null);
+    it('sets contact', function () {
+      expect(projectPostObject.contact).to.equal(null);
     });
 
     it('sets permit', function () {
@@ -53,12 +53,17 @@ describe('PostProjectObject', () => {
     let projectPostObject: PostProjectObject;
 
     const obj = {
-      coordinator: {
-        first_name: 'first',
-        last_name: 'last',
-        email_address: 'email@example.com',
-        coordinator_agency: 'agency',
-        share_contact_details: 'true'
+      contact: {
+        contacts: [
+          {
+            first_name: 'first',
+            last_name: 'last',
+            email_address: 'email@example.com',
+            agency: 'agency',
+            is_public: 'true',
+            is_primary: 'true'
+          }
+        ]
       },
       permit: {
         permits: [
@@ -123,8 +128,8 @@ describe('PostProjectObject', () => {
       projectPostObject = new PostProjectObject(obj);
     });
 
-    it('sets coordinator', function () {
-      expect(projectPostObject.coordinator.first_name).to.equal(obj.coordinator.first_name);
+    it('sets contact', function () {
+      expect(projectPostObject.contact.contacts[0].first_name).to.equal(obj.contact.contacts[0].first_name);
     });
   });
 });
@@ -246,68 +251,78 @@ describe('PostPermitData', () => {
   });
 });
 
-describe('PostCoordinatorData', () => {
+describe('PostContactData', () => {
   describe('No values provided', () => {
-    let projectCoordinatorData: PostCoordinatorData;
+    let projectContactData: PostContactData;
 
     before(() => {
-      projectCoordinatorData = new PostCoordinatorData(null);
+      projectContactData = new PostContactData(null);
     });
 
-    it('sets first_name', function () {
-      expect(projectCoordinatorData.first_name).to.eql(null);
+    it('sets contacts', function () {
+      expect(projectContactData.contacts).to.eql([]);
+    });
+  });
+
+  describe('All values provided are null', () => {
+    let projectContactData: PostContactData;
+
+    before(() => {
+      projectContactData = new PostContactData({
+        contacts: null
+      });
     });
 
-    it('sets last_name', function () {
-      expect(projectCoordinatorData.last_name).to.eql(null);
+    it('sets permits', function () {
+      expect(projectContactData.contacts).to.eql([]);
+    });
+  });
+
+  describe('All values provided are empty arrays', () => {
+    let projectContactData: PostContactData;
+
+    before(() => {
+      projectContactData = new PostContactData({
+        contacts: []
+      });
     });
 
-    it('sets email_address', function () {
-      expect(projectCoordinatorData.email_address).to.eql(null);
-    });
-
-    it('sets coordinator_agency', function () {
-      expect(projectCoordinatorData.coordinator_agency).to.eql(null);
-    });
-
-    it('sets share_contact_details', function () {
-      expect(projectCoordinatorData.share_contact_details).to.eql(false);
+    it('sets permits', function () {
+      expect(projectContactData.contacts).to.eql([]);
     });
   });
 
   describe('All values provided', () => {
-    let projectCoordinatorData: PostCoordinatorData;
+    let projectContactData: PostContactData;
 
     const obj = {
-      first_name: 'first',
-      last_name: 'last',
-      email_address: 'email@example.com',
-      coordinator_agency: 'agency',
-      share_contact_details: 'true'
+      contacts: [
+        {
+          first_name: 'first',
+          last_name: 'last',
+          email_address: 'email@example.com',
+          agency: 'agency',
+          is_public: 'true',
+          is_primary: 'true'
+        }
+      ]
     };
 
     before(() => {
-      projectCoordinatorData = new PostCoordinatorData(obj);
+      projectContactData = new PostContactData(obj);
     });
 
-    it('sets first_name', function () {
-      expect(projectCoordinatorData.first_name).to.eql(obj.first_name);
-    });
-
-    it('sets last_name', function () {
-      expect(projectCoordinatorData.last_name).to.eql(obj.last_name);
-    });
-
-    it('sets email_address', function () {
-      expect(projectCoordinatorData.email_address).to.eql(obj.email_address);
-    });
-
-    it('sets coordinator_agency', function () {
-      expect(projectCoordinatorData.coordinator_agency).to.eql(obj.coordinator_agency);
-    });
-
-    it('sets share_contact_details', function () {
-      expect(projectCoordinatorData.share_contact_details).to.eql(true);
+    it('sets contacts', function () {
+      expect(projectContactData.contacts).to.eql([
+        {
+          first_name: 'first',
+          last_name: 'last',
+          email_address: 'email@example.com',
+          agency: 'agency',
+          is_public: true,
+          is_primary: true
+        }
+      ]);
     });
   });
 });
