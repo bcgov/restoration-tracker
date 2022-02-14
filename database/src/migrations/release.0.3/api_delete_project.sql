@@ -33,6 +33,8 @@ begin
   delete from project_first_nation where project_id = p_project_id;
   delete from project_participation where project_id = p_project_id;
   delete from project_contact where project_id = p_project_id;
+  delete from nrm_region where project_id = p_project_id;
+  delete from project_caribou_population_unit where project_id = p_project_id;
   delete from project where project_id = p_project_id;
 
 exception
