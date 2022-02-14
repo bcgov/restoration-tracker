@@ -24,7 +24,7 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
   const { handleChange, values } = formikProps;
 
   return (
-    <Box my={3}>
+    <Box my={3} data-testid="advancedFilters">
       <Grid container spacing={3} justify="flex-start">
         <Grid item xs={12} md={2}>
           <Typography style={{ fontWeight: 600 }}>Agency</Typography>
@@ -54,6 +54,7 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
           <FormControl fullWidth variant="outlined" required={false}>
             <InputLabel id="agency_id-label">Funding Agency Name</InputLabel>
             <Select
+              data-testid="agency_id"
               id="agency_id"
               name="agency_id"
               labelId="agency_id-label"
@@ -117,7 +118,13 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
         </Grid>
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={3}>
-          <MultiAutocompleteFieldVariableSize id="species" label="Species" options={props.species} required={false} />
+          <MultiAutocompleteFieldVariableSize
+            id="species"
+            data-testid="species"
+            label="Species"
+            options={props.species}
+            required={false}
+          />
         </Grid>
       </Grid>
     </Box>

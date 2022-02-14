@@ -1,21 +1,25 @@
-import { CircularProgress, Container, Typography } from '@material-ui/core';
+import { Button, CircularProgress, Container, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import { mdiPlus } from '@mdi/js';
+import Icon from '@mdi/react';
+import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import ProjectFilter, {
   IProjectAdvancedFilters,
   ProjectAdvancedFiltersInitialValues
 } from 'components/search-filter/ProjectFilter';
-import { Formik, FormikProps } from 'formik';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import ProjectsListPage from './list/ProjectsListPage';
-import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
-import { IGetDraftsListResponse } from 'interfaces/useDraftApi.interface';
-import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
+import { SystemRoleGuard } from 'components/security/Guards';
+import { SYSTEM_ROLE } from 'constants/roles';
 import { DialogContext } from 'contexts/dialogContext';
+import { Formik, FormikProps } from 'formik';
 import { APIError } from 'hooks/api/useAxios';
-import { useHistory, useLocation } from 'react-router';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
+import { IGetDraftsListResponse } from 'interfaces/useDraftApi.interface';
+import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
+import ProjectsListPage from './list/ProjectsListPage';
 
 /**
  * Main Project Page
@@ -50,7 +54,7 @@ const ProjectsPage: React.FC = () => {
         species: (urlParams.species as unknown) as number[]
       } as IProjectAdvancedFilters;
 
-      if(formikValues.species === undefined){
+      if (formikValues.species === undefined) {
         formikValues.species = [];
       }
 
@@ -90,7 +94,7 @@ const ProjectsPage: React.FC = () => {
     }
 
     //empty Filters
-    if(JSON.stringify(formikRef.current.values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)){
+    if (JSON.stringify(formikRef.current.values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)) {
       return;
     }
 
@@ -125,6 +129,15 @@ const ProjectsPage: React.FC = () => {
       ...textDialogProps,
       open: true
     });
+  };
+
+  const navigateToCreateProjectPage = (draftId?: number) => {
+    if (draftId) {
+      history.push(`/admin/projects/create?draftId=${draftId}`);
+      return;
+    }
+
+    history.push('/admin/projects/create');
   };
 
   //codes
@@ -180,15 +193,24 @@ const ProjectsPage: React.FC = () => {
     }
   }, [isLoading, location.search, formikValues, collectFilterParams]);
 
-  if(!isLoadingCodes){
+  if (!isLoadingCodes) {
     return <CircularProgress data-testid="project-loading" className="pageProgress" size={40} />;
   }
 
   return (
     <Container maxWidth="xl">
       <Box m={5}>
-        <Box mb={1}>
+        <Box mb={1} display="flex" justifyContent="space-between">
           <Typography variant="h1">Projects</Typography>
+          <SystemRoleGuard validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.PROJECT_CREATOR]}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Icon path={mdiPlus} size={1} />}
+              onClick={() => navigateToCreateProjectPage()}>
+              Create Project
+            </Button>
+          </SystemRoleGuard>
         </Box>
         <Typography>Find species inventory projects and related data in British Columbia</Typography>
       </Box>

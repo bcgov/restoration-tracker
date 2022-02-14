@@ -35,6 +35,7 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
         <TextField
           fullWidth
           id="start_date"
+          data-testid="start_date"
           name={startName}
           label="Start Date"
           variant="outlined"
@@ -63,6 +64,7 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
         <TextField
           fullWidth
           id="end_date"
+          data-testid="end_date"
           name={endName}
           label="End Date"
           variant="outlined"
