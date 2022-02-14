@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export interface IProjectsListProps {
-  projects: IGetProjectsListResponse[];
+  projects: IGetProjectForViewResponse[];
   drafts: IGetDraftsListResponse[];
 }
 

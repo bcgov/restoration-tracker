@@ -1,12 +1,9 @@
-// import { createMemoryHistory } from 'history';
-// const history = createMemoryHistory();
-
-import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import ProjectsListPage from './ProjectsListPage';
-import { MemoryRouter, Router } from 'react-router';
 import { createMemoryHistory } from 'history';
-import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import React from 'react';
+import { MemoryRouter, Router } from 'react-router';
+import ProjectsListPage from './ProjectsListPage';
 
 const history = createMemoryHistory();
 
@@ -26,7 +23,7 @@ describe('ProjectsListPage', () => {
 
   test('renders with a proper list of a single project', async () => {
     const projectArray = [
-      {
+      ({
         project: {
           project_id: 1,
           project_name: 'Project 1',
@@ -41,8 +38,8 @@ describe('ProjectsListPage', () => {
         coordinator: {
           coordinator_agency: 'contact agency'
         }
-      }
-    ]);
+      } as unknown) as IGetProjectForViewResponse
+    ];
 
     const { getByText, getByTestId } = render(
       <MemoryRouter>
@@ -59,12 +56,12 @@ describe('ProjectsListPage', () => {
 
   test('renders with a proper list of multiple projects and drafts', async () => {
     const projectArray = [
-      {
+      ({
         project: {
           project_id: 1,
           project_name: 'Project 1',
-          start_date: null,
-          end_date: null,
+          start_date: '2022-02-09',
+          end_date: '2022-02-09',
           project_type: 'project type',
           publish_status: 'Unpublished'
         },
@@ -74,17 +71,7 @@ describe('ProjectsListPage', () => {
         coordinator: {
           coordinator_agency: 'contact agency'
         }
-      } as IGetProjectsListResponse,
-      {
-        id: 2,
-        name: 'project name2',
-        start_date: '2022-02-09',
-        end_date: '2022-02-09',
-        coordinator_agency: 'string',
-        permits_list: 'string',
-        publish_status: 'string',
-        completion_status: 'Completed'
-      } as IGetProjectsListResponse
+      } as unknown) as IGetProjectForViewResponse
     ];
     const draftArray = [
       {
@@ -96,7 +83,7 @@ describe('ProjectsListPage', () => {
         permits_list: 'string',
         publish_status: 'string',
         completion_status: 'Draft'
-      } as IGetProjectsListResponse
+      }
     ];
 
     const { getByText, getByTestId } = render(
@@ -118,16 +105,22 @@ describe('ProjectsListPage', () => {
 
   test('navigating to the project works', async () => {
     const projectArray = [
-      {
-        id: 1,
-        name: 'Project 1',
-        start_date: '2022-02-09',
-        end_date: '2022-02-09',
-        coordinator_agency: 'string',
-        permits_list: 'string',
-        publish_status: 'string',
-        completion_status: 'Active'
-      } as IGetProjectsListResponse
+      ({
+        project: {
+          project_id: 1,
+          project_name: 'Project 1',
+          start_date: '2022-02-09',
+          end_date: '2022-02-09',
+          project_type: 'project type',
+          publish_status: 'Unpublished'
+        },
+        permit: {
+          permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
+        },
+        coordinator: {
+          coordinator_agency: 'contact agency'
+        }
+      } as unknown) as IGetProjectForViewResponse
     ];
 
     const { getByTestId } = render(
@@ -150,21 +143,16 @@ describe('ProjectsListPage', () => {
   test('navigating to the project works', async () => {
     const draftArray = [
       {
-        project: {
-          project_id: 1,
-          project_name: 'Project 1',
-          start_date: null,
-          end_date: null,
-          publish_status: 'Published'
-        },
-        permit: {
-          permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
-        },
-        coordinator: {
-          coordinator_agency: 'contact agency'
-        }
+        id: 1,
+        name: 'draft name',
+        start_date: '2022-02-09',
+        end_date: '2022-02-09',
+        coordinator_agency: 'string',
+        permits_list: 'string',
+        publish_status: 'string',
+        completion_status: 'Draft'
       }
-    ]);
+    ];
 
     const { getByTestId } = render(
       <Router history={history}>
