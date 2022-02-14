@@ -427,6 +427,8 @@ export function getProjectList(): RequestHandler {
       defaultLog.error({ label: 'getProjectList', message: 'error', error });
       await connection.rollback();
       throw error;
+    } finally {
+      connection.release();
     }
   };
 }
