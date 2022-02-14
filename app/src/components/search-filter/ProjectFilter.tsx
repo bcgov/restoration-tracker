@@ -41,9 +41,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters = {
   keyword: '',
   contact_agency: '',
-  funding_agency: 0,
+  funding_agency: [],
   permit_number: '',
-  species: 0,
+  species: [],
   start_date: '',
   end_date: ''
 };
@@ -61,7 +61,7 @@ export interface IProjectAdvancedFilters {
 export const ProjectAdvancedFiltersKeyLabels = {
   keyword: { label: 'Keyword' },
   contact_agency: { label: 'Contact Agency' },
-  funding_agency: { label: 'Funding Agency' },
+  funding_agency: { label: 'Funding Agency', codeSet: 'funding_agency'},
   permit_number: { label: 'Permit Number' },
   species: { label: 'Species', codeSet: 'species' },
   start_date: { label: 'Start Date' },
