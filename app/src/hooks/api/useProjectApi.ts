@@ -98,9 +98,9 @@ const useProjectApi = (axios: AxiosInstance) => {
     filterFieldData?: IProjectAdvancedFilterRequest
   ): Promise<IGetProjectForViewResponse[]> => {
     const { data } = await axios.get(`/api/project/list`, {
-      params: { criteria: filterFieldData },
+      params: filterFieldData,
       paramsSerializer: (params) => {
-        return qs.stringify(params);
+        return qs.stringify(params, { filter: (prefix, value) => value || undefined });
       }
     });
 

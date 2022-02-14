@@ -32,113 +32,119 @@ GET.apiDoc = {
       Bearer: []
     }
   ],
-  requestBody: {
-    description: 'Project list search filter criteria object.',
-    content: {
-      'application/json': {
-        schema: {
-          additionalProperties: false,
-          properties: {
-            criteria: {
-              type: 'object',
-              properties: {
-                keyword: {
-                  type: 'string',
-                  nullable: true
-                },
-                contact_agency: {
-                  oneOf: [
-                    {
-                      type: 'string',
-                      nullable: true
-                    },
-                    {
-                      type: 'array',
-                      items: {
-                        type: 'string'
-                      },
-                      nullable: true
-                    }
-                  ]
-                },
-                funding_agency: {
-                  oneOf: [
-                    {
-                      type: 'number',
-                      nullable: true
-                    },
-                    {
-                      type: 'array',
-                      items: {
-                        type: 'number'
-                      },
-                      nullable: true
-                    }
-                  ]
-                },
-                permit_number: {
-                  oneOf: [
-                    {
-                      oneOf: [
-                        {
-                          type: 'string'
-                        },
-                        {
-                          type: 'number'
-                        }
-                      ],
-                      nullable: true
-                    },
-                    {
-                      type: 'array',
-                      items: {
-                        oneOf: [
-                          {
-                            type: 'string'
-                          },
-                          {
-                            type: 'number'
-                          }
-                        ]
-                      },
-                      nullable: true
-                    }
-                  ]
-                },
-                species_agency: {
-                  oneOf: [
-                    {
-                      type: 'number',
-                      nullable: true
-                    },
-                    {
-                      type: 'array',
-                      items: {
-                        type: 'number'
-                      },
-                      nullable: true
-                    }
-                  ]
-                },
-                start_date: {
-                  type: 'string',
-                  oneOf: [{ format: 'date' }, { format: 'date-time' }],
-                  description: 'ISO 8601 date string',
-                  nullable: true
-                },
-                end_date: {
-                  type: 'string',
-                  oneOf: [{ format: 'date' }, { format: 'date-time' }],
-                  description: 'ISO 8601 date string',
-                  nullable: true
-                }
-              }
-            }
+  parameters: [
+    {
+      in: 'query',
+      name: 'keyword',
+      schema: {
+        type: 'string',
+        nullable: true
+      },
+      allowEmptyValue: true
+    },
+    {
+      in: 'query',
+      name: 'contact_agency',
+      schema: {
+        oneOf: [
+          {
+            type: 'string',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            nullable: true
           }
-        }
-      }
+        ]
+      },
+      allowEmptyValue: true
+    },
+    {
+      in: 'query',
+      name: 'funding_agency',
+      schema: {
+        oneOf: [
+          {
+            type: 'string',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            nullable: true
+          }
+        ]
+      },
+      allowEmptyValue: true
+    },
+    {
+      in: 'query',
+      name: 'permit_number',
+      schema: {
+        oneOf: [
+          {
+            type: 'string',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            nullable: true
+          }
+        ]
+      },
+      allowEmptyValue: true
+    },
+    {
+      in: 'query',
+      name: 'species',
+      schema: {
+        oneOf: [
+          {
+            type: 'number',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'number'
+            },
+            nullable: true
+          }
+        ]
+      },
+      allowEmptyValue: true
+    },
+    {
+      in: 'query',
+      name: 'start_date',
+      schema: {
+        type: 'string',
+        oneOf: [{ format: 'date' }, { format: 'date-time' }],
+        description: 'ISO 8601 date string',
+        nullable: true
+      },
+      allowEmptyValue: true
+    },
+    {
+      in: 'query',
+      name: 'end_date',
+      schema: {
+        type: 'string',
+        oneOf: [{ format: 'date' }, { format: 'date-time' }],
+        description: 'ISO 8601 date string',
+        nullable: true
+      },
+      allowEmptyValue: true
     }
-  },
+  ],
   responses: {
     200: {
       description: 'Project response object.',
@@ -370,7 +376,7 @@ export function getProjectList(): RequestHandler {
   return async (req, res) => {
     const connection = getDBConnection(req['keycloak_token']);
 
-    const searchCriteria: ProjectSearchCriteria = req.body.criteria || {};
+    const searchCriteria: ProjectSearchCriteria = req.query || {};
 
     try {
       await connection.open();
