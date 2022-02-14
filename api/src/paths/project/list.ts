@@ -46,6 +46,21 @@ GET.apiDoc = {
                   type: 'string',
                   nullable: true
                 },
+                contact_agency: {
+                  oneOf: [
+                    {
+                      type: 'string',
+                      nullable: true
+                    },
+                    {
+                      type: 'array',
+                      items: {
+                        type: 'string'
+                      },
+                      nullable: true
+                    }
+                  ]
+                },
                 funding_agency: {
                   oneOf: [
                     {
@@ -85,6 +100,21 @@ GET.apiDoc = {
                             type: 'number'
                           }
                         ]
+                      },
+                      nullable: true
+                    }
+                  ]
+                },
+                species_agency: {
+                  oneOf: [
+                    {
+                      type: 'number',
+                      nullable: true
+                    },
+                    {
+                      type: 'array',
+                      items: {
+                        type: 'number'
                       },
                       nullable: true
                     }
