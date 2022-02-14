@@ -39,45 +39,39 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters = {
-  coordinator_agency: '',
-  permit_number: '',
-  start_date: '',
-  end_date: '',
   keyword: '',
-  project_name: '',
-  agency_id: ('' as unknown) as number,
-  agency_project_id: '',
-  species: []
+  contact_agency: '',
+  funding_agency: 0,
+  permit_number: '',
+  species: 0,
+  start_date: '',
+  end_date: ''
 };
 
 export interface IProjectAdvancedFilters {
-  coordinator_agency: string;
-  permit_number: string;
-  start_date: string;
-  end_date: string;
-  keyword: string;
-  project_name: string;
-  agency_id: number;
-  agency_project_id: string;
-  species: number[];
+  keyword?: string;
+  contact_agency?: string | string[];
+  funding_agency?: number | number[];
+  permit_number?: string;
+  species?: number | number[];
+  start_date?: string;
+  end_date?: string;
 }
 
 export const ProjectAdvancedFiltersKeyLabels = {
-  coordinator_agency: { label: 'Coordinator Agency' },
-  permit_number: { label: 'Permit Number' },
-  start_date: { label: 'Start Date' },
-  end_date: { label: 'End Date' },
   keyword: { label: 'Keyword' },
-  project_name: { label: 'Project Name' },
-  agency_id: { label: 'Agency Name', codeSet: 'funding_sources' },
-  agency_project_id: { label: 'Agency Project' },
-  species: { label: 'Species', codeSet: 'species' }
+  contact_agency: { label: 'Contact Agency' },
+  funding_agency: { label: 'Funding Agency' },
+  permit_number: { label: 'Permit Number' },
+  species: { label: 'Species', codeSet: 'species' },
+  start_date: { label: 'Start Date' },
+  end_date: { label: 'End Date' }
 };
 
 export interface IProjectAdvancedFiltersProps {
   species: IMultiAutocompleteFieldOption[];
-  funding_sources: IMultiAutocompleteFieldOption[];
-  coordinator_agency: string[];
+  contact_agency: string[];
+  funding_agency: IMultiAutocompleteFieldOption[];
   filterChipParams: IProjectAdvancedFilters;
 }
 
@@ -88,7 +82,7 @@ export interface IProjectAdvancedFiltersProps {
  */
 const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const classes = useStyles();
-  const { filterChipParams, coordinator_agency, species, funding_sources } = props;
+  const { filterChipParams, contact_agency, species, funding_agency } = props;
 
   const [isAdvancedFiltersOpen, setIsAdvancedFiltersOpen] = useState(false);
   const [isFiltersChipsOpen, setIsFiltersChipsOpen] = useState(false);
@@ -142,7 +136,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   };
 
   const getChipLabel = (key: string, value: string) => {
-    if (!funding_sources?.entries) {
+    if (!funding_agency?.entries) {
       return '';
     }
 
@@ -253,9 +247,9 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
           {isAdvancedFiltersOpen && (
             <Box>
               <ProjectAdvancedFilters
-                coordinator_agency={coordinator_agency}
+                contact_agency={contact_agency}
                 species={species}
-                funding_sources={funding_sources}
+                funding_agency={funding_agency}
               />
 
               <Box my={3}>

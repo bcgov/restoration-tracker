@@ -161,6 +161,9 @@ const ProjectsPage: React.FC = () => {
   useEffect(() => {
     const getFilteredProjects = async () => {
       const projectsResponse = await restorationTrackerApi.project.getProjectsList(formikValues);
+
+      console.log(projectsResponse);
+
       setIsLoading(false);
       setProjects(projectsResponse);
     };
@@ -223,7 +226,7 @@ const ProjectsPage: React.FC = () => {
           onReset={handleReset}
           enableReinitialize={true}>
           <ProjectFilter
-            coordinator_agency={
+            contact_agency={
               codes?.coordinator_agency?.map((item: any) => {
                 return item.name;
               }) || []
@@ -233,7 +236,7 @@ const ProjectsPage: React.FC = () => {
                 return { value: item.id, label: item.name };
               }) || []
             }
-            funding_sources={
+            funding_agency={
               codes?.funding_source?.map((item) => {
                 return { value: item.id, label: item.name };
               }) || []

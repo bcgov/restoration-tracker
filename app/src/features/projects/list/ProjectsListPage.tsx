@@ -38,8 +38,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export interface IProjectsListProps {
-  projects: IGetProjectsListResponse[],
-  drafts: IGetDraftsListResponse[]
+  projects: IGetProjectsListResponse[];
+  drafts: IGetDraftsListResponse[];
 }
 
 /**
@@ -48,8 +48,7 @@ export interface IProjectsListProps {
  * @return {*}
  */
 const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
-
-  const {projects, drafts } = props;
+  const { projects, drafts } = props;
 
   const history = useHistory();
   const classes = useStyles();
@@ -86,8 +85,6 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
   const navigateToProjectPage = (id: number) => {
     history.push(`/admin/projects/${id}`);
   };
-
-
 
   const getProjectsTableData = () => {
     const hasProjects = projects?.length > 0;

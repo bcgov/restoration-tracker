@@ -67,18 +67,19 @@ describe('ProjectAdvancedFilters', () => {
   });
 
   test('renders properly when props and inital values are given', async () => {
-
-    const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters[] = [{
-      coordinator_agency: 'temp1',
-      permit_number: 'temp2',
-      start_date: '',
-      end_date: '',
-      keyword: 'temp3',
-      project_name: 'temp4',
-      agency_id: ('3' as unknown) as number,
-      agency_project_id: 'temp6',
-      species: [7]
-    }];
+    const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters[] = [
+      {
+        coordinator_agency: 'temp1',
+        permit_number: 'temp2',
+        start_date: '',
+        end_date: '',
+        keyword: 'temp3',
+        project_name: 'temp4',
+        agency_id: ('3' as unknown) as number,
+        agency_project_id: 'temp6',
+        species: [7]
+      }
+    ];
 
     const species = [
       { value: 1, label: 'species1' },
@@ -110,6 +111,5 @@ describe('ProjectAdvancedFilters', () => {
       expect(getByText('temp3')).toBeInTheDocument();
       expect(getByText('temp4')).toBeInTheDocument();
     });
-
   });
 });

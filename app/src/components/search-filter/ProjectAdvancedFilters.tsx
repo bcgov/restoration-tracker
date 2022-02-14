@@ -10,8 +10,8 @@ import { IProjectAdvancedFilters } from './ProjectFilter';
 
 export interface IProjectAdvancedFiltersProps {
   species: IMultiAutocompleteFieldOption[];
-  funding_sources: IMultiAutocompleteFieldOption[];
-  coordinator_agency: string[];
+  contact_agency: string[];
+  funding_agency: IMultiAutocompleteFieldOption[];
 }
 
 /**
@@ -32,10 +32,10 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={3}>
           <AutocompleteFreeSoloField
-            id="coordinator_agency"
-            name="coordinator_agency"
+            id="contact_agency"
+            name="contact_agency"
             label="Contact Agency"
-            options={props.coordinator_agency}
+            options={props.contact_agency}
             required={false}
           />
         </Grid>
@@ -52,19 +52,19 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={3}>
           <FormControl fullWidth variant="outlined" required={false}>
-            <InputLabel id="agency_id-label">Funding Agency Name</InputLabel>
+            <InputLabel id="funding_agency-label">Funding Agency Name</InputLabel>
             <Select
-              data-testid="agency_id"
-              id="agency_id"
-              name="agency_id"
-              labelId="agency_id-label"
+              data-testid="funding_agency"
+              id="funding_agency"
+              name="funding_agency"
+              labelId="funding_agency-label"
               label="Funding Agency Name"
-              value={values.agency_id ?? ''}
+              value={values.funding_agency ?? ''}
               onChange={handleChange}
               defaultValue=""
               displayEmpty
               inputProps={{ 'aria-label': 'Funding Agency Name', 'data-testid': 'agency-id' }}>
-              {props.funding_sources.map((item) => (
+              {props.funding_agency.map((item) => (
                 <MenuItem key={item.value} value={item.value}>
                   {item.label}
                 </MenuItem>

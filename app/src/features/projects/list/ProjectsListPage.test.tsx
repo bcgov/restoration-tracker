@@ -48,7 +48,6 @@ describe('ProjectsListPage', () => {
       expect(getByTestId('project-table')).toBeInTheDocument();
       expect(getByText('project name')).toBeInTheDocument();
       expect(getByText('Active')).toBeInTheDocument();
-
     });
   });
 
@@ -85,7 +84,7 @@ describe('ProjectsListPage', () => {
         permits_list: 'string',
         publish_status: 'string',
         completion_status: 'Draft'
-      } as IGetProjectsListResponse,
+      } as IGetProjectsListResponse
     ];
 
     const { getByText, getByTestId } = render(
@@ -102,7 +101,6 @@ describe('ProjectsListPage', () => {
       expect(getByText('Completed')).toBeInTheDocument();
       expect(getByText('draft name')).toBeInTheDocument();
       expect(getByText('Draft')).toBeInTheDocument();
-
     });
   });
 
