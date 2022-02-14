@@ -129,7 +129,6 @@ export const getProjectListSQL = (
       sqlStatement.append(SQL` AND p.name ilike ${keyword_string}`);
       sqlStatement.append(SQL` OR p.coordinator_agency_name ilike ${keyword_string}`);
       sqlStatement.append(SQL` OR fs.name ilike ${keyword_string}`);
-      sqlStatement.append(SQL` OR s.name ilike ${keyword_string}`);
     }
   }
 

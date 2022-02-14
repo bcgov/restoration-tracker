@@ -20,15 +20,13 @@ export interface IGetProjectAttachment {
  * An interface for an instance of filter fields for project advanced filter search
  */
 export interface IProjectAdvancedFilterRequest {
-  coordinator_agency: string;
-  permit_number: string;
-  start_date: string;
-  end_date: string;
-  keyword: string;
-  project_name: string;
-  agency_id: number;
-  agency_project_id: string;
-  species: number[];
+  keyword?: string;
+  contact_agency?: string | string[];
+  funding_agency?: number | number[];
+  permit_number?: string;
+  species?: number | number[];
+  start_date?: string;
+  end_date?: string;
 }
 
 /**
