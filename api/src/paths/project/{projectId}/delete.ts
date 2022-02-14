@@ -4,7 +4,8 @@ import { PROJECT_ROLE, SYSTEM_ROLE } from '../../../constants/roles';
 import { getDBConnection } from '../../../database/db';
 import { HTTP400 } from '../../../errors/custom-error';
 import { queries } from '../../../queries/queries';
-import { authorizeRequestHandler, userHasValidRole } from '../../../request-handlers/security/authorization';
+import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
+import { AuthorizationService } from '../../../services/authorization-service';
 import { deleteFileFromS3 } from '../../../utils/file-utils';
 import { getLogger } from '../../../utils/logger';
 
@@ -99,7 +100,7 @@ export function deleteProject(): RequestHandler {
 
       if (
         projectResult.publish_date &&
-        !userHasValidRole([SYSTEM_ROLE.SYSTEM_ADMIN], req['system_user']['role_names'])
+        !AuthorizationService.userHasValidRole([SYSTEM_ROLE.SYSTEM_ADMIN], req['system_user']['role_names'])
       ) {
         throw new HTTP400('Cannot delete a published project if you are not a system administrator.');
       }

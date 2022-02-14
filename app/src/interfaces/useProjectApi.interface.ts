@@ -207,7 +207,6 @@ export interface IGetProjectForViewResponseDetails {
   project_name: string;
   start_date: string;
   end_date: string;
-  completion_status: string;
   publish_date: string;
   objectives: string;
 }

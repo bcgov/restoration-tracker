@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@types/csv-parse": "^1.2.2",
-    "knex": "~1.0.1",
+    "knex": "~1.0.2",
     "pg": "~8.3.0",
     "typescript": "~4.1.6"
   },
@@ -36,7 +36,7 @@
     "eslint-config-prettier": "~6.15.0",
     "eslint-plugin-prettier": "~3.3.1",
     "npm-run-all": "~4.1.5",
-    "prettier": "^2.3.2",
+    "prettier": "~2.2.1",
     "ts-node": "~10.4.0"
   }
 }

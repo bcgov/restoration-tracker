@@ -11,6 +11,7 @@ import {
   IProjectAdvancedFilterRequest,
   IUploadAttachmentResponse
 } from 'interfaces/useProjectApi.interface';
+import qs from 'qs';
 
 /**
  * Returns a set of supported api methods for working with projects.
@@ -91,12 +92,17 @@ const useProjectApi = (axios: AxiosInstance) => {
    * Get projects list (potentially based on filter criteria).
    *
    * @param {IProjectAdvancedFilterRequest} filterFieldData
-   * @return {*}  {Promise<IGetProjectsListResponse[]>}
+   * @return {*}  {Promise<IGetProjectForViewResponse[]>}
    */
   const getProjectsList = async (
     filterFieldData?: IProjectAdvancedFilterRequest
-  ): Promise<IGetProjectsListResponse[]> => {
-    const { data } = await axios.post(`/api/projects`, filterFieldData || {});
+  ): Promise<IGetProjectForViewResponse[]> => {
+    const { data } = await axios.get(`/api/project/list`, {
+      params: { criteria: filterFieldData },
+      paramsSerializer: (params) => {
+        return qs.stringify(params);
+      }
+    });
 
     return data;
   };

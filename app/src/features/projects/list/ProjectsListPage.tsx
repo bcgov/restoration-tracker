@@ -14,7 +14,8 @@ import clsx from 'clsx';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ProjectStatusType } from 'constants/misc';
 import { IGetDraftsListResponse } from 'interfaces/useDraftApi.interface';
-import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import moment from 'moment';
 import React from 'react';
 import { useHistory } from 'react-router';
 import { getFormattedDate } from 'utils/Utils';
@@ -55,17 +56,26 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
 
   const projectCount = projects.length;
 
-  const getChipIcon = (status_name: string) => {
+  const getProjectStatusType = (projectData: IGetProjectForViewResponse): ProjectStatusType => {
+    return (
+      (projectData.project.end_date &&
+        moment(projectData.project.end_date).endOf('day').isBefore(moment()) &&
+        ProjectStatusType.COMPLETED) ||
+      ProjectStatusType.ACTIVE
+    );
+  };
+
+  const getChipIcon = (statusType: ProjectStatusType) => {
     let chipLabel;
     let chipStatusClass;
 
-    if (ProjectStatusType.ACTIVE === status_name) {
+    if (ProjectStatusType.ACTIVE === statusType) {
       chipLabel = 'Active';
       chipStatusClass = classes.chipActive;
-    } else if (ProjectStatusType.COMPLETED === status_name) {
+    } else if (ProjectStatusType.COMPLETED === statusType) {
       chipLabel = 'Completed';
       chipStatusClass = classes.chipPublishedCompleted;
-    } else if (ProjectStatusType.DRAFT === status_name) {
+    } else if (ProjectStatusType.DRAFT === statusType) {
       chipLabel = 'Draft';
       chipStatusClass = classes.chipDraft;
     }
@@ -143,25 +153,26 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell />
                   <TableCell />
                   <TableCell />
-                  <TableCell>{getChipIcon('Draft')}</TableCell>
+                  <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
                 </TableRow>
               ))}
               {projects?.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.project.project_id}>
                   <TableCell component="th" scope="row">
                     <Link
-                      data-testid={row.name}
+                      data-testid={row.project.project_name}
                       underline="always"
                       component="button"
                       variant="body2"
-                      onClick={() => navigateToProjectPage(row.id)}>
-                      {row.name}
+                      onClick={() => navigateToProjectPage(row.project.project_id)}>
+                      {row.project.project_name}
                     </Link>
                   </TableCell>
-                  <TableCell>{row.permits_list}</TableCell>
-                  <TableCell>{row.coordinator_agency}</TableCell>
-                  <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
-                  <TableCell>{getChipIcon(row.completion_status)}</TableCell>
+                  <TableCell>{row.permit.permits.map((item) => item.permit_number).join(', ')}</TableCell>
+                  <TableCell>{row.coordinator.coordinator_agency}</TableCell>
+                  <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.start_date)}</TableCell>
+                  <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.end_date)}</TableCell>
+                  <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

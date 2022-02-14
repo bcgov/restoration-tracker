@@ -39,7 +39,7 @@ describe('updateAccessRequest', () => {
     sinon.stub(db, 'getDBConnection').returns({
       ...dbConnectionObj,
       systemUserId: () => {
-        return null;
+        return (null as unknown) as number;
       }
     });
 
@@ -190,6 +190,8 @@ describe('getPendingAccessRequestsCount', () => {
 
   it('should throw a 400 error when no user identifier', async () => {
     sinon.stub(keycloak_utils, 'getUserIdentifier').returns(null);
+
+    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     try {
       const result = administrative_activity.getPendingAccessRequestsCount();
