@@ -18,6 +18,9 @@ export class SearchService extends DBService {
    * @memberof SearchService
    */
   async findProjectIdsByCriteria(criteria: ProjectSearchCriteria) {
+    // track which tables we have joined with already
+    const joins: string[] = [];
+
     const queryBuilder = getKnexQueryBuilder<any, { project_id: number }>()
       .select('project.project_id')
       .from('project');
@@ -27,34 +30,44 @@ export class SearchService extends DBService {
 
       queryBuilder.or.whereILike('project.coordinator_agency_name', `%${criteria.keyword}%`);
 
-      queryBuilder.leftJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
-      queryBuilder.leftJoin(
-        'investment_action_category',
-        'project_funding_source.investment_action_category_id',
-        'investment_action_category.investment_action_category_id'
-      );
-      queryBuilder.leftJoin(
-        'funding_source',
-        'investment_action_category.funding_source_id',
-        'funding_source.funding_source_id'
-      );
+      !joins.includes('project_funding_source') &&
+        queryBuilder.leftJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
+      !joins.includes('investment_action_category') &&
+        queryBuilder.leftJoin(
+          'investment_action_category',
+          'project_funding_source.investment_action_category_id',
+          'investment_action_category.investment_action_category_id'
+        );
+      !joins.includes('funding_source') &&
+        queryBuilder.leftJoin(
+          'funding_source',
+          'investment_action_category.funding_source_id',
+          'funding_source.funding_source_id'
+        );
       queryBuilder.or.whereILike('funding_source.name', `%${criteria.keyword}%`);
+
+      joins.push('project_funding_source', 'investment_action_category', 'funding_source');
     }
 
     if (criteria.funding_agency) {
-      queryBuilder.leftJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
-      queryBuilder.leftJoin(
-        'investment_action_category',
-        'project_funding_source.investment_action_category_id',
-        'investment_action_category.investment_action_category_id'
-      );
-      queryBuilder.leftJoin(
-        'funding_source',
-        'investment_action_category.funding_source_id',
-        'funding_source.funding_source_id'
-      );
+      !joins.includes('project_funding_source') &&
+        queryBuilder.leftJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
+      !joins.includes('investment_action_category') &&
+        queryBuilder.leftJoin(
+          'investment_action_category',
+          'project_funding_source.investment_action_category_id',
+          'investment_action_category.investment_action_category_id'
+        );
+      !joins.includes('funding_source') &&
+        queryBuilder.leftJoin(
+          'funding_source',
+          'investment_action_category.funding_source_id',
+          'funding_source.funding_source_id'
+        );
 
       queryBuilder.and.where('funding_source.funding_source_id', criteria.funding_agency);
+
+      joins.push('project_funding_source', 'investment_action_category', 'funding_source');
     }
 
     if (criteria.permit_number) {
@@ -64,6 +77,8 @@ export class SearchService extends DBService {
         'permit.number',
         (Array.isArray(criteria.permit_number) && criteria.permit_number) || [criteria.permit_number]
       );
+
+      joins.push('permit');
     }
 
     if (criteria.start_date) {
