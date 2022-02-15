@@ -29,11 +29,11 @@ describe('ProjectPermitForm', () => {
         permits: [
           {
             permit_number: '123',
-            permit_type: 'Park Use Permit'
+            permit_type: 'Forestry License to Cut'
           },
           {
             permit_number: '3213123123',
-            permit_type: 'Scientific Fish Collection Permit'
+            permit_type: 'Road Use Permit'
           }
         ]
       }
@@ -59,7 +59,7 @@ describe('ProjectPermitForm', () => {
         permits: [
           {
             permit_number: '123',
-            permit_type: 'Scientific Fish Collection Permit'
+            permit_type: 'Forestry License to Cut'
           }
         ]
       }
@@ -91,11 +91,11 @@ describe('ProjectPermitForm', () => {
         permits: [
           {
             permit_number: '123',
-            permit_type: 'Park Use Permit'
+            permit_type: 'Forestry License to Cut'
           },
           {
             permit_number: '123',
-            permit_type: 'Scientific Fish Collection Permit'
+            permit_type: 'Road Use Permit'
           }
         ]
       }
@@ -122,7 +122,7 @@ describe('ProjectPermitForm', () => {
         permits: [
           {
             permit_number: '123',
-            permit_type: 'Scientific Fish Collection Permit'
+            permit_type: 'Forestry License to Cut'
           }
         ]
       }
