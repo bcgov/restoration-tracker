@@ -3,7 +3,6 @@ import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../../../constants/roles';
 import { getDBConnection } from '../../../database/db';
 import { HTTP400 } from '../../../errors/custom-error';
-import { draftGetResponseObject } from '../../../openapi/schemas/draft';
 import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
 import { getLogger } from '../../../utils/logger';
@@ -48,7 +47,23 @@ GET.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            ...(draftGetResponseObject as object)
+            title: 'Draft Get Response Object',
+            type: 'object',
+            required: ['id', 'name', 'data'],
+            properties: {
+              id: {
+                type: 'number'
+              },
+              name: {
+                type: 'string',
+                description: 'The name of the draft'
+              },
+              data: {
+                type: 'object',
+                description: 'The data associated with this draft',
+                properties: {}
+              }
+            }
           }
         }
       }
