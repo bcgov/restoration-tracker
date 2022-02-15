@@ -19,7 +19,7 @@ export interface IProjectGeneralInformationProps {
  */
 const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) => {
   const {
-    projectForViewData: { project }
+    projectForViewData: { project, species }
   } = props;
 
   return (
@@ -47,6 +47,20 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
           </Typography>
           <Typography variant="body2" component="dt">
             {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="body2" component="dd" color="textSecondary">
+            Focal Species:
+          </Typography>
+          <Typography component="dd" variant="body2">
+            {species.focal_species?.map((item: any, index: number) => {
+              return (
+                <span key={index} data-testid="focal_species_data">
+                  {item.name}
+                </span>
+              );
+            })}
           </Typography>
         </div>
       </Box>

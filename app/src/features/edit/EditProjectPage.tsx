@@ -34,7 +34,8 @@ import {
   IGetProjectForViewResponseIUCN,
   IGetProjectForViewResponseLocation,
   IGetProjectForViewResponsePartnerships,
-  IGetProjectForViewResponsePermit
+  IGetProjectForViewResponsePermit,
+  IGetProjectForViewResponseSpecies
 } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
@@ -70,6 +71,9 @@ export const ProjectFormInitialValues = {
     end_date: '',
     objectives: ''
   } as IGetProjectForViewResponseDetails,
+  species: {
+    focal_species: []
+  } as IGetProjectForViewResponseSpecies,
   permit: {
     permits: []
   } as IGetProjectForViewResponsePermit,

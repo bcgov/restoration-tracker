@@ -63,7 +63,7 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={9}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} direction="column">
           <Grid item xs={12}>
             <CustomTextField
               name="project.project_name"
@@ -90,8 +90,8 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
             </Grid>
           </Grid>
 
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12}>
+            <Grid item xs={12}>
               <MultiAutocompleteFieldVariableSize
                 id="species.focal_species"
                 label="Focal Species"

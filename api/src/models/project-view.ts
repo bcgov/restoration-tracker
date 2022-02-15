@@ -7,7 +7,6 @@ export class GetProjectData {
   end_date: string;
   objectives: string;
   publish_date: string;
-  species: string;
   revision_count: number;
 
   constructor(projectData?: any) {
@@ -17,9 +16,13 @@ export class GetProjectData {
     this.end_date = projectData?.end_date || '';
     this.objectives = projectData?.objectives || '';
     this.publish_date = projectData?.publish_timestamp || null;
-    this.species = projectData?.species || '';
     this.revision_count = projectData?.revision_count ?? 0;
   }
+}
+
+export interface IGetSpecies {
+  id: number;
+  name: string;
 }
 
 //TODO: Anissa
@@ -27,11 +30,26 @@ export class GetProjectData {
 // APP needs to display the name for view
 // APP needs to use id for edit
 export class GetSpeciesData {
-  focal_species: string[];
+  focal_species: IGetSpecies[];
 
   constructor(input?: any[]) {
-    // console.log('database output :', input);
-    this.focal_species = (input?.length && input.map((item: any) => item.english_name)) || [];
+    this.focal_species =
+      (input?.length &&
+        input.map((item: any) => {
+          const focal_species_string = [item.english_name, item.unit_name1, item.unit_name2, item.unit_name3]
+            .filter(Boolean)
+            .join(' - ');
+
+          // const focal_species = [
+          //   item.wldtaxonomic_units_id,
+          //   [item.english_name, item.unit_name1, item.unit_name2, item.unit_name3].filter(Boolean).join(' - ')
+          // ];
+          return {
+            id: item.wldtaxonomic_units_id,
+            name: focal_species_string
+          };
+        })) ||
+      [];
   }
 }
 

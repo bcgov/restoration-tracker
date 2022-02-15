@@ -96,7 +96,17 @@ GET.apiDoc = {
                   focal_species: {
                     type: 'array',
                     items: {
-                      type: 'string'
+                      title: 'Single species item',
+                      required: ['id', 'name'],
+                      type: 'object',
+                      properties: {
+                        id: {
+                          type: 'number'
+                        },
+                        name: {
+                          type: 'string'
+                        }
+                      }
                     }
                   }
                 }
@@ -293,8 +303,6 @@ export function viewProject(): RequestHandler {
       const projectService = new ProjectService(connection);
 
       const result = await projectService.getProjectById(Number(req.params.projectId));
-
-      //console.log('view project result is: ', result);
 
       await connection.commit();
 

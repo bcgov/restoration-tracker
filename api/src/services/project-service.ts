@@ -212,11 +212,7 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    //console.log('species response is : ', response);
-
     const result = response.rows || null;
-
-    //console.log('species result is :', result);
 
     if (!result) {
       throw new HTTP400('Failed to get species data');

@@ -25,44 +25,6 @@ export const getProjectSQL = (projectId: number): SQLStatement | null => {
       project.project_id = ${projectId};
   `;
 
-  // const sqlStatement = SQL`
-  //   SELECT
-  //     p.project_id,
-  //     p.name,
-  //     p.start_date,
-  //     p.end_date,
-  //     p.objectives,
-  //     p.publish_timestamp,
-  //     array_remove(
-  //       array_agg(
-  //         DISTINCT CASE
-  //          WHEN ps.wldtaxonomic_units_id is not null
-  //             THEN CONCAT_WS(' - ', wtu.english_name, CONCAT_WS(' ', wtu.unit_name1, wtu.unit_name2, wtu.unit_name3))
-  //          END
-  //       ),
-  //      NULL
-  //     ) as species
-  //   FROM
-  //     wldtaxonomic_units as wtu
-  //   LEFT OUTER JOIN
-  //     project_species as ps
-  //   ON
-  //     ps.wldtaxonomic_units_id = wtu.wldtaxonomic_units_id
-  //   LEFT OUTER JOIN
-  //     project as p
-  //   ON
-  //     p.project_id = ps.project_id
-  //   WHERE
-  //     p.project_id = ${projectId}
-  //     group by
-  //     p.project_id,
-  //   	p.name,
-  //   	p.start_date,
-  //   	p.end_date,
-  //   	p.objectives,
-  //   	p.publish_timestamp ;
-  // `;
-
   defaultLog.debug({
     label: 'getProjectSQL',
     message: 'sql',

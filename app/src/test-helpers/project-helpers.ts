@@ -9,8 +9,13 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     completion_status: 'Active',
     publish_date: '2021-01-26',
     objectives: 'Project objectives',
-    region: 'NRM Region 1',
-    species: ['species1', 'species 2']
+    region: 'NRM Region 1'
+  },
+  species: {
+    focal_species: [
+      { id: 1, name: 'species1' },
+      { id: 2, name: 'species2' }
+    ]
   },
   permit: {
     permits: [

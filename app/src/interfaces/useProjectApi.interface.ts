@@ -196,6 +196,7 @@ export interface IGetProjectForUpdateResponsePartnerships {
  */
 export interface IGetProjectForViewResponse {
   project: IGetProjectForViewResponseDetails;
+  species: IGetProjectForViewResponseSpecies;
   permit: IGetProjectForViewResponsePermit;
   location: IGetProjectForViewResponseLocation;
   coordinator: IGetProjectForViewResponseCoordinator;
@@ -213,7 +214,15 @@ export interface IGetProjectForViewResponseDetails {
   publish_date: string;
   objectives: string;
   region: string;
-  species: string[];
+}
+
+export interface IGetProjectForViewResponseSpeciesItem {
+  id: number;
+  name: string;
+}
+
+export interface IGetProjectForViewResponseSpecies {
+  focal_species: IGetProjectForViewResponseSpeciesItem[];
 }
 
 interface IGetProjectForViewResponsePermitArrayItem {
