@@ -22,7 +22,7 @@ const projectCoordinatorFilledValues = {
 
 describe('Project Contact Form', () => {
   it('renders correctly the empty component correctly', () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <Formik
         initialValues={ProjectCoordinatorInitialValues}
         validationSchema={ProjectCoordinatorYupSchema}
@@ -35,11 +35,14 @@ describe('Project Contact Form', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('coordinator.first_name')).toBeVisible();
+    expect(getByTestId('coordinator.last_name')).toBeVisible();
+    expect(getByTestId('coordinator.email_address')).toBeVisible();
+    expect(getByTestId('coordinator.coordinator_agency')).toBeVisible();
   });
 
   it('renders correctly the filled component correctly', () => {
-    const { asFragment } = render(
+    const { getByTestId, getByDisplayValue } = render(
       <Formik
         initialValues={projectCoordinatorFilledValues}
         validationSchema={ProjectCoordinatorYupSchema}
@@ -52,6 +55,12 @@ describe('Project Contact Form', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('coordinator.first_name')).toBeVisible();
+    expect(getByTestId('coordinator.last_name')).toBeVisible();
+    expect(getByTestId('coordinator.email_address')).toBeVisible();
+    expect(getByTestId('coordinator.coordinator_agency')).toBeVisible();
+    expect(getByDisplayValue('Nerea')).toBeVisible();
+    expect(getByDisplayValue('Oneal')).toBeVisible();
+    expect(getByDisplayValue('quxu@mailinator.com')).toBeVisible();
   });
 });

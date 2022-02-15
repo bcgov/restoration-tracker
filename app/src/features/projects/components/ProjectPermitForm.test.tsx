@@ -9,7 +9,7 @@ import ProjectPermitForm, {
 
 describe('ProjectPermitForm', () => {
   it('renders correctly with default empty values', () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <Formik
         initialValues={ProjectPermitFormInitialValues}
         validationSchema={ProjectPermitFormYupSchema}
@@ -20,7 +20,7 @@ describe('ProjectPermitForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('permit.permits.[0].permit_number')).toBeVisible();
   });
 
   it('renders correctly with existing permit values', () => {
@@ -39,7 +39,7 @@ describe('ProjectPermitForm', () => {
       }
     };
 
-    const { asFragment } = render(
+    const { getByTestId, getByText } = render(
       <Formik
         initialValues={existingFormValues}
         validationSchema={ProjectPermitFormYupSchema}
@@ -50,7 +50,9 @@ describe('ProjectPermitForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('permit.permits.[0].permit_number')).toBeVisible();
+    expect(getByText('Park Use Permit')).toBeVisible();
+    expect(getByText('Scientific Fish Collection Permit')).toBeVisible();
   });
 
   it('renders correctly with errors on the permit_number and permit_type fields', () => {
@@ -65,24 +67,25 @@ describe('ProjectPermitForm', () => {
       }
     };
 
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <Formik
         initialValues={existingFormValues}
         validationSchema={ProjectPermitFormYupSchema}
         validateOnBlur={true}
         validateOnChange={false}
         initialErrors={{
-          permits: [{ permit_number: 'Error here', permit_type: 'Error here as well' }]
+          permits: { permit_number: 'Error here', permit_type: 'Error here as well' }
         }}
         initialTouched={{
-          permits: [{ permit_number: true, permit_type: true }]
+          permits: { permit_number: true, permit_type: true }
         }}
         onSubmit={async () => {}}>
         {() => <ProjectPermitForm />}
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('permit.permits.[0].permit_number')).toBeVisible();
+    expect(getByTestId('permits error')).toBeVisible();
   });
 
   it('renders correctly with error on the permits field due to duplicates', () => {
@@ -101,7 +104,7 @@ describe('ProjectPermitForm', () => {
       }
     };
 
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <Formik
         initialValues={existingFormValues}
         validationSchema={ProjectPermitFormYupSchema}
@@ -113,7 +116,8 @@ describe('ProjectPermitForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('permit.permits.[0].permit_number')).toBeVisible();
+    expect(getByTestId('permits error')).toBeVisible();
   });
 
   it('deletes existing permits when delete icon is clicked', async () => {
