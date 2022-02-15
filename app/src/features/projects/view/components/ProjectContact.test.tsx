@@ -2,24 +2,29 @@ import { render } from '@testing-library/react';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
-import ProjectCoordinator from './ProjectContact';
+import ProjectContact from './ProjectContact';
 
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 
 const mockRefresh = jest.fn();
 
-describe('ProjectCoordinator', () => {
-  it('renders cordinator data correctly', async () => {
+describe('ProjectContact', () => {
+  it('renders contact data correctly', async () => {
     const { getByTestId } = render(
-      <ProjectCoordinator
+      <ProjectContact
         projectForViewData={{
           ...getProjectForViewResponse,
-          coordinator: {
-            first_name: 'Amanda',
-            last_name: 'Christensen',
-            email_address: 'amanda@christensen.com',
-            coordinator_agency: 'Amanda and associates',
-            share_contact_details: 'true'
+          contact: {
+            contacts: [
+              {
+                first_name: 'Amanda',
+                last_name: 'Christensen',
+                email_address: 'amanda@christensen.com',
+                agency: 'Amanda and associates',
+                is_public: 'true',
+                is_primary: 'true'
+              }
+            ]
           }
         }}
         codes={codes}
@@ -27,6 +32,6 @@ describe('ProjectCoordinator', () => {
       />
     );
 
-    expect(getByTestId('coordinator_name')).toBeInTheDocument();
+    expect(getByTestId('contact_name')).toBeInTheDocument();
   });
 });

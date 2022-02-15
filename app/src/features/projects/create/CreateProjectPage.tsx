@@ -416,7 +416,7 @@ const CreateProjectPage: React.FC = () => {
                 <Box my={5}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={3}>
-                      <Typography variant="h2">Contact</Typography>
+                      <Typography variant="h2">Contacts</Typography>
                     </Grid>
 
                     <Grid item xs={12} md={9}>

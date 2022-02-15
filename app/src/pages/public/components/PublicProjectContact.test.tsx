@@ -1,14 +1,14 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
-import PublicProjectCoordinator from './PublicProjectContact';
+import PublicProjectContact from './PublicProjectContact';
 
 const mockRefresh = jest.fn();
 
-describe('PublicProjectCoordinator', () => {
+describe('PublicProjectContact', () => {
   it('renders correctly', () => {
     const { getByTestId } = render(
-      <PublicProjectCoordinator projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
+      <PublicProjectContact projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
     );
 
     expect(getByTestId('projectContactTitle')).toBeVisible();
