@@ -7,6 +7,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import AutocompleteFreeSoloField from 'components/fields/AutocompleteFreeSoloField';
 import CustomTextField from 'components/fields/CustomTextField';
@@ -49,7 +50,13 @@ export interface IProjectContactItemFormProps {
   coordinator_agency: string[];
 }
 
-/**
+const useStyles = makeStyles(() => ({
+  primaryCheckbox: {
+    paddingTop: '6px'
+  }
+}));
+
+/*
  * A modal form for a single project contact.
  *
  * @See ProjectContactForm.tsx
@@ -57,6 +64,8 @@ export interface IProjectContactItemFormProps {
  * @return {*}
  */
 const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) => {
+  const classes = useStyles();
+
   const { values, touched, errors, handleChange } = useFormikContext<IProjectContactItemForm>();
 
   return (
@@ -102,6 +111,21 @@ const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) =
               required={true}
             />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <Typography color="textSecondary">
+              <Checkbox
+                color="primary"
+                className={classes.primaryCheckbox}
+                id="primary_contact_details"
+                name="is_primary"
+                aria-label="Primary Contact Details"
+                checked={JSON.parse(values.is_primary)}
+                value={String(!values.is_primary)}
+                onChange={handleChange}
+              />
+              This person is the primary contact for this project
+            </Typography>
+          </Grid>
         </Grid>
       </Box>
       <Box mt={4}>
@@ -132,22 +156,6 @@ const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) =
             </RadioGroup>
           </Box>
         </FormControl>
-      </Box>
-      <Box mt={4}>
-        <Typography id="primary_contact_details" component="legend">
-          Primary Contact Details
-        </Typography>
-        <Typography color="textSecondary">
-          Do you want this contact to be primary?
-          <Checkbox
-            color="primary"
-            name="is_primary"
-            aria-label="Primary Contact Details"
-            checked={JSON.parse(values.is_primary)}
-            value={String(!values.is_primary)}
-            onChange={handleChange}
-          />
-        </Typography>
       </Box>
       <Box mt={4}>
         <Divider />
