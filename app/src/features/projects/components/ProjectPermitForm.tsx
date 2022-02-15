@@ -87,7 +87,15 @@ const ProjectPermitForm: React.FC = () => {
 
   const { values, handleChange, getFieldMeta, errors } = useFormikContext<IProjectPermitForm>();
 
-  const permitTypes = ['Forestry License to Cut', 'Heritage Inspection Permit', 'License of Occupation', 'Occupant License to Cut under the Forest Act', 'Park Use Permit', 'Road Use Permit', 'Special Use Permit'];
+  const permitTypes = [
+    'Forestry License to Cut',
+    'Heritage Inspection Permit',
+    'License of Occupation',
+    'Occupant License to Cut under the Forest Act',
+    'Park Use Permit',
+    'Road Use Permit',
+    'Special Use Permit'
+  ];
 
   return (
     <>
@@ -125,7 +133,11 @@ const ProjectPermitForm: React.FC = () => {
                                 error={permitTypeMeta.touched && Boolean(permitTypeMeta.error)}
                                 displayEmpty
                                 inputProps={{ 'aria-label': 'Permit Type' }}>
-                                {permitTypes.map((permitType, index) => <MenuItem key={index} value={permitType}>{permitType}</MenuItem>)}
+                                {permitTypes.map((permitType, index) => (
+                                  <MenuItem key={index} value={permitType}>
+                                    {permitType}
+                                  </MenuItem>
+                                ))}
                               </Select>
                               <FormHelperText>{permitTypeMeta.touched && permitTypeMeta.error}</FormHelperText>
                             </FormControl>
