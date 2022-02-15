@@ -95,7 +95,7 @@ const ProjectPermitForm: React.FC = () => {
     'Park Use Permit',
     'Road Use Permit',
     'Special Use Permit'
-  ].sort();
+  ];
 
   return (
     <>
