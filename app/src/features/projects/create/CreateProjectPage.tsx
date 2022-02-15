@@ -189,7 +189,7 @@ const CreateProjectPage: React.FC = () => {
   };
 
   const handleSubmitDraft = async (values: IProjectDraftForm) => {
-    console.log('the draft values are: ', values);
+    //console.log('the draft values are: ', values);
     try {
       const draftId = Number(queryParams.draftId) || draft?.id;
 
@@ -243,7 +243,6 @@ const CreateProjectPage: React.FC = () => {
       await deleteDraft();
 
       setEnableCancelCheck(false);
-
       history.push(`/admin/projects/${response.id}`);
     } catch (error) {
       showCreateErrorDialog({

@@ -11,6 +11,7 @@ const defaultLog = getLogger('models/project-create');
  */
 export class PostProjectObject {
   coordinator: PostCoordinatorData;
+  species: PostSpeciesData;
   permit: PostPermitData;
   project: PostProjectData;
   location: PostLocationData;
@@ -22,6 +23,7 @@ export class PostProjectObject {
     defaultLog.debug({ label: 'PostProjectObject', message: 'params', obj });
 
     this.coordinator = (obj?.coordinator && new PostCoordinatorData(obj.coordinator)) || null;
+    this.species = (obj?.species && new PostSpeciesData(obj.species)) || null;
     this.permit = (obj?.permit && new PostPermitData(obj.permit)) || null;
     this.project = (obj?.project && new PostProjectData(obj.project)) || null;
     this.location = (obj?.location && new PostLocationData(obj.location)) || null;
@@ -95,7 +97,6 @@ export class PostProjectData {
   start_date: string;
   end_date: string;
   objectives: string;
-  species: number[];
 
   constructor(obj?: any) {
     defaultLog.debug({ label: 'PostProjectData', message: 'params', obj });
@@ -104,7 +105,22 @@ export class PostProjectData {
     this.start_date = obj?.start_date || null;
     this.end_date = obj?.end_date || null;
     this.objectives = obj?.objectives || null;
-    this.species = (obj?.species?.length && obj.species) || [];
+  }
+}
+
+/**
+ * Processes POST /project species data.
+ *
+ * @export
+ * @class PostSpeciesData
+ */
+export class PostSpeciesData {
+  focal_species: number[];
+
+  constructor(obj?: any) {
+    defaultLog.debug({ label: 'PostSpeciesData', message: 'params', obj });
+
+    this.focal_species = (obj?.focal_species.length && obj.focal_species) || [];
   }
 }
 

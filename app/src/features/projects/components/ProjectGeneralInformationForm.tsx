@@ -20,7 +20,7 @@ export interface IProjectGeneralInformationForm {
     objectives: string;
   };
   species: {
-    focal_species: string[];
+    focal_species: number[];
   };
 }
 

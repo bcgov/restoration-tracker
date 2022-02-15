@@ -294,7 +294,7 @@ export function viewProject(): RequestHandler {
 
       const result = await projectService.getProjectById(Number(req.params.projectId));
 
-      console.log('view project result is: ', result);
+      //console.log('view project result is: ', result);
 
       await connection.commit();
 

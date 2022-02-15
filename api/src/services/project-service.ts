@@ -212,11 +212,11 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    console.log('species response is : ', response);
+    //console.log('species response is : ', response);
 
     const result = response.rows || null;
 
-    console.log('species result is :', result);
+    //console.log('species result is :', result);
 
     if (!result) {
       throw new HTTP400('Failed to get species data');
@@ -297,11 +297,11 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    console.log('permit response:', response);
+    //console.log('permit response:', response);
 
     const result = (response && response.rows) || null;
 
-    console.log('permit result :', result);
+    //console.log('permit result :', result);
 
     if (!result) {
       throw new HTTP400('Failed to get project permit data');
@@ -442,6 +442,7 @@ export class ProjectService extends DBService {
   }
 
   async createProject(postProjectData: PostProjectObject): Promise<number> {
+    console.log('postProjectData : ', postProjectData);
     const projectId = await this.insertProject({ ...postProjectData.project, ...postProjectData.coordinator });
 
     const promises: Promise<any>[] = [];
@@ -487,7 +488,13 @@ export class ProjectService extends DBService {
 
     // Handle species associated to this survey
     promises.push(
-      Promise.all(postProjectData.project.species.map((speciesId: number) => this.insertSpecies(speciesId, projectId)))
+      Promise.all(
+        postProjectData.species.focal_species.map((speciesId: number) => {
+          //console.log('single species being inserted', species.focal_species);
+
+          this.insertSpecies(speciesId, projectId);
+        })
+      )
     );
 
     await Promise.all(promises);
@@ -682,6 +689,8 @@ export class ProjectService extends DBService {
     if (!systemUserId) {
       throw new HTTP400('Failed to identify system user ID');
     }
+
+    console.log('inserted species : ', species_id);
     const sqlStatement = queries.project.postProjectSpeciesSQL(species_id, projectId);
 
     if (!sqlStatement) {

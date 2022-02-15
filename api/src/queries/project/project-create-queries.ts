@@ -309,6 +309,8 @@ export const postProjectSpeciesSQL = (speciesId: number, projectId: number): SQL
     return null;
   }
 
+  console.log('species id in SQL is: ', speciesId);
+
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO project_species (
       wldtaxonomic_units_id,

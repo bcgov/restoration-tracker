@@ -22,7 +22,6 @@ export class GetProjectData {
   }
 }
 
-
 //TODO: Anissa
 // return array of {species id and name (concatenation of the english name and other name parts)}
 // APP needs to display the name for view
@@ -31,8 +30,7 @@ export class GetSpeciesData {
   focal_species: string[];
 
   constructor(input?: any[]) {
-
-    console.log('database output :', input);
+    // console.log('database output :', input);
     this.focal_species = (input?.length && input.map((item: any) => item.english_name)) || [];
   }
 }

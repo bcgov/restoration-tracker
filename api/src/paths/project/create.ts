@@ -293,6 +293,8 @@ export function createProject(): RequestHandler {
 
       const projectService = new ProjectService(connection);
 
+      console.log('sanitized object is : ', sanitizedProjectPostData);
+
       const projectId = await projectService.createProject(sanitizedProjectPostData);
 
       await connection.commit();
