@@ -119,15 +119,15 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
                 onCancel={() => setIsModalOpen(false)}
                 onSave={(projectContactValues) => {
                   // If current user is primary, set all other to false
-                  if(projectContactValues.is_primary) {
+                  if (projectContactValues.is_primary) {
                     values.contact.contacts.forEach((item, index) => {
-                      if(index !== currentProjectContact.index) {
+                      if (index !== currentProjectContact.index) {
                         item.is_primary = 'false';
                       }
-                    })
+                    });
                   }
 
-                  projectContactValues.is_primary = String(projectContactValues.is_primary)
+                  projectContactValues.is_primary = String(projectContactValues.is_primary);
 
                   if (currentProjectContact.index < values.contact.contacts.length) {
                     // Update an existing item
@@ -157,7 +157,7 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
                           {`${contact.first_name} ${contact.last_name}`}
                           <sup>
                             <Typography variant="caption" color="textSecondary">
-                              {JSON.parse(contact.is_primary) ? ' Primary': ''}
+                              {JSON.parse(contact.is_primary) ? ' Primary' : ''}
                             </Typography>
                           </sup>
                         </Typography>

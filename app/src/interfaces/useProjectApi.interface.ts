@@ -158,7 +158,7 @@ export interface IGetProjectForUpdateResponseContactArrayItem {
 }
 
 export interface IGetProjectForUpdateResponseContact {
-  contacts: IGetProjectForUpdateResponseContactArrayItem[]
+  contacts: IGetProjectForUpdateResponseContactArrayItem[];
 }
 
 interface IGetProjectForUpdateResponseIUCNArrayItem {
