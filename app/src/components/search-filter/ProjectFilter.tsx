@@ -88,14 +88,16 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const [isFiltersChipsOpen, setIsFiltersChipsOpen] = useState(false);
 
   const formikProps = useFormikContext<IProjectAdvancedFilters>();
-  const { handleSubmit, handleChange, handleReset, values } = formikProps;
+  const { handleSubmit, handleChange, handleReset, values, setFieldValue } = formikProps;
 
   const handleDelete = (key: string) => {
     values[key] = ProjectAdvancedFiltersInitialValues[key];
 
-    handleChange(values[key]);
+    setFieldValue(key, ProjectAdvancedFiltersInitialValues[key]);
 
     if (JSON.stringify(values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)) {
+      //if current filters are equal to inital values, then no filters are set ....
+      //then reset filter chips to closed
       handleFilterReset();
     } else {
       handleSubmit();

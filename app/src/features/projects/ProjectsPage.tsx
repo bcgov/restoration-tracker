@@ -43,16 +43,18 @@ const ProjectsPage: React.FC = () => {
     if (location.search) {
       const urlParams = qs.parse(location.search.replace('?', ''));
       const formikValues = {
-        coordinator_agency: urlParams.coordinator_agency,
-        permit_number: urlParams.permit_number,
-        start_date: urlParams.start_date,
-        end_date: urlParams.end_date,
         keyword: urlParams.keyword,
-        project_name: urlParams.project_name,
-        agency_id: (urlParams.agency_id as unknown) as number,
-        agency_project_id: urlParams.agency_project_id,
-        species: (urlParams.species as unknown) as number[]
+        contact_agency: urlParams.contact_agency,
+        funding_agency: (urlParams.funding_agency as unknown) as number[],
+        permit_number: urlParams.permit_number,
+        species: (urlParams.species as unknown) as number[],
+        start_date: urlParams.start_date,
+        end_date: urlParams.end_date
       } as IProjectAdvancedFilters;
+
+      if (formikValues.funding_agency === undefined) {
+        formikValues.funding_agency = [];
+      }
 
       if (formikValues.species === undefined) {
         formikValues.species = [];
