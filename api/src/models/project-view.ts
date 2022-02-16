@@ -25,31 +25,20 @@ export interface IGetSpecies {
   name: string;
 }
 
-//TODO: Anissa
-// return array of {species id and name (concatenation of the english name and other name parts)}
-// APP needs to display the name for view
-// APP needs to use id for edit
 export class GetSpeciesData {
-  focal_species: IGetSpecies[];
+  focal_species: number[];
+  focal_species_names: string[];
 
   constructor(input?: any[]) {
-    this.focal_species =
-      (input?.length &&
-        input.map((item: any) => {
-          const focal_species_string = [item.english_name, item.unit_name1, item.unit_name2, item.unit_name3]
-            .filter(Boolean)
-            .join(' - ');
-
-          // const focal_species = [
-          //   item.wldtaxonomic_units_id,
-          //   [item.english_name, item.unit_name1, item.unit_name2, item.unit_name3].filter(Boolean).join(' - ')
-          // ];
-          return {
-            id: item.wldtaxonomic_units_id,
-            name: focal_species_string
-          };
-        })) ||
-      [];
+    this.focal_species = [];
+    this.focal_species_names = [];
+    input?.length &&
+      input.forEach((item: any) => {
+        this.focal_species.push(item.wldtaxonomic_units_id);
+        this.focal_species_names.push(
+          [item.english_name, item.unit_name1, item.unit_name2, item.unit_name3].filter(Boolean).join(' - ')
+        );
+      });
   }
 }
 
@@ -76,10 +65,12 @@ export class GetPermitData {
 
 export class GetLocationData {
   geometry?: Feature[];
+  region: number;
 
-  constructor(locationData?: any) {
+  constructor(locationData?: any[], regionData?: any[]) {
     const locationDataItem = locationData && locationData.length && locationData[0];
     this.geometry = (locationDataItem?.geojson?.length && locationDataItem.geojson) || [];
+    this.region = regionData && regionData?.length && regionData[0]?.objectid;
   }
 }
 

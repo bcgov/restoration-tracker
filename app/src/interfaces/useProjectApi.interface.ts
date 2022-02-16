@@ -216,13 +216,9 @@ export interface IGetProjectForViewResponseDetails {
   region: string;
 }
 
-export interface IGetProjectForViewResponseSpeciesItem {
-  id: number;
-  name: string;
-}
-
 export interface IGetProjectForViewResponseSpecies {
-  focal_species: IGetProjectForViewResponseSpeciesItem[];
+  focal_species: number[];
+  focal_species_names?: string[];
 }
 
 interface IGetProjectForViewResponsePermitArrayItem {
@@ -238,6 +234,7 @@ export interface IGetProjectForViewResponseLocation {
   geometry: Feature[];
   range: string;
   priority: string;
+  region: number;
 }
 
 export interface IGetProjectForViewResponseCoordinator {

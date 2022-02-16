@@ -19,6 +19,7 @@ import { IInvestmentActionCategoryOption } from './ProjectFundingForm';
 export interface IProjectFundingFormArrayItem {
   id: number;
   agency_id: number;
+  agency_name: string;
   investment_action_category: number;
   investment_action_category_name: string;
   agency_project_id: string;
@@ -31,6 +32,7 @@ export interface IProjectFundingFormArrayItem {
 export const ProjectFundingFormArrayItemInitialValues: IProjectFundingFormArrayItem = {
   id: 0,
   agency_id: ('' as unknown) as number,
+  agency_name: '',
   investment_action_category: ('' as unknown) as number,
   investment_action_category_name: '',
   agency_project_id: '',

@@ -12,10 +12,7 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     region: 'NRM Region 1'
   },
   species: {
-    focal_species: [
-      { id: 1, name: 'species1' },
-      { id: 2, name: 'species2' }
-    ]
+    focal_species: [1234, 4321]
   },
   permit: {
     permits: [
@@ -28,7 +25,8 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
   location: {
     geometry: [],
     range: '1',
-    priority: 'false'
+    priority: 'false',
+    region: 1234
   },
   coordinator: {
     first_name: 'Amanda',

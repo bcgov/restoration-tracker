@@ -16,10 +16,7 @@ import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-// import ProjectCoordinatorForm, {
-//   ProjectCoordinatorInitialValues,
-//   ProjectCoordinatorYupSchema
-// } from 'features/projects/components/ProjectCoordinatorForm';
+import { ProjectCoordinatorInitialValues } from 'features/projects/components/ProjectCoordinatorForm';
 import ProjectDraftForm, {
   IProjectDraftForm,
   ProjectDraftFormYupSchema
@@ -86,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const ProjectFormInitialValues = {
   ...ProjectGeneralInformationFormInitialValues,
   ...ProjectIUCNFormInitialValues,
-  // ...ProjectCoordinatorInitialValues,
+  ...ProjectCoordinatorInitialValues,
   ...ProjectPermitFormInitialValues,
   ...ProjectFundingFormInitialValues,
   ...ProjectPartnershipsFormInitialValues,

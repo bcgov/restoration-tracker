@@ -68,7 +68,6 @@ POST.apiDoc = {
               title: 'Project species',
               type: 'object',
               required: ['focal_species'],
-              additionalProperties: false,
               properties: {
                 focal_species: {
                   type: 'array',

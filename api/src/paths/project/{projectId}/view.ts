@@ -91,22 +91,18 @@ GET.apiDoc = {
               species: {
                 description: 'The project species',
                 type: 'object',
-                required: ['focal_species'],
+                required: ['focal_species', 'focal_species_names'],
                 properties: {
                   focal_species: {
                     type: 'array',
                     items: {
-                      title: 'Single species item',
-                      required: ['id', 'name'],
-                      type: 'object',
-                      properties: {
-                        id: {
-                          type: 'number'
-                        },
-                        name: {
-                          type: 'string'
-                        }
-                      }
+                      type: 'number'
+                    }
+                  },
+                  focal_species_names: {
+                    type: 'array',
+                    items: {
+                      type: 'string'
                     }
                   }
                 }
@@ -262,6 +258,9 @@ GET.apiDoc = {
                     items: {
                       ...(geoJsonFeature as object)
                     }
+                  },
+                  region: {
+                    type: 'number'
                   }
                 }
               }

@@ -132,19 +132,11 @@ export class PostSpeciesData {
  */
 export class PostLocationData {
   geometry: Feature[];
+  region: number;
 
   constructor(obj?: any) {
-    defaultLog.debug({
-      label: 'PostLocationData',
-      message: 'params',
-      obj: {
-        ...obj,
-        geometry: obj?.geometry?.map((item: any) => {
-          return { ...item, geometry: 'Too big to print' };
-        })
-      }
-    });
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
+    this.region = obj?.region || null;
   }
 }
 
