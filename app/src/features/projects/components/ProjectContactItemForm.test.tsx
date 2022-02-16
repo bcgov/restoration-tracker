@@ -7,8 +7,6 @@ import ProjectContactItemForm, {
   ProjectContactItemYupSchema
 } from './ProjectContactItemForm';
 
-// const handleSaveAndNext = jest.fn();
-
 const agencies = ['Agency 1', 'Agency 2', 'Agency 3'];
 
 describe('ProjectContactItemForm', () => {
