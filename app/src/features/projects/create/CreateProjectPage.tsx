@@ -186,7 +186,6 @@ const CreateProjectPage: React.FC = () => {
   };
 
   const handleSubmitDraft = async (values: IProjectDraftForm) => {
-    //console.log('the draft values are: ', values);
     try {
       const draftId = Number(queryParams.draftId) || draft?.id;
 
@@ -226,7 +225,6 @@ const CreateProjectPage: React.FC = () => {
    * Handle project creation.
    */
   const handleProjectCreation = async (values: ICreateProjectRequest) => {
-    console.log('values are: ', values);
     try {
       const response = await restorationTrackerApi.project.createProject(values);
 

@@ -279,10 +279,6 @@ POST.apiDoc = {
  */
 export function createProject(): RequestHandler {
   return async (req, res) => {
-    // const nrm_regions = await getNRMRegions();
-
-    // console.log('NRM regions in the code-service', nrm_regions);
-
     const connection = getDBConnection(req['keycloak_token']);
 
     const sanitizedProjectPostData = new PostProjectObject(req.body);
@@ -291,8 +287,6 @@ export function createProject(): RequestHandler {
       await connection.open();
 
       const projectService = new ProjectService(connection);
-
-      console.log('sanitized object is : ', sanitizedProjectPostData);
 
       const projectId = await projectService.createProject(sanitizedProjectPostData);
 

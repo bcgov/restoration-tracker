@@ -293,11 +293,7 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    //console.log('permit response:', response);
-
     const result = (response && response.rows) || null;
-
-    //console.log('permit result :', result);
 
     if (!result) {
       throw new HTTP400('Failed to get project permit data');
@@ -464,7 +460,6 @@ export class ProjectService extends DBService {
   }
 
   async createProject(postProjectData: PostProjectObject): Promise<number> {
-    console.log('postProjectData : ', postProjectData);
     const projectId = await this.insertProject({ ...postProjectData.project, ...postProjectData.coordinator });
 
     const promises: Promise<any>[] = [];
@@ -713,7 +708,6 @@ export class ProjectService extends DBService {
       throw new HTTP400('Failed to identify system user ID');
     }
 
-    console.log('inserted species : ', species_id);
     const sqlStatement = queries.project.postProjectSpeciesSQL(species_id, projectId);
 
     if (!sqlStatement) {
