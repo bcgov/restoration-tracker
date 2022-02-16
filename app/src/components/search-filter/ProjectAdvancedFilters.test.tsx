@@ -1,15 +1,9 @@
-// import { createMemoryHistory } from 'history';
-// const history = createMemoryHistory();
-
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import ProjectAdvancedFilters from './ProjectAdvancedFilters';
-import { MemoryRouter } from 'react-router';
+import { render, waitFor } from '@testing-library/react';
 import { Formik } from 'formik';
+import React from 'react';
+import { MemoryRouter } from 'react-router';
+import ProjectAdvancedFilters from './ProjectAdvancedFilters';
 import { IProjectAdvancedFilters } from './ProjectFilter';
-// import { createMemoryHistory } from 'history';
-
-// const history = createMemoryHistory();
 
 describe('ProjectAdvancedFilters', () => {
   test('renders properly when no props are given', async () => {
@@ -92,8 +86,6 @@ describe('ProjectAdvancedFilters', () => {
         </Formik>
       </MemoryRouter>
     );
-
-    screen.debug();
 
     await waitFor(() => {
       expect(queryByText('species1')).toBeInTheDocument();

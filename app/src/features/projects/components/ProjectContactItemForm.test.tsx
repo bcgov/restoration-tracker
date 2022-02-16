@@ -22,10 +22,10 @@ describe('ProjectContactItemForm', () => {
       </Formik>
     );
 
-    expect(getByTestId('coordinator.first_name')).toBeVisible();
-    expect(getByTestId('coordinator.last_name')).toBeVisible();
-    expect(getByTestId('coordinator.email_address')).toBeVisible();
-    expect(getByTestId('coordinator.coordinator_agency')).toBeVisible();
+    expect(getByTestId('first_name')).toBeVisible();
+    expect(getByTestId('last_name')).toBeVisible();
+    expect(getByTestId('email_address')).toBeVisible();
+    expect(getByTestId('contact_agency')).toBeVisible();
   });
 
   it('renders renders correctly with exsisting values', () => {
@@ -49,12 +49,13 @@ describe('ProjectContactItemForm', () => {
       </Formik>
     );
 
-    expect(getByTestId('coordinator.first_name')).toBeVisible();
-    expect(getByTestId('coordinator.last_name')).toBeVisible();
-    expect(getByTestId('coordinator.email_address')).toBeVisible();
-    expect(getByTestId('coordinator.coordinator_agency')).toBeVisible();
-    expect(getByDisplayValue('Nerea')).toBeVisible();
-    expect(getByDisplayValue('Oneal')).toBeVisible();
-    expect(getByDisplayValue('quxu@mailinator.com')).toBeVisible();
+    expect(getByTestId('first_name')).toBeVisible();
+    expect(getByTestId('last_name')).toBeVisible();
+    expect(getByTestId('email_address')).toBeVisible();
+    expect(getByTestId('contact_agency')).toBeVisible();
+    expect(getByDisplayValue('John')).toBeVisible();
+    expect(getByDisplayValue('Doe')).toBeVisible();
+    expect(getByDisplayValue('jd@example.com')).toBeVisible();
+    expect(getByDisplayValue('A Rocha Canada')).toBeVisible();
   });
 });
