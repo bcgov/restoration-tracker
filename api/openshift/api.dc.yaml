@@ -36,16 +36,6 @@ parameters:
     description: Authentication certificate urls
     required: true
     value: 'https://oidc.gov.bc.ca/auth/realms/35r1iman/protocol/openid-connect/certs'
-  - name: CPU_REQ
-    value: '100m'
-  - name: CPU_LIMIT
-    value: '750m'
-  - name: MEMORY_REQ
-    value: '512Mi'
-  - name: MEMORY_LIMIT
-    value: '2Gi'
-  - name: REPLICAS
-    value: '1'
   - name: API_PORT_DEFAULT
     value: '6100'
   - name: API_PORT_DEFAULT_NAME
@@ -54,11 +44,21 @@ parameters:
   - name: OBJECT_STORE_SECRETS
     description: Secrets used to read and write to the S3 storage
     value: 'biohubbc-object-store'
+  - name: LOG_LEVEL
+    value: 'info'
+  - name: CPU_REQUEST
+    value: '10m'
+  - name: CPU_LIMIT
+    value: '200m'
+  - name: MEMORY_REQUEST
+    value: '512Mi'
+  - name: MEMORY_LIMIT
+    value: '1Gi'
+  - name: REPLICAS
+    value: '1'
   - name: REPLICA_MAX
     required: true
     value: '1'
-  - name: LOG_LEVEL
-    value: 'info'
 objects:
   - apiVersion: image.openshift.io/v1
     kind: ImageStream
@@ -99,8 +99,8 @@ objects:
             cpu: ${CPU_LIMIT}
             memory: ${MEMORY_LIMIT}
           requests:
-            cpu: ${CPU_REQ}
-            memory: ${MEMORY_REQ}
+            cpu: ${CPU_REQUEST}
+            memory: ${MEMORY_REQUEST}
         type: Rolling
       template:
         metadata:
@@ -180,8 +180,8 @@ objects:
                   cpu: ${CPU_LIMIT}
                   memory: ${MEMORY_LIMIT}
                 requests:
-                  cpu: ${CPU_REQ}
-                  memory: ${MEMORY_REQ}
+                  cpu: ${CPU_REQUEST}
+                  memory: ${MEMORY_REQUEST}
               readinessProbe:
                 failureThreshold: 10
                 httpGet:
