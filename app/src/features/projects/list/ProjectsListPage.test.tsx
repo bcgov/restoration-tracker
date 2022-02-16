@@ -49,8 +49,7 @@ describe('ProjectsListPage', () => {
 
     await waitFor(() => {
       expect(getByTestId('project-table')).toBeInTheDocument();
-      expect(getByText('project name')).toBeInTheDocument();
-      expect(getByText('Active')).toBeInTheDocument();
+      expect(getByText('Project 1')).toBeInTheDocument();
     });
   });
 
@@ -94,9 +93,8 @@ describe('ProjectsListPage', () => {
 
     await waitFor(() => {
       expect(getByTestId('project-table')).toBeInTheDocument();
-      expect(getByText('project name')).toBeInTheDocument();
-      expect(getByText('Active')).toBeInTheDocument();
-      expect(getByText('project name2')).toBeInTheDocument();
+      expect(getByText('Project 1')).toBeInTheDocument();
+
       expect(getByText('Completed')).toBeInTheDocument();
       expect(getByText('draft name')).toBeInTheDocument();
       expect(getByText('Draft')).toBeInTheDocument();
@@ -140,7 +138,7 @@ describe('ProjectsListPage', () => {
     });
   });
 
-  test('navigating to the project works', async () => {
+  test('navigating to the draft project works', async () => {
     const draftArray = [
       {
         id: 1,
@@ -164,7 +162,7 @@ describe('ProjectsListPage', () => {
       expect(getByTestId('project-table')).toBeInTheDocument();
     });
 
-    fireEvent.click(getByTestId('Draft 1'));
+    fireEvent.click(getByTestId('draft name'));
 
     await waitFor(() => {
       expect(history.location.pathname).toEqual('/admin/projects/create');
