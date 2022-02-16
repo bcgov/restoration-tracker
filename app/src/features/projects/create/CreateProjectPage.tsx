@@ -16,7 +16,6 @@ import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import { ProjectCoordinatorInitialValues } from 'features/projects/components/ProjectCoordinatorForm';
 import ProjectDraftForm, {
   IProjectDraftForm,
   ProjectDraftFormYupSchema
@@ -41,6 +40,10 @@ import ProjectPartnershipsForm, {
   ProjectPartnershipsFormInitialValues,
   ProjectPartnershipsFormYupSchema
 } from 'features/projects/components/ProjectPartnershipsForm';
+import ProjectCoordinatorForm, {
+  ProjectCoordinatorInitialValues,
+  ProjectCoordinatorYupSchema
+} from 'features/projects/components/ProjectCoordinatorForm';
 import ProjectPermitForm, {
   ProjectPermitFormInitialValues,
   ProjectPermitFormYupSchema
@@ -94,7 +97,7 @@ export const ProjectFormYupSchema = yup
   .object()
   .concat(ProjectGeneralInformationFormYupSchema)
   .concat(ProjectIUCNFormYupSchema)
-  // .concat(ProjectCoordinatorYupSchema)
+  .concat(ProjectCoordinatorYupSchema)
   .concat(ProjectPermitFormYupSchema)
   .concat(ProjectFundingFormYupSchema)
   .concat(ProjectPartnershipsFormYupSchema)
@@ -415,7 +418,7 @@ const CreateProjectPage: React.FC = () => {
 
                 <Divider></Divider>
 
-                {/* <Box my={5}>
+                <Box my={5}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={3}>
                       <Typography variant="h2">Contact</Typography>
@@ -427,7 +430,7 @@ const CreateProjectPage: React.FC = () => {
                       />
                     </Grid>
                   </Grid>
-                </Box> */}
+                </Box>
 
                 <Divider></Divider>
 

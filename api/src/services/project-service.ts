@@ -763,9 +763,9 @@ export class ProjectService extends DBService {
       promises.push(this.updateProjectPartnershipsData(projectId, entities));
     }
 
-    // if (entities?.project || entities?.coordinator) {
-    //   promises.push(this.updateProjectData(projectId, entities));
-    // }
+    if (entities?.project || entities?.coordinator) {
+      promises.push(this.updateProjectData(projectId, entities));
+    }
 
     if (entities?.permit && entities?.coordinator) {
       promises.push(this.updateProjectPermitData(projectId, entities));

@@ -7,7 +7,6 @@ import { geoJsonFeature } from '../../openapi/schemas/geoJson';
 import { authorizeRequestHandler } from '../../request-handlers/security/authorization';
 import { ProjectService } from '../../services/project-service';
 import { getLogger } from '../../utils/logger';
-//import { getNRMRegions } from './../../utils/spatial-utils';
 
 const defaultLog = getLogger('paths/project/create');
 
@@ -40,8 +39,7 @@ POST.apiDoc = {
         schema: {
           title: 'Project post request object',
           type: 'object',
-          //required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
-          required: ['project', 'species', 'iucn', 'permit', 'funding', 'partnerships', 'location'],
+          required: ['project', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
           additionalProperties: false,
           properties: {
             project: {
