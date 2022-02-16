@@ -101,6 +101,8 @@ const ProjectsPage: React.FC = () => {
     }
 
     try {
+      setFilterChipValues(formikRef.current.values);
+
       const response = await restorationTrackerApi.project.getProjectsList(formikRef.current.values);
 
       if (!response) {
@@ -109,7 +111,6 @@ const ProjectsPage: React.FC = () => {
 
       setProjects(response);
       handleFilterParams();
-      setFilterChipValues(formikRef.current.values);
     } catch (error) {
       const apiError = error as APIError;
       showFilterErrorDialog({

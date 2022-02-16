@@ -61,7 +61,7 @@ export interface IProjectAdvancedFilters {
 export const ProjectAdvancedFiltersKeyLabels = {
   keyword: { label: 'Keyword' },
   contact_agency: { label: 'Contact Agency' },
-  funding_agency: { label: 'Funding Agency', codeSet: 'funding_agency'},
+  funding_agency: { label: 'Funding Agency', codeSet: 'funding_agency' },
   permit_number: { label: 'Permit Number' },
   species: { label: 'Species', codeSet: 'species' },
   start_date: { label: 'Start Date' },
@@ -90,10 +90,16 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const formikProps = useFormikContext<IProjectAdvancedFilters>();
   const { handleSubmit, handleChange, handleReset, values, setFieldValue } = formikProps;
 
-  const handleDelete = (key: string) => {
-    values[key] = ProjectAdvancedFiltersInitialValues[key];
+  const handleDelete = (key: string, value: string | number) => {
+    console.log(values[key]);
 
-    setFieldValue(key, ProjectAdvancedFiltersInitialValues[key]);
+    if (Array.isArray(values[key]) && values[key].length !== 1) {
+      values[key] = values[key].pop(value);
+    } else {
+      values[key] = ProjectAdvancedFiltersInitialValues[key];
+    }
+
+    setFieldValue(key, values[key]);
 
     if (JSON.stringify(values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)) {
       //if current filters are equal to inital values, then no filters are set ....
@@ -109,14 +115,14 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
     handleReset();
   };
 
-  const handleFilterUpdate = () => {
+  const handleFilterUpdate = async () => {
     if (JSON.stringify(values) === JSON.stringify(ProjectAdvancedFiltersInitialValues)) {
       return;
     }
 
-    setIsFiltersChipsOpen(true);
+    await handleSubmit();
     setIsAdvancedFiltersOpen(false);
-    handleSubmit();
+    setIsFiltersChipsOpen(true);
   };
 
   //Filter chip collection
@@ -162,6 +168,31 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
         <strong>{filterKeyLabel}:</strong> {filterValueLabel}
       </>
     );
+  };
+
+  const getFilterChips = (key: string, value: string) => {
+    let ChipArray = [];
+
+    const filterChip = (chipValue: string) => {
+      return (
+        <Grid item xs="auto" key={`${key}${chipValue}`}>
+          <Chip
+            label={getChipLabel(key, chipValue)}
+            className={classes.chipStyle}
+            clickable={false}
+            onDelete={() => handleDelete(key, chipValue)}
+            deleteIcon={<Icon path={mdiClose} color="white" size={1} />}
+          />
+        </Grid>
+      );
+    };
+
+    if (Array.isArray(value)) {
+      value.forEach((item) => ChipArray.push(filterChip(item)));
+    } else {
+      ChipArray.push(filterChip(value));
+    }
+    return ChipArray;
   };
 
   return (
@@ -226,18 +257,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
                   <Typography variant="h4">Filters </Typography>
                 </Grid>
                 {Object.entries(filterChipParams).map(
-                  ([key, value], index) =>
-                    isFilterValueNotEmpty(value) && (
-                      <Grid item xs="auto" key={`${key}${index}`}>
-                        <Chip
-                          label={getChipLabel(key, value)}
-                          className={classes.chipStyle}
-                          clickable={false}
-                          onDelete={() => handleDelete(key)}
-                          deleteIcon={<Icon path={mdiClose} color="white" size={1} />}
-                        />
-                      </Grid>
-                    )
+                  ([key, value], index) => isFilterValueNotEmpty(value) && getFilterChips(key, value)
                 )}
                 <Grid item>
                   <Chip label={'Clear all'} onClick={handleFilterReset} />

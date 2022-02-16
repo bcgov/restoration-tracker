@@ -65,7 +65,10 @@ export class SearchService extends DBService {
           'funding_source.funding_source_id'
         );
 
-      queryBuilder.and.where('funding_source.funding_source_id', criteria.funding_agency);
+      queryBuilder.and.whereIn(
+        'funding_source.funding_source_id',
+        (Array.isArray(criteria.funding_agency) && criteria.funding_agency) || [criteria.funding_agency]
+      );
 
       joins.push('project_funding_source', 'investment_action_category', 'funding_source');
     }

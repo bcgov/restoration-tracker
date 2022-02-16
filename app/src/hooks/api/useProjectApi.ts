@@ -100,7 +100,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     const { data } = await axios.get(`/api/project/list`, {
       params: filterFieldData,
       paramsSerializer: (params) => {
-        return qs.stringify(params, { filter: (prefix, value) => value || undefined });
+        return qs.stringify(params, { arrayFormat: 'repeat', filter: (prefix, value) => value || undefined });
       }
     });
 

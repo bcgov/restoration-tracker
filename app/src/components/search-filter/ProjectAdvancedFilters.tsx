@@ -59,9 +59,10 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
               name="funding_agency"
               labelId="funding_agency-label"
               label="Funding Agency Name"
-              value={values.funding_agency?.toString() ? values.funding_agency : '' }
+              value={values.funding_agency?.toString() ? values.funding_agency : [] }
               onChange={handleChange}
-              defaultValue=''
+              defaultValue={[]}
+              multiple
               displayEmpty
               inputProps={{ 'aria-label': 'Funding Agency Name', 'data-testid': 'funding_agency' }}>
               {props.funding_agency.map((item) => (
