@@ -6,6 +6,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 export interface IProjectContactProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -36,12 +37,17 @@ const useStyles = makeStyles((theme: Theme) =>
  * @return {*}
  */
 const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) => {
-  const { contact } = projectForViewData;
+  const {
+    contact: { contacts }
+  } = projectForViewData;
   const classes = useStyles();
+
+  // To move primary contact on first index
+  contacts.sort((a, b) => JSON.parse(b.is_primary) - JSON.parse(a.is_primary));
 
   return (
     <>
-      {contact.contacts.map((contactDetails, index) => (
+      {contacts.map((contactDetails, index) => (
         <ul className={classes.projectContactList} key={index}>
           <Box component="li" display="flex" flexDirection="row">
             <Box mr={2}>
@@ -52,6 +58,14 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
                 <strong data-testid="contact_name">
                   {' '}
                   {contactDetails.first_name} {contactDetails.last_name}
+                  {JSON.parse(contactDetails.is_primary) && (
+                    <sup>
+                      <Typography variant="caption" color="textSecondary">
+                        {' '}
+                        Primary
+                      </Typography>
+                    </sup>
+                  )}
                 </strong>
               </div>
               <div>

@@ -32,19 +32,21 @@ export interface IPublicProjectContactProps {
  *
  * @return {*}
  */
-const PublicProjectContact: React.FC<IPublicProjectContactProps> = (props) => {
+const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectForViewData }) => {
   const {
-    projectForViewData: { contact }
-  } = props;
-
+    contact: { contacts }
+  } = projectForViewData;
   const classes = useStyles();
+
+  // To move primary contact on first index
+  contacts.sort((a, b) => JSON.parse(b.is_primary) - JSON.parse(a.is_primary));
 
   return (
     <Box>
       <Box mb={2} data-testid="projectContactTitle">
         <Typography variant="h3">Project Contacts</Typography>
       </Box>
-      {contact.contacts.length ? (
+      {contacts.length ? (
         <TableContainer>
           <Table className={classes.table} aria-label="permits-list-table">
             <TableHead>
@@ -54,11 +56,19 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = (props) => {
                 <TableCell className={classes.heading}>Agency</TableCell>
               </TableRow>
             </TableHead>
-            {contact.contacts.map((item, i) => (
+            {contacts.map((item, i) => (
               <TableBody key={i}>
                 <TableRow>
                   <TableCell component="th" scope="row">
                     {item.first_name} {item.last_name}
+                    {JSON.parse(item.is_primary) && (
+                      <sup>
+                        <Typography variant="caption" color="textSecondary">
+                          {' '}
+                          Primary
+                        </Typography>
+                      </sup>
+                    )}
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {item.email_address}
