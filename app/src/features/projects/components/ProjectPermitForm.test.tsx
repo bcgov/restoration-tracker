@@ -51,8 +51,8 @@ describe('ProjectPermitForm', () => {
     );
 
     expect(getByTestId('permit.permits.[0].permit_number')).toBeVisible();
-    expect(getByText('Park Use Permit')).toBeVisible();
-    expect(getByText('Scientific Fish Collection Permit')).toBeVisible();
+    expect(getByText('Forestry License to Cut')).toBeVisible();
+    expect(getByText('Road Use Permit')).toBeVisible();
   });
 
   it('renders correctly with errors on the permit_number and permit_type fields', () => {
