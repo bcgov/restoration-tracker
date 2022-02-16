@@ -274,14 +274,14 @@ exports[`ProjectPermitForm renders correctly with error on the permits field due
                       role="button"
                       tabindex="0"
                     >
-                      Park Use Permit
+                      Forestry License to Cut
                     </div>
                     <input
                       aria-hidden="true"
                       class="MuiSelect-nativeInput"
                       name="permit.permits.[0].permit_type"
                       tabindex="-1"
-                      value="Park Use Permit"
+                      value="Forestry License to Cut"
                     />
                     <svg
                       aria-hidden="true"
@@ -436,14 +436,14 @@ exports[`ProjectPermitForm renders correctly with error on the permits field due
                       role="button"
                       tabindex="0"
                     >
-                      Scientific Fish Collection Permit
+                      Road Use Permit
                     </div>
                     <input
                       aria-hidden="true"
                       class="MuiSelect-nativeInput"
                       name="permit.permits.[1].permit_type"
                       tabindex="-1"
-                      value="Scientific Fish Collection Permit"
+                      value="Road Use Permit"
                     />
                     <svg
                       aria-hidden="true"
@@ -651,14 +651,14 @@ exports[`ProjectPermitForm renders correctly with errors on the permit_number an
                       role="button"
                       tabindex="0"
                     >
-                      Scientific Fish Collection Permit
+                      Forestry License to Cut
                     </div>
                     <input
                       aria-hidden="true"
                       class="MuiSelect-nativeInput"
                       name="permit.permits.[0].permit_type"
                       tabindex="-1"
-                      value="Scientific Fish Collection Permit"
+                      value="Forestry License to Cut"
                     />
                     <svg
                       aria-hidden="true"
@@ -866,14 +866,14 @@ exports[`ProjectPermitForm renders correctly with existing permit values 1`] = `
                       role="button"
                       tabindex="0"
                     >
-                      Park Use Permit
+                      Forestry License to Cut
                     </div>
                     <input
                       aria-hidden="true"
                       class="MuiSelect-nativeInput"
                       name="permit.permits.[0].permit_type"
                       tabindex="-1"
-                      value="Park Use Permit"
+                      value="Forestry License to Cut"
                     />
                     <svg
                       aria-hidden="true"
@@ -1028,14 +1028,14 @@ exports[`ProjectPermitForm renders correctly with existing permit values 1`] = `
                       role="button"
                       tabindex="0"
                     >
-                      Scientific Fish Collection Permit
+                      Road Use Permit
                     </div>
                     <input
                       aria-hidden="true"
                       class="MuiSelect-nativeInput"
                       name="permit.permits.[1].permit_type"
                       tabindex="-1"
-                      value="Scientific Fish Collection Permit"
+                      value="Road Use Permit"
                     />
                     <svg
                       aria-hidden="true"
