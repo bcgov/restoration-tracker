@@ -55,8 +55,6 @@ describe('ProjectPermitForm', () => {
     expect(getByText('Scientific Fish Collection Permit')).toBeVisible();
   });
 
-
-
   it('deletes existing permits when delete icon is clicked', async () => {
     const existingFormValues: IProjectPermitForm = {
       permit: {

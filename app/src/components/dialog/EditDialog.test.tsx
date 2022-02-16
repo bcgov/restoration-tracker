@@ -59,7 +59,6 @@ const renderContainer = ({
 };
 
 describe('EditDialog', () => {
-
   it('renders component and data values', () => {
     const { getByTestId, getByText } = renderContainer({ testFieldValue: 'this is a test' });
 

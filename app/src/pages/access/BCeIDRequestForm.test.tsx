@@ -14,7 +14,7 @@ describe('BCeIDRequestForm', () => {
       </Formik>
     );
 
-    expect(getByTestId("company")).toBeVisible();
-    expect(getByTestId("request_reason")).toBeVisible();
+    expect(getByTestId('company')).toBeVisible();
+    expect(getByTestId('request_reason')).toBeVisible();
   });
 });

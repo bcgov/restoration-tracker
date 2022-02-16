@@ -20,10 +20,10 @@ describe('ProjectGeneralInformationForm', () => {
       </Formik>
     );
 
-    expect(getByTestId("project.project_name")).toBeVisible();
-    expect(getByTestId("start_date")).toBeVisible();
-    expect(getByTestId("end_date")).toBeVisible();
-    expect(getByTestId("project.objectives")).toBeVisible();
+    expect(getByTestId('project.project_name')).toBeVisible();
+    expect(getByTestId('start_date')).toBeVisible();
+    expect(getByTestId('end_date')).toBeVisible();
+    expect(getByTestId('project.objectives')).toBeVisible();
   });
 
   it('renders correctly with existing details values', () => {
@@ -47,11 +47,11 @@ describe('ProjectGeneralInformationForm', () => {
       </Formik>
     );
 
-    expect(getByTestId("project.project_name")).toBeVisible();
-    expect(getByTestId("start_date")).toBeVisible();
-    expect(getByTestId("end_date")).toBeVisible();
-    expect(getByTestId("project.objectives")).toBeVisible();
-    expect(getByDisplayValue("name 1")).toBeVisible();
-    expect(getByDisplayValue("my objectives")).toBeVisible();
+    expect(getByTestId('project.project_name')).toBeVisible();
+    expect(getByTestId('start_date')).toBeVisible();
+    expect(getByTestId('end_date')).toBeVisible();
+    expect(getByTestId('project.objectives')).toBeVisible();
+    expect(getByDisplayValue('name 1')).toBeVisible();
+    expect(getByDisplayValue('my objectives')).toBeVisible();
   });
 });

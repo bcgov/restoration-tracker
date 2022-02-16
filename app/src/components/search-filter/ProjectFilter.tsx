@@ -109,11 +109,9 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const { handleSubmit, handleChange, handleReset, values, setFieldValue } = formikProps;
 
   const handleDelete = (key: string, value: string | number) => {
-
     if (Array.isArray(values[key]) && values[key].length !== 1) {
       const index = values[key].indexOf(value);
       values[key].splice(index, 1);
-
     } else {
       values[key] = ProjectAdvancedFiltersInitialValues[key];
     }
@@ -190,7 +188,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   };
 
   const getFilterChips = (key: string, value: string) => {
-    let ChipArray = [];
+    const ChipArray = [];
 
     const filterChip = (chipValue: string) => {
       return (

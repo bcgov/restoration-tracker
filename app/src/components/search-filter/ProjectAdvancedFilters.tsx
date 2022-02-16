@@ -27,7 +27,9 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
     <Box data-testid="advancedFilters">
       <Grid container spacing={3} justify="flex-start">
         <Grid item xs={12} md={3}>
-          <Typography variant="subtitle1" component="h3"><strong>Project Details</strong></Typography>
+          <Typography variant="subtitle1" component="h3">
+            <strong>Project Details</strong>
+          </Typography>
         </Grid>
         <Grid item xs={12} md={9}>
           <Grid container spacing={3}>
@@ -58,7 +60,7 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
                   name="funding_agency"
                   labelId="funding_agency-label"
                   label="Funding Agencies"
-                  value={values.funding_agency?.toString() ? values.funding_agency : [] }
+                  value={values.funding_agency?.toString() ? values.funding_agency : []}
                   onChange={handleChange}
                   defaultValue={[]}
                   multiple
@@ -91,13 +93,14 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
 
       <Grid container spacing={3} justify="flex-start">
         <Grid item xs={12} md={3}>
-          <Typography variant="subtitle1" component="h3"><strong>Permits</strong></Typography>
+          <Typography variant="subtitle1" component="h3">
+            <strong>Permits</strong>
+          </Typography>
         </Grid>
         <Grid item xs={12} md={9}>
           <CustomTextField name="permit_number" label="Permit Number" />
         </Grid>
       </Grid>
-
     </Box>
   );
 };
