@@ -44,10 +44,6 @@ import ProjectPartnershipsForm, {
   ProjectPartnershipsFormInitialValues,
   ProjectPartnershipsFormYupSchema
 } from 'features/projects/components/ProjectPartnershipsForm';
-import ProjectCoordinatorForm, {
-  ProjectCoordinatorInitialValues,
-  ProjectCoordinatorYupSchema
-} from 'features/projects/components/ProjectCoordinatorForm';
 import ProjectPermitForm, {
   ProjectPermitFormInitialValues,
   ProjectPermitFormYupSchema
