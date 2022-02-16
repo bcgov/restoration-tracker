@@ -485,6 +485,15 @@ export class ProjectService extends DBService {
       )
     );
 
+    //Handle classifications
+    promises.push(
+      Promise.all(
+        postProjectData.iucn.classificationDetails?.map((iucnClassification: IPostIUCN) =>
+          this.insertClassificationDetail(iucnClassification.subClassification2, projectId)
+        ) || []
+      )
+    );
+
     // Handle stakeholder partners
     promises.push(
       Promise.all(
