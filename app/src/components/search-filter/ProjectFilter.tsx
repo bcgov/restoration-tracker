@@ -1,7 +1,8 @@
-import { Box, Button, Card, Chip, Divider, Grid, Input, Typography } from '@material-ui/core';
+import { Box, Button, Card, Chip, Grid, Input, Typography } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Icon } from '@mdi/react';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { mdiMagnify, mdiMenuDown, mdiMenuUp, mdiClose } from '@mdi/js';
 import { useFormikContext } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -15,21 +16,38 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginLeft: '0.5rem'
     }
   },
+
   keywordSearch: {
+    height: '52px',
+    flex: '1 1 auto',
+    paddingLeft: theme.spacing(1.25),
     display: 'flex',
     alignItems: 'center',
-    height: '46px',
-    border: '1px solid',
-    borderColor: '#adb5bd'
+    border: '1px solid rgba(0, 0, 0, 0.23)',
+    borderRadius: '4px 0 0 4px',
+    backgroundColor: '#f6f6f6',
+    '&:hover': {
+      borderColor: theme.palette.primary.main,
+      borderWidth: '2px'
+    },
+    '&:active': {
+      borderColor: theme.palette.primary.main,
+      borderWidth: '2px'
+    },
+    '&:focus': {
+      borderColor: theme.palette.primary.main,
+      borderWidth: '2px'
+    }
   },
-  keywordSearchLeft: {
-    borderTopLeftRadius: '4px',
-    borderBottomLeftRadius: '4px'
+  filterToggleBtn: {
+    height: '100%',
+    flex: '0 0 auto',
+    borderRadius: '0 4px 4px 0',
+    marginLeft: '-1px'
   },
-  keywordSearchRight: {
-    borderLeft: '0px',
-    borderTopRightRadius: '4px',
-    borderBottomRightRadius: '4px'
+  filterApplyBtn: {
+    height: '100%',
+    minWidth: '8rem'
   },
   chipStyle: {
     color: 'white',
@@ -199,57 +217,52 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
     <form onSubmit={handleSubmit}>
       <Card>
         <Box m={3}>
-          <Box mb={2}>
+          <Box mb={3}>
             <Typography variant="h2">Filter Projects</Typography>
           </Box>
-          <Grid container direction="row" justify="flex-start" alignItems="center" spacing={0}>
-            <Grid item xs={10}>
-              <Box className={`${classes.keywordSearch} ${classes.keywordSearchLeft}`}>
-                <Box m={1} pt={0.5}>
-                  <Icon path={mdiMagnify} size={1} />
-                </Box>
-                <Input
-                  name="keyword"
-                  fullWidth
-                  disableUnderline={true}
-                  placeholder="Enter Keywords"
-                  onChange={handleChange}
-                  value={values.keyword}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={1}>
-              <Box className={`${classes.keywordSearch} ${classes.keywordSearchRight}`}>
-                <Button
-                  size="large"
-                  variant="text"
-                  color="primary"
-                  fullWidth
-                  disableRipple={true}
-                  endIcon={
-                    (!isAdvancedFiltersOpen && <Icon path={mdiMenuDown} size={1} />) ||
-                    (isAdvancedFiltersOpen && <Icon path={mdiMenuUp} size={1} />)
-                  }
-                  onClick={() => setIsAdvancedFiltersOpen(!isAdvancedFiltersOpen)}>
-                  <Typography style={{ fontWeight: 600, fontSize: '14px' }}>Advanced</Typography>
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={1}>
-              <Box ml={2}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  fullWidth
-                  className={classes.actionButton}
-                  onClick={handleFilterUpdate}>
-                  Apply
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
+          <Box display="flex">
+            <Box flex="1 1 auto" display="flex">
+              <Input
+                tabIndex={0}
+                className={classes.keywordSearch}
+                name="keyword"
+                fullWidth
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Icon path={mdiMagnify} size={1} />
+                  </InputAdornment>
+                }
+                disableUnderline={true}
+                placeholder="Enter Keywords"
+                onChange={handleChange}
+                value={values.keyword}
+              />
+              <Button
+                className={classes.filterToggleBtn}
+                size="large"
+                variant="outlined"
+                disableRipple={true}
+                endIcon={
+                  (!isAdvancedFiltersOpen && <Icon path={mdiMenuDown} size={1} />) ||
+                  (isAdvancedFiltersOpen && <Icon path={mdiMenuUp} size={1} />)
+                }
+                onClick={() => setIsAdvancedFiltersOpen(!isAdvancedFiltersOpen)}>
+                Advanced
+              </Button>
+            </Box>
+            <Box flex="0 0 auto" ml={1}>
+              <Button
+                type="submit"
+                size="large"
+                variant="contained"
+                color="primary"
+                className={classes.filterApplyBtn}
+                onClick={handleFilterUpdate}>
+                Apply
+              </Button>
+            </Box>
+          </Box>
+
           {isFiltersChipsOpen && (
             <Box my={2}>
               <Grid container direction="row" justify="flex-start" alignItems="center" spacing={1}>
@@ -267,43 +280,33 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
           )}
 
           {isAdvancedFiltersOpen && (
-            <Box>
+            <Box my={5}>
               <ProjectAdvancedFilters
                 contact_agency={contact_agency}
                 species={species}
                 funding_agency={funding_agency}
               />
 
-              <Box my={3}>
-                <Divider></Divider>
+              <Box textAlign="right" hidden>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  className={classes.actionButton}
+                  onClick={handleFilterUpdate}>
+                  Apply
+                </Button>
+                <Button
+                  type="reset"
+                  variant="outlined"
+                  color="primary"
+                  size="medium"
+                  className={classes.actionButton}
+                  onClick={handleFilterReset}>
+                  Reset
+                </Button>
               </Box>
-
-              <Grid container direction="row" justify="flex-end" alignItems="center" spacing={1}>
-                <Grid item xs={1}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    fullWidth
-                    className={classes.actionButton}
-                    onClick={handleFilterUpdate}>
-                    Apply
-                  </Button>
-                </Grid>
-                <Grid item xs={1}>
-                  <Button
-                    type="reset"
-                    variant="outlined"
-                    color="primary"
-                    size="medium"
-                    fullWidth
-                    className={classes.actionButton}
-                    onClick={handleFilterReset}>
-                    Reset
-                  </Button>
-                </Grid>
-              </Grid>
             </Box>
           )}
         </Box>

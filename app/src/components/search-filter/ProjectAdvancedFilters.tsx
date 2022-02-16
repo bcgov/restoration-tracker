@@ -24,20 +24,65 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
   const { handleChange, values } = formikProps;
 
   return (
-    <Box my={3} data-testid="advancedFilters">
+    <Box data-testid="advancedFilters">
+      
       <Grid container spacing={3} justify="flex-start">
-        <Grid item xs={12} md={2}>
-          <Typography style={{ fontWeight: 600 }}>Agency</Typography>
-        </Grid>
-        <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={3}>
-          <AutocompleteFreeSoloField
-            id="contact_agency"
-            name="contact_agency"
-            label="Contact Agency"
-            options={props.contact_agency}
-            required={false}
-          />
+          <Typography variant="subtitle1" component="h3"><strong>Project Details</strong></Typography>
+        </Grid>
+        <Grid item xs={12} md={9}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <AutocompleteFreeSoloField
+                id="contact_agency"
+                name="contact_agency"
+                label="Contact Agency"
+                options={props.contact_agency}
+                required={false}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <StartEndDateFields
+                formikProps={formikProps}
+                startName={'start_date'}
+                endName={'end_date'}
+                startRequired={false}
+                endRequired={false}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined" required={false}>
+                <InputLabel id="funding_agency-label">Funding Agencies</InputLabel>
+                <Select
+                  data-testid="funding_agency"
+                  id="funding_agency"
+                  name="funding_agency"
+                  labelId="funding_agency-label"
+                  label="Funding Agencies"
+                  value={values.funding_agency?.toString() ? values.funding_agency : [] }
+                  onChange={handleChange}
+                  defaultValue={[]}
+                  multiple
+                  displayEmpty
+                  inputProps={{ 'aria-label': 'Funding Agency Name', 'data-testid': 'funding_agency' }}>
+                  {props.funding_agency.map((item) => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <MultiAutocompleteFieldVariableSize
+                id="species"
+                data-testid="species"
+                label="Species"
+                options={props.species}
+                required={false}
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -46,88 +91,14 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
       </Box>
 
       <Grid container spacing={3} justify="flex-start">
-        <Grid item xs={12} md={2}>
-          <Typography style={{ fontWeight: 600 }}>Funding Agencies and Partnerships</Typography>
-        </Grid>
-        <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={3}>
-          <FormControl fullWidth variant="outlined" required={false}>
-            <InputLabel id="funding_agency-label">Funding Agency Name</InputLabel>
-            <Select
-              data-testid="funding_agency"
-              id="funding_agency"
-              name="funding_agency"
-              labelId="funding_agency-label"
-              label="Funding Agency Name"
-              value={values.funding_agency?.toString() ? values.funding_agency : [] }
-              onChange={handleChange}
-              defaultValue={[]}
-              multiple
-              displayEmpty
-              inputProps={{ 'aria-label': 'Funding Agency Name', 'data-testid': 'funding_agency' }}>
-              {props.funding_agency.map((item) => (
-                <MenuItem key={item.value} value={item.value}>
-                  {item.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Typography variant="subtitle1" component="h3"><strong>Permits</strong></Typography>
         </Grid>
-      </Grid>
-
-      <Box my={3}>
-        <Divider></Divider>
-      </Box>
-
-      <Grid container spacing={3} justify="flex-start">
-        <Grid item xs={12} md={2}>
-          <Typography style={{ fontWeight: 600 }}>Permits</Typography>
-        </Grid>
-        <Grid item xs={12} md={1}></Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={9}>
           <CustomTextField name="permit_number" label="Permit Number" />
         </Grid>
       </Grid>
 
-      <Box my={3}>
-        <Divider></Divider>
-      </Box>
-
-      <Grid container spacing={3} justify="flex-start">
-        <Grid item xs={12} md={2}>
-          <Typography style={{ fontWeight: 600 }}>Date Range</Typography>
-        </Grid>
-        <Grid item xs={12} md={1}></Grid>
-        <Grid item xs={12} md={6}>
-          <StartEndDateFields
-            formikProps={formikProps}
-            startName={'start_date'}
-            endName={'end_date'}
-            startRequired={false}
-            endRequired={false}
-          />
-        </Grid>
-      </Grid>
-
-      <Box my={3}>
-        <Divider></Divider>
-      </Box>
-
-      <Grid container spacing={3} justify="flex-start">
-        <Grid item xs={12} md={2}>
-          <Typography style={{ fontWeight: 600 }}>Species</Typography>
-        </Grid>
-        <Grid item xs={12} md={1}></Grid>
-        <Grid item xs={12} md={3}>
-          <MultiAutocompleteFieldVariableSize
-            id="species"
-            data-testid="species"
-            label="Species"
-            options={props.species}
-            required={false}
-          />
-        </Grid>
-      </Grid>
     </Box>
   );
 };
