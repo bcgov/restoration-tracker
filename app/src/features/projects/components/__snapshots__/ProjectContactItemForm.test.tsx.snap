@@ -6,7 +6,7 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
     data-testid="contact-item-form"
   >
     <fieldset
-      class="MuiBox-root MuiBox-root-2"
+      class="MuiBox-root MuiBox-root-1"
     >
       <legend
         class="MuiTypography-root MuiTypography-body1"
@@ -51,10 +51,10 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-3 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-5"
+                  class="PrivateNotchedOutline-legendLabelled-4"
                 >
                   <span>
                     First Name *
@@ -98,10 +98,10 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-3 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-5"
+                  class="PrivateNotchedOutline-legendLabelled-4"
                 >
                   <span>
                     Last Name *
@@ -145,10 +145,10 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-3 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-5"
+                  class="PrivateNotchedOutline-legendLabelled-4"
                 >
                   <span>
                     Business Email Address *
@@ -230,10 +230,10 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="PrivateNotchedOutline-root-3 MuiOutlinedInput-notchedOutline"
+                  class="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="PrivateNotchedOutline-legendLabelled-5"
+                    class="PrivateNotchedOutline-legendLabelled-4"
                   >
                     <span>
                       Contact Agency *
@@ -247,19 +247,19 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
         <div
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-12"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+          <label
+            class="MuiFormControlLabel-root"
           >
             <span
               aria-disabled="false"
               aria-label="Primary Contact Details"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-7 MuiCheckbox-root MuiCheckbox-colorPrimary makeStyles-primaryCheckbox-1 MuiIconButton-colorPrimary"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-6 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             >
               <span
                 class="MuiIconButton-label"
               >
                 <input
-                  class="PrivateSwitchBase-input-10"
+                  class="PrivateSwitchBase-input-9"
                   data-indeterminate="false"
                   id="primary_contact_details"
                   name="is_primary"
@@ -281,13 +281,21 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
                 class="MuiTouchRipple-root"
               />
             </span>
-            This person is the primary contact for this project
-          </p>
+            <span
+              class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+              >
+                This person is the primary contact for this project
+              </p>
+            </span>
+          </label>
         </div>
       </div>
     </fieldset>
     <div
-      class="MuiBox-root MuiBox-root-11"
+      class="MuiBox-root MuiBox-root-10"
     >
       <fieldset
         class="MuiFormControl-root"
@@ -301,10 +309,10 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
         >
-          Do you want the project contact’s name and email address visible to the public?
+          Do you want this person's contact information visible to the public?
         </p>
         <div
-          class="MuiBox-root MuiBox-root-12"
+          class="MuiBox-root MuiBox-root-11"
         >
           <div
             aria-label="Share Contact Details"
@@ -316,73 +324,20 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
             >
               <span
                 aria-disabled="false"
-                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-7 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-8 Mui-checked MuiIconButton-colorPrimary"
+                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-6 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
               >
                 <span
                   class="MuiIconButton-label"
                 >
                   <input
-                    checked=""
-                    class="PrivateSwitchBase-input-10"
-                    name="is_public"
-                    required=""
-                    type="radio"
-                    value="false"
-                  />
-                  <div
-                    class="PrivateRadioButtonIcon-root-13 PrivateRadioButtonIcon-checked-15"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                      />
-                    </svg>
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-14 MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                      />
-                    </svg>
-                  </div>
-                </span>
-                <span
-                  class="MuiTouchRipple-root"
-                />
-              </span>
-              <span
-                class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
-              >
-                No
-              </span>
-            </label>
-            <label
-              class="MuiFormControlLabel-root"
-            >
-              <span
-                aria-disabled="false"
-                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-7 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
-              >
-                <span
-                  class="MuiIconButton-label"
-                >
-                  <input
-                    class="PrivateSwitchBase-input-10"
+                    class="PrivateSwitchBase-input-9"
                     name="is_public"
                     required=""
                     type="radio"
                     value="true"
                   />
                   <div
-                    class="PrivateRadioButtonIcon-root-13"
+                    class="PrivateRadioButtonIcon-root-12"
                   >
                     <svg
                       aria-hidden="true"
@@ -396,7 +351,7 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
                     </svg>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-14 MuiSvgIcon-fontSizeSmall"
+                      class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-13 MuiSvgIcon-fontSizeSmall"
                       focusable="false"
                       viewBox="0 0 24 24"
                     >
@@ -416,6 +371,59 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
                 Yes
               </span>
             </label>
+            <label
+              class="MuiFormControlLabel-root"
+            >
+              <span
+                aria-disabled="false"
+                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-6 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-7 Mui-checked MuiIconButton-colorPrimary"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <input
+                    checked=""
+                    class="PrivateSwitchBase-input-9"
+                    name="is_public"
+                    required=""
+                    type="radio"
+                    value="false"
+                  />
+                  <div
+                    class="PrivateRadioButtonIcon-root-12 PrivateRadioButtonIcon-checked-14"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                      />
+                    </svg>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-13 MuiSvgIcon-fontSizeSmall"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                      />
+                    </svg>
+                  </div>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </span>
+              <span
+                class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+              >
+                No
+              </span>
+            </label>
             <p
               class="MuiFormHelperText-root Mui-required"
             />
@@ -424,7 +432,7 @@ exports[`ProjectContactItemForm renders correctly with default empty values 1`] 
       </fieldset>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-16"
+      class="MuiBox-root MuiBox-root-15"
     >
       <hr
         class="MuiDivider-root"
@@ -440,7 +448,7 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
     data-testid="contact-item-form"
   >
     <fieldset
-      class="MuiBox-root MuiBox-root-18"
+      class="MuiBox-root MuiBox-root-16"
     >
       <legend
         class="MuiTypography-root MuiTypography-body1"
@@ -485,10 +493,10 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-19 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-17 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-21 PrivateNotchedOutline-legendNotched-22"
+                  class="PrivateNotchedOutline-legendLabelled-19 PrivateNotchedOutline-legendNotched-20"
                 >
                   <span>
                     First Name *
@@ -532,10 +540,10 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-19 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-17 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-21 PrivateNotchedOutline-legendNotched-22"
+                  class="PrivateNotchedOutline-legendLabelled-19 PrivateNotchedOutline-legendNotched-20"
                 >
                   <span>
                     Last Name *
@@ -579,10 +587,10 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-19 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-17 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-21 PrivateNotchedOutline-legendNotched-22"
+                  class="PrivateNotchedOutline-legendLabelled-19 PrivateNotchedOutline-legendNotched-20"
                 >
                   <span>
                     Business Email Address *
@@ -664,10 +672,10 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="PrivateNotchedOutline-root-19 MuiOutlinedInput-notchedOutline"
+                  class="PrivateNotchedOutline-root-17 MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="PrivateNotchedOutline-legendLabelled-21 PrivateNotchedOutline-legendNotched-22"
+                    class="PrivateNotchedOutline-legendLabelled-19 PrivateNotchedOutline-legendNotched-20"
                   >
                     <span>
                       Contact Agency *
@@ -681,20 +689,20 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
         <div
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-12"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+          <label
+            class="MuiFormControlLabel-root"
           >
             <span
               aria-disabled="false"
               aria-label="Primary Contact Details"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-23 MuiCheckbox-root MuiCheckbox-colorPrimary makeStyles-primaryCheckbox-17 PrivateSwitchBase-checked-24 Mui-checked MuiIconButton-colorPrimary"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-21 MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-checked-22 Mui-checked MuiIconButton-colorPrimary"
             >
               <span
                 class="MuiIconButton-label"
               >
                 <input
                   checked=""
-                  class="PrivateSwitchBase-input-26"
+                  class="PrivateSwitchBase-input-24"
                   data-indeterminate="false"
                   id="primary_contact_details"
                   name="is_primary"
@@ -716,13 +724,21 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
                 class="MuiTouchRipple-root"
               />
             </span>
-            This person is the primary contact for this project
-          </p>
+            <span
+              class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+              >
+                This person is the primary contact for this project
+              </p>
+            </span>
+          </label>
         </div>
       </div>
     </fieldset>
     <div
-      class="MuiBox-root MuiBox-root-27"
+      class="MuiBox-root MuiBox-root-25"
     >
       <fieldset
         class="MuiFormControl-root"
@@ -736,10 +752,10 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
         >
-          Do you want the project contact’s name and email address visible to the public?
+          Do you want this person's contact information visible to the public?
         </p>
         <div
-          class="MuiBox-root MuiBox-root-28"
+          class="MuiBox-root MuiBox-root-26"
         >
           <div
             aria-label="Share Contact Details"
@@ -751,73 +767,21 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
             >
               <span
                 aria-disabled="false"
-                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-23 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
-              >
-                <span
-                  class="MuiIconButton-label"
-                >
-                  <input
-                    class="PrivateSwitchBase-input-26"
-                    name="is_public"
-                    required=""
-                    type="radio"
-                    value="false"
-                  />
-                  <div
-                    class="PrivateRadioButtonIcon-root-29"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                      />
-                    </svg>
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-30 MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                      />
-                    </svg>
-                  </div>
-                </span>
-                <span
-                  class="MuiTouchRipple-root"
-                />
-              </span>
-              <span
-                class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
-              >
-                No
-              </span>
-            </label>
-            <label
-              class="MuiFormControlLabel-root"
-            >
-              <span
-                aria-disabled="false"
-                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-23 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-24 Mui-checked MuiIconButton-colorPrimary"
+                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-21 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-22 Mui-checked MuiIconButton-colorPrimary"
               >
                 <span
                   class="MuiIconButton-label"
                 >
                   <input
                     checked=""
-                    class="PrivateSwitchBase-input-26"
+                    class="PrivateSwitchBase-input-24"
                     name="is_public"
                     required=""
                     type="radio"
                     value="true"
                   />
                   <div
-                    class="PrivateRadioButtonIcon-root-29 PrivateRadioButtonIcon-checked-31"
+                    class="PrivateRadioButtonIcon-root-27 PrivateRadioButtonIcon-checked-29"
                   >
                     <svg
                       aria-hidden="true"
@@ -831,7 +795,7 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
                     </svg>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-30 MuiSvgIcon-fontSizeSmall"
+                      class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-28 MuiSvgIcon-fontSizeSmall"
                       focusable="false"
                       viewBox="0 0 24 24"
                     >
@@ -851,6 +815,58 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
                 Yes
               </span>
             </label>
+            <label
+              class="MuiFormControlLabel-root"
+            >
+              <span
+                aria-disabled="false"
+                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-21 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <input
+                    class="PrivateSwitchBase-input-24"
+                    name="is_public"
+                    required=""
+                    type="radio"
+                    value="false"
+                  />
+                  <div
+                    class="PrivateRadioButtonIcon-root-27"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                      />
+                    </svg>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-28 MuiSvgIcon-fontSizeSmall"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                      />
+                    </svg>
+                  </div>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </span>
+              <span
+                class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+              >
+                No
+              </span>
+            </label>
             <p
               class="MuiFormHelperText-root Mui-required"
             />
@@ -859,7 +875,7 @@ exports[`ProjectContactItemForm renders renders correctly with exsisting values 
       </fieldset>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-32"
+      class="MuiBox-root MuiBox-root-30"
     >
       <hr
         class="MuiDivider-root"

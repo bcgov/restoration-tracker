@@ -7,7 +7,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import AutocompleteFreeSoloField from 'components/fields/AutocompleteFreeSoloField';
 import CustomTextField from 'components/fields/CustomTextField';
@@ -50,12 +49,6 @@ export interface IProjectContactItemFormProps {
   coordinator_agency: string[];
 }
 
-const useStyles = makeStyles(() => ({
-  primaryCheckbox: {
-    paddingTop: '6px'
-  }
-}));
-
 /*
  * A modal form for a single project contact.
  *
@@ -64,8 +57,6 @@ const useStyles = makeStyles(() => ({
  * @return {*}
  */
 const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) => {
-  const classes = useStyles();
-
   const { values, touched, errors, handleChange } = useFormikContext<IProjectContactItemForm>();
 
   return (
@@ -112,19 +103,24 @@ const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) =
             />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography color="textSecondary">
-              <Checkbox
-                color="primary"
-                className={classes.primaryCheckbox}
-                id="primary_contact_details"
-                name="is_primary"
-                aria-label="Primary Contact Details"
-                checked={JSON.parse(values.is_primary)}
-                value={String(!values.is_primary)}
-                onChange={handleChange}
-              />
-              This person is the primary contact for this project
-            </Typography>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  color="primary"
+                  id="primary_contact_details"
+                  name="is_primary"
+                  aria-label="Primary Contact Details"
+                  checked={JSON.parse(values.is_primary)}
+                  value={String(!values.is_primary)}
+                  onChange={handleChange}
+                />
+              }
+              label={
+                <Typography color="textSecondary">
+                  This person is the primary contact for this project
+                </Typography>
+              }
+            />
           </Grid>
         </Grid>
       </Box>
@@ -134,7 +130,7 @@ const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) =
             Share Contact Details
           </Typography>
           <Typography color="textSecondary">
-            Do you want the project contact’s name and email address visible to the public?
+            Do you want this person's contact information visible to the public?
           </Typography>
           <Box mt={2} pl={1}>
             <RadioGroup
@@ -143,14 +139,14 @@ const ProjectContactItemForm: React.FC<IProjectContactItemFormProps> = (props) =
               value={values.is_public}
               onChange={handleChange}>
               <FormControlLabel
-                value="false"
-                control={<Radio required={true} color="primary" size="small" />}
-                label="No"
-              />
-              <FormControlLabel
                 value="true"
                 control={<Radio required={true} color="primary" size="small" />}
                 label="Yes"
+              />
+              <FormControlLabel
+                value="false"
+                control={<Radio required={true} color="primary" size="small" />}
+                label="No"
               />
               <FormHelperText>{errors.is_public}</FormHelperText>
             </RadioGroup>
