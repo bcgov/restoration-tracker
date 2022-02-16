@@ -16,6 +16,10 @@ import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
+import ProjectContactForm, {
+  ProjectContactInitialValues,
+  ProjectContactYupSchema
+} from 'features/projects/components/ProjectContactForm';
 import ProjectDraftForm, {
   IProjectDraftForm,
   ProjectDraftFormYupSchema
@@ -86,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const ProjectFormInitialValues = {
   ...ProjectGeneralInformationFormInitialValues,
   ...ProjectIUCNFormInitialValues,
-  ...ProjectCoordinatorInitialValues,
+  ...ProjectContactInitialValues,
   ...ProjectPermitFormInitialValues,
   ...ProjectFundingFormInitialValues,
   ...ProjectPartnershipsFormInitialValues,
@@ -97,7 +101,7 @@ export const ProjectFormYupSchema = yup
   .object()
   .concat(ProjectGeneralInformationFormYupSchema)
   .concat(ProjectIUCNFormYupSchema)
-  .concat(ProjectCoordinatorYupSchema)
+  .concat(ProjectContactYupSchema)
   .concat(ProjectPermitFormYupSchema)
   .concat(ProjectFundingFormYupSchema)
   .concat(ProjectPartnershipsFormYupSchema)
@@ -421,11 +425,11 @@ const CreateProjectPage: React.FC = () => {
                 <Box my={5}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={3}>
-                      <Typography variant="h2">Contact</Typography>
+                      <Typography variant="h2">Contacts</Typography>
                     </Grid>
 
                     <Grid item xs={12} md={9}>
-                      <ProjectCoordinatorForm
+                      <ProjectContactForm
                         coordinator_agency={codes.codes.coordinator_agency.map((item) => item.name)}
                       />
                     </Grid>

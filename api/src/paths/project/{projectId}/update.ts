@@ -39,6 +39,7 @@ PUT.apiDoc = {
       'application/json': {
         schema: {
           title: 'Project Put Object',
+          required: ['project', 'iucn', 'contact', 'permit', 'funding', 'partnerships', 'location'],
           required: ['project', 'species', 'iucn', 'coordinator', 'permit', 'funding', 'partnerships', 'location'],
           type: 'object',
           additionalProperties: false,
@@ -113,34 +114,41 @@ PUT.apiDoc = {
                 }
               }
             },
-            coordinator: {
+            contact: {
+              title: 'Project contact',
               type: 'object',
-              required: [
-                'first_name',
-                'last_name',
-                'email_address',
-                'coordinator_agency',
-                'share_contact_details',
-                'revision_count'
-              ],
+              required: ['contacts'],
+              additionalProperties: false,
               properties: {
-                first_name: {
-                  type: 'string'
-                },
-                last_name: {
-                  type: 'string'
-                },
-                email_address: {
-                  type: 'string'
-                },
-                coordinator_agency: {
-                  type: 'string'
-                },
-                share_contact_details: {
-                  type: 'string'
-                },
-                revision_count: {
-                  type: 'number'
+                contacts: {
+                  type: 'array',
+                  items: {
+                    title: 'contacts',
+                    type: 'object',
+                    required: ['first_name', 'last_name', 'email_address', 'agency', 'is_public', 'is_primary'],
+                    properties: {
+                      first_name: {
+                        type: 'string'
+                      },
+                      last_name: {
+                        type: 'string'
+                      },
+                      email_address: {
+                        type: 'string'
+                      },
+                      agency: {
+                        type: 'string'
+                      },
+                      is_public: {
+                        type: 'string',
+                        enum: ['true', 'false']
+                      },
+                      is_primary: {
+                        type: 'string',
+                        enum: ['true', 'false']
+                      }
+                    }
+                  }
                 }
               }
             },
@@ -293,7 +301,6 @@ PUT.apiDoc = {
 };
 
 export interface IUpdateProject {
-  species: object | null;
   coordinator: object | null;
   permit: object | null;
   project: object | null;

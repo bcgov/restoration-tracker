@@ -28,12 +28,17 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     priority: 'false',
     region: 1234
   },
-  coordinator: {
-    first_name: 'Amanda',
-    last_name: 'Christensen',
-    email_address: 'amanda@christensen.com',
-    coordinator_agency: 'Amanda and associates',
-    share_contact_details: 'true'
+  contact: {
+    contacts: [
+      {
+        first_name: 'Amanda',
+        last_name: 'Christensen',
+        email_address: 'amanda@christensen.com',
+        agency: 'Amanda and associates',
+        is_public: 'true',
+        is_primary: 'true'
+      }
+    ]
   },
   iucn: {
     classificationDetails: [

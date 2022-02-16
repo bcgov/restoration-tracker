@@ -10,7 +10,7 @@ const defaultLog = getLogger('models/project-create');
  * @class PostProjectObject
  */
 export class PostProjectObject {
-  coordinator: PostCoordinatorData;
+  contact: PostContactData;
   species: PostSpeciesData;
   permit: PostPermitData;
   project: PostProjectData;
@@ -22,7 +22,7 @@ export class PostProjectObject {
   constructor(obj?: any) {
     defaultLog.debug({ label: 'PostProjectObject', message: 'params', obj });
 
-    this.coordinator = (obj?.coordinator && new PostCoordinatorData(obj.coordinator)) || null;
+    this.contact = (obj?.contact && new PostContactData(obj.contact)) || null;
     this.species = (obj?.species && new PostSpeciesData(obj.species)) || null;
     this.permit = (obj?.permit && new PostPermitData(obj.permit)) || null;
     this.project = (obj?.project && new PostProjectData(obj.project)) || null;
@@ -33,27 +33,38 @@ export class PostProjectObject {
   }
 }
 
+export interface IPostContact {
+  first_name: string;
+  last_name: string;
+  email_address: string;
+  agency: string;
+  is_public: boolean;
+  is_primary: boolean;
+}
+
 /**
  * Processes POST /project contact data
  *
  * @export
- * @class PostCoordinatorData
+ * @class PostContactData
  */
-export class PostCoordinatorData {
-  first_name: string;
-  last_name: string;
-  email_address: string;
-  coordinator_agency: string;
-  share_contact_details: boolean;
+export class PostContactData {
+  contacts: IPostContact[];
 
   constructor(obj?: any) {
-    defaultLog.debug({ label: 'PostCoordinatorData', message: 'params', obj });
+    defaultLog.debug({ label: 'PostContactData', message: 'params', obj });
 
-    this.first_name = obj?.first_name || null;
-    this.last_name = obj?.last_name || null;
-    this.email_address = obj?.email_address || null;
-    this.coordinator_agency = obj?.coordinator_agency || null;
-    this.share_contact_details = (obj?.share_contact_details === 'true' && true) || false;
+    this.contacts =
+      (obj?.contacts?.length &&
+        obj.contacts.map((item: any) => ({
+          first_name: item.first_name,
+          last_name: item.last_name,
+          email_address: item.email_address,
+          agency: item.agency,
+          is_public: JSON.parse(item.is_public),
+          is_primary: JSON.parse(item.is_primary)
+        }))) ||
+      [];
   }
 }
 

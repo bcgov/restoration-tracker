@@ -7,7 +7,7 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 
-export interface IProjectCoordinatorProps {
+export interface IProjectContactProps {
   projectForViewData: IGetProjectForViewResponse;
   codes: IGetAllCodeSetsResponse;
   refresh: () => void;
@@ -31,39 +31,39 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 /**
- * Project coordinator content for a project.
+ * Project contact content for a project.
  *
  * @return {*}
  */
-const ProjectCoordinator: React.FC<IProjectCoordinatorProps> = (props) => {
-  const {
-    projectForViewData: { coordinator }
-  } = props;
+const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) => {
+  const { contact } = projectForViewData;
   const classes = useStyles();
 
   return (
     <>
-      <ul className={classes.projectContactList}>
-        <Box component="li" display="flex" flexDirection="row">
-          <Box mr={2}>
-            <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
+      {contact.contacts.map((contactDetails, index) => (
+        <ul className={classes.projectContactList} key={index}>
+          <Box component="li" display="flex" flexDirection="row">
+            <Box mr={2}>
+              <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
+            </Box>
+            <div>
+              <div>
+                <strong data-testid="contact_name">
+                  {' '}
+                  {contactDetails.first_name} {contactDetails.last_name}
+                </strong>
+              </div>
+              <div>
+                <Link href="#">{contactDetails.email_address}</Link>
+              </div>
+              <div>{contactDetails.agency}</div>
+            </div>
           </Box>
-          <div>
-            <div>
-              <strong data-testid="coordinator_name">
-                {' '}
-                {coordinator.first_name} {coordinator.last_name}
-              </strong>
-            </div>
-            <div>
-              <Link href="#">{coordinator.email_address}</Link>
-            </div>
-            <div>{coordinator.coordinator_agency}</div>
-          </div>
-        </Box>
-      </ul>
+        </ul>
+      ))}
     </>
   );
 };
 
-export default ProjectCoordinator;
+export default ProjectContact;

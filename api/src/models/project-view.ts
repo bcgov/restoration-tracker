@@ -20,9 +20,33 @@ export class GetProjectData {
   }
 }
 
-export interface IGetSpecies {
-  id: number;
-  name: string;
+interface IGetContact {
+  first_name: string;
+  last_name: string;
+  email_address: string;
+  agency: string;
+  is_public: string;
+  is_primary: string;
+}
+
+export class GetContactData {
+  contacts: IGetContact[];
+
+  constructor(contactData?: any[]) {
+    this.contacts =
+      (contactData &&
+        contactData.map((item: any) => {
+          return {
+            first_name: item.first_name || '',
+            last_name: item.last_name || '',
+            email_address: item.email_address || '',
+            agency: item.agency || '',
+            is_public: item.is_public === 'Y' ? 'true' : 'false',
+            is_primary: item.is_primary === 'Y' ? 'true' : 'false'
+          };
+        })) ||
+      [];
+  }
 }
 
 export class GetSpeciesData {
@@ -71,24 +95,6 @@ export class GetLocationData {
     const locationDataItem = locationData && locationData.length && locationData[0];
     this.geometry = (locationDataItem?.geojson?.length && locationDataItem.geojson) || [];
     this.region = regionData && regionData?.length && regionData[0]?.objectid;
-  }
-}
-
-export class GetCoordinatorData {
-  first_name: string;
-  last_name: string;
-  email_address: string;
-  coordinator_agency: string;
-  share_contact_details: string;
-  revision_count: number;
-
-  constructor(coordinatorData?: any) {
-    this.first_name = coordinatorData?.coordinator_first_name || '';
-    this.last_name = coordinatorData?.coordinator_last_name || '';
-    this.email_address = coordinatorData?.coordinator_email_address || '';
-    this.coordinator_agency = coordinatorData?.coordinator_agency_name || '';
-    this.share_contact_details = coordinatorData?.coordinator_public ? 'true' : 'false';
-    this.revision_count = coordinatorData?.revision_count ?? 0;
   }
 }
 

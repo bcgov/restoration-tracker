@@ -39,7 +39,7 @@ POST.apiDoc = {
       'application/json': {
         schema: {
           properties: {
-            coordinator_agency: {
+            contact_agency: {
               type: 'string',
               nullable: true
             },
@@ -190,7 +190,7 @@ export function _extractProjects(rows: any[]): any[] {
       name: row.name,
       start_date: row.start_date,
       end_date: row.end_date,
-      coordinator_agency: row.coordinator_agency_name,
+      contact_agency_list: row.agency_list,
       publish_status: row.publish_timestamp ? 'Published' : 'Unpublished',
       completion_status:
         (row.end_date && moment(row.end_date).endOf('day').isBefore(moment()) && COMPLETION_STATUS.COMPLETED) ||

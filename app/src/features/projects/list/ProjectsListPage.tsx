@@ -227,7 +227,7 @@ const ProjectsListPage: React.FC = () => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Permits</TableCell>
-              <TableCell>Contact Agency</TableCell>
+              <TableCell>Contact Agencies</TableCell>
               <TableCell>Start Date</TableCell>
               <TableCell>End Date</TableCell>
             </TableRow>
@@ -251,7 +251,7 @@ const ProjectsListPage: React.FC = () => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Permits</TableCell>
-                <TableCell>Contact Agency</TableCell>
+                <TableCell>Contact Agencies</TableCell>
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
@@ -291,7 +291,7 @@ const ProjectsListPage: React.FC = () => {
                     </Link>
                   </TableCell>
                   <TableCell>{row.permits_list}</TableCell>
-                  <TableCell>{row.coordinator_agency}</TableCell>
+                  <TableCell>{row.contact_agency_list}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.end_date)}</TableCell>
                   <TableCell>{getChipIcon(row.completion_status)}</TableCell>

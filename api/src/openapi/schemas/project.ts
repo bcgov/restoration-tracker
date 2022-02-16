@@ -4,28 +4,43 @@
 export const projectCreatePostRequestObject = {
   title: 'Project post request object',
   type: 'object',
-  required: ['coordinator', 'permit', 'project', 'location', 'iucn', 'funding'],
+  required: ['contact', 'permit', 'project', 'location', 'iucn', 'funding'],
   properties: {
-    coordinator: {
-      title: 'Project coordinator',
+    contact: {
+      title: 'Project contact',
       type: 'object',
-      required: ['first_name', 'last_name', 'email_address', 'coordinator_agency', 'share_contact_details'],
+      required: ['contacts'],
+      additionalProperties: false,
       properties: {
-        first_name: {
-          type: 'string'
-        },
-        last_name: {
-          type: 'string'
-        },
-        email_address: {
-          type: 'string'
-        },
-        coordinator_agency: {
-          type: 'string'
-        },
-        share_contact_details: {
-          type: 'string',
-          enum: ['true', 'false']
+        contacts: {
+          type: 'array',
+          items: {
+            title: 'contacts',
+            type: 'object',
+            required: ['first_name', 'last_name', 'email_address', 'agency', 'is_public', 'is_primary'],
+            properties: {
+              first_name: {
+                type: 'string'
+              },
+              last_name: {
+                type: 'string'
+              },
+              email_address: {
+                type: 'string'
+              },
+              agency: {
+                type: 'string'
+              },
+              is_public: {
+                type: 'string',
+                enum: ['true', 'false']
+              },
+              is_primary: {
+                type: 'string',
+                enum: ['true', 'false']
+              }
+            }
+          }
         }
       }
     },
@@ -156,17 +171,7 @@ export const projectCreatePostRequestObject = {
 };
 
 const projectUpdateProperties = {
-  coordinator: {
-    type: 'object',
-    properties: {
-      first_name: { type: 'string' },
-      last_name: { type: 'string' },
-      email_address: { type: 'string' },
-      coordinator_agency: { type: 'string' },
-      share_contact_details: { type: 'string' },
-      revision_count: { type: 'number' }
-    }
-  },
+  contact: { type: 'object', properties: {} },
   permit: { type: 'object', properties: {} },
   project: { type: 'object', properties: {} },
   objectives: { type: 'object', properties: {} },

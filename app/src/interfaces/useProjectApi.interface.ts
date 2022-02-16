@@ -1,4 +1,4 @@
-import { IProjectCoordinatorForm } from 'features/projects/components/ProjectCoordinatorForm';
+import { IProjectContactForm } from 'features/projects/components/ProjectContactForm';
 import { IProjectFundingForm } from 'features/projects/components/ProjectFundingForm';
 import { IProjectGeneralInformationForm } from 'features/projects/components/ProjectGeneralInformationForm';
 import { IProjectIUCNForm } from 'features/projects/components/ProjectIUCNForm';
@@ -66,7 +66,7 @@ export interface IGetProjectsListResponse {
   name: string;
   start_date: string;
   end_date: string;
-  coordinator_agency: string;
+  contact_agency_list: string;
   permits_list: string;
   publish_status: string;
   completion_status: string;
@@ -91,14 +91,14 @@ export interface ICreateProjectResponse {
 export interface ICreateProjectRequest
   extends IProjectGeneralInformationForm,
     IProjectIUCNForm,
-    IProjectCoordinatorForm,
+    IProjectContactForm,
     IProjectPermitForm,
     IProjectFundingForm,
     IProjectPartnershipsForm,
     IProjectLocationForm {}
 
 export enum UPDATE_GET_ENTITIES {
-  coordinator = 'coordinator',
+  contact = 'contact',
   permit = 'permit',
   project = 'project',
   objectives = 'objectives',
@@ -118,7 +118,7 @@ export interface IGetProjectForUpdateResponse {
   project?: IGetGeneralInformationForUpdateResponseDetails;
   permit?: IGetProjectForUpdateResponsePermit;
   location?: IGetProjectForUpdateResponseLocation;
-  coordinator?: IGetProjectForUpdateResponseCoordinator;
+  contact?: IGetProjectForUpdateResponseContact;
   iucn?: IGetProjectForUpdateResponseIUCN;
   funding?: IGetProjectForUpdateResponseFundingData;
   partnerships?: IGetProjectForUpdateResponsePartnerships;
@@ -148,13 +148,17 @@ export interface IGetProjectForUpdateResponseLocation {
   revision_count: number;
 }
 
-export interface IGetProjectForUpdateResponseCoordinator {
+export interface IGetProjectForUpdateResponseContactArrayItem {
   first_name: string;
   last_name: string;
   email_address: string;
-  coordinator_agency: string;
-  share_contact_details: string;
-  revision_count: number;
+  agency: string;
+  is_public: string;
+  is_primary: string;
+}
+
+export interface IGetProjectForUpdateResponseContact {
+  contacts: IGetProjectForUpdateResponseContactArrayItem[];
 }
 
 interface IGetProjectForUpdateResponseIUCNArrayItem {
@@ -199,7 +203,7 @@ export interface IGetProjectForViewResponse {
   species: IGetProjectForViewResponseSpecies;
   permit: IGetProjectForViewResponsePermit;
   location: IGetProjectForViewResponseLocation;
-  coordinator: IGetProjectForViewResponseCoordinator;
+  contact: IGetProjectForViewResponseContact;
   iucn: IGetProjectForViewResponseIUCN;
   funding: IGetProjectForViewResponseFundingData;
   partnerships: IGetProjectForViewResponsePartnerships;
@@ -237,12 +241,17 @@ export interface IGetProjectForViewResponseLocation {
   region: number;
 }
 
-export interface IGetProjectForViewResponseCoordinator {
+interface IGetProjectForViewResponseContactArrayItem {
   first_name: string;
   last_name: string;
   email_address: string;
-  coordinator_agency: string;
-  share_contact_details: string;
+  agency: string;
+  is_public: string;
+  is_primary: string;
+}
+
+export interface IGetProjectForViewResponseContact {
+  contacts: IGetProjectForViewResponseContactArrayItem[];
 }
 
 interface IGetProjectForViewResponseIUCNArrayItem {

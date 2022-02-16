@@ -14,7 +14,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { EditProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
-import ProjectCoordinatorForm from 'features/projects/components/ProjectCoordinatorForm';
+import ProjectContactForm from 'features/projects/components/ProjectContactForm';
 import ProjectFundingForm from 'features/projects/components/ProjectFundingForm';
 import ProjectGeneralInformationForm from 'features/projects/components/ProjectGeneralInformationForm';
 import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm';
@@ -279,11 +279,11 @@ const EditProjectPage: React.FC = () => {
                 <Box my={5}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={3}>
-                      <Typography variant="h2">Contact</Typography>
+                      <Typography variant="h2">Contacts</Typography>
                     </Grid>
 
                     <Grid item xs={12} md={9}>
-                      <ProjectCoordinatorForm
+                      <ProjectContactForm
                         coordinator_agency={codes.codes.coordinator_agency.map((item) => item.name)}
                       />
                     </Grid>
