@@ -26,10 +26,6 @@ export class SearchService extends DBService {
       .from('project');
 
     if (criteria.keyword) {
-      queryBuilder.or.whereILike('project.name', `%${criteria.keyword}%`);
-
-      queryBuilder.or.whereILike('project.coordinator_agency_name', `%${criteria.keyword}%`);
-
       !joins.includes('project_funding_source') &&
         queryBuilder.leftJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');
       !joins.includes('investment_action_category') &&
@@ -44,9 +40,14 @@ export class SearchService extends DBService {
           'investment_action_category.funding_source_id',
           'funding_source.funding_source_id'
         );
-      queryBuilder.or.whereILike('funding_source.name', `%${criteria.keyword}%`);
 
       joins.push('project_funding_source', 'investment_action_category', 'funding_source');
+
+      queryBuilder.and.where(function () {
+        this.or.whereILike('project.name', `%${criteria.keyword}%`);
+        this.or.whereILike('project.coordinator_agency_name', `%${criteria.keyword}%`);
+        this.or.whereILike('funding_source.name', `%${criteria.keyword}%`);
+      });
     }
 
     if (criteria.funding_agency) {
@@ -65,12 +66,12 @@ export class SearchService extends DBService {
           'funding_source.funding_source_id'
         );
 
+      joins.push('project_funding_source', 'investment_action_category', 'funding_source');
+
       queryBuilder.and.whereIn(
         'funding_source.funding_source_id',
         (Array.isArray(criteria.funding_agency) && criteria.funding_agency) || [criteria.funding_agency]
       );
-
-      joins.push('project_funding_source', 'investment_action_category', 'funding_source');
     }
 
     if (criteria.permit_number) {
