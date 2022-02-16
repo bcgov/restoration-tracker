@@ -17,11 +17,15 @@ describe('ProjectGeneralInformationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectGeneralInformationForm  species={
+        {() => (
+          <ProjectGeneralInformationForm
+            species={
               codes?.species?.map((item) => {
                 return { value: item.id, label: item.name };
               }) || []
-            }/>}
+            }
+          />
+        )}
       </Formik>
     );
 
@@ -36,8 +40,8 @@ describe('ProjectGeneralInformationForm', () => {
         end_date: '2021-04-14',
         objectives: 'my objectives'
       },
-      species:{
-        focal_species:[1234, 321]
+      species: {
+        focal_species: [1234, 321]
       }
     };
 
@@ -48,11 +52,15 @@ describe('ProjectGeneralInformationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => <ProjectGeneralInformationForm  species={
+        {() => (
+          <ProjectGeneralInformationForm
+            species={
               codes?.species?.map((item) => {
                 return { value: item.id, label: item.name };
               }) || []
-            } />}
+            }
+          />
+        )}
       </Formik>
     );
 
