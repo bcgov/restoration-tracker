@@ -148,13 +148,12 @@ export const getNRMRegions = async () => {
 
     const features = response.data.features;
 
-    const region_list = features.map((item: any) => {
+    return features.map((item: any) => {
       return {
         id: item.properties.OBJECTID,
         name: item.properties.REGION_NAME
       };
     });
-    return region_list;
   } catch (error) {
     return error;
   }
