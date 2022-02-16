@@ -155,13 +155,15 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
                       <Toolbar className={classes.contactListItemToolbar}>
                         <Typography className={classes.title}>
                           {`${contact.first_name} ${contact.last_name}`}
-                          <sup>
-                            <Typography variant="caption" color="textSecondary">
-                              {JSON.parse(contact.is_primary) ? ' Primary' : ''}
-                            </Typography>
-                          </sup>
+                          {JSON.parse(contact.is_primary) && (
+                            <sup>
+                              <Typography variant="caption" color="textSecondary">
+                                {' '}
+                                Primary
+                              </Typography>
+                            </sup>
+                          )}
                         </Typography>
-
                         <IconButton
                           color="primary"
                           data-testid={'edit-button-' + index}
