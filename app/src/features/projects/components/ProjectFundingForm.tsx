@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(1),
     fontWeight: 400
   },
-  fundingListIem: {
+  fundingListItem: {
     padding: 0,
     '& + li': {
       marginTop: theme.spacing(2)
@@ -161,7 +161,7 @@ const ProjectFundingForm: React.FC<IProjectFundingFormProps> = (props) => {
                   )?.[0]?.label;
 
                   return (
-                    <ListItem dense className={classes.fundingListIem} key={index}>
+                    <ListItem dense className={classes.fundingListItem} key={index}>
                       <Paper className={classes.fundingListItemInner}>
                         <Toolbar className={classes.fundingListItemToolbar}>
                           <Typography className={classes.title}>

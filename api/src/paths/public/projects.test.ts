@@ -63,8 +63,8 @@ describe('getPublicProjectsList', () => {
         name: 'name',
         start_date: '2020/04/04',
         end_date: '2020/05/05',
-        coordinator_agency_name: 'agency',
-        permits_list: [123, 1233]
+        agency_list: 'agency1, agency2',
+        permits_list: '123, 1233'
       }
     ];
 
@@ -92,7 +92,7 @@ describe('getPublicProjectsList', () => {
         name: projectsList[0].name,
         start_date: projectsList[0].start_date,
         end_date: projectsList[0].end_date,
-        coordinator_agency: projectsList[0].coordinator_agency_name,
+        contact_agency_list: projectsList[0].agency_list,
         completion_status: COMPLETION_STATUS.COMPLETED,
         permits_list: projectsList[0].permits_list
       }

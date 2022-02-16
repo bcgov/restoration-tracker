@@ -3,16 +3,16 @@ import { PROJECT_ROLE } from '../constants/roles';
 import { HTTP400, HTTP409, HTTP500 } from '../errors/custom-error';
 import { models } from '../models/models';
 import {
+  IPostContact,
   IPostIUCN,
   IPostPermit,
-  PostCoordinatorData,
   PostFundingSource,
   PostLocationData,
   PostProjectData,
   PostProjectObject
 } from '../models/project-create';
 import {
-  GetCoordinatorData,
+  GetContactData,
   GetFundingData,
   GetIUCNClassificationData,
   GetLocationData,
@@ -144,11 +144,11 @@ export class ProjectService extends DBService {
    * @return {*}
    * @memberof ProjectService
    */
-  async getProjectById(projectId: number) {
+  async getProjectById(projectId: number, isPublic: boolean) {
     const [
       projectData,
       iucnData,
-      coordinatorData,
+      contactData,
       permitData,
       partnershipsData,
       fundingData,
@@ -156,7 +156,7 @@ export class ProjectService extends DBService {
     ] = await Promise.all([
       this.getProjectData(projectId),
       this.getIUCNClassificationData(projectId),
-      this.getCoordinatorData(projectId),
+      this.getContactData(projectId, isPublic),
       this.getPermitData(projectId),
       this.getPartnershipsData(projectId),
       this.getFundingData(projectId),
@@ -166,7 +166,7 @@ export class ProjectService extends DBService {
     return {
       project: projectData,
       iucn: iucnData,
-      coordinator: coordinatorData,
+      contact: contactData,
       permit: permitData,
       partnerships: partnershipsData,
       funding: fundingData,
@@ -231,25 +231,31 @@ export class ProjectService extends DBService {
     return new GetIUCNClassificationData(result);
   }
 
-  async getCoordinatorData(projectId: number): Promise<GetCoordinatorData> {
+  async getContactData(projectId: number, isPublic: boolean): Promise<GetContactData> {
     const sqlStatement = SQL`
       SELECT
         *
       FROM
-        project
+        project_contact
       WHERE
-        project_id = ${projectId};
+        project_id = ${projectId}
     `;
+
+    if (isPublic) {
+      sqlStatement.append(SQL`
+        AND is_public = 'Y'
+      `);
+    }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    const result = (response && response.rows && response.rows[0]) || null;
+    const result = (response && response.rows) || null;
 
     if (!result) {
-      throw new HTTP400('Failed to get project coordinator data');
+      throw new HTTP400('Failed to get project contact data');
     }
 
-    return new GetCoordinatorData(result);
+    return new GetContactData(result);
   }
 
   async getPermitData(projectId: number): Promise<GetPermitData> {
@@ -405,9 +411,16 @@ export class ProjectService extends DBService {
   }
 
   async createProject(postProjectData: PostProjectObject): Promise<number> {
-    const projectId = await this.insertProject({ ...postProjectData.project, ...postProjectData.coordinator });
+    const projectId = await this.insertProject(postProjectData.project);
 
     const promises: Promise<any>[] = [];
+
+    // Handle contacts
+    promises.push(
+      Promise.all(
+        postProjectData.contact.contacts.map((contact: IPostContact) => this.insertContact(contact, projectId))
+      )
+    );
 
     // Handle geometry
     promises.push(this.insertProjectSpatial(postProjectData.location, projectId));
@@ -465,7 +478,7 @@ export class ProjectService extends DBService {
     return projectId;
   }
 
-  async insertProject(projectdata: PostProjectData & PostCoordinatorData): Promise<number> {
+  async insertProject(projectdata: PostProjectData): Promise<number> {
     const sqlStatement = queries.project.postProjectSQL(projectdata);
 
     if (!sqlStatement) {
@@ -478,6 +491,41 @@ export class ProjectService extends DBService {
 
     if (!result || !result.id) {
       throw new HTTP400('Failed to insert project boundary data');
+    }
+
+    return result.id;
+  }
+
+  async insertContact(contact: IPostContact, project_id: number): Promise<number> {
+    const systemUserId = this.connection.systemUserId();
+
+    if (!systemUserId) {
+      throw new HTTP400('Failed to identify system user ID');
+    }
+
+    const sqlStatement = SQL`
+      INSERT INTO project_contact (
+        project_id, contact_type_id, first_name, last_name, agency, email_address, is_public, is_primary
+      ) VALUES (
+        ${project_id},
+        (SELECT contact_type_id FROM contact_type WHERE name = 'Coordinator'),
+        ${contact.first_name},
+        ${contact.last_name},
+        ${contact.agency},
+        ${contact.email_address},
+        ${contact.is_public ? 'Y' : 'N'},
+        ${contact.is_primary ? 'Y' : 'N'}
+      )
+      RETURNING
+        project_contact_id as id;
+    `;
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    const result = (response && response.rows && response.rows[0]) || null;
+
+    if (!result || !result.id) {
+      throw new HTTP400('Failed to insert project contact data');
     }
 
     return result.id;
@@ -646,16 +694,20 @@ export class ProjectService extends DBService {
   async updateProject(projectId: number, entities: IUpdateProject) {
     const promises: Promise<any>[] = [];
 
-    if (entities?.partnerships) {
-      promises.push(this.updateProjectPartnershipsData(projectId, entities));
-    }
-
-    if (entities?.project || entities?.coordinator) {
+    if (entities?.project) {
       promises.push(this.updateProjectData(projectId, entities));
     }
 
-    if (entities?.permit && entities?.coordinator) {
+    if (entities?.contact) {
+      promises.push(this.updateContactData(projectId, entities));
+    }
+
+    if (entities?.permit) {
       promises.push(this.updateProjectPermitData(projectId, entities));
+    }
+
+    if (entities?.partnerships) {
+      promises.push(this.updateProjectPartnershipsData(projectId, entities));
     }
 
     if (entities?.iucn) {
@@ -671,6 +723,54 @@ export class ProjectService extends DBService {
     }
 
     await Promise.all(promises);
+  }
+
+  async updateProjectData(projectId: number, entities: IUpdateProject): Promise<void> {
+    const putProjectData = (entities?.project && new models.project.PutProjectData(entities.project)) || null;
+
+    // Update project table
+    const revision_count = putProjectData?.revision_count ?? null;
+
+    if (!revision_count && revision_count !== 0) {
+      throw new HTTP400('Failed to parse request body');
+    }
+
+    const sqlUpdateProject = queries.project.putProjectSQL(projectId, putProjectData, revision_count);
+
+    if (!sqlUpdateProject) {
+      throw new HTTP400('Failed to build SQL update statement');
+    }
+
+    const result = await this.connection.query(sqlUpdateProject.text, sqlUpdateProject.values);
+
+    if (!result || !result.rowCount) {
+      // TODO if revision count is bad, it is supposed to raise an exception?
+      // It currently does skip the update as expected, but it just returns 0 rows updated, and doesn't result in any errors
+      throw new HTTP409('Failed to update stale project data');
+    }
+  }
+
+  async updateContactData(projectId: number, entities: IUpdateProject): Promise<void> {
+    const putContactData = new models.project.PostContactData(entities.contact);
+
+    const sqlDeleteStatement = queries.project.deleteContactSQL(projectId);
+
+    if (!sqlDeleteStatement) {
+      throw new HTTP400('Failed to build SQL delete statement');
+    }
+
+    const deleteResult = await this.connection.query(sqlDeleteStatement.text, sqlDeleteStatement.values);
+
+    if (!deleteResult) {
+      throw new HTTP409('Failed to delete project contact data');
+    }
+
+    const insertContactPromises =
+      putContactData?.contacts?.map((contact: IPostContact) => {
+        return this.insertContact(contact, projectId);
+      }) || [];
+
+    await Promise.all([insertContactPromises]);
   }
 
   async updateProjectPermitData(projectId: number, entities: IUpdateProject): Promise<void> {
@@ -768,38 +868,6 @@ export class ProjectService extends DBService {
       ) || [];
 
     await Promise.all([...insertIndigenousPartnershipsPromises, ...insertStakeholderPartnershipsPromises]);
-  }
-
-  async updateProjectData(projectId: number, entities: IUpdateProject): Promise<void> {
-    const putProjectData = (entities?.project && new models.project.PutProjectData(entities.project)) || null;
-    const putCoordinatorData =
-      (entities?.coordinator && new models.project.PutCoordinatorData(entities.coordinator)) || null;
-
-    // Update project table
-    const revision_count = putProjectData?.revision_count ?? putCoordinatorData?.revision_count ?? null;
-
-    if (!revision_count && revision_count !== 0) {
-      throw new HTTP400('Failed to parse request body');
-    }
-
-    const sqlUpdateProject = queries.project.putProjectSQL(
-      projectId,
-      putProjectData,
-      putCoordinatorData,
-      revision_count
-    );
-
-    if (!sqlUpdateProject) {
-      throw new HTTP400('Failed to build SQL update statement');
-    }
-
-    const result = await this.connection.query(sqlUpdateProject.text, sqlUpdateProject.values);
-
-    if (!result || !result.rowCount) {
-      // TODO if revision count is bad, it is supposed to raise an exception?
-      // It currently does skip the update as expected, but it just returns 0 rows updated, and doesn't result in any errors
-      throw new HTTP409('Failed to update stale project data');
-    }
   }
 
   async updateProjectFundingData(projectId: number, entities: IUpdateProject): Promise<void> {

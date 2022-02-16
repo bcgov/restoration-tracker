@@ -104,7 +104,7 @@ exports[`ProjectFundingForm renders correctly with existing funding values 1`] =
           class="MuiList-root MuiList-dense"
         >
           <li
-            class="MuiListItem-root makeStyles-fundingListIem-12 MuiListItem-dense MuiListItem-gutters"
+            class="MuiListItem-root makeStyles-fundingListItem-12 MuiListItem-dense MuiListItem-gutters"
           >
             <div
               class="MuiPaper-root makeStyles-fundingListItemInner-13 MuiPaper-elevation1 MuiPaper-rounded"

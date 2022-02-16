@@ -1,0 +1,358 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project Contact Form renders correctly the empty component correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root MuiBox-root-7"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      Specify all contacts for the project.
+    </p>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-8"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-9"
+    >
+      <ul
+        class="MuiList-root MuiList-dense"
+      >
+        <div
+          class="MuiPaper-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiPaper-elevation1 MuiPaper-rounded"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-10"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2"
+            >
+              No Contacts
+            </h6>
+          </div>
+        </div>
+      </ul>
+    </div>
+  </div>
+  <button
+    aria-label="Add Contact"
+    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+    data-testid="add-contact-button"
+    tabindex="0"
+    title="Add Contact"
+    type="button"
+  >
+    <span
+      class="MuiButton-label"
+    >
+      <span
+        class="MuiButton-startIcon MuiButton-iconSizeMedium"
+      >
+        <svg
+          role="presentation"
+          style="width: 1.5rem; height: 1.5rem;"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+            style="fill: currentColor;"
+          />
+        </svg>
+      </span>
+      Add Contact
+    </span>
+    <span
+      class="MuiTouchRipple-root"
+    />
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Project Contact Form renders correctly the filled component correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root MuiBox-root-17"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      Specify all contacts for the project.
+    </p>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-18"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-19"
+    >
+      <ul
+        class="MuiList-root MuiList-dense"
+      >
+        <li
+          class="MuiListItem-root makeStyles-contactListItem-14 MuiListItem-dense MuiListItem-gutters"
+        >
+          <div
+            class="MuiPaper-root makeStyles-contactListItemInner-15 MuiPaper-elevation1 MuiPaper-rounded"
+          >
+            <div
+              class="MuiToolbar-root MuiToolbar-regular makeStyles-contactListItemToolbar-16 MuiToolbar-gutters"
+            >
+              <p
+                class="MuiTypography-root makeStyles-title-12 MuiTypography-body1"
+              >
+                Nerea Oneal
+                <sup>
+                  <span
+                    class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                  >
+                     Primary
+                  </span>
+                </sup>
+              </p>
+              <button
+                aria-label="Edit Contact"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
+                data-testid="edit-button-0"
+                tabindex="0"
+                title="Edit Contact"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <svg
+                    role="presentation"
+                    style="width: 1.5rem; height: 1.5rem;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                      style="fill: currentColor;"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-label="Remove Contact"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
+                data-testid="delete-button-0"
+                tabindex="0"
+                title="Remove Contact"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <svg
+                    role="presentation"
+                    style="width: 1.5rem; height: 1.5rem;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
+                      style="fill: currentColor;"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <hr
+              class="MuiDivider-root"
+            />
+            <div
+              class="MuiBox-root MuiBox-root-20"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    Agency
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    Agency 3
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    Email
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    quxu@mailinator.com
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root makeStyles-contactListItem-14 MuiListItem-dense MuiListItem-gutters"
+        >
+          <div
+            class="MuiPaper-root makeStyles-contactListItemInner-15 MuiPaper-elevation1 MuiPaper-rounded"
+          >
+            <div
+              class="MuiToolbar-root MuiToolbar-regular makeStyles-contactListItemToolbar-16 MuiToolbar-gutters"
+            >
+              <p
+                class="MuiTypography-root makeStyles-title-12 MuiTypography-body1"
+              >
+                John Doe
+                <sup>
+                  <span
+                    class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                  >
+                     Primary
+                  </span>
+                </sup>
+              </p>
+              <button
+                aria-label="Edit Contact"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
+                data-testid="edit-button-1"
+                tabindex="0"
+                title="Edit Contact"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <svg
+                    role="presentation"
+                    style="width: 1.5rem; height: 1.5rem;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                      style="fill: currentColor;"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-label="Remove Contact"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
+                data-testid="delete-button-1"
+                tabindex="0"
+                title="Remove Contact"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <svg
+                    role="presentation"
+                    style="width: 1.5rem; height: 1.5rem;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
+                      style="fill: currentColor;"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <hr
+              class="MuiDivider-root"
+            />
+            <div
+              class="MuiBox-root MuiBox-root-21"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    Agency
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    Agency 4
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    Email
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    jd@mailinator.com
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <button
+    aria-label="Add Contact"
+    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+    data-testid="add-contact-button"
+    tabindex="0"
+    title="Add Contact"
+    type="button"
+  >
+    <span
+      class="MuiButton-label"
+    >
+      <span
+        class="MuiButton-startIcon MuiButton-iconSizeMedium"
+      >
+        <svg
+          role="presentation"
+          style="width: 1.5rem; height: 1.5rem;"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+            style="fill: currentColor;"
+          />
+        </svg>
+      </span>
+      Add Contact
+    </span>
+    <span
+      class="MuiTouchRipple-root"
+    />
+  </button>
+</DocumentFragment>
+`;

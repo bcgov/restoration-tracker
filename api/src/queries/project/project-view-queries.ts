@@ -60,8 +60,8 @@ export const getProjectListSQL = (
       p.name,
       p.start_date,
       p.end_date,
-      p.coordinator_agency_name,
       p.publish_timestamp,
+      string_agg(DISTINCT pc.agency, ', ') as agency_list,
       string_agg(DISTINCT pp.number, ', ') as permits_list
     from
       project as p
@@ -73,6 +73,8 @@ export const getProjectListSQL = (
       on pfs.investment_action_category_id = iac.investment_action_category_id
     left outer join funding_source as fs
       on iac.funding_source_id = fs.funding_source_id
+    left outer join project_contact as pc
+      on pc.project_id = p.project_id
     where 1 = 1
   `;
 
@@ -90,8 +92,8 @@ export const getProjectListSQL = (
   }
 
   if (filterFields && Object.keys(filterFields).length !== 0 && filterFields.constructor === Object) {
-    if (filterFields.coordinator_agency) {
-      sqlStatement.append(SQL` AND p.coordinator_agency_name = ${filterFields.coordinator_agency}`);
+    if (filterFields.contact_agency) {
+      sqlStatement.append(SQL` AND pc.agency = ${filterFields.contact_agency}`);
     }
 
     if (filterFields.start_date && !filterFields.end_date) {
@@ -127,7 +129,7 @@ export const getProjectListSQL = (
     if (filterFields.keyword) {
       const keyword_string = '%'.concat(filterFields.keyword).concat('%');
       sqlStatement.append(SQL` AND p.name ilike ${keyword_string}`);
-      sqlStatement.append(SQL` OR p.coordinator_agency_name ilike ${keyword_string}`);
+      sqlStatement.append(SQL` OR pc.agency ilike ${keyword_string}`);
       sqlStatement.append(SQL` OR fs.name ilike ${keyword_string}`);
       sqlStatement.append(SQL` OR s.name ilike ${keyword_string}`);
     }
@@ -139,7 +141,6 @@ export const getProjectListSQL = (
       p.name,
       p.start_date,
       p.end_date,
-      p.coordinator_agency_name,
       p.publish_timestamp
   `);
 

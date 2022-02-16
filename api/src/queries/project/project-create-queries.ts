@@ -1,11 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
-import {
-  PostCoordinatorData,
-  PostFundingSource,
-  PostLocationData,
-  PostProjectData,
-  PostProjectObject
-} from '../../models/project-create';
+import { PostFundingSource, PostLocationData, PostProjectData, PostProjectObject } from '../../models/project-create';
 import { getLogger } from '../../utils/logger';
 import { queries } from '../queries';
 
@@ -14,10 +8,10 @@ const defaultLog = getLogger('queries/project/project-create-queries');
 /**
  * SQL query to insert a project row.
  *
- * @param {(PostProjectData & PostCoordinatorData)} project
+ * @param {(PostProjectData)} project
  * @returns {SQLStatement} sql query object
  */
-export const postProjectSQL = (project: PostProjectData & PostCoordinatorData): SQLStatement | null => {
+export const postProjectSQL = (project: PostProjectData): SQLStatement | null => {
   defaultLog.debug({ label: 'postProjectSQL', message: 'params', PostProjectObject });
 
   if (!project) {
@@ -29,29 +23,16 @@ export const postProjectSQL = (project: PostProjectData & PostCoordinatorData): 
       name,
       start_date,
       end_date,
-      objectives,
-      coordinator_first_name,
-      coordinator_last_name,
-      coordinator_email_address,
-      coordinator_agency_name,
-      coordinator_public
+      objectives
     ) VALUES (
       ${project.name},
       ${project.start_date},
       ${project.end_date},
-      ${project.objectives},
-      ${project.first_name},
-      ${project.last_name},
-      ${project.email_address},
-      ${project.coordinator_agency},
-      ${project.share_contact_details}
-
-  `;
-  sqlStatement.append(SQL`
+      ${project.objectives}
     )
     RETURNING
       project_id as id;
-  `);
+  `;
 
   defaultLog.debug({
     label: 'postProjectSQL',
