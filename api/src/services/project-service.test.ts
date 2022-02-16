@@ -305,7 +305,7 @@ describe('ProjectService', () => {
         await projectService.getProjectData(projectId);
         expect.fail();
       } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to build SQL insert statement');
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
         expect((actualError as HTTPError).status).to.equal(400);
       }
     });
@@ -601,7 +601,7 @@ describe('ProjectService', () => {
         await projectService.getLocationData(projectId);
         expect.fail();
       } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to get project location data');
+        expect((actualError as HTTPError).message).to.equal('Failed to get geometry data');
         expect((actualError as HTTPError).status).to.equal(400);
       }
     });

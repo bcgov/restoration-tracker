@@ -419,11 +419,11 @@ export class ProjectService extends DBService {
     ]);
 
     if (!geometryRows) {
-      throw new HTTP400('Failed to get indigenous partnership data');
+      throw new HTTP400('Failed to get geometry data');
     }
 
     if (!regionRows) {
-      throw new HTTP400('Failed to get stakeholder partnership data');
+      throw new HTTP400('Failed to get region data');
     }
 
     return new GetLocationData(geometryRows, regionRows);
