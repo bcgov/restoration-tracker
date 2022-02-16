@@ -109,10 +109,11 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const { handleSubmit, handleChange, handleReset, values, setFieldValue } = formikProps;
 
   const handleDelete = (key: string, value: string | number) => {
-    console.log(values[key]);
 
     if (Array.isArray(values[key]) && values[key].length !== 1) {
-      values[key] = values[key].pop(value);
+      const index = values[key].indexOf(value);
+      values[key].splice(index, 1);
+
     } else {
       values[key] = ProjectAdvancedFiltersInitialValues[key];
     }

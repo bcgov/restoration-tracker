@@ -100,8 +100,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
     const hasProjects = projects?.length > 0;
     const hasDrafts = drafts?.length > 0;
 
-    if (!hasProjects && !hasDrafts) {
-      return (
+    return (
+      <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
@@ -113,33 +113,18 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
               <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell colSpan={6}>
-                <Box display="flex" justifyContent="center">
-                  No Results
-                </Box>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      );
-    } else {
-      return (
-        <TableContainer>
-          <Table>
-            <TableHead>
+          <TableBody data-testid="project-table">
+            {!hasDrafts && !hasProjects && (
               <TableRow>
-                <TableCell>Project Name</TableCell>
-                <TableCell>Activities</TableCell>
-                <TableCell>Permits</TableCell>
-                <TableCell>Contact Agency</TableCell>
-                <TableCell>Start Date</TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell colSpan={6}>
+                  <Box display="flex" justifyContent="center">
+                    No Results
+                  </Box>
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody data-testid="project-table">
-              {drafts?.map((row) => (
+            )}
+            {hasDrafts &&
+              drafts?.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     <Link
@@ -158,7 +143,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
                 </TableRow>
               ))}
-              {projects?.map((row) => (
+            {hasProjects &&
+              projects?.map((row) => (
                 <TableRow key={row.project.project_id}>
                   <TableCell component="th" scope="row">
                     <Link
@@ -177,11 +163,10 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      );
-    }
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
   };
 
   /**

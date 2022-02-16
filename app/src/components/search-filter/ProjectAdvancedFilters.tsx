@@ -25,7 +25,6 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
 
   return (
     <Box data-testid="advancedFilters">
-      
       <Grid container spacing={3} justify="flex-start">
         <Grid item xs={12} md={3}>
           <Typography variant="subtitle1" component="h3"><strong>Project Details</strong></Typography>
