@@ -101,9 +101,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                 displayEmpty
                 inputProps={{ 'aria-label': 'NRM Region' }}>
                 {props.regions.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.label}
-                  </MenuItem>
+                  <MenuItem key={item.value}>{item.label}</MenuItem>
                 ))}
               </Select>
               <FormHelperText>{errors?.location?.region}</FormHelperText>
