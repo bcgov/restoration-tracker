@@ -76,7 +76,7 @@ describe('CreateProjectPage', () => {
     await waitFor(() => {
       expect(getByText('General Information')).toBeVisible();
 
-      expect(getByText('Contact')).toBeVisible();
+      expect(getByText('Contacts')).toBeVisible();
 
       expect(getByText('Permits')).toBeVisible();
 
@@ -149,12 +149,17 @@ describe('CreateProjectPage', () => {
         id: 1,
         name: 'My draft',
         data: {
-          coordinator: {
-            first_name: 'Draft first name',
-            last_name: 'Draft last name',
-            email_address: 'draftemail@example.com',
-            coordinator_agency: '',
-            share_contact_details: 'false'
+          contact: {
+            contacts: [
+              {
+                first_name: 'Draft first name',
+                last_name: 'Draft last name',
+                email_address: 'draftemail@example.com',
+                agency: '',
+                is_public: 'false',
+                is_primary: 'false'
+              }
+            ]
           },
           ...ProjectPermitFormInitialValues,
           ...ProjectGeneralInformationFormInitialValues,
@@ -172,9 +177,8 @@ describe('CreateProjectPage', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByDisplayValue('Draft first name')).toBeInTheDocument();
-        expect(screen.getByDisplayValue('Draft last name')).toBeInTheDocument();
-        expect(screen.getByDisplayValue('draftemail@example.com')).toBeInTheDocument();
+        expect(screen.getByText('Draft first name Draft last name')).toBeVisible();
+        expect(screen.getByText('draftemail@example.com')).toBeInTheDocument();
       });
     });
 
@@ -266,8 +270,8 @@ describe('CreateProjectPage', () => {
         expect(getByText('Create Restoration Project')).toBeVisible();
       });
 
-      // update first name field
-      fireEvent.change(getByLabelText('First Name *'), { target: { value: 'draft first name' } });
+      // update project name field
+      fireEvent.change(getByLabelText('Project Name *'), { target: { value: 'draft project name' } });
 
       const saveAsDraftButton = await getByTestId('project-save-draft-button');
 
@@ -283,46 +287,7 @@ describe('CreateProjectPage', () => {
 
       await waitFor(() => {
         expect(mockRestorationTrackerApi().draft.createDraft).toHaveBeenCalledWith('draft name', {
-          coordinator: {
-            first_name: 'draft first name',
-            last_name: '',
-            email_address: '',
-            coordinator_agency: '',
-            share_contact_details: 'false'
-          },
-          permit: expect.any(Object),
-          project: expect.any(Object),
-          location: expect.any(Object),
-          iucn: expect.any(Object),
-          funding: expect.any(Object),
-          partnerships: expect.any(Object)
-        });
-
-        expect(queryByText('Save Incomplete Project as a Draft')).not.toBeInTheDocument();
-      });
-
-      // update last name field
-      fireEvent.change(getByLabelText('Last Name *'), { target: { value: 'draft last name' } });
-
-      fireEvent.click(getByTestId('project-save-draft-button'));
-
-      await waitFor(() => {
-        expect(getByText('Save Incomplete Project as a Draft')).toBeVisible();
-      });
-
-      fireEvent.change(getByLabelText('Draft Name *'), { target: { value: 'draft name' } });
-
-      fireEvent.click(getByTestId('edit-dialog-save-button'));
-
-      await waitFor(() => {
-        expect(mockRestorationTrackerApi().draft.updateDraft).toHaveBeenCalledWith(1, 'draft name', {
-          coordinator: {
-            first_name: 'draft first name',
-            last_name: 'draft last name',
-            email_address: '',
-            coordinator_agency: '',
-            share_contact_details: 'false'
-          },
+          contact: expect.any(Object),
           permit: expect.any(Object),
           project: expect.any(Object),
           location: expect.any(Object),

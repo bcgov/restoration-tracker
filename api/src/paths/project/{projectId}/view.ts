@@ -50,7 +50,7 @@ GET.apiDoc = {
           schema: {
             title: 'Project get response object, for view purposes',
             type: 'object',
-            required: ['project', 'permit', 'coordinator', 'location', 'iucn', 'funding', 'partnerships'],
+            required: ['project', 'permit', 'contact', 'location', 'iucn', 'funding', 'partnerships'],
             properties: {
               project: {
                 description: 'Basic project metadata',
@@ -110,29 +110,40 @@ GET.apiDoc = {
                   }
                 }
               },
-              coordinator: {
-                title: 'Project coordinator',
+              contact: {
+                title: 'Project contact',
                 type: 'object',
-                required: ['first_name', 'last_name', 'email_address', 'coordinator_agency', 'share_contact_details'],
+                required: ['contacts'],
                 properties: {
-                  first_name: {
-                    type: 'string'
-                  },
-                  last_name: {
-                    type: 'string'
-                  },
-                  email_address: {
-                    type: 'string'
-                  },
-                  coordinator_agency: {
-                    type: 'string'
-                  },
-                  share_contact_details: {
-                    type: 'string',
-                    enum: ['true', 'false']
-                  },
-                  revision_count: {
-                    type: 'number'
+                  contacts: {
+                    type: 'array',
+                    items: {
+                      title: 'contacts',
+                      type: 'object',
+                      required: ['first_name', 'last_name', 'email_address', 'agency', 'is_public', 'is_primary'],
+                      properties: {
+                        first_name: {
+                          type: 'string'
+                        },
+                        last_name: {
+                          type: 'string'
+                        },
+                        email_address: {
+                          type: 'string'
+                        },
+                        agency: {
+                          type: 'string'
+                        },
+                        is_public: {
+                          type: 'string',
+                          enum: ['true', 'false']
+                        },
+                        is_primary: {
+                          type: 'string',
+                          enum: ['true', 'false']
+                        }
+                      }
+                    }
                   }
                 }
               },
@@ -275,7 +286,7 @@ export function viewProject(): RequestHandler {
 
       const projectService = new ProjectService(connection);
 
-      const result = await projectService.getProjectById(Number(req.params.projectId));
+      const result = await projectService.getProjectById(Number(req.params.projectId), false);
 
       await connection.commit();
 

@@ -6,7 +6,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import PublicGeneralInformation from './components/PublicGeneralInformation';
-import PublicProjectCoordinator from './components/PublicProjectCoordinator';
+import PublicProjectContact from './components/PublicProjectContact';
 import PublicProjectPermits from './components/PublicProjectPermits';
 import PublicLocationBoundary from './components/PublicLocationBoundary';
 import PublicIUCNClassification from './components/PublicIUCNClassification';
@@ -54,7 +54,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
       </Box>
       <Box component={Paper} p={4} mt={4}>
         <Box component="section" className={classes.projectDetailsSection}>
-          <PublicProjectCoordinator projectForViewData={projectForViewData} refresh={refresh} />
+          <PublicProjectContact projectForViewData={projectForViewData} refresh={refresh} />
         </Box>
       </Box>
 

@@ -406,7 +406,7 @@ describe('ProjectService', () => {
     });
   });
 
-  describe('getCoordinatorData', () => {
+  describe('getContactData', () => {
     afterEach(() => {
       sinon.restore();
     });
@@ -420,27 +420,10 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       try {
-        await projectService.getCoordinatorData(projectId);
+        await projectService.getContactData(projectId, false);
         expect.fail();
       } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to get project coordinator data');
-        expect((actualError as HTTPError).status).to.equal(400);
-      }
-    });
-
-    it('should throw a 400 response when there are no rows', async () => {
-      const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
-      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
-
-      const projectId = 1;
-
-      const projectService = new ProjectService(mockDBConnection);
-
-      try {
-        await projectService.getCoordinatorData(projectId);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to get project coordinator data');
+        expect((actualError as HTTPError).message).to.equal('Failed to get project contact data');
         expect((actualError as HTTPError).status).to.equal(400);
       }
     });
@@ -457,9 +440,9 @@ describe('ProjectService', () => {
 
       const projectService = new ProjectService(mockDBConnection);
 
-      const result = await projectService.getCoordinatorData(projectId);
+      const result = await projectService.getContactData(projectId, false);
 
-      expect(result).to.deep.include(new projectViewModels.GetCoordinatorData(mockRowObj[0]));
+      expect(result).to.deep.include(new projectViewModels.GetContactData(mockRowObj));
     });
   });
 

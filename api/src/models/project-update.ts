@@ -44,24 +44,6 @@ export class PutLocationData {
   }
 }
 
-export class PutCoordinatorData {
-  first_name: string;
-  last_name: string;
-  email_address: string;
-  coordinator_agency: string;
-  share_contact_details: boolean;
-  revision_count: number;
-
-  constructor(obj?: any) {
-    this.first_name = obj?.first_name || null;
-    this.last_name = obj?.last_name || null;
-    this.email_address = obj?.email_address || null;
-    this.coordinator_agency = obj?.coordinator_agency || null;
-    this.share_contact_details = (obj?.share_contact_details === 'true' && true) || false;
-    this.revision_count = obj?.revision_count ?? null;
-  }
-}
-
 export class PutPartnershipsData {
   indigenous_partnerships: number[];
   stakeholder_partnerships: string[];
@@ -69,24 +51,6 @@ export class PutPartnershipsData {
   constructor(obj?: any) {
     this.indigenous_partnerships = (obj?.indigenous_partnerships?.length && obj.indigenous_partnerships) || [];
     this.stakeholder_partnerships = (obj?.stakeholder_partnerships?.length && obj.stakeholder_partnerships) || [];
-  }
-}
-
-export class GetCoordinatorData {
-  first_name: string;
-  last_name: string;
-  email_address: string;
-  coordinator_agency: string;
-  share_contact_details: string;
-  revision_count: number;
-
-  constructor(obj?: any) {
-    this.first_name = obj?.coordinator_first_name || null;
-    this.last_name = obj?.coordinator_last_name || null;
-    this.email_address = obj?.coordinator_email_address || null;
-    this.coordinator_agency = obj?.coordinator_agency_name || null;
-    this.share_contact_details = (obj?.coordinator_public && 'true') || 'false';
-    this.revision_count = obj?.revision_count ?? null;
   }
 }
 

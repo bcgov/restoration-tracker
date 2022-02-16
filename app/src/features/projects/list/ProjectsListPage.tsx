@@ -108,7 +108,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
               <TableCell>Project Name</TableCell>
               <TableCell>Activities</TableCell>
               <TableCell>Permits</TableCell>
-              <TableCell>Contact Agency</TableCell>
+              <TableCell>Contact Agencies</TableCell>
               <TableCell>Start Date</TableCell>
               <TableCell>Status</TableCell>
             </TableRow>

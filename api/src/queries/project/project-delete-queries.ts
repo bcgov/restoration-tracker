@@ -38,6 +38,40 @@ export const deleteIndigenousPartnershipsSQL = (projectId: number): SQLStatement
 };
 
 /**
+ * SQL query to delete contact rows associated to a project
+ *
+ * @param {projectId} projectId
+ * @returns {SQLStatement} sql query object
+ */
+export const deleteContactSQL = (projectId: number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'deleteContactSQL',
+    message: 'params',
+    projectId
+  });
+
+  if (!projectId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    DELETE
+      from project_contact
+    WHERE
+      project_id = ${projectId};
+  `;
+
+  defaultLog.debug({
+    label: 'deleteContactSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
  * SQL query to delete permit rows associated to a project
  *
  * @param {projectId} projectId

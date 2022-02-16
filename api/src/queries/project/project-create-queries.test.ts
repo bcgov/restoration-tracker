@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
-import { PostCoordinatorData, PostFundingSource, PostLocationData, PostProjectData } from '../../models/project-create';
+import { PostFundingSource, PostLocationData, PostProjectData } from '../../models/project-create';
 import {
   postProjectBoundarySQL,
   postProjectFundingSourceSQL,
@@ -14,7 +14,7 @@ describe('postProjectSQL', () => {
   describe('Null project param provided', () => {
     it('returns null', () => {
       // force the function to accept a null value
-      const response = postProjectSQL((null as unknown) as PostProjectData & PostLocationData & PostCoordinatorData);
+      const response = postProjectSQL((null as unknown) as PostProjectData);
 
       expect(response).to.be.null;
     });
@@ -28,25 +28,11 @@ describe('postProjectSQL', () => {
       end_date: 'end_date_test_data'
     };
 
-    const coordinatorData = {
-      first_name: 'coordinator_first_name',
-      last_name: 'coordinator_last_name',
-      email_address: 'coordinator_email_address@email.com',
-      coordinator_agency: 'coordinator_agency_name',
-      share_contact_details: false
-    };
-
-    const locationData = {};
-
     const postProjectData = new PostProjectData(projectData);
-    const postCoordinatorData = new PostCoordinatorData(coordinatorData);
 
     it('returns a SQLStatement', () => {
-      const postLocationData = new PostLocationData(locationData);
       const response = postProjectSQL({
-        ...postProjectData,
-        ...postCoordinatorData,
-        ...postLocationData
+        ...postProjectData
       });
 
       expect(response).to.not.be.null;

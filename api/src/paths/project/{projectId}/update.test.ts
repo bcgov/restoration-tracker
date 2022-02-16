@@ -102,7 +102,7 @@ describe('update', () => {
           revision_count: 0
         },
         iucn: {},
-        coordinator: {},
+        contact: {},
         permit: {},
         funding: {},
         partnerships: {},
