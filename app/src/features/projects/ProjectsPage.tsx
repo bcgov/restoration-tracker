@@ -42,7 +42,7 @@ const ProjectsPage: React.FC = () => {
   const collectFilterParams = useCallback((): IProjectAdvancedFilters => {
     if (location.search) {
       const urlParams = qs.parse(location.search.replace('?', ''));
-      const formikValues = {
+      const values = {
         keyword: urlParams.keyword,
         contact_agency: urlParams.contact_agency,
         funding_agency: (urlParams.funding_agency as unknown) as number[],
@@ -52,15 +52,15 @@ const ProjectsPage: React.FC = () => {
         end_date: urlParams.end_date
       } as IProjectAdvancedFilters;
 
-      if (formikValues.funding_agency === undefined) {
-        formikValues.funding_agency = [];
+      if (values.funding_agency === undefined) {
+        values.funding_agency = [];
       }
 
-      if (formikValues.species === undefined) {
-        formikValues.species = [];
+      if (values.species === undefined) {
+        values.species = [];
       }
 
-      return formikValues;
+      return values;
     }
     return ProjectAdvancedFiltersInitialValues;
   }, [location.search]);

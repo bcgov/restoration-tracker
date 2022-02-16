@@ -45,7 +45,6 @@ export class SearchService extends DBService {
 
       queryBuilder.and.where(function () {
         this.or.whereILike('project.name', `%${criteria.keyword}%`);
-        // this.or.whereILike('project.coordinator_agency_name', `%${criteria.keyword}%`);
         this.or.whereILike('funding_source.name', `%${criteria.keyword}%`);
       });
     }
