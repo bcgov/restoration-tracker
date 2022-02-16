@@ -60,7 +60,7 @@ const phases = {
     env: 'build',
     tz: config.timezone.api,
     branch: branch,
-    logLevel: 'debug'
+    logLevel: isStaticDeployment && 'info' || 'debug'
   },
   dev: {
     namespace: 'af2668-dev',
@@ -80,7 +80,7 @@ const phases = {
     certificateURL: config.certificateURL.dev,
     replicas: 1,
     maxReplicas: 2,
-    logLevel: 'debug'
+    logLevel: isStaticDeployment && 'info' || 'debug'
   },
   test: {
     namespace: 'af2668-test',
@@ -98,7 +98,7 @@ const phases = {
     certificateURL: config.certificateURL.test,
     replicas: 3,
     maxReplicas: 5,
-    logLevel: 'debug'
+    logLevel: 'info'
   },
   prod: {
     namespace: 'af2668-prod',
