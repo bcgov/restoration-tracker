@@ -35,8 +35,12 @@ describe('ProjectsListPage', () => {
         permit: {
           permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
         },
-        coordinator: {
-          coordinator_agency: 'contact agency'
+        contact: {
+          contacts: [
+            {
+              coordinator_agency: 'contact agency'
+            }
+          ]
         }
       } as unknown) as IGetProjectForViewResponse
     ];
@@ -67,8 +71,12 @@ describe('ProjectsListPage', () => {
         permit: {
           permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
         },
-        coordinator: {
-          coordinator_agency: 'contact agency'
+        contact: {
+          contacts: [
+            {
+              coordinator_agency: 'contact agency'
+            }
+          ]
         }
       } as unknown) as IGetProjectForViewResponse
     ];
@@ -115,8 +123,12 @@ describe('ProjectsListPage', () => {
         permit: {
           permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
         },
-        coordinator: {
-          coordinator_agency: 'contact agency'
+        contact: {
+          contacts: [
+            {
+              coordinator_agency: 'contact agency'
+            }
+          ]
         }
       } as unknown) as IGetProjectForViewResponse
     ];

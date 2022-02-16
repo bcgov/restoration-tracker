@@ -133,15 +133,8 @@ export class ProjectService extends DBService {
    * Get a project by its id.
    *
    * @param {number} projectId
-   * @return {*}  {Promise<{
-   *     project: GetProjectData;
-   *     iucn: GetIUCNClassificationData;
-   *     coordinator: GetCoordinatorData;
-   *     permit: GetPermitData;
-   *     partnerships: GetPartnershipsData;
-   *     funding: GetFundingData;
-   *     location: GetLocationData;
-   *   }>}
+   * @param {boolean} isPublic
+   * @return {*}
    * @memberof ProjectService
    */
   async getProjectById(projectId: number, isPublic: boolean) {
@@ -922,10 +915,11 @@ export class ProjectService extends DBService {
    * Get projects by their ids.
    *
    * @param {number[]} projectIds
+   * @param {boolean} isPublic
    * @return {*}
    * @memberof ProjectService
    */
-  async getProjectsByIds(projectIds: number[]) {
-    return Promise.all(projectIds.map(async (projectId) => this.getProjectById(projectId)));
+  async getProjectsByIds(projectIds: number[], isPublic: boolean) {
+    return Promise.all(projectIds.map(async (projectId) => this.getProjectById(projectId, isPublic)));
   }
 }

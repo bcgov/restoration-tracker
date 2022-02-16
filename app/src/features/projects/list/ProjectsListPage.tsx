@@ -158,7 +158,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   </TableCell>
                   <TableCell>{row.project.objectives}</TableCell>
                   <TableCell>{row.permit.permits.map((item) => item.permit_number).join(', ')}</TableCell>
-                  <TableCell>{row.coordinator.coordinator_agency}</TableCell>
+                  <TableCell>{row.contact.contacts.map((item) => item.agency).join(', ')}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.start_date)}</TableCell>
                   <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
                 </TableRow>
