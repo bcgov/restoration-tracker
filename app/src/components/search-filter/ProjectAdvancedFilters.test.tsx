@@ -1,11 +1,11 @@
 // import { createMemoryHistory } from 'history';
 // const history = createMemoryHistory();
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import ProjectAdvancedFilters from './ProjectAdvancedFilters';
 import { MemoryRouter } from 'react-router';
-import { Formik, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import { IProjectAdvancedFilters } from './ProjectFilter';
 // import { createMemoryHistory } from 'history';
 
@@ -64,7 +64,6 @@ describe('ProjectAdvancedFilters', () => {
   });
 
   test('renders properly when props and inital values are given', async () => {
-    const formikRef = useRef<FormikProps<IProjectAdvancedFilters>>(null);
     const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters = {
       contact_agency: 'agency1',
       permit_number: 'temp2',
@@ -86,11 +85,10 @@ describe('ProjectAdvancedFilters', () => {
     ];
     const contact_agency = ['agency1', 'agency2', 'agency3'];
 
-    const { queryAllByDisplayValue } = render(
+    const { queryByText } = render(
       <MemoryRouter>
         <Formik<IProjectAdvancedFilters>
           initialValues={ProjectAdvancedFiltersInitialValues}
-          enableReinitialize={true}
           onSubmit={() => {}}>
           <ProjectAdvancedFilters species={species} funding_agency={funding_agency} contact_agency={contact_agency} />
         </Formik>
@@ -100,7 +98,8 @@ describe('ProjectAdvancedFilters', () => {
     screen.debug();
 
     await waitFor(() => {
-      expect(queryAllByDisplayValue('agency1')).toBeInTheDocument();
+      expect(queryByText('species1')).toBeInTheDocument();
+      expect(queryByText('label1')).toBeInTheDocument();
     });
   });
 });
