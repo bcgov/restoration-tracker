@@ -197,7 +197,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
               class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextSecondary"
             >
               <span>
-                Oct 10, 1998 - Feb 26, 2021
+                Oct 10, 1998 - Feb 26, 2100
               </span>
             </h6>
           </div>

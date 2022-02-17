@@ -14,7 +14,7 @@ const projectDraftFilledValues = {
 
 describe('Project Draft Form', () => {
   it('renders correctly with empty initial values', () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <Formik
         initialValues={ProjectDraftFormInitialValues}
         validationSchema={ProjectDraftFormYupSchema}
@@ -27,11 +27,11 @@ describe('Project Draft Form', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('draft_name')).toBeVisible();
   });
 
   it('renders correctly with populated initial values', () => {
-    const { asFragment } = render(
+    const { getByTestId, getByDisplayValue } = render(
       <Formik
         initialValues={projectDraftFilledValues}
         validationSchema={ProjectDraftFormYupSchema}
@@ -44,11 +44,12 @@ describe('Project Draft Form', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('draft_name')).toBeVisible();
+    expect(getByDisplayValue('draft test name')).toBeVisible();
   });
 
   it('renders correctly with errors', () => {
-    const { asFragment } = render(
+    const { getByTestId, getByText } = render(
       <Formik
         initialValues={projectDraftFilledValues}
         initialErrors={{
@@ -67,6 +68,7 @@ describe('Project Draft Form', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('draft_name')).toBeVisible();
+    expect(getByText('Error this is a required field')).toBeVisible();
   });
 });

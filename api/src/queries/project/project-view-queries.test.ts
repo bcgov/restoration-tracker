@@ -28,12 +28,6 @@ describe('getProjectSQL', () => {
 });
 
 describe('getProjectListSQL', () => {
-  it('returns null when no systemUserId provided', () => {
-    const response = getProjectListSQL(true, null);
-
-    expect(response).to.be.null;
-  });
-
   it('returns a SQLStatement when isUserAdmin and systemUserId but no filter fields provided', () => {
     const response = getProjectListSQL(true, 3);
 

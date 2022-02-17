@@ -46,7 +46,10 @@ describe('PublicProjectPage', () => {
   });
 
   it('renders public project page when project is loaded (project is active)', async () => {
-    mockRestorationTrackerApi().public.project.getProjectForView.mockResolvedValue(getProjectForViewResponse);
+    mockRestorationTrackerApi().public.project.getProjectForView.mockResolvedValue({
+      ...getProjectForViewResponse,
+      project: { ...getProjectForViewResponse.project, end_date: '2100-02-26' }
+    });
 
     const { asFragment, findByText } = render(
       <DialogContextProvider>
@@ -67,7 +70,7 @@ describe('PublicProjectPage', () => {
   it('renders public project page when project is loaded (project is completed)', async () => {
     mockRestorationTrackerApi().public.project.getProjectForView.mockResolvedValue({
       ...getProjectForViewResponse,
-      project: { ...getProjectForViewResponse.project, completion_status: 'Completed' }
+      project: { ...getProjectForViewResponse.project }
     });
 
     const { asFragment, findByText } = render(

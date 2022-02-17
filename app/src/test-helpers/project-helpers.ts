@@ -6,7 +6,6 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     project_name: 'Test Project Name',
     start_date: '1998-10-10',
     end_date: '2021-02-26',
-    completion_status: 'Active',
     publish_date: '2021-01-26',
     objectives: 'Project objectives',
     region: 'NRM Region 1'

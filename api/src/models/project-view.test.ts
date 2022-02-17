@@ -259,11 +259,11 @@ describe('GetProjectData', () => {
     });
 
     it('sets start_date', () => {
-      expect(data.start_date).to.equal('');
+      expect(data.start_date).to.equal(null);
     });
 
     it('sets end_date', () => {
-      expect(data.end_date).to.equal('');
+      expect(data.end_date).to.equal(null);
     });
   });
 

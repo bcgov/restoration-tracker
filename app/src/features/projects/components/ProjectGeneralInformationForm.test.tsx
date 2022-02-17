@@ -10,7 +10,7 @@ import ProjectGeneralInformationForm, {
 
 describe('ProjectGeneralInformationForm', () => {
   it('renders correctly with default empty values', () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <Formik
         initialValues={ProjectGeneralInformationFormInitialValues}
         validationSchema={ProjectGeneralInformationFormYupSchema}
@@ -29,7 +29,10 @@ describe('ProjectGeneralInformationForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('project.project_name')).toBeVisible();
+    expect(getByTestId('start_date')).toBeVisible();
+    expect(getByTestId('end_date')).toBeVisible();
+    expect(getByTestId('project.objectives')).toBeVisible();
   });
 
   it('renders correctly with existing details values', () => {
@@ -45,7 +48,7 @@ describe('ProjectGeneralInformationForm', () => {
       }
     };
 
-    const { asFragment } = render(
+    const { getByTestId, getByDisplayValue } = render(
       <Formik
         initialValues={existingFormValues}
         validationSchema={ProjectGeneralInformationFormYupSchema}
@@ -64,6 +67,11 @@ describe('ProjectGeneralInformationForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('project.project_name')).toBeVisible();
+    expect(getByTestId('start_date')).toBeVisible();
+    expect(getByTestId('end_date')).toBeVisible();
+    expect(getByTestId('project.objectives')).toBeVisible();
+    expect(getByDisplayValue('name 1')).toBeVisible();
+    expect(getByDisplayValue('my objectives')).toBeVisible();
   });
 });

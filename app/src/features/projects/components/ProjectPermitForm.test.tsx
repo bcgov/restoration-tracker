@@ -9,7 +9,7 @@ import ProjectPermitForm, {
 
 describe('ProjectPermitForm', () => {
   it('renders correctly with default empty values', () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <Formik
         initialValues={ProjectPermitFormInitialValues}
         validationSchema={ProjectPermitFormYupSchema}
@@ -20,7 +20,7 @@ describe('ProjectPermitForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('permit.permits.[0].permit_number')).toBeVisible();
   });
 
   it('renders correctly with existing permit values', () => {
@@ -39,7 +39,7 @@ describe('ProjectPermitForm', () => {
       }
     };
 
-    const { asFragment } = render(
+    const { getByTestId, getByText } = render(
       <Formik
         initialValues={existingFormValues}
         validationSchema={ProjectPermitFormYupSchema}
@@ -50,7 +50,9 @@ describe('ProjectPermitForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('permit.permits.[0].permit_number')).toBeVisible();
+    expect(getByText('Forestry License to Cut')).toBeVisible();
+    expect(getByText('Road Use Permit')).toBeVisible();
   });
 
   it('renders correctly with errors on the permit_number and permit_type fields', () => {

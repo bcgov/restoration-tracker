@@ -65,23 +65,21 @@ GET.apiDoc = {
                     type: 'string'
                   },
                   start_date: {
-                    type: 'string',
-                    format: 'date',
+                    oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
                     description: 'ISO 8601 date string for the project start date'
                   },
                   end_date: {
-                    type: 'string',
-                    format: 'date',
-                    description: 'ISO 8601 date string for the project end date'
+                    oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
+                    description: 'ISO 8601 date string for the project end date',
+                    nullable: true
                   },
                   objectives: {
                     type: 'string'
                   },
                   publish_date: {
+                    oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
                     description: 'Status of the project being published/unpublished',
-                    nullable: true,
-                    format: 'date',
-                    type: 'string'
+                    nullable: true
                   },
                   revision_count: {
                     type: 'number'
@@ -220,13 +218,11 @@ GET.apiDoc = {
                           type: 'number'
                         },
                         start_date: {
-                          type: 'string',
-                          format: 'date',
+                          oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
                           description: 'ISO 8601 date string for the funding start date'
                         },
                         end_date: {
-                          type: 'string',
-                          format: 'date',
+                          oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
                           description: 'ISO 8601 date string for the funding end_date'
                         },
                         agency_project_id: {

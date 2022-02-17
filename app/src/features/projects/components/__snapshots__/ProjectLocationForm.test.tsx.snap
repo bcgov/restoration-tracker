@@ -17,7 +17,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
             data-shrink="false"
-            id="caribou-range-select-label"
+            id="nrm-region-select-label"
           >
             NRM Region
             <span
@@ -639,7 +639,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
             data-shrink="true"
-            id="caribou-range-select-label"
+            id="nrm-region-select-label"
           >
             NRM Region
             <span
@@ -1274,7 +1274,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
             data-shrink="true"
-            id="caribou-range-select-label"
+            id="nrm-region-select-label"
           >
             NRM Region
             <span

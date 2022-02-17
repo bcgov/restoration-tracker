@@ -130,6 +130,7 @@ exports[`AccessRequestPage renders correctly 1`] = `
                 >
                   <div
                     class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+                    data-testid="Reason"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"

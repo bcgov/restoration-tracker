@@ -6,7 +6,7 @@ import { SYSTEM_IDENTITY_SOURCE } from '../constants/database';
 import { HTTPError } from '../errors/custom-error';
 import { setSystemUserContextSQL } from '../queries/database/user-context-queries';
 import * as db from './db';
-import { getAPIUserDBConnection, getDBConnection, getDBPool, IDBConnection, initDBPool } from './db';
+import { getAPIUserDBConnection, getDBPool, initDBPool } from './db';
 
 describe('db', () => {
   beforeEach(() => {
@@ -33,7 +33,7 @@ describe('db', () => {
   describe('getDBConnection', () => {
     it('throws an error if keycloak token is undefined', () => {
       try {
-        getDBConnection((null as unknown) as object);
+        db.getDBConnection((null as unknown) as object);
 
         expect.fail();
       } catch (actualError) {
@@ -42,7 +42,7 @@ describe('db', () => {
     });
 
     it('returns a database connection instance', () => {
-      const connection = getDBConnection({});
+      const connection = db.getDBConnection({});
 
       expect(connection).not.to.be.null;
     });
@@ -58,10 +58,10 @@ describe('db', () => {
       const connectStub = sinonSandbox.stub().resolves(mockClient);
       const mockPool = { connect: connectStub };
 
-      let connection: IDBConnection;
+      let connection: db.IDBConnection;
 
       beforeEach(() => {
-        connection = getDBConnection(mockKeycloakToken);
+        connection = db.getDBConnection(mockKeycloakToken);
       });
 
       afterEach(() => {
@@ -283,12 +283,22 @@ describe('db', () => {
   describe('getAPIUserDBConnection', () => {
     it('calls getDBConnection for the restoration_api user', () => {
       const getDBConnectionStub = Sinon.stub(db, 'getDBConnection').returns(
-        ('stubbed DBConnection object' as unknown) as IDBConnection
+        ('stubbed DBConnection object' as unknown) as db.IDBConnection
       );
 
       getAPIUserDBConnection();
 
-      expect(getDBConnectionStub).to.have.been.calledWith({ preferred_username: 'restoration_api@database' });
+      expect(getDBConnectionStub).to.have.been.calledWith({
+        preferred_username: 'restoration_api@database'
+      });
+    });
+  });
+
+  describe('getKnexQueryBuilder', () => {
+    it('returns a Knex query builder', () => {
+      const queryBuilder = db.getKnexQueryBuilder();
+
+      expect(queryBuilder.client.config).to.eql({ client: 'pg' });
     });
   });
 });

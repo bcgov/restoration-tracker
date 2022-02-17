@@ -12,8 +12,8 @@ export class GetProjectData {
   constructor(projectData?: any) {
     this.project_id = projectData?.project_id || null;
     this.project_name = projectData?.name || '';
-    this.start_date = projectData?.start_date || '';
-    this.end_date = projectData?.end_date || '';
+    this.start_date = projectData?.start_date || null;
+    this.end_date = projectData?.end_date || null;
     this.objectives = projectData?.objectives || '';
     this.publish_date = projectData?.publish_timestamp || null;
     this.revision_count = projectData?.revision_count ?? 0;

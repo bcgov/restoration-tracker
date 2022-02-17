@@ -2,7 +2,6 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { getAPIUserDBConnection } from '../../database/db';
 import { HTTP400 } from '../../errors/custom-error';
-import { searchResponseObject } from '../../openapi/schemas/search';
 import { queries } from '../../queries/queries';
 import { getLogger } from '../../utils/logger';
 import { _extractResults } from '../search';
@@ -22,7 +21,13 @@ GET.apiDoc = {
           schema: {
             type: 'array',
             items: {
-              ...(searchResponseObject as object)
+              type: 'object',
+              required: ['id'],
+              properties: {
+                id: {
+                  type: 'number'
+                }
+              }
             }
           }
         }

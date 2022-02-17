@@ -39,13 +39,13 @@ GET.apiDoc = {
             items: {
               title: 'Draft Response Object',
               type: 'object',
+              required: ['id', 'name'],
               properties: {
                 id: {
                   type: 'number'
                 },
-                date: {
-                  type: 'object',
-                  description: 'The date this draft was last updated or created'
+                name: {
+                  type: 'string'
                 }
               }
             }

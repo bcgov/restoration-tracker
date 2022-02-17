@@ -25,14 +25,6 @@ import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
 
-export type ListSystemUsers = {
-  id: number;
-  user_identifier: string;
-  record_end_date: string;
-  role_ids: number[];
-  role_names: string[];
-};
-
 export class ProjectService extends DBService {
   /**
    * Gets the project participant, adding them if they do not already exist.
@@ -139,9 +131,10 @@ export class ProjectService extends DBService {
   }
 
   /**
-   *
+   * Get a project by its id.
    *
    * @param {number} projectId
+   * @param {boolean} isPublic
    * @return {*}
    * @memberof ProjectService
    */
@@ -1068,5 +1061,17 @@ export class ProjectService extends DBService {
         this.insertSpecies(speciesId, projectId);
       })
     );
+  }
+
+  /**
+   * Get projects by their ids.
+   *
+   * @param {number[]} projectIds
+   * @param {boolean} isPublic
+   * @return {*}
+   * @memberof ProjectService
+   */
+  async getProjectsByIds(projectIds: number[], isPublic: boolean) {
+    return Promise.all(projectIds.map(async (projectId) => this.getProjectById(projectId, isPublic)));
   }
 }

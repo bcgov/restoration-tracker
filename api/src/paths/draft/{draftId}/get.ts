@@ -47,16 +47,21 @@ GET.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            title: 'Project GET response object, for a given draft project',
+            title: 'Draft Get Response Object',
             type: 'object',
+            required: ['id', 'name', 'data'],
             properties: {
               id: {
-                description: 'Project id',
                 type: 'number'
               },
-              date: {
+              name: {
+                type: 'string',
+                description: 'The name of the draft'
+              },
+              data: {
                 type: 'object',
-                description: 'ISO 8601 date string for the project start date'
+                description: 'The data associated with this draft',
+                properties: {}
               }
             }
           }

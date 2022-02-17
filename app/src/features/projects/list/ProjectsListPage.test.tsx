@@ -1,254 +1,141 @@
-import React from 'react';
-import { MemoryRouter, Router } from 'react-router-dom';
-import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import ProjectsListPage from './ProjectsListPage';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import { AuthStateContext, IAuthState } from 'contexts/authStateContext';
-import { SYSTEM_ROLE } from 'constants/roles';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import React from 'react';
+import { MemoryRouter, Router } from 'react-router';
+import ProjectsListPage from './ProjectsListPage';
 
 const history = createMemoryHistory();
 
-jest.mock('../../../hooks/useRestorationTrackerApi');
-const mockuseRestorationTrackerApi = {
-  project: {
-    getProjectsList: jest.fn()
-  },
-  draft: {
-    getDraftsList: jest.fn()
-  },
-  codes: {
-    getAllCodeSets: jest.fn()
-  }
-};
-
-const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest.Mock<
-  typeof mockuseRestorationTrackerApi
->).mockReturnValue(mockuseRestorationTrackerApi);
-
 describe('ProjectsListPage', () => {
-  beforeEach(() => {
-    mockRestorationTrackerApi().project.getProjectsList.mockClear();
-    mockRestorationTrackerApi().draft.getDraftsList.mockClear();
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
-  });
-
-  afterEach(() => {
-    cleanup();
-  });
-
-  test('renders with the create project button', async () => {
-    mockRestorationTrackerApi().project.getProjectsList.mockResolvedValue([]);
-
-    const authState = ({
-      keycloakWrapper: {
-        hasLoadedAllUserInfo: true,
-        systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN],
-        hasAccessRequest: false,
-        hasSystemRole: () => true,
-
-        keycloak: {},
-        getUserIdentifier: jest.fn(),
-        getIdentitySource: jest.fn(),
-        username: 'testusername',
-        displayName: 'testdisplayname',
-        email: 'test@email.com',
-        firstName: 'testfirst',
-        lastName: 'testlast',
-        refresh: () => {}
-      }
-    } as unknown) as IAuthState;
-
-    const { baseElement } = render(
-      <AuthStateContext.Provider value={authState}>
-        <MemoryRouter>
-          <ProjectsListPage />
-        </MemoryRouter>
-      </AuthStateContext.Provider>
-    );
-
-    await waitFor(() => {
-      expect(baseElement).toHaveTextContent('Create Project');
-    });
-  });
-
-  test('renders with the open advanced filters button', async () => {
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'A Rocha Canada' }]
-    });
-    mockRestorationTrackerApi().project.getProjectsList.mockResolvedValue([]);
-
+  test('renders properly when no projects are given', async () => {
     const { getByText } = render(
       <MemoryRouter>
-        <ProjectsListPage />
+        <ProjectsListPage projects={[]} drafts={[]} />
       </MemoryRouter>
     );
 
     await waitFor(() => {
-      expect(getByText('Show Filters')).toBeInTheDocument();
+      expect(getByText('Found 0 projects')).toBeInTheDocument();
+      expect(getByText('No Results')).toBeInTheDocument();
     });
   });
 
-  test('renders with a proper list of projects when published and completed', async () => {
-    mockRestorationTrackerApi().project.getProjectsList.mockResolvedValue([
-      {
-        id: 1,
-        name: 'Project 1',
-        start_date: null,
-        end_date: null,
-        coordinator_agency: 'contact agency',
-        project_type: 'project type',
-        permits_list: '1, 2, 3',
-        publish_status: 'Published',
-        completion_status: 'Completed'
-      }
-    ]);
+  test('renders with a proper list of a single project', async () => {
+    const projectArray = [
+      ({
+        project: {
+          project_id: 1,
+          project_name: 'Project 1',
+          start_date: null,
+          end_date: '2020-01-01', // date in the past
+          project_type: 'project type',
+          publish_status: 'Published'
+        },
+        permit: {
+          permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
+        },
+        contact: {
+          contacts: [
+            {
+              coordinator_agency: 'contact agency'
+            }
+          ]
+        }
+      } as unknown) as IGetProjectForViewResponse
+    ];
 
     const { getByText, getByTestId } = render(
       <MemoryRouter>
-        <ProjectsListPage />
+        <ProjectsListPage projects={projectArray} drafts={[]} />
       </MemoryRouter>
     );
 
     await waitFor(() => {
       expect(getByTestId('project-table')).toBeInTheDocument();
+      expect(getByText('Project 1')).toBeInTheDocument();
+    });
+  });
+
+  test('renders with a proper list of multiple projects and drafts', async () => {
+    const projectArray = [
+      ({
+        project: {
+          project_id: 1,
+          project_name: 'Project 1',
+          start_date: '2022-02-09',
+          end_date: '2022-02-09',
+          project_type: 'project type',
+          publish_status: 'Unpublished'
+        },
+        permit: {
+          permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
+        },
+        contact: {
+          contacts: [
+            {
+              coordinator_agency: 'contact agency'
+            }
+          ]
+        }
+      } as unknown) as IGetProjectForViewResponse
+    ];
+    const draftArray = [
+      {
+        id: 1,
+        name: 'draft name',
+        start_date: '2022-02-09',
+        end_date: '2022-02-09',
+        coordinator_agency: 'string',
+        permits_list: 'string',
+        publish_status: 'string',
+        completion_status: 'Draft'
+      }
+    ];
+
+    const { getByText, getByTestId } = render(
+      <MemoryRouter>
+        <ProjectsListPage projects={projectArray} drafts={draftArray} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(getByTestId('project-table')).toBeInTheDocument();
+      expect(getByText('Project 1')).toBeInTheDocument();
+
       expect(getByText('Completed')).toBeInTheDocument();
-    });
-  });
-
-  test('renders with a proper list of projects when unpublished and active', async () => {
-    mockRestorationTrackerApi().project.getProjectsList.mockResolvedValue([
-      {
-        id: 1,
-        name: 'Project 1',
-        start_date: null,
-        end_date: null,
-        coordinator_agency: 'contact agency',
-        project_type: 'project type',
-        permits_list: '1, 2, 3',
-        publish_status: 'Unpublished',
-        completion_status: 'Active'
-      }
-    ]);
-
-    const { getByText, getByTestId } = render(
-      <MemoryRouter>
-        <ProjectsListPage />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(getByTestId('project-table')).toBeInTheDocument();
-      expect(getByText('Active')).toBeInTheDocument();
-    });
-  });
-
-  test('renders with a list of drafts', async () => {
-    mockRestorationTrackerApi().draft.getDraftsList.mockResolvedValue([
-      {
-        id: 1,
-        name: 'Draft 1'
-      }
-    ]);
-    mockRestorationTrackerApi().project.getProjectsList.mockResolvedValue([]);
-
-    const { getByText, getByTestId } = render(
-      <MemoryRouter>
-        <ProjectsListPage />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(getByTestId('project-table')).toBeInTheDocument();
-      expect(getByText('Draft 1')).toBeInTheDocument();
-    });
-  });
-
-  test('navigating to the create project page works', async () => {
-    mockRestorationTrackerApi().project.getProjectsList.mockResolvedValue([]);
-
-    const authState = ({
-      keycloakWrapper: {
-        hasLoadedAllUserInfo: true,
-        systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN],
-        hasAccessRequest: false,
-        hasSystemRole: () => true,
-
-        keycloak: {},
-        getUserIdentifier: jest.fn(),
-        getIdentitySource: jest.fn(),
-        username: 'testusername',
-        displayName: 'testdisplayname',
-        email: 'test@email.com',
-        firstName: 'testfirst',
-        lastName: 'testlast',
-        refresh: () => {}
-      }
-    } as unknown) as IAuthState;
-
-    const { getByText, getByTestId } = render(
-      <AuthStateContext.Provider value={authState}>
-        <Router history={history}>
-          <ProjectsListPage />
-        </Router>
-      </AuthStateContext.Provider>
-    );
-
-    await waitFor(() => {
-      expect(getByTestId('project-table')).toBeInTheDocument();
-    });
-
-    fireEvent.click(getByText('Create Project'));
-
-    await waitFor(() => {
-      expect(history.location.pathname).toEqual('/admin/projects/create');
-      expect(history.location.search).toEqual('');
-    });
-  });
-
-  test('navigating to the create project page works on draft projects', async () => {
-    mockRestorationTrackerApi().draft.getDraftsList.mockResolvedValue([
-      {
-        id: 1,
-        name: 'Draft 1'
-      }
-    ]);
-
-    const { getByTestId } = render(
-      <Router history={history}>
-        <ProjectsListPage />
-      </Router>
-    );
-
-    await waitFor(() => {
-      expect(getByTestId('project-table')).toBeInTheDocument();
-    });
-
-    fireEvent.click(getByTestId('Draft 1'));
-
-    await waitFor(() => {
-      expect(history.location.pathname).toEqual('/admin/projects/create');
-      expect(history.location.search).toEqual('?draftId=1');
+      expect(getByText('draft name')).toBeInTheDocument();
+      expect(getByText('Draft')).toBeInTheDocument();
     });
   });
 
   test('navigating to the project works', async () => {
-    mockRestorationTrackerApi().project.getProjectsList.mockResolvedValue([
-      {
-        id: 1,
-        name: 'Project 1',
-        start_date: null,
-        end_date: null,
-        coordinator_agency: 'contact agency',
-        permits_list: '1, 2, 3',
-        publish_status: 'Published',
-        completion_status: 'Completed'
-      }
-    ]);
+    const projectArray = [
+      ({
+        project: {
+          project_id: 1,
+          project_name: 'Project 1',
+          start_date: '2022-02-09',
+          end_date: '2022-02-09',
+          project_type: 'project type',
+          publish_status: 'Unpublished'
+        },
+        permit: {
+          permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
+        },
+        contact: {
+          contacts: [
+            {
+              coordinator_agency: 'contact agency'
+            }
+          ]
+        }
+      } as unknown) as IGetProjectForViewResponse
+    ];
 
     const { getByTestId } = render(
       <Router history={history}>
-        <ProjectsListPage />
+        <ProjectsListPage projects={projectArray} drafts={[]} />
       </Router>
     );
 
@@ -260,6 +147,38 @@ describe('ProjectsListPage', () => {
 
     await waitFor(() => {
       expect(history.location.pathname).toEqual('/admin/projects/1');
+    });
+  });
+
+  test('navigating to the draft project works', async () => {
+    const draftArray = [
+      {
+        id: 1,
+        name: 'draft name',
+        start_date: '2022-02-09',
+        end_date: '2022-02-09',
+        coordinator_agency: 'string',
+        permits_list: 'string',
+        publish_status: 'string',
+        completion_status: 'Draft'
+      }
+    ];
+
+    const { getByTestId } = render(
+      <Router history={history}>
+        <ProjectsListPage projects={[]} drafts={draftArray} />
+      </Router>
+    );
+
+    await waitFor(() => {
+      expect(getByTestId('project-table')).toBeInTheDocument();
+    });
+
+    fireEvent.click(getByTestId('draft name'));
+
+    await waitFor(() => {
+      expect(history.location.pathname).toEqual('/admin/projects/create');
+      expect(history.location.search).toEqual('?draftId=1');
     });
   });
 });
