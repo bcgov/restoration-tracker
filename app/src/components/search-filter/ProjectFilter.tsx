@@ -63,7 +63,9 @@ export const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters = {
   permit_number: '',
   species: [],
   start_date: '',
-  end_date: ''
+  end_date: '',
+  ranges: '',
+  region: ''
 };
 
 export interface IProjectAdvancedFilters {
@@ -74,6 +76,8 @@ export interface IProjectAdvancedFilters {
   species?: number | number[];
   start_date?: string;
   end_date?: string;
+  ranges?: string | string[];
+  region?: string | string[];
 }
 
 export const ProjectAdvancedFiltersKeyLabels = {
@@ -83,14 +87,18 @@ export const ProjectAdvancedFiltersKeyLabels = {
   permit_number: { label: 'Permit Number' },
   species: { label: 'Species', codeSet: 'species' },
   start_date: { label: 'Start Date' },
-  end_date: { label: 'End Date' }
+  end_date: { label: 'End Date' },
+  ranges: {label: 'Caribou Ranges', codeSet: 'ranges' },
+  region: {label: 'FLNRO Region', codeSet: 'region' }
 };
 
 export interface IProjectAdvancedFiltersProps {
+  filterChipParams: IProjectAdvancedFilters;
   species: IMultiAutocompleteFieldOption[];
   contact_agency: string[];
   funding_agency: IMultiAutocompleteFieldOption[];
-  filterChipParams: IProjectAdvancedFilters;
+  ranges: IMultiAutocompleteFieldOption[];
+  region: IMultiAutocompleteFieldOption[];
 }
 
 /**
@@ -100,7 +108,7 @@ export interface IProjectAdvancedFiltersProps {
  */
 const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const classes = useStyles();
-  const { filterChipParams, contact_agency, species, funding_agency } = props;
+  const { filterChipParams, contact_agency, species, funding_agency, region, ranges } = props;
 
   const [isAdvancedFiltersOpen, setIsAdvancedFiltersOpen] = useState(false);
   const [isFiltersChipsOpen, setIsFiltersChipsOpen] = useState(false);
@@ -110,6 +118,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
 
   const handleDelete = (key: string, value: string | number) => {
     if (Array.isArray(values[key]) && values[key].length !== 1) {
+      //check if chip is part of an array and deletes single array item if true
       const index = values[key].indexOf(value);
       values[key].splice(index, 1);
     } else {
@@ -284,6 +293,8 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
                 contact_agency={contact_agency}
                 species={species}
                 funding_agency={funding_agency}
+                ranges={ranges}
+                region={region}
               />
 
               <Box textAlign="right" hidden>

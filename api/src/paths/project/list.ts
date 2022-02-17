@@ -143,6 +143,46 @@ GET.apiDoc = {
         nullable: true
       },
       allowEmptyValue: true
+    },
+    {
+      in: 'query',
+      name: 'ranges',
+      schema: {
+        oneOf: [
+          {
+            type: 'string',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            nullable: true
+          }
+        ]
+      },
+      allowEmptyValue: true
+    },
+    {
+      in: 'query',
+      name: 'region',
+      schema: {
+        oneOf: [
+          {
+            type: 'string',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            nullable: true
+          }
+        ]
+      },
+      allowEmptyValue: true
     }
   ],
   responses: {
@@ -341,13 +381,22 @@ GET.apiDoc = {
                 location: {
                   description: 'The project location object',
                   type: 'object',
-                  required: ['geometry'],
+                  required: ['geometry', 'region'],
                   properties: {
                     geometry: {
                       type: 'array',
                       items: {
                         ...(geoJsonFeature as object)
                       }
+                    },
+                    ranges: {
+                      type: 'array',
+                      items: {
+                        type: 'number'
+                      }
+                    },
+                    region: {
+                      type: 'number'
                     }
                   }
                 }
