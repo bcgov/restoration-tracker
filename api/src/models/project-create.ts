@@ -11,6 +11,7 @@ const defaultLog = getLogger('models/project-create');
  */
 export class PostProjectObject {
   contact: PostContactData;
+  species: PostSpeciesData;
   permit: PostPermitData;
   project: PostProjectData;
   location: PostLocationData;
@@ -22,6 +23,7 @@ export class PostProjectObject {
     defaultLog.debug({ label: 'PostProjectObject', message: 'params', obj });
 
     this.contact = (obj?.contact && new PostContactData(obj.contact)) || null;
+    this.species = (obj?.species && new PostSpeciesData(obj.species)) || null;
     this.permit = (obj?.permit && new PostPermitData(obj.permit)) || null;
     this.project = (obj?.project && new PostProjectData(obj.project)) || null;
     this.location = (obj?.location && new PostLocationData(obj.location)) || null;
@@ -118,6 +120,22 @@ export class PostProjectData {
 }
 
 /**
+ * Processes POST /project species data.
+ *
+ * @export
+ * @class PostSpeciesData
+ */
+export class PostSpeciesData {
+  focal_species: number[];
+
+  constructor(obj?: any) {
+    defaultLog.debug({ label: 'PostSpeciesData', message: 'params', obj });
+
+    this.focal_species = (obj?.focal_species.length && obj.focal_species) || [];
+  }
+}
+
+/**
  * Processes POST /project location data
  *
  * @export
@@ -125,19 +143,11 @@ export class PostProjectData {
  */
 export class PostLocationData {
   geometry: Feature[];
+  region: number;
 
   constructor(obj?: any) {
-    defaultLog.debug({
-      label: 'PostLocationData',
-      message: 'params',
-      obj: {
-        ...obj,
-        geometry: obj?.geometry?.map((item: any) => {
-          return { ...item, geometry: 'Too big to print' };
-        })
-      }
-    });
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
+    this.region = obj?.region || null;
   }
 }
 

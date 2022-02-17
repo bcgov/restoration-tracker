@@ -25,7 +25,7 @@ export interface IGetAllCodeSetsResponse {
   first_nations: CodeSet;
   funding_source: CodeSet;
   investment_action_category: CodeSet<{ id: number; fs_id: number; name: string }>;
-  region: CodeSet;
+  regions: CodeSet;
   species: CodeSet;
   iucn_conservation_action_level_1_classification: CodeSet;
   iucn_conservation_action_level_2_subclassification: CodeSet<{ id: number; iucn1_id: number; name: string }>;

@@ -191,7 +191,7 @@ describe('GetLocationData', () => {
     let locationData: GetLocationData;
 
     before(() => {
-      locationData = new GetLocationData(null);
+      locationData = new GetLocationData([]);
     });
 
     it('sets the geometry', function () {

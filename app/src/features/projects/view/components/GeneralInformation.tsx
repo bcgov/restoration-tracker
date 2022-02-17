@@ -19,8 +19,17 @@ export interface IProjectGeneralInformationProps {
  */
 const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) => {
   const {
-    projectForViewData: { project }
+    projectForViewData: { project, species, location }
   } = props;
+
+  const getRegionName = (regionNumber: number) => {
+    const codeValue = props.codes.regions.find((code) => code.id === regionNumber);
+    return (
+      <Typography variant="body2" component="dt" data-testid="project-region">
+        {codeValue?.name}
+      </Typography>
+    );
+  };
 
   return (
     <>
@@ -32,6 +41,12 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
           <Typography variant="body2" component="dt">
             {project.project_name}
           </Typography>
+        </div>
+        <div>
+          <Typography variant="body2" component="dd" color="textSecondary">
+            Region:
+          </Typography>
+          {getRegionName(location.region)}
         </div>
         <div>
           <Typography variant="body2" component="dd" color="textSecondary">
@@ -47,6 +62,20 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
           </Typography>
           <Typography variant="body2" component="dt">
             {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="body2" component="dd" color="textSecondary">
+            Focal Species:
+          </Typography>
+          <Typography component="dd" variant="body2">
+            {species.focal_species_names?.map((item: any, index: number) => {
+              return (
+                <span key={index} data-testid="focal_species_data">
+                  {item}
+                </span>
+              );
+            })}
           </Typography>
         </div>
       </Box>

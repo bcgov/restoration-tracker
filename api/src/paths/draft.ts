@@ -148,20 +148,20 @@ PUT.apiDoc = {
   },
   responses: {
     200: {
-      description: 'Draft put response object.',
+      description: 'Draft Project with matching projectId.',
       content: {
         'application/json': {
           schema: {
-            title: 'Draft Response Object',
+            title: 'Project  postresponse object, for a given draft',
             type: 'object',
-            required: ['id', 'date'],
             properties: {
               id: {
+                description: 'Project id',
                 type: 'number'
               },
               date: {
-                oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
-                description: 'The date this draft was last updated or created'
+                type: 'object',
+                description: 'ISO 8601 date string for the project start date'
               }
             }
           }

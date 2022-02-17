@@ -6,7 +6,82 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
     class="MuiBox-root MuiBox-root-1"
   >
     <div
-      class="MuiBox-root MuiBox-root-2"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <fieldset
+          class="MuiFormControl-root MuiFormControl-fullWidth"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
+            data-shrink="false"
+            id="nrm-region-select-label"
+          >
+            NRM Region
+            <span
+              aria-hidden="true"
+              class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+            >
+               *
+            </span>
+          </label>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+          >
+            <div
+              aria-haspopup="listbox"
+              aria-label="NRM Region"
+              aria-labelledby="nrm-region-select-label nrm-region-select"
+              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+              id="nrm-region-select"
+              role="button"
+              tabindex="0"
+            >
+              <span>
+                ​
+              </span>
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput"
+              name="location.region"
+              required=""
+              tabindex="-1"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="PrivateNotchedOutline-legendLabelled-4"
+              >
+                <span>
+                  NRM Region
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          <p
+            class="MuiFormHelperText-root MuiFormHelperText-contained Mui-required"
+          />
+        </fieldset>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-6"
     >
       <p
         class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -72,10 +147,10 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-3 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-5"
+                class="PrivateNotchedOutline-legendLabelled-4"
               >
                 <span>
                   Caribou Range
@@ -553,7 +628,82 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
     class="MuiBox-root MuiBox-root-39"
   >
     <div
-      class="MuiBox-root MuiBox-root-40"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <fieldset
+          class="MuiFormControl-root MuiFormControl-fullWidth"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
+            data-shrink="true"
+            id="nrm-region-select-label"
+          >
+            NRM Region
+            <span
+              aria-hidden="true"
+              class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+            >
+               *
+            </span>
+          </label>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+          >
+            <div
+              aria-haspopup="listbox"
+              aria-label="NRM Region"
+              aria-labelledby="nrm-region-select-label nrm-region-select"
+              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+              id="nrm-region-select"
+              role="button"
+              tabindex="0"
+            >
+              <span>
+                ​
+              </span>
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput"
+              name="location.region"
+              required=""
+              tabindex="-1"
+              value="Omineca"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-40 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="PrivateNotchedOutline-legendLabelled-42 PrivateNotchedOutline-legendNotched-43"
+              >
+                <span>
+                  NRM Region
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          <p
+            class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled Mui-required"
+          />
+        </fieldset>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-44"
     >
       <p
         class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -617,10 +767,10 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-41 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-40 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-43 PrivateNotchedOutline-legendNotched-44"
+                class="PrivateNotchedOutline-legendLabelled-42 PrivateNotchedOutline-legendNotched-43"
               >
                 <span>
                   Caribou Range
@@ -1113,7 +1263,82 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
     class="MuiBox-root MuiBox-root-20"
   >
     <div
-      class="MuiBox-root MuiBox-root-21"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+      >
+        <fieldset
+          class="MuiFormControl-root MuiFormControl-fullWidth"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
+            data-shrink="true"
+            id="nrm-region-select-label"
+          >
+            NRM Region
+            <span
+              aria-hidden="true"
+              class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+            >
+               *
+            </span>
+          </label>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+          >
+            <div
+              aria-haspopup="listbox"
+              aria-label="NRM Region"
+              aria-labelledby="nrm-region-select-label nrm-region-select"
+              class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+              id="nrm-region-select"
+              role="button"
+              tabindex="0"
+            >
+              <span>
+                ​
+              </span>
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput"
+              name="location.region"
+              required=""
+              tabindex="-1"
+              value="Omineca"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-21 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="PrivateNotchedOutline-legendLabelled-23 PrivateNotchedOutline-legendNotched-24"
+              >
+                <span>
+                  NRM Region
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          <p
+            class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled Mui-required"
+          />
+        </fieldset>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-25"
     >
       <p
         class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -1177,10 +1402,10 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-22 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-21 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-24 PrivateNotchedOutline-legendNotched-25"
+                class="PrivateNotchedOutline-legendLabelled-23 PrivateNotchedOutline-legendNotched-24"
               >
                 <span>
                   Caribou Range

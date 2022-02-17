@@ -287,13 +287,21 @@ describe('CreateProjectPage', () => {
 
       await waitFor(() => {
         expect(mockRestorationTrackerApi().draft.createDraft).toHaveBeenCalledWith('draft name', {
-          contact: expect.any(Object),
-          permit: expect.any(Object),
-          project: expect.any(Object),
-          location: expect.any(Object),
-          iucn: expect.any(Object),
-          funding: expect.any(Object),
-          partnerships: expect.any(Object)
+          contact: { contacts: [] },
+          permit: {
+            permits: [{ permit_number: '', permit_type: '' }]
+          },
+          project: {
+            start_date: '',
+            end_date: '',
+            objectives: '',
+            project_name: 'draft project name'
+          },
+          location: { geometry: [], priority: 'false', range: '', region: '' },
+          iucn: { classificationDetails: [] },
+          funding: { fundingSources: [] },
+          partnerships: { indigenous_partnerships: [], stakeholder_partnerships: [] },
+          species: { focal_species: [] }
         });
 
         expect(queryByText('Save Incomplete Project as a Draft')).not.toBeInTheDocument();

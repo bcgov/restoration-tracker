@@ -36,10 +36,12 @@ export class PutProjectData {
 
 export class PutLocationData {
   geometry: Feature[];
+  region: number;
   revision_count: number;
 
   constructor(obj?: any) {
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
+    this.region = obj?.region || null;
     this.revision_count = obj?.revision_count ?? null;
   }
 }
@@ -60,5 +62,13 @@ export class PutFundingData {
   constructor(obj?: any) {
     this.fundingSources =
       (obj?.fundingSources?.length && obj.fundingSources.map((item: any) => new PostFundingSource(item))) || [];
+  }
+}
+
+export class PutSpeciesData {
+  focal_species: number[];
+
+  constructor(obj?: any) {
+    this.focal_species = (obj?.focal_species.length && obj.focal_species) || [];
   }
 }

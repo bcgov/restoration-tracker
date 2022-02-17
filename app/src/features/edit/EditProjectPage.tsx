@@ -21,21 +21,13 @@ import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm';
 import ProjectLocationForm from 'features/projects/components/ProjectLocationForm';
 import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm';
 import ProjectPermitForm from 'features/projects/components/ProjectPermitForm';
+import { ProjectFormInitialValues } from 'features/projects/create/CreateProjectPage';
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
 import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import {
-  IGetProjectForViewResponse,
-  IGetProjectForViewResponseContact,
-  IGetProjectForViewResponseDetails,
-  IGetProjectForViewResponseFundingData,
-  IGetProjectForViewResponseIUCN,
-  IGetProjectForViewResponseLocation,
-  IGetProjectForViewResponsePartnerships,
-  IGetProjectForViewResponsePermit
-} from 'interfaces/useProjectApi.interface';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Prompt } from 'react-router-dom';
@@ -61,37 +53,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginRight: '0.25rem'
   }
 }));
-
-export const ProjectFormInitialValues = {
-  id: 0,
-  project: {
-    project_name: '',
-    start_date: '',
-    end_date: '',
-    objectives: ''
-  } as IGetProjectForViewResponseDetails,
-  permit: {
-    permits: []
-  } as IGetProjectForViewResponsePermit,
-  location: {
-    geometry: [],
-    range: '',
-    priority: ''
-  } as IGetProjectForViewResponseLocation,
-  contact: {
-    contacts: []
-  } as IGetProjectForViewResponseContact,
-  iucn: {
-    classificationDetails: []
-  } as IGetProjectForViewResponseIUCN,
-  funding: {
-    fundingSources: []
-  } as IGetProjectForViewResponseFundingData,
-  partnerships: {
-    indigenous_partnerships: [],
-    stakeholder_partnerships: []
-  } as IGetProjectForViewResponsePartnerships
-} as IGetProjectForViewResponse;
 
 /**
  * Page for editing a project.
@@ -121,7 +82,7 @@ const EditProjectPage: React.FC = () => {
   const dialogContext = useContext(DialogContext);
 
   const [initialProjectFormData, setInitialProjectFormData] = useState<IGetProjectForViewResponse>(
-    ProjectFormInitialValues
+    (ProjectFormInitialValues as unknown) as IGetProjectForViewResponse
   );
 
   useEffect(() => {
@@ -282,7 +243,13 @@ const EditProjectPage: React.FC = () => {
                     </Grid>
 
                     <Grid item xs={12} md={9}>
-                      <ProjectGeneralInformationForm />
+                      <ProjectGeneralInformationForm
+                        species={
+                          codes.codes.species.map((item) => {
+                            return { value: item.id, label: item.name };
+                          }) || []
+                        }
+                      />
 
                       <Box component="fieldset" mt={5} mx={0}>
                         <ProjectIUCNForm
@@ -382,6 +349,9 @@ const EditProjectPage: React.FC = () => {
                     <Grid item xs={12} md={9}>
                       <ProjectLocationForm
                         ranges={codes.codes.ranges.map((item) => {
+                          return { value: item.id, label: item.name };
+                        })}
+                        regions={codes.codes.regions.map((item) => {
                           return { value: item.id, label: item.name };
                         })}
                       />

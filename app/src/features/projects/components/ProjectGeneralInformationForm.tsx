@@ -1,9 +1,16 @@
 import Grid from '@material-ui/core/Grid';
 import CustomTextField from 'components/fields/CustomTextField';
+import MultiAutocompleteFieldVariableSize, {
+  IMultiAutocompleteFieldOption
+} from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import React from 'react';
 import yup from 'utils/YupSchema';
+
+export interface IProjectGeneralInformationFormProps {
+  species: IMultiAutocompleteFieldOption[];
+}
 
 export interface IProjectGeneralInformationForm {
   project: {
@@ -11,6 +18,9 @@ export interface IProjectGeneralInformationForm {
     start_date: string;
     end_date: string;
     objectives: string;
+  };
+  species: {
+    focal_species: number[];
   };
 }
 
@@ -20,6 +30,9 @@ export const ProjectGeneralInformationFormInitialValues: IProjectGeneralInformat
     start_date: '',
     end_date: '',
     objectives: ''
+  },
+  species: {
+    focal_species: []
   }
 };
 
@@ -32,20 +45,25 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
       .string()
       .max(3000, 'Cannot exceed 3000 characters')
       .required('You must provide objectives for the project')
+  }),
+  species: yup.object().shape({
+    focal_species: yup.array().min(1, 'You must specify a focal species').required('Required')
   })
 });
+
 /**
  * Create project - General information section
  *
  * @return {*}
  */
-const ProjectGeneralInformationForm: React.FC = () => {
+
+const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={9}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} direction="column">
           <Grid item xs={12}>
             <CustomTextField
               name="project.project_name"
@@ -68,6 +86,17 @@ const ProjectGeneralInformationForm: React.FC = () => {
                 name="project.objectives"
                 label="Objectives"
                 other={{ required: true, multiline: true, rows: 4 }}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Grid item xs={12}>
+              <MultiAutocompleteFieldVariableSize
+                id="species.focal_species"
+                label="Focal Species"
+                options={props.species}
+                required={true}
               />
             </Grid>
           </Grid>

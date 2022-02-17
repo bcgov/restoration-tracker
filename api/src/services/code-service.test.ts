@@ -30,14 +30,15 @@ describe('CodeService', () => {
         'funding_source',
         'investment_action_category',
         'coordinator_agency',
-        'region',
         'iucn_conservation_action_level_1_classification',
         'iucn_conservation_action_level_2_subclassification',
         'iucn_conservation_action_level_3_subclassification',
         'system_roles',
         'project_roles',
         'administrative_activity_status_type',
-        'ranges'
+        'ranges',
+        'regions',
+        'species'
       );
     });
   });

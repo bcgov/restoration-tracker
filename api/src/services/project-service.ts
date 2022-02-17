@@ -18,7 +18,8 @@ import {
   GetLocationData,
   GetPartnershipsData,
   GetPermitData,
-  GetProjectData
+  GetProjectData,
+  GetSpeciesData
 } from '../models/project-view';
 import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
@@ -140,6 +141,7 @@ export class ProjectService extends DBService {
   async getProjectById(projectId: number, isPublic: boolean) {
     const [
       projectData,
+      speciesData,
       iucnData,
       contactData,
       permitData,
@@ -148,6 +150,7 @@ export class ProjectService extends DBService {
       locationData
     ] = await Promise.all([
       this.getProjectData(projectId),
+      this.getSpeciesData(projectId),
       this.getIUCNClassificationData(projectId),
       this.getContactData(projectId, isPublic),
       this.getPermitData(projectId),
@@ -158,6 +161,7 @@ export class ProjectService extends DBService {
 
     return {
       project: projectData,
+      species: speciesData,
       iucn: iucnData,
       contact: contactData,
       permit: permitData,
@@ -183,6 +187,31 @@ export class ProjectService extends DBService {
     }
 
     return new GetProjectData(result);
+  }
+
+  async getSpeciesData(projectId: number): Promise<GetSpeciesData> {
+    const sqlStatement = SQL`
+      SELECT
+       *
+      FROM
+        wldtaxonomic_units as wtu
+      LEFT OUTER JOIN
+        project_species as ps
+      ON
+        ps.wldtaxonomic_units_id = wtu.wldtaxonomic_units_id
+      WHERE
+        ps.project_id = ${projectId};
+      `;
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    const result = response.rows || null;
+
+    if (!result) {
+      throw new HTTP400('Failed to get species data');
+    }
+
+    return new GetSpeciesData(result);
   }
 
   async getIUCNClassificationData(projectId: number): Promise<GetIUCNClassificationData> {
@@ -377,6 +406,23 @@ export class ProjectService extends DBService {
   }
 
   async getLocationData(projectId: number): Promise<GetLocationData> {
+    const [geometryRows, regionRows] = await Promise.all([
+      this.getGeometryData(projectId),
+      this.getRegionData(projectId)
+    ]);
+
+    if (!geometryRows) {
+      throw new HTTP400('Failed to get geometry data');
+    }
+
+    if (!regionRows) {
+      throw new HTTP400('Failed to get region data');
+    }
+
+    return new GetLocationData(geometryRows, regionRows);
+  }
+
+  async getGeometryData(projectId: number): Promise<any[]> {
     const sqlStatement = SQL`
       SELECT
         *
@@ -394,13 +440,22 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    const result = (response && response.rows) || null;
+    return (response && response.rows) || null;
+  }
 
-    if (!result) {
-      throw new HTTP400('Failed to get project location data');
-    }
+  async getRegionData(projectId: number): Promise<any> {
+    const sqlStatement = SQL`
+      SELECT
+        *
+      FROM
+        nrm_region
+      WHERE
+        project_id = ${projectId};
+    `;
 
-    return new GetLocationData(result);
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    return (response && response.rows) || null;
   }
 
   async createProject(postProjectData: PostProjectObject): Promise<number> {
@@ -436,6 +491,15 @@ export class ProjectService extends DBService {
       )
     );
 
+    //Handle classifications
+    promises.push(
+      Promise.all(
+        postProjectData.iucn.classificationDetails?.map((iucnClassification: IPostIUCN) =>
+          this.insertClassificationDetail(iucnClassification.subClassification2, projectId)
+        ) || []
+      )
+    );
+
     // Handle stakeholder partners
     promises.push(
       Promise.all(
@@ -454,14 +518,17 @@ export class ProjectService extends DBService {
       )
     );
 
-    // Handle project IUCN classifications
+    // Handle species associated to this project
     promises.push(
       Promise.all(
-        postProjectData.iucn.classificationDetails.map((classificationDetail: IPostIUCN) =>
-          this.insertClassificationDetail(classificationDetail.subClassification2, projectId)
-        )
+        postProjectData.species.focal_species.map((speciesId: number) => {
+          this.insertSpecies(speciesId, projectId);
+        })
       )
     );
+
+    // Handle region associated to this project
+    promises.push(this.insertRegion(postProjectData.location.region, projectId));
 
     await Promise.all(promises);
 
@@ -684,6 +751,52 @@ export class ProjectService extends DBService {
     }
   }
 
+  async insertSpecies(species_id: number, projectId: number): Promise<void> {
+    const systemUserId = this.connection.systemUserId();
+
+    if (!systemUserId) {
+      throw new HTTP400('Failed to identify system user ID');
+    }
+
+    const sqlStatement = queries.project.postProjectSpeciesSQL(species_id, projectId);
+
+    if (!sqlStatement) {
+      throw new HTTP400('Failed to build SQL insert statement');
+    }
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    if (!response || !response.rowCount) {
+      throw new HTTP400('Failed to insert project species');
+    }
+  }
+
+  async insertRegion(regionNumber: number, projectId: number): Promise<number> {
+    const sqlStatement = SQL`
+      INSERT INTO nrm_region (
+        project_id,
+        objectid,
+        name
+      ) VALUES (
+        ${projectId},
+        ${regionNumber},
+        ${regionNumber}
+      )
+      RETURNING
+        nrm_region_id as id;
+    `;
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    const result = (response && response.rows && response.rows[0]) || null;
+
+    if (!result || !result.id) {
+      throw new HTTP400('Failed to insert project region data');
+    }
+
+    return result.id;
+  }
+
   async updateProject(projectId: number, entities: IUpdateProject) {
     const promises: Promise<any>[] = [];
 
@@ -713,6 +826,10 @@ export class ProjectService extends DBService {
 
     if (entities?.location) {
       promises.push(this.updateProjectSpatialData(projectId, entities));
+      promises.push(this.updateProjectRegionData(projectId, entities));
+    }
+    if (entities?.species) {
+      promises.push(this.updateProjectSpeciesData(projectId, entities));
     }
 
     await Promise.all(promises);
@@ -909,6 +1026,41 @@ export class ProjectService extends DBService {
     if (!result || !result.rowCount) {
       throw new HTTP409('Failed to insert project spatial data');
     }
+  }
+
+  async updateProjectRegionData(projectId: number, entities: IUpdateProject): Promise<void> {
+    const putRegionData = entities?.location && new models.project.PutLocationData(entities.location);
+
+    const projectRegionDeleteStatement = queries.project.deleteProjectRegionSQL(projectId);
+
+    if (!projectRegionDeleteStatement) {
+      throw new HTTP500('Failed to build SQL delete statement');
+    }
+
+    await this.connection.query(projectRegionDeleteStatement.text, projectRegionDeleteStatement.values);
+
+    if (!putRegionData?.region) {
+      // No spatial data to insert
+      return;
+    }
+    await this.insertRegion(putRegionData.region, projectId);
+  }
+
+  async updateProjectSpeciesData(projectId: number, entities: IUpdateProject): Promise<void> {
+    const putSpeciesData = entities?.species && new models.project.PutSpeciesData(entities.species);
+
+    const projectSpeciesDeleteStatement = queries.project.deleteProjectSpeciesSQL(projectId);
+
+    await this.connection.query(projectSpeciesDeleteStatement.text, projectSpeciesDeleteStatement.values);
+
+    if (!putSpeciesData?.focal_species.length) {
+      return;
+    }
+    await Promise.all(
+      putSpeciesData?.focal_species.map((speciesId: number) => {
+        this.insertSpecies(speciesId, projectId);
+      })
+    );
   }
 
   /**

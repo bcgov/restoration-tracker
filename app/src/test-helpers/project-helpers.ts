@@ -7,7 +7,11 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
     start_date: '1998-10-10',
     end_date: '2021-02-26',
     publish_date: '2021-01-26',
-    objectives: 'Project objectives'
+    objectives: 'Project objectives',
+    region: 'NRM Region 1'
+  },
+  species: {
+    focal_species: [1234, 4321]
   },
   permit: {
     permits: [
@@ -20,7 +24,8 @@ export const getProjectForViewResponse: IGetProjectForViewResponse = {
   location: {
     geometry: [],
     range: '1',
-    priority: 'false'
+    priority: 'false',
+    region: 1234
   },
   contact: {
     contacts: [

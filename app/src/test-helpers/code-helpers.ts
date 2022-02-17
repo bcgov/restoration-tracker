@@ -5,7 +5,10 @@ export const codes: IGetAllCodeSetsResponse = {
   first_nations: [{ id: 1, name: 'First nations code' }],
   funding_source: [{ id: 1, name: 'Funding source code' }],
   investment_action_category: [{ id: 1, fs_id: 1, name: 'Investment action category' }],
-  region: [{ id: 1, name: 'Region code' }],
+  regions: [
+    { id: 1, name: 'Region code' },
+    { id: 2, name: 'Region code' }
+  ],
   species: [{ id: 1, name: 'Species code' }],
   iucn_conservation_action_level_1_classification: [{ id: 1, name: 'IUCN class' }],
   iucn_conservation_action_level_2_subclassification: [{ id: 1, iucn1_id: 1, name: 'IUCN subclass 1' }],

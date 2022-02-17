@@ -62,6 +62,19 @@ POST.apiDoc = {
                 }
               }
             },
+            species: {
+              title: 'Project species',
+              type: 'object',
+              required: ['focal_species'],
+              properties: {
+                focal_species: {
+                  type: 'array',
+                  items: {
+                    type: 'number'
+                  }
+                }
+              }
+            },
             iucn: {
               title: 'Project IUCN classifications',
               type: 'object',
@@ -225,6 +238,9 @@ POST.apiDoc = {
                   items: {
                     ...(geoJsonFeature as object)
                   }
+                },
+                region: {
+                  type: 'number'
                 }
               }
             }

@@ -39,7 +39,7 @@ PUT.apiDoc = {
       'application/json': {
         schema: {
           title: 'Project Put Object',
-          required: ['project', 'iucn', 'contact', 'permit', 'funding', 'partnerships', 'location'],
+          required: ['project', 'species', 'iucn', 'contact', 'permit', 'funding', 'partnerships', 'location'],
           type: 'object',
           additionalProperties: false,
           properties: {
@@ -74,6 +74,19 @@ PUT.apiDoc = {
                 },
                 revision_count: {
                   type: 'number'
+                }
+              }
+            },
+            species: {
+              title: 'Project species',
+              type: 'object',
+              required: ['focal_species'],
+              properties: {
+                focal_species: {
+                  type: 'array',
+                  items: {
+                    type: 'number'
+                  }
                 }
               }
             },
@@ -297,6 +310,7 @@ export interface IUpdateProject {
   iucn: object | null;
   funding: object | null;
   partnerships: object | null;
+  species: object | null;
 }
 
 /**

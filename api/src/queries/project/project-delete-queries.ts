@@ -214,12 +214,6 @@ export const deleteProjectFundingSourceSQL = (
   return sqlStatement;
 };
 
-/**
- * SQL query to delete all project spatial records.
- *
- * @param {projectId} projectId
- * @returns {SQLStatement} sql query object
- */
 export const deleteProjectSpatialSQL = (projectId: number | undefined): SQLStatement | null => {
   defaultLog.debug({
     label: 'deleteProjectSpatialSQL',
@@ -249,6 +243,27 @@ export const deleteProjectSpatialSQL = (projectId: number | undefined): SQLState
 };
 
 /**
+ * SQL query to delete region associated to a project ID.
+ *
+ * @param {number} projectId
+ * @returns {SQLStatement} sql query object
+ */
+export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatement | null => {
+  if (!projectId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+      DELETE
+        from nrm_region
+      WHERE
+        project_id = ${projectId};
+    `;
+
+  return sqlStatement;
+};
+
+/**
  * SQL query to delete a project row (and associated data) based on project ID.
  *
  * @param {number} projectId
@@ -273,6 +288,23 @@ export const deleteProjectSQL = (projectId: number): SQLStatement | null => {
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
   });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to delete all species associated to a project ID.
+ *
+ * @param {number} projectId
+ * @returns {SQLStatement} sql query object
+ */
+export const deleteProjectSpeciesSQL = (projectId: number): SQLStatement => {
+  const sqlStatement: SQLStatement = SQL`
+    DELETE
+      from project_species
+    WHERE
+      project_id = ${projectId};
+  `;
 
   return sqlStatement;
 };

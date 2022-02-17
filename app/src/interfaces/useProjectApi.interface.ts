@@ -198,6 +198,7 @@ export interface IGetProjectForUpdateResponsePartnerships {
  */
 export interface IGetProjectForViewResponse {
   project: IGetProjectForViewResponseDetails;
+  species: IGetProjectForViewResponseSpecies;
   permit: IGetProjectForViewResponsePermit;
   location: IGetProjectForViewResponseLocation;
   contact: IGetProjectForViewResponseContact;
@@ -213,6 +214,12 @@ export interface IGetProjectForViewResponseDetails {
   end_date: string;
   publish_date: string;
   objectives: string;
+  region: string;
+}
+
+export interface IGetProjectForViewResponseSpecies {
+  focal_species: number[];
+  focal_species_names?: string[];
 }
 
 interface IGetProjectForViewResponsePermitArrayItem {
@@ -228,6 +235,7 @@ export interface IGetProjectForViewResponseLocation {
   geometry: Feature[];
   range: string;
   priority: string;
+  region: number;
 }
 
 interface IGetProjectForViewResponseContactArrayItem {

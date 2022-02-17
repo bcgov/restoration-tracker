@@ -43,7 +43,7 @@ GET.apiDoc = {
   ],
   responses: {
     200: {
-      description: 'Draft with matching draftId.',
+      description: 'Draft Project with matching projectId.',
       content: {
         'application/json': {
           schema: {

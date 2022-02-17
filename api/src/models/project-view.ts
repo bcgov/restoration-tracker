@@ -49,6 +49,23 @@ export class GetContactData {
   }
 }
 
+export class GetSpeciesData {
+  focal_species: number[];
+  focal_species_names: string[];
+
+  constructor(input?: any[]) {
+    this.focal_species = [];
+    this.focal_species_names = [];
+    input?.length &&
+      input.forEach((item: any) => {
+        this.focal_species.push(item.wldtaxonomic_units_id);
+        this.focal_species_names.push(
+          [item.english_name, item.unit_name1, item.unit_name2, item.unit_name3].filter(Boolean).join(' - ')
+        );
+      });
+  }
+}
+
 export interface IGetPermit {
   permit_number: string;
   permit_type: string;
@@ -72,10 +89,12 @@ export class GetPermitData {
 
 export class GetLocationData {
   geometry?: Feature[];
+  region: number;
 
-  constructor(locationData?: any) {
+  constructor(locationData?: any[], regionData?: any[]) {
     const locationDataItem = locationData && locationData.length && locationData[0];
     this.geometry = (locationDataItem?.geojson?.length && locationDataItem.geojson) || [];
+    this.region = regionData && regionData?.length && regionData[0]?.objectid;
   }
 }
 

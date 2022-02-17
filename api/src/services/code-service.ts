@@ -1,7 +1,8 @@
-import { coordinator_agency, region } from '../constants/codes';
+import { coordinator_agency } from '../constants/codes';
 import { queries } from '../queries/queries';
 import { getLogger } from '../utils/logger';
 import { DBService } from './service';
+import { getNRMRegions } from './../utils/spatial-utils';
 
 const defaultLog = getLogger('queries/code-queries');
 
@@ -26,7 +27,7 @@ export interface IAllCodeSets {
   funding_source: CodeSet;
   investment_action_category: CodeSet<{ id: number; fs_id: number; name: string }>;
   coordinator_agency: CodeSet;
-  region: CodeSet;
+  regions: CodeSet;
   iucn_conservation_action_level_1_classification: CodeSet;
   iucn_conservation_action_level_2_subclassification: CodeSet<{ id: number; iucn1_id: number; name: string }>;
   iucn_conservation_action_level_3_subclassification: CodeSet<{ id: number; iucn2_id: number; name: string }>;
@@ -34,6 +35,7 @@ export interface IAllCodeSets {
   project_roles: CodeSet;
   administrative_activity_status_type: CodeSet;
   ranges: CodeSet;
+  species: CodeSet;
 }
 
 export class CodeService extends DBService {
@@ -55,7 +57,8 @@ export class CodeService extends DBService {
       iucn_conservation_action_level_3_subclassification,
       system_roles,
       project_roles,
-      administrative_activity_status_type
+      administrative_activity_status_type,
+      species
     ] = await Promise.all([
       await this.connection.query(queries.codes.getFirstNationsSQL().text),
       await this.connection.query(queries.codes.getFundingSourceSQL().text),
@@ -65,7 +68,8 @@ export class CodeService extends DBService {
       await this.connection.query(queries.codes.getIUCNConservationActionLevel3SubclassificationSQL().text),
       await this.connection.query(queries.codes.getSystemRolesSQL().text),
       await this.connection.query(queries.codes.getProjectRolesSQL().text),
-      await this.connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text)
+      await this.connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text),
+      await this.connection.query(queries.codes.getTaxonsSQL().text)
     ]);
 
     return {
@@ -86,12 +90,13 @@ export class CodeService extends DBService {
       project_roles: (project_roles && project_roles.rows) || [],
       administrative_activity_status_type:
         (administrative_activity_status_type && administrative_activity_status_type.rows) || [],
+      species: (species && species.rows) || [],
       // TODO Temporarily hard coded list of code values below
       coordinator_agency,
-      region,
+      regions: (await getNRMRegions()) || [],
       ranges: [
-        { id: 1, name: 'test 1' },
-        { id: 2, name: 'test 2' }
+        { id: 1, name: 'range 1' },
+        { id: 2, name: 'range 2' }
       ]
     };
   }

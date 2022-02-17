@@ -601,7 +601,7 @@ describe('ProjectService', () => {
         await projectService.getLocationData(projectId);
         expect.fail();
       } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to get project location data');
+        expect((actualError as HTTPError).message).to.equal('Failed to get geometry data');
         expect((actualError as HTTPError).status).to.equal(400);
       }
     });

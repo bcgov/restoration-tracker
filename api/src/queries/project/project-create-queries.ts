@@ -285,3 +285,37 @@ export const postProjectIUCNSQL = (iucn3_id: number, project_id: number): SQLSta
 
   return sqlStatement;
 };
+
+/**
+ * SQL query to insert a focal species row into the study_species table.
+ *
+ * @param {number} speciesId
+ * @param {number} surveyId
+ * @returns {SQLStatement} sql query object
+ */
+export const postProjectSpeciesSQL = (speciesId: number, projectId: number): SQLStatement | null => {
+  defaultLog.debug({ label: 'postProjectSpeciesSQL', message: 'params', speciesId, projectId });
+
+  if (!speciesId || !projectId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    INSERT INTO project_species (
+      wldtaxonomic_units_id,
+      project_id
+    ) VALUES (
+      ${speciesId},
+      ${projectId}
+    ) RETURNING project_species_id as id;
+  `;
+
+  defaultLog.debug({
+    label: 'postProjectSpeciesSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
