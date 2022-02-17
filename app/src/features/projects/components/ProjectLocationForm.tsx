@@ -95,7 +95,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                 name="location.region"
                 labelId="nrm-region-select-label"
                 label="NRM Region"
-                value={values.location.region}
+                value={values.location.region ? values.location.region : ''}
                 onChange={formikProps.handleChange}
                 error={touched?.location?.region && Boolean(errors?.location?.region)}
                 displayEmpty
