@@ -89,13 +89,13 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <FormControl component="fieldset" required={true} fullWidth variant="outlined">
-              <InputLabel id="caribou-range-select-label">NRM Region</InputLabel>
+              <InputLabel id="nrm-region-select-label">NRM Region</InputLabel>
               <Select
                 id="nrm-region-select"
                 name="location.region"
                 labelId="nrm-region-select-label"
                 label="NRM Region"
-                value={values.location.region}
+                value={values.location.region ? values.location.region : ''}
                 onChange={formikProps.handleChange}
                 error={touched?.location?.region && Boolean(errors?.location?.region)}
                 displayEmpty
