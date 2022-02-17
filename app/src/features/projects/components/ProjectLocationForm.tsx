@@ -30,7 +30,7 @@ export interface IProjectLocationForm {
     geometry: Feature[];
     range: string;
     priority: string;
-    region: string;
+    region: number;
   };
 }
 
@@ -39,7 +39,7 @@ export const ProjectLocationFormInitialValues: IProjectLocationForm = {
     geometry: [],
     range: '',
     priority: 'false',
-    region: ''
+    region: ('' as unknown) as number
   }
 };
 
@@ -89,7 +89,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <FormControl component="fieldset" required={true} fullWidth variant="outlined">
-              <InputLabel id="caribou-range-select-label">NRM Region</InputLabel>
+              <InputLabel id="nrm-region-select-label">NRM Region</InputLabel>
               <Select
                 id="nrm-region-select"
                 name="location.region"
@@ -101,7 +101,9 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                 displayEmpty
                 inputProps={{ 'aria-label': 'NRM Region' }}>
                 {props.regions.map((item) => (
-                  <MenuItem key={item.value}>{item.label}</MenuItem>
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.label}
+                  </MenuItem>
                 ))}
               </Select>
               <FormHelperText>{errors?.location?.region}</FormHelperText>
