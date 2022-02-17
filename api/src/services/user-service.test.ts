@@ -244,7 +244,7 @@ describe('UserService', () => {
     });
 
     it('throws an error if it fails to get the current system user id', async () => {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => null });
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => (null as unknown) as number });
 
       const existingSystemUser = null;
       const getUserByIdentifierStub = sinon

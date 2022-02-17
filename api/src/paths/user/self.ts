@@ -47,9 +47,8 @@ GET.apiDoc = {
                 type: 'string'
               },
               record_end_date: {
-                description: 'Determines if the user record has expired',
-                type: 'string',
-                format: 'date'
+                oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
+                description: 'Determines if the user record has expired'
               },
               role_ids: {
                 description: 'list of role ids for the user',

@@ -7,10 +7,10 @@ const defaultLog = getLogger('queries/search/search-queries');
  * SQL query to get project geometries
  *
  * @param {boolean} isUserAdmin
- * @param {number | null} systemUserId
+ * @param {number} systemUserId
  * @returns {SQLStatement} sql query object
  */
-export const getSpatialSearchResultsSQL = (isUserAdmin: boolean, systemUserId: number | null): SQLStatement | null => {
+export const getSpatialSearchResultsSQL = (isUserAdmin: boolean, systemUserId?: number): SQLStatement | null => {
   defaultLog.debug({ label: 'getSpatialSearchResultsSQL', message: 'params', isUserAdmin, systemUserId });
 
   if (!systemUserId) {

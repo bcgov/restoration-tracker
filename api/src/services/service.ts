@@ -6,10 +6,10 @@ import { IDBConnection } from '../database/db';
  * @export
  * @class DBService
  */
-export class DBService {
-  connection: IDBConnection;
+export class DBService<T extends IDBConnection = IDBConnection> {
+  connection: T;
 
-  constructor(connection: IDBConnection) {
+  constructor(connection: T) {
     this.connection = connection;
   }
 }

@@ -24,14 +24,6 @@ import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
 
-export type ListSystemUsers = {
-  id: number;
-  user_identifier: string;
-  record_end_date: string;
-  role_ids: number[];
-  role_names: string[];
-};
-
 export class ProjectService extends DBService {
   /**
    * Gets the project participant, adding them if they do not already exist.
@@ -138,9 +130,10 @@ export class ProjectService extends DBService {
   }
 
   /**
-   *
+   * Get a project by its id.
    *
    * @param {number} projectId
+   * @param {boolean} isPublic
    * @return {*}
    * @memberof ProjectService
    */
@@ -178,7 +171,7 @@ export class ProjectService extends DBService {
     const sqlStatement = queries.project.getProjectSQL(projectId);
 
     if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL insert statement');
+      throw new HTTP400('Failed to build SQL get statement');
     }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
@@ -916,5 +909,17 @@ export class ProjectService extends DBService {
     if (!result || !result.rowCount) {
       throw new HTTP409('Failed to insert project spatial data');
     }
+  }
+
+  /**
+   * Get projects by their ids.
+   *
+   * @param {number[]} projectIds
+   * @param {boolean} isPublic
+   * @return {*}
+   * @memberof ProjectService
+   */
+  async getProjectsByIds(projectIds: number[], isPublic: boolean) {
+    return Promise.all(projectIds.map(async (projectId) => this.getProjectById(projectId, isPublic)));
   }
 }

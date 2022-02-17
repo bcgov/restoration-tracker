@@ -11,7 +11,7 @@ const agencies = ['Agency 1', 'Agency 2', 'Agency 3'];
 
 describe('ProjectContactItemForm', () => {
   it('renders correctly with default empty values', () => {
-    const { asFragment } = render(
+    const { getByTestId } = render(
       <Formik
         initialValues={ProjectContactItemInitialValues}
         validationSchema={ProjectContactItemYupSchema}
@@ -22,7 +22,10 @@ describe('ProjectContactItemForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('first_name')).toBeVisible();
+    expect(getByTestId('last_name')).toBeVisible();
+    expect(getByTestId('email_address')).toBeVisible();
+    expect(getByTestId('contact_agency')).toBeVisible();
   });
 
   it('renders renders correctly with exsisting values', () => {
@@ -35,7 +38,7 @@ describe('ProjectContactItemForm', () => {
       is_primary: 'true'
     };
 
-    const { asFragment } = render(
+    const { getByTestId, getByDisplayValue } = render(
       <Formik
         initialValues={exsistingValues}
         validationSchema={ProjectContactItemYupSchema}
@@ -46,6 +49,13 @@ describe('ProjectContactItemForm', () => {
       </Formik>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(getByTestId('first_name')).toBeVisible();
+    expect(getByTestId('last_name')).toBeVisible();
+    expect(getByTestId('email_address')).toBeVisible();
+    expect(getByTestId('contact_agency')).toBeVisible();
+    expect(getByDisplayValue('John')).toBeVisible();
+    expect(getByDisplayValue('Doe')).toBeVisible();
+    expect(getByDisplayValue('jd@example.com')).toBeVisible();
+    expect(getByDisplayValue('A Rocha Canada')).toBeVisible();
   });
 });
