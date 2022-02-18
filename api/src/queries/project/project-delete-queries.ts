@@ -264,6 +264,27 @@ export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatem
 };
 
 /**
+ * SQL query to delete range associated to a project ID.
+ *
+ * @param {number} projectId
+ * @returns {SQLStatement} sql query object
+ */
+export const deleteProjectRangeSQL = (projectId: number | undefined): SQLStatement | null => {
+  if (!projectId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+      DELETE
+        from project_caribou_population_unit
+      WHERE
+        project_id = ${projectId};
+    `;
+
+  return sqlStatement;
+};
+
+/**
  * SQL query to delete a project row (and associated data) based on project ID.
  *
  * @param {number} projectId

@@ -28,16 +28,16 @@ import yup from 'utils/YupSchema';
 export interface IProjectLocationForm {
   location: {
     geometry: Feature[];
-    range: string;
     priority: string;
     region: number;
+    range: number;
   };
 }
 
 export const ProjectLocationFormInitialValues: IProjectLocationForm = {
   location: {
     geometry: [],
-    range: '',
+    range: ('' as unknown) as number,
     priority: 'false',
     region: ('' as unknown) as number
   }

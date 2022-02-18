@@ -89,7 +89,12 @@ const EditProjectPage: React.FC = () => {
     const getEditProjectFields = async () => {
       const response = await restorationTrackerApi.project.getProjectById(urlParams['id']);
 
+      console.log(response);
+
+
       setInitialProjectFormData(response);
+
+      console.log(initialProjectFormData);
 
       if (!response || !response.project.project_id) {
         return;

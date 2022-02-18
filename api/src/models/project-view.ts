@@ -90,11 +90,13 @@ export class GetPermitData {
 export class GetLocationData {
   geometry?: Feature[];
   region: number;
+  range: number;
 
-  constructor(locationData?: any[], regionData?: any[]) {
+  constructor(locationData?: any[], regionData?: any[], rangeData?: any[]) {
     const locationDataItem = locationData && locationData.length && locationData[0];
     this.geometry = (locationDataItem?.geojson?.length && locationDataItem.geojson) || [];
     this.region = regionData && regionData?.length && regionData[0]?.objectid;
+    this.range = rangeData && rangeData?.length && rangeData[0]?.objectid;
   }
 }
 

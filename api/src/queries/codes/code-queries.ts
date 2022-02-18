@@ -88,3 +88,11 @@ export const getTaxonsSQL = (): SQLStatement =>
       end_date is null
     ORDER BY
       name;`;
+
+/**
+ * SQL query to fetch caribou population name codes.
+ *
+ * @returns {SQLStatement} sql query object
+ */
+export const getCaribouPopulationUnitsSQL = (): SQLStatement =>
+  SQL`SELECT caribou_population_unit_id as id, name from caribou_population_unit ORDER BY name ASC;`;

@@ -406,9 +406,10 @@ export class ProjectService extends DBService {
   }
 
   async getLocationData(projectId: number): Promise<GetLocationData> {
-    const [geometryRows, regionRows] = await Promise.all([
+    const [geometryRows, regionRows, rangeRows] = await Promise.all([
       this.getGeometryData(projectId),
-      this.getRegionData(projectId)
+      this.getRegionData(projectId),
+      this.getRangeData(projectId)
     ]);
 
     if (!geometryRows) {
@@ -419,7 +420,11 @@ export class ProjectService extends DBService {
       throw new HTTP400('Failed to get region data');
     }
 
-    return new GetLocationData(geometryRows, regionRows);
+    if (!rangeRows) {
+      throw new HTTP400('Failed to get range data');
+    }
+
+    return new GetLocationData(geometryRows, regionRows, rangeRows);
   }
 
   async getGeometryData(projectId: number): Promise<any[]> {
@@ -454,6 +459,24 @@ export class ProjectService extends DBService {
     `;
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    return (response && response.rows) || null;
+  }
+
+  async getRangeData(projectId: number): Promise<any> {
+    const sqlStatement = SQL`
+      SELECT
+        *
+      FROM
+        project_caribou_population_unit
+      WHERE
+        project_id = ${projectId};
+    `;
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    console.log('//////////////////////////////');
+    console.log(response);
 
     return (response && response.rows) || null;
   }
@@ -529,6 +552,9 @@ export class ProjectService extends DBService {
 
     // Handle region associated to this project
     promises.push(this.insertRegion(postProjectData.location.region, projectId));
+
+    // Handle range associated to this project
+    promises.push(this.insertRange(postProjectData.location.range, projectId));
 
     await Promise.all(promises);
 
@@ -797,6 +823,32 @@ export class ProjectService extends DBService {
     return result.id;
   }
 
+  async insertRange(rangeNumber: number, projectId: number): Promise<number> {
+    const sqlStatement = SQL`
+      INSERT INTO project_caribou_population_unit (
+        project_id,
+        caribou_population_unit_id,
+        name
+      ) VALUES (
+        ${projectId},
+        ${rangeNumber},
+        ${rangeNumber}
+      )
+      RETURNING
+      project_caribou_population_unit_id as id;
+    `;
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    const result = (response && response.rows && response.rows[0]) || null;
+
+    if (!result || !result.id) {
+      throw new HTTP400('Failed to insert project range data');
+    }
+
+    return result.id;
+  }
+
   async updateProject(projectId: number, entities: IUpdateProject) {
     const promises: Promise<any>[] = [];
 
@@ -1044,6 +1096,24 @@ export class ProjectService extends DBService {
       return;
     }
     await this.insertRegion(putRegionData.region, projectId);
+  }
+
+  async updateProjectRangeData(projectId: number, entities: IUpdateProject): Promise<void> {
+    const putRangeData = entities?.location && new models.project.PutLocationData(entities.location);
+
+    const projectRangeDeleteStatement = queries.project.deleteProjectRangeSQL(projectId);
+
+    if (!projectRangeDeleteStatement) {
+      throw new HTTP500('Failed to build SQL delete statement');
+    }
+
+    await this.connection.query(projectRangeDeleteStatement.text, projectRangeDeleteStatement.values);
+
+    if (!putRangeData?.region) {
+      // No spatial data to insert
+      return;
+    }
+    await this.insertRange(putRangeData.range, projectId);
   }
 
   async updateProjectSpeciesData(projectId: number, entities: IUpdateProject): Promise<void> {
