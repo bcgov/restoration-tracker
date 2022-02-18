@@ -93,12 +93,11 @@ const PublicProjectPage = () => {
   }, [isLoadingProject, projectWithDetails, getProject]);
 
   const getProjectStatusType = (projectData: IGetProjectForViewResponse): ProjectStatusType => {
-    return (
-      (projectData.project.end_date &&
-        moment(projectData.project.end_date).endOf('day').isBefore(moment()) &&
-        ProjectStatusType.COMPLETED) ||
-      ProjectStatusType.ACTIVE
-    );
+    if (projectData.project.end_date && moment(projectData.project.end_date).endOf('day').isBefore(moment())) {
+      return ProjectStatusType.COMPLETED;
+    }
+
+    return ProjectStatusType.ACTIVE;
   };
 
   const getChipIcon = (status_name: string) => {

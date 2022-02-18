@@ -26,8 +26,19 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @param {number} userId
    * @return {*} {Promise<IGetProjectsListResponse[]>}
    */
-  const getAllUserProjectsForView = async (userId: number): Promise<IGetUserProjectsListResponse[]> => {
-    const { data } = await axios.get(`/api/user/${userId}/projects/get`);
+  const getAllUserProjectsParticipation = async (userId: number): Promise<IGetUserProjectsListResponse[]> => {
+    const { data } = await axios.get(`/api/user/${userId}/projects/participation/get`);
+    return data;
+  };
+
+  /**
+   * Get all projects a user is a participant (member) of.
+   *
+   * @param {number} userId
+   * @return {*} {Promise<IGetProjectForViewResponse[]>}
+   */
+  const getUserProjectsList = async (userId: number): Promise<IGetProjectForViewResponse[]> => {
+    const { data } = await axios.get(`/api/user/${userId}/projects/list`);
     return data;
   };
 
@@ -299,7 +310,7 @@ const useProjectApi = (axios: AxiosInstance) => {
   };
 
   return {
-    getAllUserProjectsForView,
+    getAllUserProjectsParticipation,
     getProjectsList,
     createProject,
     getProjectById,
@@ -317,7 +328,8 @@ const useProjectApi = (axios: AxiosInstance) => {
     getProjectParticipants,
     addProjectParticipants,
     removeProjectParticipant,
-    updateProjectParticipantRole
+    updateProjectParticipantRole,
+    getUserProjectsList
   };
 };
 

@@ -162,7 +162,7 @@ const CheckIfAuthenticatedUser: React.FC = ({ children }) => {
 
   const location = useLocation();
 
-  if (!keycloakWrapper?.isSystemUser()) {
+  if (!keycloakWrapper?.systemUserId) {
     // User is not a registered system user
     if (keycloakWrapper?.hasAccessRequest) {
       // The user has a pending access request, restrict them to the request-submitted or logout pages

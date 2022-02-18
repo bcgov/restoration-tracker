@@ -69,7 +69,7 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
 
   const handleGetUserProjects = useCallback(
     async (userId: number) => {
-      const userProjectsListResponse = await restorationTrackerApi.project.getAllUserProjectsForView(userId);
+      const userProjectsListResponse = await restorationTrackerApi.project.getAllUserProjectsParticipation(userId);
       setAssignedProjects(userProjectsListResponse);
     },
     [restorationTrackerApi.project]

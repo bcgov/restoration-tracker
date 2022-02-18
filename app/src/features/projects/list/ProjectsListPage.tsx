@@ -40,14 +40,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export interface IProjectsListProps {
   projects: IGetProjectForViewResponse[];
-  drafts: IGetDraftsListResponse[];
+  drafts?: IGetDraftsListResponse[];
 }
 
-/**
- * Page to display a list of projects.
- *
- * @return {*}
- */
 const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
   const { projects, drafts } = props;
 
@@ -57,12 +52,11 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
   const projectCount = projects.length;
 
   const getProjectStatusType = (projectData: IGetProjectForViewResponse): ProjectStatusType => {
-    return (
-      (projectData.project.end_date &&
-        moment(projectData.project.end_date).endOf('day').isBefore(moment()) &&
-        ProjectStatusType.COMPLETED) ||
-      ProjectStatusType.ACTIVE
-    );
+    if (projectData.project.end_date && moment(projectData.project.end_date).endOf('day').isBefore(moment())) {
+      return ProjectStatusType.COMPLETED;
+    }
+
+    return ProjectStatusType.ACTIVE;
   };
 
   const getChipIcon = (statusType: ProjectStatusType) => {
@@ -83,92 +77,6 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
   };
 
-  const navigateToCreateProjectPage = (draftId?: number) => {
-    if (draftId) {
-      history.push(`/admin/projects/create?draftId=${draftId}`);
-      return;
-    }
-
-    history.push('/admin/projects/create');
-  };
-
-  const navigateToProjectPage = (id: number) => {
-    history.push(`/admin/projects/${id}`);
-  };
-
-  const getProjectsTableData = () => {
-    const hasProjects = projects?.length > 0;
-    const hasDrafts = drafts?.length > 0;
-
-    return (
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Project Name</TableCell>
-              <TableCell>Activities</TableCell>
-              <TableCell>Permits</TableCell>
-              <TableCell>Contact Agencies</TableCell>
-              <TableCell>Start Date</TableCell>
-              <TableCell>Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody data-testid="project-table">
-            {!hasDrafts && !hasProjects && (
-              <TableRow>
-                <TableCell colSpan={6}>
-                  <Box display="flex" justifyContent="center">
-                    No Results
-                  </Box>
-                </TableCell>
-              </TableRow>
-            )}
-            {hasDrafts &&
-              drafts?.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    <Link
-                      data-testid={row.name}
-                      underline="always"
-                      component="button"
-                      className={classes.linkButton}
-                      variant="body2"
-                      onClick={() => navigateToCreateProjectPage(row.id)}>
-                      {row.name}
-                    </Link>
-                  </TableCell>
-                  <TableCell />
-                  <TableCell />
-                  <TableCell />
-                  <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
-                </TableRow>
-              ))}
-            {hasProjects &&
-              projects?.map((row) => (
-                <TableRow key={row.project.project_id}>
-                  <TableCell component="th" scope="row">
-                    <Link
-                      data-testid={row.project.project_name}
-                      underline="always"
-                      component="button"
-                      variant="body2"
-                      onClick={() => navigateToProjectPage(row.project.project_id)}>
-                      {row.project.project_name}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{row.project.objectives}</TableCell>
-                  <TableCell>{row.permit.permits.map((item) => item.permit_number).join(', ')}</TableCell>
-                  <TableCell>{row.contact.contacts.map((item) => item.agency).join(', ')}</TableCell>
-                  <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.start_date)}</TableCell>
-                  <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  };
-
   /**
    * Displays project list.
    */
@@ -179,7 +87,72 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
           Found {projectCount} {projectCount !== 1 ? 'projects' : 'project'}
         </Typography>
       </Box>
-      <Box>{getProjectsTableData()}</Box>
+      <Box>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Project Name</TableCell>
+                <TableCell>Activities</TableCell>
+                <TableCell>Permits</TableCell>
+                <TableCell>Contact Agencies</TableCell>
+                <TableCell>Start Date</TableCell>
+                <TableCell>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody data-testid="project-table">
+              {!drafts?.length && !projects?.length && (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <Box display="flex" justifyContent="center">
+                      No Results
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              )}
+              {drafts?.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    <Link
+                      data-testid={row.name}
+                      underline="always"
+                      component="button"
+                      className={classes.linkButton}
+                      variant="body2"
+                      onClick={() => history.push(`/admin/projects/create?draftId=${row.id}`)}>
+                      {row.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell />
+                  <TableCell />
+                  <TableCell />
+                  <TableCell />
+                  <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
+                </TableRow>
+              ))}
+              {projects?.map((row) => (
+                <TableRow key={row.project.project_id}>
+                  <TableCell component="th" scope="row">
+                    <Link
+                      data-testid={row.project.project_name}
+                      underline="always"
+                      component="button"
+                      variant="body2"
+                      onClick={() => history.push(`/admin/projects/${row.project.project_id}`)}>
+                      {row.project.project_name}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{row.project.objectives}</TableCell>
+                  <TableCell>{row.permit.permits.map((item) => item.permit_number).join(', ')}</TableCell>
+                  <TableCell>{row.contact.contacts.map((item) => item.agency).join(', ')}</TableCell>
+                  <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.start_date)}</TableCell>
+                  <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </Card>
   );
 };

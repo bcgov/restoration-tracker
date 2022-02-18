@@ -7,6 +7,8 @@ import { SYSTEM_ROLE } from 'constants/roles';
 import AdminUsersRouter from 'features/admin/AdminUsersRouter';
 import ProjectsRouter from 'features/projects/ProjectsRouter';
 import PublicProjectsRouter from 'features/projects/PublicProjectsRouter';
+import SearchPage from 'features/search/SearchPage';
+import UserRouter from 'features/user/UserRouter';
 import PublicLayout from 'layouts/PublicLayout';
 import RequestSubmitted from 'pages/200/RequestSubmitted';
 import AccessDenied from 'pages/403/AccessDenied';
@@ -16,7 +18,6 @@ import LogOutPage from 'pages/logout/LogOutPage';
 import React from 'react';
 import { Redirect, Switch, useLocation } from 'react-router-dom';
 import AppRoute from 'utils/AppRoute';
-import SearchPage from 'features/search/SearchPage';
 
 const AppRouter: React.FC = () => {
   const location = useLocation();
@@ -68,6 +69,12 @@ const AppRouter: React.FC = () => {
       <AppRoute path="/admin/projects" title={getTitle('Projects')} layout={PublicLayout}>
         <AuthenticatedRouteGuard>
           <ProjectsRouter />
+        </AuthenticatedRouteGuard>
+      </AppRoute>
+
+      <AppRoute path="/admin/user" title={getTitle('My Projects')} layout={PublicLayout}>
+        <AuthenticatedRouteGuard>
+          <UserRouter />
         </AuthenticatedRouteGuard>
       </AppRoute>
 

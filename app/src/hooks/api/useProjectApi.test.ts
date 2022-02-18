@@ -19,8 +19,8 @@ describe('useProjectApi', () => {
   const projectId = 1;
   const attachmentId = 1;
 
-  it('getAllUserProjectsForView works as expected', async () => {
-    mock.onGet(`/api/user/${userId}/projects/get`).reply(200, [
+  it('getAllUserProjectsParticipation works as expected', async () => {
+    mock.onGet(`/api/user/${userId}/projects/participation/get`).reply(200, [
       {
         project_id: 321,
         name: 'test',
@@ -30,7 +30,7 @@ describe('useProjectApi', () => {
       }
     ]);
 
-    const result = await useProjectApi(axios).getAllUserProjectsForView(123);
+    const result = await useProjectApi(axios).getAllUserProjectsParticipation(123);
 
     expect(result[0]).toEqual({
       project_id: 321,
@@ -38,6 +38,24 @@ describe('useProjectApi', () => {
       system_user_id: 1,
       project_role_id: 2,
       project_participation_id: 3
+    });
+  });
+
+  it('getUserProjectsList works as expected', async () => {
+    mock.onGet(`/api/user/${userId}/projects/list`).reply(200, [
+      {
+        project: {
+          project_id: 1
+        }
+      }
+    ]);
+
+    const result = await useProjectApi(axios).getUserProjectsList(123);
+
+    expect(result[0]).toEqual({
+      project: {
+        project_id: 1
+      }
     });
   });
 
