@@ -105,23 +105,14 @@ export class SearchService extends DBService {
     }
 
     if (criteria.ranges) {
-      !joins.includes('project_caribou_population_unit') &&
-        queryBuilder.leftJoin(
-          'project_caribou_population_unit',
-          'project.project_id',
-          'project_caribou_population_unit.project_id'
-        );
-      !joins.includes('caribou_population_unit') &&
-        queryBuilder.leftJoin(
-          'caribou_population_unit',
-          'project_caribou_population_unit.caribou_population_unit_id',
-          'caribou_population_unit.caribou_population_unit_id'
-        );
-
-      joins.push('project_caribou_population_unit', 'caribou_population_unit');
+      queryBuilder.leftJoin(
+        'project_caribou_population_unit',
+        'project.project_id',
+        'project_caribou_population_unit.project_id'
+      );
 
       queryBuilder.and.whereIn(
-        'caribou_population_unit.name',
+        'project_caribou_population_unit.caribou_population_unit_id',
         (Array.isArray(criteria.ranges) && criteria.ranges) || [criteria.ranges]
       );
     }

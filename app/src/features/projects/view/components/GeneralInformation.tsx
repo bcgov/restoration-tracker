@@ -31,6 +31,21 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
     );
   };
 
+  const checkForCaribouSpecies = (focalSpecies: string[]): boolean => {
+    return focalSpecies.some((item) => {
+      return (item.includes('Caribou')) ? true : false;
+    });
+  };
+
+  const getRangeName = (rangeNumber: number) => {
+    const codeValue = props.codes.ranges.find((code) => code.id === rangeNumber);
+    return (
+      <Typography variant="body2" component="dt" data-testid="project-region">
+        {codeValue?.name}
+      </Typography>
+    );
+  };
+
   return (
     <>
       <Box component="dl" data-testid="general_info_component">
@@ -48,6 +63,14 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
           </Typography>
           {getRegionName(location.region)}
         </div>
+        {species && species.focal_species_names && checkForCaribouSpecies(species.focal_species_names) && (
+          <div>
+            <Typography variant="body2" component="dd" color="textSecondary">
+              Range:
+            </Typography>
+            {getRangeName(location.range)}
+          </div>
+        )}
         <div>
           <Typography variant="body2" component="dd" color="textSecondary">
             Start Date:

@@ -96,7 +96,7 @@ export class GetLocationData {
     const locationDataItem = locationData && locationData.length && locationData[0];
     this.geometry = (locationDataItem?.geojson?.length && locationDataItem.geojson) || [];
     this.region = regionData && regionData?.length && regionData[0]?.objectid;
-    this.range = rangeData && rangeData?.length && rangeData[0]?.objectid;
+    this.range = rangeData && rangeData?.length && rangeData[0]?.caribou_population_unit_id;
   }
 }
 

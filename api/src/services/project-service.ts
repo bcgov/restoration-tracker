@@ -475,9 +475,6 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    console.log('//////////////////////////////');
-    console.log(response);
-
     return (response && response.rows) || null;
   }
 
@@ -827,11 +824,9 @@ export class ProjectService extends DBService {
     const sqlStatement = SQL`
       INSERT INTO project_caribou_population_unit (
         project_id,
-        caribou_population_unit_id,
-        name
+        caribou_population_unit_id
       ) VALUES (
         ${projectId},
-        ${rangeNumber},
         ${rangeNumber}
       )
       RETURNING
@@ -879,6 +874,7 @@ export class ProjectService extends DBService {
     if (entities?.location) {
       promises.push(this.updateProjectSpatialData(projectId, entities));
       promises.push(this.updateProjectRegionData(projectId, entities));
+      promises.push(this.updateProjectRangeData(projectId, entities));
     }
     if (entities?.species) {
       promises.push(this.updateProjectSpeciesData(projectId, entities));
