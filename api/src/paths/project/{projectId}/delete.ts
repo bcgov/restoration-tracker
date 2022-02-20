@@ -5,8 +5,8 @@ import { getDBConnection } from '../../../database/db';
 import { HTTP400 } from '../../../errors/custom-error';
 import { queries } from '../../../queries/queries';
 import { authorizeRequestHandler } from '../../../request-handlers/security/authorization';
+import { AttachmentService } from '../../../services/attachment-service';
 import { AuthorizationService } from '../../../services/authorization-service';
-import { deleteFileFromS3 } from '../../../utils/file-utils';
 import { getLogger } from '../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/delete');
@@ -77,6 +77,7 @@ export function deleteProject(): RequestHandler {
       throw new HTTP400('Missing required path param: `projectId`');
     }
 
+    const projectId = Number(req.params.projectId);
     const connection = getDBConnection(req['keycloak_token']);
 
     try {
@@ -86,7 +87,7 @@ export function deleteProject(): RequestHandler {
        * Check that user is a project administrator - can delete a project (unpublished only)
        *
        */
-      const getProjectSQLStatement = queries.project.getProjectSQL(Number(req.params.projectId));
+      const getProjectSQLStatement = queries.project.getProjectSQL(projectId);
 
       if (!getProjectSQLStatement) {
         throw new HTTP400('Failed to build SQL get statement');
@@ -111,51 +112,21 @@ export function deleteProject(): RequestHandler {
 
       /**
        * PART 2
-       * Get the attachment S3 keys for all attachments associated to this project
-       * Used to delete them from S3 separately later
+       * Delete all the project related and all associated records/resources from our DB
        */
-      const getProjectAttachmentSQLStatement = queries.project.getProjectAttachmentsSQL(Number(req.params.projectId));
-
-      if (!getProjectAttachmentSQLStatement) {
-        throw new HTTP400('Failed to build SQL get statement');
-      }
-
-      const getProjectAttachmentsResult = await connection.query(
-        getProjectAttachmentSQLStatement.text,
-        getProjectAttachmentSQLStatement.values
-      );
-
-      if (!getProjectAttachmentsResult || !getProjectAttachmentsResult.rows) {
-        throw new HTTP400('Failed to get project attachments');
-      }
-
-      const projectAttachmentS3Keys: string[] = getProjectAttachmentsResult.rows.map((attachment: any) => {
-        return attachment.key;
-      });
+      await new AttachmentService(connection).deleteAllAttachments(projectId);
 
       /**
        * PART 3
        * Delete the project and all associated records/resources from our DB
        */
-      const deleteProjectSQLStatement = queries.project.deleteProjectSQL(Number(req.params.projectId));
+      const deleteProjectSQLStatement = queries.project.deleteProjectSQL(projectId);
 
       if (!deleteProjectSQLStatement) {
         throw new HTTP400('Failed to build SQL delete statement');
       }
 
       await connection.query(deleteProjectSQLStatement.text, deleteProjectSQLStatement.values);
-
-      /**
-       * PART 3
-       * Delete the project attachments from S3
-       */
-      const deleteResult = [
-        ...(await Promise.all(projectAttachmentS3Keys.map((projectS3Key: string) => deleteFileFromS3(projectS3Key))))
-      ];
-
-      if (deleteResult.some((deleteResult) => !deleteResult)) {
-        return res.status(200).json(null);
-      }
 
       await connection.commit();
 

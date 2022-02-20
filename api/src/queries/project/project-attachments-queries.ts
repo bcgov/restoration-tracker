@@ -23,8 +23,7 @@ export const getProjectAttachmentsSQL = (projectId: number): SQLStatement | null
       update_date,
       create_date,
       file_size,
-      key,
-      security_token
+      key
     from
       project_attachment
     where
@@ -65,41 +64,6 @@ export const deleteProjectAttachmentSQL = (attachmentId: number): SQLStatement |
 
   defaultLog.debug({
     label: 'deleteProjectAttachmentSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to get S3 key of an attachment for a single project.
- *
- * @param {number} projectId
- * @param {number} attachmentId
- * @returns {SQLStatement} sql query object
- */
-export const getProjectAttachmentS3KeySQL = (projectId: number, attachmentId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectAttachmentS3KeySQL', message: 'params', projectId });
-
-  if (!projectId || !attachmentId) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-    SELECT
-      key
-    FROM
-      project_attachment
-    WHERE
-      project_id = ${projectId}
-    AND
-      project_attachment_id = ${attachmentId};
-  `;
-
-  defaultLog.debug({
-    label: 'getProjectAttachmentS3KeySQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

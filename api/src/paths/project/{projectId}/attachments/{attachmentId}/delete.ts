@@ -1,17 +1,16 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../../constants/roles';
-import { getDBConnection, IDBConnection } from '../../../../../database/db';
+import { getDBConnection } from '../../../../../database/db';
 import { HTTP400 } from '../../../../../errors/custom-error';
-import { queries } from '../../../../../queries/queries';
 import { authorizeRequestHandler } from '../../../../../request-handlers/security/authorization';
-import { deleteFileFromS3 } from '../../../../../utils/file-utils';
+import { AttachmentService } from '../../../../../services/attachment-service';
 import { getLogger } from '../../../../../utils/logger';
 import { attachmentApiDocObject } from '../../../../../utils/shared-api-docs';
 
 const defaultLog = getLogger('/api/project/{projectId}/attachments/{attachmentId}/delete');
 
-export const POST: Operation = [
+export const DELETE: Operation = [
   authorizeRequestHandler((req) => {
     return {
       and: [
@@ -26,20 +25,12 @@ export const POST: Operation = [
   deleteAttachment()
 ];
 
-POST.apiDoc = {
+DELETE.apiDoc = {
   ...attachmentApiDocObject(
     'Delete an attachment of a project.',
     'Row count of successfully deleted attachment record'
   ),
   parameters: [
-    {
-      in: 'path',
-      name: 'projectId',
-      schema: {
-        type: 'number'
-      },
-      required: true
-    },
     {
       in: 'path',
       name: 'attachmentId',
@@ -65,32 +56,19 @@ export function deleteAttachment(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'Delete attachment', message: 'params', req_params: req.params });
 
-    if (!req.params.projectId) {
-      throw new HTTP400('Missing required path param `projectId`');
-    }
+    if (!req.params.attachmentId) throw new HTTP400('Missing required path param `attachmentId`');
 
-    if (!req.params.attachmentId) {
-      throw new HTTP400('Missing required path param `attachmentId`');
-    }
-
+    const attachmentId = Number(req.params.attachmentId);
     const connection = getDBConnection(req['keycloak_token']);
 
     try {
       await connection.open();
 
-      // If the attachment record is currently secured, need to unsecure it prior to deleting it
-      if (req.body.securityToken) {
-        await unsecureProjectAttachmentRecord(req.body.securityToken, connection);
-      }
-      const deleteResult: { key: string } = await deleteProjectAttachment(Number(req.params.attachmentId), connection);
+      const attachmentService = new AttachmentService(connection);
+
+      await attachmentService.deleteAttachment(attachmentId);
 
       await connection.commit();
-
-      const deleteFileResult = await deleteFileFromS3(deleteResult.key);
-
-      if (!deleteFileResult) {
-        return res.status(200).json(null);
-      }
 
       return res.status(200).send();
     } catch (error) {
@@ -102,39 +80,3 @@ export function deleteAttachment(): RequestHandler {
     }
   };
 }
-
-const unsecureProjectAttachmentRecord = async (securityToken: any, connection: IDBConnection): Promise<void> => {
-  const unsecureRecordSQLStatement = queries.security.unsecureAttachmentRecordSQL('project_attachment', securityToken);
-
-  if (!unsecureRecordSQLStatement) {
-    throw new HTTP400('Failed to build SQL unsecure record statement');
-  }
-
-  const unsecureRecordSQLResponse = await connection.query(
-    unsecureRecordSQLStatement.text,
-    unsecureRecordSQLStatement.values
-  );
-
-  if (!unsecureRecordSQLResponse || !unsecureRecordSQLResponse.rowCount) {
-    throw new HTTP400('Failed to unsecure record');
-  }
-};
-
-export const deleteProjectAttachment = async (
-  attachmentId: number,
-  connection: IDBConnection
-): Promise<{ key: string }> => {
-  const sqlStatement = queries.project.deleteProjectAttachmentSQL(attachmentId);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL delete project attachment statement');
-  }
-
-  const response = await connection.query(sqlStatement.text, sqlStatement.values);
-
-  if (!response || !response.rowCount) {
-    throw new HTTP400('Failed to delete project attachment record');
-  }
-
-  return response.rows[0];
-};
