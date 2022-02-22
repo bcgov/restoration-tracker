@@ -338,7 +338,7 @@ describe('UserService', () => {
 
       const existingSystemUser = new UserObject({
         system_user_id: 2,
-        user_identifier:SYSTEM_IDENTITY_SOURCE.IDIR,
+        user_identifier: SYSTEM_IDENTITY_SOURCE.IDIR,
         record_end_date: '2021-11-22',
         role_ids: [1],
         role_names: ['Editor']

@@ -45,7 +45,6 @@ describe('Header', () => {
     expect(queryByText('Manage Users')).not.toBeInTheDocument();
   });
 
-
   it('renders correctly with system admin role', () => {
     const mockHasSystemRole = jest.fn();
 
