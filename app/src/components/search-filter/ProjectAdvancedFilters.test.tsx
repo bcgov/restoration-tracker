@@ -10,7 +10,7 @@ describe('ProjectAdvancedFilters', () => {
     const { getByLabelText } = render(
       <MemoryRouter>
         <Formik initialValues={[]} onSubmit={() => {}}>
-          <ProjectAdvancedFilters species={[]} funding_agency={[]} contact_agency={[]} />
+          <ProjectAdvancedFilters species={[]} funding_agency={[]} contact_agency={[]} ranges={[]} region={[]} />
         </Formik>
       </MemoryRouter>
     );
@@ -41,7 +41,13 @@ describe('ProjectAdvancedFilters', () => {
     const { getByTestId, getAllByTestId } = render(
       <MemoryRouter>
         <Formik initialValues={[]} onSubmit={() => {}}>
-          <ProjectAdvancedFilters species={species} funding_agency={funding_agency} contact_agency={contact_agency} />
+          <ProjectAdvancedFilters
+            species={species}
+            funding_agency={funding_agency}
+            contact_agency={contact_agency}
+            ranges={[]}
+            region={[]}
+          />
         </Formik>
       </MemoryRouter>
     );
@@ -82,7 +88,13 @@ describe('ProjectAdvancedFilters', () => {
     const { queryByText } = render(
       <MemoryRouter>
         <Formik<IProjectAdvancedFilters> initialValues={ProjectAdvancedFiltersInitialValues} onSubmit={() => {}}>
-          <ProjectAdvancedFilters species={species} funding_agency={funding_agency} contact_agency={contact_agency} />
+          <ProjectAdvancedFilters
+            species={species}
+            funding_agency={funding_agency}
+            contact_agency={contact_agency}
+            ranges={[]}
+            region={[]}
+          />
         </Formik>
       </MemoryRouter>
     );
