@@ -18,6 +18,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, useHistory } from 'react-router';
 import BCeIDRequestForm, { BCeIDRequestFormInitialValues, BCeIDRequestFormYupSchema } from './BCeIDRequestForm';
 import IDIRRequestForm, { IDIRRequestFormInitialValues, IDIRRequestFormYupSchema } from './IDIRRequestForm';
+import { SYSTEM_IDENTITY_SOURCE } from 'components/layout/Header';
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
@@ -143,7 +144,7 @@ export const AccessRequestPage: React.FC = () => {
   let validationSchema: any;
   let requestForm: any;
 
-  if (keycloakWrapper?.getIdentitySource()?.toLowerCase() === 'bceid') {
+  if (keycloakWrapper?.getIdentitySource()?.toUpperCase() === SYSTEM_IDENTITY_SOURCE.BCEID) {
     initialValues = BCeIDRequestFormInitialValues;
     validationSchema = BCeIDRequestFormYupSchema;
     requestForm = <BCeIDRequestForm />;

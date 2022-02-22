@@ -1,10 +1,11 @@
-import { codes } from 'test-helpers/code-helpers';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { SYSTEM_IDENTITY_SOURCE } from 'components/layout/Header';
 import AccessRequestList from 'features/admin/users/AccessRequestList';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IAccessRequestDataObject, IGetAccessRequestsListResponse } from 'interfaces/useAdminApi.interface';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import React from 'react';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { codes } from 'test-helpers/code-helpers';
 
 jest.mock('../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
@@ -59,8 +60,10 @@ describe('AccessRequestList', () => {
             username: 'testusername',
             email: 'email@email.com',
             role: 2,
-            identitySource: 'idir',
-            company: 'test company'
+            identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
+            company: 'test company',
+            comments: 'test comment',
+            request_reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -93,9 +96,10 @@ describe('AccessRequestList', () => {
             username: 'testusername',
             email: 'email@email.com',
             role: 2,
-            identitySource: 'idir',
+            identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-            comments: 'test comment'
+            comments: 'test comment',
+            request_reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -128,10 +132,10 @@ describe('AccessRequestList', () => {
             username: 'testusername',
             email: 'email@email.com',
             role: 2,
-            identitySource: 'idir',
+            identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-
-            comments: 'test comment'
+            comments: 'test comment',
+            request_reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -191,9 +195,10 @@ describe('AccessRequestList', () => {
             username: 'testusername',
             email: 'email@email.com',
             role: 2,
-            identitySource: 'idir',
+            identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-            comments: 'test comment'
+            comments: 'test comment',
+            request_reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -215,9 +220,13 @@ describe('AccessRequestList', () => {
     await waitFor(() => {
       expect(refresh).toHaveBeenCalledTimes(1);
       expect(mockRestorationTrackerApi().admin.updateAccessRequest).toHaveBeenCalledTimes(1);
-      expect(mockRestorationTrackerApi().admin.updateAccessRequest).toHaveBeenCalledWith('testusername', 'idir', 1, 2, [
-        2
-      ]);
+      expect(mockRestorationTrackerApi().admin.updateAccessRequest).toHaveBeenCalledWith(
+        'testusername',
+        SYSTEM_IDENTITY_SOURCE.IDIR,
+        1,
+        2,
+        [2]
+      );
     });
   });
 
@@ -239,9 +248,10 @@ describe('AccessRequestList', () => {
             username: 'testusername',
             email: 'email@email.com',
             role: 1,
-            identitySource: 'idir',
+            identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-            comments: 'test comment'
+            comments: 'test comment',
+            request_reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -263,7 +273,12 @@ describe('AccessRequestList', () => {
     await waitFor(() => {
       expect(refresh).toHaveBeenCalledTimes(1);
       expect(mockRestorationTrackerApi().admin.updateAccessRequest).toHaveBeenCalledTimes(1);
-      expect(mockRestorationTrackerApi().admin.updateAccessRequest).toHaveBeenCalledWith('testusername', 'idir', 1, 3);
+      expect(mockRestorationTrackerApi().admin.updateAccessRequest).toHaveBeenCalledWith(
+        'testusername',
+        SYSTEM_IDENTITY_SOURCE.IDIR,
+        1,
+        3
+      );
     });
   });
 });

@@ -4,7 +4,7 @@ import { AuthStateContext } from 'contexts/authStateContext';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router-dom';
-import Header from './Header';
+import Header, { SYSTEM_IDENTITY_SOURCE } from './Header';
 
 const history = createMemoryHistory();
 
@@ -45,6 +45,7 @@ describe('Header', () => {
     expect(queryByText('Manage Users')).not.toBeInTheDocument();
   });
 
+
   it('renders correctly with system admin role', () => {
     const mockHasSystemRole = jest.fn();
 
@@ -65,7 +66,7 @@ describe('Header', () => {
         getUserIdentifier: () => 'testuser',
         hasAccessRequest: false,
         hasSystemRole: mockHasSystemRole,
-        getIdentitySource: () => 'bceid',
+        getIdentitySource: () => SYSTEM_IDENTITY_SOURCE.BCEID,
         username: 'testusername',
         displayName: 'testdisplayname',
         email: 'test@email.com',
@@ -84,7 +85,10 @@ describe('Header', () => {
     );
 
     expect(getByText('Projects')).toBeVisible();
+    expect(getByText('Permits')).toBeVisible();
+    expect(getByText('Map')).toBeVisible();
     expect(getByText('Manage Users')).toBeVisible();
+    expect(getByText('Resources')).toBeVisible();
   });
 
   it('renders the username and logout button', () => {
@@ -98,7 +102,7 @@ describe('Header', () => {
         getUserIdentifier: () => 'testuser',
         hasAccessRequest: false,
         hasSystemRole: jest.fn(),
-        getIdentitySource: () => 'bceid',
+        getIdentitySource: () => SYSTEM_IDENTITY_SOURCE.BCEID,
         username: 'testusername',
         displayName: 'testdisplayname',
         email: 'test@email.com',

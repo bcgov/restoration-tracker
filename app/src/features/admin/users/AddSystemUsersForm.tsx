@@ -13,6 +13,7 @@ import CustomTextField from 'components/fields/CustomTextField';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import yup from 'utils/YupSchema';
+import { SYSTEM_IDENTITY_SOURCE } from 'components/layout/Header';
 
 export interface IAddSystemUsersFormArrayItem {
   userIdentifier: string;
@@ -94,10 +95,10 @@ const AddSystemUsersForm: React.FC<AddSystemUsersFormProps> = (props) => {
                             error={identitySourceMeta.touched && Boolean(identitySourceMeta.error)}
                             displayEmpty
                             inputProps={{ 'aria-label': 'Login Method' }}>
-                            <MenuItem key={'IDIR'} value={'IDIR'}>
+                            <MenuItem key={SYSTEM_IDENTITY_SOURCE.IDIR} value={SYSTEM_IDENTITY_SOURCE.IDIR}>
                               IDIR
                             </MenuItem>
-                            <MenuItem key={'BCEID'} value={'BCEID'}>
+                            <MenuItem key={SYSTEM_IDENTITY_SOURCE.BCEID} value={SYSTEM_IDENTITY_SOURCE.BCEID}>
                               BCEID
                             </MenuItem>
                           </Select>
