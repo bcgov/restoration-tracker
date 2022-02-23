@@ -191,11 +191,13 @@ describe('GetLocationData', () => {
     let locationData: GetLocationData;
 
     before(() => {
-      locationData = new GetLocationData([]);
+      locationData = new GetLocationData();
     });
 
-    it('sets the geometry', function () {
+    it('sets geometry, region and range', function () {
       expect(locationData.geometry).to.eql([]);
+      expect(locationData.region).to.eql('');
+      expect(locationData.range).to.eql('');
     });
   });
 
@@ -203,11 +205,13 @@ describe('GetLocationData', () => {
     let locationData: GetLocationData;
 
     before(() => {
-      locationData = new GetLocationData([]);
+      locationData = new GetLocationData([], [], []);
     });
 
-    it('sets the geometry', function () {
+    it('sets geometry, region and range', function () {
       expect(locationData.geometry).to.eql([]);
+      expect(locationData.region).to.eql('');
+      expect(locationData.range).to.eql('');
     });
   });
 
@@ -236,12 +240,32 @@ describe('GetLocationData', () => {
       }
     ];
 
+    const regionDataObj = [
+      {
+        objectid: 1
+      },
+      {
+        objectid: []
+      }
+    ];
+
+    const rangeDataObj = [
+      {
+        caribou_population_unit_id: 1
+      },
+      {
+        caribou_population_unit_id: []
+      }
+    ];
+
     before(() => {
-      locationData = new GetLocationData(locationDataObj);
+      locationData = new GetLocationData(locationDataObj, regionDataObj, rangeDataObj);
     });
 
-    it('sets the geometry', function () {
+    it('sets the geometry, region and range', function () {
       expect(locationData.geometry).to.eql(geometry);
+      expect(locationData.region).to.eql(1);
+      expect(locationData.range).to.eql(1);
     });
   });
 });
