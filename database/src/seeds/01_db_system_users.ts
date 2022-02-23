@@ -9,27 +9,30 @@ export enum SYSTEM_IDENTITY_SOURCE {
   BCEID = 'BCEID-BASIC-AND-BUSINESS'
 }
 
+export enum SYSTEM_USER_ROLE_ID {
+  SYSTEM_ADMINISTRATOR = 1,
+  CREATOR = 2,
+  DATA_ADMINISTRATOR = 3
+}
+
 const systemUsers = [
-  { identifier: 'aagahche', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'cgarrett', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'istest1', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'jrpopkin', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'jxdunsdo', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'mbaerg', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'nphura', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'postman', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 2 },
-  { identifier: 'robmunro', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'rstens', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'tadekens', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'test1', type: SYSTEM_IDENTITY_SOURCE.BCEID, roleId: 1 },
-  { identifier: 'test2', type: SYSTEM_IDENTITY_SOURCE.BCEID, roleId: 1 },
-  { identifier: 'test3', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'test4', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 2 },
-  { identifier: 'test5', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 2 },
-  { identifier: 'test6', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 6 },
-  { identifier: 'test7', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 6 },
-  { identifier: 'cypress', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 },
-  { identifier: 'keinarss', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: 1 }
+  { identifier: 'aagahche', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'cgarrett', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'jrpopkin', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'jxdunsdo', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'keinarss', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'mbaerg', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'nphura', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'robmunro', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'rstens', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test1', type: SYSTEM_IDENTITY_SOURCE.BCEID, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test2', type: SYSTEM_IDENTITY_SOURCE.BCEID, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test3', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test4', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test5', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test6', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test7', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'cypress', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR }
 ];
 
 /**
