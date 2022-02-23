@@ -249,6 +249,12 @@ export const deleteProjectSpatialSQL = (projectId: number | undefined): SQLState
  * @returns {SQLStatement} sql query object
  */
 export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'deleteProjectRegionSQL',
+    message: 'params',
+    projectId
+  });
+
   if (!projectId) {
     return null;
   }
@@ -260,6 +266,13 @@ export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatem
         project_id = ${projectId};
     `;
 
+  defaultLog.debug({
+    label: 'deleteProjectRegionSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
   return sqlStatement;
 };
 
@@ -270,6 +283,11 @@ export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatem
  * @returns {SQLStatement} sql query object
  */
 export const deleteProjectRangeSQL = (projectId: number | undefined): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'deleteProjectRangeSQL',
+    message: 'params',
+    projectId
+  });
   if (!projectId) {
     return null;
   }
@@ -280,6 +298,13 @@ export const deleteProjectRangeSQL = (projectId: number | undefined): SQLStateme
       WHERE
         project_id = ${projectId};
     `;
+
+  defaultLog.debug({
+    label: 'deleteProjectRangeSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
 
   return sqlStatement;
 };
@@ -319,13 +344,29 @@ export const deleteProjectSQL = (projectId: number): SQLStatement | null => {
  * @param {number} projectId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectSpeciesSQL = (projectId: number): SQLStatement => {
+export const deleteProjectSpeciesSQL = (projectId: number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'deleteProjectSpeciesSQL',
+    message: 'params',
+    projectId
+  });
+  if (!projectId) {
+    return null;
+  }
+
   const sqlStatement: SQLStatement = SQL`
     DELETE
       from project_species
     WHERE
       project_id = ${projectId};
   `;
+
+  defaultLog.debug({
+    label: 'deleteProjectSpeciesSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
 
   return sqlStatement;
 };

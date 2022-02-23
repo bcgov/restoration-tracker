@@ -81,6 +81,12 @@ describe('postProjectAttachmentSQL', () => {
 
     expect(response).to.be.null;
   });
+
+  it('returns a SQLStatement when all fields are passed in as expected', () => {
+    const response = postProjectAttachmentSQL('name', 2, 1, 'key');
+
+    expect(response).to.not.be.null;
+  });
 });
 
 describe('getProjectAttachmentByFileNameSQL', () => {
@@ -114,5 +120,11 @@ describe('putProjectAttachmentSQL', () => {
     const response = putProjectAttachmentSQL(1, (null as unknown) as string);
 
     expect(response).to.be.null;
+  });
+
+  it('returns a SQLStatement when all fields are passed in as expected', () => {
+    const response = putProjectAttachmentSQL(1, 'name');
+
+    expect(response).to.not.be.null;
   });
 });

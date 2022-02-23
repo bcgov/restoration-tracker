@@ -589,7 +589,7 @@ describe('ProjectService', () => {
       sinon.restore();
     });
 
-    it('should throw a 400 response when response has no rowCount', async () => {
+    it('should throw a 400 response when response has no geometry data', async () => {
       const mockQueryResponse = (null as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
 
@@ -602,6 +602,60 @@ describe('ProjectService', () => {
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to get geometry data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when response has no region data', async () => {
+      const dbConnectionObj = getMockDBConnection();
+
+      const projectService = new ProjectService(dbConnectionObj);
+
+      sinon.stub(ProjectService.prototype, 'getGeometryData').resolves([
+        {
+          project_id: 1
+        }
+      ]);
+
+      sinon.stub(ProjectService.prototype, 'getRegionData').resolves(null);
+
+      const projectId = 1;
+
+      try {
+        await projectService.getLocationData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get region data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when response has no range data', async () => {
+      const dbConnectionObj = getMockDBConnection();
+
+      const projectService = new ProjectService(dbConnectionObj);
+
+      sinon.stub(ProjectService.prototype, 'getGeometryData').resolves([
+        {
+          project_id: 1
+        }
+      ]);
+
+      sinon.stub(ProjectService.prototype, 'getRegionData').resolves([
+        {
+          project_id: 1
+        }
+      ]);
+
+      sinon.stub(ProjectService.prototype, 'getRangeData').resolves(null);
+
+      const projectId = 1;
+
+      try {
+        await projectService.getLocationData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get range data');
         expect((actualError as HTTPError).status).to.equal(400);
       }
     });
@@ -621,6 +675,80 @@ describe('ProjectService', () => {
       const result = await projectService.getLocationData(projectId);
 
       expect(result).to.deep.include(new projectViewModels.GetLocationData(mockRowObj));
+    });
+  });
+
+  describe('getLocationData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no species data', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.getSpeciesData(projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to get species data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getSpeciesData(projectId);
+
+      expect(result).to.deep.include(new projectViewModels.GetSpeciesData(mockRowObj));
+    });
+  });
+
+  describe('getProjectById', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+      sinon.stub(ProjectService.prototype, 'getIndigenousPartnershipsRows').resolves([]);
+      sinon.stub(ProjectService.prototype, 'getStakeholderPartnershipsRows').resolves([]);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getProjectById(projectId, true);
+
+      expect(result).to.deep.include({
+        project: new projectViewModels.GetProjectData(mockRowObj[0]),
+        species: new projectViewModels.GetSpeciesData(mockRowObj),
+        iucn: new projectViewModels.GetIUCNClassificationData(mockRowObj),
+        contact: new projectViewModels.GetContactData(mockRowObj),
+        permit: new projectViewModels.GetPermitData(mockRowObj),
+        partnerships: new projectViewModels.GetPartnershipsData([], []),
+        funding: new projectViewModels.GetFundingData(mockRowObj),
+        location: new projectViewModels.GetLocationData(mockRowObj)
+      });
     });
   });
 });

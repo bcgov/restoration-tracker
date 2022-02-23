@@ -205,7 +205,7 @@ export class ProjectService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    const result = response.rows || null;
+    const result = (response && response.rows) || null;
 
     if (!result) {
       throw new HTTP400('Failed to get species data');
@@ -1116,6 +1116,10 @@ export class ProjectService extends DBService {
     const putSpeciesData = entities?.species && new models.project.PutSpeciesData(entities.species);
 
     const projectSpeciesDeleteStatement = queries.project.deleteProjectSpeciesSQL(projectId);
+
+    if (!projectSpeciesDeleteStatement) {
+      throw new HTTP500('Failed to build SQL delete statement');
+    }
 
     await this.connection.query(projectSpeciesDeleteStatement.text, projectSpeciesDeleteStatement.values);
 

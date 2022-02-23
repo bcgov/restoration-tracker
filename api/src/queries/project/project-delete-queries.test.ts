@@ -6,7 +6,12 @@ import {
   deleteStakeholderPartnershipsSQL,
   deleteProjectFundingSourceSQL,
   deletePermitSQL,
-  deleteProjectSQL
+  deleteProjectSQL,
+  deleteContactSQL,
+  deleteProjectSpatialSQL,
+  deleteProjectRegionSQL,
+  deleteProjectRangeSQL,
+  deleteProjectSpeciesSQL
 } from './project-delete-queries';
 
 describe('deleteIUCNSQL', () => {
@@ -88,6 +93,76 @@ describe('deleteProjectFundingSourceSQL', () => {
 
   it('returns non null response when valid projectId provided', () => {
     const response = deleteProjectFundingSourceSQL(1, 1);
+
+    expect(response).to.not.be.null;
+  });
+});
+
+describe('deleteContactSQL', () => {
+  it('returns null response when null projectId provided', () => {
+    const response = deleteContactSQL((null as unknown) as number);
+
+    expect(response).to.be.null;
+  });
+
+  it('returns non null response when valid projectId provided', () => {
+    const response = deleteContactSQL(1);
+
+    expect(response).to.not.be.null;
+  });
+});
+
+describe('deleteProjectSpatialSQL', () => {
+  it('returns null response when null projectId provided', () => {
+    const response = deleteProjectSpatialSQL((null as unknown) as number);
+
+    expect(response).to.be.null;
+  });
+
+  it('returns non null response when valid projectId provided', () => {
+    const response = deleteProjectSpatialSQL(1);
+
+    expect(response).to.not.be.null;
+  });
+});
+
+describe('deleteProjectRegionSQL', () => {
+  it('returns null response when null projectId provided', () => {
+    const response = deleteProjectRegionSQL((null as unknown) as number);
+
+    expect(response).to.be.null;
+  });
+
+  it('returns non null response when valid projectId provided', () => {
+    const response = deleteProjectRegionSQL(1);
+
+    expect(response).to.not.be.null;
+  });
+});
+
+describe('deleteProjectRangeSQL', () => {
+  it('returns null response when null projectId provided', () => {
+    const response = deleteProjectRangeSQL((null as unknown) as number);
+
+    expect(response).to.be.null;
+  });
+
+  it('returns non null response when valid projectId provided', () => {
+    const response = deleteProjectRangeSQL(1);
+
+    expect(response).to.not.be.null;
+  });
+});
+
+describe('deleteProjectSpeciesSQL', () => {
+  it('returns null response when null projectId provided', () => {
+    const response = deleteProjectSpeciesSQL((null as unknown) as number);
+
+    expect(response).to.be.null;
+  });
+
+  it('returns non null response when valid projectId provided', () => {
+    const response = deleteProjectSpeciesSQL(1);
 
     expect(response).to.not.be.null;
   });
