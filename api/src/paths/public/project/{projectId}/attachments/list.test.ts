@@ -61,6 +61,6 @@ describe('getPublicProjectAttachments', () => {
 
     await getPublicProjectAttachments()(sampleReq, sampleRes as any, (null as unknown) as any);
 
-    expect(actualResult).to.be.eql([]);
+    expect(actualResult).to.be.eql(new GetAttachmentsData());
   });
 });

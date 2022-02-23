@@ -48,24 +48,29 @@ GET.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                id: {
-                  type: 'number'
-                },
-                fileName: {
-                  type: 'string'
-                },
-                lastModified: {
-                  type: 'string'
-                },
-                size: {
-                  type: 'number'
-                },
-                url: {
-                  type: 'string'
+            type: 'object',
+            properties: {
+              attachmentsList: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    id: {
+                      type: 'number'
+                    },
+                    fileName: {
+                      type: 'string'
+                    },
+                    lastModified: {
+                      type: 'string'
+                    },
+                    size: {
+                      type: 'number'
+                    },
+                    url: {
+                      type: 'string'
+                    }
+                  }
                 }
               }
             }
@@ -100,7 +105,7 @@ export function getAttachments(): RequestHandler {
 
       await connection.commit();
 
-      return res.status(200).json(data.attachmentsList);
+      return res.status(200).json(data);
     } catch (error) {
       defaultLog.error({ label: 'getProjectAttachments', message: 'error', error });
       await connection.rollback();
