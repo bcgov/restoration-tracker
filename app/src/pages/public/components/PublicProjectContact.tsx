@@ -1,26 +1,28 @@
 import Box from '@material-ui/core/Box';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { mdiAccountCircleOutline } from '@mdi/js';
+import Icon from '@mdi/react';
+import Link from '@material-ui/core/Link';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650
-  },
-  heading: {
-    fontWeight: 'bold'
-  },
-  tableCellBorderTop: {
-    borderTop: '100px solid rgba(224, 224, 224, 1)'
-  }
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    projectContactList: {
+      marginBottom: 0,
+      marginLeft: 0,
+      marginRight: 0,
+      padding: 0,
+      listStyleType: 'none',
+      '& li + li': {
+        marginTop: theme.spacing(1.5)
+      }
+    },
+    contactIcon: {
+      color: '#1a5a96'
+    }
+  })
+);
 
 export interface IPublicProjectContactProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -33,64 +35,33 @@ export interface IPublicProjectContactProps {
  * @return {*}
  */
 const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectForViewData }) => {
-  const {
-    contact: { contacts }
-  } = projectForViewData;
+  const { contact } = projectForViewData;
   const classes = useStyles();
 
-  // To move primary contact on first index
-  contacts.sort((a, b) => JSON.parse(b.is_primary) - JSON.parse(a.is_primary));
-
   return (
-    <Box>
-      <Box mb={2} data-testid="projectContactTitle">
-        <Typography variant="h3">Project Contacts</Typography>
-      </Box>
-      {contacts.length ? (
-        <TableContainer>
-          <Table className={classes.table} aria-label="permits-list-table">
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.heading}>Name</TableCell>
-                <TableCell className={classes.heading}>Email Address</TableCell>
-                <TableCell className={classes.heading}>Agency</TableCell>
-              </TableRow>
-            </TableHead>
-            {contacts.map((item, i) => (
-              <TableBody key={i}>
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    {item.first_name} {item.last_name}
-                    {JSON.parse(item.is_primary) && (
-                      <sup>
-                        <Typography variant="caption" color="textSecondary">
-                          {' '}
-                          Primary
-                        </Typography>
-                      </sup>
-                    )}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {item.email_address}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {item.agency}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            ))}
-          </Table>
-        </TableContainer>
-      ) : (
-        <Box component="ul" className="listNoBullets">
-          <Box component="li">
-            <Typography component="dd" variant="body1">
-              No Contacts
-            </Typography>
+    <>
+    {contact.contacts.map((contactDetails, index) => (
+      <ul className={classes.projectContactList} key={index}>
+        <Box component="li" display="flex" flexDirection="row">
+          <Box mr={2}>
+            <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
           </Box>
+          <div>
+            <div>
+              <strong data-testid="contact_name">
+                {' '}
+                {contactDetails.first_name} {contactDetails.last_name}
+              </strong>
+            </div>
+            <div>
+              <Link href="#">{contactDetails.email_address}</Link>
+            </div>
+            <div>{contactDetails.agency}</div>
+          </div>
         </Box>
-      )}
-    </Box>
+      </ul>
+    ))}
+  </>
   );
 };
 

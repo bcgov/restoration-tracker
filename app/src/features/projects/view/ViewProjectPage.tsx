@@ -91,6 +91,7 @@ const ViewProjectPage: React.FC = () => {
         height="100%"
         overflow="hidden"
         data-testid="view_project_page_component">
+
         {/* Details Container */}
         <Drawer variant="permanent" className={classes.projectDetailDrawer}>
           <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />

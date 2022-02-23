@@ -80,12 +80,12 @@ const useStyles = makeStyles((theme: Theme) =>
         verticalAlign: 'top'
       },
       '& dd span': {
-        display: 'inline-block'
+        display: 'inline'
       },
       '& h3': {
         marginBottom: theme.spacing(2),
-        // textTransform: 'uppercase',
-        // fontSize: '14px',
+        textTransform: 'uppercase',
+        fontSize: '15px',
         fontWeight: 700
       },
       '& section + hr': {
@@ -297,7 +297,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
           </Box>
         </Box>
 
-        <Box mt={2} display="flex" flexDirection={'row'}>
+        <Box display="flex" flexDirection={'row'}>
           <Box mr={0.5}>{getChipIcon(priority_status)}</Box>
           <Box>{getChipIcon(completion_status)}</Box>
         </Box>

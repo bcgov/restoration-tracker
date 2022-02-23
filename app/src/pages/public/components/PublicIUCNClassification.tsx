@@ -1,27 +1,27 @@
-import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Typography from '@material-ui/core/Typography';
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    projectIucnList: {
+      margin: 0,
+      padding: 0,
+      listStyleType: 'none',
+      '& li + li': {
+        marginTop: theme.spacing(1),
+        paddingTop: theme.spacing(1),
+        borderTop: '1px solid #dddddd'
+      }
+    }
+  })
+);
 
 export interface IPublicIUCNClassificationProps {
   projectForViewData: IGetProjectForViewResponse;
   refresh: () => void;
 }
-
-const useStyles = makeStyles((theme: Theme) => ({
-  iucnListItem: {
-    '& hr': {
-      marginBottom: theme.spacing(2)
-    },
-
-    '& + li': {
-      paddingTop: theme.spacing(2)
-    }
-  }
-}));
 
 /**
  * IUCN Classification content for a public (published) project.
@@ -29,48 +29,32 @@ const useStyles = makeStyles((theme: Theme) => ({
  * @return {*}
  */
 const PublicIUCNClassification: React.FC<IPublicIUCNClassificationProps> = (props) => {
+  const classes = useStyles();
+  
   const {
     projectForViewData: { iucn }
   } = props;
 
-  const classes = useStyles();
-
   const hasIucnClassifications = iucn.classificationDetails && iucn.classificationDetails.length > 0;
 
   return (
-    <>
-      <Box mb={2} height="2rem" data-testid="IUCNTitle">
-        <Typography variant="h3">IUCN Conservation Actions Classification</Typography>
-      </Box>
-
-      {hasIucnClassifications && (
-        <Box component="ul" className="listNoBullets">
-          {iucn.classificationDetails.map((classificationDetail: any, index: number) => {
-            return (
-              <Box component="li" key={index} className={classes.iucnListItem}>
-                <Divider />
-                <Box>
-                  <Typography component="span" variant="body1" data-testid="IUCNData">
-                    {classificationDetail.classification} <span>{'>'}</span> {classificationDetail.subClassification1}{' '}
-                    <span>{'>'}</span> {classificationDetail.subClassification2}
-                  </Typography>
-                </Box>
-              </Box>
-            );
-          })}
-        </Box>
-      )}
+    <ul className={classes.projectIucnList}>
+      {iucn.classificationDetails.map((classificationDetail: any, index: number) => {
+        return (
+          <li key={index} data-testid="IUCNData">
+            {classificationDetail.classification} <span>{'>'}</span> {classificationDetail.subClassification1}{' '}<span>{'>'}</span> {classificationDetail.subClassification2}
+          </li>
+        );
+      })}
 
       {!hasIucnClassifications && (
-        <Box component="ul" className="listNoBullets">
-          <Box component="li" className={classes.iucnListItem}>
-            <Typography component="dd" variant="body1">
-              No IUCN Classifications
-            </Typography>
-          </Box>
-        </Box>
+        <li>
+          <Typography variant="body2" data-testid="no_classification">
+            No Classifications
+          </Typography>
+        </li>
       )}
-    </>
+    </ul>
   );
 };
 

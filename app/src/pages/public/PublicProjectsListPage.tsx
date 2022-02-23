@@ -92,6 +92,7 @@ const PublicProjectsListPage = () => {
               <TableCell>Contact Agencies</TableCell>
               <TableCell>Start Date</TableCell>
               <TableCell>End Date</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -116,7 +117,7 @@ const PublicProjectsListPage = () => {
                 <TableCell>Contact Agencies</TableCell>
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
-                <TableCell>Completion Status</TableCell>
+                <TableCell>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">

@@ -1,26 +1,22 @@
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650
-  },
-  heading: {
-    fontWeight: 'bold'
-  },
-  tableCellBorderTop: {
-    borderTop: '1px solid rgba(224, 224, 224, 1)'
-  }
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    projectPermitList: {
+      margin: 0,
+      padding: 0,
+      listStyleType: 'none',
+      '& li + li': {
+        marginTop: theme.spacing(1),
+        paddingTop: theme.spacing(1),
+        borderTop: '1px solid #dddddd'
+      }
+    }
+  })
+);
 
 export interface IPublicProjectPermitsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -33,55 +29,36 @@ export interface IPublicProjectPermitsProps {
  * @return {*}
  */
 const PublicProjectPermits: React.FC<IPublicProjectPermitsProps> = (props) => {
+  const classes = useStyles();
+  
   const {
     projectForViewData: { permit }
   } = props;
 
-  const classes = useStyles();
-
   const hasPermits = permit.permits && permit.permits.length > 0;
 
   return (
-    <Box>
-      <Box mb={2} height="2rem" data-testid="projectPermitsTitle">
-        <Typography variant="h3">Project Permits</Typography>
-      </Box>
+    <>
+      <ul className={classes.projectPermitList}>
+        {hasPermits &&
+          permit.permits.map((item: any) => (
+            <li key={item.permit_number} data-testid="permit_item">
+              <Typography component="span" variant="body2">
+                {item.permit_number} -{' '}
+                <span>{item.permit_type}</span>
+              </Typography>
+            </li>
+          ))}
 
-      {hasPermits && (
-        <TableContainer>
-          <Table className={classes.table} aria-label="permits-list-table">
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.heading}>Permit Number</TableCell>
-                <TableCell className={classes.heading}>Permit Type</TableCell>
-              </TableRow>
-            </TableHead>
-            {permit.permits.map((item: any) => (
-              <TableBody key={item.permit_number}>
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    {item.permit_number}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {item.permit_type}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            ))}
-          </Table>
-        </TableContainer>
-      )}
-
-      {!hasPermits && (
-        <Box component="ul" className="listNoBullets">
-          <Box component="li">
-            <Typography component="dd" variant="body1">
-              No Permits
+        {!hasPermits && (
+          <li>
+            <Typography variant="body2" data-testid="no_permits_loaded">
+              No permits
             </Typography>
-          </Box>
-        </Box>
-      )}
-    </Box>
+          </li>
+        )}
+      </ul>
+    </>
   );
 };
 

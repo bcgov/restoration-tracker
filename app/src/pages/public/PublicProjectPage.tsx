@@ -1,62 +1,28 @@
 import Box from '@material-ui/core/Box';
-import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import Typography from '@material-ui/core/Typography';
-import { mdiInformationOutline, mdiPaperclip } from '@mdi/js';
-import Icon from '@mdi/react';
-import clsx from 'clsx';
-import { DATE_FORMAT } from 'constants/dateTimeFormats';
-import { ProjectStatusType } from 'constants/misc';
+import Drawer from '@material-ui/core/Drawer';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
-import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
-import { getFormattedDateRangeString } from 'utils/Utils';
-import PublicProjectAttachments from './components/PublicProjectAttachments';
+import { useParams } from 'react-router';
 import PublicProjectDetails from './PublicProjectDetails';
+import PublicLocationBoundary from './components/PublicLocationBoundary';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  projectNav: {
-    minWidth: '15rem',
-    '& a': {
-      color: theme.palette.text.secondary,
-      '&:hover': {
-        background: 'rgba(0, 51, 102, 0.05)'
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    projectDetailDrawer: {
+      '& .MuiDrawer-paper': {
+        position: 'relative',
+        overflow: 'hidden',
+        width: '30rem'
       }
     },
-    '& a.active': {
-      color: theme.palette.primary.main,
-      background: 'rgba(0, 51, 102, 0.05)',
-      '& svg': {
-        color: theme.palette.primary.main
-      }
+    projectDetailMain: {
+      background: '#ffffff'
     }
-  },
-  chip: {
-    padding: '0px 8px',
-    borderRadius: '4px',
-    color: 'white'
-  },
-  chipActive: {
-    backgroundColor: theme.palette.warning.main
-  },
-  chipCompleted: {
-    backgroundColor: theme.palette.success.main
-  },
-  spacingRight: {
-    paddingRight: '1rem'
-  }
-}));
+  })
+);
 
 /**
  * Page to display a single Public (published) Project.
@@ -67,7 +33,6 @@ const PublicProjectPage = () => {
   const urlParams = useParams();
   const restorationTrackerApi = useRestorationTrackerApi();
   const classes = useStyles();
-  const location = useLocation();
 
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
@@ -92,104 +57,33 @@ const PublicProjectPage = () => {
     }
   }, [isLoadingProject, projectWithDetails, getProject]);
 
-  const getProjectStatusType = (projectData: IGetProjectForViewResponse): ProjectStatusType => {
-    return (
-      (projectData.project.end_date &&
-        moment(projectData.project.end_date).endOf('day').isBefore(moment()) &&
-        ProjectStatusType.COMPLETED) ||
-      ProjectStatusType.ACTIVE
-    );
-  };
-
-  const getChipIcon = (status_name: string) => {
-    let chipLabel;
-    let chipStatusClass;
-
-    if (ProjectStatusType.ACTIVE === status_name) {
-      chipLabel = 'ACTIVE';
-      chipStatusClass = classes.chipActive;
-    } else if (ProjectStatusType.COMPLETED === status_name) {
-      chipLabel = 'COMPLETED';
-      chipStatusClass = classes.chipCompleted;
-    }
-
-    return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
-  };
-
   if (!projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} />;
   }
 
   return (
     <>
-      <Paper elevation={2} square={true}>
-        <Container maxWidth="xl">
-          <Box display="flex" justifyContent="space-between">
-            <Box py={4}>
-              <Box mb={1} display="flex">
-                <Typography className={classes.spacingRight} variant="h1">
-                  {projectWithDetails.project.project_name}
-                </Typography>
-                {getChipIcon(getProjectStatusType(projectWithDetails))}
-              </Box>
-              <Box>
-                <Typography variant="subtitle1" color="textSecondary">
-                  <span>
-                    {projectWithDetails.project.end_date ? (
-                      <>
-                        {getFormattedDateRangeString(
-                          DATE_FORMAT.ShortMediumDateFormat,
-                          projectWithDetails.project.start_date,
-                          projectWithDetails.project.end_date
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        <span>Start Date:</span>{' '}
-                        {getFormattedDateRangeString(
-                          DATE_FORMAT.ShortMediumDateFormat,
-                          projectWithDetails.project.start_date
-                        )}
-                      </>
-                    )}
-                  </span>
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Container>
-      </Paper>
+      <Box
+        display="flex"
+        position="absolute"
+        width="100%"
+        height="100%"
+        overflow="hidden"
+        data-testid="view_project_page_component">
 
-      <Container maxWidth="xl">
-        <Box display="flex" flexDirection="row" py={6}>
-          <Box component="aside" mr={6} mt={-2}>
-            <Paper>
-              <List component="nav" role="navigation" className={classes.projectNav} aria-label="Project Navigation">
-                <ListItem component={NavLink} to="details">
-                  <ListItemIcon>
-                    <Icon path={mdiInformationOutline} size={1} />
-                  </ListItemIcon>
-                  <ListItemText>Project Details</ListItemText>
-                </ListItem>
-                <ListItem component={NavLink} to="attachments">
-                  <ListItemIcon>
-                    <Icon path={mdiPaperclip} size={1} />
-                  </ListItemIcon>
-                  <ListItemText>Attachments</ListItemText>
-                </ListItem>
-              </List>
-            </Paper>
-          </Box>
-          <Box component="article" flex="1 1 auto">
-            {location.pathname.includes('/details') && (
-              <PublicProjectDetails projectForViewData={projectWithDetails} refresh={getProject} />
-            )}
-            {location.pathname.includes('/attachments') && (
-              <PublicProjectAttachments projectForViewData={projectWithDetails} />
-            )}
+        {/* Details Container */}
+        <Drawer variant="permanent" className={classes.projectDetailDrawer}>
+          <PublicProjectDetails projectForViewData={projectWithDetails} refresh={getProject} />
+        </Drawer>
+
+        {/* Map Container */}
+        <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectDetailMain}>
+          <Box flex="1 1 auto">
+            <PublicLocationBoundary projectForViewData={projectWithDetails} refresh={getProject} />
           </Box>
         </Box>
-      </Container>
+      </Box>
+
     </>
   );
 };
