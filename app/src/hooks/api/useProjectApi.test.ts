@@ -20,7 +20,7 @@ describe('useProjectApi', () => {
   const attachmentId = 1;
 
   it('getAllUserProjectsParticipation works as expected', async () => {
-    mock.onGet(`/api/user/${userId}/projects/participation/get`).reply(200, [
+    mock.onGet(`/api/user/${userId}/projects/participation/list`).reply(200, [
       {
         project_id: 321,
         name: 'test',

@@ -21,13 +21,13 @@ import qs from 'qs';
  */
 const useProjectApi = (axios: AxiosInstance) => {
   /**
-   * Get projects from userId
+   * Get all role and project ids for all projects a user is a participant (member) of.
    *
    * @param {number} userId
    * @return {*} {Promise<IGetProjectsListResponse[]>}
    */
   const getAllUserProjectsParticipation = async (userId: number): Promise<IGetUserProjectsListResponse[]> => {
-    const { data } = await axios.get(`/api/user/${userId}/projects/participation/get`);
+    const { data } = await axios.get(`/api/user/${userId}/projects/participation/list`);
     return data;
   };
 

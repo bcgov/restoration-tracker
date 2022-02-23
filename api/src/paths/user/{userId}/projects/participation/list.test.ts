@@ -7,7 +7,7 @@ import * as db from '../../../../../database/db';
 import { HTTPError } from '../../../../../errors/custom-error';
 import project_participation_queries from '../../../../../queries/project-participation';
 import { getMockDBConnection } from '../../../../../__mocks__/db';
-import * as projects from './get';
+import * as projects from './list';
 
 chai.use(sinonChai);
 
