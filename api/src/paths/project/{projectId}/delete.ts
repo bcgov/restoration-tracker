@@ -14,7 +14,11 @@ const defaultLog = getLogger('/api/project/{projectId}/delete');
 export const DELETE: Operation = [
   authorizeRequestHandler((req) => {
     return {
-      and: [
+      or: [
+        {
+          validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR],
+          discriminator: 'SystemRole'
+        },
         {
           validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD],
           projectId: Number(req.params.projectId),
