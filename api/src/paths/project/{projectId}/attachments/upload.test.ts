@@ -5,6 +5,7 @@ import sinonChai from 'sinon-chai';
 import * as upload from './upload';
 import * as db from '../../../../database/db';
 import * as file_utils from '../../../../utils/file-utils';
+import { AttachmentService } from '../../../../services/attachment-service';
 import { getMockDBConnection } from '../../../../__mocks__/db';
 import { HTTPError } from '../../../../errors/custom-error';
 
@@ -51,7 +52,7 @@ describe('uploadMedia', () => {
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     try {
-      const result = upload.uploadMedia();
+      const result = upload.uploadAttachment();
 
       await result(
         { ...mockReq, params: { ...mockReq.params, projectId: null } },
@@ -69,7 +70,7 @@ describe('uploadMedia', () => {
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     try {
-      const result = upload.uploadMedia();
+      const result = upload.uploadAttachment();
 
       await result({ ...mockReq, files: [] }, (null as unknown) as any, (null as unknown) as any);
       expect.fail();
@@ -90,7 +91,7 @@ describe('uploadMedia', () => {
     sinon.stub(file_utils, 'scanFileForVirus').resolves(true);
 
     try {
-      const result = upload.uploadMedia();
+      const result = upload.uploadAttachment();
 
       await result({ ...mockReq, files: ['file1'] }, (null as unknown) as any, (null as unknown) as any);
       expect.fail();
@@ -108,12 +109,10 @@ describe('uploadMedia', () => {
       }
     });
 
-    sinon.stub(file_utils, 'uploadFileToS3').resolves({ Key: '1/1/test.txt' } as any);
-    sinon.stub(upload, 'upsertProjectAttachment').resolves({ id: 1, revision_count: 0, key: 'key' });
     sinon.stub(file_utils, 'scanFileForVirus').resolves(false);
 
     try {
-      const result = upload.uploadMedia();
+      const result = upload.uploadAttachment();
 
       await result(mockReq, (null as unknown) as any, (null as unknown) as any);
       expect.fail();
@@ -132,13 +131,12 @@ describe('uploadMedia', () => {
     });
 
     sinon.stub(file_utils, 'scanFileForVirus').resolves(true);
-    sinon.stub(file_utils, 'uploadFileToS3').resolves({ Key: '1/1/test.txt' } as any);
-    sinon.stub(upload, 'upsertProjectAttachment').resolves({ id: 1, revision_count: 0, key: 'key' });
+    sinon.stub(AttachmentService.prototype, 'uploadMedia').resolves({ id: 1 });
 
-    const result = upload.uploadMedia();
+    const result = upload.uploadAttachment();
 
     await result(mockReq, mockRes as any, (null as unknown) as any);
 
-    expect(actualResult).to.eql({ attachmentId: 1, revision_count: 0 });
+    expect(actualResult).to.eql({ id: 1 });
   });
 });

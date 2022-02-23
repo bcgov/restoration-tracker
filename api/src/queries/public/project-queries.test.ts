@@ -8,9 +8,7 @@ import {
   getFundingSourceByPublicProjectSQL,
   getIndigenousPartnershipsByPublicProjectSQL,
   getStakeholderPartnershipsByPublicProjectSQL,
-  getPublicProjectListSQL,
-  getPublicProjectAttachmentsSQL,
-  getPublicProjectAttachmentS3KeySQL
+  getPublicProjectListSQL
 } from './project-queries';
 
 describe('getPublicProjectSQL', () => {
@@ -114,40 +112,6 @@ describe('getStakeholderPartnershipsByPublicProjectSQL', () => {
 describe('getPublicProjectListSQL', () => {
   it('returns non null response when called', () => {
     const response = getPublicProjectListSQL();
-
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getPublicProjectAttachmentsSQL', () => {
-  it('returns null when null project id param provided', () => {
-    const response = getPublicProjectAttachmentsSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid project id param provided', () => {
-    const response = getPublicProjectAttachmentsSQL(1);
-
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getPublicProjectAttachmentS3KeySQL', () => {
-  it('returns null when null project id param provided', () => {
-    const response = getPublicProjectAttachmentS3KeySQL((null as unknown) as number, 2);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns null when null attachment id param provided', () => {
-    const response = getPublicProjectAttachmentS3KeySQL(1, (null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid params provided', () => {
-    const response = getPublicProjectAttachmentS3KeySQL(1, 2);
 
     expect(response).to.not.be.null;
   });

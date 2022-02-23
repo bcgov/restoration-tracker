@@ -3,10 +3,8 @@ import { describe } from 'mocha';
 import {
   getProjectAttachmentsSQL,
   deleteProjectAttachmentSQL,
-  getProjectAttachmentS3KeySQL,
   postProjectAttachmentSQL,
-  getProjectAttachmentByFileNameSQL,
-  putProjectAttachmentSQL
+  getProjectAttachmentByFileNameSQL
 } from './project-attachments-queries';
 
 describe('getProjectAttachmentsSQL', () => {
@@ -24,34 +22,20 @@ describe('getProjectAttachmentsSQL', () => {
 });
 
 describe('deleteProjectAttachmentSQL', () => {
+  it('returns null response when null projectId provided', () => {
+    const response = deleteProjectAttachmentSQL((null as unknown) as number, 1);
+
+    expect(response).to.be.null;
+  });
+
   it('returns null response when null attachmentId provided', () => {
-    const response = deleteProjectAttachmentSQL((null as unknown) as number);
+    const response = deleteProjectAttachmentSQL(1, (null as unknown) as number);
 
     expect(response).to.be.null;
   });
 
   it('returns non null response when valid attachmentId provided', () => {
-    const response = deleteProjectAttachmentSQL(1);
-
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getProjectAttachmentS3KeySQL', () => {
-  it('returns null response when null projectId provided', () => {
-    const response = getProjectAttachmentS3KeySQL((null as unknown) as number, 1);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns null response when null attachmentId provided', () => {
-    const response = getProjectAttachmentS3KeySQL(1, (null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid projectId and attachmentId provided', () => {
-    const response = getProjectAttachmentS3KeySQL(1, 2);
+    const response = deleteProjectAttachmentSQL(1, 1);
 
     expect(response).to.not.be.null;
   });
@@ -100,19 +84,5 @@ describe('getProjectAttachmentByFileNameSQL', () => {
     const response = getProjectAttachmentByFileNameSQL(1, 'name');
 
     expect(response).to.not.be.null;
-  });
-});
-
-describe('putProjectAttachmentSQL', () => {
-  it('returns null response when null projectId provided', () => {
-    const response = putProjectAttachmentSQL((null as unknown) as number, 'name');
-
-    expect(response).to.be.null;
-  });
-
-  it('returns null response when null fileName provided', () => {
-    const response = putProjectAttachmentSQL(1, (null as unknown) as string);
-
-    expect(response).to.be.null;
   });
 });

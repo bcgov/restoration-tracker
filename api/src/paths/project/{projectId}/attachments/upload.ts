@@ -22,7 +22,7 @@ export const POST: Operation = [
       ]
     };
   }),
-  uploadMedia()
+  uploadAttachment()
 ];
 POST.apiDoc = {
   description: 'Upload a project-specific attachment.',
@@ -64,12 +64,9 @@ POST.apiDoc = {
           schema: {
             title: 'Attachment Response Object',
             type: 'object',
-            required: ['id', 'revision_count'],
+            required: ['id'],
             properties: {
               id: {
-                type: 'number'
-              },
-              revision_count: {
                 type: 'number'
               }
             }
@@ -94,7 +91,7 @@ POST.apiDoc = {
  *
  * @returns {RequestHandler}
  */
-export function uploadMedia(): RequestHandler {
+export function uploadAttachment(): RequestHandler {
   return async (req, res) => {
     if (!req.params.projectId) throw new HTTP400('Missing projectId');
     if (!req.files || !req.files.length) throw new HTTP400('Missing upload data');
@@ -109,7 +106,7 @@ export function uploadMedia(): RequestHandler {
     };
     const connection = getDBConnection(req['keycloak_token']);
 
-    if (!scanFileForVirus(rawMediaFile)) throw new HTTP400('Malicious content detected, upload cancelled');
+    if (!(await scanFileForVirus(rawMediaFile))) throw new HTTP400('Malicious content detected, upload cancelled');
 
     defaultLog.debug({
       label: 'uploadMedia',
@@ -123,8 +120,6 @@ export function uploadMedia(): RequestHandler {
       const attachmentService = new AttachmentService(connection);
 
       const uploadResponse = await attachmentService.uploadMedia(projectId, rawMediaFile, metadata);
-
-      console.log(uploadResponse);
 
       await connection.commit();
 

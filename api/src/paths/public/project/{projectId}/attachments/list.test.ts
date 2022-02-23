@@ -2,12 +2,12 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as list from './list';
 import * as db from '../../../../../database/db';
-import public_queries from '../../../../../queries/public';
-import SQL from 'sql-template-strings';
 import { getMockDBConnection } from '../../../../../__mocks__/db';
 import { HTTPError } from '../../../../../errors/custom-error';
+import { getPublicProjectAttachments } from './list';
+import { AttachmentService } from '../../../../../services/attachment-service';
+import { GetAttachmentsData } from '../../../../../models/project-attachments';
 
 chai.use(sinonChai);
 
@@ -42,8 +42,7 @@ describe('getPublicProjectAttachments', () => {
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     try {
-      const result = list.getPublicProjectAttachments();
-      await result(
+      await getPublicProjectAttachments()(
         { ...sampleReq, params: { ...sampleReq.params, projectId: null } },
         (null as unknown) as any,
         (null as unknown) as any
@@ -55,132 +54,13 @@ describe('getPublicProjectAttachments', () => {
     }
   });
 
-  it('should throw a 400 error when no sql statement returned for getProjectAttachmentsSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      }
-    });
+  it('should return a list of project attachments, on success', async () => {
+    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    sinon.stub(public_queries, 'getPublicProjectAttachmentsSQL').returns(null);
+    sinon.stub(AttachmentService.prototype, 'getAttachments').resolves(new GetAttachmentsData());
 
-    try {
-      const result = list.getPublicProjectAttachments();
+    await getPublicProjectAttachments()(sampleReq, sampleRes as any, (null as unknown) as any);
 
-      await result(sampleReq, (null as unknown) as any, (null as unknown) as any);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
-    }
-  });
-
-  it('should return a list of project attachments where the lastModified is the create_date', async () => {
-    const mockQuery = sinon.stub();
-
-    mockQuery.onFirstCall().resolves({
-      rows: [
-        {
-          id: 13,
-          file_name: 'name1',
-          create_date: '2020-01-01',
-          update_date: '',
-          file_size: 50,
-          is_secured: false
-        }
-      ]
-    });
-
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      },
-      query: mockQuery
-    });
-
-    sinon.stub(public_queries, 'getPublicProjectAttachmentsSQL').returns(SQL`something`);
-
-    const result = list.getPublicProjectAttachments();
-
-    await result(sampleReq, sampleRes as any, (null as unknown) as any);
-
-    expect(actualResult).to.be.eql({
-      attachmentsList: [
-        {
-          id: 13,
-          fileName: 'name1',
-          lastModified: '2020-01-01',
-          size: 50,
-          securityToken: false
-        }
-      ]
-    });
-  });
-
-  it('should return a list of project attachments where the lastModified is the update_date', async () => {
-    const mockQuery = sinon.stub();
-
-    mockQuery.onFirstCall().resolves({
-      rows: [
-        {
-          id: 13,
-          file_name: 'name1',
-          create_date: '2020-01-01',
-          update_date: '2020-04-04',
-          file_size: 50,
-          is_secured: false
-        }
-      ]
-    });
-
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      },
-      query: mockQuery
-    });
-
-    sinon.stub(public_queries, 'getPublicProjectAttachmentsSQL').returns(SQL`something`);
-
-    const result = list.getPublicProjectAttachments();
-
-    await result(sampleReq, sampleRes as any, (null as unknown) as any);
-
-    expect(actualResult).to.be.eql({
-      attachmentsList: [
-        {
-          id: 13,
-          fileName: 'name1',
-          lastModified: '2020-04-04',
-          size: 50,
-          securityToken: false
-        }
-      ]
-    });
-  });
-
-  it('should return null if the project has no attachments, on success', async () => {
-    const mockQuery = sinon.stub();
-
-    mockQuery.resolves({ rows: undefined });
-
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      },
-      query: mockQuery
-    });
-
-    sinon.stub(public_queries, 'getPublicProjectAttachmentsSQL').returns(SQL`something`);
-
-    const result = list.getPublicProjectAttachments();
-
-    await result(sampleReq, sampleRes as any, (null as unknown) as any);
-
-    expect(actualResult).to.be.null;
+    expect(actualResult).to.be.eql([]);
   });
 });

@@ -24,7 +24,7 @@ describe('GetAttachmentsData', () => {
         file_name: 'filename',
         create_date: '2020/04/04',
         file_size: 24,
-        security_token: 'token123'
+        url: 'https://something.com'
       }
     ];
 
@@ -39,7 +39,7 @@ describe('GetAttachmentsData', () => {
           fileName: 'filename',
           lastModified: '2020/04/04',
           size: 24,
-          securityToken: 'token123'
+          url: 'https://something.com'
         }
       ]);
     });

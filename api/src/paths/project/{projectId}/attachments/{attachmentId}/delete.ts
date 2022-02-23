@@ -17,6 +17,7 @@ export const DELETE: Operation = [
         {
           validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR],
           projectId: Number(req.params.projectId),
+          attachmentId: Number(req.params.attachmentId),
           discriminator: 'ProjectRole'
         }
       ]
@@ -31,6 +32,14 @@ DELETE.apiDoc = {
     'Row count of successfully deleted attachment record'
   ),
   parameters: [
+    {
+      in: 'path',
+      name: 'projectId',
+      schema: {
+        type: 'number'
+      },
+      required: true
+    },
     {
       in: 'path',
       name: 'attachmentId',
@@ -56,8 +65,10 @@ export function deleteAttachment(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'Delete attachment', message: 'params', req_params: req.params });
 
+    if (!req.params.projectId) throw new HTTP400('Missing required path param `projectId`');
     if (!req.params.attachmentId) throw new HTTP400('Missing required path param `attachmentId`');
 
+    const projectId = Number(req.params.projectId);
     const attachmentId = Number(req.params.attachmentId);
     const connection = getDBConnection(req['keycloak_token']);
 
@@ -66,7 +77,7 @@ export function deleteAttachment(): RequestHandler {
 
       const attachmentService = new AttachmentService(connection);
 
-      await attachmentService.deleteAttachment(attachmentId);
+      await attachmentService.deleteAttachment(projectId, attachmentId);
 
       await connection.commit();
 
