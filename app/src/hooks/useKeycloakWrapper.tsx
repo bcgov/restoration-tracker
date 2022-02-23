@@ -50,7 +50,7 @@ export interface IKeycloakWrapper {
    *
    * @memberof IKeycloakWrapper
    */
-  isSystemUser: () => boolean;
+  isSystemUser?: () => boolean;
   /**
    * Returns `true` if the user's `systemRoles` contain at least 1 of the specified `validSystemRoles`, `false` otherwise.
    *
