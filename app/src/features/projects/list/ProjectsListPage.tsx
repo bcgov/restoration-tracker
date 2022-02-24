@@ -105,11 +105,11 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Project Name</TableCell>
-              <TableCell>Activities</TableCell>
+              <TableCell>Name</TableCell>
               <TableCell>Permits</TableCell>
               <TableCell>Contact Agencies</TableCell>
               <TableCell>Start Date</TableCell>
+              <TableCell>End Date</TableCell>
               <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
@@ -140,6 +140,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell />
                   <TableCell />
                   <TableCell />
+                  <TableCell />
                   <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
                 </TableRow>
               ))}
@@ -156,10 +157,10 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                       {row.project.project_name}
                     </Link>
                   </TableCell>
-                  <TableCell>{row.project.objectives}</TableCell>
                   <TableCell>{row.permit.permits.map((item) => item.permit_number).join(', ')}</TableCell>
                   <TableCell>{row.contact.contacts.map((item) => item.agency).join(', ')}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.start_date)}</TableCell>
+                  <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.end_date)}</TableCell>
                   <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
                 </TableRow>
               ))}

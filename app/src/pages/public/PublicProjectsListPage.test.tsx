@@ -47,7 +47,7 @@ describe('PublicProjectsListPage', () => {
 
     await waitFor(() => {
       expect(getByTestId('project-table')).toBeInTheDocument();
-      expect(getByText('COMPLETED')).toBeInTheDocument();
+      expect(getByText('Completed')).toBeInTheDocument();
     });
   });
 
@@ -72,7 +72,7 @@ describe('PublicProjectsListPage', () => {
 
     await waitFor(() => {
       expect(getByTestId('project-table')).toBeInTheDocument();
-      expect(getByText('ACTIVE')).toBeInTheDocument();
+      expect(getByText('Active')).toBeInTheDocument();
     });
   });
 });
