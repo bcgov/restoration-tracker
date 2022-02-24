@@ -167,7 +167,9 @@ function useKeycloakWrapper(): IKeycloakWrapper {
 
       try {
         userDetails = await restorationTrackerApi.user.getUser();
-      } catch {}
+      } catch {
+        //do nothing
+      }
 
       setrestorationTrackerUser(() => {
         if (userDetails?.role_names?.length && !userDetails?.user_record_end_date) {
