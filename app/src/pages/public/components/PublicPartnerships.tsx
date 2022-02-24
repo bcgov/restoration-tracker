@@ -1,8 +1,18 @@
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    partnerItem: {
+      '&:last-child .seperator': {
+        display: 'none'
+      }
+    }
+  })
+);
 
 export interface IPublicPartnershipsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -15,6 +25,8 @@ export interface IPublicPartnershipsProps {
  * @return {*}
  */
 const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
+  const classes = useStyles();
+
   const {
     projectForViewData: {
       partnerships: { indigenous_partnerships, stakeholder_partnerships }
@@ -25,54 +37,47 @@ const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
   const hasStakeholderPartnerships = stakeholder_partnerships && stakeholder_partnerships.length > 0;
 
   return (
-    <>
-      <Box>
-        <Box mb={2} height="2rem" data-testid="partnershipsTitle">
-          <Typography variant="h3">Partnerships</Typography>
-        </Box>
-      </Box>
+    <Box component="dl" mb={0}>
+      <div>
+        <Typography component="dt" variant="subtitle2" color="textSecondary" data-testid="indigenousData">
+          Indigenous Partnerships
+        </Typography>
 
-      <dl className="ddInline">
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary" data-testid="indigenousData">
-              Indigenous Partnerships
-            </Typography>
-            {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
+        <Typography component="dd" variant="body2">
+          {hasIndigenousPartnerships &&
+            indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
               return (
-                <Typography component="dd" variant="body1" key={index}>
+                <span key={index} className={classes.partnerItem}>
                   {indigenousPartnership}
-                </Typography>
+                  <span className="seperator">,&nbsp;</span>
+                </span>
               );
             })}
 
-            {!hasIndigenousPartnerships && (
-              <Typography component="dd" variant="body1">
-                No Indigenous Partnerships
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary" data-testid="stakeholderData">
-              Other Partnerships
-            </Typography>
-            {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
+          {!hasIndigenousPartnerships && <span>None</span>}
+        </Typography>
+      </div>
+
+      <div>
+        <Typography component="dt" variant="subtitle2" color="textSecondary" data-testid="stakeholderData">
+          Other Partnerships
+        </Typography>
+
+        <Typography component="dd" variant="body2">
+          {hasStakeholderPartnerships &&
+            stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
               return (
-                <Typography component="dd" variant="body1" key={index}>
+                <span key={index} className={classes.partnerItem}>
                   {stakeholderPartnership}
-                </Typography>
+                  <span className="seperator">,&nbsp;</span>
+                </span>
               );
             })}
 
-            {!hasStakeholderPartnerships && (
-              <Typography component="dd" variant="body1">
-                No Other Partnerships
-              </Typography>
-            )}
-          </Grid>
-        </Grid>
-      </dl>
-    </>
+          {!hasStakeholderPartnerships && <span>No Other Partnerships</span>}
+        </Typography>
+      </div>
+    </Box>
   );
 };
 

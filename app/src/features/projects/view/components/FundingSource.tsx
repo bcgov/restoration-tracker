@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
     projectFundingList: {
       margin: 0,
       padding: 0,
-      paddingLeft: theme.spacing(3),
+      listStyleType: 'none',
       '& li + li': {
         marginTop: theme.spacing(2),
         paddingTop: theme.spacing(2),

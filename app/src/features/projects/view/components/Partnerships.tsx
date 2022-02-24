@@ -3,6 +3,17 @@ import Typography from '@material-ui/core/Typography';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    partnerItem: {
+      '&:last-child .seperator': {
+        display: 'none'
+      }
+    }
+  })
+);
 
 export interface IPartnershipsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -16,6 +27,8 @@ export interface IPartnershipsProps {
  * @return {*}
  */
 const Partnerships: React.FC<IPartnershipsProps> = (props) => {
+  const classes = useStyles();
+
   const {
     projectForViewData: {
       partnerships: { indigenous_partnerships, stakeholder_partnerships }
@@ -27,44 +40,44 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
   const hasStakeholderPartnerships = stakeholder_partnerships && stakeholder_partnerships.length > 0;
 
   return (
-    <>
-      <Box component="dl" mb={0}>
-        <div>
-          <Typography component="dt" variant="body2" color="textSecondary">
-            Indigenous Partners:
-          </Typography>
+    <Box component="dl" mb={0}>
+      <div>
+        <Typography component="dt" variant="body2" color="textSecondary">
+          Indigenous Partners:
+        </Typography>
 
-          <Typography component="dd" variant="body2">
-            {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
-              const codeValue = codes.first_nations.find((code) => code.id === indigenousPartnership);
-              return (
-                <span key={index} data-testid="indigenous_partners_data">
-                  {codeValue?.name}
-                </span>
-              );
-            })}
-            {!hasIndigenousPartnerships && <span data-testid="no_indigenous_partners_data">None</span>}
-          </Typography>
-        </div>
+        <Typography component="dd" variant="body2">
+          {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
+            const codeValue = codes.first_nations.find((code) => code.id === indigenousPartnership);
+            return (
+              <span key={index} data-testid="indigenous_partners_data" className={classes.partnerItem}>
+                {codeValue?.name}
+                <span className="seperator">,&nbsp;</span>
+              </span>
+            );
+          })}
+          {!hasIndigenousPartnerships && <span data-testid="no_indigenous_partners_data">None</span>}
+        </Typography>
+      </div>
 
-        <div>
-          <Typography component="dt" variant="body2" color="textSecondary">
-            Other Partners:
-          </Typography>
+      <div>
+        <Typography component="dt" variant="body2" color="textSecondary">
+          Other Partners:
+        </Typography>
 
-          <Typography component="dd" variant="body2">
-            {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
-              return (
-                <span key={index} data-testid="stakeholder_partners_data">
-                  {stakeholderPartnership}
-                </span>
-              );
-            })}
-            {!hasStakeholderPartnerships && <span data-testid="no_stakeholder_partners_data">None</span>}
-          </Typography>
-        </div>
-      </Box>
-    </>
+        <Typography component="dd" variant="body2">
+          {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
+            return (
+              <span key={index} data-testid="stakeholder_partners_data" className={classes.partnerItem}>
+                {stakeholderPartnership}
+                <span className="seperator">,&nbsp;</span>
+              </span>
+            );
+          })}
+          {!hasStakeholderPartnerships && <span data-testid="no_stakeholder_partners_data">None</span>}
+        </Typography>
+      </div>
+    </Box>
   );
 };
 

@@ -1,11 +1,25 @@
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
-import React, { Fragment } from 'react';
-import { getFormattedAmount, getFormattedDateRangeString } from 'utils/Utils';
+import React from 'react';
+import { getFormattedAmount, getFormattedDate } from 'utils/Utils';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    projectFundingList: {
+      margin: 0,
+      padding: 0,
+      listStyleType: 'none',
+      '& li + li': {
+        marginTop: theme.spacing(2),
+        paddingTop: theme.spacing(2),
+        borderTop: '1px solid #dddddd'
+      }
+    }
+  })
+);
 
 export interface IPublicProjectFundingProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -18,6 +32,8 @@ export interface IPublicProjectFundingProps {
  * @return {*}
  */
 const PublicFundingSource: React.FC<IPublicProjectFundingProps> = (props) => {
+  const classes = useStyles();
+
   const {
     projectForViewData: { funding }
   } = props;
@@ -25,73 +41,58 @@ const PublicFundingSource: React.FC<IPublicProjectFundingProps> = (props) => {
   const hasFundingSources = funding.fundingSources && funding.fundingSources.length > 0;
 
   return (
-    <>
-      <Box component="header" mb={2} data-testid="fundingSourcesTitle">
-        <Typography variant="h3">Funding Sources</Typography>
-      </Box>
-
+    <ul className={classes.projectFundingList}>
       {hasFundingSources &&
         funding.fundingSources.map((item: any, index: number) => (
-          <Fragment key={item.id}>
-            <Box mt={3}>
-              <Divider />
-              <Box my={2} height="2.25rem" data-testid="agencyTitle">
-                <Typography variant="h4">{item.agency_name}</Typography>
-              </Box>
-              <dl>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={4}>
-                    <Typography component="dt" variant="subtitle2" color="textSecondary">
-                      Agency Project ID
-                    </Typography>
-                    <Typography component="dd" variant="body1">
-                      {item.agency_project_id || 'No Agency Project ID'}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4}>
-                    <Typography component="dt" variant="subtitle2" color="textSecondary">
-                      Funding Amount
-                    </Typography>
-                    <Typography component="dd" variant="body1">
-                      {getFormattedAmount(item.funding_amount)}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4}>
-                    <Typography component="dt" variant="subtitle2" color="textSecondary">
-                      Funding Dates
-                    </Typography>
-                    <Typography component="dd" variant="body1">
-                      {getFormattedDateRangeString(
-                        DATE_FORMAT.ShortDateFormatMonthFirst,
-                        item.start_date,
-                        item.end_date
-                      )}
-                    </Typography>
-                  </Grid>
-                  {item.investment_action_category_name !== 'Not Applicable' && (
-                    <Grid item xs={12} sm={6} md={4}>
-                      <Typography component="dt" variant="subtitle2" color="textSecondary">
-                        Investment Category
-                      </Typography>
-                      <Typography component="dd" variant="body1">
-                        {item.investment_action_category_name}
-                      </Typography>
-                    </Grid>
-                  )}
-                </Grid>
-              </dl>
+          <li key={index} data-testid="funding_data">
+            <Box>
+              <strong data-testid="agencyTitle">{item.agency_name}</strong>
             </Box>
-          </Fragment>
+            <Box component="dl" mt={0.5} mb={0}>
+              <div>
+                <Typography variant="body2" component="dt" color="textSecondary">
+                  Funding Amount:
+                </Typography>
+                <Typography variant="body2" component="dt">
+                  {getFormattedAmount(item.funding_amount)}
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2" component="dt" color="textSecondary">
+                  Project ID:
+                </Typography>
+                <Typography variant="body2" component="dt">
+                  {item.agency_project_id}
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2" component="dt" color="textSecondary">
+                  Start Date:
+                </Typography>
+                <Typography variant="body2" component="dt">
+                  {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.start_date)}
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2" component="dt" color="textSecondary">
+                  End Date:
+                </Typography>
+                <Typography variant="body2" component="dt">
+                  {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.end_date)}
+                </Typography>
+              </div>
+            </Box>
+          </li>
         ))}
 
       {!hasFundingSources && (
-        <Box mt={2}>
-          <Typography component="dd" variant="body1">
+        <li>
+          <Typography variant="body2" data-testid="no_funding_loaded">
             No Funding Sources
           </Typography>
-        </Box>
+        </li>
       )}
-    </>
+    </ul>
   );
 };
 

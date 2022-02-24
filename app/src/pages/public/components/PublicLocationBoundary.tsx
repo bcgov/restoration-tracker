@@ -1,6 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import InferredLocationDetails, { IInferredLayers } from 'components/boundary/InferredLocationDetails';
 import MapContainer from 'components/map/MapContainer';
 import { Feature } from 'geojson';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
@@ -22,12 +20,6 @@ const PublicLocationBoundary: React.FC<IPublicLocationBoundaryProps> = (props) =
     projectForViewData: { location }
   } = props;
 
-  const [inferredLayersInfo, setInferredLayersInfo] = useState<IInferredLayers>({
-    parks: [],
-    nrm: [],
-    env: [],
-    wmu: []
-  });
   const [bounds, setBounds] = useState<any[] | undefined>([]);
   const [nonEditableGeometries, setNonEditableGeometries] = useState<any[]>([]);
 
@@ -41,20 +33,13 @@ const PublicLocationBoundary: React.FC<IPublicLocationBoundaryProps> = (props) =
   }, [location.geometry]);
 
   return (
-    <Box>
-      <Box mb={2} data-testid="projectLocationTitle">
-        <Typography variant="h3">Project Location</Typography>
-      </Box>
-      <Box mt={4} mb={4} height={500}>
-        <MapContainer
-          mapId="project_location_form_map"
-          hideDrawControls={true}
-          nonEditableGeometries={nonEditableGeometries}
-          bounds={bounds}
-          setInferredLayersInfo={setInferredLayersInfo}
-        />
-      </Box>
-      <InferredLocationDetails layers={inferredLayersInfo} />
+    <Box width="100%" height="100%" overflow="hidden" data-testid="map_container">
+      <MapContainer
+        mapId="project_location_form_map"
+        hideDrawControls={true}
+        nonEditableGeometries={nonEditableGeometries}
+        bounds={bounds}
+      />
     </Box>
   );
 };

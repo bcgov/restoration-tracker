@@ -32,54 +32,52 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
   };
 
   return (
-    <>
-      <Box component="dl" data-testid="general_info_component">
-        <div>
-          <Typography variant="body2" component="dd" color="textSecondary">
-            Project Name:
-          </Typography>
-          <Typography variant="body2" component="dt">
-            {project.project_name}
-          </Typography>
-        </div>
-        <div>
-          <Typography variant="body2" component="dd" color="textSecondary">
-            Region:
-          </Typography>
-          {getRegionName(location.region)}
-        </div>
-        <div>
-          <Typography variant="body2" component="dd" color="textSecondary">
-            Start Date:
-          </Typography>
-          <Typography variant="body2" component="dt">
-            {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
-          </Typography>
-        </div>
-        <div>
-          <Typography variant="body2" component="dd" color="textSecondary">
-            Completion Date:
-          </Typography>
-          <Typography variant="body2" component="dt">
-            {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
-          </Typography>
-        </div>
-        <div>
-          <Typography variant="body2" component="dd" color="textSecondary">
-            Focal Species:
-          </Typography>
-          <Typography component="dd" variant="body2">
-            {species.focal_species_names?.map((item: any, index: number) => {
-              return (
-                <span key={index} data-testid="focal_species_data">
-                  {item}
-                </span>
-              );
-            })}
-          </Typography>
-        </div>
-      </Box>
-    </>
+    <Box component="dl" data-testid="general_info_component">
+      <div>
+        <Typography variant="body2" component="dd" color="textSecondary">
+          Project Name:
+        </Typography>
+        <Typography variant="body2" component="dt">
+          {project.project_name}
+        </Typography>
+      </div>
+      <div>
+        <Typography variant="body2" component="dd" color="textSecondary">
+          Region:
+        </Typography>
+        {getRegionName(location.region)}
+      </div>
+      <div>
+        <Typography variant="body2" component="dd" color="textSecondary">
+          Start Date:
+        </Typography>
+        <Typography variant="body2" component="dt">
+          {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
+        </Typography>
+      </div>
+      <div>
+        <Typography variant="body2" component="dd" color="textSecondary">
+          Completion Date:
+        </Typography>
+        <Typography variant="body2" component="dt">
+          {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
+        </Typography>
+      </div>
+      <div>
+        <Typography variant="body2" component="dd" color="textSecondary">
+          Focal Species:
+        </Typography>
+        <Typography component="dd" variant="body2">
+          {species.focal_species_names?.map((item: any, index: number) => {
+            return (
+              <span key={index} data-testid="focal_species_data">
+                {item}
+              </span>
+            );
+          })}
+        </Typography>
+      </div>
+    </Box>
   );
 };
 
