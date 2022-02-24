@@ -1,15 +1,16 @@
-import { render, cleanup, waitFor } from '@testing-library/react';
+import { cleanup, render, waitFor } from '@testing-library/react';
 import { SYSTEM_ROLE } from 'constants/roles';
+import { AuthStateContext, IAuthState } from 'contexts/authStateContext';
+import { createMemoryHistory } from 'history';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
-import { Router } from 'react-router';
-import { createMemoryHistory } from 'history';
-import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import React from 'react';
-import ViewProjectPage from './ViewProjectPage';
-import { AuthStateContext, IAuthState } from 'contexts/authStateContext';
+import { Router } from 'react-router';
+import { getMockAuthState } from 'test-helpers/auth-helpers';
 import { codes } from 'test-helpers/code-helpers';
+import { getProjectForViewResponse } from 'test-helpers/project-helpers';
+import ViewProjectPage from './ViewProjectPage';
 
 //import { codes } from 'test-helpers/code-helpers';
 
@@ -67,13 +68,13 @@ describe('ViewProjectPage', () => {
 
     mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
 
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         ...defaultAuthState.keycloakWrapper,
         systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN] as string[],
         hasSystemRole: () => true
       }
-    };
+    });
 
     const { getByTestId } = render(
       <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
@@ -93,13 +94,13 @@ describe('ViewProjectPage', () => {
 
     mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
 
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         ...defaultAuthState.keycloakWrapper,
         systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN] as string[],
         hasSystemRole: () => true
       }
-    };
+    });
 
     const { getByTestId } = render(
       <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>
@@ -119,13 +120,13 @@ describe('ViewProjectPage', () => {
 
     mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue(codes);
 
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         ...defaultAuthState.keycloakWrapper,
         systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN] as string[],
         hasSystemRole: () => true
       }
-    };
+    });
 
     const { getByTestId } = render(
       <AuthStateContext.Provider value={(authState as unknown) as IAuthState}>

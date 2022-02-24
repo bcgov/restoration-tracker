@@ -241,6 +241,9 @@ const Header: React.FC = () => {
               <Link to="/admin/projects" id="menu_projects">
                 Projects
               </Link>
+              <Link to="/admin/user/projects" id="menu_user_projects">
+                My Projects
+              </Link>
               <Link to="/admin/search" id="menu_search">
                 Map
               </Link>
