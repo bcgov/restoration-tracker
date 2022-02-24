@@ -65,8 +65,12 @@ export function deleteAttachment(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'Delete attachment', message: 'params', req_params: req.params });
 
-    if (!req.params.projectId) throw new HTTP400('Missing required path param `projectId`');
-    if (!req.params.attachmentId) throw new HTTP400('Missing required path param `attachmentId`');
+    if (!req.params.projectId) {
+      throw new HTTP400('Missing required path param `projectId`');
+    }
+    if (!req.params.attachmentId) {
+      throw new HTTP400('Missing required path param `attachmentId`');
+    }
 
     const projectId = Number(req.params.projectId);
     const attachmentId = Number(req.params.attachmentId);

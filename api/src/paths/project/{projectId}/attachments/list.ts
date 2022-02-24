@@ -91,7 +91,9 @@ export function getAttachments(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'Get attachments list', message: 'params', req_params: req.params });
 
-    if (!req.params.projectId) throw new HTTP400('Missing required path param `projectId`');
+    if (!req.params.projectId) {
+      throw new HTTP400('Missing required path param `projectId`');
+    }
 
     const projectId = Number(req.params.projectId);
     const connection = getDBConnection(req['keycloak_token']);

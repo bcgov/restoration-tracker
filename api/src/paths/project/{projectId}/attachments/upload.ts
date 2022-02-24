@@ -93,9 +93,15 @@ POST.apiDoc = {
  */
 export function uploadAttachment(): RequestHandler {
   return async (req, res) => {
-    if (!req.params.projectId) throw new HTTP400('Missing projectId');
-    if (!req.files || !req.files.length) throw new HTTP400('Missing upload data');
-    if (!req.body) throw new HTTP400('Missing request body');
+    if (!req.params.projectId) {
+      throw new HTTP400('Missing projectId');
+    }
+    if (!req.files || !req.files.length) {
+      throw new HTTP400('Missing upload data');
+    }
+    if (!req.body) {
+      throw new HTTP400('Missing request body');
+    }
 
     const projectId = Number(req.params.projectId);
     const rawMediaFile: Express.Multer.File = req.files[0];
@@ -106,7 +112,9 @@ export function uploadAttachment(): RequestHandler {
     };
     const connection = getDBConnection(req['keycloak_token']);
 
-    if (!(await scanFileForVirus(rawMediaFile))) throw new HTTP400('Malicious content detected, upload cancelled');
+    if (!(await scanFileForVirus(rawMediaFile))) {
+      throw new HTTP400('Malicious content detected, upload cancelled');
+    }
 
     defaultLog.debug({
       label: 'uploadMedia',
