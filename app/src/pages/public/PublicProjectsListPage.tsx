@@ -23,16 +23,20 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme: Theme) => ({
+  linkButton: {
+    textAlign: 'left'
+  },
   chip: {
-    padding: '0px 8px',
-    borderRadius: '4px',
     color: 'white'
   },
   chipActive: {
-    backgroundColor: theme.palette.warning.main
-  },
-  chipCompleted: {
     backgroundColor: theme.palette.success.main
+  },
+  chipPublishedCompleted: {
+    backgroundColor: theme.palette.success.main
+  },
+  chipDraft: {
+    backgroundColor: theme.palette.info.main
   }
 }));
 
@@ -65,11 +69,11 @@ const PublicProjectsListPage = () => {
     let chipStatusClass;
 
     if (ProjectStatusType.ACTIVE === status_name) {
-      chipLabel = 'ACTIVE';
+      chipLabel = 'Active';
       chipStatusClass = classes.chipActive;
     } else if (ProjectStatusType.COMPLETED === status_name) {
-      chipLabel = 'COMPLETED';
-      chipStatusClass = classes.chipCompleted;
+      chipLabel = 'Completed';
+      chipStatusClass = classes.chipPublishedCompleted;
     }
 
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
@@ -92,6 +96,7 @@ const PublicProjectsListPage = () => {
               <TableCell>Contact Agencies</TableCell>
               <TableCell>Start Date</TableCell>
               <TableCell>End Date</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -116,7 +121,7 @@ const PublicProjectsListPage = () => {
                 <TableCell>Contact Agencies</TableCell>
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
-                <TableCell>Completion Status</TableCell>
+                <TableCell>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">

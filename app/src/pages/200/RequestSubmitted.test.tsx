@@ -4,11 +4,12 @@ import { AuthStateContext } from 'contexts/authStateContext';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router';
+import { getMockAuthState } from 'test-helpers/auth-helpers';
 import RequestSubmitted from './RequestSubmitted';
 
 describe('RequestSubmitted', () => {
   it('renders a spinner when `hasLoadedAllUserInfo` is false', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         hasLoadedAllUserInfo: false,
         systemRoles: [],
@@ -25,7 +26,7 @@ describe('RequestSubmitted', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const history = createMemoryHistory();
 
@@ -47,7 +48,7 @@ describe('RequestSubmitted', () => {
   });
 
   it('redirects to `/admin/projects` when user has at least 1 system role', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         hasLoadedAllUserInfo: true,
         systemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
@@ -64,7 +65,7 @@ describe('RequestSubmitted', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const history = createMemoryHistory();
 
@@ -82,7 +83,7 @@ describe('RequestSubmitted', () => {
   });
 
   it('redirects to `/` when user has no pending access request', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         hasLoadedAllUserInfo: true,
         systemRoles: [],
@@ -99,7 +100,7 @@ describe('RequestSubmitted', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const history = createMemoryHistory();
 
@@ -117,7 +118,7 @@ describe('RequestSubmitted', () => {
   });
 
   it('renders correctly when user has no role but has a pending access requests', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         hasLoadedAllUserInfo: true,
         systemRoles: [],
@@ -134,7 +135,7 @@ describe('RequestSubmitted', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const history = createMemoryHistory();
 
@@ -161,7 +162,7 @@ describe('RequestSubmitted', () => {
     const history = createMemoryHistory();
 
     it('should redirect to `/logout`', async () => {
-      const authState = {
+      const authState = getMockAuthState({
         keycloakWrapper: {
           hasLoadedAllUserInfo: true,
           systemRoles: [],
@@ -178,7 +179,7 @@ describe('RequestSubmitted', () => {
           lastName: 'testlast',
           refresh: () => {}
         }
-      };
+      });
 
       const { getByTestId } = render(
         <AuthStateContext.Provider value={authState}>

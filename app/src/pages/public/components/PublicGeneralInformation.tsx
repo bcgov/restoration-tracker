@@ -1,10 +1,9 @@
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
-import { getFormattedDateRangeString } from 'utils/Utils';
+import { getFormattedDate } from 'utils/Utils';
 
 export interface IPublicProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -22,44 +21,31 @@ const PublicGeneralInformation: React.FC<IPublicProjectDetailsProps> = (props) =
   } = props;
 
   return (
-    <Box>
-      <Box mb={2} height="2rem" data-testid="generalInfoTitle">
-        <Typography variant="h3">General Information</Typography>
-      </Box>
-      <dl>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary">
-              Project Name
-            </Typography>
-            <Typography component="dd" variant="body1">
-              {project.project_name}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary">
-              Timeline
-            </Typography>
-            <Typography component="dd" variant="body1">
-              {project.end_date ? (
-                <>
-                  {getFormattedDateRangeString(DATE_FORMAT.ShortMediumDateFormat, project.start_date, project.end_date)}
-                </>
-              ) : (
-                <>
-                  <span>Start Date:</span>{' '}
-                  {getFormattedDateRangeString(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
-                </>
-              )}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography component="dt" variant="subtitle2" color="textSecondary">
-              Activities
-            </Typography>
-          </Grid>
-        </Grid>
-      </dl>
+    <Box component="dl" data-testid="general_info_component">
+      <div>
+        <Typography variant="body2" component="dd" color="textSecondary">
+          Project Name:
+        </Typography>
+        <Typography variant="body2" component="dt">
+          {project.project_name}
+        </Typography>
+      </div>
+      <div>
+        <Typography variant="body2" component="dd" color="textSecondary">
+          Start Date:
+        </Typography>
+        <Typography variant="body2" component="dt">
+          {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
+        </Typography>
+      </div>
+      <div>
+        <Typography variant="body2" component="dd" color="textSecondary">
+          Completion Date:
+        </Typography>
+        <Typography variant="body2" component="dt">
+          {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
+        </Typography>
+      </div>
     </Box>
   );
 };

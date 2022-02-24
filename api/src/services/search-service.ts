@@ -1,3 +1,4 @@
+import SQL from 'sql-template-strings';
 import { getKnexQueryBuilder } from '../database/db';
 import { DBService } from './service';
 
@@ -120,6 +121,25 @@ export class SearchService extends DBService {
     queryBuilder.groupBy('project.project_id');
 
     const response = await this.connection.knex<{ project_id: number }>(queryBuilder);
+
+    return response.rows;
+  }
+
+  async findProjectIdsByProjectParticipation(systemUserId: number) {
+    const sqlStatement = SQL`
+      SELECT
+        project.project_id
+      FROM
+        project
+      LEFT JOIN
+        project_participation
+      ON
+        project.project_id = project_participation.project_participation_id
+      WHERE
+        project_participation.system_user_id = ${systemUserId};
+    `;
+
+    const response = await this.connection.sql<{ project_id: number }>(sqlStatement);
 
     return response.rows;
   }
