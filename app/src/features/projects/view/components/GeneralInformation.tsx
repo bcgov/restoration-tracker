@@ -62,6 +62,14 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
         </Typography>
         {getRegionName(location.region)}
       </div>
+      {species && species.focal_species_names && checkForCaribouSpecies(species.focal_species_names) && (
+          <div>
+            <Typography variant="body2" component="dd" color="textSecondary">
+              Range:
+            </Typography>
+            {getRangeName(location.range)}
+          </div>
+        )}
       <div>
         <Typography variant="body2" component="dd" color="textSecondary">
           Start Date:
