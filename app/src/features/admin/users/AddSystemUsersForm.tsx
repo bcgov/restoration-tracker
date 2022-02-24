@@ -11,9 +11,9 @@ import { mdiPlus, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import CustomTextField from 'components/fields/CustomTextField';
 import { FieldArray, useFormikContext } from 'formik';
+import { SYSTEM_IDENTITY_SOURCE } from 'hooks/useKeycloakWrapper';
 import React from 'react';
 import yup from 'utils/YupSchema';
-import { SYSTEM_IDENTITY_SOURCE } from 'components/layout/Header';
 
 export interface IAddSystemUsersFormArrayItem {
   userIdentifier: string;

@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import { SYSTEM_IDENTITY_SOURCE } from 'components/layout/Header';
+import { SYSTEM_IDENTITY_SOURCE } from 'hooks/useKeycloakWrapper';
 import AccessRequestList from 'features/admin/users/AccessRequestList';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IAccessRequestDataObject, IGetAccessRequestsListResponse } from 'interfaces/useAdminApi.interface';
