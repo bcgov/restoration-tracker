@@ -70,7 +70,6 @@ const PublicProjectPage = () => {
         height="100%"
         overflow="hidden"
         data-testid="view_project_page_component">
-
         {/* Details Container */}
         <Drawer variant="permanent" className={classes.projectDetailDrawer}>
           <PublicProjectDetails projectForViewData={projectWithDetails} refresh={getProject} />
@@ -83,7 +82,6 @@ const PublicProjectPage = () => {
           </Box>
         </Box>
       </Box>
-
     </>
   );
 };

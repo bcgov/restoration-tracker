@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
         verticalAlign: 'top'
       },
       '& dd span': {
-        display: 'inline',
+        display: 'inline'
       },
       '& h3': {
         marginBottom: theme.spacing(2),
@@ -160,7 +160,6 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
-      
       <Toolbar>
         <Button
           component={Link}
@@ -249,9 +248,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             <PublicPartnerships projectForViewData={projectForViewData} refresh={refresh} />
           </Box>
         </Box>
-
       </Box>
-
     </Box>
   );
 };

@@ -25,13 +25,11 @@ describe('PublicPartnerships', () => {
       }
     } as IGetProjectForViewResponse;
 
-    const { getByText } = render(
-      <PublicPartnerships projectForViewData={projectPermitData} refresh={mockRefresh} />
-    );
+    const { getByText } = render(<PublicPartnerships projectForViewData={projectPermitData} refresh={mockRefresh} />);
 
-    expect(getByText('0', {exact: false})).toBeVisible();
-    expect(getByText('1', {exact: false})).toBeVisible();
-    expect(getByText('partner2', {exact: false})).toBeVisible();
-    expect(getByText('partner3', {exact: false})).toBeVisible();
+    expect(getByText('0', { exact: false })).toBeVisible();
+    expect(getByText('1', { exact: false })).toBeVisible();
+    expect(getByText('partner2', { exact: false })).toBeVisible();
+    expect(getByText('partner3', { exact: false })).toBeVisible();
   });
 });

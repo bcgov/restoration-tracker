@@ -51,7 +51,8 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
             const codeValue = codes.first_nations.find((code) => code.id === indigenousPartnership);
             return (
               <span key={index} data-testid="indigenous_partners_data" className={classes.partnerItem}>
-                {codeValue?.name}<span className="seperator">,&nbsp;</span>
+                {codeValue?.name}
+                <span className="seperator">,&nbsp;</span>
               </span>
             );
           })}
@@ -68,7 +69,8 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
           {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
             return (
               <span key={index} data-testid="stakeholder_partners_data" className={classes.partnerItem}>
-                {stakeholderPartnership}<span className="seperator">,&nbsp;</span>
+                {stakeholderPartnership}
+                <span className="seperator">,&nbsp;</span>
               </span>
             );
           })}

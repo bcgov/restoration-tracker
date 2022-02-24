@@ -23,9 +23,9 @@ describe('PublicGeneralInformation', () => {
       <PublicGeneralInformation projectForViewData={projectPermitData} refresh={mockRefresh} />
     );
 
-    expect(getByText('Test Project Name', {exact: false})).toBeVisible();
-    expect(getByText('Jan 10, 2021', {exact: false})).toBeVisible();
-    expect(getByText('---', {exact: false})).toBeVisible();
+    expect(getByText('Test Project Name', { exact: false })).toBeVisible();
+    expect(getByText('Jan 10, 2021', { exact: false })).toBeVisible();
+    expect(getByText('---', { exact: false })).toBeVisible();
   });
 
   it('renders correctly', () => {
@@ -45,8 +45,8 @@ describe('PublicGeneralInformation', () => {
       <PublicGeneralInformation projectForViewData={projectPermitData} refresh={mockRefresh} />
     );
 
-    expect(getByText('Test Project Name', {exact: false})).toBeVisible();
-    expect(getByText('Jan 10, 2021', {exact: false})).toBeVisible();
-    expect(getByText('Jan 26, 2021', {exact: false})).toBeVisible();
+    expect(getByText('Test Project Name', { exact: false })).toBeVisible();
+    expect(getByText('Jan 10, 2021', { exact: false })).toBeVisible();
+    expect(getByText('Jan 26, 2021', { exact: false })).toBeVisible();
   });
 });

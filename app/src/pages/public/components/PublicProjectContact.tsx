@@ -40,28 +40,28 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
 
   return (
     <>
-    {contact.contacts.map((contactDetails, index) => (
-      <ul className={classes.projectContactList} key={index}>
-        <Box component="li" display="flex" flexDirection="row">
-          <Box mr={2}>
-            <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
+      {contact.contacts.map((contactDetails, index) => (
+        <ul className={classes.projectContactList} key={index}>
+          <Box component="li" display="flex" flexDirection="row">
+            <Box mr={2}>
+              <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
+            </Box>
+            <div>
+              <div>
+                <strong data-testid="contact_name">
+                  {' '}
+                  {contactDetails.first_name} {contactDetails.last_name}
+                </strong>
+              </div>
+              <div>
+                <Link href="#">{contactDetails.email_address}</Link>
+              </div>
+              <div>{contactDetails.agency}</div>
+            </div>
           </Box>
-          <div>
-            <div>
-              <strong data-testid="contact_name">
-                {' '}
-                {contactDetails.first_name} {contactDetails.last_name}
-              </strong>
-            </div>
-            <div>
-              <Link href="#">{contactDetails.email_address}</Link>
-            </div>
-            <div>{contactDetails.agency}</div>
-          </div>
-        </Box>
-      </ul>
-    ))}
-  </>
+        </ul>
+      ))}
+    </>
   );
 };
 

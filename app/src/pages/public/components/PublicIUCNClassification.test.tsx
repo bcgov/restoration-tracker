@@ -11,7 +11,9 @@ describe('PublicIUCNClassification', () => {
       iucn: {}
     } as IGetProjectForViewResponse;
 
-    const { getByText } = render(<PublicIUCNClassification projectForViewData={projectPermitData} refresh={mockRefresh} />);
+    const { getByText } = render(
+      <PublicIUCNClassification projectForViewData={projectPermitData} refresh={mockRefresh} />
+    );
 
     expect(getByText('No Classifications')).toBeVisible();
   });
@@ -33,8 +35,8 @@ describe('PublicIUCNClassification', () => {
       <PublicIUCNClassification projectForViewData={projectPermitData} refresh={mockRefresh} />
     );
 
-    expect(getByText('1', {exact: false})).toBeVisible();
-    expect(getByText('2', {exact: false})).toBeVisible();
-    expect(getByText('3', {exact: false})).toBeVisible();
+    expect(getByText('1', { exact: false })).toBeVisible();
+    expect(getByText('2', { exact: false })).toBeVisible();
+    expect(getByText('3', { exact: false })).toBeVisible();
   });
 });

@@ -36,14 +36,12 @@ describe('PublicFundingSource', () => {
       }
     } as IGetProjectForViewResponse;
 
-    const { getByText } = render(
-      <PublicFundingSource projectForViewData={projectPermitData} refresh={mockRefresh} />
-    );
+    const { getByText } = render(<PublicFundingSource projectForViewData={projectPermitData} refresh={mockRefresh} />);
 
-    expect(getByText('agency name', {exact: false})).toBeVisible();
-    expect(getByText('$333', {exact: false})).toBeVisible();
-    expect(getByText('ABC123', {exact: false})).toBeVisible();
-    expect(getByText('Jan 10, 2021', {exact: false})).toBeVisible();
-    expect(getByText('Jan 20, 2021', {exact: false})).toBeVisible();
+    expect(getByText('agency name', { exact: false })).toBeVisible();
+    expect(getByText('$333', { exact: false })).toBeVisible();
+    expect(getByText('ABC123', { exact: false })).toBeVisible();
+    expect(getByText('Jan 10, 2021', { exact: false })).toBeVisible();
+    expect(getByText('Jan 20, 2021', { exact: false })).toBeVisible();
   });
 });

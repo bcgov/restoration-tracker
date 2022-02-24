@@ -44,15 +44,17 @@ const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
         </Typography>
 
         <Typography component="dd" variant="body2">
-          {hasIndigenousPartnerships && indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
-            return (
-              <span key={index} className={classes.partnerItem}>{indigenousPartnership}<span className="seperator">,&nbsp;</span></span>
-            );
-          })}
+          {hasIndigenousPartnerships &&
+            indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
+              return (
+                <span key={index} className={classes.partnerItem}>
+                  {indigenousPartnership}
+                  <span className="seperator">,&nbsp;</span>
+                </span>
+              );
+            })}
 
-          {!hasIndigenousPartnerships && (
-            <span>None</span>
-          )}
+          {!hasIndigenousPartnerships && <span>None</span>}
         </Typography>
       </div>
 
@@ -62,15 +64,17 @@ const PublicPartnerships: React.FC<IPublicPartnershipsProps> = (props) => {
         </Typography>
 
         <Typography component="dd" variant="body2">
-          {hasStakeholderPartnerships && stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
-            return (
-              <span key={index} className={classes.partnerItem}>{stakeholderPartnership}<span className="seperator">,&nbsp;</span></span>
-            );
-          })}
+          {hasStakeholderPartnerships &&
+            stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
+              return (
+                <span key={index} className={classes.partnerItem}>
+                  {stakeholderPartnership}
+                  <span className="seperator">,&nbsp;</span>
+                </span>
+              );
+            })}
 
-          {!hasStakeholderPartnerships && (
-            <span>No Other Partnerships</span>
-          )}
+          {!hasStakeholderPartnerships && <span>No Other Partnerships</span>}
         </Typography>
       </div>
     </Box>

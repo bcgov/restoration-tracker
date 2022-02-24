@@ -28,11 +28,9 @@ describe('PublicProjectPermits', () => {
       }
     } as IGetProjectForViewResponse;
 
-    const { getByText } = render(
-      <PublicProjectPermits projectForViewData={projectPermitData} refresh={mockRefresh} />
-    );
+    const { getByText } = render(<PublicProjectPermits projectForViewData={projectPermitData} refresh={mockRefresh} />);
 
-    expect(getByText('123', {exact: false})).toBeVisible();
-    expect(getByText('Permit type', {exact: false})).toBeVisible();
+    expect(getByText('123', { exact: false })).toBeVisible();
+    expect(getByText('Permit type', { exact: false })).toBeVisible();
   });
 });

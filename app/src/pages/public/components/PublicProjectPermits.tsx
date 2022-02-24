@@ -30,7 +30,7 @@ export interface IPublicProjectPermitsProps {
  */
 const PublicProjectPermits: React.FC<IPublicProjectPermitsProps> = (props) => {
   const classes = useStyles();
-  
+
   const {
     projectForViewData: { permit }
   } = props;
@@ -44,8 +44,7 @@ const PublicProjectPermits: React.FC<IPublicProjectPermitsProps> = (props) => {
           permit.permits.map((item: any) => (
             <li key={item.permit_number} data-testid="permit_item">
               <Typography component="span" variant="body2">
-                {item.permit_number} -{' '}
-                <span>{item.permit_type}</span>
+                {item.permit_number} - <span>{item.permit_type}</span>
               </Typography>
             </li>
           ))}

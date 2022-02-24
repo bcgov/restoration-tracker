@@ -39,13 +39,15 @@ const PublicIUCNClassification: React.FC<IPublicIUCNClassificationProps> = (prop
 
   return (
     <ul className={classes.projectIucnList}>
-      {hasIucnClassifications && iucn.classificationDetails.map((classificationDetail: any, index: number) => {
-        return (
-          <li key={index} data-testid="IUCNData">
-            {classificationDetail.classification} <span>{'>'}</span> {classificationDetail.subClassification1}{' '}<span>{'>'}</span> {classificationDetail.subClassification2}
-          </li>
-        );
-      })}
+      {hasIucnClassifications &&
+        iucn.classificationDetails.map((classificationDetail: any, index: number) => {
+          return (
+            <li key={index} data-testid="IUCNData">
+              {classificationDetail.classification} <span>{'>'}</span> {classificationDetail.subClassification1}{' '}
+              <span>{'>'}</span> {classificationDetail.subClassification2}
+            </li>
+          );
+        })}
 
       {!hasIucnClassifications && (
         <li>

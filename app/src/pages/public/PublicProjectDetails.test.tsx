@@ -24,8 +24,8 @@ describe('PublicProjectDetails', () => {
     const { getByText, getByTestId, queryAllByText } = render(component);
 
     await waitFor(() => {
-      expect(queryAllByText('Test Project Name', {exact: false}).length).toEqual(2);
-      expect(getByText('Completed', {exact: false})).toBeVisible();
+      expect(queryAllByText('Test Project Name', { exact: false }).length).toEqual(2);
+      expect(getByText('Completed', { exact: false })).toBeVisible();
       expect(getByTestId('projectPermitsTitle')).toBeVisible();
       expect(getByTestId('IUCNTitle')).toBeVisible();
       expect(getByTestId('fundingSourcesTitle')).toBeVisible();
