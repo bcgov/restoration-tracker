@@ -73,7 +73,7 @@ const PublicProjectsListPage = () => {
       chipStatusClass = classes.chipActive;
     } else if (ProjectStatusType.COMPLETED === status_name) {
       chipLabel = 'Completed';
-      chipStatusClass = classes.chipCompleted;
+      chipStatusClass = classes.chipPublishedCompleted;
     }
 
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;

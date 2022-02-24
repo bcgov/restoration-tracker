@@ -33,7 +33,7 @@ export interface IPublicProjectFundingProps {
  */
 const PublicFundingSource: React.FC<IPublicProjectFundingProps> = (props) => {
   const classes = useStyles();
-  
+
   const {
     projectForViewData: { funding }
   } = props;
@@ -78,7 +78,7 @@ const PublicFundingSource: React.FC<IPublicProjectFundingProps> = (props) => {
                   End Date:
                 </Typography>
                 <Typography variant="body2" component="dt">
-                  {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.end)}
+                  {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.end_date)}
                 </Typography>
               </div>
             </Box>

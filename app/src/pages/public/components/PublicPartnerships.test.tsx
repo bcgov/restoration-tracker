@@ -1,18 +1,37 @@
 import { render } from '@testing-library/react';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
-import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import PublicPartnerships from './PublicPartnerships';
 
 const mockRefresh = jest.fn();
 
 describe('PublicPartnerships', () => {
+  it('renders correctly with no data', () => {
+    const projectPermitData = {
+      partnerships: {}
+    } as IGetProjectForViewResponse;
+
+    const { getByText } = render(<PublicPartnerships projectForViewData={projectPermitData} refresh={mockRefresh} />);
+
+    expect(getByText('None')).toBeVisible();
+    expect(getByText('No Other Partnerships')).toBeVisible();
+  });
+
   it('renders correctly', () => {
-    const { getByTestId } = render(
-      <PublicPartnerships projectForViewData={getProjectForViewResponse} refresh={mockRefresh} />
+    const projectPermitData = {
+      partnerships: {
+        indigenous_partnerships: [0, 1],
+        stakeholder_partnerships: ['partner2', 'partner3']
+      }
+    } as IGetProjectForViewResponse;
+
+    const { getByText } = render(
+      <PublicPartnerships projectForViewData={projectPermitData} refresh={mockRefresh} />
     );
 
-    expect(getByTestId('partnershipsTitle')).toBeVisible();
-    expect(getByTestId('indigenousData')).toBeVisible();
-    expect(getByTestId('stakeholderData')).toBeVisible();
+    expect(getByText('0', {exact: false})).toBeVisible();
+    expect(getByText('1', {exact: false})).toBeVisible();
+    expect(getByText('partner2', {exact: false})).toBeVisible();
+    expect(getByText('partner3', {exact: false})).toBeVisible();
   });
 });

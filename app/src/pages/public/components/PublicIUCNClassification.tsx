@@ -30,7 +30,7 @@ export interface IPublicIUCNClassificationProps {
  */
 const PublicIUCNClassification: React.FC<IPublicIUCNClassificationProps> = (props) => {
   const classes = useStyles();
-  
+
   const {
     projectForViewData: { iucn }
   } = props;
@@ -39,7 +39,7 @@ const PublicIUCNClassification: React.FC<IPublicIUCNClassificationProps> = (prop
 
   return (
     <ul className={classes.projectIucnList}>
-      {iucn.classificationDetails.map((classificationDetail: any, index: number) => {
+      {hasIucnClassifications && iucn.classificationDetails.map((classificationDetail: any, index: number) => {
         return (
           <li key={index} data-testid="IUCNData">
             {classificationDetail.classification} <span>{'>'}</span> {classificationDetail.subClassification1}{' '}<span>{'>'}</span> {classificationDetail.subClassification2}

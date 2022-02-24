@@ -27,132 +27,629 @@ exports[`PublicProjectPage renders a spinner if no project is loaded 1`] = `
 exports[`PublicProjectPage renders correctly with no end date 1`] = `
 <DocumentFragment>
   <div
-    class="MuiPaper-root MuiPaper-elevation2"
+    class="MuiBox-root MuiBox-root-113"
+    data-testid="view_project_page_component"
   >
     <div
-      class="MuiContainer-root MuiContainer-maxWidthXl"
+      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-111"
     >
       <div
-        class="MuiBox-root MuiBox-root-35"
+        class="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
       >
         <div
-          class="MuiBox-root MuiBox-root-36"
+          class="MuiBox-root MuiBox-root-130"
         >
           <div
-            class="MuiBox-root MuiBox-root-37"
+            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
           >
-            <h1
-              class="MuiTypography-root makeStyles-spacingRight-34 MuiTypography-h1"
-            >
-              Test Project Name
-            </h1>
-            <div
-              class="MuiChip-root makeStyles-chip-31 makeStyles-chipActive-32 MuiChip-sizeSmall"
+            <a
+              aria-disabled="false"
+              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
+              href="/projects"
+              role="button"
+              tabindex="0"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall"
+                class="MuiButton-label"
               >
-                ACTIVE
+                <span
+                  class="MuiButton-startIcon MuiButton-iconSizeSmall"
+                >
+                  <svg
+                    role="presentation"
+                    style="width: 1.3125rem; height: 1.3125rem;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                      style="fill: currentColor;"
+                    />
+                  </svg>
+                </span>
+                Back to Projects
               </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </a>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-131"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-132"
+            >
+              <h1
+                class="MuiBox-root MuiBox-root-133 makeStyles-projectTitle-116"
+              >
+                <b>
+                  Project -
+                </b>
+                 Test Project Name
+              </h1>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-134"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-135"
+              >
+                <div
+                  class="MuiChip-root makeStyles-chip-123 makeStyles-chipNotAPriority-129 MuiChip-sizeSmall"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall"
+                  >
+                    Priority
+                  </span>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-136"
+              >
+                <div
+                  class="MuiChip-root makeStyles-chip-123 makeStyles-chipActive-124 MuiChip-sizeSmall"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall"
+                  >
+                    Active
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-38"
+            class="MuiBox-root MuiBox-root-137 makeStyles-projectMetadata-118"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextSecondary"
+            <section
+              class="MuiBox-root MuiBox-root-138"
             >
-              <span>
-                <span>
-                  Start Date:
-                </span>
-                 Oct 10, 1998
-              </span>
-            </h6>
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                General Information
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-139"
+              >
+                <dl
+                  class="MuiBox-root MuiBox-root-140"
+                  data-testid="general_info_component"
+                >
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Project Name:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Test Project Name
+                    </dt>
+                  </div>
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Start Date:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Oct 10, 1998
+                    </dt>
+                  </div>
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Completion Date:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      ---
+                    </dt>
+                  </div>
+                </dl>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-141"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                Project Contacts
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-142"
+              >
+                <ul
+                  class="makeStyles-projectContactList-143"
+                >
+                  <li
+                    class="MuiBox-root MuiBox-root-145"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-146"
+                    >
+                      <svg
+                        class="makeStyles-contactIcon-144"
+                        role="presentation"
+                        style="width: 2.25rem; height: 2.25rem;"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <div>
+                        <strong
+                          data-testid="contact_name"
+                        >
+                           Amanda Christensen
+                        </strong>
+                      </div>
+                      <div>
+                        <a
+                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#"
+                        >
+                          amanda@christensen.com
+                        </a>
+                      </div>
+                      <div>
+                        Amanda and associates
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-147"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="projectPermitsTitle"
+              >
+                Permits
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-148"
+              >
+                <ul
+                  class="makeStyles-projectPermitList-149"
+                >
+                  <li
+                    data-testid="permit_item"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      123 - 
+                      <span>
+                        Permit type
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-150"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="IUCNTitle"
+              >
+                IUCN Conservation Actions Classifications
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-151"
+              >
+                <ul
+                  class="makeStyles-projectIucnList-152"
+                >
+                  <li
+                    data-testid="IUCNData"
+                  >
+                    1 
+                    <span>
+                      &gt;
+                    </span>
+                     1 
+                    <span>
+                      &gt;
+                    </span>
+                     1
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-153"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="fundingSourcesTitle"
+              >
+                Funding Sources
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-154"
+              >
+                <ul
+                  class="makeStyles-projectFundingList-155"
+                >
+                  <li
+                    data-testid="funding_data"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-156"
+                    >
+                      <strong
+                        data-testid="agencyTitle"
+                      >
+                        agency name
+                      </strong>
+                    </div>
+                    <dl
+                      class="MuiBox-root MuiBox-root-157"
+                    >
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Funding Amount:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          $333
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Project ID:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          ABC123
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Start Date:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          Apr 14, 2000
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          End Date:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          Apr 13, 2021
+                        </dt>
+                      </div>
+                    </dl>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-158"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="partnershipsTitle"
+              >
+                Partnerships
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-159"
+              >
+                <dl
+                  class="MuiBox-root MuiBox-root-161"
+                >
+                  <div>
+                    <dt
+                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      data-testid="indigenousData"
+                    >
+                      Indigenous Partnerships
+                    </dt>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      <span
+                        class="makeStyles-partnerItem-160"
+                      >
+                        0
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                      <span
+                        class="makeStyles-partnerItem-160"
+                      >
+                        1
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt
+                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      data-testid="stakeholderData"
+                    >
+                      Other Partnerships
+                    </dt>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      <span
+                        class="makeStyles-partnerItem-160"
+                      >
+                        partner2
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                      <span
+                        class="makeStyles-partnerItem-160"
+                      >
+                        partner3
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </section>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="MuiContainer-root MuiContainer-maxWidthXl"
-  >
     <div
-      class="MuiBox-root MuiBox-root-39"
+      class="MuiBox-root MuiBox-root-162 makeStyles-projectDetailMain-112"
     >
-      <aside
-        class="MuiBox-root MuiBox-root-40"
+      <div
+        class="MuiBox-root MuiBox-root-163"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+          class="MuiBox-root MuiBox-root-164"
+          data-testid="map_container"
         >
-          <nav
-            aria-label="Project Navigation"
-            class="MuiList-root makeStyles-projectNav-30 MuiList-padding"
-            role="navigation"
+          <div
+            class="leaflet-container leaflet-grab leaflet-touch-drag"
+            id="project_location_form_map"
+            style="height: 100%; position: relative;"
+            tabindex="0"
           >
-            <a
-              class="MuiListItem-root MuiListItem-gutters"
-              href="/admin/projects/details"
+            <div
+              class="leaflet-pane leaflet-map-pane"
+              style="left: 0px; top: 0px;"
             >
               <div
-                class="MuiListItemIcon-root"
+                class="leaflet-pane leaflet-tile-pane"
               >
-                <svg
-                  role="presentation"
-                  style="width: 1.5rem; height: 1.5rem;"
-                  viewBox="0 0 24 24"
+                <div
+                  class="leaflet-layer "
+                  style="z-index: 1;"
                 >
-                  <path
-                    d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
-                    style="fill: currentColor;"
-                  />
-                </svg>
+                  <div
+                    class="leaflet-tile-container leaflet-zoom-animated"
+                    style="z-index: 18; left: 0px; top: 0px;"
+                  >
+                    <img
+                      alt=""
+                      class="leaflet-tile"
+                      role="presentation"
+                      src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
+                      style="width: 256px; height: 256px; left: -159px; top: -31px;"
+                    />
+                  </div>
+                </div>
               </div>
               <div
-                class="MuiListItemText-root"
-              >
-                <span
-                  class="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
-                >
-                  Project Details
-                </span>
-              </div>
-            </a>
-            <a
-              class="MuiListItem-root MuiListItem-gutters"
-              href="/admin/projects/attachments"
+                class="leaflet-pane leaflet-shadow-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-overlay-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-marker-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-tooltip-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-popup-pane"
+              />
+            </div>
+            <div
+              class="leaflet-control-container"
             >
               <div
-                class="MuiListItemIcon-root"
+                class="leaflet-top leaflet-left"
               >
-                <svg
-                  role="presentation"
-                  style="width: 1.5rem; height: 1.5rem;"
-                  viewBox="0 0 24 24"
+                <div
+                  class="leaflet-control-zoom leaflet-bar leaflet-control"
                 >
-                  <path
-                    d="M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z"
-                    style="fill: currentColor;"
+                  <a
+                    aria-label="Zoom in"
+                    class="leaflet-control-zoom-in"
+                    href="#"
+                    role="button"
+                    title="Zoom in"
+                  >
+                    +
+                  </a>
+                  <a
+                    aria-label="Zoom out"
+                    class="leaflet-control-zoom-out"
+                    href="#"
+                    role="button"
+                    title="Zoom out"
+                  >
+                    −
+                  </a>
+                </div>
+                <div
+                  class="leaflet-control-fullscreen leaflet-bar leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-fullscreen-button leaflet-bar-part"
+                    href="#"
+                    title="View Fullscreen"
                   />
-                </svg>
+                </div>
               </div>
               <div
-                class="MuiListItemText-root"
+                class="leaflet-top leaflet-right"
               >
-                <span
-                  class="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
-                >
-                  Attachments
-                </span>
+                <div
+                  class="leaflet-draw leaflet-control"
+                />
               </div>
-            </a>
-          </nav>
+              <div
+                class="leaflet-bottom leaflet-left"
+              />
+              <div
+                class="leaflet-bottom leaflet-right"
+              >
+                <div
+                  aria-haspopup="true"
+                  class="leaflet-control-layers leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-layers-toggle"
+                    href="#"
+                    title="Layers"
+                  />
+                  <section
+                    class="leaflet-control-layers-list"
+                  >
+                    <div
+                      class="leaflet-control-layers-base"
+                    >
+                      <label>
+                        <div>
+                          <input
+                            checked="checked"
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_66"
+                            type="radio"
+                          />
+                          <span>
+                             BC Government
+                          </span>
+                        </div>
+                      </label>
+                      <label>
+                        <div>
+                          <input
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_66"
+                            type="radio"
+                          />
+                          <span>
+                             Esri Imagery
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+                    <div
+                      class="leaflet-control-layers-separator"
+                      style="display: none;"
+                    />
+                    <div
+                      class="leaflet-control-layers-overlays"
+                    />
+                  </section>
+                </div>
+                <div
+                  class="leaflet-control-attribution leaflet-control"
+                >
+                  <a
+                    href="https://leafletjs.com"
+                    title="A JS library for interactive maps"
+                  >
+                    Leaflet
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </aside>
-      <article
-        class="MuiBox-root MuiBox-root-41"
-      />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -161,129 +658,629 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
 exports[`PublicProjectPage renders public project page when project is loaded (project is active) 1`] = `
 <DocumentFragment>
   <div
-    class="MuiPaper-root MuiPaper-elevation2"
+    class="MuiBox-root MuiBox-root-5"
+    data-testid="view_project_page_component"
   >
     <div
-      class="MuiContainer-root MuiContainer-maxWidthXl"
+      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-3"
     >
       <div
-        class="MuiBox-root MuiBox-root-11"
+        class="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
       >
         <div
-          class="MuiBox-root MuiBox-root-12"
+          class="MuiBox-root MuiBox-root-22"
         >
           <div
-            class="MuiBox-root MuiBox-root-13"
+            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
           >
-            <h1
-              class="MuiTypography-root makeStyles-spacingRight-10 MuiTypography-h1"
-            >
-              Test Project Name
-            </h1>
-            <div
-              class="MuiChip-root makeStyles-chip-7 makeStyles-chipActive-8 MuiChip-sizeSmall"
+            <a
+              aria-disabled="false"
+              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
+              href="/projects"
+              role="button"
+              tabindex="0"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall"
+                class="MuiButton-label"
               >
-                ACTIVE
+                <span
+                  class="MuiButton-startIcon MuiButton-iconSizeSmall"
+                >
+                  <svg
+                    role="presentation"
+                    style="width: 1.3125rem; height: 1.3125rem;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                      style="fill: currentColor;"
+                    />
+                  </svg>
+                </span>
+                Back to Projects
               </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </a>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-23"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-24"
+            >
+              <h1
+                class="MuiBox-root MuiBox-root-25 makeStyles-projectTitle-8"
+              >
+                <b>
+                  Project -
+                </b>
+                 Test Project Name
+              </h1>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-26"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-27"
+              >
+                <div
+                  class="MuiChip-root makeStyles-chip-15 makeStyles-chipNotAPriority-21 MuiChip-sizeSmall"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall"
+                  >
+                    Priority
+                  </span>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-28"
+              >
+                <div
+                  class="MuiChip-root makeStyles-chip-15 makeStyles-chipActive-16 MuiChip-sizeSmall"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall"
+                  >
+                    Active
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-14"
+            class="MuiBox-root MuiBox-root-29 makeStyles-projectMetadata-10"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextSecondary"
+            <section
+              class="MuiBox-root MuiBox-root-30"
             >
-              <span>
-                Oct 10, 1998 - Feb 26, 2100
-              </span>
-            </h6>
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                General Information
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-31"
+              >
+                <dl
+                  class="MuiBox-root MuiBox-root-32"
+                  data-testid="general_info_component"
+                >
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Project Name:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Test Project Name
+                    </dt>
+                  </div>
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Start Date:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Oct 10, 1998
+                    </dt>
+                  </div>
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Completion Date:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Feb 26, 2100
+                    </dt>
+                  </div>
+                </dl>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-33"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                Project Contacts
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-34"
+              >
+                <ul
+                  class="makeStyles-projectContactList-35"
+                >
+                  <li
+                    class="MuiBox-root MuiBox-root-37"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-38"
+                    >
+                      <svg
+                        class="makeStyles-contactIcon-36"
+                        role="presentation"
+                        style="width: 2.25rem; height: 2.25rem;"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <div>
+                        <strong
+                          data-testid="contact_name"
+                        >
+                           Amanda Christensen
+                        </strong>
+                      </div>
+                      <div>
+                        <a
+                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#"
+                        >
+                          amanda@christensen.com
+                        </a>
+                      </div>
+                      <div>
+                        Amanda and associates
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-39"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="projectPermitsTitle"
+              >
+                Permits
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-40"
+              >
+                <ul
+                  class="makeStyles-projectPermitList-41"
+                >
+                  <li
+                    data-testid="permit_item"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      123 - 
+                      <span>
+                        Permit type
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-42"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="IUCNTitle"
+              >
+                IUCN Conservation Actions Classifications
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-43"
+              >
+                <ul
+                  class="makeStyles-projectIucnList-44"
+                >
+                  <li
+                    data-testid="IUCNData"
+                  >
+                    1 
+                    <span>
+                      &gt;
+                    </span>
+                     1 
+                    <span>
+                      &gt;
+                    </span>
+                     1
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-45"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="fundingSourcesTitle"
+              >
+                Funding Sources
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-46"
+              >
+                <ul
+                  class="makeStyles-projectFundingList-47"
+                >
+                  <li
+                    data-testid="funding_data"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-48"
+                    >
+                      <strong
+                        data-testid="agencyTitle"
+                      >
+                        agency name
+                      </strong>
+                    </div>
+                    <dl
+                      class="MuiBox-root MuiBox-root-49"
+                    >
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Funding Amount:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          $333
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Project ID:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          ABC123
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Start Date:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          Apr 14, 2000
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          End Date:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          Apr 13, 2021
+                        </dt>
+                      </div>
+                    </dl>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-50"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="partnershipsTitle"
+              >
+                Partnerships
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-51"
+              >
+                <dl
+                  class="MuiBox-root MuiBox-root-53"
+                >
+                  <div>
+                    <dt
+                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      data-testid="indigenousData"
+                    >
+                      Indigenous Partnerships
+                    </dt>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      <span
+                        class="makeStyles-partnerItem-52"
+                      >
+                        0
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                      <span
+                        class="makeStyles-partnerItem-52"
+                      >
+                        1
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt
+                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      data-testid="stakeholderData"
+                    >
+                      Other Partnerships
+                    </dt>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      <span
+                        class="makeStyles-partnerItem-52"
+                      >
+                        partner2
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                      <span
+                        class="makeStyles-partnerItem-52"
+                      >
+                        partner3
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </section>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="MuiContainer-root MuiContainer-maxWidthXl"
-  >
     <div
-      class="MuiBox-root MuiBox-root-15"
+      class="MuiBox-root MuiBox-root-54 makeStyles-projectDetailMain-4"
     >
-      <aside
-        class="MuiBox-root MuiBox-root-16"
+      <div
+        class="MuiBox-root MuiBox-root-55"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+          class="MuiBox-root MuiBox-root-56"
+          data-testid="map_container"
         >
-          <nav
-            aria-label="Project Navigation"
-            class="MuiList-root makeStyles-projectNav-6 MuiList-padding"
-            role="navigation"
+          <div
+            class="leaflet-container leaflet-grab leaflet-touch-drag"
+            id="project_location_form_map"
+            style="height: 100%; position: relative;"
+            tabindex="0"
           >
-            <a
-              class="MuiListItem-root MuiListItem-gutters"
-              href="/admin/projects/details"
+            <div
+              class="leaflet-pane leaflet-map-pane"
+              style="left: 0px; top: 0px;"
             >
               <div
-                class="MuiListItemIcon-root"
+                class="leaflet-pane leaflet-tile-pane"
               >
-                <svg
-                  role="presentation"
-                  style="width: 1.5rem; height: 1.5rem;"
-                  viewBox="0 0 24 24"
+                <div
+                  class="leaflet-layer "
+                  style="z-index: 1;"
                 >
-                  <path
-                    d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
-                    style="fill: currentColor;"
-                  />
-                </svg>
+                  <div
+                    class="leaflet-tile-container leaflet-zoom-animated"
+                    style="z-index: 18; left: 0px; top: 0px;"
+                  >
+                    <img
+                      alt=""
+                      class="leaflet-tile"
+                      role="presentation"
+                      src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
+                      style="width: 256px; height: 256px; left: -159px; top: -31px;"
+                    />
+                  </div>
+                </div>
               </div>
               <div
-                class="MuiListItemText-root"
-              >
-                <span
-                  class="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
-                >
-                  Project Details
-                </span>
-              </div>
-            </a>
-            <a
-              class="MuiListItem-root MuiListItem-gutters"
-              href="/admin/projects/attachments"
+                class="leaflet-pane leaflet-shadow-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-overlay-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-marker-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-tooltip-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-popup-pane"
+              />
+            </div>
+            <div
+              class="leaflet-control-container"
             >
               <div
-                class="MuiListItemIcon-root"
+                class="leaflet-top leaflet-left"
               >
-                <svg
-                  role="presentation"
-                  style="width: 1.5rem; height: 1.5rem;"
-                  viewBox="0 0 24 24"
+                <div
+                  class="leaflet-control-zoom leaflet-bar leaflet-control"
                 >
-                  <path
-                    d="M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z"
-                    style="fill: currentColor;"
+                  <a
+                    aria-label="Zoom in"
+                    class="leaflet-control-zoom-in"
+                    href="#"
+                    role="button"
+                    title="Zoom in"
+                  >
+                    +
+                  </a>
+                  <a
+                    aria-label="Zoom out"
+                    class="leaflet-control-zoom-out"
+                    href="#"
+                    role="button"
+                    title="Zoom out"
+                  >
+                    −
+                  </a>
+                </div>
+                <div
+                  class="leaflet-control-fullscreen leaflet-bar leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-fullscreen-button leaflet-bar-part"
+                    href="#"
+                    title="View Fullscreen"
                   />
-                </svg>
+                </div>
               </div>
               <div
-                class="MuiListItemText-root"
+                class="leaflet-top leaflet-right"
               >
-                <span
-                  class="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
-                >
-                  Attachments
-                </span>
+                <div
+                  class="leaflet-draw leaflet-control"
+                />
               </div>
-            </a>
-          </nav>
+              <div
+                class="leaflet-bottom leaflet-left"
+              />
+              <div
+                class="leaflet-bottom leaflet-right"
+              >
+                <div
+                  aria-haspopup="true"
+                  class="leaflet-control-layers leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-layers-toggle"
+                    href="#"
+                    title="Layers"
+                  />
+                  <section
+                    class="leaflet-control-layers-list"
+                  >
+                    <div
+                      class="leaflet-control-layers-base"
+                    >
+                      <label>
+                        <div>
+                          <input
+                            checked="checked"
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_34"
+                            type="radio"
+                          />
+                          <span>
+                             BC Government
+                          </span>
+                        </div>
+                      </label>
+                      <label>
+                        <div>
+                          <input
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_34"
+                            type="radio"
+                          />
+                          <span>
+                             Esri Imagery
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+                    <div
+                      class="leaflet-control-layers-separator"
+                      style="display: none;"
+                    />
+                    <div
+                      class="leaflet-control-layers-overlays"
+                    />
+                  </section>
+                </div>
+                <div
+                  class="leaflet-control-attribution leaflet-control"
+                >
+                  <a
+                    href="https://leafletjs.com"
+                    title="A JS library for interactive maps"
+                  >
+                    Leaflet
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </aside>
-      <article
-        class="MuiBox-root MuiBox-root-17"
-      />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -292,129 +1289,629 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
 exports[`PublicProjectPage renders public project page when project is loaded (project is completed) 1`] = `
 <DocumentFragment>
   <div
-    class="MuiPaper-root MuiPaper-elevation2"
+    class="MuiBox-root MuiBox-root-59"
+    data-testid="view_project_page_component"
   >
     <div
-      class="MuiContainer-root MuiContainer-maxWidthXl"
+      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-57"
     >
       <div
-        class="MuiBox-root MuiBox-root-23"
+        class="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
       >
         <div
-          class="MuiBox-root MuiBox-root-24"
+          class="MuiBox-root MuiBox-root-76"
         >
           <div
-            class="MuiBox-root MuiBox-root-25"
+            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
           >
-            <h1
-              class="MuiTypography-root makeStyles-spacingRight-22 MuiTypography-h1"
-            >
-              Test Project Name
-            </h1>
-            <div
-              class="MuiChip-root makeStyles-chip-19 makeStyles-chipCompleted-21 MuiChip-sizeSmall"
+            <a
+              aria-disabled="false"
+              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
+              href="/projects"
+              role="button"
+              tabindex="0"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall"
+                class="MuiButton-label"
               >
-                COMPLETED
+                <span
+                  class="MuiButton-startIcon MuiButton-iconSizeSmall"
+                >
+                  <svg
+                    role="presentation"
+                    style="width: 1.3125rem; height: 1.3125rem;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                      style="fill: currentColor;"
+                    />
+                  </svg>
+                </span>
+                Back to Projects
               </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </a>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-77"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-78"
+            >
+              <h1
+                class="MuiBox-root MuiBox-root-79 makeStyles-projectTitle-62"
+              >
+                <b>
+                  Project -
+                </b>
+                 Test Project Name
+              </h1>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-80"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-81"
+              >
+                <div
+                  class="MuiChip-root makeStyles-chip-69 makeStyles-chipNotAPriority-75 MuiChip-sizeSmall"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall"
+                  >
+                    Priority
+                  </span>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-82"
+              >
+                <div
+                  class="MuiChip-root makeStyles-chip-69 makeStyles-chipPublishedCompleted-71 MuiChip-sizeSmall"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall"
+                  >
+                    Completed
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-26"
+            class="MuiBox-root MuiBox-root-83 makeStyles-projectMetadata-64"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextSecondary"
+            <section
+              class="MuiBox-root MuiBox-root-84"
             >
-              <span>
-                Oct 10, 1998 - Feb 26, 2021
-              </span>
-            </h6>
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                General Information
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-85"
+              >
+                <dl
+                  class="MuiBox-root MuiBox-root-86"
+                  data-testid="general_info_component"
+                >
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Project Name:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Test Project Name
+                    </dt>
+                  </div>
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Start Date:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Oct 10, 1998
+                    </dt>
+                  </div>
+                  <div>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      Completion Date:
+                    </dd>
+                    <dt
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Feb 26, 2021
+                    </dt>
+                  </div>
+                </dl>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-87"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                Project Contacts
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-88"
+              >
+                <ul
+                  class="makeStyles-projectContactList-89"
+                >
+                  <li
+                    class="MuiBox-root MuiBox-root-91"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-92"
+                    >
+                      <svg
+                        class="makeStyles-contactIcon-90"
+                        role="presentation"
+                        style="width: 2.25rem; height: 2.25rem;"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <div>
+                        <strong
+                          data-testid="contact_name"
+                        >
+                           Amanda Christensen
+                        </strong>
+                      </div>
+                      <div>
+                        <a
+                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#"
+                        >
+                          amanda@christensen.com
+                        </a>
+                      </div>
+                      <div>
+                        Amanda and associates
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-93"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="projectPermitsTitle"
+              >
+                Permits
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-94"
+              >
+                <ul
+                  class="makeStyles-projectPermitList-95"
+                >
+                  <li
+                    data-testid="permit_item"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      123 - 
+                      <span>
+                        Permit type
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-96"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="IUCNTitle"
+              >
+                IUCN Conservation Actions Classifications
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-97"
+              >
+                <ul
+                  class="makeStyles-projectIucnList-98"
+                >
+                  <li
+                    data-testid="IUCNData"
+                  >
+                    1 
+                    <span>
+                      &gt;
+                    </span>
+                     1 
+                    <span>
+                      &gt;
+                    </span>
+                     1
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-99"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="fundingSourcesTitle"
+              >
+                Funding Sources
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-100"
+              >
+                <ul
+                  class="makeStyles-projectFundingList-101"
+                >
+                  <li
+                    data-testid="funding_data"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-102"
+                    >
+                      <strong
+                        data-testid="agencyTitle"
+                      >
+                        agency name
+                      </strong>
+                    </div>
+                    <dl
+                      class="MuiBox-root MuiBox-root-103"
+                    >
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Funding Amount:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          $333
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Project ID:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          ABC123
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Start Date:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          Apr 14, 2000
+                        </dt>
+                      </div>
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          End Date:
+                        </dt>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          Apr 13, 2021
+                        </dt>
+                      </div>
+                    </dl>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <hr
+              class="MuiDivider-root"
+            />
+            <section
+              class="MuiBox-root MuiBox-root-104"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-body1"
+                data-testid="partnershipsTitle"
+              >
+                Partnerships
+              </h3>
+              <div
+                class="MuiBox-root MuiBox-root-105"
+              >
+                <dl
+                  class="MuiBox-root MuiBox-root-107"
+                >
+                  <div>
+                    <dt
+                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      data-testid="indigenousData"
+                    >
+                      Indigenous Partnerships
+                    </dt>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      <span
+                        class="makeStyles-partnerItem-106"
+                      >
+                        0
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                      <span
+                        class="makeStyles-partnerItem-106"
+                      >
+                        1
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt
+                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      data-testid="stakeholderData"
+                    >
+                      Other Partnerships
+                    </dt>
+                    <dd
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      <span
+                        class="makeStyles-partnerItem-106"
+                      >
+                        partner2
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                      <span
+                        class="makeStyles-partnerItem-106"
+                      >
+                        partner3
+                        <span
+                          class="seperator"
+                        >
+                          , 
+                        </span>
+                      </span>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </section>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="MuiContainer-root MuiContainer-maxWidthXl"
-  >
     <div
-      class="MuiBox-root MuiBox-root-27"
+      class="MuiBox-root MuiBox-root-108 makeStyles-projectDetailMain-58"
     >
-      <aside
-        class="MuiBox-root MuiBox-root-28"
+      <div
+        class="MuiBox-root MuiBox-root-109"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+          class="MuiBox-root MuiBox-root-110"
+          data-testid="map_container"
         >
-          <nav
-            aria-label="Project Navigation"
-            class="MuiList-root makeStyles-projectNav-18 MuiList-padding"
-            role="navigation"
+          <div
+            class="leaflet-container leaflet-grab leaflet-touch-drag"
+            id="project_location_form_map"
+            style="height: 100%; position: relative;"
+            tabindex="0"
           >
-            <a
-              class="MuiListItem-root MuiListItem-gutters"
-              href="/admin/projects/details"
+            <div
+              class="leaflet-pane leaflet-map-pane"
+              style="left: 0px; top: 0px;"
             >
               <div
-                class="MuiListItemIcon-root"
+                class="leaflet-pane leaflet-tile-pane"
               >
-                <svg
-                  role="presentation"
-                  style="width: 1.5rem; height: 1.5rem;"
-                  viewBox="0 0 24 24"
+                <div
+                  class="leaflet-layer "
+                  style="z-index: 1;"
                 >
-                  <path
-                    d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
-                    style="fill: currentColor;"
-                  />
-                </svg>
+                  <div
+                    class="leaflet-tile-container leaflet-zoom-animated"
+                    style="z-index: 18; left: 0px; top: 0px;"
+                  >
+                    <img
+                      alt=""
+                      class="leaflet-tile"
+                      role="presentation"
+                      src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
+                      style="width: 256px; height: 256px; left: -159px; top: -31px;"
+                    />
+                  </div>
+                </div>
               </div>
               <div
-                class="MuiListItemText-root"
-              >
-                <span
-                  class="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
-                >
-                  Project Details
-                </span>
-              </div>
-            </a>
-            <a
-              class="MuiListItem-root MuiListItem-gutters"
-              href="/admin/projects/attachments"
+                class="leaflet-pane leaflet-shadow-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-overlay-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-marker-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-tooltip-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-popup-pane"
+              />
+            </div>
+            <div
+              class="leaflet-control-container"
             >
               <div
-                class="MuiListItemIcon-root"
+                class="leaflet-top leaflet-left"
               >
-                <svg
-                  role="presentation"
-                  style="width: 1.5rem; height: 1.5rem;"
-                  viewBox="0 0 24 24"
+                <div
+                  class="leaflet-control-zoom leaflet-bar leaflet-control"
                 >
-                  <path
-                    d="M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z"
-                    style="fill: currentColor;"
+                  <a
+                    aria-label="Zoom in"
+                    class="leaflet-control-zoom-in"
+                    href="#"
+                    role="button"
+                    title="Zoom in"
+                  >
+                    +
+                  </a>
+                  <a
+                    aria-label="Zoom out"
+                    class="leaflet-control-zoom-out"
+                    href="#"
+                    role="button"
+                    title="Zoom out"
+                  >
+                    −
+                  </a>
+                </div>
+                <div
+                  class="leaflet-control-fullscreen leaflet-bar leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-fullscreen-button leaflet-bar-part"
+                    href="#"
+                    title="View Fullscreen"
                   />
-                </svg>
+                </div>
               </div>
               <div
-                class="MuiListItemText-root"
+                class="leaflet-top leaflet-right"
               >
-                <span
-                  class="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
-                >
-                  Attachments
-                </span>
+                <div
+                  class="leaflet-draw leaflet-control"
+                />
               </div>
-            </a>
-          </nav>
+              <div
+                class="leaflet-bottom leaflet-left"
+              />
+              <div
+                class="leaflet-bottom leaflet-right"
+              >
+                <div
+                  aria-haspopup="true"
+                  class="leaflet-control-layers leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-layers-toggle"
+                    href="#"
+                    title="Layers"
+                  />
+                  <section
+                    class="leaflet-control-layers-list"
+                  >
+                    <div
+                      class="leaflet-control-layers-base"
+                    >
+                      <label>
+                        <div>
+                          <input
+                            checked="checked"
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_51"
+                            type="radio"
+                          />
+                          <span>
+                             BC Government
+                          </span>
+                        </div>
+                      </label>
+                      <label>
+                        <div>
+                          <input
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_51"
+                            type="radio"
+                          />
+                          <span>
+                             Esri Imagery
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+                    <div
+                      class="leaflet-control-layers-separator"
+                      style="display: none;"
+                    />
+                    <div
+                      class="leaflet-control-layers-overlays"
+                    />
+                  </section>
+                </div>
+                <div
+                  class="leaflet-control-attribution leaflet-control"
+                >
+                  <a
+                    href="https://leafletjs.com"
+                    title="A JS library for interactive maps"
+                  >
+                    Leaflet
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </aside>
-      <article
-        class="MuiBox-root MuiBox-root-29"
-      />
+      </div>
     </div>
   </div>
 </DocumentFragment>
