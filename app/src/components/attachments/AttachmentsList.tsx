@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -14,18 +13,17 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { mdiDotsVertical, mdiDownload, mdiLockOpenVariantOutline, mdiLockOutline, mdiTrashCanOutline } from '@mdi/js';
+import { mdiDotsVertical, mdiDownload, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
-import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { AttachmentsI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectAttachment } from 'interfaces/useProjectApi.interface';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
-import { getFormattedDate, getFormattedFileSize } from 'utils/Utils';
+import { getFormattedFileSize } from 'utils/Utils';
 
 const useStyles = makeStyles((theme: Theme) => ({
   attachmentsTable: {
@@ -52,18 +50,12 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
 
-  const [currentAttachment, setCurrentAttachment] = useState<IGetProjectAttachment | null>(null);
-
   const handleDownloadFileClick = (attachment: IGetProjectAttachment) => {
     openAttachment(attachment);
   };
 
   const handleDeleteFileClick = (attachment: IGetProjectAttachment) => {
     showDeleteAttachmentDialog(attachment);
-  };
-
-  const handleViewDetailsClick = (attachment: IGetProjectAttachment) => {
-    setCurrentAttachment(attachment);
   };
 
   const dialogContext = useContext(DialogContext);
@@ -91,12 +83,6 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     onYes: () => dialogContext.setYesNoDialog({ open: false })
   };
 
-  useEffect(() => {
-    if (currentAttachment) {
-      // do nothing for now
-    }
-  }, [currentAttachment]);
-
   const showDeleteAttachmentDialog = (attachment: IGetProjectAttachment) => {
     dialogContext.setYesNoDialog({
       ...defaultYesNoDialogProps,
@@ -108,36 +94,13 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     });
   };
 
-  const showToggleSecurityStatusAttachmentDialog = (attachment: IGetProjectAttachment) => {
-    dialogContext.setYesNoDialog({
-      ...defaultYesNoDialogProps,
-      dialogTitle: 'Change Security Status',
-      dialogText: attachment.securityToken
-        ? `Changing this attachment's security status to unsecured will make it accessible by all users. Are you sure you want to continue?`
-        : `Changing this attachment's security status to secured will restrict it to yourself and other authorized users. Are you sure you want to continue?`,
-      open: true,
-      onYes: () => {
-        if (attachment.securityToken) {
-          makeAttachmentUnsecure(attachment);
-        } else {
-          makeAttachmentSecure(attachment);
-        }
-        dialogContext.setYesNoDialog({ open: false });
-      }
-    });
-  };
-
   const deleteAttachment = async (attachment: IGetProjectAttachment) => {
     if (!attachment?.id) {
       return;
     }
 
     try {
-      await restorationTrackerApi.project.deleteProjectAttachment(
-        props.projectId,
-        attachment.id,
-        attachment.securityToken
-      );
+      await restorationTrackerApi.project.deleteProjectAttachment(props.projectId, attachment.id);
 
       props.getAttachments(true);
     } catch (error) {
@@ -152,66 +115,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     }
   };
 
-  const openAttachment = async (attachment: IGetProjectAttachment) => {
-    try {
-      const response = await restorationTrackerApi.project.getAttachmentSignedURL(props.projectId, attachment.id);
-
-      if (!response) {
-        return;
-      }
-
-      window.open(response);
-    } catch (error) {
-      const apiError = error as APIError;
-      showErrorDialog({
-        dialogTitle: AttachmentsI18N.downloadErrorTitle,
-        dialogText: AttachmentsI18N.downloadErrorText,
-        dialogErrorDetails: apiError.errors,
-        open: true
-      });
-      return;
-    }
-  };
-
-  const makeAttachmentSecure = async (attachment: IGetProjectAttachment) => {
-    if (!attachment || !attachment.id) {
-      return;
-    }
-
-    try {
-      const response = await restorationTrackerApi.project.makeAttachmentSecure(props.projectId, attachment.id);
-
-      if (!response) {
-        return;
-      }
-
-      props.getAttachments(true);
-    } catch (error) {
-      return error;
-    }
-  };
-
-  const makeAttachmentUnsecure = async (attachment: IGetProjectAttachment) => {
-    if (!attachment || !attachment.id) {
-      return;
-    }
-
-    try {
-      const response = await restorationTrackerApi.project.makeAttachmentUnsecure(
-        props.projectId,
-        attachment.id,
-        attachment.securityToken
-      );
-
-      if (!response) {
-        return;
-      }
-
-      props.getAttachments(true);
-    } catch (error) {
-      return error;
-    }
-  };
+  const openAttachment = async (attachment: IGetProjectAttachment) => window.open(attachment.url);
 
   return (
     <>
@@ -222,9 +126,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>File Size</TableCell>
-                <TableCell>Last Modified</TableCell>
-                <TableCell width="150px">Security</TableCell>
-                <TableCell width="50px"></TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -238,30 +140,11 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
                         </Link>
                       </TableCell>
                       <TableCell>{getFormattedFileSize(row.size)}</TableCell>
-                      <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.lastModified)}</TableCell>
-                      <TableCell>
-                        <Box my={-1}>
-                          <Button
-                            size="small"
-                            color="primary"
-                            variant="outlined"
-                            startIcon={
-                              <Icon path={row.securityToken ? mdiLockOutline : mdiLockOpenVariantOutline} size={0.75} />
-                            }
-                            aria-label="toggle attachment security status"
-                            data-testid="toggle-attachment-security-status"
-                            onClick={() => showToggleSecurityStatusAttachmentDialog(row)}>
-                            <strong>{row.securityToken ? 'Secured' : 'Unsecured'}</strong>
-                          </Button>
-                        </Box>
-                      </TableCell>
-
                       <TableCell align="right">
                         <AttachmentItemMenuButton
                           attachment={row}
                           handleDownloadFileClick={handleDownloadFileClick}
                           handleDeleteFileClick={handleDeleteFileClick}
-                          handleViewDetailsClick={handleViewDetailsClick}
                         />
                       </TableCell>
                     </TableRow>
@@ -301,7 +184,6 @@ interface IAttachmentItemMenuButtonProps {
   attachment: IGetProjectAttachment;
   handleDownloadFileClick: (attachment: IGetProjectAttachment) => void;
   handleDeleteFileClick: (attachment: IGetProjectAttachment) => void;
-  handleViewDetailsClick: (attachment: IGetProjectAttachment) => void;
 }
 
 const AttachmentItemMenuButton: React.FC<IAttachmentItemMenuButtonProps> = (props) => {
