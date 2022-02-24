@@ -282,7 +282,7 @@ export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatem
  * @param {number} projectId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectRangeSQL = (projectId: number | undefined): SQLStatement | null => {
+export const deleteProjectRangeSQL = (projectId: number): SQLStatement | null => {
   defaultLog.debug({
     label: 'deleteProjectRangeSQL',
     message: 'params',
