@@ -43,8 +43,7 @@ const ManageUsersPage: React.FC = () => {
     const getAccessRequests = async () => {
       const accessResponse = await restorationTrackerApi.admin.getAccessRequests([
         AdministrativeActivityStatusType.PENDING,
-        AdministrativeActivityStatusType.REJECTED,
-        AdministrativeActivityStatusType.ACTIONED
+        AdministrativeActivityStatusType.REJECTED
       ]);
 
       setAccessRequests(() => {

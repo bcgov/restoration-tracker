@@ -41,6 +41,8 @@ export const getAdministrativeActivitiesSQL = (
       administrative_activity_type aat
     ON
       aa.administrative_activity_type_id = aat.administrative_activity_type_id
+    WHERE
+      1 = 1
   `;
 
   if (administrativeActivityTypeName) {

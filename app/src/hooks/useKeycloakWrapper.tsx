@@ -143,7 +143,7 @@ function useKeycloakWrapper(): IKeycloakWrapper {
    * @param {object} keycloakToken
    * @return {*} {(string | null)}
    */
-  const getIdentitySource = useCallback((): string | null => {
+  const getIdentitySource = useCallback((): SYSTEM_IDENTITY_SOURCE | null => {
     const identitySource = keycloakUser?.['preferred_username']?.split('@')?.[1].toUpperCase();
 
     if (!identitySource) {
@@ -158,7 +158,7 @@ function useKeycloakWrapper(): IKeycloakWrapper {
       return SYSTEM_IDENTITY_SOURCE.IDIR;
     }
 
-    return identitySource;
+    return null;
   }, [keycloakUser]);
 
   useEffect(() => {
