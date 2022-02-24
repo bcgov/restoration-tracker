@@ -249,15 +249,25 @@ PUT.apiDoc = {
               }
             },
             location: {
-              description: 'The project location object',
+              title: 'Location',
               type: 'object',
-              required: ['geometry'],
+              additionalProperties: false,
               properties: {
+                range: {
+                  type: 'number'
+                },
+                priority: {
+                  type: 'string',
+                  enum: ['true', 'false']
+                },
                 geometry: {
                   type: 'array',
                   items: {
                     ...(geoJsonFeature as object)
                   }
+                },
+                region: {
+                  type: 'number'
                 }
               }
             }
