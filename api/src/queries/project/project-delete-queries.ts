@@ -180,10 +180,7 @@ export const deleteIUCNSQL = (projectId: number): SQLStatement | null => {
  * @param {pfsId} pfsId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectFundingSourceSQL = (
-  projectId: number | undefined,
-  pfsId: number | undefined
-): SQLStatement | null => {
+export const deleteProjectFundingSourceSQL = (projectId: number, pfsId: number): SQLStatement | null => {
   defaultLog.debug({
     label: 'deleteProjectFundingSourceSQL',
     message: 'params',
@@ -214,7 +211,7 @@ export const deleteProjectFundingSourceSQL = (
   return sqlStatement;
 };
 
-export const deleteProjectSpatialSQL = (projectId: number | undefined): SQLStatement | null => {
+export const deleteProjectSpatialSQL = (projectId: number): SQLStatement | null => {
   defaultLog.debug({
     label: 'deleteProjectSpatialSQL',
     message: 'params',
@@ -248,7 +245,7 @@ export const deleteProjectSpatialSQL = (projectId: number | undefined): SQLState
  * @param {number} projectId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatement | null => {
+export const deleteProjectRegionSQL = (projectId: number): SQLStatement | null => {
   defaultLog.debug({
     label: 'deleteProjectRegionSQL',
     message: 'params',

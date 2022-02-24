@@ -420,10 +420,6 @@ export class ProjectService extends DBService {
       throw new HTTP400('Failed to get region data');
     }
 
-    if (!rangeRows) {
-      throw new HTTP400('Failed to get range data');
-    }
-
     return new GetLocationData(geometryRows, regionRows, rangeRows);
   }
 
@@ -550,8 +546,10 @@ export class ProjectService extends DBService {
     // Handle region associated to this project
     promises.push(this.insertRegion(postProjectData.location.region, projectId));
 
-    // Handle range associated to this project
-    promises.push(this.insertRange(postProjectData.location.range, projectId));
+    if (postProjectData.location.range) {
+      // Handle range associated to this project
+      promises.push(this.insertRange(postProjectData.location.range, projectId));
+    }
 
     await Promise.all(promises);
 

@@ -38,7 +38,7 @@ export interface IProjectLocationForm {
 export const ProjectLocationFormInitialValues: IProjectLocationForm = {
   location: {
     geometry: [],
-    range: ('' as unknown) as number,
+    range: (undefined as unknown) as number,
     priority: 'false',
     region: ('' as unknown) as number
   }
@@ -47,7 +47,7 @@ export const ProjectLocationFormInitialValues: IProjectLocationForm = {
 export const ProjectLocationFormYupSchema = yup.object().shape({
   location: yup.object().shape({
     geometry: yup.array().min(1, 'You must specify a project boundary').required('You must specify a project boundary'),
-    range: yup.string(),
+    range: yup.string().notRequired(),
     priority: yup.string().required('Required'),
     region: yup.string().required('Required')
   })
@@ -144,7 +144,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                     name="location.range"
                     labelId="caribou-range-select-label"
                     label="Caribou Range"
-                    value={values.location.range}
+                    value={values.location.range ? values.location.range : ''}
                     onChange={handleChange}
                     error={touched.location?.range && Boolean(errors.location?.range)}
                     displayEmpty

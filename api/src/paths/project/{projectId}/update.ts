@@ -249,12 +249,14 @@ PUT.apiDoc = {
               }
             },
             location: {
-              title: 'Location',
+              description: 'The project location object',
               type: 'object',
+              required: ['geometry', 'region'],
               additionalProperties: false,
               properties: {
                 range: {
-                  type: 'number'
+                  type: 'number',
+                  nullable: true
                 },
                 priority: {
                   type: 'string',

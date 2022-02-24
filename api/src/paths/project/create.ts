@@ -224,10 +224,12 @@ POST.apiDoc = {
             location: {
               title: 'Location',
               type: 'object',
+              required: ['geometry', 'region'],
               additionalProperties: false,
               properties: {
                 range: {
-                  type: 'number'
+                  type: 'number',
+                  nullable: true
                 },
                 priority: {
                   type: 'string',

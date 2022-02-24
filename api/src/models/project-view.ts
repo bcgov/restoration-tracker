@@ -97,7 +97,8 @@ export class GetLocationData {
     this.geometry = (locationDataItem?.geojson?.length && locationDataItem.geojson) || [];
     this.region = (regionData && regionData?.length && regionData[0]?.objectid) || (('' as unknown) as number);
     this.range =
-      (rangeData && rangeData?.length && rangeData[0]?.caribou_population_unit_id) || (('' as unknown) as number);
+      (rangeData && rangeData?.length && rangeData[0]?.caribou_population_unit_id) ||
+      ((undefined as unknown) as number);
   }
 }
 
