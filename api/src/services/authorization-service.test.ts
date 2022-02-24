@@ -5,7 +5,6 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../constants/roles';
-import { ApiError } from '../errors/custom-error';
 import { ProjectUserObject, UserObject } from '../models/user';
 import project_participation_queries from '../queries/project-participation';
 import {
@@ -84,6 +83,34 @@ describe('executeAuthorizeConfig', function () {
   });
 
   it('returns an array of authorizeRule results', async function () {
+    const mockAuthorizeRules: AuthorizeRule[] = [
+      {
+        validSystemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
+        discriminator: 'SystemRole'
+      },
+      {
+        validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD],
+        projectId: 1,
+        discriminator: 'ProjectRole'
+      },
+      {
+        discriminator: 'SystemUser'
+      }
+    ];
+    const mockDBConnection = getMockDBConnection();
+
+    sinon.stub(AuthorizationService.prototype, 'authorizeBySystemRole').resolves(true);
+    sinon.stub(AuthorizationService.prototype, 'authorizeByProjectRole').resolves(false);
+    sinon.stub(AuthorizationService.prototype, 'authorizeBySystemUser').resolves(true);
+
+    const authorizationService = new AuthorizationService(mockDBConnection);
+
+    const authorizeResults = await authorizationService.executeAuthorizeConfig(mockAuthorizeRules);
+
+    expect(authorizeResults).to.eql([true, false, true]);
+  });
+
+  it('returns an array of authorizeRule results if authorizeBySystemRole', async function () {
     const mockAuthorizeRules: AuthorizeRule[] = [
       {
         validSystemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
@@ -446,7 +473,7 @@ describe('getSystemUserObject', function () {
     sinon.restore();
   });
 
-  it('throws an HTTP500 error if fetching the system user throws an error', async function () {
+  it('returns null if fetching the system user throws an error', async function () {
     const mockDBConnection = getMockDBConnection();
 
     sinon.stub(AuthorizationService.prototype, 'getSystemUserWithRoles').callsFake(() => {
@@ -455,15 +482,12 @@ describe('getSystemUserObject', function () {
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
-    try {
-      await authorizationService.getSystemUserObject();
-      expect.fail();
-    } catch (error) {
-      expect((error as ApiError).message).to.equal('failed to get system user');
-    }
+    const systemUserObject = await authorizationService.getSystemUserObject();
+
+    expect(systemUserObject).to.equal(null);
   });
 
-  it('throws an HTTP500 error if the system user is null', async function () {
+  it('returns null if the system user is null or undefined', async function () {
     const mockDBConnection = getMockDBConnection();
 
     const mockSystemUserWithRolesResponse = null;
@@ -471,12 +495,9 @@ describe('getSystemUserObject', function () {
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
-    try {
-      await authorizationService.getSystemUserObject();
-      expect.fail();
-    } catch (error) {
-      expect((error as ApiError).message).to.equal('system user was null');
-    }
+    const systemUserObject = await authorizationService.getSystemUserObject();
+
+    expect(systemUserObject).to.equal(null);
   });
 
   it('returns a `UserObject`', async function () {
@@ -540,12 +561,11 @@ describe('getProjectUserObject', function () {
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
-    try {
-      await authorizationService.getProjectUserObject(1);
-      expect.fail();
-    } catch (error) {
-      expect((error as ApiError).message).to.equal('failed to get project user');
-    }
+    await authorizationService.getProjectUserObject(1);
+
+    const projectUserObject = await authorizationService.getSystemUserObject();
+
+    expect(projectUserObject).to.equal(null);
   });
 
   it('throws an HTTP500 error if the system user is null', async function () {
@@ -556,12 +576,9 @@ describe('getProjectUserObject', function () {
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
-    try {
-      await authorizationService.getProjectUserObject(1);
-      expect.fail();
-    } catch (error) {
-      expect((error as ApiError).message).to.equal('project user was null');
-    }
+    const projectUserObject = await authorizationService.getProjectUserObject(1);
+
+    expect(projectUserObject).to.equal(null);
   });
 
   it('returns a `ProjectUserObject`', async function () {
@@ -572,9 +589,9 @@ describe('getProjectUserObject', function () {
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
-    const systemUserObject = await authorizationService.getProjectUserObject(1);
+    const projectUserObject = await authorizationService.getProjectUserObject(1);
 
-    expect(systemUserObject).to.be.instanceOf(ProjectUserObject);
+    expect(projectUserObject).to.be.instanceOf(ProjectUserObject);
   });
 });
 
