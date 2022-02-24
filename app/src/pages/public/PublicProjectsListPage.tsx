@@ -23,16 +23,20 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme: Theme) => ({
+  linkButton: {
+    textAlign: 'left'
+  },
   chip: {
-    padding: '0px 8px',
-    borderRadius: '4px',
     color: 'white'
   },
   chipActive: {
-    backgroundColor: theme.palette.warning.main
-  },
-  chipCompleted: {
     backgroundColor: theme.palette.success.main
+  },
+  chipPublishedCompleted: {
+    backgroundColor: theme.palette.success.main
+  },
+  chipDraft: {
+    backgroundColor: theme.palette.info.main
   }
 }));
 
@@ -65,10 +69,10 @@ const PublicProjectsListPage = () => {
     let chipStatusClass;
 
     if (ProjectStatusType.ACTIVE === status_name) {
-      chipLabel = 'ACTIVE';
+      chipLabel = 'Active';
       chipStatusClass = classes.chipActive;
     } else if (ProjectStatusType.COMPLETED === status_name) {
-      chipLabel = 'COMPLETED';
+      chipLabel = 'Completed';
       chipStatusClass = classes.chipCompleted;
     }
 
