@@ -88,8 +88,8 @@ export const ProjectAdvancedFiltersKeyLabels = {
   species: { label: 'Species', codeSet: 'species' },
   start_date: { label: 'Start Date' },
   end_date: { label: 'End Date' },
-  ranges: {label: 'Caribou Ranges', codeSet: 'ranges' },
-  region: {label: 'FLNRO Region', codeSet: 'region' }
+  ranges: { label: 'Caribou Ranges', codeSet: 'ranges' },
+  region: { label: 'FLNRO Region', codeSet: 'region' }
 };
 
 export interface IProjectAdvancedFiltersProps {

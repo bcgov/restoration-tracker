@@ -33,7 +33,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
   const checkForCaribouSpecies = (focalSpecies: string[]): boolean => {
     return focalSpecies.some((item) => {
-      return (item.includes('Caribou')) ? true : false;
+      return item.includes('Caribou') ? true : false;
     });
   };
 
