@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { PROJECT_ROLE } from '../../../../../constants/roles';
+import { PROJECT_ROLE, SYSTEM_ROLE } from '../../../../../constants/roles';
 import { getDBConnection } from '../../../../../database/db';
 import { HTTP400 } from '../../../../../errors/custom-error';
 import { queries } from '../../../../../queries/queries';
@@ -13,7 +13,11 @@ const defaultLog = getLogger('/api/projects/{projectId}/funding-sources/{pfsId}/
 export const DELETE: Operation = [
   authorizeRequestHandler((req) => {
     return {
-      and: [
+      or: [
+        {
+          validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR],
+          discriminator: 'SystemRole'
+        },
         {
           validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR],
           projectId: Number(req.query.projectId),

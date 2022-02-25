@@ -1,6 +1,5 @@
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../constants/roles';
 import { IDBConnection } from '../database/db';
-import { ApiGeneralError } from '../errors/custom-error';
 import { ProjectUserObject, UserObject } from '../models/user';
 import { queries } from '../queries/queries';
 import { getLogger } from '../utils/logger';
@@ -105,15 +104,15 @@ export class AuthorizationService extends DBService {
    * @return {*}  {boolean} `true` if the user is a system administrator, `false` otherwise.
    */
   async authorizeSystemAdministrator(): Promise<boolean> {
-    const systemUserObject: UserObject = this._systemUser || (await this.getSystemUserObject());
-
-    // Add the _systemUser to the request for future use, if needed
-    this._systemUser = systemUserObject;
+    const systemUserObject = this._systemUser || (await this.getSystemUserObject());
 
     if (!systemUserObject) {
       // Cannot verify user roles
       return false;
     }
+
+    // Cache the _systemUser for future use, if needed
+    this._systemUser = systemUserObject;
 
     return systemUserObject.role_names.includes(SYSTEM_ROLE.SYSTEM_ADMIN);
   }
@@ -131,15 +130,15 @@ export class AuthorizationService extends DBService {
       return false;
     }
 
-    const systemUserObject: UserObject = this._systemUser || (await this.getSystemUserObject());
-
-    // Add the _systemUser to the request for future use, if needed
-    this._systemUser = systemUserObject;
+    const systemUserObject = this._systemUser || (await this.getSystemUserObject());
 
     if (!systemUserObject) {
       // Cannot verify user roles
       return false;
     }
+
+    // Cache the _systemUser for future use, if needed
+    this._systemUser = systemUserObject;
 
     if (systemUserObject.record_end_date) {
       //system user has an expired record
@@ -169,7 +168,7 @@ export class AuthorizationService extends DBService {
       return true;
     }
 
-    const projectUserObject: ProjectUserObject = await this.getProjectUserObject(authorizeProjectRoles.projectId);
+    const projectUserObject = await this.getProjectUserObject(authorizeProjectRoles.projectId);
 
     if (!projectUserObject) {
       defaultLog.warn({ label: 'getProjectUser', message: 'project user was null' });
@@ -188,15 +187,15 @@ export class AuthorizationService extends DBService {
    * @return {*}  {Promise<boolean>} `Promise<true>` if the user is a valid system user, `Promise<false>` otherwise.
    */
   async authorizeBySystemUser(): Promise<boolean> {
-    const systemUserObject: UserObject = this._systemUser || (await this.getSystemUserObject());
-
-    // Add the _systemUser to the request for future use, if needed
-    this._systemUser = systemUserObject;
+    const systemUserObject = this._systemUser || (await this.getSystemUserObject());
 
     if (!systemUserObject) {
       // Cannot verify user roles
       return false;
     }
+
+    // Cache the _systemUser for future use, if needed
+    this._systemUser = systemUserObject;
 
     // User is a valid system user
     return true;
@@ -232,17 +231,17 @@ export class AuthorizationService extends DBService {
     return false;
   };
 
-  async getSystemUserObject(): Promise<UserObject> {
+  async getSystemUserObject(): Promise<UserObject | null> {
     let systemUserWithRoles;
 
     try {
       systemUserWithRoles = await this.getSystemUserWithRoles();
     } catch {
-      throw new ApiGeneralError('failed to get system user');
+      return null;
     }
 
     if (!systemUserWithRoles) {
-      throw new ApiGeneralError('system user was null');
+      return null;
     }
 
     return systemUserWithRoles;
@@ -264,17 +263,17 @@ export class AuthorizationService extends DBService {
     return this._userService.getUserById(systemUserId);
   }
 
-  async getProjectUserObject(projectId: number): Promise<ProjectUserObject> {
+  async getProjectUserObject(projectId: number): Promise<ProjectUserObject | null> {
     let projectUserWithRoles;
 
     try {
       projectUserWithRoles = await this.getProjectUserWithRoles(projectId);
     } catch {
-      throw new ApiGeneralError('failed to get project user');
+      return null;
     }
 
     if (!projectUserWithRoles) {
-      throw new ApiGeneralError('project user was null');
+      return null;
     }
 
     return new ProjectUserObject(projectUserWithRoles);
