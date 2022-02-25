@@ -4,6 +4,14 @@ import { KeycloakInstance } from 'keycloak-js';
 import { useCallback, useEffect, useState } from 'react';
 import { useRestorationTrackerApi } from './useRestorationTrackerApi';
 
+export enum SYSTEM_IDENTITY_SOURCE {
+  BCEID = 'BCEID',
+  IDIR = 'IDIR'
+}
+
+const raw_bceid_identity_sources = ['BCEID-BASIC-AND-BUSINESS', 'BCEID'];
+const raw_idir_identity_sources = ['IDIR'];
+
 /**
  * IUserInfo interface, represents the userinfo provided by keycloak.
  *
@@ -133,14 +141,22 @@ function useKeycloakWrapper(): IKeycloakWrapper {
    * @param {object} keycloakToken
    * @return {*} {(string | null)}
    */
-  const getIdentitySource = useCallback((): string | null => {
-    const identitySource = keycloakUser?.['preferred_username']?.split('@')?.[1];
+  const getIdentitySource = useCallback((): SYSTEM_IDENTITY_SOURCE | null => {
+    const identitySource = keycloakUser?.['preferred_username']?.split('@')?.[1].toUpperCase();
 
     if (!identitySource) {
       return null;
     }
 
-    return identitySource;
+    if (raw_bceid_identity_sources.includes(identitySource)) {
+      return SYSTEM_IDENTITY_SOURCE.BCEID;
+    }
+
+    if (raw_idir_identity_sources.includes(identitySource)) {
+      return SYSTEM_IDENTITY_SOURCE.IDIR;
+    }
+
+    return null;
   }, [keycloakUser]);
 
   useEffect(() => {
@@ -150,7 +166,7 @@ function useKeycloakWrapper(): IKeycloakWrapper {
       try {
         userDetails = await restorationTrackerApi.user.getUser();
       } catch {
-        // do nothing
+        //do nothing
       }
 
       setrestorationTrackerUser(() => {
@@ -186,7 +202,6 @@ function useKeycloakWrapper(): IKeycloakWrapper {
       } catch {
         // do nothing
       }
-
       setHasAccessRequest(() => {
         setHasLoadedAllUserInfo(true);
         return accessRequests > 0;

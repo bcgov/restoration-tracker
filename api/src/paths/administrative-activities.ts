@@ -70,6 +70,8 @@ GET.apiDoc = {
             type: 'array',
             items: {
               type: 'object',
+              required: ['id', 'type', 'type_name', 'status', 'status_name', 'create_date'],
+              additionalProperties: true,
               properties: {
                 id: {
                   type: 'number',
@@ -91,12 +93,6 @@ GET.apiDoc = {
                   type: 'string',
                   description: 'Administrative activity status type name'
                 },
-                description: {
-                  type: 'string'
-                },
-                notes: {
-                  type: 'string'
-                },
                 data: {
                   type: 'object',
                   description: 'JSON data blob containing additional information about the activity record',
@@ -105,7 +101,8 @@ GET.apiDoc = {
                   }
                 },
                 create_date: {
-                  type: 'string'
+                  oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
+                  description: 'ISO 8601 date string for the project start date'
                 }
               }
             }

@@ -8,12 +8,13 @@ import { authorizeRequestHandler } from '../../../../../request-handlers/securit
 import { getLogger } from '../../../../../utils/logger';
 
 const defaultLog = getLogger('paths/user/{userId}/projects/get');
+
 export const GET: Operation = [
   authorizeRequestHandler(() => {
     return {
       and: [
         {
-          validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR],
+          validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN],
           discriminator: 'SystemRole'
         }
       ]

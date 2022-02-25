@@ -1,4 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { ApiGeneralError } from '../errors/custom-error';
+import { CodeSet } from '../services/code-service';
 
 export interface IWFSParams {
   url?: string;
@@ -138,7 +140,7 @@ export function parseLatLongString(latLong: string): ILatLong | null {
   return { lat, long };
 }
 
-export const getNRMRegions = async () => {
+export const getNRMRegions = async (): Promise<CodeSet> => {
   const typeName = 'pub:WHSE_ADMIN_BOUNDARIES.ADM_NR_REGIONS_SPG';
 
   const NRM_REGIONS_URL = buildWFSURLByBoundingBox(typeName, defaultWFSParams);
@@ -146,16 +148,14 @@ export const getNRMRegions = async () => {
   try {
     const response = await axios.post(NRM_REGIONS_URL);
 
-    const features = response.data.features;
-
-    return features.map((item: any) => {
+    return response.data.features.map((item: any) => {
       return {
         id: item.properties.OBJECTID,
         name: item.properties.REGION_NAME
       };
     });
   } catch (error) {
-    return error;
+    throw new ApiGeneralError('Failed to fetch NRM Regions', [error as AxiosError]);
   }
 };
 

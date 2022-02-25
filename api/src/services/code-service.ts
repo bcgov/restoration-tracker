@@ -1,10 +1,7 @@
 import { coordinator_agency } from '../constants/codes';
 import { queries } from '../queries/queries';
-import { getLogger } from '../utils/logger';
-import { DBService } from './service';
 import { getNRMRegions } from './../utils/spatial-utils';
-
-const defaultLog = getLogger('queries/code-queries');
+import { DBService } from './service';
 
 /**
  * A single code value.
@@ -46,32 +43,36 @@ export class CodeService extends DBService {
    * @memberof CodeService
    */
   async getAllCodeSets(): Promise<IAllCodeSets> {
-    defaultLog.debug({ message: 'getAllCodeSets' });
-
     const [
-      first_nations,
-      funding_source,
-      investment_action_category,
-      iucn_conservation_action_level_1_classification,
-      iucn_conservation_action_level_2_subclassification,
-      iucn_conservation_action_level_3_subclassification,
-      system_roles,
-      project_roles,
-      administrative_activity_status_type,
-      species,
-      ranges
+      [
+        first_nations,
+        funding_source,
+        investment_action_category,
+        iucn_conservation_action_level_1_classification,
+        iucn_conservation_action_level_2_subclassification,
+        iucn_conservation_action_level_3_subclassification,
+        system_roles,
+        project_roles,
+        administrative_activity_status_type,
+        species,
+        ranges
+      ],
+      regions
     ] = await Promise.all([
-      await this.connection.query(queries.codes.getFirstNationsSQL().text),
-      await this.connection.query(queries.codes.getFundingSourceSQL().text),
-      await this.connection.query(queries.codes.getInvestmentActionCategorySQL().text),
-      await this.connection.query(queries.codes.getIUCNConservationActionLevel1ClassificationSQL().text),
-      await this.connection.query(queries.codes.getIUCNConservationActionLevel2SubclassificationSQL().text),
-      await this.connection.query(queries.codes.getIUCNConservationActionLevel3SubclassificationSQL().text),
-      await this.connection.query(queries.codes.getSystemRolesSQL().text),
-      await this.connection.query(queries.codes.getProjectRolesSQL().text),
-      await this.connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text),
-      await this.connection.query(queries.codes.getTaxonsSQL().text),
-      await this.connection.query(queries.codes.getCaribouPopulationUnitsSQL().text)
+      Promise.all([
+        this.connection.query(queries.codes.getFirstNationsSQL().text),
+        this.connection.query(queries.codes.getFundingSourceSQL().text),
+        this.connection.query(queries.codes.getInvestmentActionCategorySQL().text),
+        this.connection.query(queries.codes.getIUCNConservationActionLevel1ClassificationSQL().text),
+        this.connection.query(queries.codes.getIUCNConservationActionLevel2SubclassificationSQL().text),
+        this.connection.query(queries.codes.getIUCNConservationActionLevel3SubclassificationSQL().text),
+        this.connection.query(queries.codes.getSystemRolesSQL().text),
+        this.connection.query(queries.codes.getProjectRolesSQL().text),
+        this.connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text),
+        this.connection.query(queries.codes.getTaxonsSQL().text),
+        this.connection.query(queries.codes.getCaribouPopulationUnitsSQL().text)
+      ]),
+      getNRMRegions()
     ]);
 
     return {
@@ -93,9 +94,9 @@ export class CodeService extends DBService {
       administrative_activity_status_type:
         (administrative_activity_status_type && administrative_activity_status_type.rows) || [],
       species: (species && species.rows) || [],
+      regions: regions || [],
       // TODO Temporarily hard coded list of code values below
       coordinator_agency,
-      regions: (await getNRMRegions()) || [],
       ranges: (ranges && ranges.rows) || []
     };
   }

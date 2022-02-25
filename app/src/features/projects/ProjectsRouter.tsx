@@ -29,27 +29,27 @@ const ProjectsRouter: React.FC = () => {
         </ProjectsLayout>
       </AppRoute>
 
-      <AppRoute exact path="/admin/projects/:id?/edit" layout={ProjectsLayout}>
+      <AppRoute exact path="/admin/projects/:id/edit" layout={ProjectsLayout}>
         <ProjectsLayout>
           <EditProjectPage />
         </ProjectsLayout>
       </AppRoute>
 
-      <Redirect exact from="/admin/projects/:id?" to="/admin/projects/:id?/details" />
+      <Redirect exact from="/admin/projects/:id" to="/admin/projects/:id/details" />
 
-      <AppRoute exact path="/admin/projects/:id?/details" layout={ProjectsLayout}>
+      <AppRoute exact path="/admin/projects/:id/details" layout={ProjectsLayout}>
         <ProjectsLayout>
           <ViewProjectPage />
         </ProjectsLayout>
       </AppRoute>
 
-      <AppRoute exact path="/admin/projects/:id?/users" layout={ProjectsLayout}>
+      <AppRoute exact path="/admin/projects/:id/users" layout={ProjectsLayout}>
         <ProjectsLayout>
           <ProjectParticipantsPage />
         </ProjectsLayout>
       </AppRoute>
 
-      <AppRoute exact path="/admin/projects/:id?/attachments" layout={ProjectsLayout}>
+      <AppRoute exact path="/admin/projects/:id/attachments" layout={ProjectsLayout}>
         <ViewProjectPage />
       </AppRoute>
 
