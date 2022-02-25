@@ -14,7 +14,7 @@ jest.mock('../../../hooks/useRestorationTrackerApi');
 
 const mockuseRestorationTrackerApi = {
   project: {
-    getAllUserProjectsForView: jest.fn<Promise<IGetUserProjectsListResponse[]>, []>(),
+    getAllUserProjectsParticipation: jest.fn<Promise<IGetUserProjectsListResponse[]>, []>(),
     removeProjectParticipant: jest.fn<Promise<boolean>, []>(),
     updateProjectParticipantRole: jest.fn<Promise<boolean>, []>()
   },
@@ -37,7 +37,7 @@ const mockUser = {
 describe('UsersDetailProjects', () => {
   beforeEach(() => {
     // clear mocks before each test
-    mockRestorationTrackerApi().project.getAllUserProjectsForView.mockClear();
+    mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockClear();
     mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
   });
 
@@ -66,7 +66,7 @@ describe('UsersDetailProjects', () => {
       coordinator_agency: [{ id: 1, name: 'agency 1' }]
     } as any);
 
-    mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue({
       assignedProjects: []
     } as any);
 
@@ -91,7 +91,7 @@ describe('UsersDetailProjects', () => {
       project_roles: [{ id: 1, name: 'Project Lead' }]
     } as any);
 
-    mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+    mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
       {
         project_id: 2,
         name: 'projectName',
@@ -122,7 +122,7 @@ describe('UsersDetailProjects', () => {
       project_roles: [{ id: 1, name: 'Project Lead' }]
     } as any);
 
-    mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+    mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
       {
         project_id: 1,
         name: 'projectName',
@@ -161,7 +161,7 @@ describe('UsersDetailProjects', () => {
       project_roles: [{ id: 1, name: 'Project Lead' }]
     } as any);
 
-    mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+    mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
       {
         project_id: 1,
         name: 'projectName',
@@ -197,7 +197,7 @@ describe('UsersDetailProjects', () => {
         project_roles: [{ id: 1, name: 'Project Lead' }]
       } as any);
 
-      mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+      mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
           project_id: 1,
           name: 'projectName',
@@ -242,7 +242,7 @@ describe('UsersDetailProjects', () => {
 
       mockRestorationTrackerApi().project.removeProjectParticipant.mockResolvedValue(true);
 
-      mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+      mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
           project_id: 1,
           name: 'projectName',
@@ -273,7 +273,7 @@ describe('UsersDetailProjects', () => {
         expect(getAllByText('secondProjectName').length).toEqual(1);
       });
 
-      mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+      mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
           project_id: 5,
           name: 'secondProjectName',
@@ -311,7 +311,7 @@ describe('UsersDetailProjects', () => {
         ]
       } as any);
 
-      mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+      mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
           project_id: 2,
           name: 'projectName',
@@ -353,7 +353,7 @@ describe('UsersDetailProjects', () => {
         ]
       } as any);
 
-      mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+      mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
           project_id: 2,
           name: 'projectName',
@@ -409,7 +409,7 @@ describe('UsersDetailProjects', () => {
         ]
       } as any);
 
-      mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue([
+      mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
           project_id: 2,
           name: 'projectName',

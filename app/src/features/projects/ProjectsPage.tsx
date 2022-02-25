@@ -1,20 +1,15 @@
-import { Button, CircularProgress, Container, Typography } from '@material-ui/core';
+import { CircularProgress, Container, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { mdiPlus } from '@mdi/js';
-import Icon from '@mdi/react';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import ProjectFilter, {
   IProjectAdvancedFilters,
   ProjectAdvancedFiltersInitialValues
 } from 'components/search-filter/ProjectFilter';
-import { SystemRoleGuard } from 'components/security/Guards';
-import { SYSTEM_ROLE } from 'constants/roles';
 import { DialogContext } from 'contexts/dialogContext';
 import { Formik, FormikProps } from 'formik';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import { IGetDraftsListResponse } from 'interfaces/useDraftApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -34,7 +29,6 @@ const ProjectsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [projects, setProjects] = useState<IGetProjectForViewResponse[]>([]);
-  const [drafts, setDrafts] = useState<IGetDraftsListResponse[]>([]);
 
   const formikRef = useRef<FormikProps<IProjectAdvancedFilters>>(null);
 
@@ -134,15 +128,6 @@ const ProjectsPage: React.FC = () => {
     });
   };
 
-  const navigateToCreateProjectPage = (draftId?: number) => {
-    if (draftId) {
-      history.push(`/admin/projects/create?draftId=${draftId}`);
-      return;
-    }
-
-    history.push('/admin/projects/create');
-  };
-
   //codes
   useEffect(() => {
     const getCodes = async () => {
@@ -160,7 +145,7 @@ const ProjectsPage: React.FC = () => {
     }
   }, [restorationTrackerApi.codes, isLoadingCodes, codes]);
 
-  //projects and drafts
+  //projects
   useEffect(() => {
     const getFilteredProjects = async () => {
       const projectsResponse = await restorationTrackerApi.project.getProjectsList(formikValues);
@@ -169,18 +154,8 @@ const ProjectsPage: React.FC = () => {
       setProjects(projectsResponse);
     };
 
-    const getDrafts = async () => {
-      const draftsResponse = await restorationTrackerApi.draft.getDraftsList();
-
-      setDrafts(() => {
-        setIsLoading(false);
-        return draftsResponse;
-      });
-    };
-
     if (isLoading) {
       getFilteredProjects();
-      getDrafts();
     }
   }, [restorationTrackerApi, isLoading, formikValues]);
 
@@ -204,18 +179,8 @@ const ProjectsPage: React.FC = () => {
   return (
     <Container maxWidth="xl">
       <Box m={5}>
-        <Box mb={1} display="flex" justifyContent="space-between">
+        <Box mb={1}>
           <Typography variant="h1">Projects</Typography>
-          <SystemRoleGuard
-            validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR, SYSTEM_ROLE.PROJECT_CREATOR]}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Icon path={mdiPlus} size={1} />}
-              onClick={() => navigateToCreateProjectPage()}>
-              Create Project
-            </Button>
-          </SystemRoleGuard>
         </Box>
         <Typography>Find species inventory projects and related data in British Columbia</Typography>
       </Box>
@@ -249,7 +214,7 @@ const ProjectsPage: React.FC = () => {
       </Box>
 
       <Box m={5}>
-        <ProjectsListPage projects={projects} drafts={drafts} />
+        <ProjectsListPage projects={projects} />
       </Box>
     </Container>
   );

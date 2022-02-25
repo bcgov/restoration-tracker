@@ -4,6 +4,7 @@ import { AuthStateContext } from 'contexts/authStateContext';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router-dom';
+import { getMockAuthState } from 'test-helpers/auth-helpers';
 import Header from './Header';
 
 const history = createMemoryHistory();
@@ -14,7 +15,7 @@ describe('Header', () => {
 
     mockHasSystemRole.mockReturnValueOnce(false); // Return false when the `Manage Users` secure link is parsed
 
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
@@ -31,7 +32,7 @@ describe('Header', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const { getByText, queryByText } = render(
       <AuthStateContext.Provider value={authState}>
@@ -55,7 +56,7 @@ describe('Header', () => {
       .mockReturnValueOnce(true) // Return true when the `Map` secure link is parsed
       .mockReturnValueOnce(true); // Return true when the `Resources` secure link is parsed
 
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
@@ -73,7 +74,7 @@ describe('Header', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const { getByText } = render(
       <AuthStateContext.Provider value={authState}>
@@ -88,7 +89,7 @@ describe('Header', () => {
   });
 
   it('renders the username and logout button', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
@@ -106,7 +107,7 @@ describe('Header', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const { getByTestId, getByText } = render(
       <AuthStateContext.Provider value={authState}>
@@ -123,7 +124,7 @@ describe('Header', () => {
 
   describe('Log Out', () => {
     it('redirects to the `/logout` page', async () => {
-      const authState = {
+      const authState = getMockAuthState({
         keycloakWrapper: {
           keycloak: {
             authenticated: true
@@ -141,7 +142,7 @@ describe('Header', () => {
           lastName: 'testlast',
           refresh: () => {}
         }
-      };
+      });
 
       const { getByTestId } = render(
         <AuthStateContext.Provider value={authState}>
