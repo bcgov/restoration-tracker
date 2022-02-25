@@ -297,7 +297,7 @@ describe('CreateProjectPage', () => {
             objectives: '',
             project_name: 'draft project name'
           },
-          location: { geometry: [], priority: 'false', range: '', region: '' },
+          location: { geometry: [], priority: 'false', range: undefined, region: '' },
           iucn: { classificationDetails: [] },
           funding: { fundingSources: [] },
           partnerships: { indigenous_partnerships: [], stakeholder_partnerships: [] },

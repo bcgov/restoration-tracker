@@ -66,6 +66,12 @@ describe('postProjectAttachmentSQL', () => {
 
     expect(response).to.be.null;
   });
+
+  it('returns a SQLStatement when all fields are passed in as expected', () => {
+    const response = postProjectAttachmentSQL('name', 2, 1, 'key');
+
+    expect(response).to.not.be.null;
+  });
 });
 
 describe('putProjectAttachmentSQL', () => {

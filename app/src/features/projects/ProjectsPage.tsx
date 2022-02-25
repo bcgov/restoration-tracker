@@ -43,7 +43,9 @@ const ProjectsPage: React.FC = () => {
         permit_number: urlParams.permit_number,
         species: (urlParams.species as unknown) as number[],
         start_date: urlParams.start_date,
-        end_date: urlParams.end_date
+        end_date: urlParams.end_date,
+        ranges: urlParams.ranges,
+        region: urlParams.region
       } as IProjectAdvancedFilters;
 
       if (values.funding_agency === undefined) {
@@ -205,6 +207,16 @@ const ProjectsPage: React.FC = () => {
             }
             funding_agency={
               codes?.funding_source?.map((item) => {
+                return { value: item.id, label: item.name };
+              }) || []
+            }
+            ranges={
+              codes?.ranges?.map((item) => {
+                return { value: item.id, label: item.name };
+              }) || []
+            }
+            region={
+              codes?.regions?.map((item) => {
                 return { value: item.id, label: item.name };
               }) || []
             }

@@ -37,11 +37,13 @@ export class PutProjectData {
 export class PutLocationData {
   geometry: Feature[];
   region: number;
+  range: number;
   revision_count: number;
 
   constructor(obj?: any) {
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
     this.region = obj?.region || null;
+    this.range = obj?.range || null;
     this.revision_count = obj?.revision_count ?? null;
   }
 }

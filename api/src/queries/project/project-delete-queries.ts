@@ -180,10 +180,7 @@ export const deleteIUCNSQL = (projectId: number): SQLStatement | null => {
  * @param {pfsId} pfsId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectFundingSourceSQL = (
-  projectId: number | undefined,
-  pfsId: number | undefined
-): SQLStatement | null => {
+export const deleteProjectFundingSourceSQL = (projectId: number, pfsId: number): SQLStatement | null => {
   defaultLog.debug({
     label: 'deleteProjectFundingSourceSQL',
     message: 'params',
@@ -214,7 +211,7 @@ export const deleteProjectFundingSourceSQL = (
   return sqlStatement;
 };
 
-export const deleteProjectSpatialSQL = (projectId: number | undefined): SQLStatement | null => {
+export const deleteProjectSpatialSQL = (projectId: number): SQLStatement | null => {
   defaultLog.debug({
     label: 'deleteProjectSpatialSQL',
     message: 'params',
@@ -248,7 +245,13 @@ export const deleteProjectSpatialSQL = (projectId: number | undefined): SQLState
  * @param {number} projectId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatement | null => {
+export const deleteProjectRegionSQL = (projectId: number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'deleteProjectRegionSQL',
+    message: 'params',
+    projectId
+  });
+
   if (!projectId) {
     return null;
   }
@@ -259,6 +262,46 @@ export const deleteProjectRegionSQL = (projectId: number | undefined): SQLStatem
       WHERE
         project_id = ${projectId};
     `;
+
+  defaultLog.debug({
+    label: 'deleteProjectRegionSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to delete range associated to a project ID.
+ *
+ * @param {number} projectId
+ * @returns {SQLStatement} sql query object
+ */
+export const deleteProjectRangeSQL = (projectId: number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'deleteProjectRangeSQL',
+    message: 'params',
+    projectId
+  });
+  if (!projectId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+      DELETE
+        from project_caribou_population_unit
+      WHERE
+        project_id = ${projectId};
+    `;
+
+  defaultLog.debug({
+    label: 'deleteProjectRangeSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
 
   return sqlStatement;
 };
@@ -298,13 +341,29 @@ export const deleteProjectSQL = (projectId: number): SQLStatement | null => {
  * @param {number} projectId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectSpeciesSQL = (projectId: number): SQLStatement => {
+export const deleteProjectSpeciesSQL = (projectId: number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'deleteProjectSpeciesSQL',
+    message: 'params',
+    projectId
+  });
+  if (!projectId) {
+    return null;
+  }
+
   const sqlStatement: SQLStatement = SQL`
     DELETE
       from project_species
     WHERE
       project_id = ${projectId};
   `;
+
+  defaultLog.debug({
+    label: 'deleteProjectSpeciesSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
 
   return sqlStatement;
 };

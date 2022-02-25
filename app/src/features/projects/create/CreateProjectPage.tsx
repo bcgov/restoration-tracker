@@ -496,6 +496,9 @@ const CreateProjectPage: React.FC = () => {
                         regions={codes.codes.regions.map((item) => {
                           return { value: item.id, label: item.name };
                         })}
+                        species={codes.codes.species.map((item) => {
+                          return { value: item.id, label: item.name };
+                        })}
                       />
                     </Grid>
                   </Grid>

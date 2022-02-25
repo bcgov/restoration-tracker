@@ -232,9 +232,9 @@ export interface IGetProjectForViewResponsePermit {
 
 export interface IGetProjectForViewResponseLocation {
   geometry: Feature[];
-  range: string;
   priority: string;
   region: number;
+  range: number;
 }
 
 interface IGetProjectForViewResponseContactArrayItem {
