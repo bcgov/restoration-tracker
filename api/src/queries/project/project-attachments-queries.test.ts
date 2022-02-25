@@ -4,7 +4,8 @@ import {
   getProjectAttachmentsSQL,
   deleteProjectAttachmentSQL,
   postProjectAttachmentSQL,
-  getProjectAttachmentByFileNameSQL
+  getProjectAttachmentByFileNameSQL,
+  putProjectAttachmentSQL
 } from './project-attachments-queries';
 
 describe('getProjectAttachmentsSQL', () => {
@@ -62,6 +63,20 @@ describe('postProjectAttachmentSQL', () => {
 
   it('returns null response when null key provided', () => {
     const response = postProjectAttachmentSQL('name', 2, 1, (null as unknown) as string);
+
+    expect(response).to.be.null;
+  });
+});
+
+describe('putProjectAttachmentSQL', () => {
+  it('returns null response when null projectId provided', () => {
+    const response = putProjectAttachmentSQL((null as unknown) as number, 'name');
+
+    expect(response).to.be.null;
+  });
+
+  it('returns null response when null fileName provided', () => {
+    const response = putProjectAttachmentSQL(1, (null as unknown) as string);
 
     expect(response).to.be.null;
   });

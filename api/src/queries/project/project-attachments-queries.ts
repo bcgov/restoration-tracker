@@ -117,11 +117,50 @@ export const postProjectAttachmentSQL = (
       ${key}
     )
     RETURNING
-      project_attachment_id as id;
+      project_attachment_id as id,
+      revision_count;
   `;
 
   defaultLog.debug({
     label: 'postProjectAttachmentSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to update an attachment for a single project by project id and filename.
+ *
+ * @param {number} projectId
+ * @param {string} fileName
+ * @returns {SQLStatement} sql query object
+ */
+export const putProjectAttachmentSQL = (projectId: number, fileName: string): SQLStatement | null => {
+  defaultLog.debug({ label: 'putProjectAttachmentSQL', message: 'params', projectId, fileName });
+
+  if (!projectId || !fileName) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    UPDATE
+      project_attachment
+    SET
+      file_name = ${fileName}
+    WHERE
+      file_name = ${fileName}
+    AND
+      project_id = ${projectId}
+    RETURNING
+      project_attachment_id as id,
+      revision_count;
+  `;
+
+  defaultLog.debug({
+    label: 'putProjectAttachmentSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

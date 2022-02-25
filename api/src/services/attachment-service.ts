@@ -1,12 +1,16 @@
 import { Metadata } from 'aws-sdk/clients/s3';
-import { HTTP400, HTTP409 } from '../errors/custom-error';
+import { HTTP400 } from '../errors/custom-error';
 import { GetAttachmentsData } from '../models/project-attachments';
 import { queries } from '../queries/queries';
 import { deleteFileFromS3, generateS3FileKey, getS3SignedURL, uploadFileToS3 } from '../utils/file-utils';
 import { DBService } from './service';
 
 export class AttachmentService extends DBService {
-  async insertProjectAttachment(projectId: number, key: string, file: Express.Multer.File): Promise<{ id: number }> {
+  async insertProjectAttachment(
+    projectId: number,
+    key: string,
+    file: Express.Multer.File
+  ): Promise<{ id: number; revision_count: number }> {
     const sqlStatement = queries.project.postProjectAttachmentSQL(file.originalname, file.size, projectId, key);
 
     if (!sqlStatement) {
@@ -22,7 +26,26 @@ export class AttachmentService extends DBService {
     return response.rows[0];
   }
 
-  async checkFileWithSameNameExists(projectId: number, file: Express.Multer.File) {
+  async updateProjectAttachment(
+    projectId: number,
+    file: Express.Multer.File
+  ): Promise<{ id: number; revision_count: number }> {
+    const sqlStatement = queries.project.putProjectAttachmentSQL(projectId, file.originalname);
+
+    if (!sqlStatement) {
+      throw new HTTP400('Failed to build SQL update statement');
+    }
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    if (!response || !response?.rows?.[0]) {
+      throw new HTTP400('Failed to update project attachment data');
+    }
+
+    return response.rows[0];
+  }
+
+  async fileWithSameNameExist(projectId: number, file: Express.Multer.File) {
     const getSqlStatement = queries.project.getProjectAttachmentByFileNameSQL(projectId, file.originalname);
 
     if (!getSqlStatement) {
@@ -31,19 +54,23 @@ export class AttachmentService extends DBService {
 
     const getResponse = await this.connection.query(getSqlStatement.text, getSqlStatement.values);
 
-    if (getResponse && getResponse.rows && getResponse.rows.length > 0) {
-      throw new HTTP409('Project attachment with the same name already exist');
-    }
+    return getResponse && getResponse.rows && getResponse.rows.length > 0;
   }
 
-  async uploadMedia(projectId: number, file: Express.Multer.File, metadata: Metadata = {}): Promise<{ id: number }> {
-    await this.checkFileWithSameNameExists(projectId, file);
-
+  async uploadMedia(
+    projectId: number,
+    file: Express.Multer.File,
+    metadata: Metadata = {}
+  ): Promise<{ id: number; revision_count: number }> {
     const key = generateS3FileKey({ projectId: projectId, fileName: file.originalname });
+
+    const response = (await this.fileWithSameNameExist(projectId, file))
+      ? this.updateProjectAttachment(projectId, file)
+      : this.insertProjectAttachment(projectId, key, file);
 
     await uploadFileToS3(file, key, metadata);
 
-    return this.insertProjectAttachment(projectId, key, file);
+    return response;
   }
 
   async getAttachments(projectId: number) {

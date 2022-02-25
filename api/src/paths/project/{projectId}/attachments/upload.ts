@@ -64,9 +64,12 @@ POST.apiDoc = {
           schema: {
             title: 'Attachment Response Object',
             type: 'object',
-            required: ['id'],
+            required: ['id', 'revision_count'],
             properties: {
               id: {
+                type: 'number'
+              },
+              revision_count: {
                 type: 'number'
               }
             }

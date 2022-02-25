@@ -60,7 +60,7 @@ describe('AttachmentService', () => {
     });
 
     it('returns row on success', async () => {
-      const mockRowObj = [{ id: 123 }];
+      const mockRowObj = [{ id: 123, revision_count: 0 }];
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
 
@@ -78,7 +78,68 @@ describe('AttachmentService', () => {
     });
   });
 
-  describe('checkFileWithSameNameExists', () => {
+  describe('updateProjectAttachment', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 error when no sql statement produced', async () => {
+      const mockDBConnection = getMockDBConnection();
+      sinon.stub(queries.project, 'putProjectAttachmentSQL').returns(null);
+
+      const projectId = 1;
+      const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+
+      const attachmentService = new AttachmentService(mockDBConnection);
+
+      try {
+        await attachmentService.updateProjectAttachment(projectId, file);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL update statement');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'putProjectAttachmentSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+
+      const attachmentService = new AttachmentService(mockDBConnection);
+
+      try {
+        await attachmentService.updateProjectAttachment(projectId, file);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to update project attachment data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns row on success', async () => {
+      const mockRowObj = [{ id: 123, revision_count: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'putProjectAttachmentSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+
+      const attachmentService = new AttachmentService(mockDBConnection);
+
+      const result = await attachmentService.updateProjectAttachment(projectId, file);
+
+      expect(result).to.equal(mockRowObj[0]);
+    });
+  });
+
+  describe('fileWithSameNameExist', () => {
     afterEach(() => {
       sinon.restore();
     });
@@ -93,7 +154,7 @@ describe('AttachmentService', () => {
       const attachmentService = new AttachmentService(mockDBConnection);
 
       try {
-        await attachmentService.checkFileWithSameNameExists(projectId, file);
+        await attachmentService.fileWithSameNameExist(projectId, file);
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
@@ -101,7 +162,7 @@ describe('AttachmentService', () => {
       }
     });
 
-    it('should throw a 409 response when file with the same name already exists', async () => {
+    it('should return true when file with the same name already exist', async () => {
       const mockRowObj = [{ id: 123 }];
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
@@ -113,13 +174,25 @@ describe('AttachmentService', () => {
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
-      try {
-        await attachmentService.checkFileWithSameNameExists(projectId, file);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Project attachment with the same name already exist');
-        expect((actualError as HTTPError).status).to.equal(409);
-      }
+      const result = await attachmentService.fileWithSameNameExist(projectId, file);
+
+      expect(result).to.equal(true);
+    });
+
+    it('should return false when file with the same name does not exist', async () => {
+      const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectAttachmentByFileNameSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+
+      const attachmentService = new AttachmentService(mockDBConnection);
+
+      const result = await attachmentService.fileWithSameNameExist(projectId, file);
+
+      expect(result).to.equal(false);
     });
   });
 
@@ -128,12 +201,12 @@ describe('AttachmentService', () => {
       sinon.restore();
     });
 
-    it('should return id on successful upload', async () => {
+    it('should return id on successful upload, when file with same name does not exist', async () => {
       const mockDBConnection = getMockDBConnection();
 
-      sinon.stub(AttachmentService.prototype, 'checkFileWithSameNameExists').resolves();
+      sinon.stub(AttachmentService.prototype, 'fileWithSameNameExist').resolves(false);
       sinon.stub(file_utils, 'uploadFileToS3').resolves({ Key: '1/1/test.txt' } as any);
-      sinon.stub(AttachmentService.prototype, 'insertProjectAttachment').resolves({ id: 1 });
+      sinon.stub(AttachmentService.prototype, 'insertProjectAttachment').resolves({ id: 1, revision_count: 0 });
 
       const projectId = 1;
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
@@ -143,6 +216,25 @@ describe('AttachmentService', () => {
       const result = await attachmentService.uploadMedia(projectId, file);
 
       expect(result.id).to.equal(1);
+      expect(result.revision_count).to.equal(0);
+    });
+
+    it('should return id on successful upload, when file with same name exist', async () => {
+      const mockDBConnection = getMockDBConnection();
+
+      sinon.stub(AttachmentService.prototype, 'fileWithSameNameExist').resolves(true);
+      sinon.stub(file_utils, 'uploadFileToS3').resolves({ Key: '1/1/test.txt' } as any);
+      sinon.stub(AttachmentService.prototype, 'updateProjectAttachment').resolves({ id: 1, revision_count: 1 });
+
+      const projectId = 1;
+      const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+
+      const attachmentService = new AttachmentService(mockDBConnection);
+
+      const result = await attachmentService.uploadMedia(projectId, file);
+
+      expect(result.id).to.equal(1);
+      expect(result.revision_count).to.equal(1);
     });
   });
 

@@ -131,12 +131,12 @@ describe('uploadMedia', () => {
     });
 
     sinon.stub(file_utils, 'scanFileForVirus').resolves(true);
-    sinon.stub(AttachmentService.prototype, 'uploadMedia').resolves({ id: 1 });
+    sinon.stub(AttachmentService.prototype, 'uploadMedia').resolves({ id: 1, revision_count: 0 });
 
     const result = upload.uploadAttachment();
 
     await result(mockReq, mockRes as any, (null as unknown) as any);
 
-    expect(actualResult).to.eql({ id: 1 });
+    expect(actualResult).to.eql({ id: 1, revision_count: 0 });
   });
 });
