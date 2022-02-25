@@ -3,10 +3,7 @@ import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../constants/roles';
 import { getAPIUserDBConnection, getDBConnection, IDBConnection } from '../database/db';
 import { HTTP400, HTTP500 } from '../errors/custom-error';
-import {
-  administrativeActivityResponseObject,
-  hasPendingAdministrativeActivitiesResponseObject
-} from '../openapi/schemas/administrative-activity';
+import { hasPendingAdministrativeActivitiesResponseObject } from '../openapi/schemas/administrative-activity';
 import { queries } from '../queries/queries';
 import { authorizeRequestHandler } from '../request-handlers/security/authorization';
 import { getUserIdentifier } from '../utils/keycloak-utils';
@@ -44,7 +41,18 @@ POST.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            ...(administrativeActivityResponseObject as object)
+            title: 'Administrative Activity Response Object',
+            type: 'object',
+            required: ['id', 'date'],
+            properties: {
+              id: {
+                type: 'number'
+              },
+              date: {
+                oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
+                description: 'ISO 8601 date string for the project start date'
+              }
+            }
           }
         }
       }

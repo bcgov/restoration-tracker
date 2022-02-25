@@ -10,6 +10,7 @@ import { mdiPlus, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import CustomTextField from 'components/fields/CustomTextField';
 import { FieldArray, useFormikContext } from 'formik';
+import { SYSTEM_IDENTITY_SOURCE } from 'hooks/useKeycloakWrapper';
 import React from 'react';
 import yup from 'utils/YupSchema';
 
@@ -97,10 +98,10 @@ const AddProjectParticipantsForm: React.FC<AddProjectParticipantsFormProps> = (p
                               onChange={handleChange}
                               displayEmpty
                               inputProps={{ 'aria-label': 'Login Method' }}>
-                              <MenuItem key={'IDIR'} value={'IDIR'}>
+                              <MenuItem key={SYSTEM_IDENTITY_SOURCE.IDIR} value={SYSTEM_IDENTITY_SOURCE.IDIR}>
                                 IDIR
                               </MenuItem>
-                              <MenuItem key={'BCEID'} value={'BCEID'}>
+                              <MenuItem key={SYSTEM_IDENTITY_SOURCE.BCEID} value={SYSTEM_IDENTITY_SOURCE.BCEID}>
                                 BCEID
                               </MenuItem>
                             </Select>

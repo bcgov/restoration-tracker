@@ -3,24 +3,36 @@ import { Knex } from 'knex';
 const DB_SCHEMA = process.env.DB_SCHEMA;
 const DB_ADMIN = process.env.DB_ADMIN;
 
+export enum SYSTEM_IDENTITY_SOURCE {
+  DATABASE = 'DATABASE',
+  IDIR = 'IDIR',
+  BCEID = 'BCEID'
+}
+
+export enum SYSTEM_USER_ROLE_ID {
+  SYSTEM_ADMINISTRATOR = 1,
+  CREATOR = 2,
+  DATA_ADMINISTRATOR = 3
+}
+
 const systemUsers = [
-  { identifier: 'aagahche', type: 'IDIR', roleId: 1 },
-  { identifier: 'cgarrett', type: 'IDIR', roleId: 1 },
-  { identifier: 'jrpopkin', type: 'IDIR', roleId: 1 },
-  { identifier: 'jxdunsdo', type: 'IDIR', roleId: 1 },
-  { identifier: 'keinarss', type: 'IDIR', roleId: 1 },
-  { identifier: 'mbaerg', type: 'IDIR', roleId: 1 },
-  { identifier: 'nphura', type: 'IDIR', roleId: 1 },
-  { identifier: 'robmunro', type: 'IDIR', roleId: 1 },
-  { identifier: 'rstens', type: 'IDIR', roleId: 1 },
-  { identifier: 'test1', type: 'BCEID', roleId: 1 },
-  { identifier: 'test2', type: 'BCEID', roleId: 1 },
-  { identifier: 'test3', type: 'IDIR', roleId: 1 }, // System Administrator
-  { identifier: 'test4', type: 'IDIR', roleId: 1 }, // System Administrator
-  { identifier: 'test5', type: 'IDIR', roleId: 3 }, // Data Administrator
-  { identifier: 'test6', type: 'IDIR', roleId: 2 }, // Creator
-  { identifier: 'test7', type: 'IDIR', roleId: 2 }, // Creator
-  { identifier: 'cypress', type: 'IDIR', roleId: 1 }
+  { identifier: 'aagahche', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'cgarrett', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'jrpopkin', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'jxdunsdo', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'keinarss', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'mbaerg', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'nphura', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'robmunro', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'rstens', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test1', type: SYSTEM_IDENTITY_SOURCE.BCEID, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test2', type: SYSTEM_IDENTITY_SOURCE.BCEID, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test3', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test4', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
+  { identifier: 'test5', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.DATA_ADMINISTRATOR },
+  { identifier: 'test6', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.CREATOR },
+  { identifier: 'test7', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.CREATOR },
+  { identifier: 'cypress', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR }
 ];
 
 /**
