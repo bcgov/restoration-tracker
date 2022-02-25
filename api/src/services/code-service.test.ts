@@ -2,6 +2,7 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import * as spatialUtils from '../utils/spatial-utils';
 import { getMockDBConnection } from '../__mocks__/db';
 import { CodeService } from './code-service';
 
@@ -20,6 +21,8 @@ describe('CodeService', () => {
       });
 
       const mockDBConnection = getMockDBConnection({ query: mockQuery });
+
+      sinon.stub(spatialUtils, 'getNRMRegions').resolves([{ id: 1, name: 'codeName' }]);
 
       const codeService = new CodeService(mockDBConnection);
 

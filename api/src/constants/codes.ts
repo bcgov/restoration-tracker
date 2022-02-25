@@ -1,4 +1,6 @@
-export const coordinator_agency = [
+import { CodeSet } from '../services/code-service';
+
+export const coordinator_agency: CodeSet = [
   { id: 1, name: 'A Rocha Canada' },
   { id: 2, name: 'Aarde Environmental Ltd.' },
   { id: 3, name: 'Acres Consulting' },
