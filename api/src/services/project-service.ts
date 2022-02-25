@@ -1095,10 +1095,6 @@ export class ProjectService extends DBService {
   async updateProjectRangeData(projectId: number, entities: IUpdateProject): Promise<void> {
     const putRangeData = entities?.location && new models.project.PutLocationData(entities.location);
 
-    if (!putRangeData?.range) {
-      return;
-    }
-
     const projectRangeDeleteStatement = queries.project.deleteProjectRangeSQL(projectId);
 
     if (!projectRangeDeleteStatement) {
@@ -1107,8 +1103,7 @@ export class ProjectService extends DBService {
 
     await this.connection.query(projectRangeDeleteStatement.text, projectRangeDeleteStatement.values);
 
-    if (!putRangeData?.region) {
-      // No spatial data to insert
+    if (!putRangeData?.range) {
       return;
     }
     await this.insertRange(putRangeData.range, projectId);
