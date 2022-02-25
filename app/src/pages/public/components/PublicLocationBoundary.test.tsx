@@ -14,7 +14,7 @@ describe('PublicLocationBoundary', () => {
     );
 
     await waitFor(() => {
-      expect(getByTestId('projectLocationTitle')).toBeVisible();
+      expect(getByTestId('map_container')).toBeVisible();
     });
   });
 });

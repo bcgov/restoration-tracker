@@ -14,6 +14,9 @@ const raw_idir_identity_sources = ['IDIR'];
 
 /**
  * IUserInfo interface, represents the userinfo provided by keycloak.
+ *
+ * @export
+ * @interface IUserInfo
  */
 export interface IUserInfo {
   name?: string;
@@ -54,12 +57,6 @@ export interface IKeycloakWrapper {
    */
   systemRoles: string[];
   /**
-   * Returns `true` if the keycloak user is a registered system user, `false` otherwise.
-   *
-   * @memberof IKeycloakWrapper
-   */
-  isSystemUser: () => boolean;
-  /**
    * Returns `true` if the user's `systemRoles` contain at least 1 of the specified `validSystemRoles`, `false` otherwise.
    *
    * @memberof IKeycloakWrapper
@@ -89,6 +86,7 @@ export interface IKeycloakWrapper {
   email: string | undefined;
   firstName: string | undefined;
   lastName: string | undefined;
+  systemUserId: number;
   /**
    * Force this keycloak wrapper to refresh its data.
    *
@@ -247,8 +245,8 @@ function useKeycloakWrapper(): IKeycloakWrapper {
     getKeycloakUser();
   }, [keycloak, keycloakUser, isKeycloakUserLoading]);
 
-  const isSystemUser = (): boolean => {
-    return !!restorationTrackerUser;
+  const systemUserId = (): number => {
+    return restorationTrackerUser?.id || 0;
   };
 
   const getSystemRoles = (): string[] => {
@@ -302,7 +300,6 @@ function useKeycloakWrapper(): IKeycloakWrapper {
     keycloak: keycloak,
     hasLoadedAllUserInfo,
     systemRoles: getSystemRoles(),
-    isSystemUser,
     hasSystemRole,
     hasAccessRequest,
     getUserIdentifier,
@@ -312,6 +309,7 @@ function useKeycloakWrapper(): IKeycloakWrapper {
     displayName: displayName(),
     firstName: firstName(),
     lastName: lastName(),
+    systemUserId: systemUserId(),
     refresh
   };
 }

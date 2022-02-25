@@ -4,13 +4,14 @@ import { AuthStateContext } from 'contexts/authStateContext';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router-dom';
+import { getMockAuthState } from 'test-helpers/auth-helpers';
 import AccessDenied from './AccessDenied';
 
 const history = createMemoryHistory();
 
 describe('AccessDenied', () => {
   it('redirects to `/` when user is not authenticated', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: false
@@ -29,7 +30,7 @@ describe('AccessDenied', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const history = createMemoryHistory();
 
@@ -47,7 +48,7 @@ describe('AccessDenied', () => {
   });
 
   it('renders a spinner when user is authenticated and `hasLoadedAllUserInfo` is false', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
@@ -66,7 +67,7 @@ describe('AccessDenied', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const history = createMemoryHistory();
 
@@ -88,7 +89,7 @@ describe('AccessDenied', () => {
   });
 
   it('redirects to `/request-submitted` when user is authenticated and has a pending access request', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
@@ -107,7 +108,7 @@ describe('AccessDenied', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const history = createMemoryHistory();
 
@@ -125,7 +126,7 @@ describe('AccessDenied', () => {
   });
 
   it('renders correctly when the user is authenticated and has no pending access requests', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
@@ -144,7 +145,7 @@ describe('AccessDenied', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const { getByText, queryByTestId } = render(
       <AuthStateContext.Provider value={authState}>
@@ -159,7 +160,7 @@ describe('AccessDenied', () => {
   });
 
   it('redirects to `/access-request` when the `Request Access` button clicked', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
@@ -178,7 +179,7 @@ describe('AccessDenied', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const { getByText, getByTestId } = render(
       <AuthStateContext.Provider value={authState}>

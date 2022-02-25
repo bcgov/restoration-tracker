@@ -1,5 +1,6 @@
 import PublicProjectPage from 'pages/public/PublicProjectPage';
 import PublicProjectsListPage from 'pages/public/PublicProjectsListPage';
+import ProjectsLayout from 'features/projects/ProjectsLayout';
 import React from 'react';
 import { Redirect, Switch } from 'react-router';
 import AppRoute from 'utils/AppRoute';
@@ -20,7 +21,9 @@ const PublicProjectsRouter: React.FC = () => {
       <Redirect exact from="/projects/:id?" to="/projects/:id?/details" />
 
       <AppRoute exact path="/projects/:id?/details">
-        <PublicProjectPage />
+        <ProjectsLayout>
+          <PublicProjectPage />
+        </ProjectsLayout>
       </AppRoute>
 
       <AppRoute exact path="/projects/:id?/attachments">

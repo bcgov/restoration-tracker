@@ -20,7 +20,7 @@ const mockuseRestorationTrackerApi = {
     getAllCodeSets: jest.fn<Promise<IGetAllCodeSetsResponse>, []>()
   },
   project: {
-    getAllUserProjectsForView: jest.fn<Promise<IGetUserProjectsListResponse>, []>()
+    getAllUserProjectsParticipation: jest.fn<Promise<IGetUserProjectsListResponse>, []>()
   }
 };
 
@@ -60,7 +60,7 @@ describe('UsersDetailPage', () => {
       role_names: ['role1', 'role2']
     });
 
-    mockRestorationTrackerApi().project.getAllUserProjectsForView.mockResolvedValue({
+    mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue({
       project: null
     } as any);
 

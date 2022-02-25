@@ -5,11 +5,48 @@ import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { SYSTEM_IDENTITY_SOURCE } from 'hooks/useKeycloakWrapper';
+import { getMockAuthState } from 'test-helpers/auth-helpers';
 import Header from './Header';
 
 const history = createMemoryHistory();
 
 describe('Header', () => {
+  it('renders correctly with project admin role', () => {
+    const mockHasSystemRole = jest.fn();
+
+    mockHasSystemRole.mockReturnValueOnce(false); // Return false when the `Manage Users` secure link is parsed
+
+    const authState = getMockAuthState({
+      keycloakWrapper: {
+        keycloak: {
+          authenticated: true
+        },
+        hasLoadedAllUserInfo: true,
+        systemRoles: [SYSTEM_ROLE.PROJECT_CREATOR],
+        getUserIdentifier: () => 'testuser',
+        hasAccessRequest: false,
+        hasSystemRole: mockHasSystemRole,
+        getIdentitySource: () => 'idir',
+        username: 'testusername',
+        displayName: 'testdisplayname',
+        email: 'test@email.com',
+        lastName: 'testlast',
+        refresh: () => {}
+      }
+    });
+
+    const { getByText, queryByText } = render(
+      <AuthStateContext.Provider value={authState}>
+        <Router history={history}>
+          <Header />
+        </Router>
+      </AuthStateContext.Provider>
+    );
+
+    expect(getByText('Projects')).toBeVisible();
+    expect(queryByText('Manage Users')).not.toBeInTheDocument();
+  });
+
   it('renders correctly with system admin role', () => {
     const mockHasSystemRole = jest.fn();
 
@@ -18,7 +55,7 @@ describe('Header', () => {
       .mockReturnValueOnce(true) // Return true when the `Manage Users` secure link is parsed
       .mockReturnValueOnce(true); // Return true when the `Map` secure link is parsed
 
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
@@ -27,7 +64,6 @@ describe('Header', () => {
         systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN],
         getUserIdentifier: () => 'testuser',
         hasAccessRequest: false,
-        isSystemUser: true,
         hasSystemRole: mockHasSystemRole,
         getIdentitySource: () => SYSTEM_IDENTITY_SOURCE.IDIR,
         username: 'testusername',
@@ -37,7 +73,7 @@ describe('Header', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const { getByText } = render(
       <AuthStateContext.Provider value={authState}>
@@ -53,14 +89,13 @@ describe('Header', () => {
   });
 
   it('renders the username and logout button', () => {
-    const authState = {
+    const authState = getMockAuthState({
       keycloakWrapper: {
         keycloak: {
           authenticated: true
         },
         hasLoadedAllUserInfo: true,
         systemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN],
-        isSystemUser: true,
         getUserIdentifier: () => 'testuser',
         hasAccessRequest: false,
         hasSystemRole: jest.fn(),
@@ -72,7 +107,7 @@ describe('Header', () => {
         lastName: 'testlast',
         refresh: () => {}
       }
-    };
+    });
 
     const { getByTestId, getByText } = render(
       <AuthStateContext.Provider value={authState}>
@@ -89,7 +124,7 @@ describe('Header', () => {
 
   describe('Log Out', () => {
     it('redirects to the `/logout` page', async () => {
-      const authState = {
+      const authState = getMockAuthState({
         keycloakWrapper: {
           keycloak: {
             authenticated: true
@@ -97,7 +132,6 @@ describe('Header', () => {
           hasLoadedAllUserInfo: true,
           hasAccessRequest: false,
           systemRoles: [],
-          isSystemUser: true,
           getUserIdentifier: jest.fn(),
           hasSystemRole: jest.fn(),
           getIdentitySource: jest.fn(),
@@ -108,7 +142,7 @@ describe('Header', () => {
           lastName: 'testlast',
           refresh: () => {}
         }
-      };
+      });
 
       const { getByTestId } = render(
         <AuthStateContext.Provider value={authState}>

@@ -21,10 +21,15 @@ describe('PublicProjectDetails', () => {
   const component = <PublicProjectDetails projectForViewData={getProjectForViewResponse} refresh={jest.fn()} />;
 
   it('renders correctly', async () => {
-    const { getByTestId } = render(component);
+    const { getByText, getByTestId, queryAllByText } = render(component);
 
     await waitFor(() => {
-      expect(getByTestId('projectDetailsTitle')).toBeVisible();
+      expect(queryAllByText('Test Project Name', { exact: false }).length).toEqual(2);
+      expect(getByText('Completed', { exact: false })).toBeVisible();
+      expect(getByTestId('projectPermitsTitle')).toBeVisible();
+      expect(getByTestId('IUCNTitle')).toBeVisible();
+      expect(getByTestId('fundingSourcesTitle')).toBeVisible();
+      expect(getByTestId('partnershipsTitle')).toBeVisible();
     });
   });
 });
