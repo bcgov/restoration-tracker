@@ -197,7 +197,7 @@ describe('GetLocationData', () => {
     it('sets geometry, region and range', function () {
       expect(locationData.geometry).to.eql([]);
       expect(locationData.region).to.eql('');
-      expect(locationData.range).to.eql('');
+      expect(locationData.range).to.eql(undefined);
     });
   });
 
@@ -211,7 +211,7 @@ describe('GetLocationData', () => {
     it('sets geometry, region and range', function () {
       expect(locationData.geometry).to.eql([]);
       expect(locationData.region).to.eql('');
-      expect(locationData.range).to.eql('');
+      expect(locationData.range).to.eql(undefined);
     });
   });
 

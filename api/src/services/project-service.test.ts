@@ -630,36 +630,6 @@ describe('ProjectService', () => {
       }
     });
 
-    it('should throw a 400 response when response has no range data', async () => {
-      const dbConnectionObj = getMockDBConnection();
-
-      const projectService = new ProjectService(dbConnectionObj);
-
-      sinon.stub(ProjectService.prototype, 'getGeometryData').resolves([
-        {
-          project_id: 1
-        }
-      ]);
-
-      sinon.stub(ProjectService.prototype, 'getRegionData').resolves([
-        {
-          project_id: 1
-        }
-      ]);
-
-      sinon.stub(ProjectService.prototype, 'getRangeData').resolves(null);
-
-      const projectId = 1;
-
-      try {
-        await projectService.getLocationData(projectId);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to get range data');
-        expect((actualError as HTTPError).status).to.equal(400);
-      }
-    });
-
     it('returns row on success', async () => {
       const mockRowObj = [{ project_id: 1 }];
 
