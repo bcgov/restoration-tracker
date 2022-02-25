@@ -520,7 +520,7 @@ const CreateProjectPage: React.FC = () => {
                     data-testid="project-create-button">
                     Create Project
                   </Button>
-                  <Button variant="text" color="primary" size="large" data-testid="project-cancel-buttton">
+                  <Button variant="text" color="primary" size="large" data-testid="project-cancel-buttton"  onClick={handleCancel}>
                     Cancel
                   </Button>
                 </Box>

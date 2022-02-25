@@ -108,8 +108,7 @@ export async function getS3SignedURL(key: string): Promise<string | null> {
 
   return S3.getSignedUrl('getObject', {
     Bucket: OBJECT_STORE_BUCKET_NAME,
-    Key: key,
-    Expires: 300000 // 5 minutes
+    Key: key
   });
 }
 

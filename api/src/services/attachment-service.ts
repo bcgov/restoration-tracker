@@ -80,21 +80,18 @@ export class AttachmentService extends DBService {
       throw new HTTP400('Failed to build SQL get statement');
     }
 
-    const rawAttachmentsData = await this.connection.query(
+    const response = await this.connection.query(
       getProjectAttachmentsSQLStatement.text,
       getProjectAttachmentsSQLStatement.values
     );
 
-    return new GetAttachmentsData(
-      !rawAttachmentsData || !rawAttachmentsData.rows
-        ? []
-        : await Promise.all(
-            rawAttachmentsData.rows.map(async (item) => {
-              const url = await getS3SignedURL(item.key);
-              return { ...item, url };
-            })
-          )
+    const rawAttachmentsData = response && response.rows ? response.rows : [];
+
+    const rawAttachmentsDataWithUrl = await Promise.all(
+      rawAttachmentsData.map(async (item) => ({ ...item, url: await getS3SignedURL(item.key) }))
     );
+
+    return new GetAttachmentsData(rawAttachmentsDataWithUrl);
   }
 
   async deleteAttachment(projectId: number, attachmentId: number) {
