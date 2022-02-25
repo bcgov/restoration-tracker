@@ -54,6 +54,24 @@ export class SearchService extends DBService {
       });
     }
 
+    if (criteria.contact_agency) {
+      queryBuilder.leftJoin('project_contact', 'project.project_id', 'project_contact.project_id');
+
+      queryBuilder.and.whereIn(
+        'project_contact.agency',
+        (Array.isArray(criteria.contact_agency) && criteria.contact_agency) || [criteria.contact_agency]
+      );
+    }
+
+    if (criteria.species) {
+      queryBuilder.leftJoin('project_species', 'project.project_id', 'project_species.project_id');
+
+      queryBuilder.and.whereIn(
+        'project_species.wldtaxonomic_units_id',
+        (Array.isArray(criteria.species) && criteria.species) || [criteria.species]
+      );
+    }
+
     if (criteria.funding_agency) {
       !joins.includes('project_funding_source') &&
         queryBuilder.leftJoin('project_funding_source', 'project.project_id', 'project_funding_source.project_id');

@@ -1095,6 +1095,10 @@ export class ProjectService extends DBService {
   async updateProjectRangeData(projectId: number, entities: IUpdateProject): Promise<void> {
     const putRangeData = entities?.location && new models.project.PutLocationData(entities.location);
 
+    if (!putRangeData?.range) {
+      return;
+    }
+
     const projectRangeDeleteStatement = queries.project.deleteProjectRangeSQL(projectId);
 
     if (!projectRangeDeleteStatement) {

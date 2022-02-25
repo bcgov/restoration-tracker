@@ -23,8 +23,7 @@ export const getProjectAttachmentsSQL = (projectId: number): SQLStatement | null
       update_date,
       create_date,
       file_size,
-      key,
-      security_token
+      key
     from
       project_attachment
     where

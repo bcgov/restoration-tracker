@@ -108,13 +108,13 @@ GET.apiDoc = {
       schema: {
         oneOf: [
           {
-            type: 'number',
+            type: 'string',
             nullable: true
           },
           {
             type: 'array',
             items: {
-              type: 'number'
+              type: 'string'
             },
             nullable: true
           }
@@ -195,7 +195,7 @@ GET.apiDoc = {
             items: {
               title: 'Project get response object, for view purposes',
               type: 'object',
-              required: ['project', 'permit', 'contact', 'location', 'iucn', 'funding', 'partnerships'],
+              required: ['project', 'species', 'permit', 'contact', 'location', 'iucn', 'funding', 'partnerships'],
               properties: {
                 project: {
                   description: 'Basic project metadata',
@@ -228,6 +228,25 @@ GET.apiDoc = {
                     },
                     revision_count: {
                       type: 'number'
+                    }
+                  }
+                },
+                species: {
+                  description: 'The project species',
+                  type: 'object',
+                  required: ['focal_species', 'focal_species_names'],
+                  properties: {
+                    focal_species: {
+                      type: 'array',
+                      items: {
+                        type: 'number'
+                      }
+                    },
+                    focal_species_names: {
+                      type: 'array',
+                      items: {
+                        type: 'string'
+                      }
                     }
                   }
                 },
