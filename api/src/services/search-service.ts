@@ -4,10 +4,14 @@ import { DBService } from './service';
 
 export type ProjectSearchCriteria = {
   keyword?: string;
+  contact_agency?: string | string[];
   funding_agency?: number | number[];
   permit_number?: string | string[];
+  species?: number | number[];
   start_date?: string;
   end_date?: string;
+  ranges?: string | string[];
+  region?: string | string[];
 };
 
 export class SearchService extends DBService {
@@ -48,6 +52,24 @@ export class SearchService extends DBService {
         this.or.whereILike('project.name', `%${criteria.keyword}%`);
         this.or.whereILike('funding_source.name', `%${criteria.keyword}%`);
       });
+    }
+
+    if (criteria.contact_agency) {
+      queryBuilder.leftJoin('project_contact', 'project.project_id', 'project_contact.project_id');
+
+      queryBuilder.and.whereIn(
+        'project_contact.agency',
+        (Array.isArray(criteria.contact_agency) && criteria.contact_agency) || [criteria.contact_agency]
+      );
+    }
+
+    if (criteria.species) {
+      queryBuilder.leftJoin('project_species', 'project.project_id', 'project_species.project_id');
+
+      queryBuilder.and.whereIn(
+        'project_species.wldtaxonomic_units_id',
+        (Array.isArray(criteria.species) && criteria.species) || [criteria.species]
+      );
     }
 
     if (criteria.funding_agency) {
@@ -91,6 +113,27 @@ export class SearchService extends DBService {
 
     if (criteria.end_date) {
       queryBuilder.and.where('project.end_date', '<=', criteria.end_date);
+    }
+
+    if (criteria.region) {
+      queryBuilder.leftJoin('nrm_region', 'project.project_id', 'nrm_region.project_id');
+      queryBuilder.and.whereIn(
+        'nrm_region.name',
+        (Array.isArray(criteria.region) && criteria.region) || [criteria.region]
+      );
+    }
+
+    if (criteria.ranges) {
+      queryBuilder.leftJoin(
+        'project_caribou_population_unit',
+        'project.project_id',
+        'project_caribou_population_unit.project_id'
+      );
+
+      queryBuilder.and.whereIn(
+        'project_caribou_population_unit.caribou_population_unit_id',
+        (Array.isArray(criteria.ranges) && criteria.ranges) || [criteria.ranges]
+      );
     }
 
     queryBuilder.groupBy('project.project_id');

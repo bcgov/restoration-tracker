@@ -6,6 +6,7 @@ import {
   postProjectFundingSourceSQL,
   postProjectIndigenousNationSQL,
   postProjectIUCNSQL,
+  postProjectSpeciesSQL,
   postProjectSQL,
   postProjectStakeholderPartnershipSQL
 } from './project-create-queries';
@@ -268,6 +269,31 @@ describe('postProjectIUCNSQL', () => {
   describe('with valid parameters', () => {
     it('returns a SQLStatement when all fields are passed in as expected', () => {
       const response = postProjectIUCNSQL(1, 123);
+
+      expect(response).to.not.be.null;
+      expect(response?.values).to.deep.include(123);
+    });
+  });
+});
+
+describe('postProjectSpeciesSQL', () => {
+  describe('with invalid parameters', () => {
+    it('returns null when no iucn id', () => {
+      const response = postProjectSpeciesSQL((null as unknown) as number, 1);
+
+      expect(response).to.be.null;
+    });
+
+    it('returns null when no project id', () => {
+      const response = postProjectSpeciesSQL(1, (null as unknown) as number);
+
+      expect(response).to.be.null;
+    });
+  });
+
+  describe('with valid parameters', () => {
+    it('returns a SQLStatement when all fields are passed in as expected', () => {
+      const response = postProjectSpeciesSQL(1, 123);
 
       expect(response).to.not.be.null;
       expect(response?.values).to.deep.include(123);

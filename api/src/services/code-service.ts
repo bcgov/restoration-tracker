@@ -54,7 +54,8 @@ export class CodeService extends DBService {
         system_roles,
         project_roles,
         administrative_activity_status_type,
-        species
+        species,
+        ranges
       ],
       regions
     ] = await Promise.all([
@@ -68,7 +69,8 @@ export class CodeService extends DBService {
         this.connection.query(queries.codes.getSystemRolesSQL().text),
         this.connection.query(queries.codes.getProjectRolesSQL().text),
         this.connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text),
-        this.connection.query(queries.codes.getTaxonsSQL().text)
+        this.connection.query(queries.codes.getTaxonsSQL().text),
+        this.connection.query(queries.codes.getCaribouPopulationUnitsSQL().text)
       ]),
       getNRMRegions()
     ]);
@@ -95,10 +97,7 @@ export class CodeService extends DBService {
       regions: regions || [],
       // TODO Temporarily hard coded list of code values below
       coordinator_agency,
-      ranges: [
-        { id: 1, name: 'range 1' },
-        { id: 2, name: 'range 2' }
-      ]
+      ranges: (ranges && ranges.rows) || []
     };
   }
 }

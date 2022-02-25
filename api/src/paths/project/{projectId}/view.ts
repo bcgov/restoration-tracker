@@ -262,7 +262,7 @@ GET.apiDoc = {
               location: {
                 description: 'The project location object',
                 type: 'object',
-                required: ['geometry'],
+                required: ['geometry', 'region'],
                 properties: {
                   geometry: {
                     type: 'array',
@@ -272,6 +272,10 @@ GET.apiDoc = {
                   },
                   region: {
                     type: 'number'
+                  },
+                  range: {
+                    type: 'number',
+                    nullable: true
                   }
                 }
               }

@@ -12,6 +12,8 @@ export interface IProjectAdvancedFiltersProps {
   species: IMultiAutocompleteFieldOption[];
   contact_agency: string[];
   funding_agency: IMultiAutocompleteFieldOption[];
+  ranges: IMultiAutocompleteFieldOption[];
+  region: IMultiAutocompleteFieldOption[];
 }
 
 /**
@@ -80,6 +82,24 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
                 data-testid="species"
                 label="Species"
                 options={props.species}
+                required={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <MultiAutocompleteFieldVariableSize
+                id="ranges"
+                data-testid="ranges"
+                label="Caribou Ranges"
+                options={props.ranges}
+                required={false}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <MultiAutocompleteFieldVariableSize
+                id="region"
+                data-testid="region"
+                label="FLNRO Region"
+                options={props.region}
                 required={false}
               />
             </Grid>

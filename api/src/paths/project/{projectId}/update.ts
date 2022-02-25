@@ -255,13 +255,25 @@ PUT.apiDoc = {
             location: {
               description: 'The project location object',
               type: 'object',
-              required: ['geometry'],
+              required: ['geometry', 'region'],
+              additionalProperties: false,
               properties: {
+                range: {
+                  type: 'number',
+                  nullable: true
+                },
+                priority: {
+                  type: 'string',
+                  enum: ['true', 'false']
+                },
                 geometry: {
                   type: 'array',
                   items: {
                     ...(geoJsonFeature as object)
                   }
+                },
+                region: {
+                  type: 'number'
                 }
               }
             }
