@@ -59,13 +59,9 @@ export class ProjectService extends DBService {
    * @memberof ProjectService
    */
   async getProjectParticipant(projectId: number, systemUserId: number): Promise<any> {
-    const sqlStatement = queries.projectParticipation.getProjectParticipationBySystemUserSQL(projectId, systemUserId);
+    const sqlStatement = queries.projectParticipation.getAllUserProjectsSQL(projectId, systemUserId);
 
-    if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL select statement');
-    }
-
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+    const response = await this.connection.sql(sqlStatement);
 
     if (!response) {
       throw new HTTP400('Failed to get project team members');

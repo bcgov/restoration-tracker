@@ -1,7 +1,11 @@
 import { render, waitFor } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
 import React from 'react';
+import { Router } from 'react-router';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import PublicProjectDetails from './PublicProjectDetails';
+
+const history = createMemoryHistory();
 
 describe('PublicProjectDetails', () => {
   getProjectForViewResponse.location.geometry.push({
@@ -18,10 +22,12 @@ describe('PublicProjectDetails', () => {
 
   jest.spyOn(console, 'debug').mockImplementation(() => {});
 
-  const component = <PublicProjectDetails projectForViewData={getProjectForViewResponse} refresh={jest.fn()} />;
-
   it('renders correctly', async () => {
-    const { getByText, getByTestId, queryAllByText } = render(component);
+    const { getByText, getByTestId, queryAllByText } = render(
+      <Router history={history}>
+        <PublicProjectDetails projectForViewData={getProjectForViewResponse} refresh={jest.fn()} />
+      </Router>
+    );
 
     await waitFor(() => {
       expect(queryAllByText('Test Project Name', { exact: false }).length).toEqual(2);

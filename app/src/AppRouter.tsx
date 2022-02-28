@@ -33,9 +33,7 @@ const AppRouter: React.FC = () => {
       <Redirect exact from="/" to="/projects" />
 
       <AppRoute path="/projects" title={getTitle('Projects')} layout={PublicLayout}>
-        <UnAuthenticatedRouteGuard>
-          <PublicProjectsRouter />
-        </UnAuthenticatedRouteGuard>
+        <PublicProjectsRouter />
       </AppRoute>
 
       <AppRoute path="/search" title={getTitle('Search')} layout={PublicLayout}>
@@ -80,7 +78,7 @@ const AppRouter: React.FC = () => {
 
       <AppRoute path="/admin/users" title={getTitle('Users')} layout={PublicLayout}>
         <AuthenticatedRouteGuard>
-          <SystemRoleRouteGuard validRoles={[SYSTEM_ROLE.SYSTEM_ADMIN]}>
+          <SystemRoleRouteGuard validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN]}>
             <AdminUsersRouter />
           </SystemRoleRouteGuard>
         </AuthenticatedRouteGuard>

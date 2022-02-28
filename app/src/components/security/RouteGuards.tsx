@@ -1,19 +1,10 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { SYSTEM_ROLE } from 'constants/roles';
 import { AuthStateContext } from 'contexts/authStateContext';
 import qs from 'qs';
 import React, { useContext } from 'react';
 import { Redirect, Route, RouteProps, useLocation } from 'react-router';
-
-export type ISystemRoleRouteGuardProps = RouteProps & {
-  /**
-   * Indicates the sufficient roles needed to access this route, if any.
-   *
-   * Note: The user only needs 1 of the valid roles, when multiple are specified.
-   *
-   * @type {string[]}
-   */
-  validRoles?: string[];
-};
+import { SystemRoleGuard } from './Guards';
 
 /**
  * Route guard that requires the user to have at least 1 of the specified system roles.
@@ -23,10 +14,14 @@ export type ISystemRoleRouteGuardProps = RouteProps & {
  * @param {*} { children, validRoles, ...rest }
  * @return {*}
  */
-export const SystemRoleRouteGuard: React.FC<ISystemRoleRouteGuardProps> = ({ children, validRoles, ...rest }) => {
+export const SystemRoleRouteGuard: React.FC<{ validSystemRoles: SYSTEM_ROLE[] }> = ({
+  children,
+  validSystemRoles,
+  ...rest
+}) => {
   return (
     <WaitForKeycloakToLoadUserInfo>
-      <CheckIfUserHasSystemRole validRoles={validRoles}>
+      <SystemRoleGuard validSystemRoles={validSystemRoles} fallback={<Redirect to="/forbidden" />}>
         <Route
           {...rest}
           render={(props) => {
@@ -39,7 +34,7 @@ export const SystemRoleRouteGuard: React.FC<ISystemRoleRouteGuardProps> = ({ chi
             );
           }}
         />
-      </CheckIfUserHasSystemRole>
+      </SystemRoleGuard>
     </WaitForKeycloakToLoadUserInfo>
   );
 };
@@ -198,24 +193,6 @@ const CheckIfNotAuthenticatedUser: React.FC = ({ children }) => {
 
   if (keycloakWrapper?.keycloak?.authenticated) {
     return <Redirect to="/admin/" />;
-  }
-
-  return <>{children}</>;
-};
-
-/**
- * Checks if a user has at least 1 of the specified `validRoles`.
- *
- * Redirects the user as appropriate, or renders the `children`.
- *
- * @param {*} { children, validRoles }
- * @return {*}
- */
-const CheckIfUserHasSystemRole: React.FC<{ validRoles?: string[] }> = ({ children, validRoles }) => {
-  const { keycloakWrapper } = useContext(AuthStateContext);
-
-  if (!keycloakWrapper?.hasSystemRole(validRoles)) {
-    return <Redirect to="/forbidden" />;
   }
 
   return <>{children}</>;

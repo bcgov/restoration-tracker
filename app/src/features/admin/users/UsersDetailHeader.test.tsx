@@ -22,7 +22,7 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
 
 const mockUser = {
   id: 1,
-  user_record_end_date: 'ending',
+  record_end_date: 'ending',
   user_identifier: 'testUser',
   role_names: ['system']
 };

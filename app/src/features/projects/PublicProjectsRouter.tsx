@@ -26,10 +26,6 @@ const PublicProjectsRouter: React.FC = () => {
         </ProjectsLayout>
       </AppRoute>
 
-      <AppRoute exact path="/projects/:id/attachments">
-        <PublicProjectPage />
-      </AppRoute>
-
       {/*  Catch any unknown routes, and re-direct to the not found page */}
       <AppRoute path="/projects/*">
         <Redirect to="/page-not-found" />
