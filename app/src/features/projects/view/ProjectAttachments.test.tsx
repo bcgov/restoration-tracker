@@ -11,7 +11,6 @@ import { createMemoryHistory } from 'history';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React from 'react';
 import { Router } from 'react-router';
-import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import ProjectAttachments from './ProjectAttachments';
 
 const history = createMemoryHistory();
@@ -28,6 +27,31 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
   typeof mockuseRestorationTrackerApi
 >).mockReturnValue(mockuseRestorationTrackerApi);
 
+const attachmentsList = [
+  {
+    id: 1,
+    fileName: 'filename.test',
+    lastModified: '2021-04-09 11:53:53',
+    size: 3028,
+    url: 'https://something.com'
+  },
+  {
+    id: 20,
+    fileName: 'filename20.test',
+    lastModified: '2021-04-09 11:53:53',
+    size: 30280000,
+    url: 'https://something.com'
+  },
+  {
+    id: 30,
+    fileName: 'filename30.test',
+    lastModified: '2021-04-09 11:53:53',
+    size: 30280000000,
+    securityToken: false,
+    url: 'https://something.com'
+  }
+];
+
 describe('ProjectAttachments', () => {
   beforeEach(() => {
     // clear mocks before each test
@@ -42,14 +66,17 @@ describe('ProjectAttachments', () => {
   it('correctly opens and closes the file upload dialog', async () => {
     const { getByTestId, getByText, queryByText } = render(
       <Router history={history}>
-        <ProjectAttachments projectForViewData={getProjectForViewResponse} />
+        <ProjectAttachments
+          attachmentsList={attachmentsList}
+          getAttachments={mockRestorationTrackerApi().project.getProjectAttachments}
+        />
       </Router>
     );
 
-    expect(getByTestId('h2-button-toolbar-Upload')).toBeInTheDocument();
+    expect(getByTestId('h3-button-toolbar-Upload')).toBeInTheDocument();
     expect(queryByText('Upload Attachments')).not.toBeInTheDocument();
 
-    fireEvent.click(getByTestId('h2-button-toolbar-Upload'));
+    fireEvent.click(getByTestId('h3-button-toolbar-Upload'));
 
     await waitFor(() => {
       expect(queryByText('Upload Attachments')).toBeInTheDocument();
@@ -67,7 +94,7 @@ describe('ProjectAttachments', () => {
   it('renders correctly with no attachments', () => {
     const { getByText } = render(
       <Router history={history}>
-        <ProjectAttachments projectForViewData={getProjectForViewResponse} />
+        <ProjectAttachments attachmentsList={[]} getAttachments={jest.fn()} />
       </Router>
     );
 
@@ -75,20 +102,14 @@ describe('ProjectAttachments', () => {
   });
 
   it('renders correctly with attachments', async () => {
-    mockRestorationTrackerApi().project.getProjectAttachments.mockResolvedValue({
-      attachmentsList: [
-        {
-          id: 1,
-          fileName: 'filename.test',
-          lastModified: '2021-04-09 11:53:53',
-          size: 3028
-        }
-      ]
-    });
+    mockRestorationTrackerApi().project.getProjectAttachments.mockResolvedValue({ attachmentsList });
 
     const { getByText } = render(
       <Router history={history}>
-        <ProjectAttachments projectForViewData={getProjectForViewResponse} />
+        <ProjectAttachments
+          attachmentsList={attachmentsList}
+          getAttachments={mockRestorationTrackerApi().project.getProjectAttachments}
+        />
       </Router>
     );
 
@@ -97,86 +118,17 @@ describe('ProjectAttachments', () => {
     });
   });
 
-  it('deletes an attachment from the attachments list as expected', async () => {
-    mockRestorationTrackerApi().project.deleteProjectAttachment.mockResolvedValue(1);
-    mockRestorationTrackerApi().project.getProjectAttachments.mockResolvedValue({
-      attachmentsList: [
-        {
-          id: 1,
-          fileName: 'filename1.test',
-          lastModified: '2021-04-09 11:53:53',
-          size: 3028
-        },
-        {
-          id: 2,
-          fileName: 'filename2.test',
-          lastModified: '2021-04-09 11:53:53',
-          size: 3028
-        }
-      ]
-    });
-
-    const { baseElement, queryByText, getByTestId, getAllByTestId, queryByTestId } = render(
-      <DialogContextProvider>
-        <Router history={history}>
-          <ProjectAttachments projectForViewData={getProjectForViewResponse} />
-        </Router>
-      </DialogContextProvider>
-    );
-
-    await waitFor(() => {
-      expect(queryByText('filename1.test')).toBeInTheDocument();
-      expect(queryByText('filename2.test')).toBeInTheDocument();
-    });
-
-    mockRestorationTrackerApi().project.getProjectAttachments.mockResolvedValue({
-      attachmentsList: [
-        {
-          id: 2,
-          fileName: 'filename2.test',
-          lastModified: '2021-04-09 11:53:53',
-          size: 3028
-        }
-      ]
-    });
-
-    fireEvent.click(getAllByTestId('attachment-action-menu')[0]);
-
-    await waitFor(() => {
-      expect(rawQueryByTestId(baseElement as HTMLElement, 'attachment-action-menu-delete')).toBeInTheDocument();
-    });
-
-    fireEvent.click(rawGetByTestId(baseElement as HTMLElement, 'attachment-action-menu-delete'));
-
-    await waitFor(() => {
-      expect(queryByTestId('yes-no-dialog')).toBeInTheDocument();
-    });
-
-    fireEvent.click(getByTestId('yes-button'));
-
-    await waitFor(() => {
-      expect(queryByText('filename1.test')).not.toBeInTheDocument();
-      expect(queryByText('filename2.test')).toBeInTheDocument();
-    });
-  });
-
   it('does not delete an attachment from the attachments when user selects no from dialog', async () => {
     mockRestorationTrackerApi().project.deleteProjectAttachment.mockResolvedValue(1);
-    mockRestorationTrackerApi().project.getProjectAttachments.mockResolvedValue({
-      attachmentsList: [
-        {
-          id: 1,
-          fileName: 'filename.test',
-          lastModified: '2021-04-09 11:53:53',
-          size: 3028
-        }
-      ]
-    });
+    mockRestorationTrackerApi().project.getProjectAttachments.mockResolvedValue({ attachmentsList });
 
     const { baseElement, queryByText, getByTestId, queryByTestId, getAllByTestId } = render(
       <DialogContextProvider>
         <Router history={history}>
-          <ProjectAttachments projectForViewData={getProjectForViewResponse} />
+          <ProjectAttachments
+            attachmentsList={attachmentsList}
+            getAttachments={mockRestorationTrackerApi().project.getProjectAttachments}
+          />
         </Router>
       </DialogContextProvider>
     );
@@ -210,21 +162,15 @@ describe('ProjectAttachments', () => {
 
   it('does not delete an attachment from the attachments when user clicks outside the dialog', async () => {
     mockRestorationTrackerApi().project.deleteProjectAttachment.mockResolvedValue(1);
-    mockRestorationTrackerApi().project.getProjectAttachments.mockResolvedValue({
-      attachmentsList: [
-        {
-          id: 1,
-          fileName: 'filename.test',
-          lastModified: '2021-04-09 11:53:53',
-          size: 3028
-        }
-      ]
-    });
+    mockRestorationTrackerApi().project.getProjectAttachments.mockResolvedValue({ attachmentsList });
 
     const { baseElement, queryByText, getAllByRole, queryByTestId, getAllByTestId } = render(
       <DialogContextProvider>
         <Router history={history}>
-          <ProjectAttachments projectForViewData={getProjectForViewResponse} />
+          <ProjectAttachments
+            attachmentsList={attachmentsList}
+            getAttachments={mockRestorationTrackerApi().project.getProjectAttachments}
+          />
         </Router>
       </DialogContextProvider>
     );

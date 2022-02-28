@@ -1,29 +1,8 @@
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import AttachmentsList from './AttachmentsList';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-
-jest.mock('../../hooks/useRestorationTrackerApi');
-const mockUseRestorationTrackerApi = {
-  project: {
-    getAttachmentSignedURL: jest.fn()
-  },
-  survey: {
-    getSurveyAttachmentSignedURL: jest.fn()
-  }
-};
-
-const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest.Mock<
-  typeof mockUseRestorationTrackerApi
->).mockReturnValue(mockUseRestorationTrackerApi);
 
 describe('AttachmentsList', () => {
-  beforeEach(() => {
-    // clear mocks before each test
-    mockRestorationTrackerApi().project.getAttachmentSignedURL.mockClear();
-    mockRestorationTrackerApi().survey.getSurveyAttachmentSignedURL.mockClear();
-  });
-
   afterEach(() => {
     cleanup();
   });
@@ -34,24 +13,21 @@ describe('AttachmentsList', () => {
       fileName: 'filename.test',
       lastModified: '2021-04-09 11:53:53',
       size: 3028,
-      securityToken: null,
-      revisionCount: 1
+      url: 'https://something.com'
     },
     {
       id: 20,
       fileName: 'filename20.test',
       lastModified: '2021-04-09 11:53:53',
       size: 30280000,
-      securityToken: null,
-      revisionCount: 1
+      url: 'https://something.com'
     },
     {
       id: 30,
       fileName: 'filename30.test',
       lastModified: '2021-04-09 11:53:53',
       size: 30280000000,
-      securityToken: null,
-      revisionCount: 1
+      url: 'https://something.com'
     }
   ];
 
@@ -74,10 +50,6 @@ describe('AttachmentsList', () => {
   it('viewing file contents in new tab works as expected for project attachments', async () => {
     window.open = jest.fn();
 
-    const signedUrl = 'www.signedurl.com';
-
-    mockRestorationTrackerApi().project.getAttachmentSignedURL.mockResolvedValue(signedUrl);
-
     const { getByText } = render(
       <AttachmentsList projectId={1} attachmentsList={attachmentsList} getAttachments={jest.fn()} />
     );
@@ -87,27 +59,7 @@ describe('AttachmentsList', () => {
     fireEvent.click(getByText('filename.test'));
 
     await waitFor(() => {
-      expect(window.open).toHaveBeenCalledWith(signedUrl);
-    });
-  });
-
-  it('viewing file contents in new tab works as expected for survey attachments', async () => {
-    window.open = jest.fn();
-
-    const signedUrl = 'www.signedurl.com';
-
-    mockRestorationTrackerApi().survey.getSurveyAttachmentSignedURL.mockResolvedValue(signedUrl);
-
-    const { getByText } = render(
-      <AttachmentsList projectId={1} surveyId={32} attachmentsList={attachmentsList} getAttachments={jest.fn()} />
-    );
-
-    expect(getByText('filename.test')).toBeInTheDocument();
-
-    fireEvent.click(getByText('filename.test'));
-
-    await waitFor(() => {
-      expect(window.open).toHaveBeenCalledWith(signedUrl);
+      expect(window.open).toHaveBeenCalledWith('https://something.com');
     });
   });
 

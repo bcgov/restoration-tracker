@@ -46,10 +46,10 @@ export const getProjectAttachmentsSQL = (projectId: number): SQLStatement | null
  * @param {number} attachmentId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectAttachmentSQL = (attachmentId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'deleteProjectAttachmentSQL', message: 'params', attachmentId });
+export const deleteProjectAttachmentSQL = (projectId: number, attachmentId: number): SQLStatement | null => {
+  defaultLog.debug({ label: 'deleteProjectAttachmentSQL', message: 'params', projectId, attachmentId });
 
-  if (!attachmentId) {
+  if (!projectId || !attachmentId) {
     return null;
   }
 
@@ -57,6 +57,8 @@ export const deleteProjectAttachmentSQL = (attachmentId: number): SQLStatement |
     DELETE
       from project_attachment
     WHERE
+      project_id = ${projectId}
+    and
       project_attachment_id = ${attachmentId}
     RETURNING
       key;
@@ -64,41 +66,6 @@ export const deleteProjectAttachmentSQL = (attachmentId: number): SQLStatement |
 
   defaultLog.debug({
     label: 'deleteProjectAttachmentSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to get S3 key of an attachment for a single project.
- *
- * @param {number} projectId
- * @param {number} attachmentId
- * @returns {SQLStatement} sql query object
- */
-export const getProjectAttachmentS3KeySQL = (projectId: number, attachmentId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectAttachmentS3KeySQL', message: 'params', projectId });
-
-  if (!projectId || !attachmentId) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-    SELECT
-      key
-    FROM
-      project_attachment
-    WHERE
-      project_id = ${projectId}
-    AND
-      project_attachment_id = ${attachmentId};
-  `;
-
-  defaultLog.debug({
-    label: 'getProjectAttachmentS3KeySQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
@@ -165,6 +132,44 @@ export const postProjectAttachmentSQL = (
 };
 
 /**
+ * SQL query to update an attachment for a single project by project id and filename.
+ *
+ * @param {number} projectId
+ * @param {string} fileName
+ * @returns {SQLStatement} sql query object
+ */
+export const putProjectAttachmentSQL = (projectId: number, fileName: string): SQLStatement | null => {
+  defaultLog.debug({ label: 'putProjectAttachmentSQL', message: 'params', projectId, fileName });
+
+  if (!projectId || !fileName) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    UPDATE
+      project_attachment
+    SET
+      file_name = ${fileName}
+    WHERE
+      file_name = ${fileName}
+    AND
+      project_id = ${projectId}
+    RETURNING
+      project_attachment_id as id,
+      revision_count;
+  `;
+
+  defaultLog.debug({
+    label: 'putProjectAttachmentSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
  * SQL query to get an attachment for a single project by project id and filename.
  *
  * @param {number} projectId
@@ -195,44 +200,6 @@ export const getProjectAttachmentByFileNameSQL = (projectId: number, fileName: s
 
   defaultLog.debug({
     label: 'getProjectAttachmentByFileNameSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to update an attachment for a single project by project id and filename.
- *
- * @param {number} projectId
- * @param {string} fileName
- * @returns {SQLStatement} sql query object
- */
-export const putProjectAttachmentSQL = (projectId: number, fileName: string): SQLStatement | null => {
-  defaultLog.debug({ label: 'putProjectAttachmentSQL', message: 'params', projectId, fileName });
-
-  if (!projectId || !fileName) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-    UPDATE
-      project_attachment
-    SET
-      file_name = ${fileName}
-    WHERE
-      file_name = ${fileName}
-    AND
-      project_id = ${projectId}
-    RETURNING
-      project_attachment_id as id,
-      revision_count;
-  `;
-
-  defaultLog.debug({
-    label: 'putProjectAttachmentSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

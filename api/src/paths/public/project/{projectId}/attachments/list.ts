@@ -2,8 +2,7 @@ import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { getAPIUserDBConnection } from '../../../../../database/db';
 import { HTTP400 } from '../../../../../errors/custom-error';
-import { GetPublicAttachmentsData } from '../../../../../models/public/project';
-import { queries } from '../../../../../queries/queries';
+import { AttachmentService } from '../../../../../services/attachment-service';
 import { getLogger } from '../../../../../utils/logger';
 
 const defaultLog = getLogger('/api/public/project/{projectId}/attachments/list');
@@ -25,21 +24,33 @@ GET.apiDoc = {
   ],
   responses: {
     200: {
-      description: 'Public (published) project get response file description array.',
+      description: 'Project get response file description array.',
       content: {
         'application/json': {
           schema: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                fileName: {
-                  description: 'The file name of the attachment',
-                  type: 'string'
-                },
-                lastModified: {
-                  description: 'The date the object was last modified',
-                  type: 'string'
+            type: 'object',
+            properties: {
+              attachmentsList: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    id: {
+                      type: 'number'
+                    },
+                    fileName: {
+                      type: 'string'
+                    },
+                    lastModified: {
+                      type: 'string'
+                    },
+                    size: {
+                      type: 'number'
+                    },
+                    url: {
+                      type: 'string'
+                    }
+                  }
                 }
               }
             }
@@ -64,32 +75,21 @@ export function getPublicProjectAttachments(): RequestHandler {
       throw new HTTP400('Missing required path param `projectId`');
     }
 
+    const projectId = Number(req.params.projectId);
     const connection = getAPIUserDBConnection();
 
     try {
-      const getPublicProjectAttachmentsSQLStatement = queries.public.getPublicProjectAttachmentsSQL(
-        Number(req.params.projectId)
-      );
-
-      if (!getPublicProjectAttachmentsSQLStatement) {
-        throw new HTTP400('Failed to build SQL get statement');
-      }
-
       await connection.open();
 
-      const attachmentsData = await connection.query(
-        getPublicProjectAttachmentsSQLStatement.text,
-        getPublicProjectAttachmentsSQLStatement.values
-      );
+      const attachmentService = new AttachmentService(connection);
+
+      const data = await attachmentService.getAttachments(projectId);
 
       await connection.commit();
 
-      const getAttachmentsData =
-        (attachmentsData && attachmentsData.rows && new GetPublicAttachmentsData([...attachmentsData.rows])) || null;
-
-      return res.status(200).json(getAttachmentsData);
+      return res.status(200).json(data);
     } catch (error) {
-      defaultLog.error({ label: 'getPublicProjectAttachments', message: 'error', error });
+      defaultLog.error({ label: 'getProjectAttachments', message: 'error', error });
       await connection.rollback();
       throw error;
     } finally {

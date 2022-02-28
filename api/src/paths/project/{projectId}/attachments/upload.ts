@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../constants/roles';
-import { getDBConnection, IDBConnection } from '../../../../database/db';
+import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
-import { queries } from '../../../../queries/queries';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
-import { generateS3FileKey, scanFileForVirus, uploadFileToS3 } from '../../../../utils/file-utils';
+import { AttachmentService } from '../../../../services/attachment-service';
+import { scanFileForVirus } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/attachments/upload');
@@ -22,7 +22,7 @@ export const POST: Operation = [
       ]
     };
   }),
-  uploadMedia()
+  uploadAttachment()
 ];
 POST.apiDoc = {
   description: 'Upload a project-specific attachment.',
@@ -62,8 +62,17 @@ POST.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            type: 'string',
-            description: 'The S3 unique key for this file.'
+            title: 'Attachment Response Object',
+            type: 'object',
+            required: ['id', 'revision_count'],
+            properties: {
+              id: {
+                type: 'number'
+              },
+              revision_count: {
+                type: 'number'
+              }
+            }
           }
         }
       }
@@ -85,22 +94,30 @@ POST.apiDoc = {
  *
  * @returns {RequestHandler}
  */
-export function uploadMedia(): RequestHandler {
+export function uploadAttachment(): RequestHandler {
   return async (req, res) => {
-    const rawMediaArray: Express.Multer.File[] = req.files as Express.Multer.File[];
-
     if (!req.params.projectId) {
       throw new HTTP400('Missing projectId');
     }
-
-    if (!rawMediaArray || !rawMediaArray.length) {
-      // no media objects included, skipping media upload step
+    if (!req.files || !req.files.length) {
       throw new HTTP400('Missing upload data');
     }
     if (!req.body) {
       throw new HTTP400('Missing request body');
     }
-    const rawMediaFile: Express.Multer.File = rawMediaArray[0];
+
+    const projectId = Number(req.params.projectId);
+    const rawMediaFile: Express.Multer.File = req.files[0];
+    const metadata = {
+      filename: rawMediaFile.originalname,
+      username: (req['auth_payload'] && req['auth_payload'].preferred_username) || '',
+      email: (req['auth_payload'] && req['auth_payload'].email) || ''
+    };
+    const connection = getDBConnection(req['keycloak_token']);
+
+    if (!(await scanFileForVirus(rawMediaFile))) {
+      throw new HTTP400('Malicious content detected, upload cancelled');
+    }
 
     defaultLog.debug({
       label: 'uploadMedia',
@@ -108,31 +125,16 @@ export function uploadMedia(): RequestHandler {
       file: { ...rawMediaFile, buffer: 'Too big to print' }
     });
 
-    const connection = getDBConnection(req['keycloak_token']);
-
     try {
       await connection.open();
 
-      // Scan file for viruses using ClamAV
-      const virusScanResult = await scanFileForVirus(rawMediaFile);
+      const attachmentService = new AttachmentService(connection);
 
-      if (!virusScanResult) {
-        throw new HTTP400('Malicious content detected, upload cancelled');
-      }
-      const upsertResult = await upsertProjectAttachment(rawMediaFile, Number(req.params.projectId), connection);
-
-      // Upload file to S3
-      const metadata = {
-        filename: rawMediaFile.originalname,
-        username: (req['auth_payload'] && req['auth_payload'].preferred_username) || '',
-        email: (req['auth_payload'] && req['auth_payload'].email) || ''
-      };
-
-      await uploadFileToS3(rawMediaFile, upsertResult.key, metadata);
+      const uploadResponse = await attachmentService.uploadMedia(projectId, rawMediaFile, metadata);
 
       await connection.commit();
 
-      return res.status(200).json({ attachmentId: upsertResult.id, revision_count: upsertResult.revision_count });
+      return res.status(200).json(uploadResponse);
     } catch (error) {
       defaultLog.error({ label: 'uploadMedia', message: 'error', error });
       await connection.rollback();
@@ -142,72 +144,3 @@ export function uploadMedia(): RequestHandler {
     }
   };
 }
-
-export const upsertProjectAttachment = async (
-  file: Express.Multer.File,
-  projectId: number,
-  connection: IDBConnection
-): Promise<{ id: number; revision_count: number; key: string }> => {
-  const getSqlStatement = queries.project.getProjectAttachmentByFileNameSQL(projectId, file.originalname);
-
-  if (!getSqlStatement) {
-    throw new HTTP400('Failed to build SQL get statement');
-  }
-
-  const key = generateS3FileKey({ projectId: projectId, fileName: file.originalname });
-
-  const getResponse = await connection.query(getSqlStatement.text, getSqlStatement.values);
-
-  let attachmentResult: { id: number; revision_count: number };
-
-  if (getResponse && getResponse.rowCount > 0) {
-    // Existing attachment with matching name found, update it
-    attachmentResult = await updateProjectAttachment(file, projectId, connection);
-  } else {
-    // No matching attachment found, insert new attachment
-    attachmentResult = await insertProjectAttachment(file, projectId, key, connection);
-  }
-
-  return { ...attachmentResult, key };
-};
-
-export const insertProjectAttachment = async (
-  file: Express.Multer.File,
-  projectId: number,
-  key: string,
-  connection: IDBConnection
-): Promise<{ id: number; revision_count: number }> => {
-  const sqlStatement = queries.project.postProjectAttachmentSQL(file.originalname, file.size, projectId, key);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL insert statement');
-  }
-
-  const response = await connection.query(sqlStatement.text, sqlStatement.values);
-
-  if (!response || !response?.rows?.[0]) {
-    throw new HTTP400('Failed to insert project attachment data');
-  }
-
-  return response.rows[0];
-};
-
-export const updateProjectAttachment = async (
-  file: Express.Multer.File,
-  projectId: number,
-  connection: IDBConnection
-): Promise<{ id: number; revision_count: number }> => {
-  const sqlStatement = queries.project.putProjectAttachmentSQL(projectId, file.originalname);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL update statement');
-  }
-
-  const response = await connection.query(sqlStatement.text, sqlStatement.values);
-
-  if (!response || !response?.rows?.[0]) {
-    throw new HTTP400('Failed to update project attachment data');
-  }
-
-  return response.rows[0];
-};

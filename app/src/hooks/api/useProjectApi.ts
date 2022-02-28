@@ -71,30 +71,10 @@ const useProjectApi = (axios: AxiosInstance) => {
    *
    * @param {number} projectId
    * @param {number} attachmentId
-   * @param {any} securityToken
    * @returns {*} {Promise<number>}
    */
-  const deleteProjectAttachment = async (
-    projectId: number,
-    attachmentId: number,
-    securityToken: any
-  ): Promise<number> => {
-    const { data } = await axios.post(`/api/project/${projectId}/attachments/${attachmentId}/delete`, {
-      securityToken
-    });
-
-    return data;
-  };
-
-  /**
-   * Get project attachment S3 url based on project and attachment ID
-   *
-   * @param {number} projectId
-   * @param {number} attachmentId
-   * @return {*}  {Promise<string>}
-   */
-  const getAttachmentSignedURL = async (projectId: number, attachmentId: number): Promise<string> => {
-    const { data } = await axios.get(`/api/project/${projectId}/attachments/${attachmentId}/getSignedUrl`);
+  const deleteProjectAttachment = async (projectId: number, attachmentId: number): Promise<number> => {
+    const { data } = await axios.delete(`/api/project/${projectId}/attachments/${attachmentId}/delete`);
 
     return data;
   };
@@ -177,35 +157,6 @@ const useProjectApi = (axios: AxiosInstance) => {
     const { data } = await axios.post(`/api/project/${projectId}/attachments/upload`, req_message, {
       cancelToken: cancelTokenSource?.token,
       onUploadProgress: onProgress
-    });
-
-    return data;
-  };
-
-  /**
-   * Make security status of project attachment secure.
-   *
-   * @param {number} projectId
-   * @param {number} attachmentId
-   * @return {*}  {Promise<any>}
-   */
-  const makeAttachmentSecure = async (projectId: number, attachmentId: number): Promise<any> => {
-    const { data } = await axios.put(`/api/project/${projectId}/attachments/${attachmentId}/makeSecure`);
-
-    return data;
-  };
-
-  /**
-   * Make security status of project attachment unsecure.
-   *
-   * @param {number} projectId
-   * @param {number} attachmentId
-   * @param {any} securityToken
-   * @return {*}  {Promise<any>}
-   */
-  const makeAttachmentUnsecure = async (projectId: number, attachmentId: number, securityToken: any): Promise<any> => {
-    const { data } = await axios.put(`/api/project/${projectId}/attachments/${attachmentId}/makeUnsecure`, {
-      securityToken
     });
 
     return data;
@@ -317,14 +268,11 @@ const useProjectApi = (axios: AxiosInstance) => {
     uploadProjectAttachments,
     updateProject,
     getProjectAttachments,
-    getAttachmentSignedURL,
     deleteProjectAttachment,
     deleteFundingSource,
     addFundingSource,
     deleteProject,
     publishProject,
-    makeAttachmentSecure,
-    makeAttachmentUnsecure,
     getProjectParticipants,
     addProjectParticipants,
     removeProjectParticipant,
@@ -377,23 +325,9 @@ export const usePublicProjectApi = (axios: AxiosInstance) => {
     return data;
   };
 
-  /**
-   * Get public (published) project attachment S3 url based on project and attachment ID
-   *
-   * @param {number} projectId
-   * @param {number} attachmentId
-   * @returns {*} {Promise<string>}
-   */
-  const getAttachmentSignedURL = async (projectId: number, attachmentId: number): Promise<string> => {
-    const { data } = await axios.get(`/api/public/project/${projectId}/attachments/${attachmentId}/getSignedUrl`);
-
-    return data;
-  };
-
   return {
     getProjectsList,
     getProjectForView,
-    getProjectAttachments,
-    getAttachmentSignedURL
+    getProjectAttachments
   };
 };

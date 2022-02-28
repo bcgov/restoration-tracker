@@ -108,8 +108,7 @@ export async function getS3SignedURL(key: string): Promise<string | null> {
 
   return S3.getSignedUrl('getObject', {
     Bucket: OBJECT_STORE_BUCKET_NAME,
-    Key: key,
-    Expires: 300000 // 5 minutes
+    Key: key
   });
 }
 
@@ -120,7 +119,7 @@ export interface IS3FileKey {
 }
 
 export function generateS3FileKey(options: IS3FileKey): string {
-  const keyParts: (string | number)[] = ['restoration-tracker']; // TODO prefix with `restoration-tracker` while sharing S3 space with the SIMS project
+  const keyParts: (string | number)[] = ['restoration-tracker']; // prefix with `restoration-tracker` while sharing S3 space with the SIMS project
 
   if (options.projectId) {
     keyParts.push('projects');

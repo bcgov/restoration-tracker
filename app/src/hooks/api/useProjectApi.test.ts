@@ -92,9 +92,9 @@ describe('useProjectApi', () => {
   });
 
   it('deleteProjectAttachment works as expected', async () => {
-    mock.onPost(`/api/project/${projectId}/attachments/${attachmentId}/delete`).reply(200, 1);
+    mock.onDelete(`/api/project/${projectId}/attachments/${attachmentId}/delete`).reply(200, 1);
 
-    const result = await useProjectApi(axios).deleteProjectAttachment(projectId, attachmentId, 'token');
+    const result = await useProjectApi(axios).deleteProjectAttachment(projectId, attachmentId);
 
     expect(result).toEqual(1);
   });
@@ -175,22 +175,6 @@ describe('useProjectApi', () => {
     expect(result).toEqual(true);
   });
 
-  it('makeAttachmentSecure works as expected', async () => {
-    mock.onPut(`/api/project/${projectId}/attachments/${attachmentId}/makeSecure`).reply(200, 1);
-
-    const result = await useProjectApi(axios).makeAttachmentSecure(projectId, attachmentId);
-
-    expect(result).toEqual(1);
-  });
-
-  it('makeAttachmentUnsecure works as expected', async () => {
-    mock.onPut(`/api/project/${projectId}/attachments/${attachmentId}/makeUnsecure`).reply(200, 1);
-
-    const result = await useProjectApi(axios).makeAttachmentUnsecure(projectId, attachmentId, 'token123');
-
-    expect(result).toEqual(1);
-  });
-
   it('uploadProjectAttachments works as expected', async () => {
     const file = new File(['foo'], 'foo.txt', {
       type: 'text/plain'
@@ -223,24 +207,6 @@ describe('useProjectApi', () => {
     const result = await useProjectApi(axios).publishProject(projectId, true);
 
     expect(result).toEqual({ id: 1 });
-  });
-
-  it('getAttachmentSignedURL works as expected for public access', async () => {
-    mock
-      .onGet(`/api/public/project/${projectId}/attachments/${attachmentId}/getSignedUrl`)
-      .reply(200, 'www.signedurl.com');
-
-    const result = await usePublicProjectApi(axios).getAttachmentSignedURL(projectId, attachmentId);
-
-    expect(result).toEqual('www.signedurl.com');
-  });
-
-  it('getAttachmentSignedURL works as expected for authenticated access', async () => {
-    mock.onGet(`/api/project/${projectId}/attachments/${attachmentId}/getSignedUrl`).reply(200, 'www.signedurl.com');
-
-    const result = await useProjectApi(axios).getAttachmentSignedURL(projectId, attachmentId);
-
-    expect(result).toEqual('www.signedurl.com');
   });
 
   it('getProjectAttachments works as expected', async () => {
