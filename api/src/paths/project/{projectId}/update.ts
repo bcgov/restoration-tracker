@@ -222,7 +222,8 @@ PUT.apiDoc = {
                         description: 'ISO 8601 date string for the funding end_date'
                       },
                       agency_project_id: {
-                        type: 'string'
+                        type: 'string',
+                        nullable: true
                       },
                       revision_count: {
                         type: 'number'
