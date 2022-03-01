@@ -152,7 +152,7 @@ export class SearchService extends DBService {
       LEFT JOIN
         project_participation
       ON
-        project.project_id = project_participation.project_participation_id
+        project.project_id = project_participation.project_id
       WHERE
         project_participation.system_user_id = ${systemUserId};
     `;
