@@ -19,9 +19,11 @@ import PublicProjectContact from './components/PublicProjectContact';
 import PublicProjectPermits from './components/PublicProjectPermits';
 import Icon from '@mdi/react';
 import Link from '@material-ui/core/Link';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 
 export interface IPublicProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
+  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 
@@ -124,7 +126,7 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
   const classes = useStyles();
-  const { projectForViewData, refresh } = props;
+  const { projectForViewData, codes, refresh } = props;
 
   const end_date = projectForViewData.project.end_date;
 
@@ -223,7 +225,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             IUCN Conservation Actions Classifications
           </Typography>
           <Box mt={2}>
-            <PublicIUCNClassification projectForViewData={projectForViewData} refresh={refresh} />
+            <PublicIUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
           </Box>
         </Box>
 
