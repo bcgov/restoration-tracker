@@ -130,11 +130,33 @@ export class ProjectService extends DBService {
    * Get a project by its id.
    *
    * @param {number} projectId
-   * @param {boolean} isPublic
-   * @return {*}
+   * @param {boolean} [isPublic=false] Set to `true` if the return value should not include data that is not meant for
+   * public consumption.
+   * @return {*}  {Promise<{
+   *     project: GetProjectData;
+   *     species: GetSpeciesData;
+   *     iucn: GetIUCNClassificationData;
+   *     contact: GetContactData;
+   *     permit: GetPermitData;
+   *     partnerships: GetPartnershipsData;
+   *     funding: GetFundingData;
+   *     location: GetLocationData;
+   *   }>}
    * @memberof ProjectService
    */
-  async getProjectById(projectId: number, isPublic: boolean) {
+  async getProjectById(
+    projectId: number,
+    isPublic = false
+  ): Promise<{
+    project: GetProjectData;
+    species: GetSpeciesData;
+    iucn: GetIUCNClassificationData;
+    contact: GetContactData;
+    permit: GetPermitData;
+    partnerships: GetPartnershipsData;
+    funding: GetFundingData;
+    location: GetLocationData;
+  }> {
     const [
       projectData,
       speciesData,
@@ -1130,11 +1152,37 @@ export class ProjectService extends DBService {
    * Get projects by their ids.
    *
    * @param {number[]} projectIds
-   * @param {boolean} isPublic
-   * @return {*}
+   * @param {boolean} [isPublic=false] Set to `true` if the return value should not include data that is not meant for
+   * public consumption.
+   * @return {*}  {Promise<
+   *     {
+   *       project: GetProjectData;
+   *       species: GetSpeciesData;
+   *       iucn: GetIUCNClassificationData;
+   *       contact: GetContactData;
+   *       permit: GetPermitData;
+   *       partnerships: GetPartnershipsData;
+   *       funding: GetFundingData;
+   *       location: GetLocationData;
+   *     }[]
+   *   >}
    * @memberof ProjectService
    */
-  async getProjectsByIds(projectIds: number[], isPublic: boolean) {
+  async getProjectsByIds(
+    projectIds: number[],
+    isPublic = false
+  ): Promise<
+    {
+      project: GetProjectData;
+      species: GetSpeciesData;
+      iucn: GetIUCNClassificationData;
+      contact: GetContactData;
+      permit: GetPermitData;
+      partnerships: GetPartnershipsData;
+      funding: GetFundingData;
+      location: GetLocationData;
+    }[]
+  > {
     return Promise.all(projectIds.map(async (projectId) => this.getProjectById(projectId, isPublic)));
   }
 }

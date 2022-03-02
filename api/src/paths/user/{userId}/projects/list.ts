@@ -290,7 +290,7 @@ export function getUserProjectsList(): RequestHandler {
 
       const projectService = new ProjectService(connection);
 
-      const projects = await projectService.getProjectsByIds(projectIds, false);
+      const projects = await projectService.getProjectsByIds(projectIds);
 
       return res.status(200).json(projects);
     } catch (error) {

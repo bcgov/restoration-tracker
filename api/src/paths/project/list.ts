@@ -464,7 +464,7 @@ export function getProjectList(): RequestHandler {
       const projectService = new ProjectService(connection);
 
       // Get all projects data for the projectIds
-      const projects = await projectService.getProjectsByIds(projectIds, false);
+      const projects = await projectService.getProjectsByIds(projectIds);
 
       await connection.commit();
 
