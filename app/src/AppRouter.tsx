@@ -1,8 +1,5 @@
-import {
-  AuthenticatedRouteGuard,
-  SystemRoleRouteGuard,
-  UnAuthenticatedRouteGuard
-} from 'components/security/RouteGuards';
+import { SystemRoleGuard, UnAuthGuard } from 'components/security/Guards';
+import { AuthenticatedRouteGuard } from 'components/security/RouteGuards';
 import { SYSTEM_ROLE } from 'constants/roles';
 import AdminUsersRouter from 'features/admin/AdminUsersRouter';
 import ProjectsRouter from 'features/projects/ProjectsRouter';
@@ -37,9 +34,9 @@ const AppRouter: React.FC = () => {
       </AppRoute>
 
       <AppRoute path="/search" title={getTitle('Search')} layout={PublicLayout}>
-        <UnAuthenticatedRouteGuard>
+        <UnAuthGuard>
           <SearchPage />
-        </UnAuthenticatedRouteGuard>
+        </UnAuthGuard>
       </AppRoute>
 
       <AppRoute path="/page-not-found" title={getTitle('Page Not Found')} layout={PublicLayout}>
@@ -78,9 +75,9 @@ const AppRouter: React.FC = () => {
 
       <AppRoute path="/admin/users" title={getTitle('Users')} layout={PublicLayout}>
         <AuthenticatedRouteGuard>
-          <SystemRoleRouteGuard validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN]}>
+          <SystemRoleGuard validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN]}>
             <AdminUsersRouter />
-          </SystemRoleRouteGuard>
+          </SystemRoleGuard>
         </AuthenticatedRouteGuard>
       </AppRoute>
 
