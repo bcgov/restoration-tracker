@@ -2,13 +2,13 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Drawer from '@material-ui/core/Drawer';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import PublicProjectDetails from './PublicProjectDetails';
 import PublicLocationBoundary from './components/PublicLocationBoundary';
-import useCodes from 'hooks/useCodes';
+import PublicProjectDetails from './PublicProjectDetails';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

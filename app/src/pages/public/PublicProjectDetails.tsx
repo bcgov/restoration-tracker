@@ -10,6 +10,7 @@ import { mdiArrowLeft } from '@mdi/js';
 import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { ProjectStatusType } from 'constants/misc';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React from 'react';
@@ -20,7 +21,6 @@ import PublicIUCNClassification from './components/PublicIUCNClassification';
 import PublicPartnerships from './components/PublicPartnerships';
 import PublicProjectContact from './components/PublicProjectContact';
 import PublicProjectPermits from './components/PublicProjectPermits';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 
 export interface IPublicProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
