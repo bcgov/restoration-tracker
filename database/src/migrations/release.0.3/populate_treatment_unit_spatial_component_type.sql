@@ -1,2 +1,0 @@
--- populate_treatment_unit_spatial_component_type.sql
-insert into treatment_unit_spatial_component_type (name, record_effective_date, description) values ('Boundary', now(), 'The spatial boundary of the treatment.');
