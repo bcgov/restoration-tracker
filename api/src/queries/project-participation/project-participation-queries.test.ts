@@ -1,46 +1,25 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
-  getAllUserProjectsSQL,
+  addProjectRoleByRoleIdSQL,
+  addProjectRoleByRoleNameSQL,
   deleteProjectParticipationSQL,
   getAllProjectParticipantsSQL,
-  getProjectParticipationBySystemUserSQL,
-  addProjectRoleByRoleNameSQL,
-  getParticipantsFromAllSystemUsersProjectsSQL,
-  addProjectRoleByRoleIdSQL
+  getAllUserProjectsSQL,
+  getParticipantsFromAllSystemUsersProjectsSQL
 } from './project-participation-queries';
 
 describe('getAllUserProjectsSQL', () => {
-  it('returns null response when null userId provided', () => {
-    const response = getAllUserProjectsSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when null valid params provided', () => {
+  it('returns response when userId provided', () => {
     const response = getAllUserProjectsSQL(1);
 
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('getProjectParticipationBySystemUserSQL', () => {
-  it('returns null response when null projectId provided', () => {
-    const response = getProjectParticipationBySystemUserSQL((null as unknown) as number, 2);
-
-    expect(response).to.be.null;
+    expect(response).not.to.be.null;
   });
 
-  it('returns null response when null systemUserId provided', () => {
-    const response = getProjectParticipationBySystemUserSQL(1, (null as unknown) as number);
+  it('returns response when userId and projectId provided', () => {
+    const response = getAllUserProjectsSQL(1, 1);
 
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when null valid params provided', () => {
-    const response = getProjectParticipationBySystemUserSQL(1, 2);
-
-    expect(response).to.not.be.null;
+    expect(response).not.to.be.null;
   });
 });
 

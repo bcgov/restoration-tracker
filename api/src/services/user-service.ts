@@ -1,15 +1,7 @@
 import { ApiBuildSQLError, ApiExecuteSQLError } from '../errors/custom-error';
-import { UserObject } from '../models/user';
+import { ProjectParticipantObject, UserObject } from '../models/user';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
-
-export type ListSystemUsers = {
-  id: number;
-  user_identifier: string;
-  record_end_date: string;
-  role_ids: number[];
-  role_names: string[];
-};
 
 export class UserService extends DBService {
   /**
@@ -224,5 +216,25 @@ export class UserService extends DBService {
     if (!response.rowCount) {
       throw new ApiExecuteSQLError('Failed to insert user system roles');
     }
+  }
+
+  /**
+   * Get projects participation data for a user.
+   *
+   * @param {number} systemUserId user id
+   * @param {number} [projectId] optional project id to limit results to a single project
+   * @return {*}  {Promise<ProjectParticipantObject[]>}
+   * @memberof UserService
+   */
+  async getUserProjectParticipation(systemUserId: number, projectId?: number): Promise<ProjectParticipantObject[]> {
+    const sqlStatement = queries.projectParticipation.getAllUserProjectsSQL(systemUserId, projectId);
+
+    if (!sqlStatement) {
+      throw new ApiBuildSQLError('Failed to build SQL select statement');
+    }
+
+    const response = await this.connection.sql(sqlStatement);
+
+    return response.rows.map((item) => new ProjectParticipantObject(item));
   }
 }

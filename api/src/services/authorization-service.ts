@@ -1,7 +1,6 @@
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../constants/roles';
 import { IDBConnection } from '../database/db';
-import { ProjectUserObject, UserObject } from '../models/user';
-import { queries } from '../queries/queries';
+import { ProjectParticipantObject, UserObject } from '../models/user';
 import { getLogger } from '../utils/logger';
 import { DBService } from './service';
 import { UserService } from './user-service';
@@ -177,7 +176,7 @@ export class AuthorizationService extends DBService {
 
     return AuthorizationService.userHasValidRole(
       authorizeProjectRoles.validProjectRoles,
-      projectUserObject.project_role_names
+      projectUserObject.project_role_name
     );
   }
 
@@ -251,7 +250,6 @@ export class AuthorizationService extends DBService {
    * Finds a single user based on their keycloak token information.
    *
    * @return {*}  {(Promise<UserObject | null>)}
-   * @return {*}
    */
   async getSystemUserWithRoles(): Promise<UserObject | null> {
     const systemUserId = this.connection.systemUserId();
@@ -263,7 +261,7 @@ export class AuthorizationService extends DBService {
     return this._userService.getUserById(systemUserId);
   }
 
-  async getProjectUserObject(projectId: number): Promise<ProjectUserObject | null> {
+  async getProjectUserObject(projectId: number): Promise<ProjectParticipantObject | null> {
     let projectUserWithRoles;
 
     try {
@@ -276,31 +274,24 @@ export class AuthorizationService extends DBService {
       return null;
     }
 
-    return new ProjectUserObject(projectUserWithRoles);
+    return projectUserWithRoles;
   }
 
   /**
    * Get a user's project roles, for a single project.
    *
    * @param {number} projectId
-   * @param {IDBConnection} connection
-   * @return {*}  {Promise<string[]>}
+   * @return {*}  {Promise<ProjectParticipantObject | null>}
    */
-  async getProjectUserWithRoles(projectId: number): Promise<any> {
+  async getProjectUserWithRoles(projectId: number): Promise<ProjectParticipantObject | null> {
     const systemUserId = this.connection.systemUserId();
 
-    if (!systemUserId || !projectId) {
+    if (!systemUserId) {
       return null;
     }
 
-    const sqlStatement = queries.projectParticipation.getProjectParticipationBySystemUserSQL(projectId, systemUserId);
+    const response = await this._userService.getUserProjectParticipation(systemUserId, projectId);
 
-    if (!sqlStatement) {
-      return null;
-    }
-
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
-
-    return response.rows[0] || null;
+    return (response?.length && response[0]) || null;
   }
 }

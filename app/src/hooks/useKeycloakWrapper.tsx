@@ -63,6 +63,12 @@ export interface IKeycloakWrapper {
    */
   hasSystemRole: (validSystemRoles?: string[]) => boolean;
   /**
+   * Returns `true` if the user has at least 1 of the specified `validProjectRoles` , `false` otherwise.
+   *
+   * @memberof IKeycloakWrapper
+   */
+  hasProjectRole: (projectId: number, validProjectRoles?: string[]) => boolean;
+  /**
    * True if the user has at least 1 pending access request.
    *
    * @type {boolean}
@@ -108,15 +114,15 @@ function useKeycloakWrapper(): IKeycloakWrapper {
 
   const restorationTrackerApi = useRestorationTrackerApi();
 
-  const [restorationTrackerUser, setrestorationTrackerUser] = useState<IGetUserResponse>();
-  const [isrestorationTrackerUserLoading, setIsrestorationTrackerUserLoading] = useState<boolean>(false);
+  const [systemUser, setSystemUser] = useState<IGetUserResponse>();
+  const [shouldLoadSystemUser, setShouldLoadSystemUser] = useState<boolean>(false);
+  const [isSystemUserLoading, setIsSystemUserLoading] = useState<boolean>(false);
+  const [hasLoadedSystemUser, setHasLoadedSystemUser] = useState<boolean>(false);
 
   const [keycloakUser, setKeycloakUser] = useState<IUserInfo | null>(null);
   const [isKeycloakUserLoading, setIsKeycloakUserLoading] = useState<boolean>(false);
 
   const [shouldLoadAccessRequest, setShouldLoadAccessRequest] = useState<boolean>(false);
-  const [hasLoadedAllUserInfo, setHasLoadedAllUserInfo] = useState<boolean>(false);
-
   const [hasAccessRequest, setHasAccessRequest] = useState<boolean>(false);
 
   /**
@@ -169,9 +175,9 @@ function useKeycloakWrapper(): IKeycloakWrapper {
         //do nothing
       }
 
-      setrestorationTrackerUser(() => {
-        if (userDetails?.role_names?.length && !userDetails?.user_record_end_date) {
-          setHasLoadedAllUserInfo(true);
+      setSystemUser(() => {
+        if (userDetails?.role_names?.length && !userDetails?.record_end_date) {
+          setHasLoadedSystemUser(true);
         } else {
           setShouldLoadAccessRequest(true);
         }
@@ -184,14 +190,14 @@ function useKeycloakWrapper(): IKeycloakWrapper {
       return;
     }
 
-    if (restorationTrackerUser || isrestorationTrackerUserLoading) {
+    if (isSystemUserLoading || (systemUser && !shouldLoadSystemUser)) {
       return;
     }
 
-    setIsrestorationTrackerUserLoading(true);
+    setIsSystemUserLoading(true);
 
     getrestorationTrackerUser();
-  }, [keycloak, restorationTrackerUser, isrestorationTrackerUserLoading, restorationTrackerApi.user]);
+  }, [keycloak, systemUser, isSystemUserLoading, shouldLoadSystemUser, restorationTrackerApi.user]);
 
   useEffect(() => {
     const getSystemAccessRequest = async () => {
@@ -203,7 +209,7 @@ function useKeycloakWrapper(): IKeycloakWrapper {
         // do nothing
       }
       setHasAccessRequest(() => {
-        setHasLoadedAllUserInfo(true);
+        setHasLoadedSystemUser(true);
         return accessRequests > 0;
       });
     };
@@ -246,23 +252,43 @@ function useKeycloakWrapper(): IKeycloakWrapper {
   }, [keycloak, keycloakUser, isKeycloakUserLoading]);
 
   const systemUserId = (): number => {
-    return restorationTrackerUser?.id || 0;
+    return systemUser?.id || 0;
   };
 
   const getSystemRoles = (): string[] => {
-    return restorationTrackerUser?.role_names || [];
+    return systemUser?.role_names || [];
   };
 
   const hasSystemRole = (validSystemRoles?: string[]) => {
     if (!validSystemRoles || !validSystemRoles.length) {
       return true;
     }
+
     const userSystemRoles = getSystemRoles();
 
-    for (const validRole of validSystemRoles) {
-      if (userSystemRoles.includes(validRole)) {
-        return true;
-      }
+    if (userSystemRoles.some((item) => validSystemRoles.includes(item))) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const hasProjectRole = (projectId: number, validProjectRoles?: string[]) => {
+    if (!projectId) {
+      return false;
+    }
+
+    if (!validProjectRoles || !validProjectRoles.length) {
+      return true;
+    }
+
+    if (
+      systemUser?.projects
+        .filter((item) => item.project_id === projectId)
+        .map((item) => item.project_role_name)
+        .some((item) => validProjectRoles.includes(item))
+    ) {
+      return true;
     }
 
     return false;
@@ -289,8 +315,10 @@ function useKeycloakWrapper(): IKeycloakWrapper {
   };
 
   const refresh = () => {
-    // Set to false to ensure child pages wait for keycloak wrapper to fully re-load
-    setHasLoadedAllUserInfo(false);
+    // refresh system user
+    setHasLoadedSystemUser(false);
+    setIsSystemUserLoading(false);
+    setShouldLoadSystemUser(true);
 
     // refresh access requests
     setShouldLoadAccessRequest(true);
@@ -298,9 +326,10 @@ function useKeycloakWrapper(): IKeycloakWrapper {
 
   return {
     keycloak: keycloak,
-    hasLoadedAllUserInfo,
+    hasLoadedAllUserInfo: hasLoadedSystemUser,
     systemRoles: getSystemRoles(),
     hasSystemRole,
+    hasProjectRole,
     hasAccessRequest,
     getUserIdentifier,
     getIdentitySource,

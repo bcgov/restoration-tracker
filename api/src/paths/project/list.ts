@@ -1,15 +1,13 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { SYSTEM_ROLE } from '../../constants/roles';
 import { getDBConnection } from '../../database/db';
 import { geoJsonFeature } from '../../openapi/schemas/geoJson';
 import { authorizeRequestHandler } from '../../request-handlers/security/authorization';
-import { AuthorizationService } from '../../services/authorization-service';
 import { ProjectService } from '../../services/project-service';
 import { ProjectSearchCriteria, SearchService } from '../../services/search-service';
 import { getLogger } from '../../utils/logger';
 
-const defaultLog = getLogger('paths/projects');
+const defaultLog = getLogger('paths/projects/list');
 
 export const GET: Operation = [
   authorizeRequestHandler(() => {
@@ -461,45 +459,12 @@ export function getProjectList(): RequestHandler {
       // Fetch all projectIds that match the search criteria
       const projectIdsResponse = await searchService.findProjectIdsByCriteria(searchCriteria);
 
-      let projectIds = projectIdsResponse.map((item) => item.project_id);
-
-      const authorizationService = new AuthorizationService(connection, { systemUser: req['system_user'] });
-
-      // Check if the user has system level access to all matching projects
-      const hasSystemLevelAccess = await authorizationService.executeAuthorizationScheme({
-        and: [
-          {
-            validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR],
-            discriminator: 'SystemRole'
-          }
-        ]
-      });
-
-      if (!hasSystemLevelAccess) {
-        // User does not have system level access to all matching projects
-        // Determine if the user is a member for each project
-        const isProjectMember: boolean[] = await Promise.all(
-          projectIds.map(async (projectId) => {
-            return authorizationService.executeAuthorizationScheme({
-              and: [
-                {
-                  validProjectRoles: [],
-                  projectId: projectId,
-                  discriminator: 'ProjectRole'
-                }
-              ]
-            });
-          })
-        );
-
-        // Filter out any projects the user is not a member of
-        projectIds = projectIds.filter((projectId, index) => isProjectMember[index]);
-      }
+      const projectIds = projectIdsResponse.map((item) => item.project_id);
 
       const projectService = new ProjectService(connection);
 
-      // Get all projects for the remaining projectIds
-      const projects = await projectService.getProjectsByIds(projectIds, false);
+      // Get all projects data for the projectIds
+      const projects = await projectService.getProjectsByIds(projectIds);
 
       await connection.commit();
 

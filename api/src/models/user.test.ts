@@ -1,6 +1,81 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
-import { UserObject } from './user';
+import { ProjectParticipantObject, UserObject } from './user';
+
+describe('ProjectParticipantObject', () => {
+  describe('No values provided', () => {
+    let data: ProjectParticipantObject;
+
+    before(() => {
+      data = new ProjectParticipantObject((null as unknown) as any);
+    });
+
+    it('sets project_id', function () {
+      expect(data.project_id).to.equal(undefined);
+    });
+
+    it('sets name', function () {
+      expect(data.name).to.equal(undefined);
+    });
+
+    it('sets system_user_id', function () {
+      expect(data.system_user_id).to.equal(undefined);
+    });
+
+    it('sets project_role_id', function () {
+      expect(data.project_role_id).to.equal(undefined);
+    });
+
+    it('sets project_role_name', function () {
+      expect(data.project_role_name).to.equal(undefined);
+    });
+
+    it('sets project_participation_id', function () {
+      expect(data.project_participation_id).to.equal(undefined);
+    });
+  });
+
+  describe('valid values provided', () => {
+    let data: ProjectParticipantObject;
+
+    const participantObject = {
+      project_id: 1,
+      project_name: 'name',
+      system_user_id: 2,
+      project_role_id: 3,
+      project_role_name: 'role',
+      project_participation_id: 4
+    };
+
+    before(() => {
+      data = new ProjectParticipantObject(participantObject);
+    });
+
+    it('sets project_id', function () {
+      expect(data.project_id).to.equal(1);
+    });
+
+    it('sets name', function () {
+      expect(data.name).to.equal('name');
+    });
+
+    it('sets system_user_id', function () {
+      expect(data.system_user_id).to.equal(2);
+    });
+
+    it('sets project_role_id', function () {
+      expect(data.project_role_id).to.equal(3);
+    });
+
+    it('sets project_role_name', function () {
+      expect(data.project_role_name).to.equal('role');
+    });
+
+    it('sets project_participation_id', function () {
+      expect(data.project_participation_id).to.equal(4);
+    });
+  });
+});
 
 describe('UserObject', () => {
   describe('No values provided', () => {
