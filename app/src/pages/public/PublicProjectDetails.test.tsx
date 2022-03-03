@@ -2,6 +2,7 @@ import { render, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router';
+import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import PublicProjectDetails from './PublicProjectDetails';
 
@@ -25,7 +26,7 @@ describe('PublicProjectDetails', () => {
   it('renders correctly', async () => {
     const { getByText, getByTestId, queryAllByText } = render(
       <Router history={history}>
-        <PublicProjectDetails projectForViewData={getProjectForViewResponse} refresh={jest.fn()} />
+        <PublicProjectDetails projectForViewData={getProjectForViewResponse} codes={codes} refresh={jest.fn()} />
       </Router>
     );
 

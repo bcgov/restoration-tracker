@@ -2,12 +2,13 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Drawer from '@material-ui/core/Drawer';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import PublicProjectDetails from './PublicProjectDetails';
 import PublicLocationBoundary from './components/PublicLocationBoundary';
+import PublicProjectDetails from './PublicProjectDetails';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +35,8 @@ const PublicProjectPage = () => {
   const restorationTrackerApi = useRestorationTrackerApi();
   const classes = useStyles();
 
+  const codes = useCodes();
+
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
 
@@ -57,8 +60,8 @@ const PublicProjectPage = () => {
     }
   }, [isLoadingProject, projectWithDetails, getProject]);
 
-  if (!projectWithDetails) {
-    return <CircularProgress className="pageProgress" size={40} />;
+  if (!projectWithDetails || !codes.isReady || !codes.codes) {
+    return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
 
   return (
@@ -72,7 +75,7 @@ const PublicProjectPage = () => {
         data-testid="view_project_page_component">
         {/* Details Container */}
         <Drawer variant="permanent" className={classes.projectDetailDrawer}>
-          <PublicProjectDetails projectForViewData={projectWithDetails} refresh={getProject} />
+          <PublicProjectDetails projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
         </Drawer>
 
         {/* Map Container */}

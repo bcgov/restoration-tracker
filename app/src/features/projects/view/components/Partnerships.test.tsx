@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import React from 'react';
+import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import Partnerships from './Partnerships';
-import { codes } from 'test-helpers/code-helpers';
 
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 

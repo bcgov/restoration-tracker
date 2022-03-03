@@ -10,6 +10,7 @@ import { mdiArrowLeft } from '@mdi/js';
 import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { ProjectStatusType } from 'constants/misc';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React from 'react';
@@ -23,6 +24,7 @@ import PublicProjectPermits from './components/PublicProjectPermits';
 
 export interface IPublicProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
+  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 
@@ -128,7 +130,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
 
   const history = useHistory();
 
-  const { projectForViewData, refresh } = props;
+  const { projectForViewData, codes, refresh } = props;
 
   const end_date = projectForViewData.project.end_date;
 
@@ -227,7 +229,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             IUCN Conservation Actions Classifications
           </Typography>
           <Box mt={2}>
-            <PublicIUCNClassification projectForViewData={projectForViewData} refresh={refresh} />
+            <PublicIUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
           </Box>
         </Box>
 
@@ -249,7 +251,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             Partnerships
           </Typography>
           <Box mt={2}>
-            <PublicPartnerships projectForViewData={projectForViewData} refresh={refresh} />
+            <PublicPartnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
           </Box>
         </Box>
       </Box>

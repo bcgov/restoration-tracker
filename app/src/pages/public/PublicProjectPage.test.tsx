@@ -7,6 +7,8 @@ import { Router } from 'react-router';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import PublicProjectPage from './PublicProjectPage';
 import { DialogContextProvider } from 'contexts/dialogContext';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
+import { codes } from 'test-helpers/code-helpers';
 
 const history = createMemoryHistory({ initialEntries: ['/admin/projects/1'] });
 
@@ -16,6 +18,9 @@ const mockuseRestorationTrackerApi = {
     project: {
       getProjectForView: jest.fn<Promise<IGetProjectForViewResponse>, [number]>()
     }
+  },
+  codes: {
+    getAllCodeSets: jest.fn<Promise<IGetAllCodeSetsResponse>, []>()
   }
 };
 
@@ -25,8 +30,8 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
 
 describe('PublicProjectPage', () => {
   beforeEach(() => {
-    // clear mocks before each test
     mockRestorationTrackerApi().public.project.getProjectForView.mockClear();
+    mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
   });
 
   afterEach(() => {
@@ -45,11 +50,32 @@ describe('PublicProjectPage', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
+  it('renders spinner when no codes is loaded', async () => {
+    mockRestorationTrackerApi().public.project.getProjectForView.mockResolvedValue({
+      ...getProjectForViewResponse,
+      project: { ...getProjectForViewResponse.project, end_date: '2100-02-26' }
+    });
+
+    const { getByTestId } = render(
+      <DialogContextProvider>
+        <Router history={history}>
+          <PublicProjectPage />
+        </Router>
+      </DialogContextProvider>
+    );
+
+    await waitFor(() => {
+      expect(getByTestId('loading_spinner')).toBeVisible();
+    });
+  });
+
   it('renders public project page when project is loaded (project is active)', async () => {
     mockRestorationTrackerApi().public.project.getProjectForView.mockResolvedValue({
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project, end_date: '2100-02-26' }
     });
+
+    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue(codes);
 
     const { asFragment, findByText } = render(
       <DialogContextProvider>
@@ -72,6 +98,8 @@ describe('PublicProjectPage', () => {
       ...getProjectForViewResponse,
       project: { ...getProjectForViewResponse.project }
     });
+
+    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue(codes);
 
     const { asFragment, findByText } = render(
       <DialogContextProvider>
@@ -97,6 +125,8 @@ describe('PublicProjectPage', () => {
         end_date: (null as unknown) as string
       }
     });
+
+    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue(codes);
 
     const { asFragment, findByText } = render(
       <Router history={history}>
