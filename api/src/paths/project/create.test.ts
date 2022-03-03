@@ -11,7 +11,7 @@ import { createProject, POST } from './create';
 
 chai.use(sinonChai);
 
-describe('project/create', () => {
+describe('create', () => {
   describe('openapi schema', () => {
     const ajv = new Ajv();
 

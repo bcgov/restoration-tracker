@@ -15,6 +15,7 @@ import EditDialog from 'components/dialog/EditDialog';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { CreateProjectDraftI18N, CreateProjectI18N } from 'constants/i18n';
+import { AuthStateContext } from 'contexts/authStateContext';
 import { DialogContext } from 'contexts/dialogContext';
 import ProjectContactForm, {
   ProjectContactInitialValues,
@@ -113,6 +114,8 @@ const CreateProjectPage: React.FC = () => {
 
   const history = useHistory();
 
+  const { keycloakWrapper } = useContext(AuthStateContext);
+
   const restorationTrackerApi = useRestorationTrackerApi();
 
   const queryParams = useQuery();
@@ -142,7 +145,7 @@ const CreateProjectPage: React.FC = () => {
     },
     onYes: () => {
       dialogContext.setYesNoDialog({ open: false });
-      history.push('/admin/projects');
+      history.push('/admin/user/projects');
     }
   };
 
@@ -185,7 +188,7 @@ const CreateProjectPage: React.FC = () => {
 
   const handleCancel = () => {
     dialogContext.setYesNoDialog(defaultCancelDialogProps);
-    history.push('/admin/projects');
+    history.push('/admin/user/projects');
   };
 
   const handleSubmitDraft = async (values: IProjectDraftForm) => {
@@ -212,7 +215,7 @@ const CreateProjectPage: React.FC = () => {
       setDraft({ id: response.id, date: response.date });
       setEnableCancelCheck(false);
 
-      history.push(`/admin/projects`);
+      history.push('/admin/user/projects');
     } catch (error) {
       setOpenDraftDialog(false);
 
@@ -241,6 +244,9 @@ const CreateProjectPage: React.FC = () => {
       await deleteDraft();
 
       setEnableCancelCheck(false);
+
+      keycloakWrapper?.refresh();
+
       history.push(`/admin/projects/${response.id}`);
     } catch (error) {
       showCreateErrorDialog({

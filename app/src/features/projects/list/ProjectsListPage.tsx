@@ -49,8 +49,6 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
   const history = useHistory();
   const classes = useStyles();
 
-  const projectCount = projects.length;
-
   const getProjectStatusType = (projectData: IGetProjectForViewResponse): ProjectStatusType => {
     if (projectData.project.end_date && moment(projectData.project.end_date).endOf('day').isBefore(moment())) {
       return ProjectStatusType.COMPLETED;
@@ -84,7 +82,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
     <Card>
       <Box display="flex" alignItems="center" justifyContent="space-between" m={1} p={2}>
         <Typography variant="h4" component="h3">
-          Found {projectCount} {projectCount !== 1 ? 'projects' : 'project'}
+          Found {projects?.length} {projects?.length !== 1 ? 'projects' : 'project'}
         </Typography>
       </Box>
       <Box>

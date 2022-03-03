@@ -16,13 +16,13 @@ export type ProjectSearchCriteria = {
 
 export class SearchService extends DBService {
   /**
-   * Returns a Knex query builder that returns project_ids that match the provided search `criteria`.
+   * Returns project ids based on search criteria.
    *
    * @param {ProjectSearchCriteria} criteria
-   * @return {*}  {Knex.QueryBuilder<any, { project_id: number }[]>}
+   * @return {*}  {Promise<{ project_id: number }[]>}
    * @memberof SearchService
    */
-  async findProjectIdsByCriteria(criteria: ProjectSearchCriteria) {
+  async findProjectIdsByCriteria(criteria: ProjectSearchCriteria): Promise<{ project_id: number }[]> {
     // track which tables we have joined with already
     const joins: string[] = [];
 
@@ -143,7 +143,14 @@ export class SearchService extends DBService {
     return response.rows;
   }
 
-  async findProjectIdsByProjectParticipation(systemUserId: number) {
+  /**
+   * Returns project ids based on a user's project participation.
+   *
+   * @param {number} systemUserId
+   * @return {*}  {Promise<{ project_id: number }[]>}
+   * @memberof SearchService
+   */
+  async findProjectIdsByProjectParticipation(systemUserId: number): Promise<{ project_id: number }[]> {
     const sqlStatement = SQL`
       SELECT
         project.project_id

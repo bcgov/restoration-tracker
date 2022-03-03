@@ -3,8 +3,8 @@ import { Operation } from 'express-openapi';
 import { SYSTEM_ROLE } from '../../../../../constants/roles';
 import { getDBConnection } from '../../../../../database/db';
 import { HTTP400 } from '../../../../../errors/custom-error';
-import { queries } from '../../../../../queries/queries';
 import { authorizeRequestHandler } from '../../../../../request-handlers/security/authorization';
+import { UserService } from '../../../../../services/user-service';
 import { getLogger } from '../../../../../utils/logger';
 
 const defaultLog = getLogger('paths/user/{userId}/projects/get');
@@ -64,6 +64,9 @@ GET.apiDoc = {
                 project_role_id: {
                   type: 'number'
                 },
+                project_role_name: {
+                  type: 'string'
+                },
                 project_participation_id: {
                   type: 'number'
                 }
@@ -98,10 +101,6 @@ GET.apiDoc = {
  */
 export function getAllUserProjects(): RequestHandler {
   return async (req, res) => {
-    if (!req.params) {
-      throw new HTTP400('Missing required params');
-    }
-
     if (!req.params.userId) {
       throw new HTTP400('Missing required param: userId');
     }
@@ -113,26 +112,11 @@ export function getAllUserProjects(): RequestHandler {
 
       await connection.open();
 
-      const getAllUserProjectsSQLStatement = queries.projectParticipation.getAllUserProjectsSQL(userId);
+      const userService = new UserService(connection);
 
-      if (!getAllUserProjectsSQLStatement) {
-        throw new HTTP400('Failed to build SQL get statement');
-      }
-
-      const getUserProjectsListResponse = await connection.query(
-        getAllUserProjectsSQLStatement.text,
-        getAllUserProjectsSQLStatement.values
-      );
+      const result = await userService.getUserProjectParticipation(userId);
 
       await connection.commit();
-
-      let rows: any[] = [];
-
-      if (getUserProjectsListResponse && getUserProjectsListResponse.rows) {
-        rows = getUserProjectsListResponse.rows;
-      }
-
-      const result: any[] = _extractUserProjects(rows);
 
       return res.status(200).json(result);
     } catch (error) {
@@ -142,33 +126,4 @@ export function getAllUserProjects(): RequestHandler {
       connection.release();
     }
   };
-}
-
-/**
- * Extract an array of project data from DB query.
- *
- * @export
- * @param {any[]} rows DB query result rows
- * @return {any[]} An array of project data
- */
-export function _extractUserProjects(rows: any[]): any[] {
-  if (!rows || !rows.length) {
-    return [];
-  }
-
-  const projects: any[] = [];
-
-  rows.forEach((row) => {
-    const project: any = {
-      project_id: row.project_id,
-      name: row.name,
-      system_user_id: row.system_user_id,
-      project_role_id: row.project_role_id,
-      project_participation_id: row.project_participation_id
-    };
-
-    projects.push(project);
-  });
-
-  return projects;
 }

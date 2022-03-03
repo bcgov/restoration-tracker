@@ -46,7 +46,6 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
             <a
               aria-disabled="false"
               class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
-              href="/projects"
               role="button"
               tabindex="0"
             >
@@ -672,7 +671,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             <a
               aria-disabled="false"
               class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
-              href="/projects"
               role="button"
               tabindex="0"
             >
@@ -1298,7 +1296,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             <a
               aria-disabled="false"
               class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
-              href="/projects"
               role="button"
               tabindex="0"
             >

@@ -9,6 +9,7 @@ const SystemUserAuthState: IAuthState = {
     hasLoadedAllUserInfo: true,
     systemRoles: [],
     hasSystemRole: () => false,
+    hasProjectRole: () => false,
     hasAccessRequest: false,
     getUserIdentifier: () => 'testusername',
     getIdentitySource: () => 'idir',

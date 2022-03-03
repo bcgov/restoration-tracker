@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as db from '../../database/db';
 import { HTTPError } from '../../errors/custom-error';
+import { ProjectParticipantObject, UserObject } from '../../models/user';
 import { UserService } from '../../services/user-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../__mocks__/db';
 import * as self from './self';
@@ -33,34 +34,14 @@ describe('getUser', () => {
     }
   });
 
-  it('should throw a 400 error when no sql statement produced', async () => {
+  it('should return the user object on success', async () => {
     const dbConnectionObj = getMockDBConnection({ systemUserId: () => 1 });
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    sinon.stub(UserService.prototype, 'getUserById').resolves(null);
-
-    try {
-      const requestHandler = self.getUser();
-
-      await requestHandler(mockReq, mockRes, mockNext);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to get system user');
-    }
-  });
-
-  it('should return the user row on success', async () => {
-    const dbConnectionObj = getMockDBConnection({ systemUserId: () => 1 });
-
-    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    sinon.stub(UserService.prototype, 'getUserById').resolves({
+    const expectedUserObject = new UserObject({
       id: 1,
       user_identifier: 'identifier',
       record_end_date: '',
@@ -68,29 +49,43 @@ describe('getUser', () => {
       role_names: ['role 1', 'role 2']
     });
 
+    sinon.stub(UserService.prototype, 'getUserById').resolves(expectedUserObject);
+
+    const expectedParticipantObjects = [
+      new ProjectParticipantObject({
+        project_id: 1,
+        project_name: 'project name',
+        system_user_id: 1,
+        project_role_id: 3,
+        project_role_name: 'role 3',
+        project_participation_id: 1
+      })
+    ];
+
+    sinon.stub(UserService.prototype, 'getUserProjectParticipation').resolves(expectedParticipantObjects);
+
     const requestHandler = self.getUser();
 
     await requestHandler(mockReq, mockRes, mockNext);
 
-    expect(mockRes.jsonValue.id).to.equal(1);
-    expect(mockRes.jsonValue.user_identifier).to.equal('identifier');
-    expect(mockRes.jsonValue.role_ids).to.eql([1, 2]);
-    expect(mockRes.jsonValue.role_names).to.eql(['role 1', 'role 2']);
+    expect(mockRes.jsonValue).to.eql({
+      ...expectedUserObject,
+      projects: expectedParticipantObjects
+    });
   });
 
   it('should throw an error when a failure occurs', async () => {
-    const dbConnectionObj = getMockDBConnection({ systemUserId: () => 1 });
-
-    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
     const expectedError = new Error('cannot process query');
 
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
+    const dbConnectionObj = getMockDBConnection({
       systemUserId: () => {
         throw expectedError;
       }
     });
+
+    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+
+    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     try {
       const requestHandler = self.getUser();
