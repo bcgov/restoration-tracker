@@ -34,7 +34,7 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       try {
-        await projectService.ensureProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
+        await projectService.ensureProjectParticipant(systemUserId, projectId, projectParticipantRoleId);
       } catch (actualError) {
         expect.fail();
       }
@@ -57,7 +57,7 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       try {
-        await projectService.ensureProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
+        await projectService.ensureProjectParticipant(systemUserId, projectId, projectParticipantRoleId);
       } catch (actualError) {
         expect.fail();
       }
@@ -84,7 +84,7 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       try {
-        await projectService.getProjectParticipant(projectId, systemUserId);
+        await projectService.getProjectParticipant(systemUserId, projectId);
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to get project team members');
@@ -103,7 +103,7 @@ describe('ProjectService', () => {
 
       const projectService = new ProjectService(mockDBConnection);
 
-      const result = await projectService.getProjectParticipant(projectId, systemUserId);
+      const result = await projectService.getProjectParticipant(systemUserId, projectId);
 
       expect(result).to.equal(null);
     });
@@ -120,7 +120,7 @@ describe('ProjectService', () => {
 
       const projectService = new ProjectService(mockDBConnection);
 
-      const result = await projectService.getProjectParticipant(projectId, systemUserId);
+      const result = await projectService.getProjectParticipant(systemUserId, projectId);
 
       expect(result).to.equal(mockRowObj);
     });
@@ -217,7 +217,7 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       try {
-        await projectService.addProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
+        await projectService.addProjectParticipant(systemUserId, projectId, projectParticipantRoleId);
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to build SQL insert statement');
@@ -238,7 +238,7 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       try {
-        await projectService.addProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
+        await projectService.addProjectParticipant(systemUserId, projectId, projectParticipantRoleId);
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to insert project team member');
@@ -261,7 +261,7 @@ describe('ProjectService', () => {
 
       const projectService = new ProjectService(mockDBConnection);
 
-      await projectService.addProjectParticipant(projectId, systemUserId, projectParticipantRoleId);
+      await projectService.addProjectParticipant(systemUserId, projectId, projectParticipantRoleId);
 
       expect(addProjectRoleByRoleIdSQLStub).to.have.been.calledOnce;
       expect(mockQuery).to.have.been.calledOnce;

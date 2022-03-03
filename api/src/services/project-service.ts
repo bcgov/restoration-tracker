@@ -39,7 +39,7 @@ export class ProjectService extends DBService {
     systemUserId: number,
     projectParticipantRoleId: number
   ): Promise<void> {
-    const projectParticipantRecord = await this.getProjectParticipant(projectId, systemUserId);
+    const projectParticipantRecord = await this.getProjectParticipant(systemUserId, projectId);
 
     if (projectParticipantRecord) {
       // project participant already exists, do nothing
@@ -53,13 +53,13 @@ export class ProjectService extends DBService {
   /**
    * Get an existing project participant.
    *
-   * @param {number} projectId
    * @param {number} systemUserId
+   * @param {number} projectId
    * @return {*}  {Promise<any>}
    * @memberof ProjectService
    */
-  async getProjectParticipant(projectId: number, systemUserId: number): Promise<any> {
-    const sqlStatement = queries.projectParticipation.getAllUserProjectsSQL(projectId, systemUserId);
+  async getProjectParticipant(systemUserId: number, projectId: number): Promise<any> {
+    const sqlStatement = queries.projectParticipation.getAllUserProjectsSQL(systemUserId, projectId);
 
     const response = await this.connection.sql(sqlStatement);
 

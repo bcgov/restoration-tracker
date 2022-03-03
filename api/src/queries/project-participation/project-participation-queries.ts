@@ -65,7 +65,8 @@ export const getParticipantsFromAllSystemUsersProjectsSQL = (systemUserId: numbe
 /**
  * SQL query to get all projects from user Id.
  *
- * @param {userId} userId
+ * @param {number} systemUserId
+ * @param {number} [projectId]
  * @returns {SQLStatement} sql query object
  */
 export const getAllUserProjectsSQL = (systemUserId: number, projectId?: number): SQLStatement => {
