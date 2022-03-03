@@ -247,7 +247,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             Partnerships
           </Typography>
           <Box mt={2}>
-            <PublicPartnerships projectForViewData={projectForViewData} refresh={refresh} />
+            <PublicPartnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
           </Box>
         </Box>
       </Box>

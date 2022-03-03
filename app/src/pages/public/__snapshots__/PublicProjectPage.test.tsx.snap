@@ -401,7 +401,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   <div>
                     <dt
-                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="indigenousData"
                     >
                       Indigenous Partnerships
@@ -411,8 +411,8 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     >
                       <span
                         class="makeStyles-partnerItem-162"
+                        data-testid="indigenous_partners_data"
                       >
-                        0
                         <span
                           class="seperator"
                         >
@@ -421,8 +421,9 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                       </span>
                       <span
                         class="makeStyles-partnerItem-162"
+                        data-testid="indigenous_partners_data"
                       >
-                        1
+                        First nations code
                         <span
                           class="seperator"
                         >
@@ -433,7 +434,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   </div>
                   <div>
                     <dt
-                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="stakeholderData"
                     >
                       Other Partnerships
@@ -443,6 +444,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     >
                       <span
                         class="makeStyles-partnerItem-162"
+                        data-testid="stakeholder_partners_data"
                       >
                         partner2
                         <span
@@ -453,6 +455,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                       </span>
                       <span
                         class="makeStyles-partnerItem-162"
+                        data-testid="stakeholder_partners_data"
                       >
                         partner3
                         <span
@@ -1024,7 +1027,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   <div>
                     <dt
-                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="indigenousData"
                     >
                       Indigenous Partnerships
@@ -1034,8 +1037,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     >
                       <span
                         class="makeStyles-partnerItem-54"
+                        data-testid="indigenous_partners_data"
                       >
-                        0
                         <span
                           class="seperator"
                         >
@@ -1044,8 +1047,9 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </span>
                       <span
                         class="makeStyles-partnerItem-54"
+                        data-testid="indigenous_partners_data"
                       >
-                        1
+                        First nations code
                         <span
                           class="seperator"
                         >
@@ -1056,7 +1060,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                   <div>
                     <dt
-                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="stakeholderData"
                     >
                       Other Partnerships
@@ -1066,6 +1070,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     >
                       <span
                         class="makeStyles-partnerItem-54"
+                        data-testid="stakeholder_partners_data"
                       >
                         partner2
                         <span
@@ -1076,6 +1081,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </span>
                       <span
                         class="makeStyles-partnerItem-54"
+                        data-testid="stakeholder_partners_data"
                       >
                         partner3
                         <span
@@ -1647,7 +1653,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   <div>
                     <dt
-                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="indigenousData"
                     >
                       Indigenous Partnerships
@@ -1657,8 +1663,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     >
                       <span
                         class="makeStyles-partnerItem-108"
+                        data-testid="indigenous_partners_data"
                       >
-                        0
                         <span
                           class="seperator"
                         >
@@ -1667,8 +1673,9 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </span>
                       <span
                         class="makeStyles-partnerItem-108"
+                        data-testid="indigenous_partners_data"
                       >
-                        1
+                        First nations code
                         <span
                           class="seperator"
                         >
@@ -1679,7 +1686,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                   <div>
                     <dt
-                      class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="stakeholderData"
                     >
                       Other Partnerships
@@ -1689,6 +1696,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     >
                       <span
                         class="makeStyles-partnerItem-108"
+                        data-testid="stakeholder_partners_data"
                       >
                         partner2
                         <span
@@ -1699,6 +1707,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </span>
                       <span
                         class="makeStyles-partnerItem-108"
+                        data-testid="stakeholder_partners_data"
                       >
                         partner3
                         <span

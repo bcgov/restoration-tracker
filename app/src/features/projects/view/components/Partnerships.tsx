@@ -1,9 +1,9 @@
 import Box from '@material-ui/core/Box';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,38 +42,40 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
   return (
     <Box component="dl" mb={0}>
       <div>
-        <Typography component="dt" variant="body2" color="textSecondary">
-          Indigenous Partners:
+        <Typography component="dt" variant="body2" color="textSecondary" data-testid="indigenousData">
+          Indigenous Partnerships
         </Typography>
 
         <Typography component="dd" variant="body2">
-          {indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
-            const codeValue = codes.first_nations.find((code) => code.id === indigenousPartnership);
-            return (
-              <span key={index} data-testid="indigenous_partners_data" className={classes.partnerItem}>
-                {codeValue?.name}
-                <span className="seperator">,&nbsp;</span>
-              </span>
-            );
-          })}
+          {hasIndigenousPartnerships &&
+            indigenous_partnerships?.map((indigenousPartnership: number, index: number) => {
+              const codeValue = codes.first_nations.find((code) => code.id === indigenousPartnership);
+              return (
+                <span key={index} data-testid="indigenous_partners_data" className={classes.partnerItem}>
+                  {codeValue?.name}
+                  <span className="seperator">,&nbsp;</span>
+                </span>
+              );
+            })}
           {!hasIndigenousPartnerships && <span data-testid="no_indigenous_partners_data">None</span>}
         </Typography>
       </div>
 
       <div>
-        <Typography component="dt" variant="body2" color="textSecondary">
-          Other Partners:
+        <Typography component="dt" variant="body2" color="textSecondary" data-testid="stakeholderData">
+          Other Partnerships
         </Typography>
 
         <Typography component="dd" variant="body2">
-          {stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
-            return (
-              <span key={index} data-testid="stakeholder_partners_data" className={classes.partnerItem}>
-                {stakeholderPartnership}
-                <span className="seperator">,&nbsp;</span>
-              </span>
-            );
-          })}
+          {hasStakeholderPartnerships &&
+            stakeholder_partnerships?.map((stakeholderPartnership: string, index: number) => {
+              return (
+                <span key={index} data-testid="stakeholder_partners_data" className={classes.partnerItem}>
+                  {stakeholderPartnership}
+                  <span className="seperator">,&nbsp;</span>
+                </span>
+              );
+            })}
           {!hasStakeholderPartnerships && <span data-testid="no_stakeholder_partners_data">None</span>}
         </Typography>
       </div>
