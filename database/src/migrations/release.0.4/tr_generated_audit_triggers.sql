@@ -1,14 +1,15 @@
  create trigger audit_administrative_activity_status_type before insert or update or delete on restoration.administrative_activity_status_type for each row execute procedure tr_audit_trigger();
  create trigger audit_caribou_population_unit before insert or update or delete on restoration.caribou_population_unit for each row execute procedure tr_audit_trigger();
- create trigger audit_contact_type before insert or update or delete on restoration.contact_type for each row execute procedure tr_audit_trigger();
+ create trigger audit_feature_type before insert or update or delete on restoration.feature_type for each row execute procedure tr_audit_trigger();
  create trigger audit_funding_source before insert or update or delete on restoration.funding_source for each row execute procedure tr_audit_trigger();
+ create trigger audit_contact_type before insert or update or delete on restoration.contact_type for each row execute procedure tr_audit_trigger();
  create trigger audit_first_nations before insert or update or delete on restoration.first_nations for each row execute procedure tr_audit_trigger();
  create trigger audit_iucn_conservation_action_level_3_subclassification before insert or update or delete on restoration.iucn_conservation_action_level_3_subclassification for each row execute procedure tr_audit_trigger();
  create trigger audit_project before insert or update or delete on restoration.project for each row execute procedure tr_audit_trigger();
- create trigger audit_linear_feature_type before insert or update or delete on restoration.linear_feature_type for each row execute procedure tr_audit_trigger();
- create trigger audit_permit before insert or update or delete on restoration.permit for each row execute procedure tr_audit_trigger();
- create trigger audit_iucn_conservation_action_level_1_classification before insert or update or delete on restoration.iucn_conservation_action_level_1_classification for each row execute procedure tr_audit_trigger();
  create trigger audit_nrm_region before insert or update or delete on restoration.nrm_region for each row execute procedure tr_audit_trigger();
+ create trigger audit_permit before insert or update or delete on restoration.permit for each row execute procedure tr_audit_trigger();
+ create trigger audit_investment_action_category before insert or update or delete on restoration.investment_action_category for each row execute procedure tr_audit_trigger();
+ create trigger audit_iucn_conservation_action_level_1_classification before insert or update or delete on restoration.iucn_conservation_action_level_1_classification for each row execute procedure tr_audit_trigger();
  create trigger audit_project_caribou_population_unit before insert or update or delete on restoration.project_caribou_population_unit for each row execute procedure tr_audit_trigger();
  create trigger audit_project_first_nation before insert or update or delete on restoration.project_first_nation for each row execute procedure tr_audit_trigger();
  create trigger audit_project_contact before insert or update or delete on restoration.project_contact for each row execute procedure tr_audit_trigger();
@@ -26,15 +27,13 @@
  create trigger audit_stakeholder_partnership before insert or update or delete on restoration.stakeholder_partnership for each row execute procedure tr_audit_trigger();
  create trigger audit_system_user_role before insert or update or delete on restoration.system_user_role for each row execute procedure tr_audit_trigger();
  create trigger audit_system_role before insert or update or delete on restoration.system_role for each row execute procedure tr_audit_trigger();
- create trigger audit_treatment_unit before insert or update or delete on restoration.treatment_unit for each row execute procedure tr_audit_trigger();
- create trigger audit_treatment_unit_spatial_component_type before insert or update or delete on restoration.treatment_unit_spatial_component_type for each row execute procedure tr_audit_trigger();
  create trigger audit_webform_draft before insert or update or delete on restoration.webform_draft for each row execute procedure tr_audit_trigger();
- create trigger audit_treatment_type before insert or update or delete on restoration.treatment_type for each row execute procedure tr_audit_trigger();
+ create trigger audit_treatment_treatment_type before insert or update or delete on restoration.treatment_treatment_type for each row execute procedure tr_audit_trigger();
+ create trigger audit_treatment_unit before insert or update or delete on restoration.treatment_unit for each row execute procedure tr_audit_trigger();
  create trigger audit_user_identity_source before insert or update or delete on restoration.user_identity_source for each row execute procedure tr_audit_trigger();
+ create trigger audit_treatment_type before insert or update or delete on restoration.treatment_type for each row execute procedure tr_audit_trigger();
  create trigger audit_administrative_activity before insert or update or delete on restoration.administrative_activity for each row execute procedure tr_audit_trigger();
  create trigger audit_administrative_activity_type before insert or update or delete on restoration.administrative_activity_type for each row execute procedure tr_audit_trigger();
- create trigger audit_investment_action_category before insert or update or delete on restoration.investment_action_category for each row execute procedure tr_audit_trigger();
  create trigger audit_iucn_conservation_action_level_2_subclassification before insert or update or delete on restoration.iucn_conservation_action_level_2_subclassification for each row execute procedure tr_audit_trigger();
  create trigger audit_project_attachment before insert or update or delete on restoration.project_attachment for each row execute procedure tr_audit_trigger();
- create trigger audit_treatment_unit_spatial_component before insert or update or delete on restoration.treatment_unit_spatial_component for each row execute procedure tr_audit_trigger();
 
