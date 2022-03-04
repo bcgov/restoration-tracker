@@ -71,9 +71,7 @@ export async function up(knex: Knex): Promise<void> {
     path.join(__dirname, DB_RELEASE, 'populate_project_spatial_component_type.sql')
   );
   const populate_treatment_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_treatment_type.sql'));
-  const populate_feature_type = fs.readFileSync(
-    path.join(__dirname, DB_RELEASE, 'populate_feature_type.sql')
-  );
+  const populate_feature_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_feature_type.sql'));
   const populate_contact_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_contact_type.sql'));
   const populate_caribou_population_unit = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_caribou_population_unit.sql')
