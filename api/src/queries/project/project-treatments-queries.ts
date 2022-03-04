@@ -77,47 +77,43 @@ export const deleteProjectTreatmentSQL = (projectId: number, attachmentId: numbe
 /**
  * SQL query to insert a project attachment row.
  *
- * @param fileName
- * @param fileSize
  * @param projectId
- * @param {string} key to use in s3
+ * @param fileName
+ * @param description
  * @returns {SQLStatement} sql query object
  */
-export const postProjectTreatmentSQL = (
-  fileName: string,
-  fileSize: number,
+export const postProjectTreatmentUnitSQL = (
   projectId: number,
-  key: string
+  featureProperties: any //define later
 ): SQLStatement | null => {
   defaultLog.debug({
     label: 'postProjectTreatmentSQL',
     message: 'params',
-    fileName,
-    fileSize,
-    projectId,
-    key
+    featureProperties,
+    projectId
   });
 
-  if (!fileName || !fileSize || !projectId || !key) {
+  if (!featureProperties || !projectId) {
     return null;
   }
 
   const sqlStatement: SQLStatement = SQL`
-    INSERT INTO project_attachment (
+    INSERT INTO treatment_unit (
       project_id,
-      file_name,
-      file_size,
-      title,
-      key
+      linear_feature_type_id,
+      name,
+      description,
+      reconnaissance_conducted
     ) VALUES (
       ${projectId},
-      ${fileName},
-      ${fileSize},
-      ${fileName},
-      ${key}
+      ${featureProperties.Treatment_},
+      ${featureProperties.FEATURE_TY},
+      ${featureProperties.Treatment1},
+      ${featureProperties.Reconnaiss}
+
     )
     RETURNING
-      project_attachment_id as id,
+      treatment_unit_id as id,
       revision_count;
   `;
 

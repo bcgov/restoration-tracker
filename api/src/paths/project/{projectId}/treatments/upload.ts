@@ -4,7 +4,7 @@ import { PROJECT_ROLE } from '../../../../constants/roles';
 import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
-//import { AttachmentService } from '../../../../services/attachment-service';
+import { TreatmentService } from '../../../../services/treatment-service';
 import { scanFileForVirus } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
@@ -125,15 +125,26 @@ export function uploadTreatmentSpatial(): RequestHandler {
     });
 
     try {
-      // await connection.open();
+      await connection.open();
 
-      // const attachmentService = new AttachmentService(connection);
+      const treatmentService = new TreatmentService(connection);
 
-      // const uploadResponse = await attachmentService.uploadMedia(projectId, rawMediaFile, metadata);
+      const shapeFileFeatures = await treatmentService.handleShapeFileFeatures(rawMediaFile);
 
-      // await connection.commit();
+      if (!shapeFileFeatures) {
+        return;
+      }
 
-      const uploadResponse = { projectId: projectId, metadata: metadata };
+      const responsePostProjectTreatment = await treatmentService.insertProjectTreatmentUnit(
+        projectId,
+        shapeFileFeatures[0].properties
+      );
+
+      console.log(responsePostProjectTreatment);
+
+      await connection.commit();
+
+      const uploadResponse = { projectId: projectId, metadata: metadata, shapeFile: shapeFileFeatures };
 
       return res.status(200).json(uploadResponse);
     } catch (error) {

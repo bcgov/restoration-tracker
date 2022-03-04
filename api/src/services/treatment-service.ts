@@ -6,14 +6,14 @@ import shp from 'shpjs';
 import { Feature } from 'geojson';
 
 export class TreatmentService extends DBService {
-  async handleShapefileUpload(file: Express.Multer.File) {
+  async handleShapeFileFeatures(file: Express.Multer.File): Promise<Feature[] | undefined> {
     // Exit out if no file
     if (!file) {
       return;
     }
 
     // Run the conversion
-    const geojson = await shp(file);
+    const geojson = await shp(file.buffer);
 
     let features: Feature[] = [];
     if (Array.isArray(geojson)) {
@@ -26,12 +26,11 @@ export class TreatmentService extends DBService {
     return features;
   }
 
-  async insertProjectTreatment(
+  async insertProjectTreatmentUnit(
     projectId: number,
-    key: string,
-    file: Express.Multer.File
+    features: any //define later
   ): Promise<{ id: number; revision_count: number }> {
-    const sqlStatement = queries.project.postProjectTreatmentSQL(file.originalname, file.size, projectId, key);
+    const sqlStatement = queries.project.postProjectTreatmentUnitSQL(projectId, features.properties);
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL insert statement');
