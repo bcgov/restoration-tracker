@@ -26,11 +26,43 @@ export class TreatmentService extends DBService {
     return features;
   }
 
-  async insertProjectTreatmentUnit(
+  async getTreatmentFeatureTypes() {
+    const sqlStatement = queries.project.getTreatmentFeatureTypesSQL();
+
+    if (!sqlStatement) {
+      throw new HTTP400('Failed to build SQL get statement');
+    }
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    if (!response || !response.rows) {
+      throw new HTTP400('Failed to get project treatment feature type data');
+    }
+
+    return response.rows;
+  }
+
+  async insertTreatmentUnit(
     projectId: number,
-    features: any //define later
+    treatmentFeatureProperties: Feature['properties']
   ): Promise<{ id: number; revision_count: number }> {
-    const sqlStatement = queries.project.postProjectTreatmentUnitSQL(projectId, features.properties);
+    const treatmentFeatureTypes = await this.getTreatmentFeatureTypes();
+
+    let featureTypeObj = treatmentFeatureTypes.find((item) => {
+      return item.name === treatmentFeatureProperties?.FEATURE_TY;
+    });
+
+    if (!featureTypeObj) {
+      featureTypeObj = treatmentFeatureTypes.find((item) => {
+        return item.name === 'Other';
+      });
+    }
+
+    const sqlStatement = queries.project.postTreatmentUnitSQL(
+      projectId,
+      featureTypeObj.feature_type_id,
+      treatmentFeatureProperties
+    );
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL insert statement');
@@ -39,10 +71,32 @@ export class TreatmentService extends DBService {
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
     if (!response || !response.rows || !response.rows[0]) {
-      throw new HTTP400('Failed to insert project attachment data');
+      throw new HTTP400('Failed to insert treatment unit data');
     }
 
     return response.rows[0];
+  }
+
+  async insertTreatmentGeometryData(treatmentUnitId: number, geometry: Feature['geometry']) {
+    const sqlStatement = queries.project.postTreatmentUnitGeometrySQL(treatmentUnitId, geometry);
+
+    if (!sqlStatement) {
+      throw new HTTP400('Failed to build SQL update statement');
+    }
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    if (!response || !response?.rows?.[0]) {
+      throw new HTTP400('Failed to insert treatment unit geometry data');
+    }
+
+    return response.rows[0];
+  }
+
+  async insertAllProjectTreatmentUnits(projectId: number, features: Feature[]) {
+    features.forEach((feature) => {
+      this.insertTreatmentUnit(projectId, feature.properties);
+    });
   }
 
   async updateProjectTreatment(

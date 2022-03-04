@@ -17,21 +17,36 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
   }
 
   const sqlStatement: SQLStatement = SQL`
-    SELECT
-      project_attachment_id as id,
-      file_name,
-      update_date,
-      create_date,
-      file_size,
-      key
-    from
-      project_attachment
-    where
-      project_id = ${projectId};
-  `;
+  `; //todo
 
   defaultLog.debug({
     label: 'getProjectTreatmentsSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to get attachments for a single project.
+ *
+ * @param {number} projectId
+ * @returns {SQLStatement} sql query object
+ */
+export const getTreatmentFeatureTypesSQL = (): SQLStatement | null => {
+  defaultLog.debug({ label: 'getTreatmentUnitTypesSQL', message: 'params' });
+
+  const sqlStatement: SQLStatement = SQL`
+    SELECT
+      *
+    from
+      feature_type;
+  `;
+
+  defaultLog.debug({
+    label: 'getTreatmentFeatureTypesSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
@@ -54,15 +69,7 @@ export const deleteProjectTreatmentSQL = (projectId: number, attachmentId: numbe
   }
 
   const sqlStatement: SQLStatement = SQL`
-    DELETE
-      from project_attachment
-    WHERE
-      project_id = ${projectId}
-    and
-      project_attachment_id = ${attachmentId}
-    RETURNING
-      key;
-  `;
+  `; //todo
 
   defaultLog.debug({
     label: 'deleteProjectTreatmentSQL',
@@ -75,15 +82,16 @@ export const deleteProjectTreatmentSQL = (projectId: number, attachmentId: numbe
 };
 
 /**
- * SQL query to insert a project attachment row.
+ * SQL query to insert a project treatment unit row.
  *
  * @param projectId
- * @param fileName
- * @param description
+ * @param featureTypeId
+ * @param featureProperties
  * @returns {SQLStatement} sql query object
  */
-export const postProjectTreatmentUnitSQL = (
+export const postTreatmentUnitSQL = (
   projectId: number,
+  featureTypeId: number,
   featureProperties: any //define later
 ): SQLStatement | null => {
   defaultLog.debug({
@@ -93,24 +101,31 @@ export const postProjectTreatmentUnitSQL = (
     projectId
   });
 
-  if (!featureProperties || !projectId) {
+  if (!featureProperties || !projectId || !featureTypeId) {
     return null;
   }
 
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO treatment_unit (
       project_id,
-      linear_feature_type_id,
+      feature_type_id,
       name,
       description,
+      width,
+      length,
+      area,
+      comments,
       reconnaissance_conducted
     ) VALUES (
       ${projectId},
+      ${featureTypeId},
       ${featureProperties.Treatment_},
-      ${featureProperties.FEATURE_TY},
       ${featureProperties.Treatment1},
+      ${featureProperties.Width_m},
+      ${featureProperties.Length_m},
+      ${featureProperties.Width_m * featureProperties.Length_m},
+      ${featureProperties.FEATURE_TY},
       ${featureProperties.Reconnaiss}
-
     )
     RETURNING
       treatment_unit_id as id,
@@ -119,6 +134,51 @@ export const postProjectTreatmentUnitSQL = (
 
   defaultLog.debug({
     label: 'postProjectTreatmentSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to insert a project treatment unit geometry.
+ *
+ * @param treatmentUnitId
+ * @param geometry
+ * @returns {SQLStatement} sql query object
+ */
+export const postTreatmentUnitGeometrySQL = (
+  treatmentUnitId: number,
+  geometry: any //define later
+): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'postProjectTreatmentSQL',
+    message: 'params',
+    treatmentUnitId,
+    geometry
+  });
+
+  if (!treatmentUnitId || !geometry) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    INSERT INTO treatment (
+      treatment_unit_id,
+      geometry
+    ) VALUES (
+     ${treatmentUnitId},
+     ${geometry}
+    )
+    RETURNING
+      treatment_unit_id as id,
+      revision_count;
+  `;
+
+  defaultLog.debug({
+    label: 'postTreatmentUnitGeometrySQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
@@ -142,18 +202,7 @@ export const putProjectTreatmentSQL = (projectId: number, fileName: string): SQL
   }
 
   const sqlStatement: SQLStatement = SQL`
-    UPDATE
-      project_attachment
-    SET
-      file_name = ${fileName}
-    WHERE
-      file_name = ${fileName}
-    AND
-      project_id = ${projectId}
-    RETURNING
-      project_attachment_id as id,
-      revision_count;
-  `;
+  `; //todo
 
   defaultLog.debug({
     label: 'putProjectTreatmentSQL',
@@ -180,19 +229,7 @@ export const getProjectTreatmentByFileNameSQL = (projectId: number, fileName: st
   }
 
   const sqlStatement: SQLStatement = SQL`
-    SELECT
-      project_attachment_id as id,
-      file_name,
-      update_date,
-      create_date,
-      file_size
-    from
-      project_attachment
-    where
-      project_id = ${projectId}
-    and
-      file_name = ${fileName};
-  `;
+  `; //todo
 
   defaultLog.debug({
     label: 'getProjectTreatmentByFileNameSQL',
