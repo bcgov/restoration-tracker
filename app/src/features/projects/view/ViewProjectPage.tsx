@@ -33,6 +33,7 @@ import Chip from '@material-ui/core/Chip';
 import clsx from 'clsx';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import TreatmentSpatialUnits from './components/TreatmentSpatialUnits';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -386,6 +387,10 @@ const ViewProjectPage: React.FC = () => {
 
       {/* Map Container */}
       <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
+        <Box>
+          <TreatmentSpatialUnits/>
+        </Box>
+
         <Box flex="1 1 auto">
           <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
         </Box>

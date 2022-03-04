@@ -136,6 +136,33 @@ const useProjectApi = (axios: AxiosInstance) => {
   };
 
   /**
+   * Upload project treatment spacial files.
+   *
+   * @param {number} projectId
+   * @param {File} file
+   * @param {CancelTokenSource} [cancelTokenSource]
+   * @param {(progressEvent: ProgressEvent) => void} [onProgress]
+   * @return {*}  {Promise<string[]>}
+   */
+   const importProjectTreatmentSpatialFile = async (
+    projectId: number,
+    file: File,
+    cancelTokenSource?: CancelTokenSource,
+    onProgress?: (progressEvent: ProgressEvent) => void
+  ): Promise<IUploadAttachmentResponse> => {
+    const req_message = new FormData();
+
+    req_message.append('media', file);
+
+    const { data } = await axios.post(`/api/project/${projectId}/treatments/upload`, req_message, {
+      cancelToken: cancelTokenSource?.token,
+      onUploadProgress: onProgress
+    });
+
+    return data;
+  };
+
+  /**
    * Upload project attachments.
    *
    * @param {number} projectId
@@ -265,6 +292,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     getProjectsList,
     createProject,
     getProjectById,
+    importProjectTreatmentSpatialFile,
     uploadProjectAttachments,
     updateProject,
     getProjectAttachments,
