@@ -32,7 +32,7 @@ describe('useUserApi', () => {
   it('getUserById works as expected', async () => {
     mock.onGet(`/api/user/${userId}/get`).reply(200, {
       id: 123,
-      user_record_end_date: 'test',
+      record_end_date: 'test',
       user_identifier: 'myidirboss',
       role_names: ['role 1', 'role 2']
     });
@@ -40,7 +40,7 @@ describe('useUserApi', () => {
     const result = await useUserApi(axios).getUserById(123);
 
     expect(result.id).toEqual(123);
-    expect(result.user_record_end_date).toEqual('test');
+    expect(result.record_end_date).toEqual('test');
     expect(result.user_identifier).toEqual('myidirboss');
     expect(result.role_names).toEqual(['role 1', 'role 2']);
   });

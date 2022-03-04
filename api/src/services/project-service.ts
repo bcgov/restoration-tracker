@@ -39,7 +39,7 @@ export class ProjectService extends DBService {
     systemUserId: number,
     projectParticipantRoleId: number
   ): Promise<void> {
-    const projectParticipantRecord = await this.getProjectParticipant(projectId, systemUserId);
+    const projectParticipantRecord = await this.getProjectParticipant(systemUserId, projectId);
 
     if (projectParticipantRecord) {
       // project participant already exists, do nothing
@@ -53,19 +53,15 @@ export class ProjectService extends DBService {
   /**
    * Get an existing project participant.
    *
-   * @param {number} projectId
    * @param {number} systemUserId
+   * @param {number} projectId
    * @return {*}  {Promise<any>}
    * @memberof ProjectService
    */
-  async getProjectParticipant(projectId: number, systemUserId: number): Promise<any> {
-    const sqlStatement = queries.projectParticipation.getProjectParticipationBySystemUserSQL(projectId, systemUserId);
+  async getProjectParticipant(systemUserId: number, projectId: number): Promise<any> {
+    const sqlStatement = queries.projectParticipation.getAllUserProjectsSQL(systemUserId, projectId);
 
-    if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL select statement');
-    }
-
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+    const response = await this.connection.sql(sqlStatement);
 
     if (!response) {
       throw new HTTP400('Failed to get project team members');
@@ -134,11 +130,33 @@ export class ProjectService extends DBService {
    * Get a project by its id.
    *
    * @param {number} projectId
-   * @param {boolean} isPublic
-   * @return {*}
+   * @param {boolean} [isPublic=false] Set to `true` if the return value should not include data that is not meant for
+   * public consumption.
+   * @return {*}  {Promise<{
+   *     project: GetProjectData;
+   *     species: GetSpeciesData;
+   *     iucn: GetIUCNClassificationData;
+   *     contact: GetContactData;
+   *     permit: GetPermitData;
+   *     partnerships: GetPartnershipsData;
+   *     funding: GetFundingData;
+   *     location: GetLocationData;
+   *   }>}
    * @memberof ProjectService
    */
-  async getProjectById(projectId: number, isPublic: boolean) {
+  async getProjectById(
+    projectId: number,
+    isPublic = false
+  ): Promise<{
+    project: GetProjectData;
+    species: GetSpeciesData;
+    iucn: GetIUCNClassificationData;
+    contact: GetContactData;
+    permit: GetPermitData;
+    partnerships: GetPartnershipsData;
+    funding: GetFundingData;
+    location: GetLocationData;
+  }> {
     const [
       projectData,
       speciesData,
@@ -1134,11 +1152,37 @@ export class ProjectService extends DBService {
    * Get projects by their ids.
    *
    * @param {number[]} projectIds
-   * @param {boolean} isPublic
-   * @return {*}
+   * @param {boolean} [isPublic=false] Set to `true` if the return value should not include data that is not meant for
+   * public consumption.
+   * @return {*}  {Promise<
+   *     {
+   *       project: GetProjectData;
+   *       species: GetSpeciesData;
+   *       iucn: GetIUCNClassificationData;
+   *       contact: GetContactData;
+   *       permit: GetPermitData;
+   *       partnerships: GetPartnershipsData;
+   *       funding: GetFundingData;
+   *       location: GetLocationData;
+   *     }[]
+   *   >}
    * @memberof ProjectService
    */
-  async getProjectsByIds(projectIds: number[], isPublic: boolean) {
+  async getProjectsByIds(
+    projectIds: number[],
+    isPublic = false
+  ): Promise<
+    {
+      project: GetProjectData;
+      species: GetSpeciesData;
+      iucn: GetIUCNClassificationData;
+      contact: GetContactData;
+      permit: GetPermitData;
+      partnerships: GetPartnershipsData;
+      funding: GetFundingData;
+      location: GetLocationData;
+    }[]
+  > {
     return Promise.all(projectIds.map(async (projectId) => this.getProjectById(projectId, isPublic)));
   }
 }

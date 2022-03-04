@@ -2,6 +2,7 @@ import Typography from '@material-ui/core/Typography';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface IPublicIUCNClassificationProps {
   projectForViewData: IGetProjectForViewResponse;
+  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 
@@ -41,10 +43,20 @@ const PublicIUCNClassification: React.FC<IPublicIUCNClassificationProps> = (prop
     <ul className={classes.projectIucnList}>
       {hasIucnClassifications &&
         iucn.classificationDetails.map((classificationDetail: any, index: number) => {
+          const iucn1_name =
+            props.codes.iucn_conservation_action_level_1_classification[classificationDetail.classification - 1].name;
+
+          const iucn2_name =
+            props.codes.iucn_conservation_action_level_2_subclassification[classificationDetail.subClassification1 - 1]
+              .name;
+
+          const iucn3_name =
+            props.codes.iucn_conservation_action_level_3_subclassification[classificationDetail.subClassification2 - 1]
+              .name;
+
           return (
-            <li key={index} data-testid="IUCNData">
-              {classificationDetail.classification} <span>{'>'}</span> {classificationDetail.subClassification1}{' '}
-              <span>{'>'}</span> {classificationDetail.subClassification2}
+            <li key={index} data-testid="iucn_data">
+              {iucn1_name} &gt; {iucn2_name} &gt; {iucn3_name}
             </li>
           );
         })}

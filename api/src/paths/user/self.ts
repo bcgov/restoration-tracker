@@ -37,6 +37,7 @@ GET.apiDoc = {
           schema: {
             title: 'User Response Object',
             type: 'object',
+            required: ['id', 'user_identifier', 'role_ids', 'role_names'],
             properties: {
               id: {
                 description: 'user id',
@@ -48,20 +49,61 @@ GET.apiDoc = {
               },
               record_end_date: {
                 oneOf: [{ type: 'object' }, { type: 'string', format: 'date' }],
-                description: 'Determines if the user record has expired'
+                description: 'Determines if the user record has expired',
+                nullable: true
               },
               role_ids: {
-                description: 'list of role ids for the user',
+                description: 'list of system role ids for the user',
                 type: 'array',
                 items: {
                   type: 'number'
                 }
               },
               role_names: {
-                description: 'list of role names for the user',
+                description: 'list of system role names for the user',
                 type: 'array',
                 items: {
                   type: 'string'
+                }
+              },
+              projects: {
+                type: 'array',
+                description: 'An array of projects the user is a participant (member) of',
+                items: {
+                  type: 'object',
+                  required: [
+                    'project_id',
+                    'name',
+                    'system_user_id',
+                    'project_role_id',
+                    'project_role_name',
+                    'project_participation_id'
+                  ],
+                  properties: {
+                    project_id: {
+                      description: 'The project id',
+                      type: 'number'
+                    },
+                    name: {
+                      description: 'The project name',
+                      type: 'string'
+                    },
+                    system_user_id: {
+                      description: 'user id',
+                      type: 'number'
+                    },
+                    project_role_id: {
+                      description: 'The users role id for this project',
+                      type: 'number'
+                    },
+                    project_role_name: {
+                      description: 'The users role name for this project',
+                      type: 'string'
+                    },
+                    project_participation_id: {
+                      type: 'number'
+                    }
+                  }
                 }
               }
             }
@@ -113,9 +155,15 @@ export function getUser(): RequestHandler {
         throw new HTTP400('Failed to get system user');
       }
 
+      const projectObjects = await userService.getUserProjectParticipation(userId);
+
+      if (!projectObjects) {
+        throw new HTTP400('Failed to get system user projects');
+      }
+
       await connection.commit();
 
-      return res.status(200).json({ ...userObject });
+      return res.status(200).json({ ...userObject, projects: projectObjects });
     } catch (error) {
       defaultLog.error({ label: 'getUser', message: 'error', error });
       await connection.rollback();

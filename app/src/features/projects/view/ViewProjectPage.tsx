@@ -1,39 +1,39 @@
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Toolbar from '@material-ui/core/Toolbar';
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import { mdiAccountMultipleOutline, mdiArrowLeft, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
+import { Icon } from '@mdi/react';
+import clsx from 'clsx';
+import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
+import { RoleGuard } from 'components/security/Guards';
+import { DeleteProjectI18N } from 'constants/i18n';
+import { ProjectStatusType } from 'constants/misc';
+import { PROJECT_ROLE, SYSTEM_ROLE } from 'constants/roles';
+import { DialogContext } from 'contexts/dialogContext';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
+import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectAttachment, IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import ProjectDetailsPage from './ProjectDetailsPage';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-import { Icon } from '@mdi/react';
-import { mdiAccountMultipleOutline, mdiArrowLeft, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import ProjectAttachments from './ProjectAttachments';
-import { SYSTEM_ROLE } from 'constants/roles';
-import { DialogContext } from 'contexts/dialogContext';
-import { AuthStateContext } from 'contexts/authStateContext';
-import { DeleteProjectI18N } from 'constants/i18n';
-import moment from 'moment';
-import { ProjectStatusType } from 'constants/misc';
-import { APIError } from 'hooks/api/useAxios';
-import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
-import Chip from '@material-ui/core/Chip';
-import clsx from 'clsx';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import TreatmentSpatialUnits from './components/TreatmentSpatialUnits';
+import ProjectAttachments from './ProjectAttachments';
+import ProjectDetailsPage from './ProjectDetailsPage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -105,7 +105,6 @@ const ViewProjectPage: React.FC = () => {
   const projectId = urlParams['id'];
   const dialogContext = useContext(DialogContext);
 
-  const { keycloakWrapper } = useContext(AuthStateContext);
   const restorationTrackerApi = useRestorationTrackerApi();
 
   const [isLoadingProject, setIsLoadingProject] = useState(false);
@@ -268,19 +267,13 @@ const ViewProjectPage: React.FC = () => {
         return;
       }
 
-      history.push(`/admin/projects`);
+      history.push('/admin/user/projects');
     } catch (error) {
       const apiError = error as APIError;
       showDeleteErrorDialog({ dialogText: apiError.message, open: true });
       return error;
     }
   };
-
-  // Show delete button if you are a system admin or a project admin
-  const showDeleteProjectButton = keycloakWrapper?.hasSystemRole([
-    SYSTEM_ROLE.SYSTEM_ADMIN,
-    SYSTEM_ROLE.PROJECT_CREATOR
-  ]);
 
   // Project Actions Menu
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
@@ -303,7 +296,7 @@ const ViewProjectPage: React.FC = () => {
           <Toolbar>
             <Button
               component={Link}
-              href="/projects"
+              onClick={() => history.push('/admin/user/projects')}
               size="small"
               startIcon={<Icon path={mdiArrowLeft} size={0.875} />}>
               Back to Projects
@@ -314,33 +307,44 @@ const ViewProjectPage: React.FC = () => {
               <Box component="h1" flex="1 1 auto" className={classes.projectTitle}>
                 <b>Project -</b> {projectWithDetails.project.project_name}
               </Box>
-              <Box flex="0 0 auto" mt={'-4px'} mr={-1}>
-                <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                  <Icon path={mdiCogOutline} size={0.9375} />
-                </IconButton>
-                <Menu id="project-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-                  <MenuItem onClick={() => history.push('users')}>
-                    <ListItemIcon>
-                      <Icon path={mdiAccountMultipleOutline} size={0.9375} />
-                    </ListItemIcon>
-                    Manage Project Team
-                  </MenuItem>
-                  <MenuItem onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
-                    <ListItemIcon>
-                      <Icon path={mdiPencilOutline} size={0.9375} />
-                    </ListItemIcon>
-                    Edit Project Details
-                  </MenuItem>
-                  {showDeleteProjectButton && (
-                    <MenuItem onClick={showDeleteProjectDialog}>
+              <RoleGuard
+                validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+                validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}>
+                <Box flex="0 0 auto" mt={'-4px'} mr={-1}>
+                  <IconButton aria-controls="project-menu" aria-haspopup="true" onClick={handleClick}>
+                    <Icon path={mdiCogOutline} size={0.9375} />
+                  </IconButton>
+                  <Menu
+                    id="project-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}>
+                    <MenuItem onClick={() => history.push('users')}>
                       <ListItemIcon>
-                        <Icon path={mdiTrashCanOutline} size={0.9375} />
+                        <Icon path={mdiAccountMultipleOutline} size={0.9375} />
                       </ListItemIcon>
-                      Delete Project
+                      Manage Project Team
                     </MenuItem>
-                  )}
-                </Menu>
-              </Box>
+                    <MenuItem onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
+                      <ListItemIcon>
+                        <Icon path={mdiPencilOutline} size={0.9375} />
+                      </ListItemIcon>
+                      Edit Project Details
+                    </MenuItem>
+                    <RoleGuard
+                      validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+                      validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
+                      <MenuItem onClick={showDeleteProjectDialog}>
+                        <ListItemIcon>
+                          <Icon path={mdiTrashCanOutline} size={0.9375} />
+                        </ListItemIcon>
+                        Delete Project
+                      </MenuItem>
+                    </RoleGuard>
+                  </Menu>
+                </Box>
+              </RoleGuard>
             </Box>
 
             <Box mt={2} display="flex" flexDirection={'row'}>

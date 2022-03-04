@@ -3,13 +3,13 @@
  create or replace view administrative_activity_type as select * from restoration.administrative_activity_type;
  create or replace view caribou_population_unit as select * from restoration.caribou_population_unit;
  create or replace view contact_type as select * from restoration.contact_type;
+ create or replace view feature_type as select * from restoration.feature_type;
  create or replace view first_nations as select * from restoration.first_nations;
  create or replace view funding_source as select * from restoration.funding_source;
  create or replace view investment_action_category as select * from restoration.investment_action_category;
  create or replace view iucn_conservation_action_level_1_classification as select * from restoration.iucn_conservation_action_level_1_classification;
  create or replace view iucn_conservation_action_level_2_subclassification as select * from restoration.iucn_conservation_action_level_2_subclassification;
  create or replace view iucn_conservation_action_level_3_subclassification as select * from restoration.iucn_conservation_action_level_3_subclassification;
- create or replace view linear_feature_type as select * from restoration.linear_feature_type;
  create or replace view nrm_region as select * from restoration.nrm_region;
  create or replace view permit as select * from restoration.permit;
  create or replace view project as select * from restoration.project;
@@ -31,10 +31,9 @@
  create or replace view system_user as select * from restoration.system_user;
  create or replace view system_user_role as select * from restoration.system_user_role;
  create or replace view treatment as select * from restoration.treatment;
+ create or replace view treatment_treatment_type as select * from restoration.treatment_treatment_type;
  create or replace view treatment_type as select * from restoration.treatment_type;
  create or replace view treatment_unit as select * from restoration.treatment_unit;
- create or replace view treatment_unit_spatial_component as select * from restoration.treatment_unit_spatial_component;
- create or replace view treatment_unit_spatial_component_type as select * from restoration.treatment_unit_spatial_component_type;
  create or replace view user_identity_source as select * from restoration.user_identity_source;
  create or replace view webform_draft as select * from restoration.webform_draft;
  create or replace view wldtaxonomic_units as select * from restoration.wldtaxonomic_units;

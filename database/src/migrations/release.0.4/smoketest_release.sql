@@ -45,6 +45,7 @@ declare
   _project_funding_source_id project_funding_source.project_funding_source_id%type;
   _project_attachment_id project_attachment.project_attachment_id%type;
   _treatment_unit_id treatment_unit.treatment_unit_id%type;
+  _treatment_id treatment.treatment_id%type;
 begin
   -- set security context
   select api_set_context('myIDIR', 'IDIR') into _system_user_id;
@@ -98,16 +99,16 @@ begin
   assert _count = 1, 'FAIL project_caribou_population_unit';
 
   -- test treatments
-  insert into treatment_unit (name, project_id, reconnaissance_conducted, natural_recovery, linear_feature_type_id) values ('test treatment unit', _project_id, 'N', 'N', (select linear_feature_type_id from linear_feature_type where name = 'Roads' and record_end_date is null)) returning treatment_unit_id into _treatment_unit_id;
-  insert into treatment (name, treatment_unit_id, treatment_type_id) values ('test treatment', _treatment_unit_id, (select treatment_type_id from treatment_type where name = 'Mounding'));
-  insert into treatment_unit_spatial_component (name, treatment_unit_id, geography, treatment_unit_spatial_component_type_id) values ('test treatment spatial', _treatment_unit_id, _geography, (select project_spatial_component_type_id from project_spatial_component_type where name = 'Boundary'));
-
+  insert into treatment_unit (name, project_id, width, reconnaissance_conducted, feature_type_id) values ('test treatment unit', _project_id, 4.06, 'N', (select feature_type_id from feature_type where name = 'Road' and record_end_date is null)) returning treatment_unit_id into _treatment_unit_id;
+  insert into treatment (year, treatment_unit_id, geography) values ('2022', _treatment_unit_id, _geography) returning treatment_id into _treatment_id;
+  insert into treatment_treatment_type (treatment_id, treatment_type_id) values (_treatment_id, (select treatment_type_id from treatment_type where name = 'Mounding'));
+  
   select count(1) into _count from treatment_unit;
   assert _count = 1, 'FAIL treatment_unit';
   select count(1) into _count from treatment;
   assert _count = 1, 'FAIL treatment';
-  select count(1) into _count from treatment_unit_spatial_component;
-  assert _count = 1, 'FAIL treatment_unit_spatial_component';
+  select count(1) into _count from treatment_treatment_type;
+  assert _count = 1, 'FAIL treatment_treatment_type';
 
   -- test ancillary data
   delete from webform_draft;

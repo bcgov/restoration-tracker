@@ -2,26 +2,29 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
+import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft } from '@mdi/js';
+import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { ProjectStatusType } from 'constants/misc';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React from 'react';
+import { useHistory } from 'react-router';
 import PublicFundingSource from './components/PublicFundingSource';
 import PublicGeneralInformation from './components/PublicGeneralInformation';
 import PublicIUCNClassification from './components/PublicIUCNClassification';
 import PublicPartnerships from './components/PublicPartnerships';
 import PublicProjectContact from './components/PublicProjectContact';
 import PublicProjectPermits from './components/PublicProjectPermits';
-import Icon from '@mdi/react';
-import Link from '@material-ui/core/Link';
 
 export interface IPublicProjectDetailsProps {
   projectForViewData: IGetProjectForViewResponse;
+  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 
@@ -124,7 +127,10 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
   const classes = useStyles();
-  const { projectForViewData, refresh } = props;
+
+  const history = useHistory();
+
+  const { projectForViewData, codes, refresh } = props;
 
   const end_date = projectForViewData.project.end_date;
 
@@ -163,7 +169,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
       <Toolbar>
         <Button
           component={Link}
-          href="/projects"
+          onClick={() => history.push('/projects')}
           size="small"
           startIcon={<Icon path={mdiArrowLeft} size={0.875}></Icon>}>
           Back to Projects
@@ -223,7 +229,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             IUCN Conservation Actions Classifications
           </Typography>
           <Box mt={2}>
-            <PublicIUCNClassification projectForViewData={projectForViewData} refresh={refresh} />
+            <PublicIUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
           </Box>
         </Box>
 
@@ -245,7 +251,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             Partnerships
           </Typography>
           <Box mt={2}>
-            <PublicPartnerships projectForViewData={projectForViewData} refresh={refresh} />
+            <PublicPartnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
           </Box>
         </Box>
       </Box>

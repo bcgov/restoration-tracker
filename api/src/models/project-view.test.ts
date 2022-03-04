@@ -2,11 +2,13 @@ import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
   GetContactData,
+  GetFundingData,
   GetIUCNClassificationData,
   GetLocationData,
   GetPartnershipsData,
   GetPermitData,
-  GetProjectData
+  GetProjectData,
+  GetSpeciesData
 } from './project-view';
 
 describe('GetPartnershipsData', () => {
@@ -186,6 +188,59 @@ describe('GetContactData', () => {
   });
 });
 
+describe('GetSpeciesData', () => {
+  describe('No values provided', () => {
+    let data: GetSpeciesData;
+
+    const obj: any[] = [];
+
+    before(() => {
+      data = new GetSpeciesData(obj);
+    });
+
+    it('sets focal species', function () {
+      expect(data.focal_species).to.eql([]);
+    });
+
+    it('sets focal species names', function () {
+      expect(data.focal_species_names).to.eql([]);
+    });
+  });
+
+  describe('All values provided', () => {
+    let data: GetSpeciesData;
+
+    const obj = [
+      {
+        wldtaxonomic_units_id: 1,
+        english_name: 'english1',
+        unit_name1: 'unit11',
+        unit_name2: 'unit12',
+        unit_name3: 'unit13'
+      },
+      {
+        wldtaxonomic_units_id: 2,
+        english_name: 'english2',
+        unit_name1: 'unit21',
+        unit_name2: '',
+        unit_name3: ''
+      }
+    ];
+
+    before(() => {
+      data = new GetSpeciesData(obj);
+    });
+
+    it('sets focal species', function () {
+      expect(data.focal_species).to.eql([1, 2]);
+    });
+
+    it('sets focal species names', function () {
+      expect(data.focal_species_names).to.eql(['english1 - unit11 - unit12 - unit13', 'english2 - unit21']);
+    });
+  });
+});
+
 describe('GetLocationData', () => {
   describe('No values provided', () => {
     let locationData: GetLocationData;
@@ -354,6 +409,59 @@ describe('GetPermitData', () => {
           permit_type: 'permit type'
         }
       ]);
+    });
+  });
+});
+
+describe('GetFundingData', () => {
+  describe('No values provided', () => {
+    let fundingData: GetFundingData;
+
+    before(() => {
+      fundingData = new GetFundingData((null as unknown) as any[]);
+    });
+
+    it('sets project funding sources', function () {
+      expect(fundingData.fundingSources).to.eql([]);
+    });
+  });
+
+  describe('No length for funding data provided', () => {
+    let fundingData: GetFundingData;
+
+    before(() => {
+      fundingData = new GetFundingData([]);
+    });
+
+    it('sets project funding sources', function () {
+      expect(fundingData.fundingSources).to.eql([]);
+    });
+  });
+
+  describe('All values provided', () => {
+    let fundingData: GetFundingData;
+
+    const fundingDataObj = [
+      {
+        id: 1,
+        agency_id: '1',
+        agency_name: 'Agency name',
+        agency_project_id: 'Agency123',
+        investment_action_category: 'Investment',
+        investment_action_category_name: 'Investment name',
+        start_date: '01/01/2020',
+        end_date: '01/01/2021',
+        funding_amount: 123,
+        revision_count: 0
+      }
+    ];
+
+    before(() => {
+      fundingData = new GetFundingData(fundingDataObj);
+    });
+
+    it('sets project funding sources', function () {
+      expect(fundingData.fundingSources).to.eql(fundingDataObj);
     });
   });
 });

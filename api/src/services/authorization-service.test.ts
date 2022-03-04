@@ -1,12 +1,9 @@
 import chai, { expect } from 'chai';
 import { describe } from 'mocha';
-import { QueryResult } from 'pg';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import SQL from 'sql-template-strings';
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../constants/roles';
-import { ProjectUserObject, UserObject } from '../models/user';
-import project_participation_queries from '../queries/project-participation';
+import { ProjectParticipantObject, UserObject } from '../models/user';
 import {
   AuthorizationScheme,
   AuthorizationService,
@@ -275,7 +272,7 @@ describe('authorizeByProjectRole', function () {
     };
     const mockDBConnection = getMockDBConnection();
 
-    const mockProjectUserObject = (undefined as unknown) as ProjectUserObject;
+    const mockProjectUserObject = (undefined as unknown) as ProjectParticipantObject;
     sinon.stub(AuthorizationService.prototype, 'getProjectUserObject').resolves(mockProjectUserObject);
 
     const authorizationService = new AuthorizationService(mockDBConnection);
@@ -295,7 +292,7 @@ describe('authorizeByProjectRole', function () {
 
     sinon
       .stub(AuthorizationService.prototype, 'getProjectUserObject')
-      .resolves(({ project_role_names: [] } as unknown) as ProjectUserObject);
+      .resolves(new ProjectParticipantObject({ project_role_name: [] }));
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
@@ -314,7 +311,7 @@ describe('authorizeByProjectRole', function () {
 
     sinon
       .stub(AuthorizationService.prototype, 'getProjectUserObject')
-      .resolves(({ project_role_names: [PROJECT_ROLE.PROJECT_LEAD] } as unknown) as ProjectUserObject);
+      .resolves(new ProjectParticipantObject({ project_role_name: [PROJECT_ROLE.PROJECT_LEAD] }));
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
@@ -520,9 +517,7 @@ describe('getSystemUserWithRoles', function () {
   });
 
   it('returns null if the system user id is null', async function () {
-    const mockDBConnection = getMockDBConnection({
-      systemUserId: sinon.stub().returns((null as unknown) as number)
-    });
+    const mockDBConnection = getMockDBConnection({ systemUserId: () => (null as unknown) as number });
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
@@ -532,9 +527,7 @@ describe('getSystemUserWithRoles', function () {
   });
 
   it('returns a UserObject', async function () {
-    const mockDBConnection = getMockDBConnection({
-      systemUserId: sinon.stub().returns(1)
-    });
+    const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
 
     const mockUsersByIdSQLResponse = new UserObject();
     sinon.stub(UserService.prototype, 'getUserById').resolves(mockUsersByIdSQLResponse);
@@ -552,7 +545,7 @@ describe('getProjectUserObject', function () {
     sinon.restore();
   });
 
-  it('throws an HTTP500 error if fetching the system user throws an error', async function () {
+  it('returns null if fetching the system user throws an error', async function () {
     const mockDBConnection = getMockDBConnection();
 
     sinon.stub(AuthorizationService.prototype, 'getProjectUserWithRoles').callsFake(() => {
@@ -568,7 +561,7 @@ describe('getProjectUserObject', function () {
     expect(projectUserObject).to.equal(null);
   });
 
-  it('throws an HTTP500 error if the system user is null', async function () {
+  it('returns null if the system user is null', async function () {
     const mockDBConnection = getMockDBConnection();
 
     const mockSystemUserWithRolesResponse = null;
@@ -581,17 +574,17 @@ describe('getProjectUserObject', function () {
     expect(projectUserObject).to.equal(null);
   });
 
-  it('returns a `ProjectUserObject`', async function () {
+  it('returns a `ProjectParticipantObject`', async function () {
     const mockDBConnection = getMockDBConnection();
 
-    const mockSystemUserWithRolesResponse = {};
+    const mockSystemUserWithRolesResponse = new ProjectParticipantObject();
     sinon.stub(AuthorizationService.prototype, 'getProjectUserWithRoles').resolves(mockSystemUserWithRolesResponse);
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
     const projectUserObject = await authorizationService.getProjectUserObject(1);
 
-    expect(projectUserObject).to.be.instanceOf(ProjectUserObject);
+    expect(projectUserObject).to.be.instanceOf(ProjectParticipantObject);
   });
 });
 
@@ -601,7 +594,7 @@ describe('getProjectUserWithRoles', function () {
   });
 
   it('returns null if the system user id is null', async function () {
-    const mockDBConnection = getMockDBConnection({ systemUserId: sinon.stub().returns(null) });
+    const mockDBConnection = getMockDBConnection({ systemUserId: () => (null as unknown) as number });
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
@@ -610,13 +603,10 @@ describe('getProjectUserWithRoles', function () {
     expect(result).to.be.null;
   });
 
-  it('returns null if the get user by id SQL statement is null', async function () {
-    const mockDBConnection = getMockDBConnection({ systemUserId: sinon.stub().returns(1) });
+  it('returns null if the response is empty', async function () {
+    const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
 
-    const mockUsersByIdSQLResponse = null;
-    sinon
-      .stub(project_participation_queries, 'getProjectParticipationBySystemUserSQL')
-      .returns(mockUsersByIdSQLResponse);
+    sinon.stub(UserService.prototype, 'getUserProjectParticipation').resolves([]);
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
@@ -626,22 +616,17 @@ describe('getProjectUserWithRoles', function () {
   });
 
   it('returns the first row of the response', async function () {
-    const mockResponseRow = { 'Test Column': 'Test Value' };
-    const mockQueryResponse = ({ rowCount: 1, rows: [mockResponseRow] } as unknown) as QueryResult<any>;
     const mockDBConnection = getMockDBConnection({
-      systemUserId: sinon.stub().returns(1),
-      query: sinon.stub().resolves(mockQueryResponse)
+      systemUserId: sinon.stub().returns(1)
     });
 
-    const mockUsersByIdSQLResponse = SQL`Test SQL Statement`;
-    sinon
-      .stub(project_participation_queries, 'getProjectParticipationBySystemUserSQL')
-      .returns(mockUsersByIdSQLResponse);
+    const mockProjectParticipationResponse = new ProjectParticipantObject();
+    sinon.stub(UserService.prototype, 'getUserProjectParticipation').resolves([mockProjectParticipationResponse]);
 
     const authorizationService = new AuthorizationService(mockDBConnection);
 
     const result = await authorizationService.getProjectUserWithRoles(1);
 
-    expect(result).to.eql(mockResponseRow);
+    expect(result).to.eql(mockProjectParticipationResponse);
   });
 });

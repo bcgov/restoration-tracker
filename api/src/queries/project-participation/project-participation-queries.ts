@@ -65,105 +65,41 @@ export const getParticipantsFromAllSystemUsersProjectsSQL = (systemUserId: numbe
 /**
  * SQL query to get all projects from user Id.
  *
- * @param {userId} userId
+ * @param {number} systemUserId
+ * @param {number} [projectId]
  * @returns {SQLStatement} sql query object
  */
-export const getAllUserProjectsSQL = (userId: number): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'getAllUserProjectsSQL',
-    message: 'params',
-    userId
-  });
-
-  if (!userId) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-    SELECT
-      p.project_id,
-      p.name,
-      pp.system_user_id,
-      pp.project_role_id,
-      pp.project_participation_id
-    FROM
-      project_participation pp
-    LEFT JOIN
-      project p
-    ON
-      pp.project_id = p.project_id
-    WHERE
-      pp.system_user_id = ${userId};
-  `;
-
-  defaultLog.debug({
-    label: 'getAllUserProjectsSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to add a single project role to a user.
- *
- * @param {number} projectId
- * @param {number} systemUserId
- * @param {string} projectParticipantRole
- * @return {*}  {(SQLStatement | null)}
- */
-export const getProjectParticipationBySystemUserSQL = (
-  projectId: number,
-  systemUserId: number
-): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'getProjectParticipationBySystemUserSQL',
-    message: 'params',
-    projectId,
-    systemUserId
-  });
-
-  if (!projectId || !systemUserId) {
-    return null;
-  }
-
+export const getAllUserProjectsSQL = (systemUserId: number, projectId?: number): SQLStatement => {
   const sqlStatement = SQL`
-  SELECT
-    pp.project_id,
-    pp.system_user_id,
-    su.record_end_date,
-    array_remove(array_agg(pr.project_role_id), NULL) AS project_role_ids,
-    array_remove(array_agg(pr.name), NULL) AS project_role_names
-  FROM
-    project_participation pp
-  LEFT JOIN
-    project_role pr
-  ON
-    pp.project_role_id = pr.project_role_id
-  LEFT JOIN
-    system_user su
-  ON
-    pp.system_user_id = su.system_user_id
-  WHERE
-    pp.project_id = ${projectId}
-  AND
-    pp.system_user_id = ${systemUserId}
-  AND
-    su.record_end_date is NULL
-  GROUP BY
-    pp.project_id,
-    pp.system_user_id,
-    su.record_end_date ;
+    SELECT
+      project.project_id,
+      project.name as project_name,
+      project_participation.system_user_id,
+      project_participation.project_role_id,
+      project_role.name as project_role_name,
+      project_participation.project_participation_id
+    FROM
+      project_participation
+    LEFT JOIN
+      project_role
+    ON
+      project_participation.project_role_id = project_role.project_role_id
+    LEFT JOIN
+      project
+    ON
+      project_participation.project_id = project.project_id
+    WHERE
+      project_participation.system_user_id = ${systemUserId}
   `;
 
-  defaultLog.debug({
-    label: 'getProjectParticipationBySystemUserSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
+  if (projectId) {
+    sqlStatement.append(SQL`
+      AND
+        project.project_id = ${projectId}
+    `);
+  }
+
+  sqlStatement.append(SQL`;`);
 
   return sqlStatement;
 };
