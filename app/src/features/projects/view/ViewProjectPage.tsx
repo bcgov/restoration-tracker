@@ -191,7 +191,6 @@ const ViewProjectPage: React.FC = () => {
       setIsLoadingProject(true);
     }
   }, [isLoadingProject, projectWithDetails, getProject, getAttachments, getTreatments]);
-
   if (!codes || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }

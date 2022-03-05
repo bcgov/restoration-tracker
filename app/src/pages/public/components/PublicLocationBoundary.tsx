@@ -24,8 +24,8 @@ const PublicLocationBoundary: React.FC<IPublicLocationBoundaryProps> = (props) =
   const [nonEditableGeometries, setNonEditableGeometries] = useState<any[]>([]);
 
   useEffect(() => {
-    const nonEditableGeometriesResult = location.geometry.map((geom: Feature) => {
-      return { feature: geom };
+    const nonEditableGeometriesResult = location.geometry.map((geom: Feature, index) => {
+      return { id: index, feature: geom };
     });
 
     setBounds(calculateUpdatedMapBounds(location.geometry));
@@ -34,12 +34,7 @@ const PublicLocationBoundary: React.FC<IPublicLocationBoundaryProps> = (props) =
 
   return (
     <Box width="100%" height="100%" overflow="hidden" data-testid="map_container">
-      <MapContainer
-        mapId="project_location_form_map"
-        hideDrawControls={true}
-        nonEditableGeometries={nonEditableGeometries}
-        bounds={bounds}
-      />
+      <MapContainer mapId="project_location_form_map" staticElements={nonEditableGeometries} bounds={bounds} />
     </Box>
   );
 };

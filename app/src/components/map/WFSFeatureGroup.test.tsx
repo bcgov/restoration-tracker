@@ -2,7 +2,7 @@ import { cleanup, render, waitFor } from '@testing-library/react';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React from 'react';
 import { MapContainer } from 'react-leaflet';
-import { MapBounds } from './MapContainer';
+import MapBounds from './components/Bounds';
 import WFSFeatureGroup from './WFSFeatureGroup';
 
 jest.mock('../../hooks/useRestorationTrackerApi');

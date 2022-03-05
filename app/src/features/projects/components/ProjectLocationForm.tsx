@@ -217,9 +217,9 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
         <Box height={500}>
           <MapContainer
             mapId={'project_location_map'}
-            geometryState={{
-              geometry: values.location.geometry,
-              setGeometry: (newGeo: Feature[]) => setFieldValue('location.geometry', newGeo)
+            drawControls={{
+              features: values.location.geometry,
+              onChange: (features) => setFieldValue('location.geometry', features)
             }}
           />
         </Box>
