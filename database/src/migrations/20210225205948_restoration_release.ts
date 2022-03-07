@@ -5,7 +5,7 @@ import path from 'path';
 const DB_USER_API_PASS = process.env.DB_USER_API_PASS;
 const DB_USER_API = process.env.DB_USER_API;
 
-const DB_RELEASE = 'release.0.3';
+const DB_RELEASE = 'release.0.4';
 
 /**
  * Apply restoration release changes.
@@ -70,13 +70,8 @@ export async function up(knex: Knex): Promise<void> {
   const populate_project_spatial_component_type = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_project_spatial_component_type.sql')
   );
-  const populate_treatment_unit_spatial_component_type = fs.readFileSync(
-    path.join(__dirname, DB_RELEASE, 'populate_treatment_unit_spatial_component_type.sql')
-  );
   const populate_treatment_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_treatment_type.sql'));
-  const populate_linear_feature_type = fs.readFileSync(
-    path.join(__dirname, DB_RELEASE, 'populate_linear_feature_type.sql')
-  );
+  const populate_feature_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_feature_type.sql'));
   const populate_contact_type = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'populate_contact_type.sql'));
   const populate_caribou_population_unit = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_caribou_population_unit.sql')
@@ -146,9 +141,8 @@ export async function up(knex: Knex): Promise<void> {
     ${populate_administrative_activity_status_type}
     ${populate_system_metadata_constant}
     ${populate_project_spatial_component_type}
-    ${populate_treatment_unit_spatial_component_type}
     ${populate_treatment_type}
-    ${populate_linear_feature_type}
+    ${populate_feature_type}
     ${populate_contact_type}
     ${populate_caribou_population_unit}
 

@@ -2,7 +2,7 @@
 -- ER/Studio Data Architect SQL Code Generation
 -- Project :      Restoration.DM1
 --
--- Date Created : Thursday, February 10, 2022 13:42:02
+-- Date Created : Thursday, March 03, 2022 14:31:40
 -- Target DBMS : PostgreSQL 10.x-12.x
 --
 
@@ -280,6 +280,50 @@ COMMENT ON TABLE contact_type IS 'A list of contact types. Example types include
 ;
 
 -- 
+-- TABLE: feature_type 
+--
+
+CREATE TABLE feature_type(
+    feature_type_id          integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                     varchar(300)      NOT NULL,
+    description              varchar(250),
+    record_effective_date    date              NOT NULL,
+    record_end_date          date,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
+    CONSTRAINT feature_type_pk_1 PRIMARY KEY (feature_type_id)
+)
+;
+
+
+
+COMMENT ON COLUMN feature_type.feature_type_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN feature_type.name IS 'The name of the record.'
+;
+COMMENT ON COLUMN feature_type.description IS 'The description of the record.'
+;
+COMMENT ON COLUMN feature_type.record_effective_date IS 'Record level effective date.'
+;
+COMMENT ON COLUMN feature_type.record_end_date IS 'Record level end date.'
+;
+COMMENT ON COLUMN feature_type.create_date IS 'The datetime the record was created.'
+;
+COMMENT ON COLUMN feature_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
+;
+COMMENT ON COLUMN feature_type.update_date IS 'The datetime the record was updated.'
+;
+COMMENT ON COLUMN feature_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
+;
+COMMENT ON COLUMN feature_type.revision_count IS 'Revision count used for concurrency control.'
+;
+COMMENT ON TABLE feature_type IS 'A list of linear feature types.'
+;
+
+-- 
 -- TABLE: first_nations 
 --
 
@@ -554,50 +598,6 @@ COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.update_user
 COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.revision_count IS 'Revision count used for concurrency control.'
 ;
 COMMENT ON TABLE iucn_conservation_action_level_3_subclassification IS 'List of IUCN conservation action level 3 subclassifications.'
-;
-
--- 
--- TABLE: linear_feature_type 
---
-
-CREATE TABLE linear_feature_type(
-    linear_feature_type_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                      varchar(300)      NOT NULL,
-    description               varchar(250),
-    record_effective_date     date              NOT NULL,
-    record_end_date           date,
-    create_date               timestamptz(6)    DEFAULT now() NOT NULL,
-    create_user               integer           NOT NULL,
-    update_date               timestamptz(6),
-    update_user               integer,
-    revision_count            integer           DEFAULT 0 NOT NULL,
-    CONSTRAINT linear_feature_type_pk_1 PRIMARY KEY (linear_feature_type_id)
-)
-;
-
-
-
-COMMENT ON COLUMN linear_feature_type.linear_feature_type_id IS 'System generated surrogate primary key identifier.'
-;
-COMMENT ON COLUMN linear_feature_type.name IS 'The name of the record.'
-;
-COMMENT ON COLUMN linear_feature_type.description IS 'The description of the record.'
-;
-COMMENT ON COLUMN linear_feature_type.record_effective_date IS 'Record level effective date.'
-;
-COMMENT ON COLUMN linear_feature_type.record_end_date IS 'Record level end date.'
-;
-COMMENT ON COLUMN linear_feature_type.create_date IS 'The datetime the record was created.'
-;
-COMMENT ON COLUMN linear_feature_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
-;
-COMMENT ON COLUMN linear_feature_type.update_date IS 'The datetime the record was updated.'
-;
-COMMENT ON COLUMN linear_feature_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
-;
-COMMENT ON COLUMN linear_feature_type.revision_count IS 'Revision count used for concurrency control.'
-;
-COMMENT ON TABLE linear_feature_type IS 'A list of linear feature types.'
 ;
 
 -- 
@@ -1519,16 +1519,17 @@ COMMENT ON TABLE system_user_role IS 'A associative entity that joins system use
 --
 
 CREATE TABLE treatment(
-    treatment_id         integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    treatment_unit_id    integer           NOT NULL,
-    treatment_type_id    integer           NOT NULL,
-    name                 varchar(50)       NOT NULL,
-    description          varchar(3000),
-    create_date          timestamptz(6)    DEFAULT now() NOT NULL,
-    create_user          integer           NOT NULL,
+    treatment_id         integer                     GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    treatment_unit_id    integer                     NOT NULL,
+    year                 character(4),
+    geography            geography(geometry),
+    geojson              jsonb,
+    geometry             geometry(geometry, 3005),
+    create_date          timestamptz(6)              DEFAULT now() NOT NULL,
+    create_user          integer                     NOT NULL,
     update_date          timestamptz(6),
     update_user          integer,
-    revision_count       integer           DEFAULT 0 NOT NULL,
+    revision_count       integer                     DEFAULT 0 NOT NULL,
     CONSTRAINT treatment_pk PRIMARY KEY (treatment_id)
 )
 ;
@@ -1539,11 +1540,13 @@ COMMENT ON COLUMN treatment.treatment_id IS 'System generated surrogate primary 
 ;
 COMMENT ON COLUMN treatment.treatment_unit_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN treatment.treatment_type_id IS 'System generated surrogate primary key identifier.'
+COMMENT ON COLUMN treatment.year IS 'The year the treatment was applied.'
 ;
-COMMENT ON COLUMN treatment.name IS 'The name of the record.'
+COMMENT ON COLUMN treatment.geography IS 'The containing geography of the record.'
 ;
-COMMENT ON COLUMN treatment.description IS 'The description of the record.'
+COMMENT ON COLUMN treatment.geojson IS 'A JSON representation of the geometry that provides necessary details for shape manipulation in client side tools.'
+;
+COMMENT ON COLUMN treatment.geometry IS 'The containing geometry of the record.'
 ;
 COMMENT ON COLUMN treatment.create_date IS 'The datetime the record was created.'
 ;
@@ -1556,6 +1559,44 @@ COMMENT ON COLUMN treatment.update_user IS 'The id of the user who updated the r
 COMMENT ON COLUMN treatment.revision_count IS 'Revision count used for concurrency control.'
 ;
 COMMENT ON TABLE treatment IS 'Treatment persists the treatments applied to treatment units.'
+;
+
+-- 
+-- TABLE: treatment_treatment_type 
+--
+
+CREATE TABLE treatment_treatment_type(
+    treatment_treatment_type_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    treatment_id                   integer           NOT NULL,
+    treatment_type_id              integer           NOT NULL,
+    create_date                    timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                    integer           NOT NULL,
+    update_date                    timestamptz(6),
+    update_user                    integer,
+    revision_count                 integer           DEFAULT 0 NOT NULL,
+    CONSTRAINT treatment_treatment_type_pk PRIMARY KEY (treatment_treatment_type_id)
+)
+;
+
+
+
+COMMENT ON COLUMN treatment_treatment_type.treatment_treatment_type_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN treatment_treatment_type.treatment_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN treatment_treatment_type.treatment_type_id IS 'System generated surrogate primary key identifier.'
+;
+COMMENT ON COLUMN treatment_treatment_type.create_date IS 'The datetime the record was created.'
+;
+COMMENT ON COLUMN treatment_treatment_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
+;
+COMMENT ON COLUMN treatment_treatment_type.update_date IS 'The datetime the record was updated.'
+;
+COMMENT ON COLUMN treatment_treatment_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
+;
+COMMENT ON COLUMN treatment_treatment_type.revision_count IS 'Revision count used for concurrency control.'
+;
+COMMENT ON TABLE treatment_treatment_type IS 'Treatment Treatment Type is an associative entity between Treatment Types and Treatment.'
 ;
 
 -- 
@@ -1609,11 +1650,14 @@ COMMENT ON TABLE treatment_type IS 'A list of treatment types.'
 CREATE TABLE treatment_unit(
     treatment_unit_id           integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
     project_id                  integer           NOT NULL,
-    linear_feature_type_id      integer           NOT NULL,
+    feature_type_id             integer           NOT NULL,
     name                        varchar(300),
     description                 varchar(3000),
+    width                       float4,
+    length                      float4,
+    area                        float4,
+    comments                    varchar(3000),
     reconnaissance_conducted    character(1)      NOT NULL,
-    natural_recovery            character(1)      NOT NULL,
     create_date                 timestamptz(6)    DEFAULT now() NOT NULL,
     create_user                 integer           NOT NULL,
     update_date                 timestamptz(6),
@@ -1629,15 +1673,17 @@ COMMENT ON COLUMN treatment_unit.treatment_unit_id IS 'System generated surrogat
 ;
 COMMENT ON COLUMN treatment_unit.project_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN treatment_unit.linear_feature_type_id IS 'System generated surrogate primary key identifier.'
+COMMENT ON COLUMN treatment_unit.feature_type_id IS 'System generated surrogate primary key identifier.'
 ;
 COMMENT ON COLUMN treatment_unit.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN treatment_unit.description IS 'The description of the record.'
 ;
-COMMENT ON COLUMN treatment_unit.reconnaissance_conducted IS 'Defines whether reconnaissance was conducted or not for a treatment unit.'
+COMMENT ON COLUMN treatment_unit.area IS 'The area of the treatment unit in hectares.'
 ;
-COMMENT ON COLUMN treatment_unit.natural_recovery IS 'Provides whether the treatment unit is left to natural recovery or not.'
+COMMENT ON COLUMN treatment_unit.comments IS 'The comments of the record.'
+;
+COMMENT ON COLUMN treatment_unit.reconnaissance_conducted IS 'Defines whether reconnaissance was conducted or not for a treatment unit.'
 ;
 COMMENT ON COLUMN treatment_unit.create_date IS 'The datetime the record was created.'
 ;
@@ -1649,104 +1695,7 @@ COMMENT ON COLUMN treatment_unit.update_user IS 'The id of the user who updated 
 ;
 COMMENT ON COLUMN treatment_unit.revision_count IS 'Revision count used for concurrency control.'
 ;
-COMMENT ON TABLE treatment_unit IS 'Treatment Unit describes a geographical unit that has received restoration treatments.'
-;
-
--- 
--- TABLE: treatment_unit_spatial_component 
---
-
-CREATE TABLE treatment_unit_spatial_component(
-    treatment_unit_spatial_component_id         integer                     GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    treatment_unit_id                           integer                     NOT NULL,
-    treatment_unit_spatial_component_type_id    integer                     NOT NULL,
-    name                                        varchar(50)                 NOT NULL,
-    description                                 varchar(3000),
-    geometry                                    geometry(geometry, 3005),
-    geography                                   geography(geometry),
-    geojson                                     jsonb,
-    create_date                                 timestamptz(6)              DEFAULT now() NOT NULL,
-    create_user                                 integer                     NOT NULL,
-    update_date                                 timestamptz(6),
-    update_user                                 integer,
-    revision_count                              integer                     DEFAULT 0 NOT NULL,
-    CONSTRAINT treatment_unit_spatial_component_pk PRIMARY KEY (treatment_unit_spatial_component_id)
-)
-;
-
-
-
-COMMENT ON COLUMN treatment_unit_spatial_component.treatment_unit_spatial_component_id IS 'System generated surrogate primary key identifier.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.treatment_unit_id IS 'System generated surrogate primary key identifier.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.treatment_unit_spatial_component_type_id IS 'System generated surrogate primary key identifier.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.name IS 'The name of the record.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.description IS 'The description of the record.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.geometry IS 'The containing geometry of the record.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.geography IS 'The containing geography of the record.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.geojson IS 'A JSON representation of the geometry that provides necessary details for shape manipulation in client side tools.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.create_date IS 'The datetime the record was created.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.create_user IS 'The id of the user who created the record as identified in the system user table.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.update_date IS 'The datetime the record was updated.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.update_user IS 'The id of the user who updated the record as identified in the system user table.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component.revision_count IS 'Revision count used for concurrency control.'
-;
-COMMENT ON TABLE treatment_unit_spatial_component IS 'Treatment unit spatial component persists the various spatial components that a treatment unit may include.'
-;
-
--- 
--- TABLE: treatment_unit_spatial_component_type 
---
-
-CREATE TABLE treatment_unit_spatial_component_type(
-    treatment_unit_spatial_component_type_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                                        varchar(300)      NOT NULL,
-    description                                 varchar(250),
-    record_effective_date                       date              NOT NULL,
-    record_end_date                             date,
-    create_date                                 timestamptz(6)    DEFAULT now() NOT NULL,
-    create_user                                 integer           NOT NULL,
-    update_date                                 timestamptz(6),
-    update_user                                 integer,
-    revision_count                              integer           DEFAULT 0 NOT NULL,
-    CONSTRAINT treatment_unit_spatial_component_type_pk PRIMARY KEY (treatment_unit_spatial_component_type_id)
-)
-;
-
-
-
-COMMENT ON COLUMN treatment_unit_spatial_component_type.treatment_unit_spatial_component_type_id IS 'System generated surrogate primary key identifier.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.name IS 'The name of the record.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.description IS 'The description of the record.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.record_effective_date IS 'Record level effective date.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.record_end_date IS 'Record level end date.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.create_date IS 'The datetime the record was created.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.update_date IS 'The datetime the record was updated.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
-;
-COMMENT ON COLUMN treatment_unit_spatial_component_type.revision_count IS 'Revision count used for concurrency control.'
-;
-COMMENT ON TABLE treatment_unit_spatial_component_type IS 'A list of treatment unit spatial types.'
+COMMENT ON TABLE treatment_unit IS 'Treatment Unit describes a set of geographical unit that has received restoration treatments.'
 ;
 
 -- 
@@ -1954,6 +1903,12 @@ CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity
 CREATE UNIQUE INDEX caribou_population_unit_nuk1 ON caribou_population_unit(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
+-- INDEX: feature_type_nuk1 
+--
+
+CREATE UNIQUE INDEX feature_type_nuk1 ON feature_type(name, (record_end_date is NULL)) where record_end_date is null
+;
+-- 
 -- INDEX: first_nations_nuk1 
 --
 
@@ -2006,12 +1961,6 @@ CREATE UNIQUE INDEX iucn_conservation_action_level_3_subclassification_nuk1 ON i
 --
 
 CREATE INDEX "Ref727" ON iucn_conservation_action_level_3_subclassification(iucn_conservation_action_level_2_subclassification_id)
-;
--- 
--- INDEX: linear_feature_type_nuk1 
---
-
-CREATE UNIQUE INDEX linear_feature_type_nuk1 ON linear_feature_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: nrm_region_uk1 
@@ -2269,19 +2218,31 @@ CREATE INDEX "Ref317" ON system_user_role(system_role_id)
 -- INDEX: treatment_uk1 
 --
 
-CREATE UNIQUE INDEX treatment_uk1 ON treatment(name, treatment_unit_id, treatment_type_id)
-;
--- 
--- INDEX: "Ref4035" 
---
-
-CREATE INDEX "Ref4035" ON treatment(treatment_type_id)
+CREATE UNIQUE INDEX treatment_uk1 ON treatment(treatment_unit_id, year)
 ;
 -- 
 -- INDEX: "Ref3236" 
 --
 
 CREATE INDEX "Ref3236" ON treatment(treatment_unit_id)
+;
+-- 
+-- INDEX: treatment_treatment_type_uk1 
+--
+
+CREATE UNIQUE INDEX treatment_treatment_type_uk1 ON treatment_treatment_type(treatment_id, treatment_type_id)
+;
+-- 
+-- INDEX: "Ref4150" 
+--
+
+CREATE INDEX "Ref4150" ON treatment_treatment_type(treatment_id)
+;
+-- 
+-- INDEX: "Ref4051" 
+--
+
+CREATE INDEX "Ref4051" ON treatment_treatment_type(treatment_type_id)
 ;
 -- 
 -- INDEX: treatment_type_nuk1 
@@ -2293,7 +2254,7 @@ CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, (record_end_date
 -- INDEX: treatment_unit_uk1 
 --
 
-CREATE UNIQUE INDEX treatment_unit_uk1 ON treatment_unit(project_id, linear_feature_type_id, name)
+CREATE UNIQUE INDEX treatment_unit_uk1 ON treatment_unit(project_id, feature_type_id, name)
 ;
 -- 
 -- INDEX: "Ref1331" 
@@ -2305,31 +2266,7 @@ CREATE INDEX "Ref1331" ON treatment_unit(project_id)
 -- INDEX: "Ref3432" 
 --
 
-CREATE INDEX "Ref3432" ON treatment_unit(linear_feature_type_id)
-;
--- 
--- INDEX: treatment_unit_spatial_component_uk1 
---
-
-CREATE UNIQUE INDEX treatment_unit_spatial_component_uk1 ON treatment_unit_spatial_component(treatment_unit_spatial_component_type_id, name, treatment_unit_id)
-;
--- 
--- INDEX: "Ref3933" 
---
-
-CREATE INDEX "Ref3933" ON treatment_unit_spatial_component(treatment_unit_spatial_component_type_id)
-;
--- 
--- INDEX: "Ref3234" 
---
-
-CREATE INDEX "Ref3234" ON treatment_unit_spatial_component(treatment_unit_id)
-;
--- 
--- INDEX: treatment_unit_spatial_component_type_nuk1 
---
-
-CREATE UNIQUE INDEX treatment_unit_spatial_component_type_nuk1 ON treatment_unit_spatial_component_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE INDEX "Ref3432" ON treatment_unit(feature_type_id)
 ;
 -- 
 -- INDEX: user_identity_source_nuk1 
@@ -2597,14 +2534,24 @@ ALTER TABLE system_user_role ADD CONSTRAINT "Refsystem_role7"
 -- TABLE: treatment 
 --
 
-ALTER TABLE treatment ADD CONSTRAINT "Reftreatment_type35" 
-    FOREIGN KEY (treatment_type_id)
-    REFERENCES treatment_type(treatment_type_id)
-;
-
 ALTER TABLE treatment ADD CONSTRAINT "Reftreatment_unit36" 
     FOREIGN KEY (treatment_unit_id)
     REFERENCES treatment_unit(treatment_unit_id)
+;
+
+
+-- 
+-- TABLE: treatment_treatment_type 
+--
+
+ALTER TABLE treatment_treatment_type ADD CONSTRAINT "Reftreatment50" 
+    FOREIGN KEY (treatment_id)
+    REFERENCES treatment(treatment_id)
+;
+
+ALTER TABLE treatment_treatment_type ADD CONSTRAINT "Reftreatment_type51" 
+    FOREIGN KEY (treatment_type_id)
+    REFERENCES treatment_type(treatment_type_id)
 ;
 
 
@@ -2617,24 +2564,9 @@ ALTER TABLE treatment_unit ADD CONSTRAINT "Refproject31"
     REFERENCES project(project_id)
 ;
 
-ALTER TABLE treatment_unit ADD CONSTRAINT "Reflinear_feature_type32" 
-    FOREIGN KEY (linear_feature_type_id)
-    REFERENCES linear_feature_type(linear_feature_type_id)
-;
-
-
--- 
--- TABLE: treatment_unit_spatial_component 
---
-
-ALTER TABLE treatment_unit_spatial_component ADD CONSTRAINT "Reftreatment_unit_spatial_component_type33" 
-    FOREIGN KEY (treatment_unit_spatial_component_type_id)
-    REFERENCES treatment_unit_spatial_component_type(treatment_unit_spatial_component_type_id)
-;
-
-ALTER TABLE treatment_unit_spatial_component ADD CONSTRAINT "Reftreatment_unit34" 
-    FOREIGN KEY (treatment_unit_id)
-    REFERENCES treatment_unit(treatment_unit_id)
+ALTER TABLE treatment_unit ADD CONSTRAINT "Reffeature_type32" 
+    FOREIGN KEY (feature_type_id)
+    REFERENCES feature_type(feature_type_id)
 ;
 
 

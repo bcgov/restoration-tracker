@@ -4,7 +4,7 @@ drop procedure if exists api_delete_project;
 create or replace procedure api_delete_project(p_project_id project.project_id%type)
 language plpgsql
 security definer
-as 
+as
 $$
 -- *******************************************************************
 -- Procedure: api_delete_project
@@ -16,12 +16,16 @@ $$
 -- charlie.garrettjones@quartech.com
 --                  2021-04-19  initial release
 --                  2021-06-21  added delete survey
+-- Kjartan.Einarsson@quartech.com
+--                  2022-02-25  added delete species
+-- charlie.garrettjones@quartech.com
+--                  2022-03-03  added delete treatment treatment types
 -- *******************************************************************
 declare
-  
+
 begin
+  delete from treatment_treatment_type where treatment_id in (select treatment_id from treatment where treatment_unit_id in (select treatment_unit_id from treatment_unit where project_id = p_project_id));
   delete from treatment where treatment_unit_id in (select treatment_unit_id from treatment_unit where project_id = p_project_id);
-  delete from treatment_unit_spatial_component where treatment_unit_id in (select treatment_unit_id from treatment_unit where project_id = p_project_id);
   delete from treatment_unit where project_id = p_project_id;
 
   delete from permit where project_id = p_project_id;
@@ -35,10 +39,11 @@ begin
   delete from project_contact where project_id = p_project_id;
   delete from nrm_region where project_id = p_project_id;
   delete from project_caribou_population_unit where project_id = p_project_id;
+  delete from project_species where project_id = p_project_id;
   delete from project where project_id = p_project_id;
 
 exception
   when others THEN
-    raise;    
+    raise;
 end;
 $$;
