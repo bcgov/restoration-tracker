@@ -236,23 +236,29 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
 };
 
 /**
- * SQL query to delete an attachment for a single project.
+ * SQL query to get Treatment Unit Treatment Types
  *
- * @param {number} attachmentId
+ * @param {number} treatmentId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectTreatmentSQL = (projectId: number, attachmentId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'deleteProjectTreatmentSQL', message: 'params', projectId, attachmentId });
+export const deleteProjectTreatmentSQL = (projectId: number, treatmentId: number): SQLStatement | null => {
+  defaultLog.debug({ label: 'deleteProjectTreatmentSQL', message: 'params', projectId, treatmentId });
 
-  if (!projectId || !attachmentId) {
+  if (!projectId || !treatmentId) {
     return null;
   }
 
   const sqlStatement: SQLStatement = SQL`
-  `; //todo
+    DELETE
+      from treatment_unit
+    WHERE
+      project_id = ${projectId}
+    and
+      treatment_unit_id = ${treatmentId};
+  `;
 
   defaultLog.debug({
-    label: 'deleteProjectTreatmentSQL',
+    label: 'getTreatmentUnitTypesSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

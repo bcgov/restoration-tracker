@@ -342,34 +342,41 @@ export class TreatmentService extends DBService {
     return response && response.rows ? response.rows : [];
   }
 
-  async deleteTreatment(projectId: number, attachmentId: number) {
-    const sqlStatement = queries.project.deleteProjectTreatmentSQL(projectId, attachmentId);
+  async deleteTreatment(projectId: number, treatmentId: number) {
+    const sqlStatement = queries.project.deleteProjectTreatmentSQL(projectId, treatmentId);
 
     if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL delete project attachment statement');
+      throw new HTTP400('Failed to build SQL delete project treatment statement');
     }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
     if (!response || !response.rows || !response.rows[0]) {
-      throw new HTTP400('Failed to delete project attachment record');
+      throw new HTTP400('Failed to delete project treatment spatial layer record');
     }
   }
 
   async deleteAllTreatments(projectId: number) {
-    const getProjectTreatmentSQLStatement = queries.project.getProjectTreatmentsSQL(projectId);
+    const getProjectTreatmentsSQLStatement = queries.project.getProjectTreatmentsSQL(projectId);
 
-    if (!getProjectTreatmentSQLStatement) {
+    if (!getProjectTreatmentsSQLStatement) {
       throw new HTTP400('Failed to build SQL get statement');
     }
 
-    const attachments = await this.connection.query(
-      getProjectTreatmentSQLStatement.text,
-      getProjectTreatmentSQLStatement.values
+    const treatments = await this.connection.query(
+      getProjectTreatmentsSQLStatement.text,
+      getProjectTreatmentsSQLStatement.values
     );
 
-    if (!attachments || !attachments.rows) {
+    if (!treatments || !treatments.rows) {
       throw new HTTP400('Failed to delete project attachments record');
     }
+
+    // TODO: Check again after completing getProjectTreatmentsSQL
+    await Promise.all(
+      treatments.rows
+        .map((treatment) => treatment.id)
+        .map((treatmentId) => this.deleteTreatment(projectId, treatmentId))
+    );
   }
 }
