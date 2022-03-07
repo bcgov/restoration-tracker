@@ -2,7 +2,7 @@
 -- ER/Studio Data Architect SQL Code Generation
 -- Project :      Restoration.DM1
 --
--- Date Created : Thursday, March 03, 2022 14:31:40
+-- Date Created : Monday, March 07, 2022 13:22:16
 -- Target DBMS : PostgreSQL 10.x-12.x
 --
 
@@ -1519,17 +1519,14 @@ COMMENT ON TABLE system_user_role IS 'A associative entity that joins system use
 --
 
 CREATE TABLE treatment(
-    treatment_id         integer                     GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    treatment_unit_id    integer                     NOT NULL,
+    treatment_id         integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    treatment_unit_id    integer           NOT NULL,
     year                 character(4),
-    geography            geography(geometry),
-    geojson              jsonb,
-    geometry             geometry(geometry, 3005),
-    create_date          timestamptz(6)              DEFAULT now() NOT NULL,
-    create_user          integer                     NOT NULL,
+    create_date          timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user          integer           NOT NULL,
     update_date          timestamptz(6),
     update_user          integer,
-    revision_count       integer                     DEFAULT 0 NOT NULL,
+    revision_count       integer           DEFAULT 0 NOT NULL,
     CONSTRAINT treatment_pk PRIMARY KEY (treatment_id)
 )
 ;
@@ -1541,12 +1538,6 @@ COMMENT ON COLUMN treatment.treatment_id IS 'System generated surrogate primary 
 COMMENT ON COLUMN treatment.treatment_unit_id IS 'System generated surrogate primary key identifier.'
 ;
 COMMENT ON COLUMN treatment.year IS 'The year the treatment was applied.'
-;
-COMMENT ON COLUMN treatment.geography IS 'The containing geography of the record.'
-;
-COMMENT ON COLUMN treatment.geojson IS 'A JSON representation of the geometry that provides necessary details for shape manipulation in client side tools.'
-;
-COMMENT ON COLUMN treatment.geometry IS 'The containing geometry of the record.'
 ;
 COMMENT ON COLUMN treatment.create_date IS 'The datetime the record was created.'
 ;
@@ -1648,21 +1639,24 @@ COMMENT ON TABLE treatment_type IS 'A list of treatment types.'
 --
 
 CREATE TABLE treatment_unit(
-    treatment_unit_id           integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id                  integer           NOT NULL,
-    feature_type_id             integer           NOT NULL,
+    treatment_unit_id           integer                     GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id                  integer                     NOT NULL,
+    feature_type_id             integer                     NOT NULL,
     name                        varchar(300),
     description                 varchar(3000),
     width                       float4,
     length                      float4,
     area                        float4,
     comments                    varchar(3000),
-    reconnaissance_conducted    character(1)      NOT NULL,
-    create_date                 timestamptz(6)    DEFAULT now() NOT NULL,
-    create_user                 integer           NOT NULL,
+    reconnaissance_conducted    character(1)                NOT NULL,
+    geometry                    geometry(geometry, 3005),
+    geography                   geography(geometry),
+    geojson                     jsonb,
+    create_date                 timestamptz(6)              DEFAULT now() NOT NULL,
+    create_user                 integer                     NOT NULL,
     update_date                 timestamptz(6),
     update_user                 integer,
-    revision_count              integer           DEFAULT 0 NOT NULL,
+    revision_count              integer                     DEFAULT 0 NOT NULL,
     CONSTRAINT treatment_unit_pk PRIMARY KEY (treatment_unit_id)
 )
 ;
@@ -1684,6 +1678,12 @@ COMMENT ON COLUMN treatment_unit.area IS 'The area of the treatment unit in hect
 COMMENT ON COLUMN treatment_unit.comments IS 'The comments of the record.'
 ;
 COMMENT ON COLUMN treatment_unit.reconnaissance_conducted IS 'Defines whether reconnaissance was conducted or not for a treatment unit.'
+;
+COMMENT ON COLUMN treatment_unit.geometry IS 'The containing geometry of the record.'
+;
+COMMENT ON COLUMN treatment_unit.geography IS 'The containing geography of the record.'
+;
+COMMENT ON COLUMN treatment_unit.geojson IS 'A JSON representation of the geometry that provides necessary details for shape manipulation in client side tools.'
 ;
 COMMENT ON COLUMN treatment_unit.create_date IS 'The datetime the record was created.'
 ;
@@ -1888,37 +1888,37 @@ CREATE INDEX "Ref1612" ON administrative_activity(administrative_activity_status
 -- INDEX: administrative_activity_status_type_nuk1 
 --
 
-CREATE UNIQUE INDEX administrative_activity_status_type_nuk1 ON administrative_activity_status_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX administrative_activity_status_type_nuk1 ON administrative_activity_status_type(name, record_end_date)
 ;
 -- 
 -- INDEX: administrative_activity_type_nuk1 
 --
 
-CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity_type(name, record_end_date)
 ;
 -- 
 -- INDEX: caribou_population_unit_nuk1 
 --
 
-CREATE UNIQUE INDEX caribou_population_unit_nuk1 ON caribou_population_unit(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX caribou_population_unit_nuk1 ON caribou_population_unit(name, record_end_date)
 ;
 -- 
 -- INDEX: feature_type_nuk1 
 --
 
-CREATE UNIQUE INDEX feature_type_nuk1 ON feature_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX feature_type_nuk1 ON feature_type(name, record_end_date)
 ;
 -- 
 -- INDEX: first_nations_nuk1 
 --
 
-CREATE UNIQUE INDEX first_nations_nuk1 ON first_nations(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX first_nations_nuk1 ON first_nations(name, record_end_date)
 ;
 -- 
 -- INDEX: funding_source_nuk1 
 --
 
-CREATE UNIQUE INDEX funding_source_nuk1 ON funding_source(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX funding_source_nuk1 ON funding_source(name, record_end_date)
 ;
 -- 
 -- INDEX: investment_action_category_nuk1 
@@ -1936,7 +1936,7 @@ CREATE INDEX "Ref253" ON investment_action_category(funding_source_id)
 -- INDEX: iucn_conservation_action_level_1_classification_nuk1 
 --
 
-CREATE UNIQUE INDEX iucn_conservation_action_level_1_classification_nuk1 ON iucn_conservation_action_level_1_classification(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX iucn_conservation_action_level_1_classification_nuk1 ON iucn_conservation_action_level_1_classification(name, record_end_date)
 ;
 -- 
 -- INDEX: iucn_conservation_action_level_2_subclassification_nuk1 
@@ -2110,7 +2110,7 @@ CREATE INDEX "Ref1516" ON project_participation(project_role_id)
 -- INDEX: project_role_nuk1 
 --
 
-CREATE UNIQUE INDEX project_role_nuk1 ON project_role(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX project_role_nuk1 ON project_role(name, record_end_date)
 ;
 -- 
 -- INDEX: project_spatial_component_uk1 
@@ -2134,7 +2134,7 @@ CREATE INDEX "Ref2422" ON project_spatial_component(project_spatial_component_ty
 -- INDEX: project_spatial_component_type_uk1 
 --
 
-CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_component_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_component_type(name, record_end_date)
 ;
 -- 
 -- INDEX: project_species_uk1 
@@ -2182,7 +2182,7 @@ CREATE UNIQUE INDEX system_metadata_constant_id_uk1 ON system_metadata_constant(
 -- INDEX: system_role_nuk1 
 --
 
-CREATE UNIQUE INDEX system_role_nuk1 ON system_role(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX system_role_nuk1 ON system_role(name, record_end_date)
 ;
 -- 
 -- INDEX: system_user_nuk1 
@@ -2248,7 +2248,7 @@ CREATE INDEX "Ref4051" ON treatment_treatment_type(treatment_type_id)
 -- INDEX: treatment_type_nuk1 
 --
 
-CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, record_end_date)
 ;
 -- 
 -- INDEX: treatment_unit_uk1 
@@ -2272,7 +2272,7 @@ CREATE INDEX "Ref3432" ON treatment_unit(feature_type_id)
 -- INDEX: user_identity_source_nuk1 
 --
 
-CREATE UNIQUE INDEX user_identity_source_nuk1 ON user_identity_source(name, (record_end_date is NULL)) where record_end_date is null
+CREATE UNIQUE INDEX user_identity_source_nuk1 ON user_identity_source(name, record_end_date)
 ;
 -- 
 -- INDEX: "Ref298" 

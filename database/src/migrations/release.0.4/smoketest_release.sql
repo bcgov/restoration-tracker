@@ -99,8 +99,8 @@ begin
   assert _count = 1, 'FAIL project_caribou_population_unit';
 
   -- test treatments
-  insert into treatment_unit (name, project_id, width, reconnaissance_conducted, feature_type_id) values ('test treatment unit', _project_id, 4.06, 'N', (select feature_type_id from feature_type where name = 'Road' and record_end_date is null)) returning treatment_unit_id into _treatment_unit_id;
-  insert into treatment (year, treatment_unit_id, geography) values ('2022', _treatment_unit_id, _geography) returning treatment_id into _treatment_id;
+  insert into treatment_unit (name, project_id, width, reconnaissance_conducted, feature_type_id, geography) values ('test treatment unit', _project_id, 4.06, 'N', (select feature_type_id from feature_type where name = 'Road' and record_end_date is null), _geography) returning treatment_unit_id into _treatment_unit_id;
+  insert into treatment (year, treatment_unit_id) values ('2022', _treatment_unit_id) returning treatment_id into _treatment_id;
   insert into treatment_treatment_type (treatment_id, treatment_type_id) values (_treatment_id, (select treatment_type_id from treatment_type where name = 'Mounding'));
   
   select count(1) into _count from treatment_unit;
