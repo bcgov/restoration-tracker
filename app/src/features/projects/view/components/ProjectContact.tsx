@@ -1,8 +1,9 @@
 import Box from '@material-ui/core/Box';
-import { mdiAccountCircleOutline } from '@mdi/js';
-import Icon from '@mdi/react';
 import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { mdiAccountCircleOutline } from '@mdi/js';
+import Icon from '@mdi/react';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
@@ -52,6 +53,14 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
                 <strong data-testid="contact_name">
                   {' '}
                   {contactDetails.first_name} {contactDetails.last_name}
+                  {contactDetails.is_primary === 'true' && (
+                    <sup>
+                      <Typography variant="caption" color="textSecondary">
+                        {' '}
+                        Primary
+                      </Typography>
+                    </sup>
+                  )}
                 </strong>
               </div>
               <div>
