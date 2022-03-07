@@ -1,7 +1,254 @@
+import { Feature } from 'geojson';
 import { SQL, SQLStatement } from 'sql-template-strings';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-attachments-queries');
+
+/**
+ * SQL query to get Treatment Features Types
+ *
+ * @returns {SQLStatement} sql query object
+ */
+export const getTreatmentFeatureTypesSQL = (): SQLStatement | null => {
+  defaultLog.debug({ label: 'getTreatmentUnitTypesSQL', message: 'params' });
+
+  const sqlStatement: SQLStatement = SQL`
+    SELECT
+      *
+    from
+      feature_type;
+  `;
+
+  defaultLog.debug({
+    label: 'getTreatmentFeatureTypesSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to get Treatment Unit Treatment Types
+ *
+ * @returns {SQLStatement} sql query object
+ */
+export const getTreatmentUnitTypesSQL = (): SQLStatement | null => {
+  defaultLog.debug({ label: 'getTreatmentUnitTypesSQL', message: 'params' });
+
+  const sqlStatement: SQLStatement = SQL`
+    SELECT
+      *
+    from
+      treatment_type;
+  `;
+
+  defaultLog.debug({
+    label: 'getTreatmentUnitTypesSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to insert a project treatment unit row.
+ *
+ * @param projectId
+ * @param featureTypeId
+ * @param featureProperties
+ * @param geometry
+ * @returns {SQLStatement} sql query object
+ */
+export const postTreatmentUnitSQL = (
+  projectId: number,
+  featureTypeId: number,
+  featureProperties: Feature['properties'],
+  geometry: Feature['geometry']
+): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'postProjectTreatmentSQL',
+    message: 'params',
+    featureProperties,
+    projectId
+  });
+
+  if (!featureProperties || !projectId || !featureTypeId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    INSERT INTO treatment_unit (
+      project_id,
+      feature_type_id,
+      name,
+      description,
+      width,
+      length,
+      area,
+      comments,
+      reconnaissance_conducted,
+      geometry
+    ) VALUES (
+      ${projectId},
+      ${featureTypeId},
+      ${featureProperties.Treatment_},
+      ${featureProperties.Treatment1},
+      ${featureProperties.Width_m},
+      ${featureProperties.Length_m},
+      ${featureProperties.Width_m * featureProperties.Length_m},
+      ${featureProperties.FEATURE_TY},
+      ${featureProperties.Reconnaiss},
+      ${geometry}
+    )
+    RETURNING
+      treatment_unit_id,
+      revision_count;
+  `;
+
+  defaultLog.debug({
+    label: 'postProjectTreatmentSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to insert a project treatment unit geometry.
+ *
+ * @param treatmentUnitId
+ * @param geometry
+ * @returns {SQLStatement} sql query object
+ */
+export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'postProjectTreatmentSQL',
+    message: 'params',
+    treatmentUnitId,
+    year
+  });
+
+  if (!treatmentUnitId || !year) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    INSERT INTO treatment (
+      treatment_unit_id,
+      year
+    ) VALUES (
+     ${treatmentUnitId},
+     ${year}
+    )
+    RETURNING
+      treatment_id,
+      revision_count;
+  `;
+
+  defaultLog.debug({
+    label: 'postTreatmentUnitGeometrySQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to insert a treatment unit types.
+ *
+ * @param treatmentId
+ * @param treatmentTypeId
+ * @returns {SQLStatement} sql query object
+ */
+export const postTreatmentUnitTypeSQL = (treatmentId: number, treatmentTypeId: number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'postProjectTreatmentSQL',
+    message: 'params',
+    treatmentId,
+    treatmentTypeId
+  });
+
+  if (!treatmentId || !treatmentTypeId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    INSERT INTO treatment_treatment_type (
+      treatment_id,
+      treatment_type_id
+    ) VALUES (
+      ${treatmentId},
+      ${treatmentTypeId}
+    ) RETURNING
+      treatment_treatment_type_id,
+      revision_count;
+    `;
+
+  defaultLog.debug({
+    label: 'postTreatmentUnitGeometrySQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to get any treatment unit that already exists.
+ *
+ * @param projectId
+ * @param featureTypeId
+ * @param treatmentUnitName
+ * @returns {SQLStatement} sql query object
+ */
+export const getTreatmentUnitExistSQL = (
+  projectId: number,
+  featureTypeId: number,
+  treatmentUnitName: string | number
+): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'postProjectTreatmentSQL',
+    message: 'params',
+    projectId,
+    featureTypeId,
+    treatmentUnitName
+  });
+
+  if (!projectId || !featureTypeId || !treatmentUnitName) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    SELECT
+      *
+    FROM
+      treatment_unit
+    WHERE
+      project_id = ${projectId},
+      feature_type_id = ${featureTypeId},
+      name = ${treatmentUnitName}
+    `;
+
+  defaultLog.debug({
+    label: 'getTreatmentUnitExistSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/////////////////////////////////////////////////////////////
 
 /**
  * SQL query to get attachments for a single project.
@@ -30,32 +277,6 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
 };
 
 /**
- * SQL query to get attachments for a single project.
- *
- * @param {number} projectId
- * @returns {SQLStatement} sql query object
- */
-export const getTreatmentFeatureTypesSQL = (): SQLStatement | null => {
-  defaultLog.debug({ label: 'getTreatmentUnitTypesSQL', message: 'params' });
-
-  const sqlStatement: SQLStatement = SQL`
-    SELECT
-      *
-    from
-      feature_type;
-  `;
-
-  defaultLog.debug({
-    label: 'getTreatmentFeatureTypesSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
  * SQL query to delete an attachment for a single project.
  *
  * @param {number} attachmentId
@@ -73,112 +294,6 @@ export const deleteProjectTreatmentSQL = (projectId: number, attachmentId: numbe
 
   defaultLog.debug({
     label: 'deleteProjectTreatmentSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to insert a project treatment unit row.
- *
- * @param projectId
- * @param featureTypeId
- * @param featureProperties
- * @returns {SQLStatement} sql query object
- */
-export const postTreatmentUnitSQL = (
-  projectId: number,
-  featureTypeId: number,
-  featureProperties: any //define later
-): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'params',
-    featureProperties,
-    projectId
-  });
-
-  if (!featureProperties || !projectId || !featureTypeId) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-    INSERT INTO treatment_unit (
-      project_id,
-      feature_type_id,
-      name,
-      description,
-      width,
-      length,
-      area,
-      comments,
-      reconnaissance_conducted
-    ) VALUES (
-      ${projectId},
-      ${featureTypeId},
-      ${featureProperties.Treatment_},
-      ${featureProperties.Treatment1},
-      ${featureProperties.Width_m},
-      ${featureProperties.Length_m},
-      ${featureProperties.Width_m * featureProperties.Length_m},
-      ${featureProperties.FEATURE_TY},
-      ${featureProperties.Reconnaiss}
-    )
-    RETURNING
-      treatment_unit_id as id,
-      revision_count;
-  `;
-
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
- * SQL query to insert a project treatment unit geometry.
- *
- * @param treatmentUnitId
- * @param geometry
- * @returns {SQLStatement} sql query object
- */
-export const postTreatmentUnitGeometrySQL = (
-  treatmentUnitId: number,
-  geometry: any //define later
-): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'params',
-    treatmentUnitId,
-    geometry
-  });
-
-  if (!treatmentUnitId || !geometry) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-    INSERT INTO treatment (
-      treatment_unit_id,
-      geometry
-    ) VALUES (
-     ${treatmentUnitId},
-     ${geometry}
-    )
-    RETURNING
-      treatment_unit_id as id,
-      revision_count;
-  `;
-
-  defaultLog.debug({
-    label: 'postTreatmentUnitGeometrySQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
