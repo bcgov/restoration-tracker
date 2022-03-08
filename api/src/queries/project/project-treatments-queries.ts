@@ -233,13 +233,55 @@ export const getTreatmentUnitExistSQL = (
     FROM
       treatment_unit
     WHERE
-      project_id = ${projectId},
-      feature_type_id = ${featureTypeId},
-      name = ${treatmentUnitName}
+      project_id = ${projectId}
+    AND
+      feature_type_id = ${featureTypeId}
+    AND
+      name = ${treatmentUnitName};
     `;
 
   defaultLog.debug({
     label: 'getTreatmentUnitExistSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
+ * SQL query to get any treatment data with year that already exists.
+ *
+ * @param treatmentUnitId
+ * @param year
+ * @returns {SQLStatement} sql query object
+ */
+export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: number): SQLStatement | null => {
+  defaultLog.debug({
+    label: 'postProjectTreatmentSQL',
+    message: 'params',
+    treatmentUnitId,
+    year
+  });
+
+  if (!treatmentUnitId || !year) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    SELECT
+      *
+    FROM
+      treatment
+    WHERE
+      treatment_unit_id = ${treatmentUnitId}
+    AND
+      year = ${year};
+    `;
+
+  defaultLog.debug({
+    label: 'getTreatmentDataYearExistSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
