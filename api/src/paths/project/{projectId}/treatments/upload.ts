@@ -135,32 +135,19 @@ export function uploadTreatmentSpatial(): RequestHandler {
         return;
       }
 
-      // const responsePostProjectTreatment = await treatmentService.insertTreatmentUnit(
-      //   projectId,
-      //   shapeFileFeatures[0].properties
-      // );
-
-      // const responsePostProjectTreatmentgeometry = await treatmentService.insertTreatmentGeometryData(
-      //   1,
-      //   shapeFileFeatures[0].geometry
-      // );
-
-      // const responsePostProjectTreatmentUnitType = await treatmentService.insertAllTreatmentUnitTypes(
-      //   1,
-      //   shapeFileFeatures[0].properties
-      // );
-
       const responsePostProjectAllTreatments = await treatmentService.insertAllProjectTreatmentUnits(
         projectId,
         shapeFileFeatures
       );
 
-      // console.log(responsePostProjectTreatment);
-      console.log(responsePostProjectAllTreatments);
-
       await connection.commit();
 
-      const uploadResponse = { projectId: projectId, metadata: metadata, shapeFile: shapeFileFeatures };
+      const uploadResponse = {
+        projectId: projectId,
+        metadata: metadata,
+        shapeFile: shapeFileFeatures,
+        response: responsePostProjectAllTreatments
+      };
 
       return res.status(200).json(uploadResponse);
     } catch (error) {
