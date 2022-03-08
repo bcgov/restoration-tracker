@@ -140,13 +140,23 @@ export function uploadTreatmentSpatial(): RequestHandler {
       //   shapeFileFeatures[0].properties
       // );
 
-      const responsePostProjectTreatmentgeometry = await treatmentService.insertTreatmentGeometryData(
-        1,
-        shapeFileFeatures[0].geometry
+      // const responsePostProjectTreatmentgeometry = await treatmentService.insertTreatmentGeometryData(
+      //   1,
+      //   shapeFileFeatures[0].geometry
+      // );
+
+      // const responsePostProjectTreatmentUnitType = await treatmentService.insertAllTreatmentUnitTypes(
+      //   1,
+      //   shapeFileFeatures[0].properties
+      // );
+
+      const responsePostProjectAllTreatments = await treatmentService.insertAllProjectTreatmentUnits(
+        projectId,
+        shapeFileFeatures
       );
 
       // console.log(responsePostProjectTreatment);
-      console.log(responsePostProjectTreatmentgeometry);
+      console.log(responsePostProjectAllTreatments);
 
       await connection.commit();
 
