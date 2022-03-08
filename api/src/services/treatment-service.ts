@@ -184,6 +184,7 @@ export class TreatmentService extends DBService {
   }
 
   async insertAllProjectTreatmentUnits(projectId: number, features: Feature[]) {
+    const importResonses: any[] = [];
     for (const item of features) {
       const featureTypeId = await this.getEqualTreatmentFeatureTypeIds(item.properties);
 
@@ -202,27 +203,30 @@ export class TreatmentService extends DBService {
           item.properties
         );
 
-        return insertTreatmentDataResponse;
-      }
-
-      //Treatment Unit Exists
-      const checkTreatmentDataYearExists = await this.getTreatmentDataYearExist(
-        checkTreatmentUnitExist.treatment_unit_id,
-        item.properties?.year || 99
-      );
-
-      if (!checkTreatmentDataYearExists) {
-        //Treatment with Year doesnt exist in db
-        const insertTreatmentDataResponse = await this.insertTreatmentDataAndTreatmentTypes(
+        importResonses.push(insertTreatmentUnitResponse);
+        importResonses.push(insertTreatmentDataResponse);
+      } else {
+        //Treatment Unit Exists
+        const checkTreatmentDataYearExists = await this.getTreatmentDataYearExist(
           checkTreatmentUnitExist.treatment_unit_id,
-          item.properties
+          item.properties?.year || 99
         );
 
-        return insertTreatmentDataResponse;
-      }
+        if (!checkTreatmentDataYearExists) {
+          //Treatment with Year doesnt exist in db
+          const insertTreatmentDataResponse = await this.insertTreatmentDataAndTreatmentTypes(
+            checkTreatmentUnitExist.treatment_unit_id,
+            item.properties
+          );
 
-      //Data already exists
+          importResonses.push(insertTreatmentDataResponse);
+        }
+
+        //Data already exists
+      }
     }
+
+    return importResonses;
   }
 
   async getTreatmentUnitExist(projectId: number, featureTypeId: number, treatmentUnitName: string | number) {
@@ -234,8 +238,8 @@ export class TreatmentService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    if (!response || !response?.rows?.[0]) {
-      throw new HTTP400('Failed to update project attachment data');
+    if (!response) {
+      return false;
     }
 
     return response.rows[0];
