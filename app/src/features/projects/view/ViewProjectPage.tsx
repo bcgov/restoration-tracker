@@ -31,6 +31,7 @@ import { IGetProjectAttachment, IGetProjectForViewResponse } from 'interfaces/us
 import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
+import TreatmentList from './components/TreatmentList';
 import TreatmentSpatialUnits from './components/TreatmentSpatialUnits';
 import ProjectAttachments from './ProjectAttachments';
 import ProjectDetailsPage from './ProjectDetailsPage';
@@ -397,6 +398,10 @@ const ViewProjectPage: React.FC = () => {
 
         <Box flex="1 1 auto">
           <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+        </Box>
+
+        <Box flex="1 1 auto">
+        <TreatmentList/>
         </Box>
       </Box>
     </Box>
