@@ -27,7 +27,11 @@ import LocationBoundary from 'features/projects/view/components/LocationBoundary
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import { IGetProjectAttachment, IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import {
+  IGetProjectAttachment,
+  IGetProjectForViewResponse,
+  IGetProjectTreatment
+} from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
@@ -111,6 +115,7 @@ const ViewProjectPage: React.FC = () => {
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
+  const [treatmentList, setTreatmentList] = useState<IGetProjectTreatment[]>([]);
 
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
@@ -161,13 +166,31 @@ const ViewProjectPage: React.FC = () => {
     [restorationTrackerApi.project, projectId, attachmentsList.length]
   );
 
+  const getTreatments = useCallback(
+    async (forceFetch: boolean) => {
+      if (treatmentList.length && !forceFetch) return;
+
+      try {
+        const response = await restorationTrackerApi.project.getProjectTreatments(projectId);
+
+        if (!response?.treatmentList) return;
+
+        setTreatmentList([...response.treatmentList]);
+      } catch (error) {
+        return error;
+      }
+    },
+    [restorationTrackerApi.project, projectId, treatmentList.length]
+  );
+
   useEffect(() => {
     if (!isLoadingProject && !projectWithDetails) {
       getProject();
       getAttachments(false);
+      getTreatments(false);
       setIsLoadingProject(true);
     }
-  }, [isLoadingProject, projectWithDetails, getProject, getAttachments]);
+  }, [isLoadingProject, projectWithDetails, getProject, getAttachments, getTreatments]);
 
   if (!codes || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
@@ -393,7 +416,7 @@ const ViewProjectPage: React.FC = () => {
       {/* Map Container */}
       <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
         <Box>
-          <TreatmentSpatialUnits/>
+          <TreatmentSpatialUnits />
         </Box>
 
         <Box flex="1 1 auto">
@@ -401,7 +424,7 @@ const ViewProjectPage: React.FC = () => {
         </Box>
 
         <Box flex="1 1 auto">
-        <TreatmentList/>
+          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} />
         </Box>
       </Box>
     </Box>

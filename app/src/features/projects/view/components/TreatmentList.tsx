@@ -7,26 +7,23 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-//import { DialogContext } from 'contexts/dialogContext';
+import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React from 'react';
-//import { IUploadHandler } from 'components/attachments/FileUploadItem';
-//import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-//{ useState } from 'react';
-//import { useParams } from 'react-router';
 
-export interface IProjectSpatialUnitsProps {}
+export interface IProjectTreatmentProps {
+  treatmentList: IGetProjectTreatment[];
+  getTreatments: (forceFetch: boolean) => void;
+}
 
 /**
  * General information content for a project.
  *
  * @return {*}
  */
-const TreatmentList: React.FC<IProjectSpatialUnitsProps> = (props) => {
-  //const urlParams = useParams();
-  // const projectId = urlParams['id'];
-  // const restorationTrackerApi = useRestorationTrackerApi();
+const TreatmentList: React.FC<IProjectTreatmentProps> = (props) => {
+  //const {treatmentList} = props;
 
-  const treatments = [
+  const treatmentList = [
     {
       id: 'TU 1',
       type: 'Road',
@@ -47,10 +44,7 @@ const TreatmentList: React.FC<IProjectSpatialUnitsProps> = (props) => {
     }
   ];
 
-
   interface IGetTreatment {}
-
-
 
   const viewTreatmentUnitDetailsDialog = (treatment: IGetTreatment) => {};
 
@@ -58,7 +52,7 @@ const TreatmentList: React.FC<IProjectSpatialUnitsProps> = (props) => {
     <Card>
       <Box display="flex" alignItems="center" justifyContent="space-between" m={1} p={2}>
         <Typography variant="h4" component="h3">
-          Found {treatments?.length} {treatments?.length !== 1 ? 'treatments' : 'treatment'}
+          Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
         </Typography>
       </Box>
       <Box>
@@ -66,18 +60,32 @@ const TreatmentList: React.FC<IProjectSpatialUnitsProps> = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Width</TableCell>
-                <TableCell>Length</TableCell>
-                <TableCell>Area</TableCell>
-                <TableCell>Treatment Year</TableCell>
-                <TableCell>Treatments</TableCell>
+                <TableCell>
+                  <strong>ID</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Type</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Width</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Length</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Area</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Treatment Year</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Treatments</strong>
+                </TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
-              {!treatments?.length && (
+              {!treatmentList?.length && (
                 <TableRow>
                   <TableCell colSpan={6}>
                     <Box display="flex" justifyContent="center">
@@ -87,7 +95,7 @@ const TreatmentList: React.FC<IProjectSpatialUnitsProps> = (props) => {
                 </TableRow>
               )}
 
-              {treatments?.map((row?) => (
+              {treatmentList?.map((row?) => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.type}</TableCell>
