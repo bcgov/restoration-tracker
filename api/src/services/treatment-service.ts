@@ -342,8 +342,8 @@ export class TreatmentService extends DBService {
     return response && response.rows ? response.rows : [];
   }
 
-  async deleteTreatment(projectId: number, treatmentId: number) {
-    const sqlStatement = queries.project.deleteProjectTreatmentSQL(projectId, treatmentId);
+  async deleteTreatments(projectId: number, treatmentUnitId: number, year: number) {
+    const sqlStatement = queries.project.deleteProjectTreatmentsByYearSQL(treatmentUnitId, year);
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL delete project treatment statement');
@@ -354,29 +354,5 @@ export class TreatmentService extends DBService {
     if (!response || !response.rows || !response.rows[0]) {
       throw new HTTP400('Failed to delete project treatment spatial layer record');
     }
-  }
-
-  async deleteAllTreatments(projectId: number) {
-    const getProjectTreatmentsSQLStatement = queries.project.getProjectTreatmentsSQL(projectId);
-
-    if (!getProjectTreatmentsSQLStatement) {
-      throw new HTTP400('Failed to build SQL get statement');
-    }
-
-    const treatments = await this.connection.query(
-      getProjectTreatmentsSQLStatement.text,
-      getProjectTreatmentsSQLStatement.values
-    );
-
-    if (!treatments || !treatments.rows) {
-      throw new HTTP400('Failed to delete project attachments record');
-    }
-
-    // TODO: Check again after completing getProjectTreatmentsSQL
-    await Promise.all(
-      treatments.rows
-        .map((treatment) => treatment.id)
-        .map((treatmentId) => this.deleteTreatment(projectId, treatmentId))
-    );
   }
 }
