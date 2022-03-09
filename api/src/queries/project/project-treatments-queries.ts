@@ -124,10 +124,10 @@ export const postTreatmentUnitSQL = (
 };
 
 /**
- * SQL query to insert a project treatment unit geometry.
+ * SQL query to insert a project treatment year.
  *
  * @param treatmentUnitId
- * @param geometry
+ * @param year
  * @returns {SQLStatement} sql query object
  */
 export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | number): SQLStatement | null => {
@@ -166,7 +166,7 @@ export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | num
 };
 
 /**
- * SQL query to insert a treatment unit types.
+ * SQL query to insert a treatment types.
  *
  * @param treatmentId
  * @param treatmentTypeId

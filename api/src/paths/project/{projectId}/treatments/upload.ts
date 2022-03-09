@@ -5,7 +5,7 @@ import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { TreatmentService } from '../../../../services/treatment-service';
-import { scanFileForVirus } from '../../../../utils/file-utils';
+import { generateS3FileKey, scanFileForVirus, uploadFileToS3 } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/treatments/upload');
@@ -69,12 +69,7 @@ POST.apiDoc = {
               unitIds: {
                 type: 'array',
                 items: {
-                  type: 'object',
-                  properties: {
-                    id: {
-                      type: 'number'
-                    }
-                  }
+                  type: 'number'
                 }
               }
             }
@@ -141,24 +136,16 @@ export function uploadTreatmentSpatial(): RequestHandler {
         shapeFileFeatures
       );
 
-      //upload to s3 (currently not working)
-      // const metadata = {
-      //   filename: rawMediaFile.originalname,
-      //   username: (req['auth_payload'] && req['auth_payload'].preferred_username) || '',
-      //   email: (req['auth_payload'] && req['auth_payload'].email) || ''
-      // };
+      //upload to s3
+      const metadata = {
+        filename: rawMediaFile.originalname,
+        username: (req['auth_payload'] && req['auth_payload'].preferred_username) || '',
+        email: (req['auth_payload'] && req['auth_payload'].email) || ''
+      };
 
-      // console.log('/////////////////////////////////////////////');
-      // console.log(metadata);
-      // const key = generateS3FileKey({ projectId: projectId, fileName: rawMediaFile.originalname });
+      const key = generateS3FileKey({ projectId: projectId, fileName: rawMediaFile.originalname });
 
-      // console.log('/////////////////////////////////////////////');
-      // console.log(key);
-
-      // const s3response = await uploadFileToS3(rawMediaFile, key, metadata);
-
-      // console.log('/////////////////////////////////////////////');
-      // console.log(s3response);
+      await uploadFileToS3(rawMediaFile, key, metadata);
 
       await connection.commit();
 

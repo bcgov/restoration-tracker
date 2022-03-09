@@ -12,10 +12,10 @@ import {
 } from '../models/project-treatment';
 
 export class TreatmentService extends DBService {
-  async handleShapeFileFeatures(file: Express.Multer.File): Promise<Feature[] | undefined> {
+  async handleShapeFileFeatures(file: Express.Multer.File): Promise<Feature[] | null> {
     // Exit out if no file
     if (!file) {
-      return;
+      return null;
     }
 
     // Run the conversion
