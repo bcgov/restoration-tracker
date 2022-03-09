@@ -50,25 +50,31 @@ GET.apiDoc = {
           schema: {
             type: 'object',
             properties: {
-              treatmentsList: {
+              treatmentList: {
                 type: 'array',
                 items: {
                   type: 'object',
                   properties: {
                     id: {
+                      type: 'string'
+                    },
+                    type: {
+                      type: 'string'
+                    },
+                    width: {
                       type: 'number'
                     },
-                    fileName: {
-                      type: 'string'
-                    },
-                    lastModified: {
-                      type: 'string'
-                    },
-                    size: {
+                    length: {
                       type: 'number'
                     },
-                    url: {
-                      type: 'string'
+                    area: {
+                      type: 'number'
+                    },
+                    treatments: {
+                      type: 'array',
+                      items: {
+                        type: 'object'
+                      }
                     }
                   }
                 }
@@ -100,8 +106,6 @@ export function getTreatments(): RequestHandler {
 
     try {
       await connection.open();
-
-
 
       const treatmentService = new TreatmentService(connection);
 

@@ -173,6 +173,8 @@ const ViewProjectPage: React.FC = () => {
       try {
         const response = await restorationTrackerApi.project.getProjectTreatments(projectId);
 
+        console.log('response in viewprojectpage', response);
+
         if (!response?.treatmentList) return;
 
         setTreatmentList([...response.treatmentList]);

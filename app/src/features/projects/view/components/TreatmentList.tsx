@@ -21,28 +21,7 @@ export interface IProjectTreatmentProps {
  * @return {*}
  */
 const TreatmentList: React.FC<IProjectTreatmentProps> = (props) => {
-  //const {treatmentList} = props;
-
-  const treatmentList = [
-    {
-      id: 'TU 1',
-      type: 'Road',
-      width: '100M',
-      length: '5000M',
-      area: '50ha',
-      year: '2022',
-      treatments: ['Tree Felling']
-    },
-    {
-      id: 'TU 2',
-      type: 'Road',
-      width: '50M',
-      length: '2000M',
-      area: '10ha',
-      year: '2022',
-      treatments: ['Natural Recovery', 'Tree Felling']
-    }
-  ];
+  const { treatmentList } = props;
 
   interface IGetTreatment {}
 
@@ -76,9 +55,6 @@ const TreatmentList: React.FC<IProjectTreatmentProps> = (props) => {
                   <strong>Area</strong>
                 </TableCell>
                 <TableCell>
-                  <strong>Treatment Year</strong>
-                </TableCell>
-                <TableCell>
                   <strong>Treatments</strong>
                 </TableCell>
                 <TableCell></TableCell>
@@ -102,8 +78,7 @@ const TreatmentList: React.FC<IProjectTreatmentProps> = (props) => {
                   <TableCell>{row.width}</TableCell>
                   <TableCell>{row.length}</TableCell>
                   <TableCell>{row.area}</TableCell>
-                  <TableCell>{row.year}</TableCell>
-                  <TableCell>{row.treatments?.map((item: any) => item).join(', ')}</TableCell>
+                  <TableCell>{row.treatments?.map((item: any) => item.treatment_name).join(', ')}</TableCell>
                   <TableCell>
                     <Box my={-1}>
                       <Button

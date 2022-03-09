@@ -309,13 +309,7 @@ export class TreatmentService extends DBService {
 
     const rawTreatmentsData = response && response.rows ? response.rows : [];
 
-    //console.log('raw treatment data: ', rawTreatmentsData);
-
-    const modeledData = new GetTreatmentData(rawTreatmentsData);
-
-    console.log('modeled treatment data :', modeledData.treatmentsList[0]);
-
-    return modeledData;
+    return new GetTreatmentData(rawTreatmentsData);
   }
 
   async deleteTreatment(projectId: number, attachmentId: number) {

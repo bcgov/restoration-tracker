@@ -1,8 +1,8 @@
 export class GetTreatmentData {
-  treatmentsList: any;
+  treatmentList: any;
 
   constructor(treatmentData?: any) {
-    this.treatmentsList = Object.values(
+    this.treatmentList = Object.values(
       treatmentData.reduce((obj: any, item: any) => {
         obj[item.id]
           ? obj[item.id].treatments.push({ treatment_name: item.treatment_name, treatment_year: item.treatment_year })
