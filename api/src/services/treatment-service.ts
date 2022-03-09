@@ -3,6 +3,7 @@ import { queries } from '../queries/queries';
 import { DBService } from './service';
 import shp from 'shpjs';
 import { Feature } from 'geojson';
+import { GetTreatmentData } from '../models/treatment-view';
 
 export class TreatmentService extends DBService {
   async handleShapeFileFeatures(file: Express.Multer.File): Promise<Feature[] | undefined> {
@@ -308,8 +309,13 @@ export class TreatmentService extends DBService {
 
     const rawTreatmentsData = response && response.rows ? response.rows : [];
 
-    // return new GetTreatmentsData(rawTreatmentsData);
-    return rawTreatmentsData;
+    //console.log('raw treatment data: ', rawTreatmentsData);
+
+    const modeledData = new GetTreatmentData(rawTreatmentsData);
+
+    console.log('modeled treatment data :', modeledData.treatmentsList[0]);
+
+    return modeledData;
   }
 
   async deleteTreatment(projectId: number, attachmentId: number) {
