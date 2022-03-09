@@ -3,6 +3,13 @@ import { queries } from '../queries/queries';
 import { DBService } from './service';
 import shp from 'shpjs';
 import { Feature } from 'geojson';
+import {
+  GetTreatmentFeatureTypes,
+  GetTreatmentTypes,
+  ITreatmentDataInsertOrExists,
+  ITreatmentTypeInsertOrExists,
+  ITreatmentUnitInsertOrExists
+} from '../models/project-treatment';
 
 export class TreatmentService extends DBService {
   async handleShapeFileFeatures(file: Express.Multer.File): Promise<Feature[] | undefined> {
@@ -25,7 +32,7 @@ export class TreatmentService extends DBService {
     return features;
   }
 
-  async getTreatmentFeatureTypes() {
+  async getTreatmentFeatureTypes(): Promise<GetTreatmentFeatureTypes[]> {
     const sqlStatement = queries.project.getTreatmentFeatureTypesSQL();
 
     if (!sqlStatement) {
@@ -44,20 +51,22 @@ export class TreatmentService extends DBService {
   async getEqualTreatmentFeatureTypeIds(treatmentFeatureProperties: Feature['properties']): Promise<number> {
     const treatmentFeatureTypes = await this.getTreatmentFeatureTypes();
 
-    let featureTypeObj = treatmentFeatureTypes.find((item) => {
+    let featureTypeObj: GetTreatmentFeatureTypes[] = [];
+
+    featureTypeObj = treatmentFeatureTypes.filter((item) => {
       return item.name === treatmentFeatureProperties?.FEATURE_TY;
     });
 
-    if (!featureTypeObj) {
-      featureTypeObj = treatmentFeatureTypes.find((item) => {
+    if (featureTypeObj.length === 0) {
+      featureTypeObj = treatmentFeatureTypes.filter((item) => {
         return item.name === 'Other';
       });
     }
 
-    return featureTypeObj?.feature_type_id;
+    return featureTypeObj[0].feature_type_id;
   }
 
-  async getTreatmentUnitTypes() {
+  async getTreatmentUnitTypes(): Promise<GetTreatmentTypes[]> {
     const sqlStatement = queries.project.getTreatmentUnitTypesSQL();
 
     if (!sqlStatement) {
@@ -77,7 +86,7 @@ export class TreatmentService extends DBService {
     projectId: number,
     treatmentFeatureProperties: Feature['properties'],
     geometry: Feature['geometry']
-  ): Promise<{ treatment_unit_id: number; revision_count: number }> {
+  ): Promise<ITreatmentUnitInsertOrExists> {
     const featureTypeId = await this.getEqualTreatmentFeatureTypeIds(treatmentFeatureProperties);
 
     const sqlStatement = queries.project.postTreatmentUnitSQL(
@@ -100,10 +109,7 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async insertTreatmentData(
-    treatmentUnitId: number,
-    year: string | number
-  ): Promise<{ treatment_id: number; revision_count: number }> {
+  async insertTreatmentData(treatmentUnitId: number, year: string | number): Promise<ITreatmentDataInsertOrExists> {
     const sqlStatement = queries.project.postTreatmentDataSQL(treatmentUnitId, year);
 
     if (!sqlStatement) {
@@ -119,11 +125,8 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async insertTreatmentType(
-    treatmentId: number,
-    treatmentTypeId: number
-  ): Promise<{ treatment_treatment_type_id: number; revision_count: number }> {
-    const sqlStatement = queries.project.postTreatmentUnitTypeSQL(treatmentId, treatmentTypeId);
+  async insertTreatmentType(treatmentId: number, treatmentTypeId: number): Promise<ITreatmentTypeInsertOrExists> {
+    const sqlStatement = queries.project.postTreatmentTypeSQL(treatmentId, treatmentTypeId);
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL insert statement');
@@ -138,10 +141,7 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async insertAllTreatmentTypes(
-    treatmentId: number,
-    treatmentFeatureProperties: Feature['properties']
-  ): Promise<number[]> {
+  async insertAllTreatmentTypes(treatmentId: number, treatmentFeatureProperties: Feature['properties']): Promise<void> {
     const treatmentUnitTypes = await this.getTreatmentUnitTypes();
 
     const givenTypesString = treatmentFeatureProperties?.Treatment1;
@@ -157,34 +157,27 @@ export class TreatmentService extends DBService {
       });
     });
 
-    const returnTreatmentTypeIds: number[] = [];
-
     for (const item of treatmentTypes) {
       const response = await this.insertTreatmentType(treatmentId, item);
 
       if (!response || !response.treatment_treatment_type_id) {
         throw new HTTP400('Failed to insert treatment unit type data');
       }
-
-      returnTreatmentTypeIds.push(response.treatment_treatment_type_id);
     }
-
-    return returnTreatmentTypeIds;
   }
 
-  async insertTreatmentDataAndTreatmentTypes(treatmentUnitId: number, featureProperties: Feature['properties']) {
+  async insertTreatmentDataAndTreatmentTypes(
+    treatmentUnitId: number,
+    featureProperties: Feature['properties']
+  ): Promise<void> {
     const insertTreatmentDataResponse = await this.insertTreatmentData(treatmentUnitId, featureProperties?.year || 99);
 
-    const insertAllTreatmentUnitTypesResponse = await this.insertAllTreatmentTypes(
-      insertTreatmentDataResponse.treatment_id,
-      featureProperties
-    );
-
-    return insertAllTreatmentUnitTypesResponse;
+    await this.insertAllTreatmentTypes(insertTreatmentDataResponse.treatment_id, featureProperties);
   }
 
-  async insertAllProjectTreatmentUnits(projectId: number, features: Feature[]) {
-    const importResonses: any[] = [];
+  async insertAllProjectTreatmentUnits(projectId: number, features: Feature[]): Promise<number[]> {
+    const treatmentInsertResponse: number[] = [];
+
     for (const item of features) {
       const featureTypeId = await this.getEqualTreatmentFeatureTypeIds(item.properties);
 
@@ -198,13 +191,9 @@ export class TreatmentService extends DBService {
         //Treatment Unit Doesnt Exists
         const insertTreatmentUnitResponse = await this.insertTreatmentUnit(projectId, item.properties, item.geometry);
 
-        const insertTreatmentDataResponse = await this.insertTreatmentDataAndTreatmentTypes(
-          insertTreatmentUnitResponse.treatment_unit_id,
-          item.properties
-        );
+        await this.insertTreatmentDataAndTreatmentTypes(insertTreatmentUnitResponse.treatment_unit_id, item.properties);
 
-        importResonses.push(insertTreatmentUnitResponse);
-        importResonses.push(insertTreatmentDataResponse);
+        treatmentInsertResponse.push(insertTreatmentUnitResponse.treatment_unit_id);
       } else {
         //Treatment Unit Exists
         const checkTreatmentDataYearExists = await this.getTreatmentDataYearExist(
@@ -214,22 +203,22 @@ export class TreatmentService extends DBService {
 
         if (!checkTreatmentDataYearExists) {
           //Treatment with Year doesnt exist in db
-          const insertTreatmentDataResponse = await this.insertTreatmentDataAndTreatmentTypes(
-            checkTreatmentUnitExist.treatment_unit_id,
-            item.properties
-          );
-
-          importResonses.push(insertTreatmentDataResponse);
+          await this.insertTreatmentDataAndTreatmentTypes(checkTreatmentUnitExist.treatment_unit_id, item.properties);
+          treatmentInsertResponse.push(checkTreatmentUnitExist.treatment_unit_id);
         }
 
         //Data already exists
       }
     }
 
-    return importResonses;
+    return treatmentInsertResponse;
   }
 
-  async getTreatmentUnitExist(projectId: number, featureTypeId: number, treatmentUnitName: string | number) {
+  async getTreatmentUnitExist(
+    projectId: number,
+    featureTypeId: number,
+    treatmentUnitName: string | number
+  ): Promise<ITreatmentUnitInsertOrExists | null> {
     const sqlStatement = queries.project.getTreatmentUnitExistSQL(projectId, featureTypeId, treatmentUnitName);
 
     if (!sqlStatement) {
@@ -239,13 +228,13 @@ export class TreatmentService extends DBService {
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
     if (!response) {
-      return false;
+      return null;
     }
 
     return response.rows[0];
   }
 
-  async getTreatmentDataYearExist(treatmentUnitId: number, year: number): Promise<boolean> {
+  async getTreatmentDataYearExist(treatmentUnitId: number, year: number): Promise<ITreatmentDataInsertOrExists | null> {
     const sqlStatement = queries.project.getTreatmentDataYearExistSQL(treatmentUnitId, year);
 
     if (!sqlStatement) {
@@ -254,11 +243,11 @@ export class TreatmentService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    if (!response || !response?.rows?.[0]) {
-      return false;
+    if (!response || !response?.rows[0]) {
+      return null;
     }
 
-    return true;
+    return response.rows[0];
   }
 
   ////////////////////////////////////////////////////////////

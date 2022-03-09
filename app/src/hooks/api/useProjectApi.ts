@@ -159,6 +159,9 @@ const useProjectApi = (axios: AxiosInstance) => {
       onUploadProgress: onProgress
     });
 
+    // //save data into attachments
+    // await uploadProjectAttachments(projectId, file, cancelTokenSource, onProgress);
+
     return data;
   };
 
