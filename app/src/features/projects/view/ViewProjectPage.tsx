@@ -30,7 +30,7 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import {
   IGetProjectAttachment,
   IGetProjectForViewResponse,
-  IGetProjectTreatmentList
+  IGetProjectTreatment
 } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -115,7 +115,10 @@ const ViewProjectPage: React.FC = () => {
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
-  const [treatmentList, setTreatmentList] = useState<IGetProjectTreatmentList[]>([]);
+  const [treatmentList, setTreatmentList] = useState<IGetProjectTreatment[]>([]);
+
+  console.log('attachmentsList state: ', attachmentsList);
+  console.log('treatments list is:', treatmentList);
 
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
@@ -416,7 +419,7 @@ const ViewProjectPage: React.FC = () => {
       {/* Map Container */}
       <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
         <Box>
-          <TreatmentSpatialUnits />
+          <TreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
         </Box>
 
         <Box flex="1 1 auto">
@@ -424,7 +427,7 @@ const ViewProjectPage: React.FC = () => {
         </Box>
 
         <Box flex="1 1 auto">
-          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} />
+          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
         </Box>
       </Box>
     </Box>

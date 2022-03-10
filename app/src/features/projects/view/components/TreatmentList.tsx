@@ -9,16 +9,22 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { IGetProjectTreatmentList } from 'interfaces/useProjectApi.interface';
+import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React, { useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 
-export interface IProjectTreatmentProps {
-  treatmentList: IGetProjectTreatmentList[];
+export interface IProjectTreatmentListProps {
+  treatmentList: IGetProjectTreatment[];
   getTreatments: (forceFetch: boolean) => void;
+  refresh: () => void;
 }
 
 const useStyles = makeStyles({
+  treatmentsTable: {
+    '& .MuiTableCell-root': {
+      verticalAlign: 'middle'
+    }
+  },
   container: {
     maxHeight: 440
   }
@@ -29,7 +35,7 @@ const useStyles = makeStyles({
  *
  * @return {*}
  */
-const TreatmentList: React.FC<IProjectTreatmentProps> = (props) => {
+const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   const classes = useStyles();
   const { treatmentList } = props;
 
@@ -49,7 +55,7 @@ const TreatmentList: React.FC<IProjectTreatmentProps> = (props) => {
       </Box>
       <Box>
         <TableContainer className={classes.container}>
-          <Table stickyHeader>
+          <Table stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
             <TableHead>
               <TableRow>
                 <TableCell>
