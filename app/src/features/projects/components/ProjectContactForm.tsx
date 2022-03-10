@@ -119,7 +119,7 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
                 onCancel={() => setIsModalOpen(false)}
                 onSave={(projectContactValues) => {
                   // If current user is primary, set all other to false
-                  if (projectContactValues.is_primary) {
+                  if (JSON.parse(projectContactValues.is_primary)) {
                     values.contact.contacts.forEach((item, index) => {
                       if (index !== currentProjectContact.index) {
                         item.is_primary = 'false';

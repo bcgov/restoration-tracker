@@ -4,6 +4,7 @@ import Icon from '@mdi/react';
 import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,6 +52,14 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
                 <strong data-testid="contact_name">
                   {' '}
                   {contactDetails.first_name} {contactDetails.last_name}
+                  {JSON.parse(contactDetails.is_primary) && (
+                    <sup>
+                      <Typography variant="caption" color="textSecondary">
+                        {' '}
+                        Primary
+                      </Typography>
+                    </sup>
+                  )}
                 </strong>
               </div>
               <div>
