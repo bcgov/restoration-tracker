@@ -117,9 +117,6 @@ const ViewProjectPage: React.FC = () => {
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
   const [treatmentList, setTreatmentList] = useState<IGetProjectTreatment[]>([]);
 
-  console.log('attachmentsList state: ', attachmentsList);
-  console.log('treatments list is:', treatmentList);
-
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
 
