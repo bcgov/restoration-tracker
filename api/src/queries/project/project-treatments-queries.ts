@@ -241,24 +241,51 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
  * @param {number} treatmentId
  * @returns {SQLStatement} sql query object
  */
-export const deleteProjectTreatmentsByYearSQL = (treatmentUnitId: number, year: number): SQLStatement | null => {
+export const deleteProjectTreatmentUnitSQL = (projectId: number, treatmentUnitId: number): SQLStatement | null => {
   defaultLog.debug({ label: 'deleteProjectTreatmentsByYearSQL', message: 'params', treatmentUnitId });
 
-  if (!treatmentUnitId || !year) {
+  if (!projectId || !treatmentUnitId) {
     return null;
   }
 
   const sqlStatement: SQLStatement = SQL`
-    DELETE 
-      *
+    WITH deleted_treatment_unit AS (
+      DELETE
+      FROM
+        treatment_unit
+      WHERE
+        project_id = ${projectId}
+      AND
+        treatment_unit_id = ${treatmentUnitId}
+      RETURNING
+        treatment_unit_id
+    ),
+    deleted_treatment AS (
+      DELETE
+      FROM
+        treatment
+      WHERE
+        treatment_unit_id
+      IN (
+        SELECT
+          treatment_unit_id
+        FROM
+          deleted_treatment_unit
+      )
+      RETURNING
+        treatment_id
+    )
+    DELETE
     FROM
-      treatment
-    INNER JOIN
-      treatment_treatment_type as tt_type
+      treatment_treatment_type
     WHERE
-      treatment_unit_id = ${treatmentUnitId}
-    and
-      year = ${year};
+      treatment_id
+    IN (
+      SELECT
+        treatment_id
+      FROM
+        deleted_treatment
+    );
   `;
 
   defaultLog.debug({

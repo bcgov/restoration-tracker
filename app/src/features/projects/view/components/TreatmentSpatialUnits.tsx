@@ -43,6 +43,15 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     };
   };
 
+  const handleDelete = async () => {
+    const res = await restorationTrackerApi.project.deleteProjectTreatmentUnit(
+      projectId,
+      8
+    )
+
+    console.log(res);
+  }
+
   return (
     <Box>
       <ComponentDialog
@@ -81,7 +90,21 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-              <MenuItem>Spatial items list</MenuItem>
+              <MenuItem>
+                Spatial items list
+                <Button
+                  id={'upload-spatial'}
+                  data-testid={'upload-spatial'}
+                  variant="contained"
+                  fullWidth
+                  color="primary"
+                  title={'Delete'}
+                  aria-label={'Import Spatial'}
+                  startIcon={<Icon path={mdiTrayArrowUp} size={1} />}
+                  onClick={handleDelete}>
+                  <strong>Import</strong>
+                </Button>
+              </MenuItem>
               <MenuItem>Spatial items list</MenuItem>
               <Box>
                 <Divider></Divider>

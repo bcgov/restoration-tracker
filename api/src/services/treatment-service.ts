@@ -342,17 +342,13 @@ export class TreatmentService extends DBService {
     return response && response.rows ? response.rows : [];
   }
 
-  async deleteTreatments(projectId: number, treatmentUnitId: number, year: number) {
-    const sqlStatement = queries.project.deleteProjectTreatmentsByYearSQL(treatmentUnitId, year);
+  async deleteTreatmentUnit(projectId: number, treatmentUnitId: number) {
+    const sqlStatement = queries.project.deleteProjectTreatmentUnitSQL(projectId, treatmentUnitId);
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL delete project treatment statement');
     }
 
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
-
-    if (!response || !response.rows || !response.rows[0]) {
-      throw new HTTP400('Failed to delete project treatment spatial layer record');
-    }
+    await this.connection.query(sqlStatement.text, sqlStatement.values);
   }
 }

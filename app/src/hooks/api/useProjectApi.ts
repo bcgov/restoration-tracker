@@ -169,8 +169,8 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @param {number} attachmentId
    * @returns {*} {Promise<number>}
    */
-  const deleteProjectTreatmentSpatial = async (projectId: number, treatmentId: number): Promise<number> => {
-    const { data } = await axios.delete(`/api/project/${projectId}/treatments/${treatmentId}/delete`);
+  const deleteProjectTreatmentUnit = async (projectId: number, treatmentUnitId: number): Promise<number> => {
+    const { data } = await axios.delete(`/api/project/${projectId}/treatments/${treatmentUnitId}/delete`);
 
     return data;
   };
@@ -306,7 +306,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     createProject,
     getProjectById,
     importProjectTreatmentSpatialFile,
-    deleteProjectTreatmentSpatial,
+    deleteProjectTreatmentUnit,
     uploadProjectAttachments,
     updateProject,
     getProjectAttachments,
