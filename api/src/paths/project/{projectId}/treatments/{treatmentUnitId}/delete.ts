@@ -7,7 +7,7 @@ import { authorizeRequestHandler } from '../../../../../request-handlers/securit
 import { TreatmentService } from '../../../../../services/treatment-service';
 import { getLogger } from '../../../../../utils/logger';
 
-const defaultLog = getLogger('/api/project/{projectId}/treatments/{treatmentId}/delete');
+const defaultLog = getLogger('/api/project/{projectId}/treatments/{treatmentUnitId}/delete');
 
 export const DELETE: Operation = [
   authorizeRequestHandler((req) => {
@@ -16,7 +16,7 @@ export const DELETE: Operation = [
         {
           validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR],
           projectId: Number(req.params.projectId),
-          treatmentId: Number(req.params.treatmentId),
+          treatmentUnitId: Number(req.params.treatmentUnitId),
           discriminator: 'ProjectRole'
         }
       ]
@@ -40,7 +40,7 @@ DELETE.apiDoc = {
     },
     {
       in: 'path',
-      name: 'treatmentId',
+      name: 'treatmentUnitId',
       required: true
     }
   ],
@@ -88,12 +88,12 @@ export function deleteTreatmentUnit(): RequestHandler {
     if (!req.params.projectId) {
       throw new HTTP400('Missing projectId');
     }
-    if (!req.params.treatmentId) {
-      throw new HTTP400('Missing treatmentId');
+    if (!req.params.treatmentUnitId) {
+      throw new HTTP400('Missing treatmentUnitId');
     }
 
     const projectId = Number(req.params.projectId);
-    const treatmentUnitId = Number(req.params.treatmentId);
+    const treatmentUnitId = Number(req.params.treatmentUnitId);
     const connection = getDBConnection(req['keycloak_token']);
 
     try {

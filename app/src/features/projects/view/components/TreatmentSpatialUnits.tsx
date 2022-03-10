@@ -46,7 +46,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const handleDelete = async () => {
     const res = await restorationTrackerApi.project.deleteProjectTreatmentUnit(
       projectId,
-      8
+      6
     )
 
     console.log(res);
