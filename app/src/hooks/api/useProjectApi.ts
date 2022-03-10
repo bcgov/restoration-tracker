@@ -163,16 +163,25 @@ const useProjectApi = (axios: AxiosInstance) => {
   };
 
   /**
-   * Delete project attachment based on project and attachment ID
+   * Delete project treatment unit based on project and treatmentUnit ID
+   *
+   * @param {number} projectId
+   * @param {number} treatmentUnitId
+   * @returns {*} {Promise<number>}
+   */
+  const deleteProjectTreatmentUnit = async (projectId: number, treatmentUnitId: number): Promise<void> => {
+    await axios.delete(`/api/project/${projectId}/treatments/${treatmentUnitId}/delete`);
+  };
+
+  /**
+   * Delete project treatments based on project ID and year
    *
    * @param {number} projectId
    * @param {number} attachmentId
-   * @returns {*} {Promise<number>}
+   * @returns {*} {Promise<void>}
    */
-  const deleteProjectTreatmentUnit = async (projectId: number, treatmentUnitId: number): Promise<number> => {
-    const { data } = await axios.delete(`/api/project/${projectId}/treatments/${treatmentUnitId}/delete`);
-
-    return data;
+  const deleteProjectTreatmentsByYear = async (projectId: number, year: number): Promise<void> => {
+    await axios.delete(`/api/project/${projectId}/treatments/${year}/delete`);
   };
 
   /**
@@ -307,6 +316,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     getProjectById,
     importProjectTreatmentSpatialFile,
     deleteProjectTreatmentUnit,
+    deleteProjectTreatmentsByYear,
     uploadProjectAttachments,
     updateProject,
     getProjectAttachments,

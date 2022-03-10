@@ -351,4 +351,19 @@ export class TreatmentService extends DBService {
 
     await this.connection.query(sqlStatement.text, sqlStatement.values);
   }
+
+  async deleteTreatmentsByYear(projectId: number, year: number) {
+    const deleteProjectTreatmentsByYearSQL = queries.project.deleteProjectTreatmentsByYearSQL(projectId, year);
+    const deleteProjectTreatmentUnitIfNoTreatmentsSQL = queries.project.deleteProjectTreatmentUnitIfNoTreatmentsSQL();
+
+    if (!deleteProjectTreatmentsByYearSQL || !deleteProjectTreatmentUnitIfNoTreatmentsSQL) {
+      throw new HTTP400('Failed to build SQL delete project treatment statement');
+    }
+
+    await this.connection.query(deleteProjectTreatmentsByYearSQL.text, deleteProjectTreatmentsByYearSQL.values);
+    await this.connection.query(
+      deleteProjectTreatmentUnitIfNoTreatmentsSQL.text,
+      deleteProjectTreatmentUnitIfNoTreatmentsSQL.values
+    );
+  }
 }
