@@ -80,7 +80,7 @@ export const postTreatmentUnitSQL = (
     projectId
   });
 
-  if (!featureProperties || !projectId || !featureTypeId) {
+  if (!featureProperties || !projectId || !featureTypeId || !geometry) {
     return null;
   }
 

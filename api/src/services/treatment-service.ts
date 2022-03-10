@@ -49,6 +49,10 @@ export class TreatmentService extends DBService {
   }
 
   async getEqualTreatmentFeatureTypeIds(treatmentFeatureProperties: Feature['properties']): Promise<number> {
+    if (!treatmentFeatureProperties?.FEATURE_TY) {
+      throw new HTTP400('No Feature Type provided in properties');
+    }
+
     const treatmentFeatureTypes = await this.getTreatmentFeatureTypes();
 
     let featureTypeObj: GetTreatmentFeatureTypes[] = [];
@@ -295,10 +299,7 @@ export class TreatmentService extends DBService {
       getProjectTreatmentsSQLStatement.values
     );
 
-    const rawTreatmentsData = response && response.rows ? response.rows : [];
-
-    // return new GetTreatmentsData(rawTreatmentsData);
-    return rawTreatmentsData;
+    return response && response.rows ? response.rows : [];
   }
 
   async deleteTreatment(projectId: number, attachmentId: number) {
