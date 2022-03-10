@@ -2,7 +2,7 @@ import { Feature } from 'geojson';
 import { SQL, SQLStatement } from 'sql-template-strings';
 import { getLogger } from '../../utils/logger';
 
-const defaultLog = getLogger('queries/project/project-attachments-queries');
+const defaultLog = getLogger('queries/project/project-treatment-queries');
 
 /**
  * SQL query to get Treatment Features Types
@@ -14,7 +14,9 @@ export const getTreatmentFeatureTypesSQL = (): SQLStatement | null => {
 
   const sqlStatement: SQLStatement = SQL`
     SELECT
-      *
+      feature_type_id,
+      name,
+      description
     from
       feature_type;
   `;
@@ -39,7 +41,9 @@ export const getTreatmentUnitTypesSQL = (): SQLStatement | null => {
 
   const sqlStatement: SQLStatement = SQL`
     SELECT
-      *
+      treatment_type_id,
+      name,
+      description
     from
       treatment_type;
   `;
@@ -76,7 +80,7 @@ export const postTreatmentUnitSQL = (
     projectId
   });
 
-  if (!featureProperties || !projectId || !featureTypeId) {
+  if (!featureProperties || !projectId || !featureTypeId || !geometry) {
     return null;
   }
 
@@ -120,10 +124,10 @@ export const postTreatmentUnitSQL = (
 };
 
 /**
- * SQL query to insert a project treatment unit geometry.
+ * SQL query to insert a project treatment year.
  *
  * @param treatmentUnitId
- * @param geometry
+ * @param year
  * @returns {SQLStatement} sql query object
  */
 export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | number): SQLStatement | null => {
@@ -152,7 +156,7 @@ export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | num
   `;
 
   defaultLog.debug({
-    label: 'postTreatmentUnitGeometrySQL',
+    label: 'postTreatmentDataSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values
@@ -162,13 +166,13 @@ export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | num
 };
 
 /**
- * SQL query to insert a treatment unit types.
+ * SQL query to insert a treatment types.
  *
  * @param treatmentId
  * @param treatmentTypeId
  * @returns {SQLStatement} sql query object
  */
-export const postTreatmentUnitTypeSQL = (treatmentId: number, treatmentTypeId: number): SQLStatement | null => {
+export const postTreatmentTypeSQL = (treatmentId: number, treatmentTypeId: number): SQLStatement | null => {
   defaultLog.debug({
     label: 'postProjectTreatmentSQL',
     message: 'params',
@@ -229,7 +233,8 @@ export const getTreatmentUnitExistSQL = (
 
   const sqlStatement: SQLStatement = SQL`
     SELECT
-      *
+      treatment_unit_id,
+      revision_count
     FROM
       treatment_unit
     WHERE
@@ -271,7 +276,8 @@ export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: numb
 
   const sqlStatement: SQLStatement = SQL`
     SELECT
-      *
+      treatment_id,
+      revision_count
     FROM
       treatment
     WHERE

@@ -5,10 +5,10 @@ import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { TreatmentService } from '../../../../services/treatment-service';
-import { scanFileForVirus } from '../../../../utils/file-utils';
+import { generateS3FileKey, scanFileForVirus, uploadFileToS3 } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
-const defaultLog = getLogger('/api/project/{projectId}/attachments/upload');
+const defaultLog = getLogger('/api/project/{projectId}/treatments/upload');
 
 export const POST: Operation = [
   authorizeRequestHandler((req) => {
@@ -64,12 +64,13 @@ POST.apiDoc = {
           schema: {
             title: 'Treatment Response Object',
             type: 'object',
+            required: ['unitIds'],
             properties: {
-              id: {
-                type: 'number'
-              },
-              revision_count: {
-                type: 'number'
+              unitIds: {
+                type: 'array',
+                items: {
+                  type: 'number'
+                }
               }
             }
           }
@@ -86,8 +87,7 @@ POST.apiDoc = {
 };
 
 /**
- * Uploads any media in the request to S3, adding their keys to the request.
- * Also adds the metadata to the project_attachment DB table
+ * Uploads any treatment shape file to the db
  * Does nothing if no media is present in the request.
  *
  *
@@ -107,11 +107,7 @@ export function uploadTreatmentSpatial(): RequestHandler {
 
     const projectId = Number(req.params.projectId);
     const rawMediaFile: Express.Multer.File = req.files[0];
-    const metadata = {
-      filename: rawMediaFile.originalname,
-      username: (req['auth_payload'] && req['auth_payload'].preferred_username) || '',
-      email: (req['auth_payload'] && req['auth_payload'].email) || ''
-    };
+
     const connection = getDBConnection(req['keycloak_token']);
 
     if (!(await scanFileForVirus(rawMediaFile))) {
@@ -140,18 +136,22 @@ export function uploadTreatmentSpatial(): RequestHandler {
         shapeFileFeatures
       );
 
-      await connection.commit();
-
-      const uploadResponse = {
-        projectId: projectId,
-        metadata: metadata,
-        shapeFile: shapeFileFeatures,
-        response: responsePostProjectAllTreatments
+      //upload to s3
+      const metadata = {
+        filename: rawMediaFile.originalname,
+        username: (req['auth_payload'] && req['auth_payload'].preferred_username) || '',
+        email: (req['auth_payload'] && req['auth_payload'].email) || ''
       };
 
-      return res.status(200).json(uploadResponse);
+      const key = generateS3FileKey({ projectId: projectId, fileName: rawMediaFile.originalname });
+
+      await uploadFileToS3(rawMediaFile, key, metadata);
+
+      await connection.commit();
+
+      return res.status(200).json({ unitIds: responsePostProjectAllTreatments });
     } catch (error) {
-      defaultLog.error({ label: 'uploadMedia', message: 'error', error });
+      defaultLog.error({ label: 'uploadTreatmentSpatial', message: 'error', error });
       await connection.rollback();
       throw error;
     } finally {
