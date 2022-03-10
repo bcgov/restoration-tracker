@@ -64,8 +64,6 @@ const useProjectApi = (axios: AxiosInstance) => {
   const getProjectTreatments = async (projectId: number): Promise<IGetProjectTreatmentsResponse> => {
     const { data } = await axios.get(`/api/project/${projectId}/treatments/list`);
 
-    console.log('treament data in app: ', data);
-
     return data;
   };
 

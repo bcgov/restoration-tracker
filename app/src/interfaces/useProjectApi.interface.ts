@@ -323,14 +323,18 @@ export interface IAddProjectParticipant {
   roleId: number;
 }
 
-export interface IGetProjectTreatment {
+export interface IGetTreatment {
+  treatment_name: string;
+  treatment_year: string;
+}
+
+export interface IGetProjectTreatmentList {
   id: string;
   type: string;
-  width: string;
-  length: string;
-  area: string;
-  year: string;
-  treatments: string[];
+  width: number;
+  length: number;
+  area: number;
+  treatments: IGetTreatment[];
 }
 
 /**
@@ -340,5 +344,5 @@ export interface IGetProjectTreatment {
  * @interface IGetProjectTreatmentsResponse
  */
 export interface IGetProjectTreatmentsResponse {
-  treatmentList: IGetProjectTreatment[];
+  treatmentList: IGetProjectTreatmentList[];
 }

@@ -30,7 +30,7 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import {
   IGetProjectAttachment,
   IGetProjectForViewResponse,
-  IGetProjectTreatment
+  IGetProjectTreatmentList
 } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -115,7 +115,7 @@ const ViewProjectPage: React.FC = () => {
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
-  const [treatmentList, setTreatmentList] = useState<IGetProjectTreatment[]>([]);
+  const [treatmentList, setTreatmentList] = useState<IGetProjectTreatmentList[]>([]);
 
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
@@ -172,8 +172,6 @@ const ViewProjectPage: React.FC = () => {
 
       try {
         const response = await restorationTrackerApi.project.getProjectTreatments(projectId);
-
-        console.log('response in viewprojectpage', response);
 
         if (!response?.treatmentList) return;
 

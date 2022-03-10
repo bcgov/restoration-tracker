@@ -9,12 +9,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
+import { IGetProjectTreatmentList } from 'interfaces/useProjectApi.interface';
 import React, { useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 
 export interface IProjectTreatmentProps {
-  treatmentList: IGetProjectTreatment[];
+  treatmentList: IGetProjectTreatmentList[];
   getTreatments: (forceFetch: boolean) => void;
 }
 
@@ -78,7 +78,7 @@ const TreatmentList: React.FC<IProjectTreatmentProps> = (props) => {
                 <TableRow>
                   <TableCell colSpan={6}>
                     <Box display="flex" justifyContent="center">
-                      No Results
+                      No Treatments
                     </Box>
                   </TableCell>
                 </TableRow>
