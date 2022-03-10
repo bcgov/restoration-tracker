@@ -52,7 +52,7 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
                 <strong data-testid="contact_name">
                   {' '}
                   {contactDetails.first_name} {contactDetails.last_name}
-                  {contactDetails.is_primary === 'true' && (
+                  {JSON.parse(contactDetails.is_primary) && (
                     <sup>
                       <Typography variant="caption" color="textSecondary">
                         {' '}
