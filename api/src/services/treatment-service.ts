@@ -1,7 +1,6 @@
 import { Geometry } from 'geojson';
 import shp from 'shpjs';
 import { HTTP400 } from '../errors/custom-error';
-import { GetTreatmentData } from '../models/treatment-view';
 import {
   GetTreatmentFeatureTypes,
   GetTreatmentTypes,
@@ -11,6 +10,7 @@ import {
   TreatmentFeature,
   TreatmentFeatureProperties
 } from '../models/project-treatment';
+import { GetTreatmentData } from '../models/treatment-view';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
 

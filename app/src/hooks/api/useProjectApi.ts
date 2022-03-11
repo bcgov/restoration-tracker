@@ -300,8 +300,6 @@ const useProjectApi = (axios: AxiosInstance) => {
     return status === 200;
   };
 
-
-
   /**
    * Delete project treatment unit based on project and treatmentUnit ID
    *
@@ -310,8 +308,10 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @returns {*} {Promise<number>}
    */
   const deleteProjectTreatmentUnit = async (projectId: number, treatmentUnitId: number): Promise<boolean> => {
-    const { status } = await axios.delete(`/api/project/${projectId}/treatments/treatment-unit/${treatmentUnitId}/delete`);
-    
+    const { status } = await axios.delete(
+      `/api/project/${projectId}/treatments/treatment-unit/${treatmentUnitId}/delete`
+    );
+
     return status === 200;
   };
 
@@ -324,7 +324,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    */
   const deleteProjectTreatmentsByYear = async (projectId: number, year: number): Promise<boolean> => {
     const { status } = await axios.delete(`/api/project/${projectId}/treatments/year/${year}/delete`);
-    
+
     return status === 200;
   };
 

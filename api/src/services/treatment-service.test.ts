@@ -9,16 +9,15 @@ import SQL from 'sql-template-strings';
 import { ApiError } from '../errors/custom-error';
 import {
   GetTreatmentFeatureTypes,
-  TreatmentFeature,
   GetTreatmentTypes,
+  ITreatmentTypeInsertOrExists,
   ITreatmentUnitInsertOrExists,
-  TreatmentFeatureProperties,
-  ITreatmentTypeInsertOrExists
+  TreatmentFeature,
+  TreatmentFeatureProperties
 } from '../models/project-treatment';
 import { queries } from '../queries/queries';
-import { getMockDBConnection } from '../__mocks__/db';
+import { getMockDBConnection, registerMockDBConnection } from '../__mocks__/db';
 import { TreatmentService } from './treatment-service';
-import { registerMockDBConnection } from '../__mocks__/db';
 
 chai.use(sinonChai);
 
