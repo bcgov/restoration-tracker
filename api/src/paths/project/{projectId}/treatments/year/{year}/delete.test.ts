@@ -65,7 +65,7 @@ describe('deleteTreatmentsByYear', () => {
       const result = delete_treatment_unit.deleteTreatmentsByYear();
 
       await result(
-        { ...sampleReq, params: { ...sampleReq.params, treatmentUnitId: null } },
+        { ...sampleReq, params: { ...sampleReq.params, year: null } },
         (null as unknown) as any,
         (null as unknown) as any
       );

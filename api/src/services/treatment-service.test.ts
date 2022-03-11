@@ -20,7 +20,7 @@ import { TreatmentService } from './treatment-service';
 
 chai.use(sinonChai);
 
-describe.only('TreatmentService', () => {
+describe('TreatmentService', () => {
   describe('handleShapeFileFeatures', function () {
     afterEach(() => {
       sinon.restore();
@@ -296,6 +296,51 @@ describe.only('TreatmentService', () => {
       const result = await treatmentService.insertTreatmentUnit(1, treatmentProperties, treatmentGeometry);
 
       expect(result).to.be.equal(treatmentUnitRow);
+    });
+  });
+
+  describe('deleteTreatmentUnit', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('returns empty on success', async () => {
+      const mockQueryResponse = ({} as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'deleteProjectTreatmentUnitSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const treatmentUnitId = 1;
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const result = await treatmentService.deleteTreatmentUnit(projectId, treatmentUnitId);
+
+      expect(result).to.equal(undefined);
+    });
+  });
+
+  describe('deleteTreatmentsByYear', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('returns empty on success', async () => {
+      const mockQueryResponse = ({} as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'deleteProjectTreatmentsByYearSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'deleteProjectTreatmentUnitIfNoTreatmentsSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const year = 1;
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const result = await treatmentService.deleteTreatmentsByYear(projectId, year);
+
+      expect(result).to.equal(undefined);
     });
   });
 });

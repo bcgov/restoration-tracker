@@ -296,7 +296,7 @@ export const getProjectTreatmentByFileNameSQL = (projectId: number, fileName: st
  * @returns {SQLStatement} sql query object
  */
 export const deleteProjectTreatmentUnitSQL = (projectId: number, treatmentUnitId: number): SQLStatement => {
-  const sqlStatement: SQLStatement = SQL`
+  return SQL`
     WITH deleted_treatment_unit AS (
       DELETE
       FROM
@@ -335,12 +335,10 @@ export const deleteProjectTreatmentUnitSQL = (projectId: number, treatmentUnitId
         deleted_treatment
     );
   `;
-
-  return sqlStatement;
 };
 
 export const deleteProjectTreatmentsByYearSQL = (projectId: number, year: number): SQLStatement => {
-  const sqlStatement: SQLStatement = SQL`
+  return SQL`
     WITH deleted_treatment AS (
       DELETE
       FROM
@@ -372,12 +370,10 @@ export const deleteProjectTreatmentsByYearSQL = (projectId: number, year: number
         deleted_treatment
     );
   `;
-
-  return sqlStatement;
 };
 
 export const deleteProjectTreatmentUnitIfNoTreatmentsSQL = (): SQLStatement => {
-  const sqlStatement: SQLStatement = SQL`
+  return SQL`
     DELETE 
     FROM 
       treatment_unit
@@ -390,6 +386,4 @@ export const deleteProjectTreatmentUnitIfNoTreatmentsSQL = (): SQLStatement => {
         treatment
     );
   `;
-
-  return sqlStatement;
 };
