@@ -1,7 +1,6 @@
 import { Geometry } from 'geojson';
 import shp from 'shpjs';
 import { HTTP400 } from '../errors/custom-error';
-import { GetTreatmentData } from '../models/treatment-view';
 import {
   GetTreatmentFeatureTypes,
   GetTreatmentTypes,
@@ -11,6 +10,7 @@ import {
   TreatmentFeature,
   TreatmentFeatureProperties
 } from '../models/project-treatment';
+import { GetTreatmentData } from '../models/treatment-view';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
 
@@ -345,34 +345,20 @@ export class TreatmentService extends DBService {
     return new GetTreatmentData(rawTreatmentsData);
   }
 
-  async deleteTreatment(projectId: number, attachmentId: number) {
-    const sqlStatement = queries.project.deleteProjectTreatmentSQL(projectId, attachmentId);
+  async deleteTreatmentUnit(projectId: number, treatmentUnitId: number) {
+    const sqlStatement = queries.project.deleteProjectTreatmentUnitSQL(projectId, treatmentUnitId);
 
-    if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL delete project attachment statement');
-    }
-
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
-
-    if (!response || !response.rows || !response.rows[0]) {
-      throw new HTTP400('Failed to delete project attachment record');
-    }
+    await this.connection.query(sqlStatement.text, sqlStatement.values);
   }
 
-  async deleteAllTreatments(projectId: number) {
-    const getProjectTreatmentSQLStatement = queries.project.getProjectTreatmentsSQL(projectId);
+  async deleteTreatmentsByYear(projectId: number, year: number) {
+    const deleteProjectTreatmentsByYearSQL = queries.project.deleteProjectTreatmentsByYearSQL(projectId, year);
+    const deleteProjectTreatmentUnitIfNoTreatmentsSQL = queries.project.deleteProjectTreatmentUnitIfNoTreatmentsSQL();
 
-    if (!getProjectTreatmentSQLStatement) {
-      throw new HTTP400('Failed to build SQL get statement');
-    }
-
-    const attachments = await this.connection.query(
-      getProjectTreatmentSQLStatement.text,
-      getProjectTreatmentSQLStatement.values
+    await this.connection.query(deleteProjectTreatmentsByYearSQL.text, deleteProjectTreatmentsByYearSQL.values);
+    await this.connection.query(
+      deleteProjectTreatmentUnitIfNoTreatmentsSQL.text,
+      deleteProjectTreatmentUnitIfNoTreatmentsSQL.values
     );
-
-    if (!attachments || !attachments.rows) {
-      throw new HTTP400('Failed to delete project attachments record');
-    }
   }
 }

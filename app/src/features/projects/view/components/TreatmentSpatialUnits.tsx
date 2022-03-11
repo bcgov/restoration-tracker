@@ -1,6 +1,6 @@
-import { Button, Divider, Grid, Menu, MenuItem, Toolbar } from '@material-ui/core';
+import { Button, Divider, Grid, ListItemIcon, Menu, MenuItem, Toolbar } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { mdiMenuDown, mdiTrayArrowUp } from '@mdi/js';
+import { mdiMenuDown, mdiTrashCanOutline, mdiTrayArrowUp } from '@mdi/js';
 import Icon from '@mdi/react';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
@@ -48,6 +48,10 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     };
   };
 
+  const handleDeleteTreatmentsByYear = async () => {
+    await restorationTrackerApi.project.deleteProjectTreatmentsByYear(projectId, 98);
+  };
+
   return (
     <Box>
       <ComponentDialog
@@ -87,7 +91,12 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-              <MenuItem>Spatial items list</MenuItem>
+              <MenuItem onClick={() => {}}>
+                Treatment Units 99
+                <ListItemIcon onClick={handleDeleteTreatmentsByYear}>
+                  <Icon path={mdiTrashCanOutline} size={0.9375} />
+                </ListItemIcon>
+              </MenuItem>
               <MenuItem>Spatial items list</MenuItem>
               <Box>
                 <Divider></Divider>

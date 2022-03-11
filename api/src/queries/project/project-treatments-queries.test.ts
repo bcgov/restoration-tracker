@@ -2,6 +2,9 @@ import { expect } from 'chai';
 import { Feature } from 'geojson';
 import { describe } from 'mocha';
 import {
+  deleteProjectTreatmentsByYearSQL,
+  deleteProjectTreatmentUnitIfNoTreatmentsSQL,
+  deleteProjectTreatmentUnitSQL,
   getProjectTreatmentsSQL,
   getTreatmentDataYearExistSQL,
   getTreatmentFeatureTypesSQL,
@@ -142,5 +145,29 @@ describe('getProjectTreatmentsSQL', () => {
     const response = getProjectTreatmentsSQL(1);
 
     expect(response).to.not.be.null;
+  });
+});
+
+describe('deleteProjectTreatmentUnitSQL', () => {
+  it('returns string', () => {
+    const response = deleteProjectTreatmentUnitSQL(1, 1);
+
+    expect(response).to.be.string;
+  });
+});
+
+describe('deleteProjectTreatmentsByYearSQL', () => {
+  it('returns string', () => {
+    const response = deleteProjectTreatmentsByYearSQL(1, 1);
+
+    expect(response).to.be.string;
+  });
+});
+
+describe('deleteProjectTreatmentUnitIfNoTreatmentsSQL', () => {
+  it('returns string', () => {
+    const response = deleteProjectTreatmentUnitIfNoTreatmentsSQL();
+
+    expect(response).to.be.string;
   });
 });

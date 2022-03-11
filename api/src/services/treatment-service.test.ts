@@ -9,16 +9,15 @@ import SQL from 'sql-template-strings';
 import { ApiError } from '../errors/custom-error';
 import {
   GetTreatmentFeatureTypes,
-  TreatmentFeature,
   GetTreatmentTypes,
+  ITreatmentTypeInsertOrExists,
   ITreatmentUnitInsertOrExists,
-  TreatmentFeatureProperties,
-  ITreatmentTypeInsertOrExists
+  TreatmentFeature,
+  TreatmentFeatureProperties
 } from '../models/project-treatment';
 import { queries } from '../queries/queries';
-import { getMockDBConnection } from '../__mocks__/db';
+import { getMockDBConnection, registerMockDBConnection } from '../__mocks__/db';
 import { TreatmentService } from './treatment-service';
-import { registerMockDBConnection } from '../__mocks__/db';
 
 chai.use(sinonChai);
 
@@ -881,6 +880,51 @@ describe('TreatmentService', () => {
           }
         ]
       });
+    });
+  });
+
+  describe('deleteTreatmentUnit', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('returns empty on success', async () => {
+      const mockQueryResponse = ({} as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'deleteProjectTreatmentUnitSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const treatmentUnitId = 1;
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const result = await treatmentService.deleteTreatmentUnit(projectId, treatmentUnitId);
+
+      expect(result).to.equal(undefined);
+    });
+  });
+
+  describe('deleteTreatmentsByYear', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('returns empty on success', async () => {
+      const mockQueryResponse = ({} as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'deleteProjectTreatmentsByYearSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'deleteProjectTreatmentUnitIfNoTreatmentsSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const year = 1;
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const result = await treatmentService.deleteTreatmentsByYear(projectId, year);
+
+      expect(result).to.equal(undefined);
     });
   });
 });

@@ -258,32 +258,6 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
 };
 
 /**
- * SQL query to delete an attachment for a single project.
- *
- * @param {number} attachmentId
- * @returns {SQLStatement} sql query object
- */
-export const deleteProjectTreatmentSQL = (projectId: number, attachmentId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'deleteProjectTreatmentSQL', message: 'params', projectId, attachmentId });
-
-  if (!projectId || !attachmentId) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-  `; //todo
-
-  defaultLog.debug({
-    label: 'deleteProjectTreatmentSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
-};
-
-/**
  * SQL query to update an attachment for a single project by project id and filename.
  *
  * @param {number} projectId
@@ -335,4 +309,103 @@ export const getProjectTreatmentByFileNameSQL = (projectId: number, fileName: st
   });
 
   return sqlStatement;
+};
+
+/**
+ * SQL query to get Treatment Unit Treatment Types
+ *
+ * @param {number} treatmentId
+ * @returns {SQLStatement} sql query object
+ */
+export const deleteProjectTreatmentUnitSQL = (projectId: number, treatmentUnitId: number): SQLStatement => {
+  return SQL`
+    WITH deleted_treatment_unit AS (
+      DELETE
+      FROM
+        treatment_unit
+      WHERE
+        project_id = ${projectId}
+      AND
+        treatment_unit_id = ${treatmentUnitId}
+      RETURNING
+        treatment_unit_id
+    ),
+    deleted_treatment AS (
+      DELETE
+      FROM
+        treatment
+      WHERE
+        treatment_unit_id
+      IN (
+        SELECT
+          treatment_unit_id
+        FROM
+          deleted_treatment_unit
+      )
+      RETURNING
+        treatment_id
+    )
+    DELETE
+    FROM
+      treatment_treatment_type
+    WHERE
+      treatment_id
+    IN (
+      SELECT
+        treatment_id
+      FROM
+        deleted_treatment
+    );
+  `;
+};
+
+export const deleteProjectTreatmentsByYearSQL = (projectId: number, year: number): SQLStatement => {
+  return SQL`
+    WITH deleted_treatment AS (
+      DELETE
+      FROM
+        treatment
+      WHERE
+        year = ${year}
+      AND
+        treatment_unit_id
+      IN (
+        SELECT
+          treatment_unit_id
+        FROM
+          treatment_unit
+        WHERE
+          project_id = ${projectId}
+      )
+      RETURNING
+        treatment_id
+    )
+    DELETE
+    FROM
+      treatment_treatment_type
+    WHERE
+      treatment_id
+    IN (
+      SELECT
+        treatment_id
+      FROM
+        deleted_treatment
+    );
+  `;
+};
+
+export const deleteProjectTreatmentUnitIfNoTreatmentsSQL = (): SQLStatement => {
+  return SQL`
+    DELETE 
+    FROM 
+      treatment_unit
+    WHERE 
+      treatment_unit_id 
+    NOT IN (
+      SELECT 
+        treatment_unit_id 
+      FROM 
+        treatment
+    );
+  `;
 };
