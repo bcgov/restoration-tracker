@@ -5,6 +5,7 @@ import {
   deleteProjectTreatmentsByYearSQL,
   deleteProjectTreatmentUnitIfNoTreatmentsSQL,
   deleteProjectTreatmentUnitSQL,
+  getProjectTreatmentsSQL,
   getTreatmentDataYearExistSQL,
   getTreatmentFeatureTypesSQL,
   getTreatmentUnitExistSQL,
@@ -128,6 +129,20 @@ describe('getTreatmentDataYearExistSQL', () => {
 
   it('returns non null response when valid treatmentUnitId provided', () => {
     const response = getTreatmentDataYearExistSQL(1, 1);
+
+    expect(response).to.not.be.null;
+  });
+});
+
+describe('getProjectTreatmentsSQL', () => {
+  it('returns null response when null  provided', () => {
+    const response = getProjectTreatmentsSQL((null as unknown) as number);
+
+    expect(response).to.be.null;
+  });
+
+  it('returns non null response when valid treatmentUnitId provided', () => {
+    const response = getProjectTreatmentsSQL(1);
 
     expect(response).to.not.be.null;
   });

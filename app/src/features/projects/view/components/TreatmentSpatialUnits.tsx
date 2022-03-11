@@ -7,10 +7,14 @@ import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
 
-export interface IProjectSpatialUnitsProps {}
+export interface IProjectSpatialUnitsProps {
+  treatmentList: IGetProjectTreatment[];
+  getTreatments: (forceFetch: boolean) => void;
+}
 
 /**
  * General information content for a project.
@@ -18,6 +22,7 @@ export interface IProjectSpatialUnitsProps {}
  * @return {*}
  */
 const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
+  const { getTreatments } = props;
   const urlParams = useParams();
   const projectId = urlParams['id'];
   const restorationTrackerApi = useRestorationTrackerApi();
@@ -54,6 +59,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         dialogTitle="Upload Treatments"
         onClose={() => {
           setOpenImportTreatments(false);
+          getTreatments(true);
         }}>
         <FileUpload
           uploadHandler={handleUpload()}

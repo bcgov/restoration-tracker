@@ -9,7 +9,8 @@ import {
   IGetProjectsListResponse,
   IGetUserProjectsListResponse,
   IProjectAdvancedFilterRequest,
-  IUploadAttachmentResponse
+  IUploadAttachmentResponse,
+  IGetProjectTreatmentsResponse
 } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
 
@@ -50,6 +51,18 @@ const useProjectApi = (axios: AxiosInstance) => {
    */
   const getProjectAttachments = async (projectId: number): Promise<IGetProjectAttachmentsResponse> => {
     const { data } = await axios.get(`/api/project/${projectId}/attachments/list`);
+
+    return data;
+  };
+
+  /**
+   * Get project treatments based on project ID
+   *
+   * @param {AxiosInstance} axios
+   * @returns {*} {Promise<IGetProjectTreatmentResponse>}
+   */
+  const getProjectTreatments = async (projectId: number): Promise<IGetProjectTreatmentsResponse> => {
+    const { data } = await axios.get(`/api/project/${projectId}/treatments/list`);
 
     return data;
   };
@@ -144,7 +157,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @param {(progressEvent: ProgressEvent) => void} [onProgress]
    * @return {*}  {Promise<string[]>}
    */
-   const importProjectTreatmentSpatialFile = async (
+  const importProjectTreatmentSpatialFile = async (
     projectId: number,
     file: File,
     cancelTokenSource?: CancelTokenSource,
@@ -335,7 +348,8 @@ const useProjectApi = (axios: AxiosInstance) => {
     addProjectParticipants,
     removeProjectParticipant,
     updateProjectParticipantRole,
-    getUserProjectsList
+    getUserProjectsList,
+    getProjectTreatments
   };
 };
 
