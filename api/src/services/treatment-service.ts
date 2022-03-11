@@ -1,35 +1,74 @@
-import { HTTP400 } from '../errors/custom-error';
-import { queries } from '../queries/queries';
-import { DBService } from './service';
+import { Geometry } from 'geojson';
 import shp from 'shpjs';
-import { Feature } from 'geojson';
+import { HTTP400 } from '../errors/custom-error';
 import {
   GetTreatmentFeatureTypes,
   GetTreatmentTypes,
   ITreatmentDataInsertOrExists,
   ITreatmentTypeInsertOrExists,
-  ITreatmentUnitInsertOrExists
+  ITreatmentUnitInsertOrExists,
+  TreatmentFeature,
+  TreatmentFeatureProperties
 } from '../models/project-treatment';
+import { queries } from '../queries/queries';
+import { DBService } from './service';
 
 export class TreatmentService extends DBService {
-  async handleShapeFileFeatures(file: Express.Multer.File): Promise<Feature[] | null> {
+  async parseShapeFile(fileBuffer: Buffer): ReturnType<typeof shp.parseZip> {
+    return shp.parseZip(fileBuffer);
+  }
+
+  async handleShapeFileFeatures(file: Express.Multer.File): Promise<TreatmentFeature[] | null> {
     // Exit out if no file
     if (!file) {
       return null;
     }
 
     // Run the conversion
-    const geojson = await shp(file.buffer);
+    const geojson = await this.parseShapeFile(file.buffer);
 
-    let features: Feature[] = [];
+    let features: TreatmentFeature[] = [];
     if (Array.isArray(geojson)) {
       geojson.forEach((item) => {
-        features = features.concat(item.features);
+        features = features.concat((item.features as unknown) as TreatmentFeature);
       });
     } else {
-      features = geojson.features;
+      features = (geojson.features as unknown) as TreatmentFeature[];
     }
     return features;
+  }
+
+  //check all treatment units if their proerties are valid.
+  validateAllTreatmentUnitProperties(
+    treatmentFeatures: TreatmentFeature[]
+  ): { treatmentUnitId: number; missingProperties: string[] }[] {
+    //collection of all errors in units
+    const errorArray: { treatmentUnitId: number; missingProperties: string[] }[] = [];
+
+    for (const item of treatmentFeatures) {
+      //collect errors of a single unit
+      const treatmentUnitError: string[] = [];
+
+      !Number.isInteger(item.properties.OBJECTID) && treatmentUnitError.push('Missing property OBJECTID');
+      !Number.isInteger(item.properties.Treatment_) && treatmentUnitError.push('Missing property Treatment_');
+      !Number.isInteger(item.properties.Width_m) && treatmentUnitError.push('Missing property Width_m');
+      // !Number.isInteger(item.properties.Length_m) && treatmentUnitError.push('Missing property Length_m');
+      !Number.isInteger(item.properties.ROAD_ID) && treatmentUnitError.push('Missing property ROAD_ID');
+      !Number.isFinite(item.properties.SHAPE_Leng) && treatmentUnitError.push('Missing property SHAPE_Leng');
+      typeof item.properties.Reconnaiss !== 'string' ||
+        (item.properties.Reconnaiss.length <= 0 && treatmentUnitError.push('Missing property Reconnaiss'));
+      typeof item.properties.Leave_for_ !== 'string' ||
+        (item.properties.Leave_for_.length <= 0 && treatmentUnitError.push('Missing property Leave_for_'));
+      typeof item.properties.Treatment1 !== 'string' && treatmentUnitError.push('Missing property Treatment1');
+      typeof item.properties.FEATURE_TY !== 'string' ||
+        (item.properties.FEATURE_TY.length <= 0 && treatmentUnitError.push('Missing property FEATURE_TY'));
+
+      if (treatmentUnitError.length > 0) {
+        errorArray.push({ treatmentUnitId: item.properties.Treatment_, missingProperties: treatmentUnitError });
+      }
+    }
+
+    return errorArray;
   }
 
   async getTreatmentFeatureTypes(): Promise<GetTreatmentFeatureTypes[]> {
@@ -48,17 +87,15 @@ export class TreatmentService extends DBService {
     return response.rows;
   }
 
-  async getEqualTreatmentFeatureTypeIds(treatmentFeatureProperties: Feature['properties']): Promise<number> {
-    if (!treatmentFeatureProperties?.FEATURE_TY) {
-      throw new HTTP400('No Feature Type provided in properties');
-    }
-
+  async getEqualTreatmentFeatureTypeIds(
+    treatmentFeatureProperties: TreatmentFeatureProperties
+  ): Promise<GetTreatmentFeatureTypes> {
     const treatmentFeatureTypes = await this.getTreatmentFeatureTypes();
 
     let featureTypeObj: GetTreatmentFeatureTypes[] = [];
 
     featureTypeObj = treatmentFeatureTypes.filter((item) => {
-      return item.name === treatmentFeatureProperties?.FEATURE_TY;
+      return item.name === treatmentFeatureProperties.FEATURE_TY;
     });
 
     if (featureTypeObj.length === 0) {
@@ -67,7 +104,7 @@ export class TreatmentService extends DBService {
       });
     }
 
-    return featureTypeObj[0].feature_type_id;
+    return featureTypeObj[0];
   }
 
   async getTreatmentUnitTypes(): Promise<GetTreatmentTypes[]> {
@@ -88,14 +125,14 @@ export class TreatmentService extends DBService {
 
   async insertTreatmentUnit(
     projectId: number,
-    treatmentFeatureProperties: Feature['properties'],
-    geometry: Feature['geometry']
+    treatmentFeatureProperties: TreatmentFeatureProperties,
+    geometry: Geometry
   ): Promise<ITreatmentUnitInsertOrExists> {
-    const featureTypeId = await this.getEqualTreatmentFeatureTypeIds(treatmentFeatureProperties);
+    const featureTypeObj = await this.getEqualTreatmentFeatureTypeIds(treatmentFeatureProperties);
 
     const sqlStatement = queries.project.postTreatmentUnitSQL(
       projectId,
-      featureTypeId,
+      featureTypeObj.feature_type_id,
       treatmentFeatureProperties,
       geometry
     );
@@ -145,10 +182,13 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async insertAllTreatmentTypes(treatmentId: number, treatmentFeatureProperties: Feature['properties']): Promise<void> {
+  async insertAllTreatmentTypes(
+    treatmentId: number,
+    treatmentFeatureProperties: TreatmentFeatureProperties
+  ): Promise<void> {
     const treatmentUnitTypes = await this.getTreatmentUnitTypes();
 
-    const givenTypesString = treatmentFeatureProperties?.Treatment1;
+    const givenTypesString = treatmentFeatureProperties.Treatment1;
     const givenTypesSplit = givenTypesString.split('; ');
 
     const treatmentTypes: number[] = [];
@@ -172,22 +212,22 @@ export class TreatmentService extends DBService {
 
   async insertTreatmentDataAndTreatmentTypes(
     treatmentUnitId: number,
-    featureProperties: Feature['properties']
+    featureProperties: TreatmentFeatureProperties
   ): Promise<void> {
-    const insertTreatmentDataResponse = await this.insertTreatmentData(treatmentUnitId, featureProperties?.year || 99);
+    const insertTreatmentDataResponse = await this.insertTreatmentData(treatmentUnitId, featureProperties.year || 99);
 
     await this.insertAllTreatmentTypes(insertTreatmentDataResponse.treatment_id, featureProperties);
   }
 
-  async insertAllProjectTreatmentUnits(projectId: number, features: Feature[]): Promise<number[]> {
+  async insertAllProjectTreatmentUnits(projectId: number, features: TreatmentFeature[]): Promise<number[]> {
     const treatmentInsertResponse: number[] = [];
 
     for (const item of features) {
-      const featureTypeId = await this.getEqualTreatmentFeatureTypeIds(item.properties);
+      const featureTypeObj = await this.getEqualTreatmentFeatureTypeIds(item.properties);
 
       const checkTreatmentUnitExist = await this.getTreatmentUnitExist(
         projectId,
-        featureTypeId,
+        featureTypeObj.feature_type_id,
         item.properties?.Treatment_
       );
 
