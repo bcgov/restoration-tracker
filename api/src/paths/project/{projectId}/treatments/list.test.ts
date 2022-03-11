@@ -8,10 +8,10 @@ import { HTTPError } from '../../../../errors/custom-error';
 import { getTreatments } from './list';
 import { TreatmentService } from '../../../../services/treatment-service';
 import { GetTreatmentData } from '../../../../models/treatment-view';
-//import { QueryResult } from 'pg';
+
 chai.use(sinonChai);
 
-describe.only('getTreatments', () => {
+describe('getTreatments', () => {
   const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
@@ -107,5 +107,3 @@ describe.only('getTreatments', () => {
     expect(actualResult).to.be.eql(resultItem);
   });
 });
-
-
