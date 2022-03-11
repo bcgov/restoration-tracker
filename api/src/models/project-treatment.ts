@@ -1,3 +1,5 @@
+import { Feature, Geometry } from 'geojson';
+
 export class GetTreatmentFeatureTypes {
   feature_type_id: number;
   name: string;
@@ -36,3 +38,19 @@ export interface ITreatmentTypeInsertOrExists {
   treatment_treatment_type_id: number;
   revision_count: number;
 }
+
+export type TreatmentFeature = Feature<Geometry, TreatmentFeatureProperties>;
+
+export type TreatmentFeatureProperties = {
+  OBJECTID: number;
+  Treatment_: number;
+  Width_m: number;
+  Length_m: number;
+  Reconnaiss: string;
+  Leave_for_: string;
+  Treatment1: string;
+  FEATURE_TY: string;
+  ROAD_ID: number;
+  SHAPE_Leng: number;
+  year: number;
+};

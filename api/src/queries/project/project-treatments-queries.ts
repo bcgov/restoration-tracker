@@ -9,9 +9,7 @@ const defaultLog = getLogger('queries/project/project-treatment-queries');
  *
  * @returns {SQLStatement} sql query object
  */
-export const getTreatmentFeatureTypesSQL = (): SQLStatement | null => {
-  defaultLog.debug({ label: 'getTreatmentUnitTypesSQL', message: 'params' });
-
+export const getTreatmentFeatureTypesSQL = (): SQLStatement => {
   const sqlStatement: SQLStatement = SQL`
     SELECT
       feature_type_id,
@@ -21,13 +19,6 @@ export const getTreatmentFeatureTypesSQL = (): SQLStatement | null => {
       feature_type;
   `;
 
-  defaultLog.debug({
-    label: 'getTreatmentFeatureTypesSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
   return sqlStatement;
 };
 
@@ -36,9 +27,7 @@ export const getTreatmentFeatureTypesSQL = (): SQLStatement | null => {
  *
  * @returns {SQLStatement} sql query object
  */
-export const getTreatmentUnitTypesSQL = (): SQLStatement | null => {
-  defaultLog.debug({ label: 'getTreatmentUnitTypesSQL', message: 'params' });
-
+export const getTreatmentUnitTypesSQL = (): SQLStatement => {
   const sqlStatement: SQLStatement = SQL`
     SELECT
       treatment_type_id,
@@ -47,13 +36,6 @@ export const getTreatmentUnitTypesSQL = (): SQLStatement | null => {
     from
       treatment_type;
   `;
-
-  defaultLog.debug({
-    label: 'getTreatmentUnitTypesSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
 
   return sqlStatement;
 };
@@ -73,13 +55,6 @@ export const postTreatmentUnitSQL = (
   featureProperties: Feature['properties'],
   geometry: Feature['geometry']
 ): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'params',
-    featureProperties,
-    projectId
-  });
-
   if (!featureProperties || !projectId || !featureTypeId || !geometry) {
     return null;
   }
@@ -113,13 +88,6 @@ export const postTreatmentUnitSQL = (
       revision_count;
   `;
 
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
   return sqlStatement;
 };
 
@@ -131,13 +99,6 @@ export const postTreatmentUnitSQL = (
  * @returns {SQLStatement} sql query object
  */
 export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | number): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'params',
-    treatmentUnitId,
-    year
-  });
-
   if (!treatmentUnitId || !year) {
     return null;
   }
@@ -155,13 +116,6 @@ export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | num
       revision_count;
   `;
 
-  defaultLog.debug({
-    label: 'postTreatmentDataSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
   return sqlStatement;
 };
 
@@ -173,13 +127,6 @@ export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | num
  * @returns {SQLStatement} sql query object
  */
 export const postTreatmentTypeSQL = (treatmentId: number, treatmentTypeId: number): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'params',
-    treatmentId,
-    treatmentTypeId
-  });
-
   if (!treatmentId || !treatmentTypeId) {
     return null;
   }
@@ -195,13 +142,6 @@ export const postTreatmentTypeSQL = (treatmentId: number, treatmentTypeId: numbe
       treatment_treatment_type_id,
       revision_count;
     `;
-
-  defaultLog.debug({
-    label: 'postTreatmentUnitGeometrySQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
 
   return sqlStatement;
 };
@@ -219,14 +159,6 @@ export const getTreatmentUnitExistSQL = (
   featureTypeId: number,
   treatmentUnitName: string | number
 ): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'params',
-    projectId,
-    featureTypeId,
-    treatmentUnitName
-  });
-
   if (!projectId || !featureTypeId || !treatmentUnitName) {
     return null;
   }
@@ -245,13 +177,6 @@ export const getTreatmentUnitExistSQL = (
       name = ${treatmentUnitName};
     `;
 
-  defaultLog.debug({
-    label: 'getTreatmentUnitExistSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
   return sqlStatement;
 };
 
@@ -263,13 +188,6 @@ export const getTreatmentUnitExistSQL = (
  * @returns {SQLStatement} sql query object
  */
 export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: number): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'postProjectTreatmentSQL',
-    message: 'params',
-    treatmentUnitId,
-    year
-  });
-
   if (!treatmentUnitId || !year) {
     return null;
   }
@@ -285,13 +203,6 @@ export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: numb
     AND
       year = ${year};
     `;
-
-  defaultLog.debug({
-    label: 'getTreatmentDataYearExistSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
 
   return sqlStatement;
 };
