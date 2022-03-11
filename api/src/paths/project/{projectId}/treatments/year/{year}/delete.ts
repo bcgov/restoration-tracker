@@ -16,7 +16,6 @@ export const DELETE: Operation = [
         {
           validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR],
           projectId: Number(req.params.projectId),
-          year: Number(req.params.year),
           discriminator: 'ProjectRole'
         }
       ]
@@ -56,17 +55,19 @@ DELETE.apiDoc = {
   },
   responses: {
     200: {
-      description: 'Treatment delete response.',
-      content: {
-        'application/json': {
-          schema: {
-            type: 'object'
-          }
-        }
-      }
+      description: 'Treatment delete OK.'
+    },
+    400: {
+      $ref: '#/components/responses/400'
     },
     401: {
       $ref: '#/components/responses/401'
+    },
+    403: {
+      $ref: '#/components/responses/401'
+    },
+    500: {
+      $ref: '#/components/responses/500'
     },
     default: {
       $ref: '#/components/responses/default'

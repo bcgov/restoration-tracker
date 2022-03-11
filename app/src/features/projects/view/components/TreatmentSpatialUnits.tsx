@@ -44,11 +44,8 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   };
 
   const handleDeleteTreatmentsByYear = async () => {
-    await restorationTrackerApi.project.deleteProjectTreatmentsByYear(
-      projectId,
-      99
-    );
-  }
+    await restorationTrackerApi.project.deleteProjectTreatmentsByYear(projectId, 98);
+  };
 
   return (
     <Box>
@@ -89,7 +86,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}>
               <MenuItem onClick={() => {}}>
-                Treatment Units 2022
+                Treatment Units 99
                 <ListItemIcon onClick={handleDeleteTreatmentsByYear}>
                   <Icon path={mdiTrashCanOutline} size={0.9375} />
                 </ListItemIcon>

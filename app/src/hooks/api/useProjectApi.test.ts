@@ -279,7 +279,7 @@ describe('useProjectApi', () => {
   });
 
   it('deleteProjectTreatmentUnit works as expected', async () => {
-    mock.onDelete(`/api/project/${projectId}/treatments/treatmentUnitId/${treatmentUnitId}/delete`).reply(200);
+    mock.onDelete(`/api/project/${projectId}/treatments/treatment-unit/${treatmentUnitId}/delete`).reply(200);
 
     const result = await useProjectApi(axios).deleteProjectTreatmentUnit(projectId, treatmentUnitId);
 

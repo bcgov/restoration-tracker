@@ -297,7 +297,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @returns {*} {Promise<number>}
    */
   const deleteProjectTreatmentUnit = async (projectId: number, treatmentUnitId: number): Promise<boolean> => {
-    const { status } = await axios.delete(`/api/project/${projectId}/treatments/treatmentUnitId/${treatmentUnitId}/delete`);
+    const { status } = await axios.delete(`/api/project/${projectId}/treatments/treatment-unit/${treatmentUnitId}/delete`);
     
     return status === 200;
   };
