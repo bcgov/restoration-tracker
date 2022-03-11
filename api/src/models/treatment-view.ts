@@ -17,7 +17,7 @@ export class GetTreatmentData {
         delete obj[item.id].treatment_year;
 
         return obj;
-      }, {})
+      }, [])
     );
   }
 }

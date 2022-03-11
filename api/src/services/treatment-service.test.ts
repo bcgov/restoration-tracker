@@ -13,7 +13,7 @@ import { TreatmentService } from './treatment-service';
 
 chai.use(sinonChai);
 
-describe.only('TreatmentService', () => {
+describe('TreatmentService', () => {
   describe('getTreatmentFeatureTypes', function () {
     afterEach(() => {
       sinon.restore();
