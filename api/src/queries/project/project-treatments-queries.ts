@@ -223,7 +223,29 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
   }
 
   const sqlStatement: SQLStatement = SQL`
-  `; //todo
+    SELECT
+      tu.name as id, ft.name as type , tu.width, tu.length, tu.area, t.year as treatment_year, tt.name as treatment_name
+    FROM
+      treatment_unit tu
+    LEFT JOIN
+      feature_type ft
+    ON
+      tu.feature_type_id = ft.feature_type_id
+    LEFT JOIN
+      treatment t
+    ON
+      tu.treatment_unit_id = t.treatment_unit_id
+    LEFT JOIN
+      treatment_treatment_type ttt
+    ON
+      ttt.treatment_id = t.treatment_id
+    LEFT JOIN
+      treatment_type tt
+    ON
+      tt.treatment_type_id = ttt.treatment_type_id
+    WHERE
+      tu.project_id = ${projectId};
+    `;
 
   defaultLog.debug({
     label: 'getProjectTreatmentsSQL',

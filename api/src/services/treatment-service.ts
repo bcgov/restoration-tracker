@@ -1,6 +1,7 @@
 import { Geometry } from 'geojson';
 import shp from 'shpjs';
 import { HTTP400 } from '../errors/custom-error';
+import { GetTreatmentData } from '../models/treatment-view';
 import {
   GetTreatmentFeatureTypes,
   GetTreatmentTypes,
@@ -339,7 +340,9 @@ export class TreatmentService extends DBService {
       getProjectTreatmentsSQLStatement.values
     );
 
-    return response && response.rows ? response.rows : [];
+    const rawTreatmentsData = response && response.rows ? response.rows : [];
+
+    return new GetTreatmentData(rawTreatmentsData);
   }
 
   async deleteTreatment(projectId: number, attachmentId: number) {
