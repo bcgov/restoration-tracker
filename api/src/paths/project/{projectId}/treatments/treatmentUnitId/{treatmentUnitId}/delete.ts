@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { PROJECT_ROLE } from '../../../../../constants/roles';
-import { getDBConnection } from '../../../../../database/db';
-import { HTTP400 } from '../../../../../errors/custom-error';
-import { authorizeRequestHandler } from '../../../../../request-handlers/security/authorization';
-import { TreatmentService } from '../../../../../services/treatment-service';
-import { getLogger } from '../../../../../utils/logger';
+import { PROJECT_ROLE } from '../../../../../../constants/roles';
+import { getDBConnection } from '../../../../../../database/db';
+import { HTTP400 } from '../../../../../../errors/custom-error';
+import { authorizeRequestHandler } from '../../../../../../request-handlers/security/authorization';
+import { TreatmentService } from '../../../../../../services/treatment-service';
+import { getLogger } from '../../../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/treatments/{treatmentUnitId}/delete');
 

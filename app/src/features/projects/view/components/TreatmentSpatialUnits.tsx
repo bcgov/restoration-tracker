@@ -1,6 +1,6 @@
-import { Button, Divider, Grid, Menu, MenuItem, Toolbar } from '@material-ui/core';
+import { Button, Divider, Grid, ListItemIcon, Menu, MenuItem, Toolbar } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { mdiMenuDown, mdiTrayArrowUp } from '@mdi/js';
+import { mdiMenuDown, mdiTrashCanOutline, mdiTrayArrowUp } from '@mdi/js';
 import Icon from '@mdi/react';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
@@ -43,13 +43,11 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     };
   };
 
-  const handleDelete = async () => {
-    const res = await restorationTrackerApi.project.deleteProjectTreatmentsByYear(
+  const handleDeleteTreatmentsByYear = async () => {
+    await restorationTrackerApi.project.deleteProjectTreatmentsByYear(
       projectId,
       99
-    )
-
-    console.log(res);
+    );
   }
 
   return (
@@ -90,20 +88,11 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-              <MenuItem>
-                Spatial items list
-                <Button
-                  id={'upload-spatial'}
-                  data-testid={'upload-spatial'}
-                  variant="contained"
-                  fullWidth
-                  color="primary"
-                  title={'Delete'}
-                  aria-label={'Import Spatial'}
-                  startIcon={<Icon path={mdiTrayArrowUp} size={1} />}
-                  onClick={handleDelete}>
-                  <strong>Import</strong>
-                </Button>
+              <MenuItem onClick={() => {}}>
+                Treatment Units 2022
+                <ListItemIcon onClick={handleDeleteTreatmentsByYear}>
+                  <Icon path={mdiTrashCanOutline} size={0.9375} />
+                </ListItemIcon>
               </MenuItem>
               <MenuItem>Spatial items list</MenuItem>
               <Box>
