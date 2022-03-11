@@ -12,7 +12,8 @@ import {
   TreatmentFeature,
   GetTreatmentTypes,
   ITreatmentUnitInsertOrExists,
-  TreatmentFeatureProperties
+  TreatmentFeatureProperties,
+  ITreatmentTypeInsertOrExists
 } from '../models/project-treatment';
 import { queries } from '../queries/queries';
 import { getMockDBConnection } from '../__mocks__/db';
@@ -58,6 +59,104 @@ describe.only('TreatmentService', () => {
       const response = await treatmentService.handleShapeFileFeatures(file);
 
       expect(typeof response).to.be.equal(typeof ({} as TreatmentFeature));
+    });
+  });
+
+  describe('validateAllTreatmentUnitProperties', function () {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should return an array of invalid paramerters within a single treatment unit', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const treatmentUnit = [
+        {
+          properties: {
+            OBJECTID: '',
+            Treatment_: '',
+            Width_m: '',
+            Length_m: '',
+            Reconnaiss: '',
+            Leave_for_: '',
+            Treatment1: 2,
+            FEATURE_TY: '',
+            ROAD_ID: '',
+            SHAPE_Leng: ''
+          }
+        } as unknown
+      ] as TreatmentFeature[];
+
+      const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
+
+      expect(response[0].missingProperties.length).to.be.equal(9);
+    });
+
+    it('should return an array of invalid units with invalid properties', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const treatmentUnit = [
+        {
+          properties: {
+            OBJECTID: '',
+            Treatment_: '',
+            Width_m: '',
+            Length_m: '',
+            Reconnaiss: '',
+            Leave_for_: '',
+            Treatment1: 2,
+            FEATURE_TY: '',
+            ROAD_ID: '',
+            SHAPE_Leng: ''
+          }
+        } as unknown,
+        {
+          properties: {
+            OBJECTID: '',
+            Treatment_: '',
+            Width_m: '',
+            Length_m: '',
+            Reconnaiss: '',
+            Leave_for_: '',
+            Treatment1: 2,
+            FEATURE_TY: '',
+            ROAD_ID: '',
+            SHAPE_Leng: ''
+          }
+        } as unknown
+      ] as TreatmentFeature[];
+
+      const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
+
+      expect(response.length).to.be.equal(2);
+    });
+
+    it('should return an empty array when valid properties are given', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const treatmentUnit = [
+        {
+          properties: {
+            OBJECTID: 1,
+            Treatment_: 2,
+            Width_m: 3,
+            Length_m: 4,
+            Reconnaiss: 'Y',
+            Leave_for_: 'Y',
+            Treatment1: 'string',
+            FEATURE_TY: 'string',
+            ROAD_ID: 5,
+            SHAPE_Leng: 22.22
+          }
+        } as unknown
+      ] as TreatmentFeature[];
+
+      const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
+
+      expect(response.length).to.be.equal(0);
     });
   });
 
@@ -122,7 +221,7 @@ describe.only('TreatmentService', () => {
       }
     });
 
-    it('returns FeatureType rows for the response', async function () {
+    it('returns TreatmentType rows for the response', async function () {
       const treatmentTypeRow = { treatment_type_id: 1, name: 'type', description: 'desc' };
 
       const mockQueryResponse = ({ rows: [treatmentTypeRow] } as unknown) as QueryResult<any>;
@@ -296,6 +395,244 @@ describe.only('TreatmentService', () => {
       const result = await treatmentService.insertTreatmentUnit(1, treatmentProperties, treatmentGeometry);
 
       expect(result).to.be.equal(treatmentUnitRow);
+    });
+  });
+
+  describe('insertTreatmentData', function () {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 error when no sql statement produced', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+
+      const mockTreatmentDataInsertSQLResponse = null;
+      sinon.stub(queries.project, 'postTreatmentDataSQL').returns(mockTreatmentDataInsertSQLResponse);
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      try {
+        await treatmentService.insertTreatmentData(1, 2);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as ApiError).message).to.equal('Failed to build SQL insert statement');
+      }
+    });
+
+    it('should throw a 400 error when query connection returns empty', async function () {
+      const mockQueryResponse = ({} as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const mockTreatmentDataInsertSQLResponse = SQL`Vaild SQL`;
+      sinon.stub(queries.project, 'postTreatmentDataSQL').returns(mockTreatmentDataInsertSQLResponse);
+
+      try {
+        await treatmentService.insertTreatmentData(1, 2);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as ApiError).message).to.equal('Failed to insert treatment data');
+      }
+    });
+
+    it('should return obj with treatmentId and revision count', async function () {
+      const mockQueryResponse = ({ rows: [{ treatment_id: 1, revision_count: 0 }] } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const mockTreatmentDataInsertSQLResponse = SQL`Vaild SQL`;
+      sinon.stub(queries.project, 'postTreatmentDataSQL').returns(mockTreatmentDataInsertSQLResponse);
+
+      const response = await treatmentService.insertTreatmentData(1, 2);
+
+      expect(response.treatment_id).to.be.equal(1);
+    });
+  });
+
+  describe('insertTreatmentType', function () {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 error when no sql statement produced', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+
+      const mockTreatmentTypeInsertSQLResponse = null;
+      sinon.stub(queries.project, 'postTreatmentTypeSQL').returns(mockTreatmentTypeInsertSQLResponse);
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      try {
+        await treatmentService.insertTreatmentType(1, 2);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as ApiError).message).to.equal('Failed to build SQL insert statement');
+      }
+    });
+
+    it('should throw a 400 error when query connection returns empty', async function () {
+      const mockQueryResponse = ({} as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const mockTreatmentTypeInsertSQLResponse = SQL`Vaild SQL`;
+      sinon.stub(queries.project, 'postTreatmentTypeSQL').returns(mockTreatmentTypeInsertSQLResponse);
+
+      try {
+        await treatmentService.insertTreatmentType(1, 2);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as ApiError).message).to.equal('Failed to insert treatment unit type data');
+      }
+    });
+
+    it('should return obj with treatment_treatment_type_id and revision count', async function () {
+      const mockQueryResponse = ({
+        rows: [{ treatment_treatment_type_id: 1, revision_count: 0 }]
+      } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const mockTreatmentTypeInsertSQLResponse = SQL`Vaild SQL`;
+      sinon.stub(queries.project, 'postTreatmentTypeSQL').returns(mockTreatmentTypeInsertSQLResponse);
+
+      const response = await treatmentService.insertTreatmentType(1, 2);
+
+      expect(response.treatment_treatment_type_id).to.be.equal(1);
+    });
+  });
+
+  describe('insertAllTreatmentTypes', function () {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 error when insert type returns empty', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const mocktreatmentUnitTypes = ([{ name: 'name' }] as unknown) as GetTreatmentTypes[];
+      sinon.stub(treatmentService, 'getTreatmentUnitTypes').resolves(mocktreatmentUnitTypes);
+
+      sinon.stub(treatmentService, 'insertTreatmentType').resolves((null as unknown) as ITreatmentTypeInsertOrExists);
+
+      const mockTreatmentFeatureProperties = ({ Treatment1: 'name; ' } as unknown) as TreatmentFeatureProperties;
+
+      try {
+        await treatmentService.insertAllTreatmentTypes(1, mockTreatmentFeatureProperties);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as ApiError).message).to.equal('Failed to insert treatment unit type data');
+      }
+    });
+
+    it('should call insert function twice with two matching type ids', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const mocktreatmentUnitTypes = ([
+        { treatment_type_id: 1, name: 'name' },
+        { treatment_type_id: 2, name: 'second' }
+      ] as unknown) as GetTreatmentTypes[];
+      sinon.stub(treatmentService, 'getTreatmentUnitTypes').resolves(mocktreatmentUnitTypes);
+
+      const insertTreatmentCall = sinon
+        .stub(treatmentService, 'insertTreatmentType')
+        .resolves({ treatment_treatment_type_id: 1 } as ITreatmentTypeInsertOrExists);
+
+      const mockTreatmentFeatureProperties = ({ Treatment1: 'name; second' } as unknown) as TreatmentFeatureProperties;
+
+      await treatmentService.insertAllTreatmentTypes(1, mockTreatmentFeatureProperties);
+
+      expect(insertTreatmentCall).to.be.calledTwice;
+    });
+  });
+
+  describe('getTreatmentUnitExist', function () {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 error when sql statment fails to build', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      sinon.stub(queries.project, 'getTreatmentUnitExistSQL').returns(null);
+
+      try {
+        await treatmentService.getTreatmentUnitExist(1, 1, 1);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as ApiError).message).to.equal('Failed to build SQL update statement');
+      }
+    });
+
+    it('should return null if query fails', async function () {
+      const mockQueryResponse = ({} as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      sinon.stub(queries.project, 'getTreatmentUnitExistSQL').returns(SQL`valid SQL`);
+
+      const response = await treatmentService.getTreatmentUnitExist(1, 1, 1);
+
+      expect(response).to.be.null;
+    });
+
+    it('should return treatment_unit_id when treatment unit is found', async function () {
+      const mockQueryResponse = ({ rows: [{ treatment_unit_id: 1 }] } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      sinon.stub(queries.project, 'getTreatmentUnitExistSQL').returns(SQL`valid SQL`);
+
+      const response = await treatmentService.getTreatmentUnitExist(1, 1, 1);
+
+      expect(response?.treatment_unit_id).to.be.equal(1);
+    });
+  });
+
+  describe('getTreatmentDataYearExist', function () {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 error when sql statment fails to build', async function () {
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(null);
+
+      try {
+        await treatmentService.getTreatmentDataYearExist(1, 1);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as ApiError).message).to.equal('Failed to build SQL update statement');
+      }
+    });
+
+    it('should return null if query fails', async function () {
+      const mockQueryResponse = ({} as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(SQL`valid SQL`);
+
+      const response = await treatmentService.getTreatmentDataYearExist(1, 1);
+
+      expect(response).to.be.null;
+    });
+
+    it('should return treatment_id when treatment unit is found', async function () {
+      const mockQueryResponse = ({ rows: [{ treatment_id: 1 }] } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(SQL`valid SQL`);
+
+      const response = await treatmentService.getTreatmentDataYearExist(1, 1);
+
+      expect(response?.treatment_id).to.be.equal(1);
     });
   });
 });

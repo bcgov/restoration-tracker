@@ -154,7 +154,7 @@ export class TreatmentService extends DBService {
     const sqlStatement = queries.project.postTreatmentDataSQL(treatmentUnitId, year);
 
     if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL update statement');
+      throw new HTTP400('Failed to build SQL insert statement');
     }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
@@ -271,7 +271,7 @@ export class TreatmentService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    if (!response) {
+    if (!response || !response?.rows) {
       return null;
     }
 
@@ -287,7 +287,7 @@ export class TreatmentService extends DBService {
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    if (!response || !response?.rows[0]) {
+    if (!response || !response?.rows) {
       return null;
     }
 
