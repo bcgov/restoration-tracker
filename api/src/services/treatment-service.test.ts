@@ -10,6 +10,7 @@ import { GetTreatmentFeatureTypes, GetTreatmentTypes } from '../models/project-t
 import { queries } from '../queries/queries';
 import { getMockDBConnection } from '../__mocks__/db';
 import { TreatmentService } from './treatment-service';
+import { registerMockDBConnection } from '../__mocks__/db';
 
 chai.use(sinonChai);
 
@@ -138,6 +139,253 @@ describe('TreatmentService', () => {
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('No Feature Type provided in properties');
       }
+    });
+  });
+
+  describe('getTreatments of various sizes', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+    it('fetches a treatment unit with no treatments', async () => {
+      const treatmentList = [
+        {
+          id: '1',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '',
+          treatment_name: ''
+        },
+        {
+          id: '1',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '',
+          treatment_name: ''
+        }
+      ];
+
+      const mockDBConnection = registerMockDBConnection({
+        query: sinon.stub().resolves({ rows: treatmentList })
+      });
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const response = await treatmentService.getTreatments(1);
+
+      expect(response).to.eql({
+        treatmentList: [
+          {
+            id: '1',
+            type: 'Other',
+            width: 240,
+            length: 3498,
+            area: 839520,
+            treatments: [
+              {
+                treatment_year: '',
+                treatment_name: ''
+              },
+              {
+                treatment_year: '',
+                treatment_name: ''
+              }
+            ]
+          }
+        ]
+      });
+    });
+    it('fetches a treatment unit with one treatment', async () => {
+      const treatmentList = [
+        {
+          id: '1',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '2020',
+          treatment_name: 'Seeding'
+        }
+      ];
+
+      const mockDBConnection = registerMockDBConnection({
+        query: sinon.stub().resolves({ rows: treatmentList })
+      });
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const response = await treatmentService.getTreatments(1);
+
+      expect(response).to.eql({
+        treatmentList: [
+          {
+            id: '1',
+            type: 'Other',
+            width: 240,
+            length: 3498,
+            area: 839520,
+            treatments: [
+              {
+                treatment_year: '2020',
+                treatment_name: 'Seeding'
+              }
+            ]
+          }
+        ]
+      });
+    });
+
+    it('fetches a treatment unit with multiple treatments', async () => {
+      const treatmentList = [
+        {
+          id: '1',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '2020',
+          treatment_name: 'Seeding'
+        },
+        {
+          id: '1',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '2021',
+          treatment_name: 'Tree Felling'
+        }
+      ];
+
+      const mockDBConnection = registerMockDBConnection({
+        query: sinon.stub().resolves({ rows: treatmentList })
+      });
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const response = await treatmentService.getTreatments(1);
+
+      expect(response).to.eql({
+        treatmentList: [
+          {
+            id: '1',
+            type: 'Other',
+            width: 240,
+            length: 3498,
+            area: 839520,
+            treatments: [
+              {
+                treatment_year: '2020',
+                treatment_name: 'Seeding'
+              },
+              {
+                treatment_year: '2021',
+                treatment_name: 'Tree Felling'
+              }
+            ]
+          }
+        ]
+      });
+    });
+
+    it('fetches multiple treatment units with multiple treatments', async () => {
+      const treatmentList = [
+        {
+          id: '1',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '2020',
+          treatment_name: 'Seeding'
+        },
+        {
+          id: '1',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '2021',
+          treatment_name: 'Tree Felling'
+        },
+        {
+          id: '2',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '2020',
+          treatment_name: 'Seeding'
+        },
+        {
+          id: '3',
+          type: 'Other',
+          width: 240,
+          length: 3498,
+          area: 839520,
+          treatment_year: '2021',
+          treatment_name: 'Tree Felling'
+        }
+      ];
+
+      const mockDBConnection = registerMockDBConnection({
+        query: sinon.stub().resolves({ rows: treatmentList })
+      });
+
+      const treatmentService = new TreatmentService(mockDBConnection);
+
+      const response = await treatmentService.getTreatments(1);
+
+      expect(response).to.eql({
+        treatmentList: [
+          {
+            id: '1',
+            type: 'Other',
+            width: 240,
+            length: 3498,
+            area: 839520,
+            treatments: [
+              {
+                treatment_year: '2020',
+                treatment_name: 'Seeding'
+              },
+              {
+                treatment_year: '2021',
+                treatment_name: 'Tree Felling'
+              }
+            ]
+          },
+          {
+            id: '2',
+            type: 'Other',
+            width: 240,
+            length: 3498,
+            area: 839520,
+            treatments: [
+              {
+                treatment_year: '2020',
+                treatment_name: 'Seeding'
+              }
+            ]
+          },
+          {
+            id: '3',
+            type: 'Other',
+            width: 240,
+            length: 3498,
+            area: 839520,
+            treatments: [
+              {
+                treatment_year: '2021',
+                treatment_name: 'Tree Felling'
+              }
+            ]
+          }
+        ]
+      });
     });
   });
 });
