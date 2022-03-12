@@ -1,8 +1,5 @@
 import { Feature } from 'geojson';
 import { SQL, SQLStatement } from 'sql-template-strings';
-import { getLogger } from '../../utils/logger';
-
-const defaultLog = getLogger('queries/project/project-treatment-queries');
 
 /**
  * SQL query to get Treatment Features Types
@@ -216,8 +213,6 @@ export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: numb
  * @returns {SQLStatement} sql query object
  */
 export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectTreatmentsSQL', message: 'params', projectId });
-
   if (!projectId) {
     return null;
   }
@@ -247,13 +242,6 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
       tu.project_id = ${projectId};
     `;
 
-  defaultLog.debug({
-    label: 'getProjectTreatmentsSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
   return sqlStatement;
 };
 
@@ -265,48 +253,39 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
  * @returns {SQLStatement} sql query object
  */
 export const putProjectTreatmentSQL = (projectId: number, fileName: string): SQLStatement | null => {
-  defaultLog.debug({ label: 'putProjectTreatmentSQL', message: 'params', projectId, fileName });
-
   if (!projectId || !fileName) {
     return null;
   }
 
   const sqlStatement: SQLStatement = SQL`
   `; //todo
-
-  defaultLog.debug({
-    label: 'putProjectTreatmentSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
 
   return sqlStatement;
 };
 
 /**
- * SQL query to get an attachment for a single project by project id and filename.
+ * SQL query to get all years associated to a project id.
  *
  * @param {number} projectId
- * @param {string} fileName
  * @returns {SQLStatement} sql query object
  */
-export const getProjectTreatmentByFileNameSQL = (projectId: number, fileName: string): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectTreatmentByFileNameSQL', message: 'params', projectId });
-
-  if (!projectId || !fileName) {
+export const getProjectTreatmentsYearsSQL = (projectId: number): SQLStatement | null => {
+  if (!projectId) {
     return null;
   }
 
   const sqlStatement: SQLStatement = SQL`
-  `; //todo
-
-  defaultLog.debug({
-    label: 'getProjectTreatmentByFileNameSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
+    SELECT DISTINCT
+      year
+    FROM
+      treatment t
+    LEFT JOIN
+      treatment_unit tu
+    ON
+      tu.treatment_unit_id = t.treatment_unit_id
+    WHERE
+      tu.project_id = ${projectId};
+  `;
 
   return sqlStatement;
 };
@@ -396,15 +375,15 @@ export const deleteProjectTreatmentsByYearSQL = (projectId: number, year: number
 
 export const deleteProjectTreatmentUnitIfNoTreatmentsSQL = (): SQLStatement => {
   return SQL`
-    DELETE 
-    FROM 
+    DELETE
+    FROM
       treatment_unit
-    WHERE 
-      treatment_unit_id 
+    WHERE
+      treatment_unit_id
     NOT IN (
-      SELECT 
-        treatment_unit_id 
-      FROM 
+      SELECT
+        treatment_unit_id
+      FROM
         treatment
     );
   `;

@@ -316,19 +316,7 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async fileWithSameNameExist(projectId: number, file: Express.Multer.File) {
-    const getSqlStatement = queries.project.getProjectTreatmentByFileNameSQL(projectId, file.originalname);
-
-    if (!getSqlStatement) {
-      throw new HTTP400('Failed to build SQL get statement');
-    }
-
-    const getResponse = await this.connection.query(getSqlStatement.text, getSqlStatement.values);
-
-    return getResponse && getResponse.rows && getResponse.rows.length > 0;
-  }
-
-  async getTreatments(projectId: number) {
+  async getTreatments(projectId: number): Promise<GetTreatmentData> {
     const getProjectTreatmentsSQLStatement = queries.project.getProjectTreatmentsSQL(projectId);
 
     if (!getProjectTreatmentsSQLStatement) {
@@ -360,5 +348,21 @@ export class TreatmentService extends DBService {
       deleteProjectTreatmentUnitIfNoTreatmentsSQL.text,
       deleteProjectTreatmentUnitIfNoTreatmentsSQL.values
     );
+  }
+
+  async getProjectTreatmentsYears(projectId: number) {
+    const sqlStatement = queries.project.getProjectTreatmentsYearsSQL(projectId);
+
+    if (!sqlStatement) {
+      throw new HTTP400('Failed to build SQL update statement');
+    }
+
+    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    if (!response || !response?.rows) {
+      return null;
+    }
+
+    return response.rows;
   }
 }

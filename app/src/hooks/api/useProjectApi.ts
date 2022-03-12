@@ -68,6 +68,18 @@ const useProjectApi = (axios: AxiosInstance) => {
   };
 
   /**
+   * Get project treatments years based on project ID
+   *
+   * @param {AxiosInstance} axios
+   * @returns {*} {Promise<IGetProjectTreatmentResponse>}
+   */
+   const getProjectTreatmentsYears = async (projectId: number): Promise<{year: number}[]> => {
+    const { data } = await axios.get(`/api/project/${projectId}/treatments/year/list`);
+
+    return data;
+  };
+
+  /**
    * Delete project based on project ID
    *
    * @param {number} projectId
@@ -333,6 +345,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     getProjectsList,
     createProject,
     getProjectById,
+    getProjectTreatmentsYears,
     importProjectTreatmentSpatialFile,
     deleteProjectTreatmentUnit,
     deleteProjectTreatmentsByYear,
