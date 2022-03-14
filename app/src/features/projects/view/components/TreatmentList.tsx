@@ -66,29 +66,25 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   };
 
   const TreatmentDetailDialog = () => {
-    if(!currentTreatmentDetail) {
-      return <></>
+    if (!currentTreatmentDetail) {
+      return <></>;
     }
 
     const treatmentYears = [
-      ...new Set(
-        currentTreatmentDetail.treatments.map(treatment => treatment.treatment_year)
-      )
+      ...new Set(currentTreatmentDetail.treatments.map((treatment) => treatment.treatment_year))
     ].join(', ');
 
     const treatments = [
-      ...new Set(
-        currentTreatmentDetail.treatments.map(treatment => treatment.treatment_name)
-      )
+      ...new Set(currentTreatmentDetail.treatments.map((treatment) => treatment.treatment_name))
     ].join(', ');
 
     const generalInformation = [
-      {title: 'ID', value: currentTreatmentDetail.id},
-      {title: 'Type', value: currentTreatmentDetail.type},
-      {title: 'Width / Length', value: currentTreatmentDetail.width},
-      {title: 'Area', value: currentTreatmentDetail.area},
-      {title: 'Treatment Year', value: treatmentYears},
-      {title: 'Treatments', value: treatments},
+      { title: 'ID', value: currentTreatmentDetail.id },
+      { title: 'Type', value: currentTreatmentDetail.type },
+      { title: 'Width / Length', value: currentTreatmentDetail.width },
+      { title: 'Area', value: currentTreatmentDetail.area },
+      { title: 'Treatment Year', value: treatmentYears },
+      { title: 'Treatments', value: treatments }
     ];
 
     return (
@@ -99,29 +95,27 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
           setOpentreatmentDetails(false);
           setCurrentTreatmentDetail(undefined);
         }}>
-        <Box component="section" mt='5px'>
+        <Box component="section" mt="5px">
           <Typography variant="subtitle2">
             <b>GENERAL INFORMATION</b>
           </Typography>
           <Divider className={classes.divider} />
           <Box>
-            {
-              generalInformation.map((info, idx) => (
-                <Grid container key={idx} className={classes.generalInfoGridRow}>
-                  <Grid item xs={4}>
-                    <Typography 
-                      variant="subtitle2" 
-                      className={classes.generalInfoTitleColor}>
-                      {info.title}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={8}>{info.value}</Grid>
+            {generalInformation.map((info, idx) => (
+              <Grid container key={idx} className={classes.generalInfoGridRow}>
+                <Grid item xs={4}>
+                  <Typography variant="subtitle2" className={classes.generalInfoTitleColor}>
+                    {info.title}
+                  </Typography>
                 </Grid>
-              ))
-            }
+                <Grid item xs={8}>
+                  {info.value}
+                </Grid>
+              </Grid>
+            ))}
           </Box>
         </Box>
-        <Box component="section" mt='25px'>
+        <Box component="section" mt="25px">
           <Typography variant="subtitle2">
             <b>DESCRIPTION OF AREA</b>
           </Typography>
@@ -130,18 +124,16 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
             {currentTreatmentDetail.description || 'No description available'}
           </Typography>
         </Box>
-        <Box component="section" mt='25px'>
+        <Box component="section" mt="25px">
           <Typography variant="subtitle2">
             <b>COMMENTS</b>
           </Typography>
           <Divider className={classes.divider} />
-          <Typography variant="subtitle2">
-            {currentTreatmentDetail.comments || 'No comments'}
-          </Typography>
+          <Typography variant="subtitle2">{currentTreatmentDetail.comments || 'No comments'}</Typography>
         </Box>
       </DoneDialog>
-    )
-  }
+    );
+  };
 
   return (
     <>

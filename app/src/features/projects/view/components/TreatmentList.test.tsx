@@ -8,7 +8,7 @@ describe('TreatmentList', () => {
     cleanup();
   });
 
-  const treatmentList: IGetProjectTreatment[]  = [
+  const treatmentList: IGetProjectTreatment[] = [
     {
       id: 'TU1',
       type: 'Road',
@@ -52,13 +52,17 @@ describe('TreatmentList', () => {
   });
 
   it('renders correctly with one treatment', async () => {
-    const { getByText } = render(<TreatmentList treatmentList={[treatmentList[0]]} getTreatments={jest.fn()} refresh={jest.fn()} />);
+    const { getByText } = render(
+      <TreatmentList treatmentList={[treatmentList[0]]} getTreatments={jest.fn()} refresh={jest.fn()} />
+    );
 
     expect(getByText('Road')).toBeInTheDocument();
   });
 
   it('renders correctly with multiple treatments', async () => {
-    const { getByText } = render(<TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />);
+    const { getByText } = render(
+      <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
+    );
 
     expect(getByText('Other')).toBeInTheDocument();
     expect(getByText('Road')).toBeInTheDocument();
@@ -263,14 +267,18 @@ describe('TreatmentList', () => {
   });
 
   it('renders correctly with closed treatment unit details dialog', async () => {
-    const { queryByText } = render(<TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />);
+    const { queryByText } = render(
+      <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
+    );
 
-    expect(queryByText('something2')).toBeNull()
+    expect(queryByText('something2')).toBeNull();
     expect(queryByText('anything2')).toBeNull();
   });
 
   it('renders correctly with open treatment unit details dialog', async () => {
-    const { getByText, getByTestId } = render(<TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />);
+    const { getByText, getByTestId } = render(
+      <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
+    );
 
     expect(getByText('Other')).toBeInTheDocument();
     expect(getByText('Road')).toBeInTheDocument();

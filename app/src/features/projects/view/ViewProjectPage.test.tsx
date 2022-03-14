@@ -70,7 +70,7 @@ describe('ViewProjectPage', () => {
 
     mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
 
-    mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([{year: 99}]);
+    mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([{ year: 99 }]);
 
     const authState = getMockAuthState({
       keycloakWrapper: {
