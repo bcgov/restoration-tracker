@@ -337,6 +337,11 @@ export interface IGetProjectTreatment {
   treatments: IGetTreatmentItem[];
 }
 
+export interface IPostTreatmentUnitResponse {
+  treatment_unit_id: number;
+  revision_count: number;
+}
+
 /**
  * Get project attachments response object.
  *

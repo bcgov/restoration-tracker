@@ -32,6 +32,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const [openImportTreatments, setOpenImportTreatments] = useState(false);
 
   const [isTreatmentLoading, setIsTreatmentLoading] = useState(false);
+
   const [yearList, setYearList] = useState<{ year: number }[]>([]);
   const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundry: true });
 
@@ -95,7 +96,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
       getTreatmentYears(true);
       setIsTreatmentLoading(true);
     }
-  }, [getTreatmentYears, yearList.length]);
+  }, [getTreatmentYears, yearList.length, isTreatmentLoading]);
 
   return (
     <Box>
@@ -105,6 +106,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         onClose={() => {
           setOpenImportTreatments(false);
           getTreatments(true);
+          getTreatmentYears(true);
         }}>
         <FileUpload
           uploadHandler={handleUpload()}
