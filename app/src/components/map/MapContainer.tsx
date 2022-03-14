@@ -9,14 +9,14 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
-import { FeatureGroup, MapContainer as LeafletMapContainer } from 'react-leaflet';
+import { FeatureGroup, LayersControl, MapContainer as LeafletMapContainer } from 'react-leaflet';
+import BaseLayerControls from './components/BaseLayerControls';
 import MapBounds from './components/Bounds';
 import DrawControls from './components/DrawControls';
 import EventHandler from './components/EventHandler';
 import FullScreenScrollingEventHandler from './components/FullScreenScrollingEventHandler';
-import LayerControls from './components/LayerControls';
 import MarkerClusterGroup, { IMarker } from './components/MarkerCluster';
-import StaticElements, { IStaticElement } from './components/StaticElements';
+import StaticLayers, { IStaticLayer } from './components/StaticLayers';
 
 const useStyles = makeStyles(() => ({
   map: {
@@ -39,7 +39,7 @@ export interface IMapDrawControlsProps {
 
 export interface IMapContainerProps {
   mapId: string;
-  staticElements?: IStaticElement[];
+  staticLayers?: IStaticLayer[];
   drawControls?: IMapDrawControlsProps;
   scrollWheelZoom?: boolean;
   markers?: IMarker[];
@@ -54,7 +54,7 @@ const MapContainer: React.FC<IMapContainerProps> = (props) => {
 
   const {
     mapId,
-    staticElements,
+    staticLayers,
     drawControls,
     scrollWheelZoom,
     markers,
@@ -84,7 +84,7 @@ const MapContainer: React.FC<IMapContainerProps> = (props) => {
       <MapBounds bounds={bounds} />
 
       {drawControls && (
-        <FeatureGroup>
+        <FeatureGroup pathOptions={{ color: 'orange' }}>
           <DrawControls
             features={props.drawControls?.features}
             onChange={(features: Feature[]) => {
@@ -95,13 +95,15 @@ const MapContainer: React.FC<IMapContainerProps> = (props) => {
         </FeatureGroup>
       )}
 
-      <StaticElements features={staticElements} />
-
       <MarkerClusterGroup markers={markers} />
 
       <EventHandler eventHandlers={eventHandlers} />
 
-      <LayerControls />
+      <LayersControl position="bottomright">
+        <StaticLayers layers={staticLayers} />
+
+        <BaseLayerControls />
+      </LayersControl>
     </LeafletMapContainer>
   );
 };

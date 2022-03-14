@@ -1,9 +1,9 @@
 import React from 'react';
 import { LayersControl, TileLayer } from 'react-leaflet';
 
-const LayerControls: React.FC = () => {
+const BaseLayerControls: React.FC = () => {
   return (
-    <LayersControl position="bottomright">
+    <>
       <LayersControl.BaseLayer checked name="BC Government">
         <TileLayer url="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/{z}/{y}/{x}" />
       </LayersControl.BaseLayer>
@@ -13,8 +13,8 @@ const LayerControls: React.FC = () => {
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
         />
       </LayersControl.BaseLayer>
-    </LayersControl>
+    </>
   );
 };
 
-export default LayerControls;
+export default BaseLayerControls;

@@ -1,7 +1,7 @@
 import { cleanup, render } from '@testing-library/react';
 import bbox from '@turf/bbox';
 import React from 'react';
-import { IStaticElement } from './components/StaticElements';
+import { IStaticLayer } from './components/StaticLayers';
 import MapContainer from './MapContainer';
 
 describe('MapContainer', () => {
@@ -23,23 +23,28 @@ describe('MapContainer', () => {
   });
 
   it('renders with static geometries', () => {
-    const staticElements: IStaticElement[] = [
+    const staticLayers: IStaticLayer[] = [
       {
-        geoJSON: {
-          id: 'nonEditableGeo',
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [125.6, 10.1]
-          },
-          properties: {
-            name: 'Biodiversity Land'
+        layerName: 'test layer',
+        features: [
+          {
+            geoJSON: {
+              id: 'nonEditableGeo',
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [125.6, 10.1]
+              },
+              properties: {
+                name: 'Biodiversity Land'
+              }
+            }
           }
-        }
+        ]
       }
     ];
 
-    const { container } = render(<MapContainer mapId="myMap" staticElements={staticElements} />);
+    const { container } = render(<MapContainer mapId="myMap" staticLayers={staticLayers} />);
 
     expect(container.querySelector('#myMap')).toBeInTheDocument();
   });
