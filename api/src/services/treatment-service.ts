@@ -1,5 +1,5 @@
-import { Geometry } from 'geojson';
 import shp from 'shpjs';
+import { getKnexQueryBuilder } from '../database/db';
 import { HTTP400 } from '../errors/custom-error';
 import {
   GetTreatmentFeatureTypes,
@@ -13,7 +13,6 @@ import {
 import { GetTreatmentData } from '../models/treatment-view';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
-import { getKnexQueryBuilder } from '../database/db';
 
 export type TreatmentSearchCriteria = {
   year?: string;
@@ -41,6 +40,7 @@ export class TreatmentService extends DBService {
     } else {
       features = (geojson.features as unknown) as TreatmentFeature[];
     }
+
     return features;
   }
 
@@ -129,19 +129,10 @@ export class TreatmentService extends DBService {
     return response.rows;
   }
 
-  async insertTreatmentUnit(
-    projectId: number,
-    treatmentFeatureProperties: TreatmentFeatureProperties,
-    geometry: Geometry
-  ): Promise<ITreatmentUnitInsertOrExists> {
-    const featureTypeObj = await this.getEqualTreatmentFeatureTypeIds(treatmentFeatureProperties);
+  async insertTreatmentUnit(projectId: number, feature: TreatmentFeature): Promise<ITreatmentUnitInsertOrExists> {
+    const featureTypeObj = await this.getEqualTreatmentFeatureTypeIds(feature.properties);
 
-    const sqlStatement = queries.project.postTreatmentUnitSQL(
-      projectId,
-      featureTypeObj.feature_type_id,
-      treatmentFeatureProperties,
-      geometry
-    );
+    const sqlStatement = queries.project.postTreatmentUnitSQL(projectId, featureTypeObj.feature_type_id, feature);
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL insert statement');
@@ -242,7 +233,7 @@ export class TreatmentService extends DBService {
 
       if (!checkTreatmentUnitExist) {
         //Treatment Unit Doesnt Exists
-        const insertTreatmentUnitResponse = await this.insertTreatmentUnit(projectId, item.properties, item.geometry);
+        const insertTreatmentUnitResponse = await this.insertTreatmentUnit(projectId, item);
 
         await this.insertTreatmentDataAndTreatmentTypes(insertTreatmentUnitResponse.treatment_unit_id, item.properties);
 

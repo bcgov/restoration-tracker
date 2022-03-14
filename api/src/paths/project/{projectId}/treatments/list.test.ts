@@ -78,7 +78,9 @@ describe('getTreatments', () => {
       }
     ];
 
-    sinon.stub(TreatmentService.prototype, 'getTreatments').resolves(new GetTreatmentData(sampleTreatmentList));
+    sinon
+      .stub(TreatmentService.prototype, 'getTreatmentsByCriteria')
+      .resolves(new GetTreatmentData(sampleTreatmentList));
 
     await getTreatments()(sampleReq, sampleRes as any, (null as unknown) as any);
 
