@@ -164,7 +164,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                         selected={selectedSpatialLayer[year.year]}
                         onClick={() => handleSelectedSwitch(year.year)}
                         disableGutters>
-                        <Checkbox checked={selectedSpatialLayer[year.year]} color="primary"/>
+                        <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
                         <Box flexGrow={1}>Treatment Year {year.year}</Box>
                         <ListItemIcon onClick={() => handleDeleteTreatmentsByYear(year.year)}>
                           <Icon path={mdiTrashCanOutline} size={1.25} />

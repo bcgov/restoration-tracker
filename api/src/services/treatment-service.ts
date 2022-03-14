@@ -325,7 +325,13 @@ export class TreatmentService extends DBService {
   async getTreatmentsByCriteria(projectId: number, criteria: TreatmentSearchCriteria): Promise<GetTreatmentData> {
     const queryBuilder = getKnexQueryBuilder<any, { project_id: number }>()
       .select(
-        'tu.name as id, ft.name as type, tu.width, tu.length, tu.area, t.year as treatment_year, tt.name as treatment_name'
+        'treatment_unit.name as id',
+        'feature_type.name as type',
+        'treatment_unit.width',
+        'treatment_unit.length',
+        'treatment_unit.area',
+        'treatment.year as treatment_year',
+        'treatment_type.name as treatment_name'
       )
       .from('treatment_unit');
     queryBuilder.leftJoin('feature_type', 'treatment_unit.feature_type_id', 'feature_type.feature_type_id');
@@ -343,16 +349,23 @@ export class TreatmentService extends DBService {
 
     if (criteria.year) {
       queryBuilder.and.where(function () {
-        this.or.whereILike('treatment_unit.year', `%${criteria.year}%`);
+        this.or.whereILike('treatment.year', `%${criteria.year}%`);
       });
     }
 
-    queryBuilder.groupBy('treatment_unit.year');
+    queryBuilder.groupBy('treatment.year');
+    queryBuilder.groupBy('treatment_unit.name');
+    queryBuilder.groupBy('feature_type.name');
+    queryBuilder.groupBy('treatment_unit.width');
+    queryBuilder.groupBy('treatment_unit.length');
+    queryBuilder.groupBy('treatment_unit.area');
+    queryBuilder.groupBy('treatment.year');
+    queryBuilder.groupBy('treatment_type.name');
 
     const response = await this.connection.knex<{ project_id: number }>(queryBuilder);
 
-
     const rawTreatmentsData = response && response.rows ? response.rows : [];
+    console.log('rawTreatmentsData: ', rawTreatmentsData);
 
     return new GetTreatmentData(rawTreatmentsData);
   }
@@ -382,6 +395,8 @@ export class TreatmentService extends DBService {
     }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+
+    console.log('treatment years', response);
 
     if (!response || !response?.rows) {
       return null;

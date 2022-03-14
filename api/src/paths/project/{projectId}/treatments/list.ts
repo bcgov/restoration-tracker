@@ -4,7 +4,7 @@ import { PROJECT_ROLE } from '../../../../constants/roles';
 import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
-import { TreatmentSearchCriteria,TreatmentService } from '../../../../services/treatment-service';
+import { TreatmentSearchCriteria, TreatmentService } from '../../../../services/treatment-service';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/treatments/list');
