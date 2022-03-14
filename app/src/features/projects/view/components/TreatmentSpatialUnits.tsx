@@ -80,7 +80,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
       return;
     }
     getYears();
-  }, [projectId, restorationTrackerApi.project, yearList.length, selectedState]);
+  }, [projectId, yearList.length, selectedState]);
 
   return (
     <Box>
