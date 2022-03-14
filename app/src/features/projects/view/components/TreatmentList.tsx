@@ -50,7 +50,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     <Card>
       <Box display="flex" alignItems="center" justifyContent="space-between" m={1} p={2}>
         <Typography variant="h4" component="h3">
-          Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
+          Treatment {treatmentList?.length !== 1 ? 'Units' : 'Unit'} ({treatmentList?.length})
         </Typography>
       </Box>
       <Box>
