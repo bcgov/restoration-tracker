@@ -8,7 +8,7 @@ import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 export interface IProjectSpatialUnitsProps {
@@ -32,7 +32,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const [openImportTreatments, setOpenImportTreatments] = useState(false);
 
   const [yearList, setYearList] = useState<{ year: number }[]>([]);
-  const [selectedState, setSelectedState] = useState({ boundry: true });
+  const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundry: true });
 
   const handleImportTreatmentClick = () => setOpenImportTreatments(true);
 
@@ -54,33 +54,47 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const handleDeleteTreatmentsByYear = async (year: number) => {
     await restorationTrackerApi.project.deleteProjectTreatmentsByYear(projectId, year);
     getTreatments(true);
+    getTreatmentYears(true);
   };
 
   const handleSelectedSwitch = (selectedName: string | number) => {
-    setSelectedState({
-      ...selectedState,
-      [selectedName]: !selectedState[selectedName]
+    setSelectedSpatialLayer({
+      ...selectedSpatialLayer,
+      [selectedName]: !selectedSpatialLayer[selectedName]
     });
   };
 
-  useEffect(() => {
-    const getYears = async () => {
-      const yearsResponse = await restorationTrackerApi.project.getProjectTreatmentsYears(projectId);
+  const getTreatmentYears = useCallback(
+    async (forceFetch: boolean) => {
+      if (yearList.length && !forceFetch) return;
 
-      if (!yearsResponse) {
-        return;
+      try {
+        const yearsResponse = await restorationTrackerApi.project.getProjectTreatmentsYears(projectId);
+
+        if (!yearsResponse) return;
+
+        setYearList(
+          yearsResponse.sort(function (a, b) {
+            return a.year - b.year;
+          })
+        );
+
+        yearsResponse.forEach((year) => {
+          selectedSpatialLayer[String(year.year)] = true;
+        });
+      } catch (error) {
+        return error;
       }
-      setYearList(yearsResponse);
+    },
+    [restorationTrackerApi.project, projectId, yearList.length, selectedSpatialLayer]
+  );
 
-      yearsResponse.forEach((year) => {
-        selectedState[String(year.year)] = true;
-      });
-    };
-    if (yearList.length > 0) {
-      return;
+  useEffect(() => {
+    if (!yearList.length) {
+      getTreatmentYears(true);
     }
-    getYears();
-  }, [projectId, yearList.length, selectedState]);
+  }, [getTreatmentYears, yearList.length]);
+
 
   return (
     <Box>
@@ -124,10 +138,10 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               onClose={handleClose}>
               <Box mt={1} width={300}>
                 <MenuItem
-                  selected={selectedState.boundry}
+                  selected={selectedSpatialLayer.boundry}
                   onClick={() => handleSelectedSwitch('boundry')}
                   disableGutters>
-                  <Checkbox checked={selectedState.boundry} />
+                  <Checkbox checked={selectedSpatialLayer.boundry} />
                   <Box flexGrow={1}>Project Boundary</Box>
                   <ListItemIcon onClick={() => alert("I'm not sure what my job is")}>
                     <Icon path={mdiTrashCanOutline} size={1.25} />
@@ -146,12 +160,12 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                     return (
                       <MenuItem
                         key={year.year}
-                        selected={selectedState[year.year]}
+                        selected={selectedSpatialLayer[year.year]}
                         onClick={() => handleSelectedSwitch(year.year)}
                         disableGutters>
-                        <Checkbox checked={selectedState[year.year]} />
+                        <Checkbox checked={selectedSpatialLayer[year.year]} />
                         <Box flexGrow={1}>Treatment Year {year.year}</Box>
-                        <ListItemIcon onClick={() => handleDeleteTreatmentsByYear(99)}>
+                        <ListItemIcon onClick={() => handleDeleteTreatmentsByYear(year.year)}>
                           <Icon path={mdiTrashCanOutline} size={1.25} />
                         </ListItemIcon>
                       </MenuItem>

@@ -215,7 +215,10 @@ export class TreatmentService extends DBService {
     treatmentUnitId: number,
     featureProperties: TreatmentFeatureProperties
   ): Promise<void> {
-    const insertTreatmentDataResponse = await this.insertTreatmentData(treatmentUnitId, featureProperties.year || 99);
+    const insertTreatmentDataResponse = await this.insertTreatmentData(
+      treatmentUnitId,
+      featureProperties.year || Math.floor(Math.random() * 20) + 2000
+    );
 
     await this.insertAllTreatmentTypes(insertTreatmentDataResponse.treatment_id, featureProperties);
   }
