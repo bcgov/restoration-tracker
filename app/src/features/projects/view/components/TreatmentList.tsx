@@ -1,4 +1,3 @@
-import { Card, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,7 +25,7 @@ const useStyles = makeStyles({
     }
   },
   container: {
-    maxHeight: 440
+    height: '300px'
   }
 });
 
@@ -47,11 +46,9 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   const viewTreatmentUnitDetailsDialog = (treatment: IGetTreatment) => {};
 
   return (
-    <Card>
-      <Box display="flex" alignItems="center" justifyContent="space-between" m={1} p={2}>
-        <Typography variant="h4" component="h3">
-          Treatment {treatmentList?.length !== 1 ? 'Units' : 'Unit'} ({treatmentList?.length})
-        </Typography>
+    <>
+      <Box display="flex" alignItems="center" justifyContent="space-between" p={2}>
+        Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
       </Box>
       <Box>
         <TableContainer className={classes.container}>
@@ -82,7 +79,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
             <TableBody data-testid="project-table">
               {!treatmentList?.length && (
                 <TableRow>
-                  <TableCell colSpan={6}>
+                  <TableCell colSpan={7}>
                     <Box display="flex" justifyContent="center">
                       No Treatments
                     </Box>
@@ -133,7 +130,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
           />
         )}
       </Box>
-    </Card>
+    </>
   );
 };
 

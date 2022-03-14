@@ -12,8 +12,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { mdiAccountMultipleOutline, mdiArrowLeft, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import clsx from 'clsx';
@@ -85,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     tabPanel: {
-      overflowY: 'scroll'
+      overflowY: 'auto'
     },
     tabIcon: {
       verticalAlign: 'middle'
@@ -317,12 +315,12 @@ const ViewProjectPage: React.FC = () => {
       {/* Details Container */}
       <Drawer variant="permanent" className={classes.projectDetailDrawer}>
         <Box display="flex" flexDirection="column" height="100%">
-          <Toolbar>
+          <Toolbar disableGutters>
             <Button
               component={Link}
               onClick={() => history.push('/admin/user/projects')}
               size="small"
-              startIcon={<Icon path={mdiArrowLeft} size={0.875} />}>
+              startIcon={<Icon path={mdiArrowLeft} size={0.8375} />}>
               Back to Projects
             </Button>
           </Toolbar>
@@ -371,7 +369,7 @@ const ViewProjectPage: React.FC = () => {
               </RoleGuard>
             </Box>
 
-            <Box mt={2} display="flex" flexDirection={'row'}>
+            <Box display="flex" flexDirection={'row'}>
               <Box mr={0.5}>{getChipIcon(priority_status)}</Box>
               <Box>{getChipIcon(completion_status)}</Box>
             </Box>
@@ -380,25 +378,16 @@ const ViewProjectPage: React.FC = () => {
           <Box>
             <Tabs
               className={classes.tabs}
-              variant="fullWidth"
               value={tabValue}
               onChange={handleTabChange}
-              aria-label="basic tabs example"
-              centered>
+              variant="fullWidth"
+              aria-label="Project Navigation">
               <Tab
-                label={
-                  <div>
-                    <InfoOutlinedIcon fontSize="small" className={classes.tabIcon} /> Project Details
-                  </div>
-                }
+                label="Project Details"
                 value="project_details"
               />
               <Tab
-                label={
-                  <div>
-                    <FileCopyOutlinedIcon fontSize="small" className={classes.tabIcon} /> Documents
-                  </div>
-                }
+                label="Documents"
                 value="project_documents"
               />
             </Tabs>
@@ -410,6 +399,7 @@ const ViewProjectPage: React.FC = () => {
           <TabPanel value={tabValue} index="project_documents">
             <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
           </TabPanel>
+
         </Box>
       </Drawer>
 
@@ -423,7 +413,7 @@ const ViewProjectPage: React.FC = () => {
           <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
         </Box>
 
-        <Box flex="1 1 auto" height={150}>
+        <Box flex="0 0 auto">
           <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
         </Box>
       </Box>

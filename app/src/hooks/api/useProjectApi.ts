@@ -10,7 +10,8 @@ import {
   IGetUserProjectsListResponse,
   IProjectAdvancedFilterRequest,
   IUploadAttachmentResponse,
-  IGetProjectTreatmentsResponse
+  IGetProjectTreatmentsResponse,
+  IPostTreatmentUnitResponse
 } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
 
@@ -182,7 +183,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     file: File,
     cancelTokenSource?: CancelTokenSource,
     onProgress?: (progressEvent: ProgressEvent) => void
-  ): Promise<IUploadAttachmentResponse> => {
+  ): Promise<IPostTreatmentUnitResponse> => {
     const req_message = new FormData();
 
     req_message.append('media', file);
