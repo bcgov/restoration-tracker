@@ -13,6 +13,11 @@ import {
 import { GetTreatmentData } from '../models/treatment-view';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
+import { getKnexQueryBuilder } from '../database/db';
+
+export type TreatmentSearchCriteria = {
+  year?: string;
+};
 
 export class TreatmentService extends DBService {
   async parseShapeFile(fileBuffer: Buffer): ReturnType<typeof shp.parseZip> {
@@ -295,8 +300,6 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  ////////////////////////////////////////////////////////////
-
   async updateProjectTreatment(
     projectId: number,
     file: Express.Multer.File
@@ -316,17 +319,35 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async getTreatments(projectId: number): Promise<GetTreatmentData> {
-    const getProjectTreatmentsSQLStatement = queries.project.getProjectTreatmentsSQL(projectId);
+  async getTreatmentsByCriteria(projectId: number, criteria: TreatmentSearchCriteria): Promise<GetTreatmentData> {
+    const queryBuilder = getKnexQueryBuilder<any, { project_id: number }>()
+      .select(
+        'tu.name as id, ft.name as type, tu.width, tu.length, tu.area, t.year as treatment_year, tt.name as treatment_name'
+      )
+      .from('treatment_unit');
+    queryBuilder.leftJoin('feature_type', 'treatment_unit.feature_type_id', 'feature_type.feature_type_id');
+    queryBuilder.leftJoin('treatment', 'treatment_unit.treatment_unit_id', 'treatment.treatment_unit_id');
+    queryBuilder.leftJoin(
+      'treatment_treatment_type',
+      'treatment.treatment_id',
+      'treatment_treatment_type.treatment_id'
+    );
+    queryBuilder.leftJoin(
+      'treatment_type',
+      'treatment_treatment_type.treatment_type_id',
+      'treatment_type.treatment_type_id'
+    );
 
-    if (!getProjectTreatmentsSQLStatement) {
-      throw new HTTP400('Failed to build SQL get statement');
+    if (criteria.year) {
+      queryBuilder.and.where(function () {
+        this.or.whereILike('treatment_unit.year', `%${criteria.year}%`);
+      });
     }
 
-    const response = await this.connection.query(
-      getProjectTreatmentsSQLStatement.text,
-      getProjectTreatmentsSQLStatement.values
-    );
+    queryBuilder.groupBy('treatment_unit.year');
+
+    const response = await this.connection.knex<{ project_id: number }>(queryBuilder);
+
 
     const rawTreatmentsData = response && response.rows ? response.rows : [];
 

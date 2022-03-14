@@ -61,8 +61,16 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @param {AxiosInstance} axios
    * @returns {*} {Promise<IGetProjectTreatmentResponse>}
    */
-  const getProjectTreatments = async (projectId: number): Promise<IGetProjectTreatmentsResponse> => {
-    const { data } = await axios.get(`/api/project/${projectId}/treatments/list`);
+  const getProjectTreatments = async (
+    projectId: number,
+    filterByYear?: number
+  ): Promise<IGetProjectTreatmentsResponse> => {
+    const { data } = await axios.get(`/api/project/${projectId}/treatments/list`, {
+      params: filterByYear,
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: 'repeat', filter: (prefix, value) => value || undefined });
+      }
+    });
 
     return data;
   };
@@ -349,6 +357,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     importProjectTreatmentSpatialFile,
     deleteProjectTreatmentUnit,
     deleteProjectTreatmentsByYear,
+    getProjectTreatments,
     uploadProjectAttachments,
     updateProject,
     getProjectAttachments,
@@ -361,8 +370,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     addProjectParticipants,
     removeProjectParticipant,
     updateProjectParticipantRole,
-    getUserProjectsList,
-    getProjectTreatments
+    getUserProjectsList
   };
 };
 

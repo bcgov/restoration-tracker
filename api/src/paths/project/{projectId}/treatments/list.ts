@@ -4,7 +4,7 @@ import { PROJECT_ROLE } from '../../../../constants/roles';
 import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
-import { TreatmentService } from '../../../../services/treatment-service';
+import { TreatmentSearchCriteria,TreatmentService } from '../../../../services/treatment-service';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/treatments/list');
@@ -40,6 +40,26 @@ GET.apiDoc = {
         type: 'number'
       },
       required: true
+    },
+    {
+      in: 'query',
+      name: 'year',
+      schema: {
+        oneOf: [
+          {
+            type: 'string',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            nullable: true
+          }
+        ]
+      },
+      allowEmptyValue: true
     }
   ],
   responses: {
@@ -110,12 +130,14 @@ export function getTreatments(): RequestHandler {
     const projectId = Number(req.params.projectId);
     const connection = getDBConnection(req['keycloak_token']);
 
+    const searchCriteria: TreatmentSearchCriteria = req.query || {};
+
     try {
       await connection.open();
 
       const treatmentService = new TreatmentService(connection);
 
-      const data = await treatmentService.getTreatments(projectId);
+      const data = await treatmentService.getTreatmentsByCriteria(projectId, searchCriteria);
 
       await connection.commit();
 
