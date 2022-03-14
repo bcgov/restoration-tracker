@@ -1,0 +1,95 @@
+import { cleanup, render } from '@testing-library/react';
+import bbox from '@turf/bbox';
+import React from 'react';
+import { IStaticElement } from './components/StaticElements';
+import MapContainer from './MapContainer';
+
+describe('MapContainer', () => {
+  // To ignore: Deprecated use of _flat, please use L.LineUtil.isFlat instead
+  console.warn = jest.fn();
+
+  beforeEach(() => {
+    jest.spyOn(console, 'debug').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('renders with minimal settings', () => {
+    const { container } = render(<MapContainer mapId="myMap" />);
+
+    expect(container.querySelector('#myMap')).toBeInTheDocument();
+  });
+
+  it('renders with static geometries', () => {
+    const staticElements: IStaticElement[] = [
+      {
+        geoJSON: {
+          id: 'nonEditableGeo',
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [125.6, 10.1]
+          },
+          properties: {
+            name: 'Biodiversity Land'
+          }
+        }
+      }
+    ];
+
+    const { container } = render(<MapContainer mapId="myMap" staticElements={staticElements} />);
+
+    expect(container.querySelector('#myMap')).toBeInTheDocument();
+  });
+
+  it('renders with bounds', () => {
+    const bboxCoords = bbox({
+      id: 'myGeo',
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: [
+          [
+            [-128, 55],
+            [-128, 55.5],
+            [-128, 56],
+            [-126, 58],
+            [-128, 55]
+          ]
+        ]
+      },
+      properties: {
+        name: 'Restoration Islands'
+      }
+    });
+
+    const bounds = [
+      [bboxCoords[1], bboxCoords[0]],
+      [bboxCoords[3], bboxCoords[2]]
+    ];
+
+    const { container } = render(<MapContainer mapId="myMap" bounds={bounds} />);
+
+    expect(container.querySelector('#myMap')).toBeInTheDocument();
+  });
+
+  it('renders with scrollWheelZoom', () => {
+    const { container } = render(<MapContainer mapId="myMap" scrollWheelZoom={true} />);
+
+    expect(container.querySelector('#myMap')).toBeInTheDocument();
+  });
+
+  it('renders with markers', () => {
+    const markers = [
+      {
+        position: { lat: 55, lng: -128 }
+      }
+    ];
+
+    const { container } = render(<MapContainer mapId="myMap" markers={markers} />);
+
+    expect(container.querySelector('#myMap')).toBeInTheDocument();
+  });
+});

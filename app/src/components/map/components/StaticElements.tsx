@@ -4,7 +4,6 @@ import React, { ReactElement } from 'react';
 import { GeoJSON, Popup, Tooltip } from 'react-leaflet';
 
 export interface IStaticElement {
-  id: string | number;
   geoJSON: Feature;
   GeoJSONProps?: Partial<React.ComponentProps<typeof GeoJSON>>;
   popup?: ReactElement;
@@ -25,9 +24,11 @@ const StaticElements: React.FC<IStaticFeaturesProps> = (props) => {
   return (
     <>
       {props.features.map((item, index) => {
+        const id = item.geoJSON.id;
+
         return (
           <GeoJSON
-            key={`static-feature-${item.id}-${index}`}
+            key={`static-feature-${id}-${index}`}
             pointToLayer={(feature, latlng) => {
               if (feature.properties?.radius) {
                 return new L.Circle([latlng.lat, latlng.lng], feature.properties.radius);
@@ -38,13 +39,13 @@ const StaticElements: React.FC<IStaticFeaturesProps> = (props) => {
             data={item.geoJSON}
             {...item.GeoJSONProps}>
             {item.tooltip && (
-              <Tooltip key={`static-feature-tooltip-${item.id}-${index}`} direction="top" {...item.TooltipProps}>
+              <Tooltip key={`static-feature-tooltip-${id}-${index}`} direction="top" {...item.TooltipProps}>
                 {item.tooltip}
               </Tooltip>
             )}
             {item.popup && (
               <Popup
-                key={`static-feature-popup-${item.id}-${index}`}
+                key={`static-feature-popup-${id}-${index}`}
                 keepInView={false}
                 autoPan={false}
                 {...item.PopupProps}>
