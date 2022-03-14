@@ -90,7 +90,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   );
 
   useEffect(() => {
-    if (!yearList.length) {
+    if ( !yearList ) {
       getTreatmentYears(true);
     }
   }, [getTreatmentYears, yearList.length]);
