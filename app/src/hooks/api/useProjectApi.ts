@@ -73,7 +73,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @param {AxiosInstance} axios
    * @returns {*} {Promise<IGetProjectTreatmentResponse>}
    */
-   const getProjectTreatmentsYears = async (projectId: number): Promise<{year: number}[]> => {
+  const getProjectTreatmentsYears = async (projectId: number): Promise<{ year: number }[]> => {
     const { data } = await axios.get(`/api/project/${projectId}/treatments/year/list`);
 
     return data;

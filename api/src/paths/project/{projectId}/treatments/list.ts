@@ -70,6 +70,12 @@ GET.apiDoc = {
                     area: {
                       type: 'number'
                     },
+                    description: {
+                      type: 'string'
+                    },
+                    comments: {
+                      type: 'string'
+                    },
                     treatments: {
                       type: 'array',
                       items: {
