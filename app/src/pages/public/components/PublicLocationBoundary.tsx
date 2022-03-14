@@ -24,8 +24,8 @@ const PublicLocationBoundary: React.FC<IPublicLocationBoundaryProps> = (props) =
   const [nonEditableGeometries, setNonEditableGeometries] = useState<any[]>([]);
 
   useEffect(() => {
-    const nonEditableGeometriesResult = location.geometry.map((geom: Feature, index) => {
-      return { id: index, feature: geom };
+    const nonEditableGeometriesResult = location.geometry.map((geom: Feature) => {
+      return { feature: geom };
     });
 
     setBounds(calculateUpdatedMapBounds(location.geometry));

@@ -27,8 +27,8 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
   const [nonEditableGeometries, setNonEditableGeometries] = useState<IStaticElement[]>([]);
 
   useEffect(() => {
-    const nonEditableGeometriesResult = location.geometry.map((geom: Feature, index) => {
-      return { id: index, geoJSON: geom };
+    const nonEditableGeometriesResult = location.geometry.map((geom: Feature) => {
+      return { geoJSON: geom };
     });
 
     setBounds(calculateUpdatedMapBounds(location.geometry));
