@@ -1,7 +1,7 @@
 import { gpx, kml } from '@tmcw/togeojson';
 import bbox from '@turf/bbox';
 import { FormikContextType } from 'formik';
-import { Feature } from 'geojson';
+import { Feature, GeoJSON } from 'geojson';
 import get from 'lodash-es/get';
 import shp from 'shpjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -162,7 +162,7 @@ export const calculateUpdatedMapBounds = (geometries: Feature[]): any[][] | unde
 
   We also set the bounds based on those geometries so the extent is set
 */
-export const generateValidGeometryCollection = (geometry: any, id?: string) => {
+export const generateValidGeometryCollection = (geometry: GeoJSON[], id?: string) => {
   const geometryCollection: Feature[] = [];
   const bounds: any[] = [];
 
@@ -171,7 +171,7 @@ export const generateValidGeometryCollection = (geometry: any, id?: string) => {
   }
 
   if (geometry[0]?.type === 'MultiPolygon') {
-    geometry[0].coordinates.forEach((geoCoords: any) => {
+    geometry[0].coordinates.forEach((geoCoords) => {
       geometryCollection.push({
         id: id || uuidv4(),
         type: 'Feature',
@@ -183,11 +183,20 @@ export const generateValidGeometryCollection = (geometry: any, id?: string) => {
       });
     });
   } else if (geometry[0]?.type === 'GeometryCollection') {
-    geometry[0].geometries.forEach((geometry: any) => {
+    geometry[0].geometries.forEach((geometry) => {
       geometryCollection.push({
         id: id || uuidv4(),
         type: 'Feature',
         geometry,
+        properties: {}
+      });
+    });
+  } else if (geometry[0]?.type === 'FeatureCollection') {
+    geometry[0].features.forEach((geometry) => {
+      geometryCollection.push({
+        ...geometry,
+        id: id || uuidv4(),
+        type: 'Feature',
         properties: {}
       });
     });

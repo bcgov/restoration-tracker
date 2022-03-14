@@ -20,7 +20,8 @@ const MarkerClusterGroup: React.FC<IMarkerClusterProps> = (props) => {
   return (
     <ReactLeafletMarkerClusterGroup chunkedLoading>
       {props.markers.map((item, index: number) => (
-        <Marker key={index} position={item.position}>
+        // Reverse the position (coordinates) from [lng, lat] to [lat, lng]
+        <Marker key={index} position={[item.position[1], item.position[0]]}>
           {item.popup}
         </Marker>
       ))}
