@@ -334,6 +334,7 @@ export interface IGetProjectTreatment {
   width: number;
   length: number;
   area: number;
+  geometry: Feature;
   treatments: IGetTreatmentItem[];
 }
 

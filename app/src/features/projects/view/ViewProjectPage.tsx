@@ -419,7 +419,12 @@ const ViewProjectPage: React.FC = () => {
         </Box>
 
         <Box flex="1 1 auto">
-          <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+          <LocationBoundary
+            projectForViewData={projectWithDetails}
+            treatmentList={treatmentList}
+            codes={codes}
+            refresh={getProject}
+          />
         </Box>
 
         <Box flex="1 1 auto" height={150}>

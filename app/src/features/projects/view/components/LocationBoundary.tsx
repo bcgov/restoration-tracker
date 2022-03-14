@@ -1,14 +1,14 @@
 import Box from '@material-ui/core/Box';
-import { IStaticElement } from 'components/map/components/StaticElements';
+import { IStaticLayer, IStaticLayerFeature } from 'components/map/components/StaticLayers';
 import MapContainer from 'components/map/MapContainer';
-import { Feature } from 'geojson';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import { IGetProjectForViewResponse, IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React, { useEffect, useState } from 'react';
 import { calculateUpdatedMapBounds } from 'utils/mapBoundaryUploadHelpers';
 
 export interface ILocationBoundaryProps {
   projectForViewData: IGetProjectForViewResponse;
+  treatmentList: IGetProjectTreatment[];
   codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
@@ -20,24 +20,37 @@ export interface ILocationBoundaryProps {
  */
 const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
   const {
-    projectForViewData: { location }
+    projectForViewData: { location },
+    treatmentList
   } = props;
 
   const [bounds, setBounds] = useState<any[] | undefined>([]);
-  const [nonEditableGeometries, setNonEditableGeometries] = useState<IStaticElement[]>([]);
+  const [staticLayers, setStaticLayers] = useState<IStaticLayer[]>([]);
 
   useEffect(() => {
-    const nonEditableGeometriesResult = location.geometry.map((geom: Feature) => {
-      return { geoJSON: geom };
+    const projectLocationFeatures: IStaticLayerFeature[] = location.geometry.map((item) => {
+      return { geoJSON: item };
     });
 
-    setBounds(calculateUpdatedMapBounds(location.geometry));
-    setNonEditableGeometries(nonEditableGeometriesResult);
+    const treatmentFeatures: IStaticLayerFeature[] = treatmentList.map((item) => {
+      return { geoJSON: item.geometry };
+    });
+
+    const allLayers: IStaticLayer[] = [
+      { layerName: 'Boundary', features: projectLocationFeatures },
+      { layerName: 'Treatments', features: treatmentFeatures }
+    ];
+
+    setBounds(
+      calculateUpdatedMapBounds([...projectLocationFeatures, ...treatmentFeatures].map((item) => item.geoJSON))
+    );
+
+    setStaticLayers(allLayers);
   }, [location.geometry]);
 
   return (
     <Box width="100%" height="100%" overflow="hidden" data-testid="map_container">
-      <MapContainer mapId="project_location_form_map" staticElements={nonEditableGeometries} bounds={bounds} />
+      <MapContainer mapId="project_location_form_map" staticLayers={staticLayers} bounds={bounds} />
     </Box>
   );
 };
