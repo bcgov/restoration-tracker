@@ -31,6 +31,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const [openImportTreatments, setOpenImportTreatments] = useState(false);
 
+  const [isTreatmentLoading, setIsTreatmentLoading] = useState(false);
   const [yearList, setYearList] = useState<{ year: number }[]>([]);
   const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundry: true });
 
@@ -90,11 +91,11 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   );
 
   useEffect(() => {
-    if ( !yearList ) {
+    if (!isTreatmentLoading && !yearList.length) {
       getTreatmentYears(true);
+      setIsTreatmentLoading(true);
     }
   }, [getTreatmentYears, yearList.length]);
-
 
   return (
     <Box>
@@ -141,7 +142,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                   selected={selectedSpatialLayer.boundry}
                   onClick={() => handleSelectedSwitch('boundry')}
                   disableGutters>
-                  <Checkbox checked={selectedSpatialLayer.boundry} />
+                  <Checkbox checked={selectedSpatialLayer.boundry} color="primary" />
                   <Box flexGrow={1}>Project Boundary</Box>
                   <ListItemIcon onClick={() => alert("I'm not sure what my job is")}>
                     <Icon path={mdiTrashCanOutline} size={1.25} />
@@ -163,7 +164,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                         selected={selectedSpatialLayer[year.year]}
                         onClick={() => handleSelectedSwitch(year.year)}
                         disableGutters>
-                        <Checkbox checked={selectedSpatialLayer[year.year]} />
+                        <Checkbox checked={selectedSpatialLayer[year.year]} color="primary"/>
                         <Box flexGrow={1}>Treatment Year {year.year}</Box>
                         <ListItemIcon onClick={() => handleDeleteTreatmentsByYear(year.year)}>
                           <Icon path={mdiTrashCanOutline} size={1.25} />
