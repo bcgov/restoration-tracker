@@ -334,6 +334,8 @@ export interface IGetProjectTreatment {
   width: number;
   length: number;
   area: number;
+  comments: string;
+  description: string;
   treatments: IGetTreatmentItem[];
 }
 

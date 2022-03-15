@@ -19,7 +19,8 @@ const history = createMemoryHistory();
 jest.mock('../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
   project: {
-    getProjectById: jest.fn<Promise<IGetProjectForViewResponse>, [number]>()
+    getProjectById: jest.fn<Promise<IGetProjectForViewResponse>, [number]>(),
+    getProjectTreatmentsYears: jest.fn<Promise<{ year: number }[]>, [number]>()
   },
   codes: {
     getAllCodeSets: jest.fn<Promise<IGetAllCodeSetsResponse>, []>()
@@ -54,6 +55,7 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
 describe('ViewProjectPage', () => {
   beforeEach(() => {
     mockRestorationTrackerApi().project.getProjectById.mockClear();
+    mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockClear();
     mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
   });
 
@@ -67,6 +69,8 @@ describe('ViewProjectPage', () => {
     mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue(codes);
 
     mockRestorationTrackerApi().project.getProjectById.mockResolvedValue(getProjectForViewResponse);
+
+    mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([{ year: 99 }]);
 
     const authState = getMockAuthState({
       keycloakWrapper: {
