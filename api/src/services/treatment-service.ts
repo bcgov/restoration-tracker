@@ -330,7 +330,8 @@ export class TreatmentService extends DBService {
         'treatment.year as treatment_year',
         'treatment_type.name as treatment_name',
         'treatment_unit.description',
-        'treatment_unit.comments'
+        'treatment_unit.comments',
+        'treatment_unit.geojson'
       )
       .from('treatment_unit');
     queryBuilder.leftJoin('feature_type', 'treatment_unit.feature_type_id', 'feature_type.feature_type_id');
@@ -359,15 +360,13 @@ export class TreatmentService extends DBService {
     queryBuilder.groupBy('treatment_type.name');
     queryBuilder.groupBy('treatment_unit.description');
     queryBuilder.groupBy('treatment_unit.comments');
+    queryBuilder.groupBy('treatment_unit.geojson');
 
     queryBuilder.where('treatment_unit.project_id', projectId);
 
     const response = await this.connection.knex(queryBuilder);
 
-    console.log('response: ', response);
-
     const rawTreatmentsData = response && response.rows ? response.rows : [];
-    console.log('rawTreatmentsData: ', rawTreatmentsData);
 
     return new GetTreatmentData(rawTreatmentsData);
   }

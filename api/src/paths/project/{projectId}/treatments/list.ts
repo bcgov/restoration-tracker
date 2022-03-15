@@ -3,6 +3,7 @@ import { Operation } from 'express-openapi';
 import { PROJECT_ROLE } from '../../../../constants/roles';
 import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
+import { geoJsonFeature } from '../../../../openapi/schemas/geoJson';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { TreatmentSearchCriteria, TreatmentService } from '../../../../services/treatment-service';
 import { getLogger } from '../../../../utils/logger';
@@ -103,10 +104,23 @@ GET.apiDoc = {
                       type: 'string',
                       nullable: true
                     },
+                    geometry: {
+                      ...(geoJsonFeature as object)
+                    },
                     treatments: {
                       type: 'array',
                       items: {
-                        type: 'object'
+                        type: 'object',
+                        properties: {
+                          treatment_name: {
+                            type: 'string',
+                            nullable: true
+                          },
+                          treatment_year: {
+                            type: 'string',
+                            nullable: true
+                          }
+                        }
                       },
                       nullable: true
                     }

@@ -1,5 +1,18 @@
+import { Feature } from 'geojson';
+
+export interface ITreatmentUnit {
+  id: string;
+  type: string;
+  width: number;
+  length: number;
+  area: number;
+  description: string;
+  comments: string;
+  geometry: Feature;
+}
+
 export class GetTreatmentData {
-  treatmentList: any;
+  treatmentList: ITreatmentUnit[];
 
   constructor(treatmentData?: any) {
     const obj = {};
@@ -7,17 +20,19 @@ export class GetTreatmentData {
     treatmentData.forEach((item: any) => {
       if (!obj[item.id]) {
         obj[item.id] = {
-          ...item,
+          id: item.id,
+          type: item.type,
+          width: item.width,
+          length: item.length,
+          area: item.area,
+          description: item.description,
+          comments: item.comments,
+          geometry: item.geojson[0], // TODO Assuming only 1 feature per treatment unit
           treatments: [{ treatment_name: item.treatment_name, treatment_year: item.treatment_year }]
         };
       } else {
         obj[item.id].treatments.push({ treatment_name: item.treatment_name, treatment_year: item.treatment_year });
       }
-
-      delete obj[item.id].treatment_name;
-      delete obj[item.id].treatment_year;
-
-      return obj;
     });
 
     this.treatmentList = Object.values(obj);
