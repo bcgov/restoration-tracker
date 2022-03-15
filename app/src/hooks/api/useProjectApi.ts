@@ -10,7 +10,9 @@ import {
   IGetUserProjectsListResponse,
   IProjectAdvancedFilterRequest,
   IUploadAttachmentResponse,
-  IGetProjectTreatmentsResponse
+  IGetProjectTreatmentsResponse,
+  IPostTreatmentUnitResponse,
+  TreatmentSearchCriteria
 } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
 
@@ -63,7 +65,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    */
   const getProjectTreatments = async (
     projectId: number,
-    filterByYear?: number
+    filterByYear?: TreatmentSearchCriteria
   ): Promise<IGetProjectTreatmentsResponse> => {
     const { data } = await axios.get(`/api/project/${projectId}/treatments/list`, {
       params: filterByYear,
@@ -182,7 +184,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     file: File,
     cancelTokenSource?: CancelTokenSource,
     onProgress?: (progressEvent: ProgressEvent) => void
-  ): Promise<IUploadAttachmentResponse> => {
+  ): Promise<IPostTreatmentUnitResponse> => {
     const req_message = new FormData();
 
     req_message.append('media', file);

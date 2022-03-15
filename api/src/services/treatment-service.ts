@@ -1,5 +1,5 @@
-import { Geometry } from 'geojson';
 import shp from 'shpjs';
+import { getKnexQueryBuilder } from '../database/db';
 import { HTTP400 } from '../errors/custom-error';
 import {
   GetTreatmentFeatureTypes,
@@ -13,10 +13,9 @@ import {
 import { GetTreatmentData } from '../models/treatment-view';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
-import { getKnexQueryBuilder } from '../database/db';
 
 export type TreatmentSearchCriteria = {
-  year?: string;
+  years?: string[];
 };
 
 export class TreatmentService extends DBService {
@@ -41,6 +40,7 @@ export class TreatmentService extends DBService {
     } else {
       features = (geojson.features as unknown) as TreatmentFeature[];
     }
+
     return features;
   }
 
@@ -56,21 +56,30 @@ export class TreatmentService extends DBService {
       const treatmentUnitError: string[] = [];
 
       !Number.isInteger(item.properties.OBJECTID) && treatmentUnitError.push('Missing property OBJECTID');
-      !Number.isInteger(item.properties.Treatment_) && treatmentUnitError.push('Missing property Treatment_');
+      !Number.isInteger(item.properties.TU_ID) && treatmentUnitError.push('Missing property TU_ID');
       !Number.isInteger(item.properties.Width_m) && treatmentUnitError.push('Missing property Width_m');
-      // !Number.isInteger(item.properties.Length_m) && treatmentUnitError.push('Missing property Length_m');
-      !Number.isInteger(item.properties.ROAD_ID) && treatmentUnitError.push('Missing property ROAD_ID');
-      !Number.isFinite(item.properties.SHAPE_Leng) && treatmentUnitError.push('Missing property SHAPE_Leng');
-      typeof item.properties.Reconnaiss !== 'string' ||
-        (item.properties.Reconnaiss.length <= 0 && treatmentUnitError.push('Missing property Reconnaiss'));
-      typeof item.properties.Leave_for_ !== 'string' ||
-        (item.properties.Leave_for_.length <= 0 && treatmentUnitError.push('Missing property Leave_for_'));
-      typeof item.properties.Treatment1 !== 'string' && treatmentUnitError.push('Missing property Treatment1');
-      typeof item.properties.FEATURE_TY !== 'string' ||
-        (item.properties.FEATURE_TY.length <= 0 && treatmentUnitError.push('Missing property FEATURE_TY'));
+      !Number.isInteger(item.properties.Length_m) && treatmentUnitError.push('Missing property Length_m');
+      !Number.isFinite(item.properties.Area_ha) && treatmentUnitError.push('Missing property Area_ha');
+
+      typeof item.properties.Recon !== 'string' ||
+        (item.properties.Recon.length <= 0 && treatmentUnitError.push('Missing property Recon'));
+
+      typeof item.properties.Treatments !== 'string' && treatmentUnitError.push('Missing property Treatments');
+
+      typeof item.properties.Type !== 'string' ||
+        (item.properties.Type.length <= 0 && treatmentUnitError.push('Missing property Type'));
+
+      typeof item.properties.Descript !== 'string' ||
+        (item.properties.Descript.length <= 0 && treatmentUnitError.push('Missing property Descript'));
+
+      typeof item.properties.Implement !== 'string' ||
+        (item.properties.Implement.length <= 0 && treatmentUnitError.push('Missing property Implement'));
+
+      typeof item.properties.Year !== 'string' ||
+        (item.properties.Year.length <= 0 && treatmentUnitError.push('Missing property Year'));
 
       if (treatmentUnitError.length > 0) {
-        errorArray.push({ treatmentUnitId: item.properties.Treatment_, missingProperties: treatmentUnitError });
+        errorArray.push({ treatmentUnitId: item.properties.TU_ID, missingProperties: treatmentUnitError });
       }
     }
 
@@ -101,7 +110,7 @@ export class TreatmentService extends DBService {
     let featureTypeObj: GetTreatmentFeatureTypes[] = [];
 
     featureTypeObj = treatmentFeatureTypes.filter((item) => {
-      return item.name === treatmentFeatureProperties.FEATURE_TY;
+      return item.name === treatmentFeatureProperties.Type;
     });
 
     if (featureTypeObj.length === 0) {
@@ -129,19 +138,10 @@ export class TreatmentService extends DBService {
     return response.rows;
   }
 
-  async insertTreatmentUnit(
-    projectId: number,
-    treatmentFeatureProperties: TreatmentFeatureProperties,
-    geometry: Geometry
-  ): Promise<ITreatmentUnitInsertOrExists> {
-    const featureTypeObj = await this.getEqualTreatmentFeatureTypeIds(treatmentFeatureProperties);
+  async insertTreatmentUnit(projectId: number, feature: TreatmentFeature): Promise<ITreatmentUnitInsertOrExists> {
+    const featureTypeObj = await this.getEqualTreatmentFeatureTypeIds(feature.properties);
 
-    const sqlStatement = queries.project.postTreatmentUnitSQL(
-      projectId,
-      featureTypeObj.feature_type_id,
-      treatmentFeatureProperties,
-      geometry
-    );
+    const sqlStatement = queries.project.postTreatmentUnitSQL(projectId, featureTypeObj.feature_type_id, feature);
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL insert statement');
@@ -194,7 +194,7 @@ export class TreatmentService extends DBService {
   ): Promise<void> {
     const treatmentUnitTypes = await this.getTreatmentUnitTypes();
 
-    const givenTypesString = treatmentFeatureProperties.Treatment1;
+    const givenTypesString = treatmentFeatureProperties.Treatments;
     const givenTypesSplit = givenTypesString.split('; ');
 
     const treatmentTypes: number[] = [];
@@ -220,10 +220,7 @@ export class TreatmentService extends DBService {
     treatmentUnitId: number,
     featureProperties: TreatmentFeatureProperties
   ): Promise<void> {
-    const insertTreatmentDataResponse = await this.insertTreatmentData(
-      treatmentUnitId,
-      featureProperties.year || Math.floor(Math.random() * 20) + 2000
-    );
+    const insertTreatmentDataResponse = await this.insertTreatmentData(treatmentUnitId, featureProperties.Year);
 
     await this.insertAllTreatmentTypes(insertTreatmentDataResponse.treatment_id, featureProperties);
   }
@@ -237,12 +234,12 @@ export class TreatmentService extends DBService {
       const checkTreatmentUnitExist = await this.getTreatmentUnitExist(
         projectId,
         featureTypeObj.feature_type_id,
-        item.properties?.Treatment_
+        item.properties?.TU_ID
       );
 
       if (!checkTreatmentUnitExist) {
         //Treatment Unit Doesnt Exists
-        const insertTreatmentUnitResponse = await this.insertTreatmentUnit(projectId, item.properties, item.geometry);
+        const insertTreatmentUnitResponse = await this.insertTreatmentUnit(projectId, item);
 
         await this.insertTreatmentDataAndTreatmentTypes(insertTreatmentUnitResponse.treatment_unit_id, item.properties);
 
@@ -251,7 +248,7 @@ export class TreatmentService extends DBService {
         //Treatment Unit Exists
         const checkTreatmentDataYearExists = await this.getTreatmentDataYearExist(
           checkTreatmentUnitExist.treatment_unit_id,
-          item.properties?.year || 99
+          item.properties?.Year
         );
 
         if (!checkTreatmentDataYearExists) {
@@ -287,7 +284,7 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async getTreatmentDataYearExist(treatmentUnitId: number, year: number): Promise<ITreatmentDataInsertOrExists | null> {
+  async getTreatmentDataYearExist(treatmentUnitId: number, year: string): Promise<ITreatmentDataInsertOrExists | null> {
     const sqlStatement = queries.project.getTreatmentDataYearExistSQL(treatmentUnitId, year);
 
     if (!sqlStatement) {
@@ -331,7 +328,9 @@ export class TreatmentService extends DBService {
         'treatment_unit.length',
         'treatment_unit.area',
         'treatment.year as treatment_year',
-        'treatment_type.name as treatment_name'
+        'treatment_type.name as treatment_name',
+        'treatment_unit.description',
+        'treatment_unit.comments'
       )
       .from('treatment_unit');
     queryBuilder.leftJoin('feature_type', 'treatment_unit.feature_type_id', 'feature_type.feature_type_id');
@@ -347,13 +346,10 @@ export class TreatmentService extends DBService {
       'treatment_type.treatment_type_id'
     );
 
-    if (criteria.year) {
-      queryBuilder.and.where(function () {
-        this.or.whereILike('treatment.year', `%${criteria.year}%`);
-      });
+    if (criteria.years) {
+      queryBuilder.and.whereIn('treatment.year', (Array.isArray(criteria.years) && criteria.years) || [criteria.years]);
     }
 
-    queryBuilder.groupBy('treatment.year');
     queryBuilder.groupBy('treatment_unit.name');
     queryBuilder.groupBy('feature_type.name');
     queryBuilder.groupBy('treatment_unit.width');
@@ -361,11 +357,14 @@ export class TreatmentService extends DBService {
     queryBuilder.groupBy('treatment_unit.area');
     queryBuilder.groupBy('treatment.year');
     queryBuilder.groupBy('treatment_type.name');
+    queryBuilder.groupBy('treatment_unit.description');
+    queryBuilder.groupBy('treatment_unit.comments');
 
-    const response = await this.connection.knex<{ project_id: number }>(queryBuilder);
+    queryBuilder.where('treatment_unit.project_id', projectId);
+
+    const response = await this.connection.knex(queryBuilder);
 
     const rawTreatmentsData = response && response.rows ? response.rows : [];
-    console.log('rawTreatmentsData: ', rawTreatmentsData);
 
     return new GetTreatmentData(rawTreatmentsData);
   }
@@ -395,8 +394,6 @@ export class TreatmentService extends DBService {
     }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
-
-    console.log('treatment years', response);
 
     if (!response || !response?.rows) {
       return null;

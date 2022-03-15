@@ -1,5 +1,6 @@
-import { Feature } from 'geojson';
 import { SQL, SQLStatement } from 'sql-template-strings';
+import { TreatmentFeature } from '../../models/project-treatment';
+import { queries } from '../queries';
 
 /**
  * SQL query to get Treatment Features Types
@@ -49,13 +50,8 @@ export const getTreatmentUnitTypesSQL = (): SQLStatement => {
 export const postTreatmentUnitSQL = (
   projectId: number,
   featureTypeId: number,
-  featureProperties: Feature['properties'],
-  geometry: Feature['geometry']
-): SQLStatement | null => {
-  if (!featureProperties || !projectId || !featureTypeId || !geometry) {
-    return null;
-  }
-
+  feature: TreatmentFeature
+): SQLStatement => {
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO treatment_unit (
       project_id,
@@ -65,25 +61,41 @@ export const postTreatmentUnitSQL = (
       width,
       length,
       area,
-      comments,
       reconnaissance_conducted,
-      geometry
+      geojson,
+      geography
     ) VALUES (
       ${projectId},
       ${featureTypeId},
-      ${featureProperties.Treatment_},
-      ${featureProperties.Treatment1},
-      ${featureProperties.Width_m},
-      ${featureProperties.Length_m},
-      ${featureProperties.Width_m * featureProperties.Length_m},
-      ${featureProperties.FEATURE_TY},
-      ${featureProperties.Reconnaiss},
-      ${geometry}
+      ${feature.properties.TU_ID},
+      ${feature.properties.Descript},
+      ${feature.properties.Width_m},
+      ${feature.properties.Length_m},
+      ${feature.properties.Area_ha},
+      ${feature.properties.Recon},
+      ${JSON.stringify([feature])}
+    `;
+
+  const geometryCollectionSQL = queries.spatial.generateGeometryCollectionSQL([feature]);
+
+  sqlStatement.append(SQL`
+    ,public.geography(
+      public.ST_Force2D(
+        public.ST_SetSRID(
+  `);
+
+  sqlStatement.append(geometryCollectionSQL);
+
+  sqlStatement.append(SQL`
+    , 4326)))
+  `);
+
+  sqlStatement.append(SQL`
     )
     RETURNING
       treatment_unit_id,
       revision_count;
-  `;
+  `);
 
   return sqlStatement;
 };
@@ -184,7 +196,7 @@ export const getTreatmentUnitExistSQL = (
  * @param year
  * @returns {SQLStatement} sql query object
  */
-export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: number): SQLStatement | null => {
+export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: string): SQLStatement | null => {
   if (!treatmentUnitId || !year) {
     return null;
   }

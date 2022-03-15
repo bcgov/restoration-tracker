@@ -668,7 +668,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const response = await treatmentService.getTreatments(1);
+      const response = await treatmentService.getTreatmentsByCriteria(1);
 
       expect(response).to.eql({
         treatmentList: [
@@ -711,7 +711,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const response = await treatmentService.getTreatments(1);
+      const response = await treatmentService.getTreatmentsByCriteria(1);
 
       expect(response).to.eql({
         treatmentList: [
@@ -760,7 +760,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const response = await treatmentService.getTreatments(1);
+      const response = await treatmentService.getTreatmentsByCriteria(1);
 
       expect(response).to.eql({
         treatmentList: [
@@ -831,7 +831,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const response = await treatmentService.getTreatments(1);
+      const response = await treatmentService.getTreatmentsByCriteria(1);
 
       expect(response).to.eql({
         treatmentList: [

@@ -127,6 +127,8 @@ export function uploadTreatmentSpatial(): RequestHandler {
 
       const shapeFileFeatures = await treatmentService.handleShapeFileFeatures(rawMediaFile);
 
+      console.log('////////////////////////////////////////////////////////////////////');
+      console.log(shapeFileFeatures);
       if (!shapeFileFeatures) {
         return;
       }

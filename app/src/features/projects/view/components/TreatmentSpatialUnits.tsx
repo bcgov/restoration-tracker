@@ -7,13 +7,13 @@ import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
+import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 export interface IProjectSpatialUnitsProps {
   treatmentList: IGetProjectTreatment[];
-  getTreatments: (forceFetch: boolean) => void;
+  getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
 }
 
 /**
@@ -32,8 +32,9 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const [openImportTreatments, setOpenImportTreatments] = useState(false);
 
   const [isTreatmentLoading, setIsTreatmentLoading] = useState(false);
+
   const [yearList, setYearList] = useState<{ year: number }[]>([]);
-  const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundry: true });
+  const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundary: true });
 
   const handleImportTreatmentClick = () => setOpenImportTreatments(true);
 
@@ -54,7 +55,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const handleDeleteTreatmentsByYear = async (year: number) => {
     await restorationTrackerApi.project.deleteProjectTreatmentsByYear(projectId, year);
-    getTreatments(true);
+    handleSelectedSwitch(year);
     getTreatmentYears(true);
   };
 
@@ -63,6 +64,17 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
       ...selectedSpatialLayer,
       [selectedName]: !selectedSpatialLayer[selectedName]
     });
+
+    const selectedArray: TreatmentSearchCriteria = { years: [] };
+
+    Object.keys(selectedSpatialLayer).forEach((key) => {
+      //handles async discrepancies for selected years
+      if ((selectedSpatialLayer[key] && key !== selectedName) || (key === selectedName && !selectedSpatialLayer[key])) {
+        selectedArray.years.push(key);
+      }
+    });
+
+    getTreatments(true, selectedArray);
   };
 
   const getTreatmentYears = useCallback(
@@ -95,7 +107,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
       getTreatmentYears(true);
       setIsTreatmentLoading(true);
     }
-  }, [getTreatmentYears, yearList.length]);
+  }, [getTreatmentYears, yearList.length, isTreatmentLoading]);
 
   return (
     <Box>
@@ -105,6 +117,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         onClose={() => {
           setOpenImportTreatments(false);
           getTreatments(true);
+          getTreatmentYears(true);
         }}>
         <FileUpload
           uploadHandler={handleUpload()}
@@ -126,7 +139,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               aria-label={'Open Layer Menu'}
               endIcon={<Icon path={mdiMenuDown} size={1} />}
               onClick={handleClick}>
-              <strong>Project Layers ({yearList?.length + 1})</strong>
+              <strong>Project Layers ({yearList?.length})</strong>
             </Button>
 
             <Menu
@@ -138,17 +151,6 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}>
               <Box mt={1} width={300}>
-                <MenuItem
-                  selected={selectedSpatialLayer.boundry}
-                  onClick={() => handleSelectedSwitch('boundry')}
-                  disableGutters>
-                  <Checkbox checked={selectedSpatialLayer.boundry} color="primary" />
-                  <Box flexGrow={1}>Project Boundary</Box>
-                  <ListItemIcon onClick={() => alert("I'm not sure what my job is")}>
-                    <Icon path={mdiTrashCanOutline} size={1.25} />
-                  </ListItemIcon>
-                </MenuItem>
-
                 <Box m={2} p={1}>
                   <Typography>
                     <strong>TREATMENT UNIT LAYERS ({yearList?.length})</strong>
