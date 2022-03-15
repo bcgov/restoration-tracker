@@ -32,8 +32,14 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
       return { geoJSON: item };
     });
 
-    const treatmentFeatures: IStaticLayerFeature[] = treatmentList.map((item) => {
-      return { geoJSON: item.geometry };
+    const treatmentFeatures: IStaticLayerFeature[] = [];
+
+    treatmentList.forEach((item) => {
+      if (!item.geometry) {
+        return;
+      }
+
+      treatmentFeatures.push({ geoJSON: item.geometry });
     });
 
     const allLayers: IStaticLayer[] = [
