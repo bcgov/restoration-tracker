@@ -364,7 +364,10 @@ export class TreatmentService extends DBService {
 
     const response = await this.connection.knex(queryBuilder);
 
+    console.log('response: ', response);
+
     const rawTreatmentsData = response && response.rows ? response.rows : [];
+    console.log('rawTreatmentsData: ', rawTreatmentsData);
 
     return new GetTreatmentData(rawTreatmentsData);
   }

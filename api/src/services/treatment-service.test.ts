@@ -90,7 +90,7 @@ describe('TreatmentService', () => {
 
       const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
 
-      expect(response[0].missingProperties.length).to.be.equal(9);
+      expect(response[0].missingProperties.length).to.be.equal(6);
     });
 
     it('should return an array of invalid units with invalid properties', async function () {
@@ -141,15 +141,17 @@ describe('TreatmentService', () => {
         {
           properties: {
             OBJECTID: 1,
-            Treatment_: 2,
-            Width_m: 3,
-            Length_m: 4,
-            Reconnaiss: 'Y',
-            Leave_for_: 'Y',
-            Treatment1: 'string',
-            FEATURE_TY: 'string',
-            ROAD_ID: 5,
-            SHAPE_Leng: 22.22
+            SHAPE_Leng: 3498.988939,
+            TU_ID: 1,
+            Width_m: 240,
+            Length_m: 3498,
+            Area_ha: 10,
+            Recon: 'Y',
+            Treatments: 'Tree bending; Tree felling; Seeding',
+            Type: 'Transect',
+            Descript: 'something',
+            Implement: 'Y',
+            Year: '2020'
           }
         } as unknown
       ] as TreatmentFeature[];
@@ -252,7 +254,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const treatmentProperties = { FEATURE_TY: 'something' } as TreatmentFeatureProperties;
+      const treatmentProperties = { Type: 'something' } as TreatmentFeatureProperties;
 
       const response = await treatmentService.getEqualTreatmentFeatureTypeIds(treatmentProperties);
 
@@ -268,7 +270,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const treatmentProperties = { FEATURE_TY: 'Road' } as TreatmentFeatureProperties;
+      const treatmentProperties = { Type: 'Road' } as TreatmentFeatureProperties;
 
       const response = await treatmentService.getEqualTreatmentFeatureTypeIds(treatmentProperties);
 
@@ -293,14 +295,14 @@ describe('TreatmentService', () => {
 
       sinon.stub(treatmentService, 'getEqualTreatmentFeatureTypeIds').resolves(mockGetEqualTreatmentFeatureTypes);
 
-      const mockTreatmentUnitTypesSQLResponse = null;
+      const mockTreatmentUnitTypesSQLResponse = SQL(null);
       sinon.stub(queries.project, 'postTreatmentUnitSQL').returns(mockTreatmentUnitTypesSQLResponse);
 
-      const treatmentProperties = { FEATURE_TY: 'something' } as TreatmentFeatureProperties;
-      const treatmentGeometry = {} as Geometry;
+      const treatmentFeature = ({ Type: 'something' } as unknown) as TreatmentFeature;
+      //const treatmentGeometry = {} as Geometry;
 
       try {
-        await treatmentService.insertTreatmentUnit(1, treatmentProperties, treatmentGeometry);
+        await treatmentService.insertTreatmentUnit(1, treatmentFeature);
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to build SQL insert statement');
@@ -323,29 +325,32 @@ describe('TreatmentService', () => {
       const mockTreatmentUnitTypesSQLResponse = SQL`Valid SQL return`;
       sinon.stub(queries.project, 'postTreatmentUnitSQL').returns(mockTreatmentUnitTypesSQLResponse);
 
-      const treatmentProperties = {
-        OBJECTID: 1,
-        Treatment_: 1,
-        Width_m: 240,
-        Length_m: 3498,
-        Reconnaiss: 'Y',
-        Leave_for_: 'N',
-        Treatment1: 'Tree bending; Tree felling; Seeding',
-        FEATURE_TY: 'Transect',
-        ROAD_ID: 0,
-        SHAPE_Leng: 3498.988939
-      } as TreatmentFeatureProperties;
-      const treatmentGeometry = {
-        bbox: [-122.46204108416048, 58.44944100517593, -122.44525166669784, 58.479595787093686],
-        type: 'LineString',
-        coordinates: [
-          [-122.44525166669784, 58.479595787093665],
-          [-122.46204108416048, 58.44944100517593]
-        ]
-      } as Geometry;
-
+      const treatmentFeatureObj = {
+        geometry: {
+          bbox: [-122.46204108416048, 58.44944100517593, -122.44525166669784, 58.479595787093686],
+          type: 'LineString',
+          coordinates: [
+            [-122.44525166669784, 58.479595787093665],
+            [-122.46204108416048, 58.44944100517593]
+          ]
+        },
+        properties: {
+          OBJECTID: 1,
+          SHAPE_Leng: 3498.988939,
+          TU_ID: 1,
+          Width_m: 240,
+          Length_m: 3498,
+          Area_ha: 10,
+          Recon: 'Y',
+          Treatments: 'Tree bending; Tree felling; Seeding',
+          Type: 'Transect',
+          Descript: 'something',
+          Implement: 'Y',
+          Year: '2020'
+        }
+      } as TreatmentFeature;
       try {
-        await treatmentService.insertTreatmentUnit(1, treatmentProperties, treatmentGeometry);
+        await treatmentService.insertTreatmentUnit(1, treatmentFeatureObj);
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to insert treatment unit data');
@@ -370,29 +375,32 @@ describe('TreatmentService', () => {
       const mockTreatmentUnitTypesSQLResponse = SQL`Valid SQL return`;
       sinon.stub(queries.project, 'postTreatmentUnitSQL').returns(mockTreatmentUnitTypesSQLResponse);
 
-      const treatmentProperties = {
-        OBJECTID: 1,
-        Treatment_: 1,
-        Width_m: 240,
-        Length_m: 3498,
-        Reconnaiss: 'Y',
-        Leave_for_: 'N',
-        Treatment1: 'Tree bending; Tree felling; Seeding',
-        FEATURE_TY: 'Transect',
-        ROAD_ID: 0,
-        SHAPE_Leng: 3498.988939
-      } as TreatmentFeatureProperties;
+      const treatmentFeatureObj = {
+        geometry: {
+          bbox: [-122.46204108416048, 58.44944100517593, -122.44525166669784, 58.479595787093686],
+          type: 'LineString',
+          coordinates: [
+            [-122.44525166669784, 58.479595787093665],
+            [-122.46204108416048, 58.44944100517593]
+          ]
+        },
+        properties: {
+          OBJECTID: 1,
+          SHAPE_Leng: 3498.988939,
+          TU_ID: 1,
+          Width_m: 240,
+          Length_m: 3498,
+          Area_ha: 10,
+          Recon: 'Y',
+          Treatments: 'Tree bending; Tree felling; Seeding',
+          Type: 'Transect',
+          Descript: 'something',
+          Implement: 'Y',
+          Year: '2020'
+        }
+      } as TreatmentFeature;
 
-      const treatmentGeometry = {
-        bbox: [-122.46204108416048, 58.44944100517593, -122.44525166669784, 58.479595787093686],
-        type: 'LineString',
-        coordinates: [
-          [-122.44525166669784, 58.479595787093665],
-          [-122.46204108416048, 58.44944100517593]
-        ]
-      } as Geometry;
-
-      const result = await treatmentService.insertTreatmentUnit(1, treatmentProperties, treatmentGeometry);
+      const result = await treatmentService.insertTreatmentUnit(1, treatmentFeatureObj);
 
       expect(result).to.be.equal(treatmentUnitRow);
     });
@@ -604,7 +612,7 @@ describe('TreatmentService', () => {
       sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(null);
 
       try {
-        await treatmentService.getTreatmentDataYearExist(1, 1);
+        await treatmentService.getTreatmentDataYearExist(1, '2020');
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to build SQL update statement');
@@ -618,7 +626,7 @@ describe('TreatmentService', () => {
 
       sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(SQL`valid SQL`);
 
-      const response = await treatmentService.getTreatmentDataYearExist(1, 1);
+      const response = await treatmentService.getTreatmentDataYearExist(1, '2020');
 
       expect(response).to.be.null;
     });
@@ -630,7 +638,7 @@ describe('TreatmentService', () => {
 
       sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(SQL`valid SQL`);
 
-      const response = await treatmentService.getTreatmentDataYearExist(1, 1);
+      const response = await treatmentService.getTreatmentDataYearExist(1, '2020');
 
       expect(response?.treatment_id).to.be.equal(1);
     });
@@ -663,12 +671,12 @@ describe('TreatmentService', () => {
       ];
 
       const mockDBConnection = registerMockDBConnection({
-        query: sinon.stub().resolves({ rows: treatmentList })
+        knex: sinon.stub().resolves({ rows: treatmentList })
       });
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const response = await treatmentService.getTreatmentsByCriteria(1);
+      const response = await treatmentService.getTreatmentsByCriteria(1, {});
 
       expect(response).to.eql({
         treatmentList: [
@@ -711,7 +719,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const response = await treatmentService.getTreatmentsByCriteria(1);
+      const response = await treatmentService.getTreatmentsByCriteria(1, { years: ['2020'] });
 
       expect(response).to.eql({
         treatmentList: [
@@ -760,7 +768,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const response = await treatmentService.getTreatmentsByCriteria(1);
+      const response = await treatmentService.getTreatmentsByCriteria(1, { years: ['2020'] });
 
       expect(response).to.eql({
         treatmentList: [
@@ -831,7 +839,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const response = await treatmentService.getTreatmentsByCriteria(1);
+      const response = await treatmentService.getTreatmentsByCriteria(1, { years: ['2020'] });
 
       expect(response).to.eql({
         treatmentList: [

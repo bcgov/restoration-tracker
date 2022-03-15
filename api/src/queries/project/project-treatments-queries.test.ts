@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { Feature } from 'geojson';
 import { describe } from 'mocha';
+import { TreatmentFeature } from '../../models/project-treatment';
 import {
   deleteProjectTreatmentsByYearSQL,
   deleteProjectTreatmentUnitIfNoTreatmentsSQL,
@@ -36,16 +36,14 @@ describe('postTreatmentUnitSQL', () => {
     const response = postTreatmentUnitSQL(
       (null as unknown) as number,
       (null as unknown) as number,
-      (null as unknown) as Feature['properties'],
-      (null as unknown) as Feature['geometry']
+      (null as unknown) as TreatmentFeature
     );
 
     expect(response).to.be.null;
   });
 
   it('returns non null response when valid projectId and other data provided', () => {
-    const featureObj = {
-      type: 'Feature',
+    const treatmentFeatureObj = {
       geometry: {
         bbox: [-122.46204108416048, 58.44944100517593, -122.44525166669784, 58.479595787093686],
         type: 'LineString',
@@ -56,19 +54,21 @@ describe('postTreatmentUnitSQL', () => {
       },
       properties: {
         OBJECTID: 1,
-        Treatment_: 1,
+        SHAPE_Leng: 3498.988939,
+        TU_ID: 1,
         Width_m: 240,
         Length_m: 3498,
-        Reconnaiss: 'Y',
-        Leave_for_: 'N',
-        Treatment1: 'Tree bending; Tree felling; Seeding',
-        FEATURE_TY: 'Transect',
-        ROAD_ID: 0,
-        SHAPE_Leng: 3498.988939
+        Area_ha: 10,
+        Recon: 'Y',
+        Treatments: 'Tree bending; Tree felling; Seeding',
+        Type: 'Transect',
+        Descript: 'something',
+        Implement: 'Y',
+        Year: '2020'
       }
-    } as Feature;
+    } as TreatmentFeature;
 
-    const response = postTreatmentUnitSQL(1, 1, featureObj.properties, featureObj.geometry);
+    const response = postTreatmentUnitSQL(1, 1, treatmentFeatureObj);
 
     expect(response).to.not.be.null;
   });
@@ -122,13 +122,13 @@ describe('getTreatmentUnitExistSQL', () => {
 
 describe('getTreatmentDataYearExistSQL', () => {
   it('returns null response when null  provided', () => {
-    const response = getTreatmentDataYearExistSQL((null as unknown) as number, (null as unknown) as number);
+    const response = getTreatmentDataYearExistSQL((null as unknown) as number, (null as unknown) as string);
 
     expect(response).to.be.null;
   });
 
   it('returns non null response when valid treatmentUnitId provided', () => {
-    const response = getTreatmentDataYearExistSQL(1, 1);
+    const response = getTreatmentDataYearExistSQL(1, '1');
 
     expect(response).to.not.be.null;
   });
