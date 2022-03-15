@@ -383,14 +383,8 @@ const ViewProjectPage: React.FC = () => {
               onChange={handleTabChange}
               variant="fullWidth"
               aria-label="Project Navigation">
-              <Tab
-                label="Project Details"
-                value="project_details"
-              />
-              <Tab
-                label="Documents"
-                value="project_documents"
-              />
+              <Tab label="Project Details" value="project_details" />
+              <Tab label="Documents" value="project_documents" />
             </Tabs>
           </Box>
 
@@ -400,7 +394,6 @@ const ViewProjectPage: React.FC = () => {
           <TabPanel value={tabValue} index="project_documents">
             <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
           </TabPanel>
-
         </Box>
       </Drawer>
 

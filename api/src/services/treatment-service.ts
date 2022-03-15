@@ -322,7 +322,9 @@ export class TreatmentService extends DBService {
         'treatment_unit.length',
         'treatment_unit.area',
         'treatment.year as treatment_year',
-        'treatment_type.name as treatment_name'
+        'treatment_type.name as treatment_name',
+        'treatment_unit.description',
+        'treatment_unit.comments'
       )
       .from('treatment_unit');
     queryBuilder.leftJoin('feature_type', 'treatment_unit.feature_type_id', 'feature_type.feature_type_id');
@@ -349,6 +351,8 @@ export class TreatmentService extends DBService {
     queryBuilder.groupBy('treatment_unit.area');
     queryBuilder.groupBy('treatment.year');
     queryBuilder.groupBy('treatment_type.name');
+    queryBuilder.groupBy('treatment_unit.description');
+    queryBuilder.groupBy('treatment_unit.comments');
 
     const response = await this.connection.knex<{ project_id: number }>(queryBuilder);
 

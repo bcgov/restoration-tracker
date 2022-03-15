@@ -34,7 +34,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const [isTreatmentLoading, setIsTreatmentLoading] = useState(false);
 
   const [yearList, setYearList] = useState<{ year: number }[]>([]);
-  const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundry: true });
+  const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundary: true });
 
   const handleImportTreatmentClick = () => setOpenImportTreatments(true);
 
@@ -151,16 +151,16 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}>
               <Box mt={1} width={300}>
-                <MenuItem
-                  selected={selectedSpatialLayer.boundry}
-                  onClick={() => handleSelectedSwitch('boundry')}
+                {/* <MenuItem
+                  selected={selectedSpatialLayer.boundary}
+                  onClick={() => handleSelectedSwitch('boundary')}
                   disableGutters>
-                  <Checkbox checked={selectedSpatialLayer.boundry} color="primary" />
+                  <Checkbox checked={selectedSpatialLayer.boundary} color="primary" />
                   <Box flexGrow={1}>Project Boundary</Box>
                   <ListItemIcon onClick={() => alert("I'm not sure what my job is")}>
                     <Icon path={mdiTrashCanOutline} size={1.25} />
                   </ListItemIcon>
-                </MenuItem>
+                </MenuItem> */}
 
                 <Box m={2} p={1}>
                   <Typography>
