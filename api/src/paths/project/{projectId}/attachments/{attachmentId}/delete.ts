@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { PROJECT_ROLE } from '../../../../../constants/roles';
+import { PROJECT_ROLE, SYSTEM_ROLE } from '../../../../../constants/roles';
 import { getDBConnection } from '../../../../../database/db';
 import { HTTP400 } from '../../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../../request-handlers/security/authorization';
@@ -13,7 +13,11 @@ const defaultLog = getLogger('/api/project/{projectId}/attachments/{attachmentId
 export const DELETE: Operation = [
   authorizeRequestHandler((req) => {
     return {
-      and: [
+      or: [
+        {
+          validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR],
+          discriminator: 'SystemRole'
+        },
         {
           validProjectRoles: [PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR],
           projectId: Number(req.params.projectId),
@@ -49,14 +53,24 @@ DELETE.apiDoc = {
       required: true
     }
   ],
-  requestBody: {
-    description: 'Current attachment type for project attachment.',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object'
-        }
-      }
+  responses: {
+    200: {
+      description: 'Delete project attachment OK'
+    },
+    400: {
+      $ref: '#/components/responses/400'
+    },
+    401: {
+      $ref: '#/components/responses/401'
+    },
+    403: {
+      $ref: '#/components/responses/401'
+    },
+    500: {
+      $ref: '#/components/responses/500'
+    },
+    default: {
+      $ref: '#/components/responses/default'
     }
   }
 };

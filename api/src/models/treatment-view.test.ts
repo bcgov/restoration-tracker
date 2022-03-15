@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { Feature } from 'geojson';
 import { describe } from 'mocha';
 import { GetTreatmentData } from '../models/treatment-view';
 
@@ -25,6 +26,9 @@ describe('GetTreatmentsData', () => {
         width: 240,
         length: 3498,
         area: 839520,
+        geojson: [{} as Feature],
+        comments: '',
+        description: '',
         treatment_year: '2020',
         treatment_name: 'Seeding'
       },
@@ -34,6 +38,9 @@ describe('GetTreatmentsData', () => {
         width: 240,
         length: 3498,
         area: 839520,
+        geojson: [{} as Feature],
+        comments: '',
+        description: '',
         treatment_year: '2021',
         treatment_name: 'Tree Felling'
       }
@@ -51,6 +58,9 @@ describe('GetTreatmentsData', () => {
           width: 240,
           length: 3498,
           area: 839520,
+          geometry: {},
+          comments: '',
+          description: '',
           treatments: [
             {
               treatment_year: '2020',

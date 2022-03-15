@@ -8,6 +8,7 @@ import { HTTPError } from '../../../../errors/custom-error';
 import { getTreatments } from './list';
 import { TreatmentService } from '../../../../services/treatment-service';
 import { GetTreatmentData } from '../../../../models/treatment-view';
+import { Feature } from 'geojson';
 
 chai.use(sinonChai);
 
@@ -64,6 +65,9 @@ describe('getTreatments', () => {
         width: 240,
         length: 3498,
         area: 839520,
+        geojson: [{} as Feature],
+        comments: '',
+        description: '',
         treatment_year: '2020',
         treatment_name: 'Seeding'
       },
@@ -73,6 +77,9 @@ describe('getTreatments', () => {
         width: 240,
         length: 3498,
         area: 839520,
+        geojson: [{} as Feature],
+        comments: '',
+        description: '',
         treatment_year: '2021',
         treatment_name: 'Tree Felling'
       }
@@ -92,6 +99,9 @@ describe('getTreatments', () => {
           width: 240,
           length: 3498,
           area: 839520,
+          geometry: {},
+          comments: '',
+          description: '',
           treatments: [
             {
               treatment_year: '2020',

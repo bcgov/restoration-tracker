@@ -190,20 +190,18 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
         </Box>
       </Box>
 
-
-
       {/* Project Metadata */}
       <Box flex="1 auto" className={classes.projectMetadata}>
-      <Box component="section">
-        <Typography variant="body1" component={'h3'}>
-          Objectives
-        </Typography>
-        <Box mt={2}>
-          <PublicObjectives projectForViewData={projectForViewData} refresh={refresh} />
+        <Box component="section">
+          <Typography variant="body1" component={'h3'}>
+            Objectives
+          </Typography>
+          <Box mt={2}>
+            <PublicObjectives projectForViewData={projectForViewData} refresh={refresh} />
+          </Box>
         </Box>
-      </Box>
 
-      <Divider></Divider>
+        <Divider></Divider>
         <Box component="section">
           <Typography variant="body1" component={'h3'}>
             General Information
