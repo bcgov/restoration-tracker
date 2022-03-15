@@ -48,7 +48,7 @@ export const ProjectLocationFormYupSchema = yup.object().shape({
   location: yup.object().shape({
     geometry: yup.array().min(1, 'You must specify a project boundary').required('You must specify a project boundary'),
     range: yup.string().notRequired(),
-    priority: yup.string().required('Required'),
+    priority: yup.string().notRequired(),
     region: yup.string().required('Required')
   })
 });
