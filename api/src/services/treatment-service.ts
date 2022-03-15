@@ -56,21 +56,30 @@ export class TreatmentService extends DBService {
       const treatmentUnitError: string[] = [];
 
       !Number.isInteger(item.properties.OBJECTID) && treatmentUnitError.push('Missing property OBJECTID');
-      !Number.isInteger(item.properties.Treatment_) && treatmentUnitError.push('Missing property Treatment_');
+      !Number.isInteger(item.properties.TU_ID) && treatmentUnitError.push('Missing property TU_ID');
       !Number.isInteger(item.properties.Width_m) && treatmentUnitError.push('Missing property Width_m');
-      // !Number.isInteger(item.properties.Length_m) && treatmentUnitError.push('Missing property Length_m');
-      !Number.isInteger(item.properties.ROAD_ID) && treatmentUnitError.push('Missing property ROAD_ID');
-      !Number.isFinite(item.properties.SHAPE_Leng) && treatmentUnitError.push('Missing property SHAPE_Leng');
-      typeof item.properties.Reconnaiss !== 'string' ||
-        (item.properties.Reconnaiss.length <= 0 && treatmentUnitError.push('Missing property Reconnaiss'));
-      typeof item.properties.Leave_for_ !== 'string' ||
-        (item.properties.Leave_for_.length <= 0 && treatmentUnitError.push('Missing property Leave_for_'));
-      typeof item.properties.Treatment1 !== 'string' && treatmentUnitError.push('Missing property Treatment1');
-      typeof item.properties.FEATURE_TY !== 'string' ||
-        (item.properties.FEATURE_TY.length <= 0 && treatmentUnitError.push('Missing property FEATURE_TY'));
+      !Number.isInteger(item.properties.Length_m) && treatmentUnitError.push('Missing property Length_m');
+      !Number.isFinite(item.properties.Area_ha) && treatmentUnitError.push('Missing property Area_ha');
+
+      typeof item.properties.Recon !== 'string' ||
+        (item.properties.Recon.length <= 0 && treatmentUnitError.push('Missing property Recon'));
+
+      typeof item.properties.Treatments !== 'string' && treatmentUnitError.push('Missing property Treatments');
+
+      typeof item.properties.Type !== 'string' ||
+        (item.properties.Type.length <= 0 && treatmentUnitError.push('Missing property Type'));
+
+      typeof item.properties.Descript !== 'string' ||
+        (item.properties.Descript.length <= 0 && treatmentUnitError.push('Missing property Descript'));
+
+      typeof item.properties.Implement !== 'string' ||
+        (item.properties.Implement.length <= 0 && treatmentUnitError.push('Missing property Implement'));
+
+      typeof item.properties.Year !== 'string' ||
+        (item.properties.Year.length <= 0 && treatmentUnitError.push('Missing property Year'));
 
       if (treatmentUnitError.length > 0) {
-        errorArray.push({ treatmentUnitId: item.properties.Treatment_, missingProperties: treatmentUnitError });
+        errorArray.push({ treatmentUnitId: item.properties.TU_ID, missingProperties: treatmentUnitError });
       }
     }
 
@@ -101,7 +110,7 @@ export class TreatmentService extends DBService {
     let featureTypeObj: GetTreatmentFeatureTypes[] = [];
 
     featureTypeObj = treatmentFeatureTypes.filter((item) => {
-      return item.name === treatmentFeatureProperties.FEATURE_TY;
+      return item.name === treatmentFeatureProperties.Type;
     });
 
     if (featureTypeObj.length === 0) {
@@ -185,7 +194,7 @@ export class TreatmentService extends DBService {
   ): Promise<void> {
     const treatmentUnitTypes = await this.getTreatmentUnitTypes();
 
-    const givenTypesString = treatmentFeatureProperties.Treatment1;
+    const givenTypesString = treatmentFeatureProperties.Treatments;
     const givenTypesSplit = givenTypesString.split('; ');
 
     const treatmentTypes: number[] = [];
@@ -211,10 +220,7 @@ export class TreatmentService extends DBService {
     treatmentUnitId: number,
     featureProperties: TreatmentFeatureProperties
   ): Promise<void> {
-    const insertTreatmentDataResponse = await this.insertTreatmentData(
-      treatmentUnitId,
-      featureProperties.year || Math.floor(Math.random() * 20) + 2000
-    );
+    const insertTreatmentDataResponse = await this.insertTreatmentData(treatmentUnitId, featureProperties.Year);
 
     await this.insertAllTreatmentTypes(insertTreatmentDataResponse.treatment_id, featureProperties);
   }
@@ -228,7 +234,7 @@ export class TreatmentService extends DBService {
       const checkTreatmentUnitExist = await this.getTreatmentUnitExist(
         projectId,
         featureTypeObj.feature_type_id,
-        item.properties?.Treatment_
+        item.properties?.TU_ID
       );
 
       if (!checkTreatmentUnitExist) {
@@ -242,7 +248,7 @@ export class TreatmentService extends DBService {
         //Treatment Unit Exists
         const checkTreatmentDataYearExists = await this.getTreatmentDataYearExist(
           checkTreatmentUnitExist.treatment_unit_id,
-          item.properties?.year || 99
+          item.properties?.Year
         );
 
         if (!checkTreatmentDataYearExists) {
@@ -278,7 +284,7 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async getTreatmentDataYearExist(treatmentUnitId: number, year: number): Promise<ITreatmentDataInsertOrExists | null> {
+  async getTreatmentDataYearExist(treatmentUnitId: number, year: string): Promise<ITreatmentDataInsertOrExists | null> {
     const sqlStatement = queries.project.getTreatmentDataYearExistSQL(treatmentUnitId, year);
 
     if (!sqlStatement) {

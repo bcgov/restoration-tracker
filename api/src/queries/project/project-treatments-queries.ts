@@ -61,20 +61,18 @@ export const postTreatmentUnitSQL = (
       width,
       length,
       area,
-      comments,
       reconnaissance_conducted,
       geojson,
       geography
     ) VALUES (
       ${projectId},
       ${featureTypeId},
-      ${feature.properties.Treatment_},
-      ${feature.properties.Treatment1},
+      ${feature.properties.TU_ID},
+      ${feature.properties.Descript},
       ${feature.properties.Width_m},
       ${feature.properties.Length_m},
-      ${feature.properties.Width_m * feature.properties.Length_m},
-      ${feature.properties.FEATURE_TY},
-      ${feature.properties.Reconnaiss},
+      ${feature.properties.Area_ha},
+      ${feature.properties.Recon},
       ${JSON.stringify([feature])}
     `;
 
@@ -198,7 +196,7 @@ export const getTreatmentUnitExistSQL = (
  * @param year
  * @returns {SQLStatement} sql query object
  */
-export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: number): SQLStatement | null => {
+export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: string): SQLStatement | null => {
   if (!treatmentUnitId || !year) {
     return null;
   }

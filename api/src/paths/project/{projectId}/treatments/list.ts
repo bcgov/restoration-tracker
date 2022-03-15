@@ -94,7 +94,8 @@ GET.apiDoc = {
                       type: 'string'
                     },
                     comments: {
-                      type: 'string'
+                      type: 'string',
+                      nullable: true
                     },
                     treatments: {
                       type: 'array',

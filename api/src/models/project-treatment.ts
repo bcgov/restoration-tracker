@@ -43,14 +43,15 @@ export type TreatmentFeature = Feature<Geometry, TreatmentFeatureProperties>;
 
 export type TreatmentFeatureProperties = {
   OBJECTID: number;
-  Treatment_: number;
+  SHAPE_Leng: number;
+  TU_ID: number;
   Width_m: number;
   Length_m: number;
-  Reconnaiss: string;
-  Leave_for_: string;
-  Treatment1: string;
-  FEATURE_TY: string;
-  ROAD_ID: number;
-  SHAPE_Leng: number;
-  year: number;
+  Area_ha: number;
+  Recon: string;
+  Treatments: string;
+  Type: string;
+  Descript: string;
+  Implement: string;
+  Year: string;
 };
