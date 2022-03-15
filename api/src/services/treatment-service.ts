@@ -354,7 +354,9 @@ export class TreatmentService extends DBService {
     queryBuilder.groupBy('treatment_unit.description');
     queryBuilder.groupBy('treatment_unit.comments');
 
-    const response = await this.connection.knex<{ project_id: number }>(queryBuilder);
+    queryBuilder.where('treatment_unit.project_id', projectId);
+
+    const response = await this.connection.knex(queryBuilder);
 
     const rawTreatmentsData = response && response.rows ? response.rows : [];
 
