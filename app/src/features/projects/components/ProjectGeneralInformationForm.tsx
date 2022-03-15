@@ -1,16 +1,10 @@
 import Grid from '@material-ui/core/Grid';
 import CustomTextField from 'components/fields/CustomTextField';
-import MultiAutocompleteFieldVariableSize, {
-  IMultiAutocompleteFieldOption
-} from 'components/fields/MultiAutocompleteFieldVariableSize';
+import MultiAutocompleteAPIField from 'components/fields/MultiAutocompleteApiField';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import React from 'react';
 import yup from 'utils/YupSchema';
-
-export interface IProjectGeneralInformationFormProps {
-  species: IMultiAutocompleteFieldOption[];
-}
 
 export interface IProjectGeneralInformationForm {
   project: {
@@ -57,7 +51,7 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
  * @return {*}
  */
 
-const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
+const ProjectGeneralInformationForm: React.FC<any> = (props) => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
   return (
@@ -92,7 +86,7 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
 
           <Grid item xs={12}>
             <Grid item xs={12}>
-              <MultiAutocompleteFieldVariableSize
+              <MultiAutocompleteAPIField
                 id="species.focal_species"
                 label="Focal Species"
                 options={props.species}

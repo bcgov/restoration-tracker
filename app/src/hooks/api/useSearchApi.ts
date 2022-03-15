@@ -48,3 +48,27 @@ export const usePublicSearchApi = (axios: AxiosInstance) => {
     getSearchResults
   };
 };
+
+/**
+ * Returns a set of supported api methods for working with taxonomy search functionality.
+ *
+ * @param {AxiosInstance} axios
+ * @return {*} object whose properties are supported api methods.
+ */
+export const useSearchTaxonomyApi = (axios: AxiosInstance) => {
+  /**
+   * Get search results (taxonomy)
+   *
+   * @return {*}  {Promise<[any]>}
+   */
+  const getSearchResults = async (value: any): Promise<[any]> => {
+    axios.defaults.data = { terms: value };
+    const { data } = await axios.get(`/api/taxonomy/search`);
+
+    return data;
+  };
+
+  return {
+    getSearchResults
+  };
+};
