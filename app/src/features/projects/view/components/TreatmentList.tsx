@@ -81,8 +81,8 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     const generalInformation = [
       { title: 'ID', value: currentTreatmentDetail.id },
       { title: 'Type', value: currentTreatmentDetail.type },
-      { title: 'Width / Length', value: currentTreatmentDetail.width },
-      { title: 'Area', value: currentTreatmentDetail.area },
+      { title: 'Width (m) / Length (m)', value: `${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}` },
+      { title: 'Area (Ha)', value: currentTreatmentDetail.area },
       { title: 'Treatment Year', value: treatmentYears },
       { title: 'Treatments', value: treatments }
     ];
