@@ -342,6 +342,10 @@ export interface IPostTreatmentUnitResponse {
   revision_count: number;
 }
 
+export interface TreatmentSearchCriteria {
+  years: string[];
+}
+
 /**
  * Get project attachments response object.
  *

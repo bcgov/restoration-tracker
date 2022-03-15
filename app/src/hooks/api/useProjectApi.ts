@@ -11,7 +11,8 @@ import {
   IProjectAdvancedFilterRequest,
   IUploadAttachmentResponse,
   IGetProjectTreatmentsResponse,
-  IPostTreatmentUnitResponse
+  IPostTreatmentUnitResponse,
+  TreatmentSearchCriteria
 } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
 
@@ -64,7 +65,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    */
   const getProjectTreatments = async (
     projectId: number,
-    filterByYear?: number
+    filterByYear?: TreatmentSearchCriteria
   ): Promise<IGetProjectTreatmentsResponse> => {
     const { data } = await axios.get(`/api/project/${projectId}/treatments/list`, {
       params: filterByYear,

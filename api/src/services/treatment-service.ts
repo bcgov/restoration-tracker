@@ -15,7 +15,7 @@ import { queries } from '../queries/queries';
 import { DBService } from './service';
 
 export type TreatmentSearchCriteria = {
-  year?: string;
+  years?: string[];
 };
 
 export class TreatmentService extends DBService {
@@ -338,13 +338,10 @@ export class TreatmentService extends DBService {
       'treatment_type.treatment_type_id'
     );
 
-    if (criteria.year) {
-      queryBuilder.and.where(function () {
-        this.or.whereILike('treatment.year', `%${criteria.year}%`);
-      });
+    if (criteria.years) {
+      queryBuilder.and.whereIn('treatment.year', (Array.isArray(criteria.years) && criteria.years) || [criteria.years]);
     }
 
-    queryBuilder.groupBy('treatment.year');
     queryBuilder.groupBy('treatment_unit.name');
     queryBuilder.groupBy('feature_type.name');
     queryBuilder.groupBy('treatment_unit.width');
@@ -356,7 +353,6 @@ export class TreatmentService extends DBService {
     const response = await this.connection.knex<{ project_id: number }>(queryBuilder);
 
     const rawTreatmentsData = response && response.rows ? response.rows : [];
-    console.log('rawTreatmentsData: ', rawTreatmentsData);
 
     return new GetTreatmentData(rawTreatmentsData);
   }
@@ -386,8 +382,6 @@ export class TreatmentService extends DBService {
     }
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
-
-    console.log('treatment years', response);
 
     if (!response || !response?.rows) {
       return null;

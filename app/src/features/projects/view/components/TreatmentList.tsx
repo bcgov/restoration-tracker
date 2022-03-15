@@ -8,13 +8,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
+import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 
 export interface IProjectTreatmentListProps {
   treatmentList: IGetProjectTreatment[];
-  getTreatments: (forceFetch: boolean) => void;
+  getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
   refresh: () => void;
 }
 

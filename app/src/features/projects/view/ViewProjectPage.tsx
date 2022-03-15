@@ -28,7 +28,8 @@ import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import {
   IGetProjectAttachment,
   IGetProjectForViewResponse,
-  IGetProjectTreatment
+  IGetProjectTreatment,
+  TreatmentSearchCriteria
 } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -165,11 +166,11 @@ const ViewProjectPage: React.FC = () => {
   );
 
   const getTreatments = useCallback(
-    async (forceFetch: boolean) => {
+    async (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => {
       if (treatmentList.length && !forceFetch) return;
 
       try {
-        const response = await restorationTrackerApi.project.getProjectTreatments(projectId);
+        const response = await restorationTrackerApi.project.getProjectTreatments(projectId, selectedYears);
 
         if (!response?.treatmentList) return;
 

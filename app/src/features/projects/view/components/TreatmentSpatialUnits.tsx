@@ -7,13 +7,13 @@ import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
+import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 export interface IProjectSpatialUnitsProps {
   treatmentList: IGetProjectTreatment[];
-  getTreatments: (forceFetch: boolean) => void;
+  getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
 }
 
 /**
@@ -55,7 +55,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const handleDeleteTreatmentsByYear = async (year: number) => {
     await restorationTrackerApi.project.deleteProjectTreatmentsByYear(projectId, year);
-    getTreatments(true);
+    handleSelectedSwitch(year);
     getTreatmentYears(true);
   };
 
@@ -64,6 +64,17 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
       ...selectedSpatialLayer,
       [selectedName]: !selectedSpatialLayer[selectedName]
     });
+
+    const selectedArray: TreatmentSearchCriteria = { years: [] };
+
+    Object.keys(selectedSpatialLayer).forEach((key) => {
+      //handles async discrepancies for selected years
+      if ((selectedSpatialLayer[key] && key !== selectedName) || (key === selectedName && !selectedSpatialLayer[key])) {
+        selectedArray.years.push(key);
+      }
+    });
+
+    getTreatments(true, selectedArray);
   };
 
   const getTreatmentYears = useCallback(
