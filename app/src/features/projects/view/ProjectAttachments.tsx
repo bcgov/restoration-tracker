@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
 import { mdiTrayArrowUp } from '@mdi/js';
 import Icon from '@mdi/react';
 import AttachmentsList from 'components/attachments/AttachmentsList';
@@ -54,21 +53,19 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = (props) => {
         }}>
         <FileUpload uploadHandler={getUploadHandler()} />
       </ComponentDialog>
-      <Paper>
-        <H3ButtonToolbar
-          label="Documents"
-          buttonLabel="Upload"
-          buttonTitle="Upload Document"
-          buttonStartIcon={<Icon path={mdiTrayArrowUp} size={1} />}
-          buttonOnClick={handleUploadAttachmentClick}
-          buttonProps={{
-            variant: 'outlined'
-          }}
-        />
-        <Box px={3} pb={2}>
-          <AttachmentsList projectId={projectId} attachmentsList={attachmentsList} getAttachments={getAttachments} />
-        </Box>
-      </Paper>
+      <H3ButtonToolbar
+        label="Documents"
+        buttonLabel="Upload"
+        buttonTitle="Upload Document"
+        buttonStartIcon={<Icon path={mdiTrayArrowUp} size={1} />}
+        buttonOnClick={handleUploadAttachmentClick}
+        buttonProps={{
+          variant: 'outlined'
+        }}
+      />
+      <Box px={3} pb={2}>
+        <AttachmentsList projectId={projectId} attachmentsList={attachmentsList} getAttachments={getAttachments} />
+      </Box>
     </>
   );
 };
