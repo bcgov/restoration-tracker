@@ -39,7 +39,10 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
         return;
       }
 
-      treatmentFeatures.push({ geoJSON: item.geometry });
+      treatmentFeatures.push({
+        geoJSON: item.geometry,
+        tooltip: <p>{`Treatment Unit ID: ${item.id}`}</p>
+      });
     });
 
     const allLayers: IStaticLayer[] = [
