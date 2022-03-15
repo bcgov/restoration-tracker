@@ -67,6 +67,7 @@ describe('ProjectFundingForm', () => {
         fundingSources: [
           {
             id: 11,
+            agency_name: 'agency_name',
             agency_id: 1,
             investment_action_category: 1,
             investment_action_category_name: 'Action 23',
@@ -110,6 +111,7 @@ describe('ProjectFundingForm', () => {
           {
             id: 11,
             agency_id: 1,
+            agency_name: 'agency_name',
             investment_action_category: 1,
             investment_action_category_name: 'action 1',
             agency_project_id: '111',
@@ -121,6 +123,7 @@ describe('ProjectFundingForm', () => {
           {
             id: 12,
             agency_id: 2,
+            agency_name: 'agency_name',
             investment_action_category: 2,
             investment_action_category_name: 'category 1',
             agency_project_id: '112',
@@ -172,6 +175,7 @@ describe('ProjectFundingForm', () => {
             {
               id: 11,
               agency_id: 1,
+              agency_name: 'agency name',
               investment_action_category: 1,
               investment_action_category_name: 'action 1',
               agency_project_id: '111',
@@ -231,6 +235,7 @@ describe('ProjectFundingForm', () => {
             {
               id: 11,
               agency_id: 1,
+              agency_name: 'agency_name',
               investment_action_category: 1,
               investment_action_category_name: 'action 1',
               agency_project_id: '111',

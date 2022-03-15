@@ -18,6 +18,7 @@ import { useHistory } from 'react-router';
 import PublicFundingSource from './components/PublicFundingSource';
 import PublicGeneralInformation from './components/PublicGeneralInformation';
 import PublicIUCNClassification from './components/PublicIUCNClassification';
+import PublicObjectives from './components/PublicObjectives';
 import PublicPartnerships from './components/PublicPartnerships';
 import PublicProjectContact from './components/PublicProjectContact';
 import PublicProjectPermits from './components/PublicProjectPermits';
@@ -189,8 +190,20 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
         </Box>
       </Box>
 
+
+
       {/* Project Metadata */}
       <Box flex="1 auto" className={classes.projectMetadata}>
+      <Box component="section">
+        <Typography variant="body1" component={'h3'}>
+          Objectives
+        </Typography>
+        <Box mt={2}>
+          <PublicObjectives projectForViewData={projectForViewData} refresh={refresh} />
+        </Box>
+      </Box>
+
+      <Divider></Divider>
         <Box component="section">
           <Typography variant="body1" component={'h3'}>
             General Information
