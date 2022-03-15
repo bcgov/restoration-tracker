@@ -1,6 +1,7 @@
 import { cleanup, render } from '@testing-library/react';
 import bbox from '@turf/bbox';
 import React from 'react';
+import { IMarker } from './components/MarkerCluster';
 import { IStaticLayer } from './components/StaticLayers';
 import MapContainer from './MapContainer';
 
@@ -87,9 +88,9 @@ describe('MapContainer', () => {
   });
 
   it('renders with markers', () => {
-    const markers = [
+    const markers: IMarker[] = [
       {
-        position: { lat: 55, lng: -128 }
+        position: [ 55,128 ]
       }
     ];
 

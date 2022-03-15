@@ -52,7 +52,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
     );
 
     setStaticLayers(allLayers);
-  }, [location.geometry]);
+  }, [location.geometry, treatmentList]);
 
   return (
     <Box width="100%" height="100%" overflow="hidden" data-testid="map_container">

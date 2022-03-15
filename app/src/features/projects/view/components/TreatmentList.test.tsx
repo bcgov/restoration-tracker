@@ -1,4 +1,5 @@
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { Feature } from 'geojson';
 import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import TreatmentList from './TreatmentList';
@@ -17,6 +18,7 @@ describe('TreatmentList', () => {
       area: 10000,
       comments: 'something1',
       description: 'anything1',
+      geometry: {} as Feature,
       treatments: [
         {
           treatment_name: 'Seeding',
@@ -36,6 +38,7 @@ describe('TreatmentList', () => {
       area: 10000,
       comments: 'something2',
       description: 'anything2',
+      geometry: {} as Feature,
       treatments: [
         {
           treatment_name: 'Tree Felling',
@@ -79,6 +82,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something3',
         description: 'anything3',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
@@ -98,6 +102,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something4',
         description: 'anything4',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
@@ -113,6 +118,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something5',
         description: 'anything5',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
@@ -132,6 +138,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something6',
         description: 'anything6',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
@@ -147,6 +154,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something7',
         description: 'anything7',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
@@ -166,6 +174,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something8',
         description: 'anything8',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
@@ -181,6 +190,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something9',
         description: 'anything9',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
@@ -200,6 +210,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something10',
         description: 'anything10',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
@@ -215,6 +226,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something11',
         description: 'anything11',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
@@ -234,6 +246,7 @@ describe('TreatmentList', () => {
         area: 10000,
         comments: 'something12',
         description: 'anything12',
+        geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
@@ -276,14 +289,18 @@ describe('TreatmentList', () => {
   });
 
   it('renders correctly with open treatment unit details dialog', async () => {
-    const { getByText, getByTestId } = render(
+    const { getByText, getAllByText } = render(
       <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
+
     );
 
     expect(getByText('Other')).toBeInTheDocument();
     expect(getByText('Road')).toBeInTheDocument();
-    fireEvent.click(getByTestId('view-treatment-unit-details-1'));
-    expect(getByText('something2')).toBeInTheDocument();
-    expect(getByText('anything2')).toBeInTheDocument();
+
+    fireEvent.click(getAllByText('View Details')[0]);
+    await waitFor(() => {
+      expect(getByText('something1', { exact: false })).toBeInTheDocument();
+      expect(getByText('anything1', { exact: false })).toBeInTheDocument();
+    });
   });
 });
