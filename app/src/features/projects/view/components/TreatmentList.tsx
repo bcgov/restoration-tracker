@@ -151,9 +151,9 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                 <TableCell width="50">ID</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Treatments</TableCell>
-                <TableCell align="right">Width</TableCell>
-                <TableCell align="right">Length</TableCell>
-                <TableCell align="right">Area</TableCell>
+                <TableCell align="right">Width (m)</TableCell>
+                <TableCell align="right">Length (m)</TableCell>
+                <TableCell align="right">Area (Ha)</TableCell>
                 <TableCell align="left" width="130">
                   Action
                 </TableCell>
