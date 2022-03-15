@@ -183,18 +183,18 @@ export const generateValidGeometryCollection = (geometry: GeoJSON[], id?: string
       });
     });
   } else if (geometry[0]?.type === 'GeometryCollection') {
-    geometry[0].geometries.forEach((geometry) => {
+    geometry[0].geometries.forEach((item) => {
       geometryCollection.push({
         id: id || uuidv4(),
         type: 'Feature',
-        geometry,
+        geometry: item,
         properties: {}
       });
     });
   } else if (geometry[0]?.type === 'FeatureCollection') {
-    geometry[0].features.forEach((geometry) => {
+    geometry[0].features.forEach((item) => {
       geometryCollection.push({
-        ...geometry,
+        ...item,
         id: id || uuidv4(),
         type: 'Feature',
         properties: {}
