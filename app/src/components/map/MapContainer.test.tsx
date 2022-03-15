@@ -90,7 +90,7 @@ describe('MapContainer', () => {
   it('renders with markers', () => {
     const markers: IMarker[] = [
       {
-        position: [ 55,128 ]
+        position: [55, 128]
       }
     ];
 

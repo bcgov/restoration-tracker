@@ -32,16 +32,6 @@ describe('getTreatmentUnitTypesSQL', () => {
 });
 
 describe('postTreatmentUnitSQL', () => {
-  it('returns null response when null  provided', () => {
-    const response = postTreatmentUnitSQL(
-      (null as unknown) as number,
-      (null as unknown) as number,
-      (null as unknown) as TreatmentFeature
-    );
-
-    expect(response).to.be.null;
-  });
-
   it('returns non null response when valid projectId and other data provided', () => {
     const treatmentFeatureObj = {
       geometry: {

@@ -283,32 +283,6 @@ describe('TreatmentService', () => {
       sinon.restore();
     });
 
-    it('should throw an error when no sql statement produced', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-      const treatmentService = new TreatmentService(mockDBConnection);
-
-      const mockGetEqualTreatmentFeatureTypes = {
-        feature_type_id: 1,
-        name: 'Road',
-        description: 'desc'
-      } as GetTreatmentFeatureTypes;
-
-      sinon.stub(treatmentService, 'getEqualTreatmentFeatureTypeIds').resolves(mockGetEqualTreatmentFeatureTypes);
-
-      const mockTreatmentUnitTypesSQLResponse = SQL(null);
-      sinon.stub(queries.project, 'postTreatmentUnitSQL').returns(mockTreatmentUnitTypesSQLResponse);
-
-      const treatmentFeature = ({ Type: 'something' } as unknown) as TreatmentFeature;
-      //const treatmentGeometry = {} as Geometry;
-
-      try {
-        await treatmentService.insertTreatmentUnit(1, treatmentFeature);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL insert statement');
-      }
-    });
-
     it('returns null if the query response has no rows', async function () {
       const mockQueryResponse = ({} as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
@@ -524,7 +498,7 @@ describe('TreatmentService', () => {
 
       sinon.stub(treatmentService, 'insertTreatmentType').resolves((null as unknown) as ITreatmentTypeInsertOrExists);
 
-      const mockTreatmentFeatureProperties = ({ Treatment1: 'name; ' } as unknown) as TreatmentFeatureProperties;
+      const mockTreatmentFeatureProperties = ({ Treatments: 'name; ' } as unknown) as TreatmentFeatureProperties;
 
       try {
         await treatmentService.insertAllTreatmentTypes(1, mockTreatmentFeatureProperties);
@@ -548,7 +522,7 @@ describe('TreatmentService', () => {
         .stub(treatmentService, 'insertTreatmentType')
         .resolves({ treatment_treatment_type_id: 1 } as ITreatmentTypeInsertOrExists);
 
-      const mockTreatmentFeatureProperties = ({ Treatment1: 'name; second' } as unknown) as TreatmentFeatureProperties;
+      const mockTreatmentFeatureProperties = ({ Treatments: 'name; second' } as unknown) as TreatmentFeatureProperties;
 
       await treatmentService.insertAllTreatmentTypes(1, mockTreatmentFeatureProperties);
 
@@ -714,7 +688,7 @@ describe('TreatmentService', () => {
       ];
 
       const mockDBConnection = registerMockDBConnection({
-        query: sinon.stub().resolves({ rows: treatmentList })
+        knex: sinon.stub().resolves({ rows: treatmentList })
       });
 
       const treatmentService = new TreatmentService(mockDBConnection);
@@ -763,7 +737,7 @@ describe('TreatmentService', () => {
       ];
 
       const mockDBConnection = registerMockDBConnection({
-        query: sinon.stub().resolves({ rows: treatmentList })
+        knex: sinon.stub().resolves({ rows: treatmentList })
       });
 
       const treatmentService = new TreatmentService(mockDBConnection);
@@ -834,7 +808,7 @@ describe('TreatmentService', () => {
       ];
 
       const mockDBConnection = registerMockDBConnection({
-        query: sinon.stub().resolves({ rows: treatmentList })
+        knex: sinon.stub().resolves({ rows: treatmentList })
       });
 
       const treatmentService = new TreatmentService(mockDBConnection);

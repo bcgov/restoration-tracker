@@ -99,11 +99,7 @@ const SearchPage: React.FC = () => {
           <Box mb={4}>
             <Grid item xs={12}>
               <Box mt={2} height={750}>
-                <MapContainer
-                  mapId="search_boundary_map"
-                  scrollWheelZoom={true}
-                  markers={geometries}
-                />
+                <MapContainer mapId="search_boundary_map" scrollWheelZoom={true} markers={geometries} />
               </Box>
             </Grid>
           </Box>

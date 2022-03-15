@@ -291,7 +291,6 @@ describe('TreatmentList', () => {
   it('renders correctly with open treatment unit details dialog', async () => {
     const { getByText, getAllByText } = render(
       <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
-
     );
 
     expect(getByText('Other')).toBeInTheDocument();
