@@ -5,6 +5,7 @@ import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import LocationBoundary from './LocationBoundary';
+import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 
@@ -43,6 +44,24 @@ describe('LocationBoundary', () => {
     }
   ];
 
+  const treatment = [
+    {
+      id: 'TU12',
+      type: 'Other',
+      width: 100,
+      length: 100,
+      area: 10000,
+      comments: 'something12',
+      description: 'anything12',
+      treatments: [
+        {
+          treatment_name: 'Tree Felling',
+          treatment_year: '2015'
+        }
+      ]
+    }
+  ] as IGetProjectTreatment[];
+
   test('matches the snapshot when there is no geometry', async () => {
     mockRestorationTrackerApi().external.post.mockResolvedValue([]);
     const { getByTestId } = render(
@@ -51,6 +70,7 @@ describe('LocationBoundary', () => {
           ...getProjectForViewResponse,
           location: { ...getProjectForViewResponse.location, geometry: sharedGeometry }
         }}
+        treatmentList={treatment}
         codes={codes}
         refresh={mockRefresh}
       />

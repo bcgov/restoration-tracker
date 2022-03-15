@@ -76,22 +76,28 @@ GET.apiDoc = {
                   type: 'object',
                   properties: {
                     id: {
-                      type: 'string'
+                      type: 'string',
+                      nullable: true
                     },
                     type: {
-                      type: 'string'
+                      type: 'string',
+                      nullable: true
                     },
                     width: {
-                      type: 'number'
+                      type: 'number',
+                      nullable: true
                     },
                     length: {
-                      type: 'number'
+                      type: 'number',
+                      nullable: true
                     },
                     area: {
-                      type: 'number'
+                      type: 'number',
+                      nullable: true
                     },
                     description: {
-                      type: 'string'
+                      type: 'string',
+                      nullable: true
                     },
                     comments: {
                       type: 'string',
@@ -101,7 +107,8 @@ GET.apiDoc = {
                       type: 'array',
                       items: {
                         type: 'object'
-                      }
+                      },
+                      nullable: true
                     }
                   }
                 }

@@ -21,7 +21,7 @@ import ProjectIUCNForm from 'features/projects/components/ProjectIUCNForm';
 import ProjectLocationForm from 'features/projects/components/ProjectLocationForm';
 import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm';
 import ProjectPermitForm from 'features/projects/components/ProjectPermitForm';
-import { ProjectFormInitialValues } from 'features/projects/create/CreateProjectPage';
+import { ProjectFormInitialValues, ProjectFormYupSchema } from 'features/projects/create/CreateProjectPage';
 import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
@@ -232,6 +232,7 @@ const EditProjectPage: React.FC = () => {
               innerRef={formikRef}
               enableReinitialize={true}
               initialValues={initialProjectFormData}
+              validationSchema={ProjectFormYupSchema}
               validateOnBlur={true}
               validateOnChange={false}
               onSubmit={handleProjectEdits}>

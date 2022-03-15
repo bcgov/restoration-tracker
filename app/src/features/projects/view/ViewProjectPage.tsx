@@ -190,7 +190,6 @@ const ViewProjectPage: React.FC = () => {
       setIsLoadingProject(true);
     }
   }, [isLoadingProject, projectWithDetails, getProject, getAttachments, getTreatments]);
-
   if (!codes || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
@@ -404,7 +403,12 @@ const ViewProjectPage: React.FC = () => {
         </Box>
 
         <Box flex="1 1 auto">
-          <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+          <LocationBoundary
+            projectForViewData={projectWithDetails}
+            treatmentList={treatmentList}
+            codes={codes}
+            refresh={getProject}
+          />
         </Box>
 
         <Box flex="0 0 auto" maxHeight="500px">

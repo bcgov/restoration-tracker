@@ -40,7 +40,7 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
   project: yup.object().shape({
     project_name: yup.string().max(300, 'Cannot exceed 300 characters').required('Required'),
     start_date: yup.string().isValidDateString().required('Required'),
-    end_date: yup.string().isValidDateString().isEndDateAfterStartDate('start_date'),
+    end_date: yup.string().nullable().isValidDateString().isEndDateAfterStartDate('start_date'),
     objectives: yup
       .string()
       .max(3000, 'Cannot exceed 3000 characters')

@@ -1,4 +1,5 @@
 import Box from '@material-ui/core/Box';
+import { IStaticLayer, IStaticLayerFeature } from 'components/map/components/StaticLayers';
 import MapContainer from 'components/map/MapContainer';
 import { Feature } from 'geojson';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
@@ -21,25 +22,23 @@ const PublicLocationBoundary: React.FC<IPublicLocationBoundaryProps> = (props) =
   } = props;
 
   const [bounds, setBounds] = useState<any[] | undefined>([]);
-  const [nonEditableGeometries, setNonEditableGeometries] = useState<any[]>([]);
+  const [staticLayers, setStaticLayers] = useState<IStaticLayer[]>([]);
 
   useEffect(() => {
-    const nonEditableGeometriesResult = location.geometry.map((geom: Feature) => {
-      return { feature: geom };
+    const projectLocationFeatures: IStaticLayerFeature[] = location.geometry.map((geom: Feature) => {
+      return { geoJSON: geom };
     });
 
+    const allLayers: IStaticLayer[] = [{ layerName: 'Boundary', features: projectLocationFeatures }];
+
     setBounds(calculateUpdatedMapBounds(location.geometry));
-    setNonEditableGeometries(nonEditableGeometriesResult);
+
+    setStaticLayers(allLayers);
   }, [location.geometry]);
 
   return (
     <Box width="100%" height="100%" overflow="hidden" data-testid="map_container">
-      <MapContainer
-        mapId="project_location_form_map"
-        hideDrawControls={true}
-        nonEditableGeometries={nonEditableGeometries}
-        bounds={bounds}
-      />
+      <MapContainer mapId="project_location_form_map" staticLayers={staticLayers} bounds={bounds} />
     </Box>
   );
 };
