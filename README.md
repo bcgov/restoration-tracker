@@ -7,7 +7,7 @@ Habitat Restoration &amp; Enhancement Tracker
 
 ## Install Node/NPM
 
-- Requires Node version 12+
+- Requires Node version 14+
 - https://nodejs.org/en/download/
 
 ## Install Git
