@@ -47,9 +47,10 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
-
       <Box display="flex" alignItems="center" justifyContent="space-between" p={2}>
-        <strong>Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}</strong>
+        <strong>
+          Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
+        </strong>
       </Box>
 
       <Box component={TableContainer} flex="1 1 auto">
@@ -62,7 +63,9 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
               <TableCell align="right">Width</TableCell>
               <TableCell align="right">Length</TableCell>
               <TableCell align="right">Area</TableCell>
-              <TableCell align="left" width="130">Action</TableCell>
+              <TableCell align="left" width="130">
+                Action
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody data-testid="project-table">
@@ -118,7 +121,6 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
           }
         />
       )}
-
     </Box>
   );
 };

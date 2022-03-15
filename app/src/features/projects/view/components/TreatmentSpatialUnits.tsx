@@ -139,7 +139,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               aria-label={'Open Layer Menu'}
               endIcon={<Icon path={mdiMenuDown} size={1} />}
               onClick={handleClick}>
-              <strong>Project Layers ({yearList?.length + 1})</strong>
+              <strong>Project Layers ({yearList?.length})</strong>
             </Button>
 
             <Menu
@@ -151,17 +151,6 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}>
               <Box mt={1} width={300}>
-                {/* <MenuItem
-                  selected={selectedSpatialLayer.boundary}
-                  onClick={() => handleSelectedSwitch('boundary')}
-                  disableGutters>
-                  <Checkbox checked={selectedSpatialLayer.boundary} color="primary" />
-                  <Box flexGrow={1}>Project Boundary</Box>
-                  <ListItemIcon onClick={() => alert("I'm not sure what my job is")}>
-                    <Icon path={mdiTrashCanOutline} size={1.25} />
-                  </ListItemIcon>
-                </MenuItem> */}
-
                 <Box m={2} p={1}>
                   <Typography>
                     <strong>TREATMENT UNIT LAYERS ({yearList?.length})</strong>
