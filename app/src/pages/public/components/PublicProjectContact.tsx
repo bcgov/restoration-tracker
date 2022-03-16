@@ -6,7 +6,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,14 +37,12 @@ export interface IPublicProjectContactProps {
  */
 const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectForViewData }) => {
   const { contact } = projectForViewData;
-  const publicContacts = contact.contacts.filter(({ is_public }) => JSON.parse(is_public));
-  const privateContacts = contact.contacts.filter(({ is_public }) => !JSON.parse(is_public));
   const classes = useStyles();
 
   return (
     <>
       <ul className={classes.projectContactList}>
-        {publicContacts.map((contactDetails, index) => (
+        {contact.contacts.map((contactDetails, index) => (
           <Box component="li" display="flex" flexDirection="row" key={index}>
             <Box mr={2}>
               <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
@@ -54,7 +51,7 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
               <div>
                 <strong data-testid="contact_name">
                   {' '}
-                  {contactDetails.first_name} {contactDetails.last_name}
+                  {contactDetails.first_name || 'Unknown'} {contactDetails.last_name}
                   {JSON.parse(contactDetails.is_primary) && (
                     <sup>
                       <Typography variant="caption" color="textSecondary">
@@ -71,13 +68,6 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
               <div>{contactDetails.agency}</div>
             </div>
           </Box>
-        ))}
-        {privateContacts.map((contactDetails, index) => (
-          <li key={index} data-testid="contact_agency">
-            <Typography component="span" variant="body2">
-              {contactDetails.agency}
-            </Typography>
-          </li>
         ))}
       </ul>
     </>
