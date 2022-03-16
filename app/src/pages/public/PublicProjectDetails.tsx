@@ -4,7 +4,6 @@ import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft } from '@mdi/js';
 import Icon from '@mdi/react';
@@ -167,18 +166,18 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
-      <Toolbar>
-        <Button
-          component={Link}
-          onClick={() => history.push('/projects')}
-          size="small"
-          startIcon={<Icon path={mdiArrowLeft} size={0.875}></Icon>}>
-          Back to Projects
-        </Button>
-      </Toolbar>
 
       {/* Project Title Container */}
-      <Box flex="0 auto" pt={0} p={3}>
+      <Box flex="0 auto" p={3}>
+        <Box mb={2}>
+          <Button
+            component={Link}
+            onClick={() => history.push('/projects')}
+            size="small"
+            startIcon={<Icon path={mdiArrowLeft} size={0.875}></Icon>}>
+            Back to Projects
+          </Button>
+        </Box>
         <Box display="flex" flexDirection={'row'}>
           <Box component="h1" flex="1 1 auto" className={classes.projectTitle}>
             <b>Project -</b> {projectForViewData.project.project_name}
