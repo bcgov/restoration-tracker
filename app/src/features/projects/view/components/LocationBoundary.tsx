@@ -40,6 +40,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
       }
 
       treatmentFeatures.push({
+        key: item.id,
         geoJSON: item.geometry,
         tooltip: <p>{`Treatment Unit ID: ${item.id}`}</p>
       });

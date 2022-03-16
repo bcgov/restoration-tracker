@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react';
 import { FeatureGroup, GeoJSON, LayersControl, Popup, Tooltip } from 'react-leaflet';
 
 export interface IStaticLayerFeature {
+  key?: string | number;
   geoJSON: Feature;
   GeoJSONProps?: Partial<React.ComponentProps<typeof GeoJSON>>;
   popup?: ReactElement;
@@ -35,9 +36,9 @@ const StaticLayers: React.FC<IStaticLayersProps> = (props) => {
 
     layerControls.push(
       <LayersControl.Overlay checked name={layer.layerName} key={`static-layer-${layerIndex}`}>
-        <FeatureGroup>
+        <FeatureGroup key={`static-feature-group-${layerIndex}`}>
           {layer.features.map((item, index) => {
-            const id = item.geoJSON.id;
+            const id = item.key || item.geoJSON.id;
 
             return (
               <GeoJSON
