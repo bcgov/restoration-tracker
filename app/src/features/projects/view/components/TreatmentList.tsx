@@ -70,21 +70,30 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
       return <></>;
     }
 
-    const treatmentYears = [
-      ...new Set(currentTreatmentDetail.treatments.map((treatment) => treatment.treatment_year))
-    ].join(', ');
+    const treatmentsByYear: { [key: string]: Set<string> } = {};
 
-    const treatments = [
-      ...new Set(currentTreatmentDetail.treatments.map((treatment) => treatment.treatment_name))
-    ].join(', ');
+    currentTreatmentDetail.treatments.forEach((item) => {
+      if (!treatmentsByYear[item.treatment_year]) {
+        treatmentsByYear[item.treatment_year] = new Set();
+        treatmentsByYear[item.treatment_year].add(item.treatment_name);
+      } else {
+        treatmentsByYear[item.treatment_year].add(item.treatment_name);
+      }
+    });
+
+    const formattedTreatmentsByYear = Object.entries(treatmentsByYear).map(([key, value]) => {
+      const treatmentNamesString = Array.from(value).join(', ');
+      const treatmentNamesByYearString = `${key} - ${treatmentNamesString}`;
+
+      return treatmentNamesByYearString;
+    });
 
     const generalInformation = [
       { title: 'ID', value: currentTreatmentDetail.id },
       { title: 'Type', value: currentTreatmentDetail.type },
       { title: 'Width (m) / Length (m)', value: `${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}` },
       { title: 'Area (Ha)', value: currentTreatmentDetail.area },
-      { title: 'Treatment Year', value: treatmentYears },
-      { title: 'Treatments', value: treatments }
+      { title: 'Treatments', value: formattedTreatmentsByYear }
     ];
 
     return (
@@ -109,7 +118,14 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={8}>
-                  {info.value}
+                  {(Array.isArray(info.value) && info.value.length > 1 && (
+                    <Box component="ul" pl={2} m={0}>
+                      {info.value.map((item: any) => (
+                        <li>{item}</li>
+                      ))}
+                    </Box>
+                  )) ||
+                    info.value}
                 </Grid>
               </Grid>
             ))}
