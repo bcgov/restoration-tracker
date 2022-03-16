@@ -410,9 +410,7 @@ const ViewProjectPage: React.FC = () => {
           />
         </Box>
 
-        <Box flex="0 0 auto" height="250px">
-          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
-        </Box>
+        <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
       </Box>
     </Box>
   );
