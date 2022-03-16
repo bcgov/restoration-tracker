@@ -953,7 +953,7 @@ describe('ProjectService', () => {
       }
     });
 
-    it('returns project id on success', async () => {
+    it('returns id on success', async () => {
       const mockRowObj = [{ id: 1 }];
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
@@ -966,6 +966,442 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       const result = await projectService.insertFundingSource(fundingSource, projectId);
+
+      expect(result).equals(mockRowObj[0].id);
+    });
+  });
+
+  describe('insertIndigenousNation', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no id', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const indigenousNationId = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertIndigenousNation(indigenousNationId, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project first nations partnership data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns id on success', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const indigenousNationId = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.insertIndigenousNation(indigenousNationId, projectId);
+
+      expect(result).equals(mockRowObj[0].id);
+    });
+  });
+
+  describe('insertStakeholderPartnership', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no id', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const stakeholderPartner = 'something';
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertStakeholderPartnership(stakeholderPartner, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project stakeholder partnership data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns id on success', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const stakeholderPartner = 'something';
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.insertStakeholderPartnership(stakeholderPartner, projectId);
+
+      expect(result).equals(mockRowObj[0].id);
+    });
+  });
+
+  describe('insertPermit', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when failed to identify system user ID', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => (null as any) as number
+      });
+
+      const permitNumber = '123456';
+      const permitType = 'something';
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertPermit(permitNumber, permitType, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to identify system user ID');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when response has no id', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => 1
+      });
+
+      const permitNumber = '123456';
+      const permitType = 'something';
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertPermit(permitNumber, permitType, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project permit data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns id on success', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => 1
+      });
+
+      const permitNumber = '123456';
+      const permitType = 'something';
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.insertPermit(permitNumber, permitType, projectId);
+
+      expect(result).equals(mockRowObj[0].id);
+    });
+  });
+
+  describe('insertClassificationDetail', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 error when no sql statement produced', async () => {
+      const mockDBConnection = getMockDBConnection();
+
+      sinon.stub(queries.project, 'postProjectIUCNSQL').returns(null);
+
+      const iucn3_id = 1;
+      const project_id = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertClassificationDetail(iucn3_id, project_id);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL insert statement');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when response has no id', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'postProjectBoundarySQL').returns(SQL`valid sql`);
+
+      const iucn3_id = 1;
+      const project_id = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertClassificationDetail(iucn3_id, project_id);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project IUCN data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns id on success', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'postProjectBoundarySQL').returns(SQL`valid sql`);
+
+      const iucn3_id = 1;
+      const project_id = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.insertClassificationDetail(iucn3_id, project_id);
+
+      expect(result).equals(mockRowObj[0].id);
+    });
+  });
+
+  describe('insertProjectParticipantRole', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when failed to identify system user ID', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => (null as any) as number
+      });
+
+      const projectId = 1;
+      const projectParticipantRole = 'something';
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertProjectParticipantRole(projectId, projectParticipantRole);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to identify system user ID');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 error when no sql statement produced', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => 1
+      });
+
+      sinon.stub(queries.projectParticipation, 'addProjectRoleByRoleNameSQL').returns(null);
+
+      const projectId = 1;
+      const projectParticipantRole = 'something';
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertProjectParticipantRole(projectId, projectParticipantRole);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL insert statement');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = (null as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => 1
+      });
+
+      sinon.stub(queries.projectParticipation, 'addProjectRoleByRoleNameSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const projectParticipantRole = 'something';
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertProjectParticipantRole(projectId, projectParticipantRole);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project team member');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+  });
+
+  describe('insertSpecies', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when failed to identify system user ID', async () => {
+      const mockQueryResponse = ({ rowCount: 1 } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => (null as any) as number
+      });
+
+      const species_id = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertSpecies(species_id, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to identify system user ID');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 error when no sql statement produced', async () => {
+      const mockQueryResponse = ({ rowCount: 1 } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => 1
+      });
+
+      sinon.stub(queries.project, 'postProjectSpeciesSQL').returns(null);
+
+      const species_id = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertSpecies(species_id, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL insert statement');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when response has no rowCount', async () => {
+      const mockQueryResponse = ({ rowCount: null } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async () => mockQueryResponse,
+        systemUserId: () => 1
+      });
+
+      sinon.stub(queries.project, 'postProjectSpeciesSQL').returns(SQL`valid sql`);
+
+      const species_id = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertSpecies(species_id, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project species');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+  });
+
+  describe('insertRegion', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no id', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const regionNumber = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertRegion(regionNumber, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project region data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns id on success', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const regionNumber = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.insertRegion(regionNumber, projectId);
+
+      expect(result).equals(mockRowObj[0].id);
+    });
+  });
+
+  describe('insertRange', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no id', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const rangeNumber = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertRange(rangeNumber, projectId);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project range data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns id on success', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const rangeNumber = 1;
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.insertRange(rangeNumber, projectId);
 
       expect(result).equals(mockRowObj[0].id);
     });
