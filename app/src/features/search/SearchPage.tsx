@@ -4,12 +4,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import centroid from '@turf/centroid';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
-import MapContainer, { IClusteredPointGeometries } from 'components/map/MapContainer';
+import MapContainer from 'components/map/MapContainer';
 import { SearchFeaturePopup } from 'components/map/SearchFeaturePopup';
+import { IMarker } from 'components/map/components/MarkerCluster';
 import { AuthStateContext } from 'contexts/authStateContext';
 import { DialogContext } from 'contexts/dialogContext';
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { LatLngTuple } from 'leaflet';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { isAuthenticated } from 'utils/authUtils';
 import { generateValidGeometryCollection } from 'utils/mapBoundaryUploadHelpers';
@@ -23,7 +25,7 @@ const SearchPage: React.FC = () => {
   const restorationApi = useRestorationTrackerApi();
 
   const [performSearch, setPerformSearch] = useState<boolean>(true);
-  const [geometries, setGeometries] = useState<IClusteredPointGeometries[]>([]);
+  const [geometries, setGeometries] = useState<IMarker[]>([]);
 
   const dialogContext = useContext(DialogContext);
   const { keycloakWrapper } = useContext(AuthStateContext);
@@ -55,14 +57,14 @@ const SearchPage: React.FC = () => {
         return;
       }
 
-      const clusteredPointGeometries: IClusteredPointGeometries[] = [];
+      const clusteredPointGeometries: IMarker[] = [];
 
       response.forEach((result: any) => {
         const feature = generateValidGeometryCollection(result.geometry, result.id).geometryCollection[0];
 
         clusteredPointGeometries.push({
-          coordinates: centroid(feature as any).geometry.coordinates,
-          popupComponent: <SearchFeaturePopup featureData={result} />
+          position: centroid(feature as any).geometry.coordinates as LatLngTuple,
+          popup: <SearchFeaturePopup featureData={result} />
         });
       });
 
@@ -97,12 +99,7 @@ const SearchPage: React.FC = () => {
           <Box mb={4}>
             <Grid item xs={12}>
               <Box mt={2} height={750}>
-                <MapContainer
-                  mapId="search_boundary_map"
-                  scrollWheelZoom={true}
-                  hideDrawControls={true}
-                  clusteredPointGeometries={geometries}
-                />
+                <MapContainer mapId="search_boundary_map" scrollWheelZoom={true} markers={geometries} />
               </Box>
             </Grid>
           </Box>

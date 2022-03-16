@@ -1,6 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { ICreateProjectRequest } from 'interfaces/useProjectApi.interface';
+import { ICreateProjectRequest, IPostTreatmentUnitResponse } from 'interfaces/useProjectApi.interface';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import useProjectApi, { usePublicProjectApi } from './useProjectApi';
 
@@ -18,6 +18,8 @@ describe('useProjectApi', () => {
   const userId = 123;
   const projectId = 1;
   const attachmentId = 1;
+  const treatmentUnitId = 1;
+  const year = 2022;
 
   it('getAllUserProjectsParticipation works as expected', async () => {
     mock.onGet(`/api/user/${userId}/projects/participation/list`).reply(200, [
@@ -274,5 +276,49 @@ describe('useProjectApi', () => {
     );
 
     expect(result).toEqual(true);
+  });
+
+  it('deleteProjectTreatmentUnit works as expected', async () => {
+    mock.onDelete(`/api/project/${projectId}/treatments/treatment-unit/${treatmentUnitId}/delete`).reply(200);
+
+    const result = await useProjectApi(axios).deleteProjectTreatmentUnit(projectId, treatmentUnitId);
+
+    expect(result).toEqual(true);
+  });
+
+  it('deleteProjectTreatmentsByYear works as expected', async () => {
+    mock.onDelete(`/api/project/${projectId}/treatments/year/${year}/delete`).reply(200);
+
+    const result = await useProjectApi(axios).deleteProjectTreatmentsByYear(projectId, year);
+
+    expect(result).toEqual(true);
+  });
+
+  it('getProjectTreatments works as expected', async () => {
+    const mockResponse = { treatmentList: [] };
+    mock.onGet(`/api/project/${projectId}/treatments/list`).reply(200, mockResponse);
+
+    const result = await useProjectApi(axios).getProjectTreatments(projectId);
+
+    expect(result).toEqual(mockResponse);
+  });
+
+  it('getProjectTreatmentsYears works as expected', async () => {
+    const mockResponse = [{ year: 1 }];
+    mock.onGet(`/api/project/${projectId}/treatments/year/list`).reply(200, mockResponse);
+
+    const result = await useProjectApi(axios).getProjectTreatmentsYears(projectId);
+
+    expect(result).toEqual(mockResponse);
+  });
+
+  it('importProjectTreatmentSpatialFile works as expected', async () => {
+    const treatmentRespose = { treatment_unit_id: 1, revision_count: 2 } as IPostTreatmentUnitResponse;
+
+    mock.onPost(`/api/project/${projectId}/treatments/upload`).reply(200, treatmentRespose);
+
+    const result = await useProjectApi(axios).importProjectTreatmentSpatialFile(1, {} as File);
+
+    expect(result).toEqual(treatmentRespose);
   });
 });

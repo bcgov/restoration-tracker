@@ -322,3 +322,39 @@ export interface IAddProjectParticipant {
   identitySource: string;
   roleId: number;
 }
+
+export interface IGetTreatmentItem {
+  treatment_name: string;
+  treatment_year: string;
+}
+
+export interface IGetProjectTreatment {
+  id: string;
+  type: string;
+  width: number;
+  length: number;
+  area: number;
+  comments: string;
+  description: string;
+  geometry: Feature;
+  treatments: IGetTreatmentItem[];
+}
+
+export interface IPostTreatmentUnitResponse {
+  treatment_unit_id: number;
+  revision_count: number;
+}
+
+export interface TreatmentSearchCriteria {
+  years: string[];
+}
+
+/**
+ * Get project attachments response object.
+ *
+ * @export
+ * @interface IGetProjectTreatmentsResponse
+ */
+export interface IGetProjectTreatmentsResponse {
+  treatmentList: IGetProjectTreatment[];
+}

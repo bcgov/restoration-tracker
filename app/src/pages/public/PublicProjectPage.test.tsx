@@ -1,14 +1,14 @@
-import { cleanup, render, waitFor } from '@testing-library/react';
+import { act, cleanup, render, waitFor } from '@testing-library/react';
+import { DialogContextProvider } from 'contexts/dialogContext';
 import { createMemoryHistory } from 'history';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import { Router } from 'react-router';
+import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import PublicProjectPage from './PublicProjectPage';
-import { DialogContextProvider } from 'contexts/dialogContext';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import { codes } from 'test-helpers/code-helpers';
 
 const history = createMemoryHistory({ initialEntries: ['/admin/projects/1'] });
 
@@ -38,16 +38,18 @@ describe('PublicProjectPage', () => {
     cleanup();
   });
 
-  it('renders a spinner if no project is loaded', () => {
-    const { asFragment } = render(
-      <DialogContextProvider>
-        <Router history={history}>
-          <PublicProjectPage />
-        </Router>
-      </DialogContextProvider>
-    );
+  it('renders a spinner if no project is loaded', async () => {
+    await act(async () => {
+      const { asFragment } = render(
+        <DialogContextProvider>
+          <Router history={history}>
+            <PublicProjectPage />
+          </Router>
+        </DialogContextProvider>
+      );
 
-    expect(asFragment()).toMatchSnapshot();
+      expect(asFragment()).toMatchSnapshot();
+    });
   });
 
   it('renders spinner when no codes is loaded', async () => {

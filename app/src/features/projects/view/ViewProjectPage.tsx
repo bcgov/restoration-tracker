@@ -11,9 +11,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import Toolbar from '@material-ui/core/Toolbar';
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { mdiAccountMultipleOutline, mdiArrowLeft, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import clsx from 'clsx';
@@ -27,10 +24,17 @@ import LocationBoundary from 'features/projects/view/components/LocationBoundary
 import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import { IGetProjectAttachment, IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import {
+  IGetProjectAttachment,
+  IGetProjectForViewResponse,
+  IGetProjectTreatment,
+  TreatmentSearchCriteria
+} from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
+import TreatmentList from './components/TreatmentList';
+import TreatmentSpatialUnits from './components/TreatmentSpatialUnits';
 import ProjectAttachments from './ProjectAttachments';
 import ProjectDetailsPage from './ProjectDetailsPage';
 
@@ -79,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     tabPanel: {
-      overflowY: 'scroll'
+      overflowY: 'auto'
     },
     tabIcon: {
       verticalAlign: 'middle'
@@ -109,6 +113,7 @@ const ViewProjectPage: React.FC = () => {
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
+  const [treatmentList, setTreatmentList] = useState<IGetProjectTreatment[]>([]);
 
   const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
@@ -159,14 +164,31 @@ const ViewProjectPage: React.FC = () => {
     [restorationTrackerApi.project, projectId, attachmentsList.length]
   );
 
+  const getTreatments = useCallback(
+    async (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => {
+      if (treatmentList.length && !forceFetch) return;
+
+      try {
+        const response = await restorationTrackerApi.project.getProjectTreatments(projectId, selectedYears);
+
+        if (!response?.treatmentList) return;
+
+        setTreatmentList([...response.treatmentList]);
+      } catch (error) {
+        return error;
+      }
+    },
+    [restorationTrackerApi.project, projectId, treatmentList.length]
+  );
+
   useEffect(() => {
     if (!isLoadingProject && !projectWithDetails) {
       getProject();
       getAttachments(false);
+      getTreatments(false);
       setIsLoadingProject(true);
     }
-  }, [isLoadingProject, projectWithDetails, getProject, getAttachments]);
-
+  }, [isLoadingProject, projectWithDetails, getProject, getAttachments, getTreatments]);
   if (!codes || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
@@ -292,16 +314,16 @@ const ViewProjectPage: React.FC = () => {
       {/* Details Container */}
       <Drawer variant="permanent" className={classes.projectDetailDrawer}>
         <Box display="flex" flexDirection="column" height="100%">
-          <Toolbar>
-            <Button
-              component={Link}
-              onClick={() => history.push('/admin/user/projects')}
-              size="small"
-              startIcon={<Icon path={mdiArrowLeft} size={0.875} />}>
-              Back to Projects
-            </Button>
-          </Toolbar>
-          <Box flex="0 auto" pt={0} p={2}>
+          <Box flex="0 auto" p={3}>
+            <Box mb={2}>
+              <Button
+                component={Link}
+                onClick={() => history.push('/admin/user/projects')}
+                size="small"
+                startIcon={<Icon path={mdiArrowLeft} size={0.8375} />}>
+                Back to Projects
+              </Button>
+            </Box>
             <Box display="flex" flexDirection={'row'}>
               <Box component="h1" flex="1 1 auto" className={classes.projectTitle}>
                 <b>Project -</b> {projectWithDetails.project.project_name}
@@ -346,7 +368,7 @@ const ViewProjectPage: React.FC = () => {
               </RoleGuard>
             </Box>
 
-            <Box mt={2} display="flex" flexDirection={'row'}>
+            <Box display="flex" flexDirection={'row'}>
               <Box mr={0.5}>{getChipIcon(priority_status)}</Box>
               <Box>{getChipIcon(completion_status)}</Box>
             </Box>
@@ -355,27 +377,12 @@ const ViewProjectPage: React.FC = () => {
           <Box>
             <Tabs
               className={classes.tabs}
-              variant="fullWidth"
               value={tabValue}
               onChange={handleTabChange}
-              aria-label="basic tabs example"
-              centered>
-              <Tab
-                label={
-                  <div>
-                    <InfoOutlinedIcon fontSize="small" className={classes.tabIcon} /> Project Details
-                  </div>
-                }
-                value="project_details"
-              />
-              <Tab
-                label={
-                  <div>
-                    <FileCopyOutlinedIcon fontSize="small" className={classes.tabIcon} /> Documents
-                  </div>
-                }
-                value="project_documents"
-              />
+              variant="fullWidth"
+              aria-label="Project Navigation">
+              <Tab label="Project Details" value="project_details" />
+              <Tab label="Documents" value="project_documents" />
             </Tabs>
           </Box>
 
@@ -390,8 +397,21 @@ const ViewProjectPage: React.FC = () => {
 
       {/* Map Container */}
       <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
+        <Box>
+          <TreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
+        </Box>
+
         <Box flex="1 1 auto">
-          <LocationBoundary projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+          <LocationBoundary
+            projectForViewData={projectWithDetails}
+            treatmentList={treatmentList}
+            codes={codes}
+            refresh={getProject}
+          />
+        </Box>
+
+        <Box flex="0 0 auto" height="250px">
+          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
         </Box>
       </Box>
     </Box>

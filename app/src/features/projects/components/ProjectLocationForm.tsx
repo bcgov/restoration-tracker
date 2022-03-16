@@ -48,7 +48,7 @@ export const ProjectLocationFormYupSchema = yup.object().shape({
   location: yup.object().shape({
     geometry: yup.array().min(1, 'You must specify a project boundary').required('You must specify a project boundary'),
     range: yup.string().notRequired(),
-    priority: yup.string().required('Required'),
+    priority: yup.string().notRequired(),
     region: yup.string().required('Required')
   })
 });
@@ -217,9 +217,9 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
         <Box height={500}>
           <MapContainer
             mapId={'project_location_map'}
-            geometryState={{
-              geometry: values.location.geometry,
-              setGeometry: (newGeo: Feature[]) => setFieldValue('location.geometry', newGeo)
+            drawControls={{
+              features: values.location.geometry,
+              onChange: (features) => setFieldValue('location.geometry', features)
             }}
           />
         </Box>

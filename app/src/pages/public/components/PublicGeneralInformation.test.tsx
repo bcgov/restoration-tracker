@@ -16,6 +16,9 @@ describe('PublicGeneralInformation', () => {
         publish_date: '2021-01-26',
         objectives: 'Project objectives',
         region: 'NRM Region 1'
+      },
+      species: {
+        focal_species_names: ['species1', 'species2']
       }
     } as IGetProjectForViewResponse;
 
@@ -26,6 +29,7 @@ describe('PublicGeneralInformation', () => {
     expect(getByText('Test Project Name', { exact: false })).toBeVisible();
     expect(getByText('Jan 10, 2021', { exact: false })).toBeVisible();
     expect(getByText('---', { exact: false })).toBeVisible();
+    expect(getByText('species1', { exact: false })).toBeVisible();
   });
 
   it('renders correctly', () => {
@@ -38,6 +42,9 @@ describe('PublicGeneralInformation', () => {
         publish_date: '2021-01-26',
         objectives: 'Project objectives',
         region: 'NRM Region 1'
+      },
+      species: {
+        focal_species_names: ['species1', 'species2']
       }
     } as IGetProjectForViewResponse;
 
@@ -48,5 +55,6 @@ describe('PublicGeneralInformation', () => {
     expect(getByText('Test Project Name', { exact: false })).toBeVisible();
     expect(getByText('Jan 10, 2021', { exact: false })).toBeVisible();
     expect(getByText('Jan 26, 2021', { exact: false })).toBeVisible();
+    expect(getByText('species1', { exact: false })).toBeVisible();
   });
 });
