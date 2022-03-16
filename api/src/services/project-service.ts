@@ -272,7 +272,7 @@ export class ProjectService extends DBService {
   }
 
   async getContactData(projectId: number, isPublic: boolean): Promise<GetContactData> {
-    const sqlStatement = SQL`
+    const sqlStatementAllColumns = SQL`
       SELECT
         *
       FROM
@@ -280,16 +280,29 @@ export class ProjectService extends DBService {
       WHERE
         project_id = ${projectId}
     `;
+    const sqlStatementJustAgencies = SQL``;
 
     if (isPublic) {
-      sqlStatement.append(SQL`
+      sqlStatementAllColumns.append(SQL`
         AND is_public = 'Y'
+      `);
+      sqlStatementJustAgencies.append(SQL`
+        SELECT
+          agency
+        FROM
+          project_contact
+        WHERE
+          project_id = ${projectId}
+        AND is_public = 'N'
       `);
     }
 
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+    const response = await Promise.all([
+      this.connection.query(sqlStatementAllColumns.text, sqlStatementAllColumns.values),
+      this.connection.query(sqlStatementJustAgencies.text, sqlStatementJustAgencies.values)
+    ]);
 
-    const result = (response && response.rows) || null;
+    const result = (response[0] && response[1] && [...response[0].rows, ...response[1].rows]) || null;
 
     if (!result) {
       throw new HTTP400('Failed to get project contact data');
