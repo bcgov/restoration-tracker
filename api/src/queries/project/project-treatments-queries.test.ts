@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
+import { SQLStatement } from 'sql-template-strings';
 import { TreatmentFeature } from '../../models/project-treatment';
 import {
   deleteProjectTreatmentsByYearSQL,
@@ -139,25 +140,25 @@ describe('getProjectTreatmentsSQL', () => {
 });
 
 describe('deleteProjectTreatmentUnitSQL', () => {
-  it('returns string', () => {
+  it('returns a sql statement', () => {
     const response = deleteProjectTreatmentUnitSQL(1, 1);
 
-    expect(response).to.be.string;
+    expect(response).instanceof(SQLStatement);
   });
 });
 
 describe('deleteProjectTreatmentsByYearSQL', () => {
-  it('returns string', () => {
+  it('returns a sql statement', () => {
     const response = deleteProjectTreatmentsByYearSQL(1, 1);
 
-    expect(response).to.be.string;
+    expect(response).instanceof(SQLStatement);
   });
 });
 
 describe('deleteProjectTreatmentUnitIfNoTreatmentsSQL', () => {
-  it('returns string', () => {
+  it('returns a sql statement', () => {
     const response = deleteProjectTreatmentUnitIfNoTreatmentsSQL();
 
-    expect(response).to.be.string;
+    expect(response).instanceof(SQLStatement);
   });
 });
