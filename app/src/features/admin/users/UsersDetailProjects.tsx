@@ -14,16 +14,17 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { mdiMenuDown, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
 import { IErrorDialogProps } from '../../../components/dialog/ErrorDialog';
 import { IYesNoDialogProps } from '../../../components/dialog/YesNoDialog';
 import { CustomMenuButton } from '../../../components/toolbar/ActionToolbars';
 import { ProjectParticipantsI18N, SystemUserI18N } from '../../../constants/i18n';
 import { DialogContext } from '../../../contexts/dialogContext';
 import { APIError } from '../../../hooks/api/useAxios';
-import { CodeSet, IGetAllCodeSetsResponse } from '../../../interfaces/useCodesApi.interface';
+import { CodeSet } from '../../../interfaces/useCodesApi.interface';
 import { IGetUserProjectsListResponse } from '../../../interfaces/useProjectApi.interface';
 import { IGetUserResponse } from '../../../interfaces/useUserApi.interface';
 
@@ -57,14 +58,11 @@ export interface IProjectDetailsProps {
  */
 const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
   const { userDetails } = props;
-  const urlParams = useParams();
   const restorationTrackerApi = useRestorationTrackerApi();
   const dialogContext = useContext(DialogContext);
   const history = useHistory();
   const classes = useStyles();
 
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [isLoadingCodes, setIsLoadingCodes] = useState(true);
   const [assignedProjects, setAssignedProjects] = useState<IGetUserProjectsListResponse[]>();
 
   const handleGetUserProjects = useCallback(
@@ -85,22 +83,7 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
     handleGetUserProjects(userDetails.id);
   }, [userDetails.id, assignedProjects, handleGetUserProjects]);
 
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        return;
-      }
-
-      setCodes(codesResponse);
-    };
-
-    if (isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(false);
-    }
-  }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
+  const codes = useCodes();
 
   const handleRemoveProjectParticipant = async (projectId: number, projectParticipationId: number) => {
     try {
@@ -163,7 +146,7 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
     [defaultErrorDialogProps, dialogContext]
   );
 
-  if (!codes || !assignedProjects) {
+  if (!codes.isReady || !codes.codes || !assignedProjects) {
     return <CircularProgress data-testid="project-loading" className="pageProgress" size={40} />;
   }
 
@@ -207,7 +190,7 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
                           <ChangeProjectRoleMenu
                             row={row}
                             user_identifier={props.userDetails.user_identifier}
-                            projectRoleCodes={codes.project_roles}
+                            projectRoleCodes={codes.codes!.project_roles}
                             refresh={refresh}
                           />
                         </Box>

@@ -7,15 +7,15 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
-import { SYSTEM_IDENTITY_SOURCE } from 'hooks/useKeycloakWrapper';
 import { AccessRequestI18N } from 'constants/i18n';
 import { AuthStateContext } from 'contexts/authStateContext';
 import { DialogContext } from 'contexts/dialogContext';
 import { Formik } from 'formik';
 import { APIError } from 'hooks/api/useAxios';
+import useCodes from 'hooks/useCodes';
+import { SYSTEM_IDENTITY_SOURCE } from 'hooks/useKeycloakWrapper';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Redirect, useHistory } from 'react-router';
 import BCeIDRequestForm, { BCeIDRequestFormInitialValues, BCeIDRequestFormYupSchema } from './BCeIDRequestForm';
 import IDIRRequestForm, { IDIRRequestFormInitialValues, IDIRRequestFormYupSchema } from './IDIRRequestForm';
@@ -41,8 +41,6 @@ interface IAccessRequestForm {
  */
 export const AccessRequestPage: React.FC = () => {
   const classes = useStyles();
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const restorationTrackerApi = useRestorationTrackerApi();
   const history = useHistory();
 
@@ -64,23 +62,7 @@ export const AccessRequestPage: React.FC = () => {
 
   const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
 
-  useEffect(() => {
-    const getAllCodeSets = async () => {
-      const response = await restorationTrackerApi.codes.getAllCodeSets();
-
-      // TODO error handling/user messaging - Cant submit an access request if required code sets fail to fetch
-
-      setCodes(() => {
-        setIsLoadingCodes(false);
-        return response;
-      });
-    };
-
-    if (!isLoadingCodes && !codes) {
-      getAllCodeSets();
-      setIsLoadingCodes(true);
-    }
-  }, [restorationTrackerApi, isLoadingCodes, codes]);
+  const codes = useCodes();
 
   const showAccessRequestErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
     dialogContext.setErrorDialog({
@@ -150,7 +132,7 @@ export const AccessRequestPage: React.FC = () => {
   } else {
     initialValues = IDIRRequestFormInitialValues;
     validationSchema = IDIRRequestFormYupSchema;
-    requestForm = <IDIRRequestForm codes={codes} />;
+    requestForm = <IDIRRequestForm codes={codes.codes} />;
   }
 
   return (

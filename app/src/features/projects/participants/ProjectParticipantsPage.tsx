@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -19,8 +19,9 @@ import { CustomMenuButton } from 'components/toolbar/ActionToolbars';
 import { ProjectParticipantsI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import { APIError } from 'hooks/api/useAxios';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { CodeSet, IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
+import { CodeSet } from 'interfaces/useCodesApi.interface';
 import {
   IGetProjectForViewResponse,
   IGetProjectParticipantsResponseArrayItem
@@ -57,9 +58,6 @@ const ProjectParticipantsPage: React.FC = () => {
 
   const [isLoadingProject, setIsLoadingProject] = useState(true);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
-
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [isLoadingCodes, setIsLoadingCodes] = useState(true);
 
   const [projectParticipants, setProjectParticipants] = useState<IGetProjectParticipantsResponseArrayItem[] | null>(
     null
@@ -113,22 +111,7 @@ const ProjectParticipantsPage: React.FC = () => {
     }
   }, [isLoadingProject, projectWithDetails, getProject]);
 
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        return;
-      }
-
-      setCodes(codesResponse);
-    };
-
-    if (isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(false);
-    }
-  }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
+  const codes = useCodes();
 
   const getProjectParticipants = useCallback(async () => {
     try {
@@ -187,7 +170,7 @@ const ProjectParticipantsPage: React.FC = () => {
 
   const hasProjectParticipants = !!(projectParticipants && projectParticipants.length);
 
-  if (!codes || !projectParticipants || !projectWithDetails) {
+  if (!codes.isReady || !codes.codes || !projectParticipants || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} />;
   }
 
@@ -195,7 +178,7 @@ const ProjectParticipantsPage: React.FC = () => {
     <>
       <ProjectParticipantsHeader
         projectWithDetails={projectWithDetails}
-        codes={codes}
+        codes={codes.codes}
         refresh={getProjectParticipants}
       />
 
@@ -229,7 +212,7 @@ const ProjectParticipantsPage: React.FC = () => {
                         <Box m={-1}>
                           <ChangeProjectRoleMenu
                             row={row}
-                            projectRoleCodes={codes.project_roles}
+                            projectRoleCodes={codes.codes!.project_roles}
                             refresh={getProjectParticipants}
                           />
                         </Box>
