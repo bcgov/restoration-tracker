@@ -11,7 +11,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import Toolbar from '@material-ui/core/Toolbar';
 import { mdiAccountMultipleOutline, mdiArrowLeft, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import clsx from 'clsx';
@@ -315,16 +314,16 @@ const ViewProjectPage: React.FC = () => {
       {/* Details Container */}
       <Drawer variant="permanent" className={classes.projectDetailDrawer}>
         <Box display="flex" flexDirection="column" height="100%">
-          <Toolbar disableGutters>
-            <Button
-              component={Link}
-              onClick={() => history.push('/admin/user/projects')}
-              size="small"
-              startIcon={<Icon path={mdiArrowLeft} size={0.8375} />}>
-              Back to Projects
-            </Button>
-          </Toolbar>
-          <Box flex="0 auto" pt={0} p={2}>
+          <Box flex="0 auto" p={3}>
+            <Box mb={2}>
+              <Button
+                component={Link}
+                onClick={() => history.push('/admin/user/projects')}
+                size="small"
+                startIcon={<Icon path={mdiArrowLeft} size={0.8375} />}>
+                Back to Projects
+              </Button>
+            </Box>
             <Box display="flex" flexDirection={'row'}>
               <Box component="h1" flex="1 1 auto" className={classes.projectTitle}>
                 <b>Project -</b> {projectWithDetails.project.project_name}
@@ -411,7 +410,7 @@ const ViewProjectPage: React.FC = () => {
           />
         </Box>
 
-        <Box flex="0 0 auto" maxHeight="500px">
+        <Box flex="0 0 auto" height="250px">
           <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
         </Box>
       </Box>
