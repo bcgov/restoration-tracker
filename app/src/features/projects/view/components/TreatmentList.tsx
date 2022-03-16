@@ -1,4 +1,4 @@
-import { Divider, Grid, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Divider, Grid, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +13,7 @@ import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/usePro
 import DoneDialog from 'components/dialog/DoneDialog';
 import React, { useState } from 'react';
 import Icon from '@mdi/react';
-import { mdiMenuDown, mdiMenuUp } from '@mdi/js';
+import { mdiMenuUp } from '@mdi/js';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 
 export interface IProjectTreatmentListProps {
@@ -26,6 +26,11 @@ const useStyles = makeStyles({
   treatmentsTable: {
     '& .MuiTableCell-root': {
       verticalAlign: 'middle'
+    }
+  },
+  accordion:{
+    '& .MuiAccordionDetails-root': {
+      padding: 0
     }
   },
   pagination: {
@@ -57,10 +62,10 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   const classes = useStyles();
   const { treatmentList } = props;
 
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
 
-  const [tableOpen, setTableOpen] = useState(treatmentList.length > 0);
+  const [tableOpen, setTableOpen] = useState(false);
 
   const [opentreatmentDetails, setOpentreatmentDetails] = useState(false);
   const [currentTreatmentDetail, setCurrentTreatmentDetail] = useState<IGetProjectTreatment>();
@@ -157,27 +162,15 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   };
 
   return (
-    <Box maxHeight="300px">
-      <Box display="flex" flexDirection="column" height="100%">
-        <Box display="flex" alignItems="center" p={2}>
+    <>
+      <Accordion expanded={tableOpen} onChange={() => setTableOpen(!tableOpen)} className={classes.accordion}>
+        <AccordionSummary expandIcon={<Icon path={mdiMenuUp} size={1} />}>
           <strong>
             Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
           </strong>
-
-          <Button
-            id={'open-treatment-table'}
-            data-testid={'open-treatment-table'}
-            variant="text"
-            color="primary"
-            title={'Open Treatment Table'}
-            aria-label={'Open Treatment Table'}
-            onClick={() => setTableOpen(!tableOpen)}>
-            {(tableOpen && <Icon path={mdiMenuDown} size={1} />) || (!tableOpen && <Icon path={mdiMenuUp} size={1} />)}
-          </Button>
-        </Box>
-
-        {tableOpen && (
-          <>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box display="flex" flexDirection="column" height="100%" width="100%">
             <Box component={TableContainer} flex="1 1 auto">
               <Table size="small" stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
                 <TableHead>
@@ -244,11 +237,12 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                 handleChangeRowsPerPage(event, setPage, setRowsPerPage)
               }
             />
-          </>
-        )}
-      </Box>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+
       <TreatmentDetailDialog />
-    </Box>
+    </>
   );
 };
 
