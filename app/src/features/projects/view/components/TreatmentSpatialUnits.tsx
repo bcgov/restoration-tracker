@@ -93,11 +93,11 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
         if (!yearsResponse) return;
 
-        yearsResponse.sort();
+        const sortedYears = yearsResponse.sort();
 
-        setYearList(yearsResponse);
+        setYearList(sortedYears);
 
-        yearsResponse.forEach((year) => {
+        sortedYears.forEach((year) => {
           selectedSpatialLayer[String(year.year)] = true;
         });
       } catch (error) {
