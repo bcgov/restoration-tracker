@@ -14,6 +14,8 @@ export class TaxonomySearchService {
    * @memberof UserService
    */
   async getTaxonomySearchResults(searchRequest: any): Promise<any> {
+    defaultLog.debug({ label: 'getTaxonomySearchResults', message: 'params', searchRequest: searchRequest });
+
     const searchResponse: any[] = [];
 
     defaultLog.debug({

@@ -7,6 +7,7 @@ const defaultLog = getLogger('paths/taxonomy/list');
 
 export const GET: Operation = [getSearchResults()];
 
+//TODO convert request body to parameters to accommodate app request
 GET.apiDoc = {
   description: 'Gets the labels of the taxonomic units identified by the provided list of ids.',
   tags: ['taxonomy'],

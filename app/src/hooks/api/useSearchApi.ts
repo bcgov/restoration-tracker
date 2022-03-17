@@ -61,9 +61,10 @@ export const useSearchTaxonomyApi = (axios: AxiosInstance) => {
    *
    * @return {*}  {Promise<[any]>}
    */
-  const getSearchResults = async (value: any): Promise<[any]> => {
-    axios.defaults.data = { terms: value };
-    const { data } = await axios.get(`/api/taxonomy/search`);
+  const getSearchResults = async (value: any): Promise<any> => {    
+    axios.defaults.params = { terms: value };    
+
+    const { data } = await axios(`/api/taxonomy/search`);
 
     return data;
   };
