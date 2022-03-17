@@ -8,6 +8,7 @@ import PublicAttachmentsList from './PublicAttachmentsList';
 
 export interface IPublicProjectAttachmentsProps {
   projectForViewData: IGetProjectForViewResponse;
+  getAttachments: (forceFetch: boolean) => void;
 }
 
 /**

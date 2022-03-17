@@ -3,6 +3,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Drawer from '@material-ui/core/Drawer';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import PublicTreatmentList from 'features/projects/view/components/TreatmentList';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 
 //import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
@@ -18,6 +20,7 @@ import { useParams } from 'react-router';
 import PublicLocationBoundary from './components/PublicLocationBoundary';
 import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
 import PublicProjectDetails from './PublicProjectDetails';
+import PublicProjectAttachments from './components/PublicProjectAttachments';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,6 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const PublicProjectPage = () => {
   const urlParams = useParams();
+  const [tabValue, setTabValue] = React.useState('project_details');
   const restorationTrackerApi = useRestorationTrackerApi();
   const classes = useStyles();
 
@@ -158,6 +162,22 @@ const PublicProjectPage = () => {
     [restorationTrackerApi.public.project, projectId, treatmentList.length]
   );
 
+  const TabPanel = (props: { children?: React.ReactNode; index: string; value: string }) => {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        className={classes.tabPanel}
+        {...other}>
+        {value === index && children}
+      </div>
+    );
+  };
+
   useEffect(() => {
     if (!isLoadingProject && !projectWithDetails) {
       getProject();
@@ -169,6 +189,7 @@ const PublicProjectPage = () => {
   if (!codes || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
+  const handleTabChange = (_: any, newValue: string) => setTabValue(newValue);
 
   return (
     <>
@@ -181,9 +202,27 @@ const PublicProjectPage = () => {
         data-testid="view_project_page_component">
         {/* Details Container */}
         <Drawer variant="permanent" className={classes.projectDetailDrawer}>
-          <PublicProjectDetails projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
-        </Drawer>
+          <Box display="flex" flexDirection="column" height="100%">
+            <Box>
+              <Tabs
+                className={classes.tabs}
+                value={tabValue}
+                onChange={handleTabChange}
+                variant="fullWidth"
+                aria-label="Project Navigation">
+                <Tab label="Project Details" value="project_details" />
+                <Tab label="Documents" value="project_documents" />
+              </Tabs>
+            </Box>
 
+            <TabPanel value={tabValue} index="project_details">
+              <PublicProjectDetails projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+            </TabPanel>
+            <TabPanel value={tabValue} index="project_documents">
+              <PublicProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
+            </TabPanel>
+          </Box>
+        </Drawer>
         {/* Map Container */}
         <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
           <Box>
