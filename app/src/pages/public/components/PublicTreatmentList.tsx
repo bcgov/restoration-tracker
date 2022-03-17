@@ -83,9 +83,8 @@ const PublicTreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
 
     const formattedTreatmentsByYear = Object.entries(treatmentsByYear).map(([key, value]) => {
       const treatmentNamesString = Array.from(value).join(', ');
-      const treatmentNamesByYearString = `${key} - ${treatmentNamesString}`;
 
-      return treatmentNamesByYearString;
+      return `${key} - ${treatmentNamesString}`;
     });
 
     const generalInformation = [
