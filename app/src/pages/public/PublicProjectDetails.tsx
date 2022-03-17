@@ -166,7 +166,6 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
-
       {/* Project Title Container */}
       <Box flex="0 auto" p={3}>
         <Box mb={2}>
