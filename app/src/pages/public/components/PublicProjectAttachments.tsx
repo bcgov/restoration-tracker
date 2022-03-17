@@ -45,7 +45,7 @@ const PublicProjectAttachments: React.FC<IPublicProjectAttachmentsProps> = () =>
 
   useEffect(() => {
     getAttachments(false);
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

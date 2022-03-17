@@ -190,6 +190,7 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
                           <ChangeProjectRoleMenu
                             row={row}
                             user_identifier={props.userDetails.user_identifier}
+                            // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
                             projectRoleCodes={codes.codes!.project_roles}
                             refresh={refresh}
                           />

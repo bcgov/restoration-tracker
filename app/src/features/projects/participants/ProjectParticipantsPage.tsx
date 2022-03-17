@@ -212,6 +212,7 @@ const ProjectParticipantsPage: React.FC = () => {
                         <Box m={-1}>
                           <ChangeProjectRoleMenu
                             row={row}
+                            // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
                             projectRoleCodes={codes.codes!.project_roles}
                             refresh={getProjectParticipants}
                           />
