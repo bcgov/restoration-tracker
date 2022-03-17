@@ -238,7 +238,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             IUCN Conservation Actions Classifications
           </Typography>
           <Box mt={2}>
-            <PublicIUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+            <PublicIUCNClassification projectForViewData={projectForViewData} codes={codes.codes} refresh={refresh} />
           </Box>
         </Box>
 

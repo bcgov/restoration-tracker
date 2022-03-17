@@ -10,7 +10,6 @@ import { calculateUpdatedMapBounds } from 'utils/mapBoundaryUploadHelpers';
 export interface IPublicLocationBoundaryProps {
   projectForViewData: IGetProjectForViewResponse;
   treatmentList: IGetProjectTreatment[];
-  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 

@@ -4,9 +4,8 @@ import Drawer from '@material-ui/core/Drawer';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import PublicTreatmentList from 'features/projects/view/components/TreatmentList';
 
-//import useCodes from 'hooks/useCodes';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import {
   IGetProjectAttachment,
   IGetProjectForViewResponse,
@@ -86,32 +85,12 @@ const PublicProjectPage = () => {
   const classes = useStyles();
 
   const projectId = urlParams['id'];
+  const codes = useCodes();
 
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
   const [treatmentList, setTreatmentList] = useState<IGetProjectTreatment[]>([]);
-
-  const [isLoadingCodes, setIsLoadingCodes] = useState(false);
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        // TODO error handling/messaging
-        return;
-      }
-
-      setCodes(codesResponse);
-    };
-
-    if (!isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(true);
-    }
-  }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
 
   const getProject = useCallback(async () => {
     const projectWithDetailsResponse = await restorationTrackerApi.public.project.getProjectForView(projectId || 1);
@@ -166,7 +145,8 @@ const PublicProjectPage = () => {
       setIsLoadingProject(true);
     }
   }, [isLoadingProject, projectWithDetails, getProject, getAttachments, getTreatments]);
-  if (!codes || !projectWithDetails) {
+
+  if (!codes.codes || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
 
@@ -181,7 +161,7 @@ const PublicProjectPage = () => {
         data-testid="view_project_page_component">
         {/* Details Container */}
         <Drawer variant="permanent" className={classes.projectDetailDrawer}>
-          <PublicProjectDetails projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+          <PublicProjectDetails projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
         </Drawer>
 
         {/* Map Container */}
@@ -194,7 +174,6 @@ const PublicProjectPage = () => {
             <PublicLocationBoundary
               projectForViewData={projectWithDetails}
               treatmentList={treatmentList}
-              codes={codes}
               refresh={getProject}
             />
           </Box>
