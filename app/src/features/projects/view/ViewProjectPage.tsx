@@ -398,7 +398,11 @@ const ViewProjectPage: React.FC = () => {
       {/* Map Container */}
       <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
         <Box>
-          <TreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
+          <TreatmentSpatialUnits
+            treatmentList={treatmentList}
+            getTreatments={getTreatments}
+            getAttachments={getAttachments}
+          />
         </Box>
 
         <Box flex="1 1 auto">
