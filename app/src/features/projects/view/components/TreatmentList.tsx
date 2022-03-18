@@ -9,7 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
+import { IGetProjectTreatment, IGetTreatmentItem, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import DoneDialog from 'components/dialog/DoneDialog';
 import React, { useState } from 'react';
 import Icon from '@mdi/react';
@@ -25,10 +25,10 @@ export interface IProjectTreatmentListProps {
 const useStyles = makeStyles({
   treatmentsTable: {
     '& .MuiTableCell-root': {
-      verticalAlign: 'middle'
+      verticalAlign: 'top'
     }
   },
-  accordion:{
+  accordion: {
     '& .MuiAccordionDetails-root': {
       padding: 0
     }
@@ -75,14 +75,10 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     setOpentreatmentDetails(true);
   };
 
-  const TreatmentDetailDialog = () => {
-    if (!currentTreatmentDetail) {
-      return <></>;
-    }
-
+  const handleFormattingTreatmentsYears = (treatments: IGetTreatmentItem[]) => {
     const treatmentsByYear: { [key: string]: Set<string> } = {};
 
-    currentTreatmentDetail.treatments.forEach((item) => {
+    treatments.forEach((item) => {
       if (!treatmentsByYear[item.treatment_year]) {
         treatmentsByYear[item.treatment_year] = new Set();
         treatmentsByYear[item.treatment_year].add(item.treatment_name);
@@ -91,19 +87,27 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
       }
     });
 
-    const formattedTreatmentsByYear = Object.entries(treatmentsByYear).map(([key, value]) => {
+    const Year_Treatments: string[] = Object.entries(treatmentsByYear).map(([key, value]) => {
       const treatmentNamesString = Array.from(value).join(', ');
       const treatmentNamesByYearString = `${key} - ${treatmentNamesString}`;
 
       return treatmentNamesByYearString;
     });
 
+    return Year_Treatments;
+  };
+
+  const TreatmentDetailDialog = () => {
+    if (!currentTreatmentDetail) {
+      return <></>;
+    }
+
     const generalInformation = [
       { title: 'ID', value: currentTreatmentDetail.id },
       { title: 'Type', value: currentTreatmentDetail.type },
       { title: 'Width (m) / Length (m)', value: `${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}` },
-      { title: 'Area (Ha)', value: currentTreatmentDetail.area },
-      { title: 'Treatments', value: formattedTreatmentsByYear }
+      { title: 'Area (ha)', value: currentTreatmentDetail.area },
+      { title: 'Treatments', value: handleFormattingTreatmentsYears(currentTreatmentDetail.treatments) }
     ];
 
     return (
@@ -131,7 +135,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                   {(Array.isArray(info.value) && info.value.length > 1 && (
                     <Box component="ul" pl={2} m={0}>
                       {info.value.map((item: any) => (
-                        <li>{item}</li>
+                        <li key={item}>{item}</li>
                       ))}
                     </Box>
                   )) ||
@@ -161,6 +165,32 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     );
   };
 
+  const formatTreatmentYearColumnTable = (treatments: IGetTreatmentItem[], returnTreatments: boolean) => {
+    const formattedTreatmentsYears = handleFormattingTreatmentsYears(treatments);
+
+    const filteredYears: JSX.Element[]= [];
+    const filteredTreatments: JSX.Element[] = [];
+
+    if (Array.isArray(formattedTreatmentsYears)) {
+      formattedTreatmentsYears.forEach((item: string) => {
+        const split = item.split(' - ');
+        filteredYears.push(<Box key={item}>{split[0]}</Box>);
+        filteredTreatments.push(<Box key={item}>{split[1]}</Box>);
+
+        if(formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) +1]){
+          filteredYears.push(<Divider key={split[0]}></Divider>);
+          filteredTreatments.push(<Divider key={split[1]}></Divider>);
+        }
+      });
+    }
+
+    if(returnTreatments){
+      return filteredTreatments;
+    }
+
+    return filteredYears;
+  };
+
   return (
     <>
       <Accordion expanded={tableOpen} onChange={() => setTableOpen(!tableOpen)} className={classes.accordion}>
@@ -177,10 +207,11 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                   <TableRow>
                     <TableCell width="50">ID</TableCell>
                     <TableCell>Type</TableCell>
+                    <TableCell align='center'>Year</TableCell>
                     <TableCell>Treatments</TableCell>
                     <TableCell align="right">Width (m)</TableCell>
                     <TableCell align="right">Length (m)</TableCell>
-                    <TableCell align="right">Area (Ha)</TableCell>
+                    <TableCell align="right">Area (ha)</TableCell>
                     <TableCell align="left" width="130">
                       Action
                     </TableCell>
@@ -203,7 +234,8 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                         <TableRow key={row.id}>
                           <TableCell>{row.id}</TableCell>
                           <TableCell>{row.type}</TableCell>
-                          <TableCell>{row.treatments?.map((item: any) => item.treatment_name).join(', ')}</TableCell>
+                          <TableCell align='center'>{formatTreatmentYearColumnTable(row.treatments, false)}</TableCell>
+                          <TableCell>{formatTreatmentYearColumnTable(row.treatments, true)}</TableCell>
                           <TableCell align="right">{row.width}</TableCell>
                           <TableCell align="right">{row.length}</TableCell>
                           <TableCell align="right">{row.area}</TableCell>
