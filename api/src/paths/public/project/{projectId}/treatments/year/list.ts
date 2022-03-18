@@ -70,8 +70,6 @@ export function getTreatmentYears(): RequestHandler {
 
       const data = await treatmentService.getProjectTreatmentsYears(projectId);
 
-      console.log('data is: ', data);
-
       await connection.commit();
 
       return res.status(200).json(data);
