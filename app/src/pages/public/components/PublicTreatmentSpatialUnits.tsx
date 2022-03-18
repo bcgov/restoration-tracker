@@ -60,18 +60,24 @@ const PublicTreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props)
 
   const getTreatmentYears = useCallback(
     async (forceFetch: boolean) => {
-      if (yearList.length && !forceFetch) return;
+      if (yearList.length && !forceFetch) {
+        return;
+      }
 
       try {
         const yearsResponse = await restorationTrackerApi.public.project.getProjectTreatmentsYears(projectId);
 
-        if (!yearsResponse) return;
+        if (!yearsResponse) {
+          return;
+        }
 
-        const sortedYears = yearsResponse.sort();
+        const sortedYearsResponse = [...yearsResponse].sort(function (a, b) {
+          return a.year - b.year;
+        });
 
-        setYearList(sortedYears);
+        setYearList(sortedYearsResponse);
 
-        sortedYears.forEach((year) => {
+        sortedYearsResponse.forEach((year) => {
           selectedSpatialLayer[String(year.year)] = true;
         });
       } catch (error) {
