@@ -10,8 +10,21 @@ import { queries } from '../queries/queries';
 import { getMockDBConnection } from '../__mocks__/db';
 import { ProjectService } from './project-service';
 import * as projectCreateModels from '../models/project-create';
+import * as projectUpdateModels from '../models/project-update';
+import { IUpdateProject } from '../paths/project/{projectId}/update';
 
 chai.use(sinonChai);
+
+const entitiesInitValue = {
+  project: null,
+  contact: null,
+  permit: null,
+  partnerships: null,
+  iucn: null,
+  funding: null,
+  location: null,
+  species: null
+};
 
 describe('ProjectService', () => {
   describe('ensureProjectParticipant', () => {
@@ -794,10 +807,7 @@ describe('ProjectService', () => {
 
       sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
 
-      const projectData = {
-        ...new projectCreateModels.PostProjectData(),
-        ...new projectCreateModels.PostContactData()
-      };
+      const projectData = new projectCreateModels.PostProjectData();
 
       const projectService = new ProjectService(mockDBConnection);
 
@@ -1404,6 +1414,150 @@ describe('ProjectService', () => {
       const result = await projectService.insertRange(rangeNumber, projectId);
 
       expect(result).equals(mockRowObj[0].id);
+    });
+  });
+
+  describe('updateProject', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('makes no call to update entities', async () => {
+      const mockDBConnection = getMockDBConnection();
+
+      const projectId = 1;
+      const entities: IUpdateProject = entitiesInitValue;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const projectServiceSpy = sinon.spy(projectService);
+
+      await projectService.updateProject(projectId, entities);
+      expect(projectServiceSpy.updateProjectData).not.to.have.been.called;
+      expect(projectServiceSpy.updateContactData).not.to.have.been.called;
+      expect(projectServiceSpy.updateProjectPermitData).not.to.have.been.called;
+      expect(projectServiceSpy.updateProjectIUCNData).not.to.have.been.called;
+      expect(projectServiceSpy.updateProjectPartnershipsData).not.to.have.been.called;
+      expect(projectServiceSpy.updateProjectFundingData).not.to.have.been.called;
+      expect(projectServiceSpy.updateProjectSpatialData).not.to.have.been.called;
+      expect(projectServiceSpy.updateProjectRegionData).not.to.have.been.called;
+      expect(projectServiceSpy.updateProjectRangeData).not.to.have.been.called;
+      expect(projectServiceSpy.updateProjectSpeciesData).not.to.have.been.called;
+    });
+
+    it('makes call to update entities', async () => {
+      const mockDBConnection = getMockDBConnection();
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        project: new projectUpdateModels.PutProjectData(),
+        contact: new projectCreateModels.PostContactData(),
+        permit: new projectCreateModels.PostPermitData(),
+        partnerships: new projectUpdateModels.PutPartnershipsData(),
+        iucn: new projectUpdateModels.PutIUCNData(),
+        funding: new projectUpdateModels.PutFundingData(),
+        location: new projectUpdateModels.PutLocationData(),
+        species: new projectUpdateModels.PutSpeciesData()
+      };
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const projectServiceSpy = sinon.spy(projectService);
+
+      try {
+        await projectService.updateProject(projectId, entities);
+      } catch (actualError) {
+        expect(projectServiceSpy.updateProjectData).to.have.been.called;
+        expect(projectServiceSpy.updateContactData).to.have.been.called;
+        expect(projectServiceSpy.updateProjectPermitData).to.have.been.called;
+        expect(projectServiceSpy.updateProjectIUCNData).to.have.been.called;
+        expect(projectServiceSpy.updateProjectPartnershipsData).to.have.been.called;
+        expect(projectServiceSpy.updateProjectFundingData).to.have.been.called;
+        expect(projectServiceSpy.updateProjectSpatialData).to.have.been.called;
+        expect(projectServiceSpy.updateProjectRegionData).to.have.been.called;
+        expect(projectServiceSpy.updateProjectRangeData).to.have.been.called;
+        expect(projectServiceSpy.updateProjectSpeciesData).to.have.been.called;
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+  });
+
+  describe('updateProjectData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no revision_count', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        project: new projectUpdateModels.PutProjectData()
+      };
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.updateProjectData(projectId, entities);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to parse request body');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when no sql statement produced', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'putProjectSQL').returns(null);
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        project: {
+          ...new projectUpdateModels.PutProjectData(),
+          revision_count: 1
+        }
+      };
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.updateProjectData(projectId, entities);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL update statement');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('should throw a 400 response when no sql statement produced', async () => {
+      const mockQueryResponse = ({ rowCount: null } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'putProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        project: {
+          ...new projectUpdateModels.PutProjectData(),
+          revision_count: 1
+        }
+      };
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.updateProjectData(projectId, entities);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to update stale project data');
+        expect((actualError as HTTPError).status).to.equal(409);
+      }
     });
   });
 });
