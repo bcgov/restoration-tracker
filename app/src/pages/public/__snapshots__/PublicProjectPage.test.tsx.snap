@@ -248,6 +248,13 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           data-testid="contact_name"
                         >
                            Amanda Christensen
+                          <sup>
+                            <span
+                              class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                            >
+                               Primary
+                            </span>
+                          </sup>
                         </strong>
                       </div>
                       <div>
@@ -1049,6 +1056,13 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           data-testid="contact_name"
                         >
                            Amanda Christensen
+                          <sup>
+                            <span
+                              class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                            >
+                               Primary
+                            </span>
+                          </sup>
                         </strong>
                       </div>
                       <div>
@@ -1850,6 +1864,13 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           data-testid="contact_name"
                         >
                            Amanda Christensen
+                          <sup>
+                            <span
+                              class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                            >
+                               Primary
+                            </span>
+                          </sup>
                         </strong>
                       </div>
                       <div>

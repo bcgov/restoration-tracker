@@ -69,6 +69,8 @@ describe('CodeService', () => {
 
       const mockDBConnection = getMockDBConnection({ query: mockQuery });
 
+      sinon.stub(spatialUtils, 'getNRMRegions').resolves([{ id: 1, name: 'codeName' }]);
+
       const codeService = new CodeService(mockDBConnection);
 
       const response = await codeService.getAllCodeSets();
