@@ -1,3 +1,5 @@
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Drawer from '@material-ui/core/Drawer';
@@ -16,6 +18,7 @@ import { useParams } from 'react-router';
 import PublicLocationBoundary from './components/PublicLocationBoundary';
 import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
 import PublicProjectDetails from './PublicProjectDetails';
+import PublicProjectAttachments from './components/PublicProjectAttachments';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,7 +62,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       '& .MuiTab-root.Mui-selected': {
         color: '#1a5a96'
-      }
+      },
+      backgroundColor: '#f7f8fa'
     },
     tabPanel: {
       overflowY: 'auto'
@@ -86,6 +90,7 @@ const PublicProjectPage = () => {
   const projectId = urlParams['id'];
   const codes = useCodes();
 
+  const [tabValue, setTabValue] = React.useState('project_details');
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
@@ -149,6 +154,24 @@ const PublicProjectPage = () => {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
 
+  const TabPanel = (props: { children?: React.ReactNode; index: string; value: string }) => {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        className={classes.tabPanel}
+        {...other}>
+        {value === index && children}
+      </div>
+    );
+  };
+
+  const handleTabChange = (_: any, newValue: string) => setTabValue(newValue);
+
   return (
     <>
       <Box
@@ -160,7 +183,26 @@ const PublicProjectPage = () => {
         data-testid="view_project_page_component">
         {/* Details Container */}
         <Drawer variant="permanent" className={classes.projectDetailDrawer}>
-          <PublicProjectDetails projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
+          <Box display="flex" flexDirection="column" height="100%">
+            <Box>
+              <Tabs
+                className={classes.tabs}
+                value={tabValue}
+                onChange={handleTabChange}
+                variant="fullWidth"
+                aria-label="Project Navigation">
+                <Tab label="Project Details" value="project_details" />
+                <Tab label="Documents" value="project_documents" />
+              </Tabs>
+            </Box>
+
+            <TabPanel value={tabValue} index="project_details">
+              <PublicProjectDetails projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
+            </TabPanel>
+            <TabPanel value={tabValue} index="project_documents">
+              <PublicProjectAttachments projectForViewData={projectWithDetails} />
+            </TabPanel>
+          </Box>
         </Drawer>
 
         {/* Map Container */}
