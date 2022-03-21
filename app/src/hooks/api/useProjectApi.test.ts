@@ -1,6 +1,17 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { ICreateProjectRequest, IPostTreatmentUnitResponse } from 'interfaces/useProjectApi.interface';
+import {
+  ICreateProjectRequest,
+  IGetProjectForViewResponseContact,
+  IGetProjectForViewResponseDetails,
+  IGetProjectForViewResponseFundingData,
+  IGetProjectForViewResponseIUCN,
+  IGetProjectForViewResponseLocation,
+  IGetProjectForViewResponsePartnerships,
+  IGetProjectForViewResponsePermit,
+  IGetProjectForViewResponseSpecies,
+  IPostTreatmentUnitResponse
+} from 'interfaces/useProjectApi.interface';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import useProjectApi, { usePublicProjectApi } from './useProjectApi';
 
@@ -245,12 +256,13 @@ describe('useProjectApi', () => {
   });
 
   it('addProjectParticipants works as expected', async () => {
-    const mockResponse = { participants: [] };
-    mock.onGet(`/api/project/${projectId}/participants/get`).reply(200, mockResponse);
+    mock.onPost(`/api/project/${projectId}/participants/create`).reply(200);
 
-    const result = await useProjectApi(axios).getProjectParticipants(projectId);
+    const result = await useProjectApi(axios).addProjectParticipants(projectId, [
+      { userIdentifier: 'user1', identitySource: 'idir', roleId: 1 }
+    ]);
 
-    expect(result).toEqual(mockResponse);
+    expect(result).toEqual(true);
   });
 
   it('removeProjectParticipant works as expected', async () => {
@@ -303,11 +315,29 @@ describe('useProjectApi', () => {
     expect(result).toEqual(mockResponse);
   });
 
+  it('getProjectTreatments on the public side works as expected', async () => {
+    const mockResponse = { treatmentList: [] };
+    mock.onGet(`/api/public/project/${projectId}/treatments/list`).reply(200, mockResponse);
+
+    const result = await usePublicProjectApi(axios).getProjectTreatments(projectId);
+
+    expect(result).toEqual(mockResponse);
+  });
+
   it('getProjectTreatmentsYears works as expected', async () => {
     const mockResponse = [{ year: 1 }];
     mock.onGet(`/api/project/${projectId}/treatments/year/list`).reply(200, mockResponse);
 
     const result = await useProjectApi(axios).getProjectTreatmentsYears(projectId);
+
+    expect(result).toEqual(mockResponse);
+  });
+
+  it('getProjectTreatmentsYears works as expected on the public side', async () => {
+    const mockResponse = [{ year: 1 }];
+    mock.onGet(`/api/public/project/${projectId}/treatments/year/list`).reply(200, mockResponse);
+
+    const result = await usePublicProjectApi(axios).getProjectTreatmentsYears(projectId);
 
     expect(result).toEqual(mockResponse);
   });
@@ -320,5 +350,25 @@ describe('useProjectApi', () => {
     const result = await useProjectApi(axios).importProjectTreatmentSpatialFile(1, {} as File);
 
     expect(result).toEqual(treatmentRespose);
+  });
+
+  it('updateProject works as expected', async () => {
+    const mockResponse = [{ id: 1 }];
+    mock.onPut(`/api/project/${projectId}/update`).reply(200, mockResponse);
+
+    const newProjectData = {
+      project: {} as IGetProjectForViewResponseDetails,
+      species: {} as IGetProjectForViewResponseSpecies,
+      permit: {} as IGetProjectForViewResponsePermit,
+      location: {} as IGetProjectForViewResponseLocation,
+      contact: {} as IGetProjectForViewResponseContact,
+      iucn: {} as IGetProjectForViewResponseIUCN,
+      funding: {} as IGetProjectForViewResponseFundingData,
+      partnerships: {} as IGetProjectForViewResponsePartnerships
+    };
+
+    const result = await useProjectApi(axios).updateProject(projectId, newProjectData);
+
+    expect(result).toEqual([{ id: 1 }]);
   });
 });

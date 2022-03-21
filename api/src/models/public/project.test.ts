@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { COMPLETION_STATUS } from '../../constants/status';
 import { GetPublicProjectData } from './project';
 import { describe } from 'mocha';
 
@@ -21,10 +20,6 @@ describe('GetPublicProjectData', () => {
 
     it('sets end_date', () => {
       expect(data.end_date).to.equal('');
-    });
-
-    it('sets completion_status', () => {
-      expect(data.completion_status).to.equal(COMPLETION_STATUS.ACTIVE);
     });
   });
 
@@ -53,10 +48,6 @@ describe('GetPublicProjectData', () => {
 
     it('sets end_date', () => {
       expect(data.end_date).to.equal('2020-05-20T07:00:00.000Z');
-    });
-
-    it('sets completion_status', () => {
-      expect(data.completion_status).to.equal(COMPLETION_STATUS.COMPLETED);
     });
   });
 });
