@@ -1,5 +1,7 @@
 import jsonpatch from 'fast-json-patch';
 import { v4 as uuidv4 } from 'uuid';
+import { IDBConnection } from '../database/db';
+import { DBService } from './service';
 
 export const EML_VERSION = '1.0.0';
 export const EML_PROVIDER_URL = '';
@@ -47,225 +49,28 @@ export type AdditionalMetaDataSection = XmlAttributes<AdditionalMetaDataSectionA
 export type AdditionalMetaDataSectionAttributes = { id?: string };
 export type AdditionalMetaDataSectionChildren = Record<string, unknown>;
 
-export class XMLBuilder<Attributes extends object, Children extends object> {
-  data: Record<string, never>;
+export class EmlService extends DBService {
+  data;
 
-  basePath: string;
+  constructor(connection: IDBConnection) {
+    super(connection);
 
-  constructor(basePath: string) {
     this.data = {};
-
-    this.basePath = basePath;
   }
 
-  get Data(): (XmlAttributes<Attributes> & Children) | Record<string, never> {
-    return this.data;
+  buildProjectEml() {
+    const emlFile = {};
+
+    return emlFile;
   }
 
-  get BasePath(): string {
-    return this.basePath;
-  }
-
-  setData(attributes: Attributes, children: Children): this {
-    this.setAttributes(attributes);
-    this.setChildren(children);
-    return this;
-  }
-
-  setAttributes(attributes: Attributes): this {
+  setEMLSection() {
     jsonpatch.applyOperation(this.data, {
       op: 'add',
-      path: this.basePath,
+      path: '/eml',
       value: {
-        $: {
-          ...attributes
-        }
+        $: { packageId: `urn:uuid:${emlBuilder.packageId}`, system: EML_PROVIDER_URL }
       }
     });
-
-    return this;
-  }
-
-  appendAttributes(attributes: Attributes): this {
-    jsonpatch.applyOperation(this.data, {
-      op: 'add',
-      path: this.basePath,
-      value: {
-        $: {
-          ...jsonpatch.getValueByPointer(this.data, `${this.basePath}/$`),
-          ...attributes
-        }
-      }
-    });
-
-    return this;
-  }
-
-  setChildren(children: Children): this {
-    jsonpatch.applyOperation(this.data, {
-      op: 'add',
-      path: this.basePath,
-      value: {
-        $: {
-          ...jsonpatch.getValueByPointer(this.data, `${this.basePath}/$`)
-        },
-        ...children
-      }
-    });
-
-    return this;
-  }
-
-  appendChildren(children: Children): this {
-    jsonpatch.applyOperation(this.data, {
-      op: 'add',
-      path: this.basePath,
-      value: {
-        ...jsonpatch.getValueByPointer(this.data, this.basePath),
-        ...children
-      }
-    });
-
-    return this;
-  }
-
-  addBuilder(builder: XMLBuilder<any, any> | XMLArrayBuilder<any, any>): this {
-    jsonpatch.applyOperation(this.data, {
-      op: 'add',
-      path: this.basePath + builder.basePath,
-      value: {
-        ...builder.Data
-      }
-    });
-
-    return this;
-  }
-}
-
-export class XMLArrayBuilder<Attributes extends Record<string, unknown>, Children extends Record<string, unknown>> {
-  data: Record<string, never>;
-
-  basePath: string;
-
-  constructor(basePath: string) {
-    this.data = {};
-
-    this.basePath = basePath;
-
-    jsonpatch.applyOperation(this.data, {
-      op: 'replace',
-      path: this.basePath,
-      value: []
-    });
-  }
-
-  get Data(): (XmlAttributes<Attributes> & Children) | Record<string, never> {
-    return this.data;
-  }
-
-  get BasePath(): string {
-    return this.basePath;
-  }
-
-  setData(data: { attributes: Attributes; children: Children }[]): this {
-    jsonpatch.applyOperation(this.data, {
-      op: 'replace',
-      path: this.basePath,
-      value: data.map((item) => {
-        return {
-          ...item.children,
-          $: {
-            ...item.attributes
-          }
-        };
-      })
-    });
-
-    return this;
-  }
-
-  setAttributes(index: number, attributes: Attributes): this {
-    jsonpatch.applyOperation(this.data, {
-      op: 'replace',
-      path: `${this.basePath}/${index}`,
-      value: {
-        ...jsonpatch.getValueByPointer(this.data, `${this.basePath}/${index}`),
-        $: {
-          ...attributes
-        }
-      }
-    });
-
-    return this;
-  }
-
-  appendAttributes(index: number, attributes: Attributes): this {
-    if (!jsonpatch.getValueByPointer(this.data, `${this.basePath}/${index}`)) {
-      return this.setAttributes(index, attributes);
-    }
-
-    jsonpatch.applyOperation(this.data, {
-      op: 'replace',
-      path: `${this.basePath}/${index}/$`,
-      value: {
-        ...jsonpatch.getValueByPointer(this.data, `${this.basePath}/${index}/$`),
-        ...attributes
-      }
-    });
-
-    return this;
-  }
-
-  setChildren(index: number, children: Children): this {
-    jsonpatch.applyOperation(this.data, {
-      op: 'replace',
-      path: `${this.basePath}/${index}`,
-      value: {
-        $: {
-          ...jsonpatch.getValueByPointer(this.data, `${this.basePath}/${index}/$`)
-        },
-        ...children
-      }
-    });
-
-    return this;
-  }
-
-  appendChildren(index: number, children: Children): this {
-    jsonpatch.applyOperation(this.data, {
-      op: 'replace',
-      path: `${this.basePath}/${index}`,
-      value: {
-        ...jsonpatch.getValueByPointer(this.data, `${this.basePath}/${index}`),
-        ...children,
-        $: {
-          ...jsonpatch.getValueByPointer(this.data, `${this.basePath}/${index}/$`)
-        }
-      }
-    });
-
-    return this;
-  }
-}
-
-export class EmlBuilder extends XMLBuilder<EmlSectionAttributes, EmlSectionChildren> {
-  emlFile: object;
-
-  packageId: string;
-
-  constructor(packageId?: string) {
-    super('eml');
-
-    this.emlFile = {};
-
-    this.packageId = packageId || uuidv4();
-  }
-
-  get PackageId(): string {
-    return this.packageId;
-  }
-
-  get EmlFile(): EmlFile {
-    return this.emlFile as EmlFile;
   }
 }
