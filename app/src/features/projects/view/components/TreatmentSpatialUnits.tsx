@@ -21,6 +21,7 @@ import { useParams } from 'react-router';
 export interface IProjectSpatialUnitsProps {
   treatmentList: IGetProjectTreatment[];
   getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
+  getAttachments: (forceFetch: boolean) => void;
 }
 
 /**
@@ -29,7 +30,7 @@ export interface IProjectSpatialUnitsProps {
  * @return {*}
  */
 const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
-  const { getTreatments } = props;
+  const { getTreatments, getAttachments } = props;
   const urlParams = useParams();
   const projectId = urlParams['id'];
   const restorationTrackerApi = useRestorationTrackerApi();
@@ -128,6 +129,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         onClose={() => {
           setOpenImportTreatments(false);
           getTreatments(true);
+          getAttachments(true);
           getTreatmentYears(true);
         }}>
         <FileUpload
