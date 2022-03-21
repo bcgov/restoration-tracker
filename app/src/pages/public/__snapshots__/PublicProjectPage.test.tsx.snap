@@ -28,500 +28,627 @@ exports[`PublicProjectPage renders a spinner if no project is loaded 1`] = `
 exports[`PublicProjectPage renders correctly with no end date 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-121"
+    class="MuiBox-root MuiBox-root-216"
     data-testid="view_project_page_component"
   >
     <div
-      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-119"
+      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-203"
     >
       <div
         class="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
       >
         <div
-          class="MuiBox-root MuiBox-root-138"
+          class="MuiBox-root MuiBox-root-217"
         >
           <div
-            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
-          >
-            <a
-              aria-disabled="false"
-              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
-              role="button"
-              tabindex="0"
-            >
-              <span
-                class="MuiButton-label"
-              >
-                <span
-                  class="MuiButton-startIcon MuiButton-iconSizeSmall"
-                >
-                  <svg
-                    role="presentation"
-                    style="width: 1.3125rem; height: 1.3125rem;"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
-                      style="fill: currentColor;"
-                    />
-                  </svg>
-                </span>
-                Back to Projects
-              </span>
-              <span
-                class="MuiTouchRipple-root"
-              />
-            </a>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-139"
+            class="MuiBox-root MuiBox-root-218"
           >
             <div
-              class="MuiBox-root MuiBox-root-140"
-            >
-              <h1
-                class="MuiBox-root MuiBox-root-141 makeStyles-projectTitle-124"
-              >
-                <b>
-                  Project -
-                </b>
-                 Test Project Name
-              </h1>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-142"
+              class="MuiTabs-root makeStyles-tabs-212"
             >
               <div
-                class="MuiBox-root MuiBox-root-143"
+                class="MuiTabs-scroller MuiTabs-fixed"
+                style="overflow: hidden;"
               >
                 <div
-                  class="MuiChip-root makeStyles-chip-131 makeStyles-chipNotAPriority-137 MuiChip-sizeSmall"
+                  aria-label="Project Navigation"
+                  class="MuiTabs-flexContainer"
+                  role="tablist"
                 >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall"
-                  >
-                    Priority
-                  </span>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root MuiBox-root-144"
-              >
-                <div
-                  class="MuiChip-root makeStyles-chip-131 makeStyles-chipActive-132 MuiChip-sizeSmall"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall"
-                  >
-                    Active
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-145 makeStyles-projectMetadata-126"
-          >
-            <section
-              class="MuiBox-root MuiBox-root-146"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Objectives
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-147"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2"
-                >
-                  Project objectives
-                </p>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-148"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                General Information
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-149"
-              >
-                <dl
-                  class="MuiBox-root MuiBox-root-150"
-                  data-testid="general_info_component"
-                >
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Project Name:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      Test Project Name
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Start Date:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      Oct 10, 1998
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Completion Date:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      ---
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Focal Species:
-                    </dd>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    />
-                  </div>
-                </dl>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-151"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Project Contacts
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-152"
-              >
-                <ul
-                  class="makeStyles-projectContactList-153"
-                >
-                  <li
-                    class="MuiBox-root MuiBox-root-155"
-                  >
-                    <div
-                      class="MuiBox-root MuiBox-root-156"
-                    >
-                      <svg
-                        class="makeStyles-contactIcon-154"
-                        role="presentation"
-                        style="width: 2.25rem; height: 2.25rem;"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
-                          style="fill: currentColor;"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <div>
-                        <strong
-                          data-testid="contact_name"
-                        >
-                           Amanda Christensen
-                          <sup>
-                            <span
-                              class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
-                            >
-                               Primary
-                            </span>
-                          </sup>
-                        </strong>
-                      </div>
-                      <div>
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                          href="#"
-                        >
-                          amanda@christensen.com
-                        </a>
-                      </div>
-                      <div>
-                        Amanda and associates
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-157"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="projectPermitsTitle"
-              >
-                Permits
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-158"
-              >
-                <ul
-                  class="makeStyles-projectPermitList-159"
-                >
-                  <li
-                    data-testid="permit_item"
+                  <button
+                    aria-selected="true"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit Mui-selected MuiTab-fullWidth"
+                    role="tab"
+                    tabindex="0"
+                    type="button"
                   >
                     <span
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTab-wrapper"
                     >
-                      123 - 
-                      <span>
-                        Permit type
-                      </span>
+                      Project Details
                     </span>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-160"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="IUCNTitle"
-              >
-                IUCN Conservation Actions Classifications
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-161"
-              >
-                <ul
-                  class="makeStyles-projectIucnList-162"
-                >
-                  <li
-                    data-testid="iucn_data"
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                  <button
+                    aria-selected="false"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit MuiTab-fullWidth"
+                    role="tab"
+                    tabindex="-1"
+                    type="button"
                   >
-                    IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
-                  </li>
-                </ul>
+                    <span
+                      class="MuiTab-wrapper"
+                    >
+                      Documents
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <span
+                  class="PrivateTabIndicator-root-219 PrivateTabIndicator-colorSecondary-221 MuiTabs-indicator"
+                  style="left: 0px; width: 0px;"
+                />
               </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-163"
+            </div>
+          </div>
+          <div
+            aria-labelledby="simple-tab-project_details"
+            class="makeStyles-tabPanel-213"
+            id="simple-tabpanel-project_details"
+            role="tabpanel"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-239"
             >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="fundingSourcesTitle"
-              >
-                Funding Sources
-              </h3>
               <div
-                class="MuiBox-root MuiBox-root-164"
+                class="MuiBox-root MuiBox-root-240"
               >
-                <ul
-                  class="makeStyles-projectFundingList-165"
+                <div
+                  class="MuiBox-root MuiBox-root-241"
                 >
-                  <li
-                    data-testid="funding_data"
+                  <a
+                    aria-disabled="false"
+                    class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <span
+                      class="MuiButton-label"
+                    >
+                      <span
+                        class="MuiButton-startIcon MuiButton-iconSizeSmall"
+                      >
+                        <svg
+                          role="presentation"
+                          style="width: 1.3125rem; height: 1.3125rem;"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                            style="fill: currentColor;"
+                          />
+                        </svg>
+                      </span>
+                      Back to Projects
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-242"
+                >
+                  <h1
+                    class="MuiBox-root MuiBox-root-243 makeStyles-projectTitle-225"
+                  >
+                    <b>
+                      Project -
+                    </b>
+                     Test Project Name
+                  </h1>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-244"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-245"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-166"
+                      class="MuiChip-root makeStyles-chip-232 makeStyles-chipNotAPriority-238 MuiChip-sizeSmall"
                     >
-                      <strong
-                        data-testid="agencyTitle"
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall"
                       >
-                        agency name
-                      </strong>
+                        Priority
+                      </span>
                     </div>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-246"
+                  >
+                    <div
+                      class="MuiChip-root makeStyles-chip-232 makeStyles-chipActive-233 MuiChip-sizeSmall"
+                    >
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall"
+                      >
+                        Active
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-247 makeStyles-projectMetadata-227"
+              >
+                <section
+                  class="MuiBox-root MuiBox-root-248"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    Objectives
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-249"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Project objectives
+                    </p>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-250"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    General Information
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-251"
+                  >
                     <dl
-                      class="MuiBox-root MuiBox-root-167"
+                      class="MuiBox-root MuiBox-root-252"
+                      data-testid="general_info_component"
                     >
                       <div>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
-                          Funding Amount:
-                        </dt>
+                          Project Name:
+                        </dd>
                         <dt
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          $333
+                          Test Project Name
                         </dt>
                       </div>
                       <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Project ID:
-                        </dt>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          ABC123
-                        </dt>
-                      </div>
-                      <div>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
                           Start Date:
-                        </dt>
+                        </dd>
                         <dt
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          Apr 14, 2000
+                          Oct 10, 1998
                         </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Completion Date:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          ---
+                        </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Focal Species:
+                        </dd>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2"
+                        />
+                      </div>
+                    </dl>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-253"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    Project Contacts
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-254"
+                  >
+                    <ul
+                      class="makeStyles-projectContactList-255"
+                    >
+                      <li
+                        class="MuiBox-root MuiBox-root-257"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-258"
+                        >
+                          <svg
+                            class="makeStyles-contactIcon-256"
+                            role="presentation"
+                            style="width: 2.25rem; height: 2.25rem;"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                              style="fill: currentColor;"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <div>
+                            <strong
+                              data-testid="contact_name"
+                            >
+                               Amanda Christensen
+                              <sup>
+                                <span
+                                  class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                                >
+                                   Primary
+                                </span>
+                              </sup>
+                            </strong>
+                          </div>
+                          <div>
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                              href="#"
+                            >
+                              amanda@christensen.com
+                            </a>
+                          </div>
+                          <div>
+                            Amanda and associates
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-259"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="projectPermitsTitle"
+                  >
+                    Permits
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-260"
+                  >
+                    <ul
+                      class="makeStyles-projectPermitList-261"
+                    >
+                      <li
+                        data-testid="permit_item"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          123 - 
+                          <span>
+                            Permit type
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-262"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="IUCNTitle"
+                  >
+                    IUCN Conservation Actions Classifications
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-263"
+                  >
+                    <ul
+                      class="makeStyles-projectIucnList-264"
+                    >
+                      <li
+                        data-testid="iucn_data"
+                      >
+                        IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-265"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="fundingSourcesTitle"
+                  >
+                    Funding Sources
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-266"
+                  >
+                    <ul
+                      class="makeStyles-projectFundingList-267"
+                    >
+                      <li
+                        data-testid="funding_data"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-268"
+                        >
+                          <strong
+                            data-testid="agencyTitle"
+                          >
+                            agency name
+                          </strong>
+                        </div>
+                        <dl
+                          class="MuiBox-root MuiBox-root-269"
+                        >
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Funding Amount:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              $333
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Project ID:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              ABC123
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Start Date:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              Apr 14, 2000
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              End Date:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              Apr 13, 2021
+                            </dt>
+                          </div>
+                        </dl>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-270"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="partnershipsTitle"
+                  >
+                    Partnerships
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-271"
+                  >
+                    <dl
+                      class="MuiBox-root MuiBox-root-273"
+                    >
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          data-testid="indigenousData"
+                        >
+                          Indigenous Partnerships
+                        </dt>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          <span
+                            class="makeStyles-partnerItem-272"
+                            data-testid="indigenous_partners_data"
+                          >
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                          <span
+                            class="makeStyles-partnerItem-272"
+                            data-testid="indigenous_partners_data"
+                          >
+                            First nations code
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                        </dd>
                       </div>
                       <div>
                         <dt
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          data-testid="stakeholderData"
                         >
-                          End Date:
+                          Other Partnerships
                         </dt>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          Apr 13, 2021
-                        </dt>
+                          <span
+                            class="makeStyles-partnerItem-272"
+                            data-testid="stakeholder_partners_data"
+                          >
+                            partner2
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                          <span
+                            class="makeStyles-partnerItem-272"
+                            data-testid="stakeholder_partners_data"
+                          >
+                            partner3
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                        </dd>
                       </div>
                     </dl>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-168"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="partnershipsTitle"
-              >
-                Partnerships
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-169"
-              >
-                <dl
-                  class="MuiBox-root MuiBox-root-171"
-                >
-                  <div>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                      data-testid="indigenousData"
-                    >
-                      Indigenous Partnerships
-                    </dt>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      <span
-                        class="makeStyles-partnerItem-170"
-                        data-testid="indigenous_partners_data"
-                      >
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                      <span
-                        class="makeStyles-partnerItem-170"
-                        data-testid="indigenous_partners_data"
-                      >
-                        First nations code
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                    </dd>
                   </div>
-                  <div>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                      data-testid="stakeholderData"
-                    >
-                      Other Partnerships
-                    </dt>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      <span
-                        class="makeStyles-partnerItem-170"
-                        data-testid="stakeholder_partners_data"
-                      >
-                        partner2
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                      <span
-                        class="makeStyles-partnerItem-170"
-                        data-testid="stakeholder_partners_data"
-                      >
-                        partner3
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                    </dd>
-                  </div>
-                </dl>
+                </section>
               </div>
-            </section>
+            </div>
           </div>
+          <div
+            aria-labelledby="simple-tab-project_documents"
+            class="makeStyles-tabPanel-213"
+            hidden=""
+            id="simple-tabpanel-project_documents"
+            role="tabpanel"
+          />
         </div>
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-172 makeStyles-projectDetailMain-120"
+      class="MuiBox-root MuiBox-root-274 makeStyles-projectLocationBoundary-215"
     >
       <div
-        class="MuiBox-root MuiBox-root-173"
+        class="MuiBox-root MuiBox-root-275"
       >
         <div
-          class="MuiBox-root MuiBox-root-174"
+          class="MuiBox-root MuiBox-root-276"
+        >
+          <div
+            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-xs-space-between"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <button
+                  aria-label="Open Layer Menu"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+                  data-testid="open-layer-menu"
+                  id="open-layer-menu"
+                  tabindex="0"
+                  title="Open Layer Menu"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    <strong>
+                      Project Layers (0)
+                    </strong>
+                    <span
+                      class="MuiButton-endIcon MuiButton-iconSizeMedium"
+                    >
+                      <svg
+                        role="presentation"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M7,10L12,15L17,10H7Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-277"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-278"
           data-testid="map_container"
         >
           <div
-            class="makeStyles-map-175 leaflet-container leaflet-grab leaflet-touch-drag"
+            class="makeStyles-map-279 leaflet-container leaflet-grab leaflet-touch-drag"
             id="project_location_form_map"
             style="position: relative;"
             tabindex="0"
@@ -676,6 +803,101 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-280"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-287"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-288"
+          >
+            <strong>
+              Found 0 treatments
+            </strong>
+          </div>
+          <div
+            class="MuiTableContainer-root MuiBox-root MuiBox-root-289"
+          >
+            <table
+              aria-label="treatments-list-table"
+              class="MuiTable-root makeStyles-treatmentsTable-281 MuiTable-stickyHeader"
+            >
+              <thead
+                class="MuiTableHead-root"
+              >
+                <tr
+                  class="MuiTableRow-root MuiTableRow-head"
+                >
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                    width="50"
+                  >
+                    ID
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Type
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Treatments
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Width (m)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Length (m)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Area (Ha)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                    width="130"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="MuiTableBody-root"
+                data-testid="project-table"
+              >
+                <tr
+                  class="MuiTableRow-root"
+                >
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                    colspan="7"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-290"
+                    >
+                      No Treatments
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -687,500 +909,627 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
 exports[`PublicProjectPage renders public project page when project is loaded (project is active) 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-7"
+    class="MuiBox-root MuiBox-root-40"
     data-testid="view_project_page_component"
   >
     <div
-      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-5"
+      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-27"
     >
       <div
         class="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
       >
         <div
-          class="MuiBox-root MuiBox-root-24"
+          class="MuiBox-root MuiBox-root-41"
         >
           <div
-            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
-          >
-            <a
-              aria-disabled="false"
-              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
-              role="button"
-              tabindex="0"
-            >
-              <span
-                class="MuiButton-label"
-              >
-                <span
-                  class="MuiButton-startIcon MuiButton-iconSizeSmall"
-                >
-                  <svg
-                    role="presentation"
-                    style="width: 1.3125rem; height: 1.3125rem;"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
-                      style="fill: currentColor;"
-                    />
-                  </svg>
-                </span>
-                Back to Projects
-              </span>
-              <span
-                class="MuiTouchRipple-root"
-              />
-            </a>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-25"
+            class="MuiBox-root MuiBox-root-42"
           >
             <div
-              class="MuiBox-root MuiBox-root-26"
-            >
-              <h1
-                class="MuiBox-root MuiBox-root-27 makeStyles-projectTitle-10"
-              >
-                <b>
-                  Project -
-                </b>
-                 Test Project Name
-              </h1>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-28"
+              class="MuiTabs-root makeStyles-tabs-36"
             >
               <div
-                class="MuiBox-root MuiBox-root-29"
+                class="MuiTabs-scroller MuiTabs-fixed"
+                style="overflow: hidden;"
               >
                 <div
-                  class="MuiChip-root makeStyles-chip-17 makeStyles-chipNotAPriority-23 MuiChip-sizeSmall"
+                  aria-label="Project Navigation"
+                  class="MuiTabs-flexContainer"
+                  role="tablist"
                 >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall"
-                  >
-                    Priority
-                  </span>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root MuiBox-root-30"
-              >
-                <div
-                  class="MuiChip-root makeStyles-chip-17 makeStyles-chipActive-18 MuiChip-sizeSmall"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall"
-                  >
-                    Active
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-31 makeStyles-projectMetadata-12"
-          >
-            <section
-              class="MuiBox-root MuiBox-root-32"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Objectives
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-33"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2"
-                >
-                  Project objectives
-                </p>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-34"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                General Information
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-35"
-              >
-                <dl
-                  class="MuiBox-root MuiBox-root-36"
-                  data-testid="general_info_component"
-                >
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Project Name:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      Test Project Name
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Start Date:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      Oct 10, 1998
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Completion Date:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      Feb 26, 2100
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Focal Species:
-                    </dd>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    />
-                  </div>
-                </dl>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-37"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Project Contacts
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-38"
-              >
-                <ul
-                  class="makeStyles-projectContactList-39"
-                >
-                  <li
-                    class="MuiBox-root MuiBox-root-41"
-                  >
-                    <div
-                      class="MuiBox-root MuiBox-root-42"
-                    >
-                      <svg
-                        class="makeStyles-contactIcon-40"
-                        role="presentation"
-                        style="width: 2.25rem; height: 2.25rem;"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
-                          style="fill: currentColor;"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <div>
-                        <strong
-                          data-testid="contact_name"
-                        >
-                           Amanda Christensen
-                          <sup>
-                            <span
-                              class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
-                            >
-                               Primary
-                            </span>
-                          </sup>
-                        </strong>
-                      </div>
-                      <div>
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                          href="#"
-                        >
-                          amanda@christensen.com
-                        </a>
-                      </div>
-                      <div>
-                        Amanda and associates
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-43"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="projectPermitsTitle"
-              >
-                Permits
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-44"
-              >
-                <ul
-                  class="makeStyles-projectPermitList-45"
-                >
-                  <li
-                    data-testid="permit_item"
+                  <button
+                    aria-selected="true"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit Mui-selected MuiTab-fullWidth"
+                    role="tab"
+                    tabindex="0"
+                    type="button"
                   >
                     <span
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTab-wrapper"
                     >
-                      123 - 
-                      <span>
-                        Permit type
-                      </span>
+                      Project Details
                     </span>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-46"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="IUCNTitle"
-              >
-                IUCN Conservation Actions Classifications
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-47"
-              >
-                <ul
-                  class="makeStyles-projectIucnList-48"
-                >
-                  <li
-                    data-testid="iucn_data"
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                  <button
+                    aria-selected="false"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit MuiTab-fullWidth"
+                    role="tab"
+                    tabindex="-1"
+                    type="button"
                   >
-                    IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
-                  </li>
-                </ul>
+                    <span
+                      class="MuiTab-wrapper"
+                    >
+                      Documents
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <span
+                  class="PrivateTabIndicator-root-43 PrivateTabIndicator-colorSecondary-45 MuiTabs-indicator"
+                  style="left: 0px; width: 0px;"
+                />
               </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-49"
+            </div>
+          </div>
+          <div
+            aria-labelledby="simple-tab-project_details"
+            class="makeStyles-tabPanel-37"
+            id="simple-tabpanel-project_details"
+            role="tabpanel"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-63"
             >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="fundingSourcesTitle"
-              >
-                Funding Sources
-              </h3>
               <div
-                class="MuiBox-root MuiBox-root-50"
+                class="MuiBox-root MuiBox-root-64"
               >
-                <ul
-                  class="makeStyles-projectFundingList-51"
+                <div
+                  class="MuiBox-root MuiBox-root-65"
                 >
-                  <li
-                    data-testid="funding_data"
+                  <a
+                    aria-disabled="false"
+                    class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <span
+                      class="MuiButton-label"
+                    >
+                      <span
+                        class="MuiButton-startIcon MuiButton-iconSizeSmall"
+                      >
+                        <svg
+                          role="presentation"
+                          style="width: 1.3125rem; height: 1.3125rem;"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                            style="fill: currentColor;"
+                          />
+                        </svg>
+                      </span>
+                      Back to Projects
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-66"
+                >
+                  <h1
+                    class="MuiBox-root MuiBox-root-67 makeStyles-projectTitle-49"
+                  >
+                    <b>
+                      Project -
+                    </b>
+                     Test Project Name
+                  </h1>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-68"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-69"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-52"
+                      class="MuiChip-root makeStyles-chip-56 makeStyles-chipNotAPriority-62 MuiChip-sizeSmall"
                     >
-                      <strong
-                        data-testid="agencyTitle"
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall"
                       >
-                        agency name
-                      </strong>
+                        Priority
+                      </span>
                     </div>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-70"
+                  >
+                    <div
+                      class="MuiChip-root makeStyles-chip-56 makeStyles-chipActive-57 MuiChip-sizeSmall"
+                    >
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall"
+                      >
+                        Active
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-71 makeStyles-projectMetadata-51"
+              >
+                <section
+                  class="MuiBox-root MuiBox-root-72"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    Objectives
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-73"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Project objectives
+                    </p>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-74"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    General Information
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-75"
+                  >
                     <dl
-                      class="MuiBox-root MuiBox-root-53"
+                      class="MuiBox-root MuiBox-root-76"
+                      data-testid="general_info_component"
                     >
                       <div>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
-                          Funding Amount:
-                        </dt>
+                          Project Name:
+                        </dd>
                         <dt
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          $333
+                          Test Project Name
                         </dt>
                       </div>
                       <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Project ID:
-                        </dt>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          ABC123
-                        </dt>
-                      </div>
-                      <div>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
                           Start Date:
-                        </dt>
+                        </dd>
                         <dt
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          Apr 14, 2000
+                          Oct 10, 1998
                         </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Completion Date:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          Feb 26, 2100
+                        </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Focal Species:
+                        </dd>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2"
+                        />
+                      </div>
+                    </dl>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-77"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    Project Contacts
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-78"
+                  >
+                    <ul
+                      class="makeStyles-projectContactList-79"
+                    >
+                      <li
+                        class="MuiBox-root MuiBox-root-81"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-82"
+                        >
+                          <svg
+                            class="makeStyles-contactIcon-80"
+                            role="presentation"
+                            style="width: 2.25rem; height: 2.25rem;"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                              style="fill: currentColor;"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <div>
+                            <strong
+                              data-testid="contact_name"
+                            >
+                               Amanda Christensen
+                              <sup>
+                                <span
+                                  class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                                >
+                                   Primary
+                                </span>
+                              </sup>
+                            </strong>
+                          </div>
+                          <div>
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                              href="#"
+                            >
+                              amanda@christensen.com
+                            </a>
+                          </div>
+                          <div>
+                            Amanda and associates
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-83"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="projectPermitsTitle"
+                  >
+                    Permits
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-84"
+                  >
+                    <ul
+                      class="makeStyles-projectPermitList-85"
+                    >
+                      <li
+                        data-testid="permit_item"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          123 - 
+                          <span>
+                            Permit type
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-86"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="IUCNTitle"
+                  >
+                    IUCN Conservation Actions Classifications
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-87"
+                  >
+                    <ul
+                      class="makeStyles-projectIucnList-88"
+                    >
+                      <li
+                        data-testid="iucn_data"
+                      >
+                        IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-89"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="fundingSourcesTitle"
+                  >
+                    Funding Sources
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-90"
+                  >
+                    <ul
+                      class="makeStyles-projectFundingList-91"
+                    >
+                      <li
+                        data-testid="funding_data"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-92"
+                        >
+                          <strong
+                            data-testid="agencyTitle"
+                          >
+                            agency name
+                          </strong>
+                        </div>
+                        <dl
+                          class="MuiBox-root MuiBox-root-93"
+                        >
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Funding Amount:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              $333
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Project ID:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              ABC123
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Start Date:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              Apr 14, 2000
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              End Date:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              Apr 13, 2021
+                            </dt>
+                          </div>
+                        </dl>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-94"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="partnershipsTitle"
+                  >
+                    Partnerships
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-95"
+                  >
+                    <dl
+                      class="MuiBox-root MuiBox-root-97"
+                    >
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          data-testid="indigenousData"
+                        >
+                          Indigenous Partnerships
+                        </dt>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          <span
+                            class="makeStyles-partnerItem-96"
+                            data-testid="indigenous_partners_data"
+                          >
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                          <span
+                            class="makeStyles-partnerItem-96"
+                            data-testid="indigenous_partners_data"
+                          >
+                            First nations code
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                        </dd>
                       </div>
                       <div>
                         <dt
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          data-testid="stakeholderData"
                         >
-                          End Date:
+                          Other Partnerships
                         </dt>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          Apr 13, 2021
-                        </dt>
+                          <span
+                            class="makeStyles-partnerItem-96"
+                            data-testid="stakeholder_partners_data"
+                          >
+                            partner2
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                          <span
+                            class="makeStyles-partnerItem-96"
+                            data-testid="stakeholder_partners_data"
+                          >
+                            partner3
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                        </dd>
                       </div>
                     </dl>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-54"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="partnershipsTitle"
-              >
-                Partnerships
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-55"
-              >
-                <dl
-                  class="MuiBox-root MuiBox-root-57"
-                >
-                  <div>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                      data-testid="indigenousData"
-                    >
-                      Indigenous Partnerships
-                    </dt>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      <span
-                        class="makeStyles-partnerItem-56"
-                        data-testid="indigenous_partners_data"
-                      >
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                      <span
-                        class="makeStyles-partnerItem-56"
-                        data-testid="indigenous_partners_data"
-                      >
-                        First nations code
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                    </dd>
                   </div>
-                  <div>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                      data-testid="stakeholderData"
-                    >
-                      Other Partnerships
-                    </dt>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      <span
-                        class="makeStyles-partnerItem-56"
-                        data-testid="stakeholder_partners_data"
-                      >
-                        partner2
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                      <span
-                        class="makeStyles-partnerItem-56"
-                        data-testid="stakeholder_partners_data"
-                      >
-                        partner3
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                    </dd>
-                  </div>
-                </dl>
+                </section>
               </div>
-            </section>
+            </div>
           </div>
+          <div
+            aria-labelledby="simple-tab-project_documents"
+            class="makeStyles-tabPanel-37"
+            hidden=""
+            id="simple-tabpanel-project_documents"
+            role="tabpanel"
+          />
         </div>
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-58 makeStyles-projectDetailMain-6"
+      class="MuiBox-root MuiBox-root-98 makeStyles-projectLocationBoundary-39"
     >
       <div
-        class="MuiBox-root MuiBox-root-59"
+        class="MuiBox-root MuiBox-root-99"
       >
         <div
-          class="MuiBox-root MuiBox-root-60"
+          class="MuiBox-root MuiBox-root-100"
+        >
+          <div
+            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-xs-space-between"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <button
+                  aria-label="Open Layer Menu"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+                  data-testid="open-layer-menu"
+                  id="open-layer-menu"
+                  tabindex="0"
+                  title="Open Layer Menu"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    <strong>
+                      Project Layers (0)
+                    </strong>
+                    <span
+                      class="MuiButton-endIcon MuiButton-iconSizeMedium"
+                    >
+                      <svg
+                        role="presentation"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M7,10L12,15L17,10H7Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-101"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-102"
           data-testid="map_container"
         >
           <div
-            class="makeStyles-map-61 leaflet-container leaflet-grab leaflet-touch-drag"
+            class="makeStyles-map-103 leaflet-container leaflet-grab leaflet-touch-drag"
             id="project_location_form_map"
             style="position: relative;"
             tabindex="0"
@@ -1335,6 +1684,101 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-104"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-111"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-112"
+          >
+            <strong>
+              Found 0 treatments
+            </strong>
+          </div>
+          <div
+            class="MuiTableContainer-root MuiBox-root MuiBox-root-113"
+          >
+            <table
+              aria-label="treatments-list-table"
+              class="MuiTable-root makeStyles-treatmentsTable-105 MuiTable-stickyHeader"
+            >
+              <thead
+                class="MuiTableHead-root"
+              >
+                <tr
+                  class="MuiTableRow-root MuiTableRow-head"
+                >
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                    width="50"
+                  >
+                    ID
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Type
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Treatments
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Width (m)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Length (m)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Area (Ha)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                    width="130"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="MuiTableBody-root"
+                data-testid="project-table"
+              >
+                <tr
+                  class="MuiTableRow-root"
+                >
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                    colspan="7"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-114"
+                    >
+                      No Treatments
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -1346,500 +1790,627 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
 exports[`PublicProjectPage renders public project page when project is loaded (project is completed) 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-64"
+    class="MuiBox-root MuiBox-root-128"
     data-testid="view_project_page_component"
   >
     <div
-      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-62"
+      class="MuiDrawer-root MuiDrawer-docked makeStyles-projectDetailDrawer-115"
     >
       <div
         class="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
       >
         <div
-          class="MuiBox-root MuiBox-root-81"
+          class="MuiBox-root MuiBox-root-129"
         >
           <div
-            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
-          >
-            <a
-              aria-disabled="false"
-              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
-              role="button"
-              tabindex="0"
-            >
-              <span
-                class="MuiButton-label"
-              >
-                <span
-                  class="MuiButton-startIcon MuiButton-iconSizeSmall"
-                >
-                  <svg
-                    role="presentation"
-                    style="width: 1.3125rem; height: 1.3125rem;"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
-                      style="fill: currentColor;"
-                    />
-                  </svg>
-                </span>
-                Back to Projects
-              </span>
-              <span
-                class="MuiTouchRipple-root"
-              />
-            </a>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-82"
+            class="MuiBox-root MuiBox-root-130"
           >
             <div
-              class="MuiBox-root MuiBox-root-83"
-            >
-              <h1
-                class="MuiBox-root MuiBox-root-84 makeStyles-projectTitle-67"
-              >
-                <b>
-                  Project -
-                </b>
-                 Test Project Name
-              </h1>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-85"
+              class="MuiTabs-root makeStyles-tabs-124"
             >
               <div
-                class="MuiBox-root MuiBox-root-86"
+                class="MuiTabs-scroller MuiTabs-fixed"
+                style="overflow: hidden;"
               >
                 <div
-                  class="MuiChip-root makeStyles-chip-74 makeStyles-chipNotAPriority-80 MuiChip-sizeSmall"
+                  aria-label="Project Navigation"
+                  class="MuiTabs-flexContainer"
+                  role="tablist"
                 >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall"
-                  >
-                    Priority
-                  </span>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root MuiBox-root-87"
-              >
-                <div
-                  class="MuiChip-root makeStyles-chip-74 makeStyles-chipPublishedCompleted-76 MuiChip-sizeSmall"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall"
-                  >
-                    Completed
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-88 makeStyles-projectMetadata-69"
-          >
-            <section
-              class="MuiBox-root MuiBox-root-89"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Objectives
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-90"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2"
-                >
-                  Project objectives
-                </p>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-91"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                General Information
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-92"
-              >
-                <dl
-                  class="MuiBox-root MuiBox-root-93"
-                  data-testid="general_info_component"
-                >
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Project Name:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      Test Project Name
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Start Date:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      Oct 10, 1998
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Completion Date:
-                    </dd>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      Feb 26, 2021
-                    </dt>
-                  </div>
-                  <div>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                    >
-                      Focal Species:
-                    </dd>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    />
-                  </div>
-                </dl>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-94"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Project Contacts
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-95"
-              >
-                <ul
-                  class="makeStyles-projectContactList-96"
-                >
-                  <li
-                    class="MuiBox-root MuiBox-root-98"
-                  >
-                    <div
-                      class="MuiBox-root MuiBox-root-99"
-                    >
-                      <svg
-                        class="makeStyles-contactIcon-97"
-                        role="presentation"
-                        style="width: 2.25rem; height: 2.25rem;"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
-                          style="fill: currentColor;"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <div>
-                        <strong
-                          data-testid="contact_name"
-                        >
-                           Amanda Christensen
-                          <sup>
-                            <span
-                              class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
-                            >
-                               Primary
-                            </span>
-                          </sup>
-                        </strong>
-                      </div>
-                      <div>
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                          href="#"
-                        >
-                          amanda@christensen.com
-                        </a>
-                      </div>
-                      <div>
-                        Amanda and associates
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-100"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="projectPermitsTitle"
-              >
-                Permits
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-101"
-              >
-                <ul
-                  class="makeStyles-projectPermitList-102"
-                >
-                  <li
-                    data-testid="permit_item"
+                  <button
+                    aria-selected="true"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit Mui-selected MuiTab-fullWidth"
+                    role="tab"
+                    tabindex="0"
+                    type="button"
                   >
                     <span
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTab-wrapper"
                     >
-                      123 - 
-                      <span>
-                        Permit type
-                      </span>
+                      Project Details
                     </span>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-103"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="IUCNTitle"
-              >
-                IUCN Conservation Actions Classifications
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-104"
-              >
-                <ul
-                  class="makeStyles-projectIucnList-105"
-                >
-                  <li
-                    data-testid="iucn_data"
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                  <button
+                    aria-selected="false"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit MuiTab-fullWidth"
+                    role="tab"
+                    tabindex="-1"
+                    type="button"
                   >
-                    IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
-                  </li>
-                </ul>
+                    <span
+                      class="MuiTab-wrapper"
+                    >
+                      Documents
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <span
+                  class="PrivateTabIndicator-root-131 PrivateTabIndicator-colorSecondary-133 MuiTabs-indicator"
+                  style="left: 0px; width: 0px;"
+                />
               </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-106"
+            </div>
+          </div>
+          <div
+            aria-labelledby="simple-tab-project_details"
+            class="makeStyles-tabPanel-125"
+            id="simple-tabpanel-project_details"
+            role="tabpanel"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-151"
             >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="fundingSourcesTitle"
-              >
-                Funding Sources
-              </h3>
               <div
-                class="MuiBox-root MuiBox-root-107"
+                class="MuiBox-root MuiBox-root-152"
               >
-                <ul
-                  class="makeStyles-projectFundingList-108"
+                <div
+                  class="MuiBox-root MuiBox-root-153"
                 >
-                  <li
-                    data-testid="funding_data"
+                  <a
+                    aria-disabled="false"
+                    class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall MuiTypography-colorPrimary"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <span
+                      class="MuiButton-label"
+                    >
+                      <span
+                        class="MuiButton-startIcon MuiButton-iconSizeSmall"
+                      >
+                        <svg
+                          role="presentation"
+                          style="width: 1.3125rem; height: 1.3125rem;"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                            style="fill: currentColor;"
+                          />
+                        </svg>
+                      </span>
+                      Back to Projects
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-154"
+                >
+                  <h1
+                    class="MuiBox-root MuiBox-root-155 makeStyles-projectTitle-137"
+                  >
+                    <b>
+                      Project -
+                    </b>
+                     Test Project Name
+                  </h1>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-156"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-157"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-109"
+                      class="MuiChip-root makeStyles-chip-144 makeStyles-chipNotAPriority-150 MuiChip-sizeSmall"
                     >
-                      <strong
-                        data-testid="agencyTitle"
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall"
                       >
-                        agency name
-                      </strong>
+                        Priority
+                      </span>
                     </div>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-158"
+                  >
+                    <div
+                      class="MuiChip-root makeStyles-chip-144 makeStyles-chipPublishedCompleted-146 MuiChip-sizeSmall"
+                    >
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall"
+                      >
+                        Completed
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-159 makeStyles-projectMetadata-139"
+              >
+                <section
+                  class="MuiBox-root MuiBox-root-160"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    Objectives
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-161"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Project objectives
+                    </p>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-162"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    General Information
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-163"
+                  >
                     <dl
-                      class="MuiBox-root MuiBox-root-110"
+                      class="MuiBox-root MuiBox-root-164"
+                      data-testid="general_info_component"
                     >
                       <div>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
-                          Funding Amount:
-                        </dt>
+                          Project Name:
+                        </dd>
                         <dt
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          $333
+                          Test Project Name
                         </dt>
                       </div>
                       <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Project ID:
-                        </dt>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          ABC123
-                        </dt>
-                      </div>
-                      <div>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
                           Start Date:
-                        </dt>
+                        </dd>
                         <dt
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          Apr 14, 2000
+                          Oct 10, 1998
                         </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Completion Date:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          Feb 26, 2021
+                        </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Focal Species:
+                        </dd>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2"
+                        />
+                      </div>
+                    </dl>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-165"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                  >
+                    Project Contacts
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-166"
+                  >
+                    <ul
+                      class="makeStyles-projectContactList-167"
+                    >
+                      <li
+                        class="MuiBox-root MuiBox-root-169"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-170"
+                        >
+                          <svg
+                            class="makeStyles-contactIcon-168"
+                            role="presentation"
+                            style="width: 2.25rem; height: 2.25rem;"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                              style="fill: currentColor;"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <div>
+                            <strong
+                              data-testid="contact_name"
+                            >
+                               Amanda Christensen
+                              <sup>
+                                <span
+                                  class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                                >
+                                   Primary
+                                </span>
+                              </sup>
+                            </strong>
+                          </div>
+                          <div>
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                              href="#"
+                            >
+                              amanda@christensen.com
+                            </a>
+                          </div>
+                          <div>
+                            Amanda and associates
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-171"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="projectPermitsTitle"
+                  >
+                    Permits
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-172"
+                  >
+                    <ul
+                      class="makeStyles-projectPermitList-173"
+                    >
+                      <li
+                        data-testid="permit_item"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          123 - 
+                          <span>
+                            Permit type
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-174"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="IUCNTitle"
+                  >
+                    IUCN Conservation Actions Classifications
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-175"
+                  >
+                    <ul
+                      class="makeStyles-projectIucnList-176"
+                    >
+                      <li
+                        data-testid="iucn_data"
+                      >
+                        IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-177"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="fundingSourcesTitle"
+                  >
+                    Funding Sources
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-178"
+                  >
+                    <ul
+                      class="makeStyles-projectFundingList-179"
+                    >
+                      <li
+                        data-testid="funding_data"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-180"
+                        >
+                          <strong
+                            data-testid="agencyTitle"
+                          >
+                            agency name
+                          </strong>
+                        </div>
+                        <dl
+                          class="MuiBox-root MuiBox-root-181"
+                        >
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Funding Amount:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              $333
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Project ID:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              ABC123
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              Start Date:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              Apr 14, 2000
+                            </dt>
+                          </div>
+                          <div>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                            >
+                              End Date:
+                            </dt>
+                            <dt
+                              class="MuiTypography-root MuiTypography-body2"
+                            >
+                              Apr 13, 2021
+                            </dt>
+                          </div>
+                        </dl>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-182"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="partnershipsTitle"
+                  >
+                    Partnerships
+                  </h3>
+                  <div
+                    class="MuiBox-root MuiBox-root-183"
+                  >
+                    <dl
+                      class="MuiBox-root MuiBox-root-185"
+                    >
+                      <div>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          data-testid="indigenousData"
+                        >
+                          Indigenous Partnerships
+                        </dt>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2"
+                        >
+                          <span
+                            class="makeStyles-partnerItem-184"
+                            data-testid="indigenous_partners_data"
+                          >
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                          <span
+                            class="makeStyles-partnerItem-184"
+                            data-testid="indigenous_partners_data"
+                          >
+                            First nations code
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                        </dd>
                       </div>
                       <div>
                         <dt
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          data-testid="stakeholderData"
                         >
-                          End Date:
+                          Other Partnerships
                         </dt>
-                        <dt
+                        <dd
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          Apr 13, 2021
-                        </dt>
+                          <span
+                            class="makeStyles-partnerItem-184"
+                            data-testid="stakeholder_partners_data"
+                          >
+                            partner2
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                          <span
+                            class="makeStyles-partnerItem-184"
+                            data-testid="stakeholder_partners_data"
+                          >
+                            partner3
+                            <span
+                              class="seperator"
+                            >
+                              , 
+                            </span>
+                          </span>
+                        </dd>
                       </div>
                     </dl>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr
-              class="MuiDivider-root"
-            />
-            <section
-              class="MuiBox-root MuiBox-root-111"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1"
-                data-testid="partnershipsTitle"
-              >
-                Partnerships
-              </h3>
-              <div
-                class="MuiBox-root MuiBox-root-112"
-              >
-                <dl
-                  class="MuiBox-root MuiBox-root-114"
-                >
-                  <div>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                      data-testid="indigenousData"
-                    >
-                      Indigenous Partnerships
-                    </dt>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      <span
-                        class="makeStyles-partnerItem-113"
-                        data-testid="indigenous_partners_data"
-                      >
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                      <span
-                        class="makeStyles-partnerItem-113"
-                        data-testid="indigenous_partners_data"
-                      >
-                        First nations code
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                    </dd>
                   </div>
-                  <div>
-                    <dt
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                      data-testid="stakeholderData"
-                    >
-                      Other Partnerships
-                    </dt>
-                    <dd
-                      class="MuiTypography-root MuiTypography-body2"
-                    >
-                      <span
-                        class="makeStyles-partnerItem-113"
-                        data-testid="stakeholder_partners_data"
-                      >
-                        partner2
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                      <span
-                        class="makeStyles-partnerItem-113"
-                        data-testid="stakeholder_partners_data"
-                      >
-                        partner3
-                        <span
-                          class="seperator"
-                        >
-                          , 
-                        </span>
-                      </span>
-                    </dd>
-                  </div>
-                </dl>
+                </section>
               </div>
-            </section>
+            </div>
           </div>
+          <div
+            aria-labelledby="simple-tab-project_documents"
+            class="makeStyles-tabPanel-125"
+            hidden=""
+            id="simple-tabpanel-project_documents"
+            role="tabpanel"
+          />
         </div>
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-115 makeStyles-projectDetailMain-63"
+      class="MuiBox-root MuiBox-root-186 makeStyles-projectLocationBoundary-127"
     >
       <div
-        class="MuiBox-root MuiBox-root-116"
+        class="MuiBox-root MuiBox-root-187"
       >
         <div
-          class="MuiBox-root MuiBox-root-117"
+          class="MuiBox-root MuiBox-root-188"
+        >
+          <div
+            class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-xs-space-between"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <button
+                  aria-label="Open Layer Menu"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+                  data-testid="open-layer-menu"
+                  id="open-layer-menu"
+                  tabindex="0"
+                  title="Open Layer Menu"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    <strong>
+                      Project Layers (0)
+                    </strong>
+                    <span
+                      class="MuiButton-endIcon MuiButton-iconSizeMedium"
+                    >
+                      <svg
+                        role="presentation"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M7,10L12,15L17,10H7Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-189"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-190"
           data-testid="map_container"
         >
           <div
-            class="makeStyles-map-118 leaflet-container leaflet-grab leaflet-touch-drag"
+            class="makeStyles-map-191 leaflet-container leaflet-grab leaflet-touch-drag"
             id="project_location_form_map"
             style="position: relative;"
             tabindex="0"
@@ -1994,6 +2565,101 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-192"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-199"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-200"
+          >
+            <strong>
+              Found 0 treatments
+            </strong>
+          </div>
+          <div
+            class="MuiTableContainer-root MuiBox-root MuiBox-root-201"
+          >
+            <table
+              aria-label="treatments-list-table"
+              class="MuiTable-root makeStyles-treatmentsTable-193 MuiTable-stickyHeader"
+            >
+              <thead
+                class="MuiTableHead-root"
+              >
+                <tr
+                  class="MuiTableRow-root MuiTableRow-head"
+                >
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                    width="50"
+                  >
+                    ID
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Type
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Treatments
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Width (m)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Length (m)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                  >
+                    Area (Ha)
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    scope="col"
+                    width="130"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="MuiTableBody-root"
+                data-testid="project-table"
+              >
+                <tr
+                  class="MuiTableRow-root"
+                >
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                    colspan="7"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-202"
+                    >
+                      No Treatments
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
