@@ -1,18 +1,16 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
+import { EmlBuilder, XMLArrayBuilder, XMLBuilder } from './eml-builder';
 import {
   AccessSectionAttributes,
   AccessSectionChildren,
   DatasetSectionAttributes,
   DatasetSectionChildren,
-  EmlBuilder,
   EML_PROVIDER_URL,
-  EML_SECURITY_PROVIDER_URL,
-  XMLArrayBuilder,
-  XMLBuilder
+  EML_SECURITY_PROVIDER_URL
 } from './eml-service';
 
-describe.only('Eml', () => {
+describe('Eml', () => {
   describe('EmlBuilder', () => {
     it('temp', () => {
       const emlBuilder = new EmlBuilder();
@@ -56,64 +54,61 @@ describe.only('Eml', () => {
 
       projectBuilder.addBuilder(personnelBuilder);
 
-      // emlBuilder.appendChildren({ abstract: { section: { title: '', para: '' } } });
-      // emlBuilder.appendChildren({
-      //   studyAreaDescription: {
+      //   emlBuilder.appendChildren({ abstract: { section: { title: '', para: '' } } });
+      //   emlBuilder.appendChildren({
+      //     studyAreaDescription: {
+      //       coverage: { geographicCoverage: '', temporalCoverage: '', taxonomicCoverage: '' }
+      //     }
+      //   });
+
+      //   emlBuilder.addDatasetElement('/project/relatedProject', { $: { id: '', system: EML_PROVIDER_URL }, title: '' });
+      //   emlBuilder.addDatasetElement('/project/relatedProject/personnel', {
+      //     individualName: { givenName: '', surName: '' },
+      //     organizationName: '',
+      //     electronicMailAddress: '',
+      //     role: 'pointOfContact'
+      //   });
+      //   emlBuilder.addDatasetElement('/project/relatedProject/abstract', {
+      //     section: [{ title: 'Objectives', para: '' }]
+      //   });
+      //   emlBuilder.addDatasetElement('/project/relatedProject/funding', {});
+      //   emlBuilder.addDatasetElement('/project/relatedProject/studyAreaDescription', {
       //     coverage: { geographicCoverage: '', temporalCoverage: '', taxonomicCoverage: '' }
-      //   }
-      // });
+      //   });
 
-      // emlBuilder.addDatasetElement('/project/relatedProject', { $: { id: '', system: EML_PROVIDER_URL }, title: '' });
-      // emlBuilder.addDatasetElement('/project/relatedProject/personnel', {
-      //   individualName: { givenName: '', surName: '' },
-      //   organizationName: '',
-      //   electronicMailAddress: '',
-      //   role: 'pointOfContact'
-      // });
-      // emlBuilder.addDatasetElement('/project/relatedProject/abstract', {
-      //   section: [{ title: 'Objectives', para: '' }]
-      // });
-      // emlBuilder.addDatasetElement('/project/relatedProject/funding', {});
-      // emlBuilder.addDatasetElement('/project/relatedProject/studyAreaDescription', {
-      //   coverage: { geographicCoverage: '', temporalCoverage: '', taxonomicCoverage: '' }
-      // });
-      // emlBuilder.addDatasetElement('/project/relatedProject/studyAreaDescription', {
-      //   coverage: { geographicCoverage: '', temporalCoverage: '', taxonomicCoverage: '' }
-      // });
+      //   datasetBuilder.addBuilder(projectBuilder);
 
-      datasetBuilder.addBuilder(projectBuilder);
+      //   emlBuilder.addBuilder(datasetBuilder);
 
-      emlBuilder.addBuilder(datasetBuilder);
+      //   emlBuilder.setAdditionalMetadata(0, {});
+      //   emlBuilder.addAdditionalMetadataElement(0, '', {
+      //     describes: emlBuilder.PackageId,
+      //     metadata: { restorationTrackerEML: { type: 'project', version: EML_VERSION } }
+      //   });
 
-      // emlBuilder.setAdditionalMetadata(0, {});
-      // emlBuilder.addAdditionalMetadataElement(0, '', {
-      //   describes: emlBuilder.PackageId,
-      //   metadata: { restorationTrackerEML: { type: 'project', version: EML_VERSION } }
-      // });
+      //   emlBuilder.setAdditionalMetadata(1, {});
+      //   emlBuilder.addAdditionalMetadataElement(1, '', {
+      //     describes: emlBuilder.PackageId,
+      //     metadata: { IUCNConservationActions: { IUCNConservationAction: [] } }
+      //   });
 
-      // emlBuilder.setAdditionalMetadata(1, {});
-      // emlBuilder.addAdditionalMetadataElement(1, '', {
-      //   describes: emlBuilder.PackageId,
-      //   metadata: { IUCNConservationActions: { IUCNConservationAction: [] } }
-      // });
+      //   emlBuilder.setAdditionalMetadata(2, {});
+      //   emlBuilder.addAdditionalMetadataElement(2, '', {
+      //     describes: emlBuilder.PackageId,
+      //     metadata: { stakeholderPartnerships: { stakeholderPartnership: [] } }
+      //   });
 
-      // emlBuilder.setAdditionalMetadata(2, {});
-      // emlBuilder.addAdditionalMetadataElement(2, '', {
-      //   describes: emlBuilder.PackageId,
-      //   metadata: { stakeholderPartnerships: { stakeholderPartnership: [] } }
-      // });
+      //   emlBuilder.setAdditionalMetadata(3, {});
+      //   emlBuilder.addAdditionalMetadataElement(3, '', {
+      //     describes: emlBuilder.PackageId,
+      //     metadata: { stakeholderPartnerships: { stakeholderPartnership: [] } }
+      //   });
 
-      // emlBuilder.setAdditionalMetadata(3, {});
-      // emlBuilder.addAdditionalMetadataElement(3, '', {
-      //   describes: emlBuilder.PackageId,
-      //   metadata: { stakeholderPartnerships: { stakeholderPartnership: [] } }
-      // });
-
-      // emlBuilder.setAdditionalMetadata(4, {});
-      // emlBuilder.addAdditionalMetadataElement(4, '', {
-      //   describes: emlBuilder.PackageId,
-      //   metadata: { firstNations: { firstNation: [] } }
-      // });
+      //   emlBuilder.setAdditionalMetadata(4, {});
+      //   emlBuilder.addAdditionalMetadataElement(4, '', {
+      //     describes: emlBuilder.PackageId,
+      //     metadata: { firstNations: { firstNation: [] } }
+      //   });
 
       console.log(emlBuilder.Data);
 
