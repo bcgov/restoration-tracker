@@ -131,37 +131,10 @@ describe('useProjectApi', () => {
     expect(result).toEqual(response);
   });
 
-  it('getProjectsList works as expected (public)', async () => {
-    const response = [
-      {
-        id: 1,
-        name: 'project name',
-        objectives: 'objectives',
-        start_date: '2020/04/04',
-        end_date: '2020/05/05',
-        focal_species_name_list: 'focal'
-      }
-    ];
-
-    mock.onGet(`/api/public/projects`).reply(200, response);
-
-    const result = await usePublicProjectApi(axios).getProjectsList();
-
-    expect(result).toEqual(response);
-  });
-
   it('getProjectById works as expected', async () => {
     mock.onGet(`/api/project/${projectId}/view`).reply(200, getProjectForViewResponse);
 
     const result = await useProjectApi(axios).getProjectById(projectId);
-
-    expect(result).toEqual(getProjectForViewResponse);
-  });
-
-  it('getProjectById works as expected (public)', async () => {
-    mock.onGet(`/api/public/project/${projectId}/view`).reply(200, getProjectForViewResponse);
-
-    const result = await usePublicProjectApi(axios).getProjectForView(projectId);
 
     expect(result).toEqual(getProjectForViewResponse);
   });
@@ -210,40 +183,6 @@ describe('useProjectApi', () => {
     const result = await useProjectApi(axios).createProject(projectData);
 
     expect(result).toEqual({ id: 1 });
-  });
-
-  it('publishProject works as expected', async () => {
-    mock.onPut(`/api/project/${projectId}/publish`).reply(200, {
-      id: 1
-    });
-
-    const result = await useProjectApi(axios).publishProject(projectId, true);
-
-    expect(result).toEqual({ id: 1 });
-  });
-
-  it('getProjectAttachments works as expected', async () => {
-    mock.onGet(`/api/public/project/${projectId}/attachments/list`).reply(200, {
-      attachmentsList: [
-        {
-          id: 1,
-          fileName: 'filename',
-          lastModified: '2020/04/04',
-          size: 3028
-        }
-      ]
-    });
-
-    const result = await usePublicProjectApi(axios).getProjectAttachments(projectId);
-
-    expect(result.attachmentsList).toEqual([
-      {
-        id: 1,
-        fileName: 'filename',
-        lastModified: '2020/04/04',
-        size: 3028
-      }
-    ]);
   });
 
   it('getProjectParticipants works as expected', async () => {
@@ -315,15 +254,6 @@ describe('useProjectApi', () => {
     expect(result).toEqual(mockResponse);
   });
 
-  it('getProjectTreatments on the public side works as expected', async () => {
-    const mockResponse = { treatmentList: [] };
-    mock.onGet(`/api/public/project/${projectId}/treatments/list`).reply(200, mockResponse);
-
-    const result = await usePublicProjectApi(axios).getProjectTreatments(projectId);
-
-    expect(result).toEqual(mockResponse);
-  });
-
   it('getProjectTreatmentsYears works as expected', async () => {
     const mockResponse = [{ year: 1 }];
     mock.onGet(`/api/project/${projectId}/treatments/year/list`).reply(200, mockResponse);
@@ -333,23 +263,14 @@ describe('useProjectApi', () => {
     expect(result).toEqual(mockResponse);
   });
 
-  it('getProjectTreatmentsYears works as expected on the public side', async () => {
-    const mockResponse = [{ year: 1 }];
-    mock.onGet(`/api/public/project/${projectId}/treatments/year/list`).reply(200, mockResponse);
-
-    const result = await usePublicProjectApi(axios).getProjectTreatmentsYears(projectId);
-
-    expect(result).toEqual(mockResponse);
-  });
-
   it('importProjectTreatmentSpatialFile works as expected', async () => {
-    const treatmentRespose = { treatment_unit_id: 1, revision_count: 2 } as IPostTreatmentUnitResponse;
+    const treatmentResponse = { treatment_unit_id: 1, revision_count: 2 } as IPostTreatmentUnitResponse;
 
-    mock.onPost(`/api/project/${projectId}/treatments/upload`).reply(200, treatmentRespose);
+    mock.onPost(`/api/project/${projectId}/treatments/upload`).reply(200, treatmentResponse);
 
     const result = await useProjectApi(axios).importProjectTreatmentSpatialFile(1, {} as File);
 
-    expect(result).toEqual(treatmentRespose);
+    expect(result).toEqual(treatmentResponse);
   });
 
   it('updateProject works as expected', async () => {
@@ -370,5 +291,88 @@ describe('useProjectApi', () => {
     const result = await useProjectApi(axios).updateProject(projectId, newProjectData);
 
     expect(result).toEqual([{ id: 1 }]);
+  });
+});
+
+describe('usePublicProjectApi', () => {
+  let mock: any;
+
+  beforeEach(() => {
+    mock = new MockAdapter(axios);
+  });
+
+  afterEach(() => {
+    mock.restore();
+  });
+
+  const projectId = 1;
+
+  it('getProjectsList works as expected', async () => {
+    const response = [
+      {
+        id: 1,
+        name: 'project name',
+        objectives: 'objectives',
+        start_date: '2020/04/04',
+        end_date: '2020/05/05',
+        focal_species_name_list: 'focal'
+      }
+    ];
+
+    mock.onGet(`/api/public/projects`).reply(200, response);
+
+    const result = await usePublicProjectApi(axios).getProjectsList();
+
+    expect(result).toEqual(response);
+  });
+
+  it('getProjectById works as expected', async () => {
+    mock.onGet(`/api/public/project/${projectId}/view`).reply(200, getProjectForViewResponse);
+
+    const result = await usePublicProjectApi(axios).getProjectForView(projectId);
+
+    expect(result).toEqual(getProjectForViewResponse);
+  });
+
+  it('getProjectAttachments works as expected', async () => {
+    mock.onGet(`/api/public/project/${projectId}/attachments/list`).reply(200, {
+      attachmentsList: [
+        {
+          id: 1,
+          fileName: 'filename',
+          lastModified: '2020/04/04',
+          size: 3028
+        }
+      ]
+    });
+
+    const result = await usePublicProjectApi(axios).getProjectAttachments(projectId);
+
+    expect(result.attachmentsList).toEqual([
+      {
+        id: 1,
+        fileName: 'filename',
+        lastModified: '2020/04/04',
+        size: 3028
+      }
+    ]);
+  });
+
+  it('getProjectTreatments works as expected', async () => {
+    const mockResponse = { treatmentList: [] };
+    mock.onGet(`/api/public/project/${projectId}/treatments/list`).reply(200, mockResponse);
+
+    const result = await usePublicProjectApi(axios).getProjectTreatments(projectId);
+
+    expect(result).toEqual(mockResponse);
+  });
+
+  it('getProjectTreatmentsYears works as expected', async () => {
+    const mockResponse = [{ year: 1 }];
+    mock.onGet(`/api/public/project/${projectId}/treatments/year/list`).reply(200, mockResponse);
+
+    const result = await usePublicProjectApi(axios).getProjectTreatmentsYears(projectId);
+
+    expect(result).toEqual(mockResponse);
   });
 });
