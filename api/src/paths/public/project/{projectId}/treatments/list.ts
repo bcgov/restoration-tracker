@@ -6,7 +6,7 @@ import { geoJsonFeature } from '../../../../../openapi/schemas/geoJson';
 import { TreatmentSearchCriteria, TreatmentService } from '../../../../../services/treatment-service';
 import { getLogger } from '../../../../../utils/logger';
 
-const defaultLog = getLogger('/api/project/{projectId}/treatments/list');
+const defaultLog = getLogger('/api/public/project/{projectId}/treatments/list');
 
 export const GET: Operation = [getPublicTreatments()];
 
@@ -145,7 +145,7 @@ export function getPublicTreatments(): RequestHandler {
 
       return res.status(200).json(data);
     } catch (error) {
-      defaultLog.error({ label: 'getProjectTreatments', message: 'error', error });
+      defaultLog.error({ label: 'getPublicProjectTreatmentYears', message: 'error', error });
       await connection.rollback();
       throw error;
     } finally {
