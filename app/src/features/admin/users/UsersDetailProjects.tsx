@@ -149,11 +149,11 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
   const TableRows: React.FC<{
     assignedProjects: IGetUserProjectsListResponse[];
     codes: IGetAllCodeSetsResponse;
-  }> = ({ assignedProjects, codes }) => {
-    if (assignedProjects && assignedProjects.length) {
+  }> = (tableRowsProps) => {
+    if (tableRowsProps.assignedProjects && tableRowsProps.assignedProjects.length) {
       return (
         <>
-          {assignedProjects.map((row) => (
+          {tableRowsProps.assignedProjects.map((row) => (
             <TableRow key={row.project_id}>
               <TableCell scope="row">
                 <Link
@@ -170,8 +170,8 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
                 <Box m={-1}>
                   <ChangeProjectRoleMenu
                     row={row}
-                    user_identifier={props.userDetails.user_identifier}
-                    projectRoleCodes={codes.project_roles}
+                    user_identifier={userDetails.user_identifier}
+                    projectRoleCodes={tableRowsProps.codes.project_roles}
                     refresh={refresh}
                   />
                 </Box>

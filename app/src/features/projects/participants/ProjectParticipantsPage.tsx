@@ -171,11 +171,11 @@ const ProjectParticipantsPage: React.FC = () => {
   const TableRows: React.FC<{
     projectParticipants: IGetProjectParticipantsResponseArrayItem[];
     codes: IGetAllCodeSetsResponse;
-  }> = ({ projectParticipants, codes }) => {
-    if (projectParticipants && projectParticipants.length) {
+  }> = (tableRowsProps) => {
+    if (tableRowsProps.projectParticipants && tableRowsProps.projectParticipants.length) {
       return (
         <>
-          {projectParticipants.map((row) => (
+          {tableRowsProps.projectParticipants.map((row) => (
             <TableRow key={row.project_participation_id}>
               <TableCell scope="row">
                 <strong>{row.user_identifier}</strong>
@@ -184,7 +184,7 @@ const ProjectParticipantsPage: React.FC = () => {
                 <Box m={-1}>
                   <ChangeProjectRoleMenu
                     row={row}
-                    projectRoleCodes={codes.project_roles}
+                    projectRoleCodes={tableRowsProps.codes.project_roles}
                     refresh={getProjectParticipants}
                   />
                 </Box>
