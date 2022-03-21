@@ -136,13 +136,10 @@ export function getPublicTreatments(): RequestHandler {
 
     try {
       await connection.open();
-      console.log('connection was opened');
 
       const treatmentService = new TreatmentService(connection);
 
       const data = await treatmentService.getTreatmentsByCriteria(projectId, searchCriteria);
-
-      console.log('public treatment data', data);
 
       await connection.commit();
 
