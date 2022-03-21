@@ -1,11 +1,11 @@
 import { render, waitFor } from '@testing-library/react';
 import { Feature } from 'geojson';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import LocationBoundary from './LocationBoundary';
-import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 
 jest.mock('../../../../hooks/useRestorationTrackerApi');
 

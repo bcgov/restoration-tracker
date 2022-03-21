@@ -1,6 +1,4 @@
-import { Divider } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
-import { Typography } from '@material-ui/core';
+import { Divider, Grid, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -53,7 +51,7 @@ const useStyles = makeStyles({
  *
  * @return {*}
  */
-const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
+const PublicTreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   const classes = useStyles();
   const { treatmentList } = props;
 
@@ -235,4 +233,4 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   );
 };
 
-export default TreatmentList;
+export default PublicTreatmentList;
