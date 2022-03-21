@@ -56,7 +56,6 @@ export const RoleGuard: React.FC<
   return <></>;
 };
 
-
 /**
  * Renders `props.children` only if the user is NOT authenticated and has none of the specified valid system roles
  *
@@ -65,35 +64,34 @@ export const RoleGuard: React.FC<
  * @param {*} props
  * @return {*}
  */
- export const NoRoleGuard: React.FC<
- { validSystemRoles: SYSTEM_ROLE[]; validProjectRoles: PROJECT_ROLE[] } & IGuardProps<number>
+export const NoRoleGuard: React.FC<
+  { validSystemRoles: SYSTEM_ROLE[]; validProjectRoles: PROJECT_ROLE[] } & IGuardProps<number>
 > = (props) => {
- const { keycloakWrapper } = useContext(AuthStateContext);
+  const { keycloakWrapper } = useContext(AuthStateContext);
 
- const urlParams = useParams();
+  const urlParams = useParams();
 
- const hasSystemRole = keycloakWrapper?.hasSystemRole(props.validSystemRoles);
+  const hasSystemRole = keycloakWrapper?.hasSystemRole(props.validSystemRoles);
 
- const projectId = Number(urlParams['id']);
- const hasProjectRole = keycloakWrapper?.hasProjectRole(projectId, props.validProjectRoles);
+  const projectId = Number(urlParams['id']);
+  const hasProjectRole = keycloakWrapper?.hasProjectRole(projectId, props.validProjectRoles);
 
- if (!hasSystemRole && !hasProjectRole) {
-   // User has no matching system role or project
-   return <>{props.children}</>;
- }
+  if (!hasSystemRole && !hasProjectRole) {
+    // User has no matching system role or project
+    return <>{props.children}</>;
+  }
 
- // User has matching system role or project role
- if (props.fallback) {
-   if (isValidElement(props.fallback)) {
-     return <>{props.fallback}</>;
-   }
+  // User has matching system role or project role
+  if (props.fallback) {
+    if (isValidElement(props.fallback)) {
+      return <>{props.fallback}</>;
+    }
 
-   return props.fallback(projectId);
- }
+    return props.fallback(projectId);
+  }
 
- return <></>;
+  return <></>;
 };
-
 
 /**
  * Renders `props.children` only if the user is authenticated and has at least 1 of the specified valid system roles.
