@@ -174,7 +174,7 @@ const ProjectsPage: React.FC = () => {
     }
   }, [isLoading, location.search, formikValues, collectFilterParams]);
 
-  if (!isLoadingCodes || !isLoading) {
+  if (!isLoadingCodes) {
     return <CircularProgress data-testid="project-loading" className="pageProgress" size={40} />;
   }
 
