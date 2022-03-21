@@ -420,9 +420,43 @@ export const usePublicProjectApi = (axios: AxiosInstance) => {
     return data;
   };
 
+  /**
+   * Get project treatments based on project ID
+   *
+   * @param {AxiosInstance} axios
+   * @returns {*} {Promise<IGetProjectTreatmentResponse>}
+   */
+  const getProjectTreatments = async (
+    projectId: number,
+    filterByYear?: TreatmentSearchCriteria
+  ): Promise<IGetProjectTreatmentsResponse> => {
+    const { data } = await axios.get(`/api/public/project/${projectId}/treatments/list`, {
+      params: filterByYear,
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: 'repeat', filter: (prefix, value) => value || undefined });
+      }
+    });
+
+    return data;
+  };
+
+  /**
+   * Get project treatments years based on project ID
+   *
+   * @param {AxiosInstance} axios
+   * @returns {*} {Promise<IGetProjectTreatmentResponse>}
+   */
+  const getProjectTreatmentsYears = async (projectId: number): Promise<{ year: number }[]> => {
+    const { data } = await axios.get(`/api/public/project/${projectId}/treatments/year/list`);
+
+    return data;
+  };
+
   return {
     getProjectsList,
     getProjectForView,
-    getProjectAttachments
+    getProjectAttachments,
+    getProjectTreatments,
+    getProjectTreatmentsYears
   };
 };

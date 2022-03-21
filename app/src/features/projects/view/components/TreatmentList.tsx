@@ -1,4 +1,9 @@
-import { Accordion, AccordionDetails, AccordionSummary, Divider, Grid, Typography } from '@material-ui/core';
+import { Accordion } from '@material-ui/core/Accordion';
+import { AccordionDetails } from '@material-ui/core/AccordionDetails';
+import { AccordionSummary } from '@material-ui/core/AccordionSummary';
+import { Divider } from '@material-ui/core/Divider';
+import { Grid } from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -89,9 +94,8 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
 
     const Year_Treatments: string[] = Object.entries(treatmentsByYear).map(([key, value]) => {
       const treatmentNamesString = Array.from(value).join(', ');
-      const treatmentNamesByYearString = `${key} - ${treatmentNamesString}`;
 
-      return treatmentNamesByYearString;
+      return `${key} - ${treatmentNamesString}`;
     });
 
     return Year_Treatments;
