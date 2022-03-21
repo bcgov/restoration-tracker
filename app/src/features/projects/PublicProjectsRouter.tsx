@@ -1,4 +1,4 @@
-import { UnRoleGuard } from 'components/security/Guards';
+import { NoRoleGuard } from 'components/security/Guards';
 import { PROJECT_ROLE, SYSTEM_ROLE } from 'constants/roles';
 import ProjectsLayout from 'features/projects/ProjectsLayout';
 import PublicProjectPage from 'pages/public/PublicProjectPage';
@@ -24,14 +24,14 @@ const PublicProjectsRouter: React.FC = () => {
 
       <AppRoute exact path="/projects/:id/details">
         {/* Catches Logged in users and redirects them to admin page */}
-        <UnRoleGuard
+        <NoRoleGuard
           validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
           validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR, PROJECT_ROLE.PROJECT_VIEWER]}
           fallback={(projectId) => <Redirect to={`/admin/projects/${projectId}`} />}>
           <ProjectsLayout>
             <PublicProjectPage />
           </ProjectsLayout>
-        </UnRoleGuard>
+        </NoRoleGuard>
       </AppRoute>
 
       {/*  Catch any unknown routes, and re-direct to the not found page */}
