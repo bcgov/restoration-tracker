@@ -6,6 +6,7 @@ import MultiAutocompleteFieldVariableSize, {
 } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React from 'react';
 import yup from 'utils/YupSchema';
 
@@ -61,6 +62,22 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
 const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
+  const restorationTrackerApi = useRestorationTrackerApi();
+
+  const convertOptions = (value: any): IMultiAutocompleteFieldOption[] => value.map((item: any) => {
+    return { value: parseInt(item.id), label: item.label };
+  })
+
+  const handleGetInitList = async(values: any[]) => {
+    const response = await restorationTrackerApi.searchTaxonomy.getListFromIds(values);
+    return convertOptions(response.searchResponse);
+  }
+
+  const handleSearch = async(inputValue: string, exsistingValues: any[]) => {
+    const response = await restorationTrackerApi.searchTaxonomy.getSearchResults(inputValue);
+    return convertOptions(response.searchResponse).filter((item) => !exsistingValues.includes(item.value));
+  }
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={9}>
@@ -98,6 +115,8 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
                 label="Focal Species"
                 required={true}
                 type='api-search'
+                getInitList={handleGetInitList}
+                search={handleSearch}
               />
             </Grid>
           </Grid>

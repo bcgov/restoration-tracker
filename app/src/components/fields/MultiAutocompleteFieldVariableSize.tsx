@@ -9,7 +9,6 @@ import { useFormikContext } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { ListChildComponentProps, VariableSizeList } from 'react-window';
 import get from 'lodash-es/get';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { FilterOptionsState } from '@material-ui/lab';
 
 const LISTBOX_PADDING = 8; // px
@@ -27,6 +26,8 @@ export type IMultiAutocompleteField = {
 } & ({
   type: 'api-search';
   options?: null;
+  getInitList: (values: any[]) => Promise<IMultiAutocompleteFieldOption[]>;
+  search: (inputValue: string, exsistingValues: any[]) => Promise<IMultiAutocompleteFieldOption[]>;
 } | {
   type?: 'default';
   options: IMultiAutocompleteFieldOption[];
@@ -121,38 +122,31 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState(props.options || []);
 
-  const restorationTrackerApi = useRestorationTrackerApi();
-
-  const convertOptions = (value: any): IMultiAutocompleteFieldOption[] => value.map((item: any) => {
-    return { value: parseInt(item.id), label: item.label };
-  })
-
   useEffect(() => {
     const getOptions = async () => {
-      const response = await restorationTrackerApi.searchTaxonomy.getListFromIds(get(values, props.id));
-      setOptions(convertOptions(response.searchResponse));
+      if(props.type === 'api-search') {
+        const response = await props.getInitList(get(values, props.id));
+        setOptions(response);
+      }
     }
     
-    if(props.type === 'api-search') {
-      getOptions();
-    }
+    getOptions();
   }, [])
 
   useEffect(() => {
     const searchSpecies = async () => {
-      const exsistingValue = get(values, props.id);
-      const selectedOptions = options.slice(0, exsistingValue.length);
-      const response = await restorationTrackerApi.searchTaxonomy.getSearchResults(inputValue);
-      const remainingOptions = convertOptions(response.searchResponse).filter((item) => !exsistingValue.includes(item.value));
+      if(props.type === 'api-search') {
+        const exsistingValues = get(values, props.id);
+        const selectedOptions = options.slice(0, exsistingValues.length);
+        const newOptions = await props.search(inputValue, exsistingValues);
 
-      if(selectedOptions.length || response.searchResponse.length || options.length) {
-        setOptions([...selectedOptions, ...remainingOptions]);
+        if(selectedOptions.length || newOptions.length || options.length) {
+          setOptions([...selectedOptions, ...newOptions]);
+        }
       }
     }
 
-    if(props.type === 'api-search') {
-      searchSpecies();
-    }
+    searchSpecies();
   }, [inputValue]);
 
   const getExistingValue = (existingValues: any[]): IMultiAutocompleteFieldOption[] => {
