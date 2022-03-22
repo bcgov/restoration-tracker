@@ -1,9 +1,9 @@
-import { Accordion } from '@material-ui/core/Accordion';
-import { AccordionDetails } from '@material-ui/core/AccordionDetails';
-import { AccordionSummary } from '@material-ui/core/AccordionSummary';
-import { Divider } from '@material-ui/core/Divider';
-import { Grid } from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core/Typography';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -172,7 +172,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   const formatTreatmentYearColumnTable = (treatments: IGetTreatmentItem[], returnTreatments: boolean) => {
     const formattedTreatmentsYears = handleFormattingTreatmentsYears(treatments);
 
-    const filteredYears: JSX.Element[]= [];
+    const filteredYears: JSX.Element[] = [];
     const filteredTreatments: JSX.Element[] = [];
 
     if (Array.isArray(formattedTreatmentsYears)) {
@@ -181,14 +181,14 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
         filteredYears.push(<Box key={item}>{split[0]}</Box>);
         filteredTreatments.push(<Box key={item}>{split[1]}</Box>);
 
-        if(formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) +1]){
+        if (formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) + 1]) {
           filteredYears.push(<Divider key={split[0]}></Divider>);
           filteredTreatments.push(<Divider key={split[1]}></Divider>);
         }
       });
     }
 
-    if(returnTreatments){
+    if (returnTreatments) {
       return filteredTreatments;
     }
 
@@ -211,7 +211,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                   <TableRow>
                     <TableCell width="50">ID</TableCell>
                     <TableCell>Type</TableCell>
-                    <TableCell align='center'>Year</TableCell>
+                    <TableCell align="center">Year</TableCell>
                     <TableCell>Treatments</TableCell>
                     <TableCell align="right">Width (m)</TableCell>
                     <TableCell align="right">Length (m)</TableCell>
@@ -238,7 +238,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                         <TableRow key={row.id}>
                           <TableCell>{row.id}</TableCell>
                           <TableCell>{row.type}</TableCell>
-                          <TableCell align='center'>{formatTreatmentYearColumnTable(row.treatments, false)}</TableCell>
+                          <TableCell align="center">{formatTreatmentYearColumnTable(row.treatments, false)}</TableCell>
                           <TableCell>{formatTreatmentYearColumnTable(row.treatments, true)}</TableCell>
                           <TableCell align="right">{row.width}</TableCell>
                           <TableCell align="right">{row.length}</TableCell>
