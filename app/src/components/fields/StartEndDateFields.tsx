@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { DATE_FORMAT, DATE_LIMIT } from 'constants/dateTimeFormats';
 import get from 'lodash-es/get';
 import moment from 'moment';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 interface IStartEndDateFieldsProps {
   formikProps: any;
@@ -21,7 +21,7 @@ interface IStartEndDateFieldsProps {
  */
 const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
   const {
-    formikProps: { values, handleChange, errors, touched },
+    formikProps: { values, handleChange, errors, touched, setFieldValue },
     startName,
     endName,
     startRequired,
@@ -44,6 +44,26 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
       moment(rawEndDateValue).isValid() &&
       moment(rawEndDateValue).format(DATE_FORMAT.ShortDateFormat)) ||
     '';
+
+  const [endDateWarning, setEndDateWarning] = useState('');
+
+  const updateEndDate = useCallback(() => {
+    const updateEndDateVaule = moment(formattedStartDateValue).add(1, 'd').format(DATE_FORMAT.ShortDateFormat);
+    setFieldValue(endName, updateEndDateVaule, true);
+  }, [formattedStartDateValue, endName, setFieldValue]);
+
+  useEffect(() => {
+    if (formattedEndDateValue && formattedStartDateValue >= formattedEndDateValue) {
+      updateEndDate();
+      setEndDateWarning('Updated End Date to a Vaild Date');
+    }
+  }, [formattedStartDateValue, formattedEndDateValue, updateEndDate]);
+
+  const fillInEmptyEndDate = () => {
+    if(!formattedEndDateValue){
+      updateEndDate();
+    }
+  };
 
   return (
     <Grid container item spacing={3}>
@@ -87,19 +107,27 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           required={endRequired}
           value={formattedEndDateValue}
           type="date"
+          onClick={() => {
+            fillInEmptyEndDate();
+            setEndDateWarning('');
+          }}
           InputProps={{
             // Chrome min/max dates
-            inputProps: { min: DATE_LIMIT.min, max: DATE_LIMIT.max, 'data-testid': 'end-date' }
+            inputProps: {
+              min: formattedStartDateValue,
+              max: DATE_LIMIT.max,
+              'data-testid': 'end-date'
+            }
           }}
           inputProps={{
             // Firefox min/max dates
-            min: DATE_LIMIT.min,
+            min: formattedStartDateValue,
             max: DATE_LIMIT.max,
             'data-testid': 'end-date'
           }}
           onChange={handleChange}
           error={get(touched, endName) && Boolean(get(errors, endName))}
-          helperText={(get(touched, endName) && get(errors, endName)) || endDateHelperText}
+          helperText={endDateWarning || (get(touched, endName) && get(errors, endName)) || endDateHelperText}
           InputLabelProps={{
             shrink: true
           }}
