@@ -3,7 +3,10 @@ import { mdiAccountCircleOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import {
+  IGetProjectForViewResponse,
+  IGetProjectForViewResponseContactArrayItem
+} from 'interfaces/useProjectApi.interface';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
@@ -21,6 +24,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     contactIcon: {
       color: '#1a5a96'
+    },
+    agencyOnlyContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      fontWeight: 'bold'
     }
   })
 );
@@ -39,12 +47,15 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
   const { contact } = projectForViewData;
   const classes = useStyles();
 
+  const publicContact = ({ is_public }: IGetProjectForViewResponseContactArrayItem) =>
+    !JSON.parse(is_public) ? classes.agencyOnlyContainer : '';
+
   return (
     <>
       <ul className={classes.projectContactList}>
         {contact.contacts.map((contactDetails, index) => (
-          <Box component="li" display="flex" flexDirection="row" key={index}>
-            <Box mr={2}>
+          <Box component="li" display="flex" flexDirection="row" key={index} className={publicContact(contactDetails)}>
+            <Box mr={2} className={publicContact(contactDetails)}>
               <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
             </Box>
             <div>
