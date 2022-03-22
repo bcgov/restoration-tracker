@@ -58,7 +58,7 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
  * @return {*}
  */
 
-const ProjectGeneralInformationForm: React.FC<any> = (props) => {
+const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
   return (
@@ -96,8 +96,8 @@ const ProjectGeneralInformationForm: React.FC<any> = (props) => {
               <MultiAutocompleteFieldVariableSize
                 id="species.focal_species"
                 label="Focal Species"
-                options={props.species}
                 required={true}
+                type='api-search'
               />
             </Grid>
           </Grid>

@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { IGetSearchResultsResponse } from 'interfaces/useSearchApi.interface';
+import qs from 'qs';
 
 /**
  * Returns a set of supported api methods for working with search functionality
@@ -69,7 +70,16 @@ export const useSearchTaxonomyApi = (axios: AxiosInstance) => {
     return data;
   };
 
+  const getListFromIds = async (value: number[]): Promise<any> => {  
+    axios.defaults.params = { ids: qs.stringify(value) }; 
+
+    const { data } = await axios.get(`/api/taxonomy/list`);
+
+    return data;
+  };
+
   return {
-    getSearchResults
+    getSearchResults,
+    getListFromIds
   };
 };
