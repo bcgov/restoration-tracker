@@ -423,7 +423,9 @@ describe('ProjectService', () => {
 
       const result = await projectService.getContactData(projectId, false);
 
-      expect(result).to.deep.include(new projectViewModels.GetContactData(mockRowObj));
+      const { contacts } = new projectViewModels.GetContactData(mockRowObj);
+
+      expect(result).to.deep.include({ contacts: [...contacts, ...contacts] });
     });
   });
 
@@ -690,11 +692,13 @@ describe('ProjectService', () => {
 
       const result = await projectService.getProjectById(projectId, true);
 
+      const { contacts } = new projectViewModels.GetContactData(mockRowObj);
+
       expect(result).to.deep.include({
         project: new projectViewModels.GetProjectData(mockRowObj[0]),
         species: new projectViewModels.GetSpeciesData(mockRowObj),
         iucn: new projectViewModels.GetIUCNClassificationData(mockRowObj),
-        contact: new projectViewModels.GetContactData(mockRowObj),
+        contact: { contacts: [...contacts, ...contacts] },
         permit: new projectViewModels.GetPermitData(mockRowObj),
         partnerships: new projectViewModels.GetPartnershipsData([], []),
         funding: new projectViewModels.GetFundingData(mockRowObj),
