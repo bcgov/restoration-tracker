@@ -1,5 +1,5 @@
 import Box from '@material-ui/core/Box';
-import { mdiAccountCircleOutline } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiDomain } from '@mdi/js';
 import Icon from '@mdi/react';
 import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -56,7 +56,11 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
         {contact.contacts.map((contactDetails, index) => (
           <Box component="li" display="flex" flexDirection="row" key={index} className={publicContact(contactDetails)}>
             <Box mr={2} className={publicContact(contactDetails)}>
-              <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
+              <Icon
+                className={classes.contactIcon}
+                path={JSON.parse(contactDetails.is_public) ? mdiAccountCircleOutline : mdiDomain}
+                size={1.5}
+              />
             </Box>
             <div>
               <div>
