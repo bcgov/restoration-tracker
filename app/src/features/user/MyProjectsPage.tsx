@@ -1,6 +1,5 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { mdiPlus } from '@mdi/js';
@@ -9,7 +8,6 @@ import { SystemRoleGuard } from 'components/security/Guards';
 import { SYSTEM_ROLE } from 'constants/roles';
 import { AuthStateContext } from 'contexts/authStateContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetDraftsListResponse } from 'interfaces/useDraftApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useContext, useEffect, useState } from 'react';
@@ -23,30 +21,9 @@ const MyProjectsPage: React.FC = () => {
 
   const restorationTrackerApi = useRestorationTrackerApi();
 
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [isLoadingCodes, setIsLoadingCodes] = useState(false);
-
   const [projects, setProjects] = useState<IGetProjectForViewResponse[]>([]);
   const [drafts, setDrafts] = useState<IGetDraftsListResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  //codes
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        return;
-      }
-
-      setCodes(codesResponse);
-    };
-
-    if (!isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(true);
-    }
-  }, [restorationTrackerApi.codes, isLoadingCodes, codes]);
 
   //projects and drafts
   useEffect(() => {
@@ -75,10 +52,6 @@ const MyProjectsPage: React.FC = () => {
       getDrafts();
     }
   }, [restorationTrackerApi, isLoading, keycloakWrapper]);
-
-  if (!isLoadingCodes) {
-    return <CircularProgress data-testid="project-loading" className="pageProgress" size={40} />;
-  }
 
   return (
     <Container maxWidth="xl">

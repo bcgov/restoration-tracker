@@ -121,8 +121,8 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                 <Grid item xs={8}>
                   {(Array.isArray(info.value) && info.value.length > 1 && (
                     <Box component="ul" pl={2} m={0}>
-                      {info.value.map((item: any) => (
-                        <li>{item}</li>
+                      {info.value.map((item, index) => (
+                        <li key={index}>{item}</li>
                       ))}
                     </Box>
                   )) ||
