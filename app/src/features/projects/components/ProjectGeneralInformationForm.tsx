@@ -1,6 +1,5 @@
 import Grid from '@material-ui/core/Grid';
 import CustomTextField from 'components/fields/CustomTextField';
-import MultiAutocompleteApiField from 'components/fields/MultiAutocompleteApiField';
 import MultiAutocompleteFieldVariableSize, {
   IMultiAutocompleteFieldOption
 } from 'components/fields/MultiAutocompleteFieldVariableSize';
@@ -117,16 +116,6 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
                 type='api-search'
                 getInitList={handleGetInitList}
                 search={handleSearch}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Grid item xs={12}>
-              <MultiAutocompleteApiField
-                id="species.focal_species2"
-                label="Focal Species"
-                required={true}
               />
             </Grid>
           </Grid>
