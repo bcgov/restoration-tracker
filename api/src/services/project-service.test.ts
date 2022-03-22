@@ -1,17 +1,18 @@
 import chai, { expect } from 'chai';
+import { Feature } from 'geojson';
 import { describe } from 'mocha';
 import { QueryResult } from 'pg';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import { HTTPError } from '../errors/custom-error';
+import * as projectCreateModels from '../models/project-create';
+import * as projectUpdateModels from '../models/project-update';
 import * as projectViewModels from '../models/project-view';
+import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
 import { getMockDBConnection } from '../__mocks__/db';
 import { ProjectService } from './project-service';
-import * as projectCreateModels from '../models/project-create';
-import * as projectUpdateModels from '../models/project-update';
-import { IUpdateProject } from '../paths/project/{projectId}/update';
 
 chai.use(sinonChai);
 
@@ -751,6 +752,76 @@ describe('ProjectService', () => {
 
       expect(result).equals(mockRowObj[0].id);
     });
+
+    it('works as expected with full project details', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponseGeneral = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockQueryResponseForAddProjectRole = ({ rowCount: 1 } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({
+        query: async (a) =>
+          a === 'valid sql projectParticipation' ? mockQueryResponseForAddProjectRole : mockQueryResponseGeneral,
+        systemUserId: () => 1
+      });
+
+      sinon
+        .stub(queries.projectParticipation, 'addProjectRoleByRoleNameSQL')
+        .returns(SQL`valid sql projectParticipation`);
+
+      const projectData = {
+        project: {
+          name: 'My project',
+          start_date: '1955-02-15',
+          end_date: '2084-06-23',
+          objectives: 'Culpa sint ex iust'
+        },
+        species: { focal_species: [15573] },
+        iucn: { classificationDetails: [{ classification: 3, subClassification1: 6, subClassification2: 35 }] },
+        contact: {
+          contacts: [
+            {
+              first_name: 'John',
+              last_name: 'Smith',
+              email_address: 'john@smith.com',
+              agency: 'ABC Consulting',
+              is_public: false,
+              is_primary: true
+            }
+          ]
+        },
+        permit: { permits: [{ permit_number: '849', permit_type: 'Road Use Permit' }] },
+        funding: {
+          funding_sources: [
+            {
+              id: 0,
+              agency_id: 20,
+              agency_name: '',
+              investment_action_category: 59,
+              investment_action_category_name: '',
+              agency_project_id: 'Agency123',
+              funding_amount: 123,
+              start_date: '2022-02-27',
+              end_date: '2022-03-26',
+              revision_count: 0
+            }
+          ]
+        },
+        partnerships: {
+          indigenous_partnerships: [5, 123],
+          stakeholder_partnerships: ['Canada Nature Fund', 'BC Parks Living Labs']
+        },
+        location: {
+          geometry: [({} as unknown) as Feature],
+          priority: 'true',
+          region: 3640,
+          range: 1234
+        }
+      };
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.createProject(projectData);
+
+      expect(result).equals(mockRowObj[0].id);
+    });
   });
 
   describe('insertProject', () => {
@@ -1412,6 +1483,63 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       const result = await projectService.insertRange(rangeNumber, projectId);
+
+      expect(result).equals(mockRowObj[0].id);
+    });
+  });
+
+  describe('insertContact', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when response has no id', async () => {
+      const mockQueryResponse = ({ noId: true } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.insertContact(
+          {
+            first_name: 'John',
+            last_name: 'Smith',
+            agency: 'Agency123',
+            email_address: 'a@b.com',
+            is_public: true,
+            is_primary: false
+          },
+          projectId
+        );
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to insert project contact data');
+        expect((actualError as HTTPError).status).to.equal(400);
+      }
+    });
+
+    it('returns id on success', async () => {
+      const mockRowObj = [{ id: 1 }];
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.insertContact(
+        {
+          first_name: 'John',
+          last_name: 'Smith',
+          agency: 'Agency123',
+          email_address: 'a@b.com',
+          is_public: true,
+          is_primary: false
+        },
+        projectId
+      );
 
       expect(result).equals(mockRowObj[0].id);
     });

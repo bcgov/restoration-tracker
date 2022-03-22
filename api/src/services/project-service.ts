@@ -493,6 +493,7 @@ export class ProjectService extends DBService {
   }
 
   async createProject(postProjectData: PostProjectObject): Promise<number> {
+    console.log('postProjectData:', postProjectData);
     const projectId = await this.insertProject(postProjectData.project);
 
     const promises: Promise<any>[] = [];
@@ -596,12 +597,6 @@ export class ProjectService extends DBService {
   }
 
   async insertContact(contact: IPostContact, project_id: number): Promise<number> {
-    const systemUserId = this.connection.systemUserId();
-
-    if (!systemUserId) {
-      throw new HTTP400('Failed to identify system user ID');
-    }
-
     const sqlStatement = SQL`
       INSERT INTO project_contact (
         project_id, contact_type_id, first_name, last_name, agency, email_address, is_public, is_primary
