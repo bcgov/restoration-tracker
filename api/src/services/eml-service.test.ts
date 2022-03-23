@@ -4,12 +4,12 @@ import { getMockDBConnection } from '../__mocks__/db';
 import { EmlService } from './eml-service';
 
 describe.only('EmlService', () => {
-  it('temp', () => {
+  it('temp', async () => {
     const dbConnection = getMockDBConnection();
 
-    const emlService = new EmlService(dbConnection);
+    const emlService = new EmlService({ projectId: 1 }, dbConnection);
 
-    const response = emlService.buildProjectEml();
+    const response = await emlService.buildProjectEml();
 
     console.log(response);
 

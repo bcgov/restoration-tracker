@@ -1,7 +1,10 @@
+import bbox from '@turf/bbox';
+import circle from '@turf/circle';
+import { AllGeoJSON, featureCollection } from '@turf/helpers';
+import { coordEach } from '@turf/meta';
 import jsonpatch from 'fast-json-patch';
 import { v4 as uuidv4 } from 'uuid';
 import { IDBConnection } from '../database/db';
-import project from '../queries/project';
 import { ProjectObject, ProjectService } from './project-service';
 import { DBService } from './service';
 
@@ -52,6 +55,7 @@ export type AdditionalMetaDataSection = XmlAttributes<AdditionalMetaDataSectionA
 export type AdditionalMetaDataSectionAttributes = { id?: string };
 export type AdditionalMetaDataSectionChildren = Record<string, unknown>;
 
+// https://gist.github.com/amoeba/0a435e236a64a867bb10dd158010ac80
 export class EmlService extends DBService {
   data: Record<any, any>;
 
@@ -87,7 +91,7 @@ export class EmlService extends DBService {
 
     this.buildEMLSection();
     this.buildAccessSection();
-    this.buildDatasetSection();
+    await this.buildDatasetSection();
 
     return this.data as EmlFile;
   }
@@ -120,7 +124,7 @@ export class EmlService extends DBService {
     });
   }
 
-  buildDatasetSection(options?: { datasetTitle?: string }) {
+  async buildDatasetSection(options?: { datasetTitle?: string }) {
     const projectObject: ProjectObject = this.cache['project'];
 
     if (!projectObject) {
@@ -135,45 +139,49 @@ export class EmlService extends DBService {
         title: options?.datasetTitle || this.packageId,
         pubDate: projectObject.project.publish_date,
         language: 'english',
-        // creator: { organizationName: '' },
         metadataProvider: { organizationName: EML_ORGANIZATION_NAME, onlineUrl: EML_ORGANIZATION_URL },
         intellectualRights: { para: INTELLECTUAL_RIGHTS },
-        contact: {
-          ...this.getProjectContact()
-        },
+        contact: this.getProjectContact(),
         project: {
-          $: { id: '', system: EML_PROVIDER_URL },
-          title: '',
-          personnel: [
-            {
-              individualName: { givenName: '', surName: '' },
-              organizationName: '',
-              role: 'pointOfContact'
-            }
-          ],
-          abstract: { section: { title: '', para: '' } },
+          $: { id: projectObject.project.uuid, system: EML_PROVIDER_URL },
+          title: projectObject.project.project_name,
+          personnel: this.getProjectPersonnel(),
+          abstract: { section: { title: 'Objectives', para: projectObject.project.objectives } },
           studyAreaDescription: {
-            coverage: { geographicCoverage: '', temporalCoverage: '', taxonomicCoverage: '' }
-          },
-          relatedProject: {
-            $: { id: '', system: EML_PROVIDER_URL },
-            title: '',
-            personnel: [
-              {
-                individualName: { givenName: '', surName: '' },
-                organizationName: '',
-                electronicMailAddress: '',
-                role: 'pointOfContact'
-              }
-            ],
-            abstract: { section: { title: 'Objectives', para: '' } },
-            funding: {},
-            studyAreaDescription: {
-              coverage: { geographicCoverage: '', temporalCoverage: '', taxonomicCoverage: '' }
+            coverage: {
+              geographicCoverage: await this.getGeographicCoverageEML(),
+              temporalCoverage: this.getTemporalCoverageEML(),
+              taxonomicCoverage: ''
             }
-          }
+          },
+          funding: this.getProjectFundingSources()
         }
       }
+    });
+  }
+
+  getProjectPersonnel(): Record<any, any>[] {
+    const projectObject: ProjectObject = this.cache['project'];
+
+    if (!projectObject) {
+      throw Error('Project data not found');
+    }
+
+    if (!projectObject.contact.contacts.length) {
+      return [];
+    }
+
+    return projectObject.contact.contacts.map((item) => {
+      if (JSON.parse(item.is_public)) {
+        return {
+          individualName: { givenName: item.first_name, surName: item.last_name },
+          organizationName: item.agency,
+          electronicMailAddress: item.email_address,
+          role: 'pointOfContact'
+        };
+      }
+
+      return { organizationName: item.agency, role: 'pointOfContact' };
     });
   }
 
@@ -185,10 +193,12 @@ export class EmlService extends DBService {
     }
 
     if (!projectObject.contact.contacts.length) {
-      return { organizationName: 'Not Supplied' };
+      return { organizationName: 'Not Supplied', onlineUrl: EML_ORGANIZATION_URL };
     }
 
-    const publicPrimaryContact = projectObject.contact.contacts.find((item) => item.is_primary && item.is_public);
+    const publicPrimaryContact = projectObject.contact.contacts.find(
+      (item) => JSON.parse(item.is_primary) && JSON.parse(item.is_public)
+    );
     if (publicPrimaryContact) {
       return {
         individualName: { givenName: publicPrimaryContact.first_name, surName: publicPrimaryContact.last_name },
@@ -197,12 +207,12 @@ export class EmlService extends DBService {
       };
     }
 
-    const privatePrimaryContact = projectObject.contact.contacts.find((item) => item.is_primary);
+    const privatePrimaryContact = projectObject.contact.contacts.find((item) => JSON.parse(item.is_primary));
     if (privatePrimaryContact) {
       return { organizationName: privatePrimaryContact.agency };
     }
 
-    const publicContact = projectObject.contact.contacts.find((item) => item.is_public);
+    const publicContact = projectObject.contact.contacts.find((item) => JSON.parse(item.is_public));
     if (publicContact) {
       return {
         individualName: { givenName: publicContact.first_name, surName: publicContact.last_name },
@@ -215,5 +225,113 @@ export class EmlService extends DBService {
     return { organizationName: privateContact.agency };
   }
 
-  //   buildAdditionalMetadataSection() {}
+  getProjectFundingSources(): Record<any, any>[] {
+    const projectObject: ProjectObject = this.cache['project'];
+
+    if (!projectObject) {
+      throw Error('Project data not found');
+    }
+
+    return projectObject.funding.fundingSources.map((item) => {
+      return {
+        section: {
+          title: item.agency_name,
+          section: [
+            { title: 'Funding Agency Project ID', para: item.agency_project_id },
+            { title: 'Investment Action/Category', para: item.investment_action_category_name },
+            { title: 'Funding Amount', para: item.funding_amount },
+            { title: 'Funding Start Date', para: new Date(item.start_date).toISOString().split('T')[0] },
+            { title: 'Funding End Date', para: new Date(item.end_date).toISOString().split('T')[0] }
+          ]
+        }
+      };
+    });
+  }
+
+  getTemporalCoverageEML(): Record<any, any> {
+    const projectObject: ProjectObject = this.cache['project'];
+
+    if (!projectObject) {
+      throw Error('Project data not found');
+    }
+
+    return {
+      rangeOfDates: {
+        beginDate: { calendarDate: projectObject.project.start_date },
+        endDate: { calendarDate: projectObject.project.end_date }
+      }
+    };
+  }
+
+  async getGeographicCoverageEML(): Promise<Record<any, any>> {
+    const projectObject: ProjectObject = this.cache['project'];
+
+    if (!projectObject) {
+      throw Error('Project data not found');
+    }
+
+    if (!projectObject.location.geometry) {
+      return {};
+    }
+
+    const polygonFeatures = projectObject.location.geometry?.map((item) => {
+      if (item.geometry.type === 'Point' && item.properties?.radius) {
+        return circle(item.geometry, item.properties.radius, { units: 'meters' });
+      }
+
+      return item;
+    });
+
+    const projectBoundingBox = bbox(featureCollection(polygonFeatures));
+
+    const geographicCoverage = {
+      geographicDescription: projectObject.location.region,
+      boundingCoordinates: {
+        westBoundingCoordinate: projectBoundingBox[0],
+        southBoundingCoordinate: projectBoundingBox[1],
+        eastBoundingCoordinate: projectBoundingBox[2],
+        northBoundingCoordinate: projectBoundingBox[3]
+      }
+    };
+
+    const datasetGPolygon: Record<any, any>[] = [];
+
+    polygonFeatures.forEach((feature, i: number) => {
+      datasetGPolygon[i] = { datasetGPolygonOuterGRing: [] };
+
+      const featureCoords: number[][] = [];
+
+      coordEach(feature as AllGeoJSON, (currentCoord) => {
+        featureCoords.push(currentCoord);
+      });
+
+      datasetGPolygon[i] = {
+        datasetGPolygonOuterGRing: featureCoords.map((coords) => {
+          return { gRingPoint: { gRingLongitude: coords[0], gRingLatitude: coords[1] } };
+        })
+      };
+    });
+
+    return { ...geographicCoverage, datasetGPolygon: datasetGPolygon };
+  }
+
+  // async getFocalTaxonomicCoverage(surveyId: number, connection: IDBConnection): Promise<Record<any, any>> {
+  //   const sqlStatement = queries.dwc.getTaxonomicCoverageSQL(surveyId, true);
+
+  //   if (!sqlStatement) {
+  //     throw new Error('Failed to build SQL statement');
+  //   }
+
+  //   emlRoot.dataset.project.studyAreaDescription.coverage.taxonomicCoverage = { taxonomicClassification: [] };
+  //   focalTaxonomicCoverage.rows.forEach(function (row: any, i: number) {
+  //     emlRoot.dataset.project.studyAreaDescription.coverage.taxonomicCoverage.taxonomicClassification[i] = {
+  //       taxonRankName: row.tty_name,
+  //       taxonRankValue: row.unit_name1 + ' ' + row.unit_name2,
+  //       commonName: row.english_name,
+  //       taxonId: { $: { provider: taxonomicProviderURL }, _: row.code }
+  //     };
+  //   });
+
+  //   return connection.query(sqlStatement.text, sqlStatement.values);
+  // }
 }
