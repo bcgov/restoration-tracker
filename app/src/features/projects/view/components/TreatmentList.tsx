@@ -204,8 +204,9 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
           </strong>
         </AccordionSummary>
         <AccordionDetails>
-          <Box display="flex" flexDirection="column" height="100%" width="100%">
-            <Box component={TableContainer} flex="1 1 auto">
+          <Box display="flex" flexDirection="column" width="100%">
+
+            <Box component={TableContainer} height="200px">
               <Table size="small" stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
                 <TableHead>
                   <TableRow>
