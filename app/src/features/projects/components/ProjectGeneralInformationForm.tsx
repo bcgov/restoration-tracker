@@ -70,7 +70,7 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
     });
 
   const handleGetInitList = async (values: any[]) => {
-    const response = await restorationTrackerApi.searchTaxonomy.getListFromIds(values);
+    const response = await restorationTrackerApi.taxonomy.getSpeciesFromIds(values);
     return convertOptions(response.searchResponse);
   };
 
@@ -81,8 +81,11 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
         exsistingValues: any[],
         callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
       ) => {
-        const response = await restorationTrackerApi.searchTaxonomy.getSearchResults(inputValue);
-        callback(convertOptions(response.searchResponse).filter((item) => !exsistingValues.includes(item.value)));
+        const response = await restorationTrackerApi.taxonomy.searchSpecies(inputValue);
+        const newOptions = convertOptions(response.searchResponse).filter(
+          (item) => !exsistingValues.includes(item.value)
+        );
+        callback(newOptions);
       },
       500
     ),

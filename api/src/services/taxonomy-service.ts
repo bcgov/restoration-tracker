@@ -1,51 +1,67 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { getLogger } from '../utils/logger';
+import { Client } from '@elastic/elasticsearch';
+import { SearchRequest } from '@elastic/elasticsearch/lib/api/types';
 
 const defaultLog = getLogger('services/taxonomy-service');
 
-export class TaxonomySearchService {
-  ELASTICSEARCH_URL = process.env.ELASTICSEARCH_URL;
-  TAXONOMY_SEARCH = '/taxonomy/_search';
-  /**
-   * Fetch a search results from the platform service given the provided search request.
-   *
-   * @param {} searchRequest
-   * @return {*}  {(Promise<any>)}
-   * @memberof UserService
-   */
-  async getTaxonomySearchResults(searchRequest: any): Promise<any> {
-    defaultLog.debug({ label: 'getTaxonomySearchResults', message: 'params', searchRequest: searchRequest });
+export class TaxonomyService {
+  private client: Client;
 
-    const searchResponse: any[] = [];
+  constructor() {
+    this.client = new Client({ node: process.env.ELASTICSEARCH_URL });
+  }
 
-    defaultLog.debug({
-      label: 'getTaxonomySearchResults',
-      message: 'TaxonomySearchService class member values',
-      ELASTICSEARCH_URL: this.ELASTICSEARCH_URL
-    });
-    defaultLog.debug({
-      label: 'getTaxonomySearchResults',
-      message: 'TaxonomySearchService class member values',
-      TAXONOMY_SEARCH: this.TAXONOMY_SEARCH
-    });
+  private async elasticSearch(searchRequest: SearchRequest) {
+    defaultLog.debug({ label: 'elasticSearch', message: 'params', searchRequest: searchRequest });
 
-    const response = await axios({
-      method: 'get',
-      baseURL: this.ELASTICSEARCH_URL,
-      url: this.TAXONOMY_SEARCH,
-      data: searchRequest
-    });
+    try {
+      const response = await this.client.search({
+        index: 'taxonomy',
+        ...searchRequest
+      });
 
-    defaultLog.debug({ label: 'getSearchResults', message: 'response.data', response_data: response.data });
-    response.data.hits.hits.forEach((item: any) => {
+      defaultLog.debug({ label: 'elasticSearch', message: 'response', response_data: response });
+      return response;
+    } catch (error) {
+      defaultLog.debug({ label: 'elasticSearch', message: 'error', error });
+    }
+  }
+
+  private sanitizeSpeciesData = (data: any) => {
+    return data.map((item: any) => {
       const label = `${item._source.code}: ${item._source.tty_kingdom} ${item._source.tty_name},${
         item._source.unit_name1 ? ` ${item._source.unit_name1}` : ''
       }${item._source.unit_name2 ? ` ${item._source.unit_name2}` : ''}${
         item._source.unit_name3 ? ` ${item._source.unit_name3}` : ''
       }${item._source.english_name ? `, ${item._source.english_name}` : ''}`;
-      searchResponse.push({ id: item._id, label: label });
+
+      return { id: item._id, label: label };
+    });
+  };
+
+  async getSpeciesFromIds(ids: string[]) {
+    const response = await this.elasticSearch({
+      query: {
+        terms: {
+          _id: ids
+        }
+      }
     });
 
-    return searchResponse;
+    return response ? this.sanitizeSpeciesData(response.hits.hits) : [];
+  }
+
+  async searchSpecies(term: string) {
+    const response = await this.elasticSearch({
+      query: {
+        multi_match: {
+          query: term,
+          fields: ['unit_name1', 'unit_name2', 'unit_name3', 'code', 'tty_kingdom', 'tty_name', 'english_name']
+        }
+      }
+    });
+
+    return response ? this.sanitizeSpeciesData(response.hits.hits) : [];
   }
 }

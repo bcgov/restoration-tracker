@@ -186,7 +186,7 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
     return option.value === value.value;
   };
 
-  const handleOnInputChange = (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
+  const handleOnInputChange = (event: React.ChangeEvent<any>, value: string, reason: AutocompleteInputChangeReason) => {
     if (event && event.type === 'blur') {
       setInputValue('');
     } else if (reason !== 'reset') {
@@ -194,7 +194,7 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
     }
   };
 
-  const handleOnChange = (event: React.ChangeEvent<{}>, values: IMultiAutocompleteFieldOption[]) => {
+  const handleOnChange = (event: React.ChangeEvent<any>, values: IMultiAutocompleteFieldOption[]) => {
     const selectedOptions = values;
     const selectedOptionsValue = selectedOptions.map((a) => a.value);
     const remainingOptions = options.filter((item) => !selectedOptionsValue.includes(item.value));

@@ -1,14 +1,13 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import qs from 'qs';
-import { TaxonomySearchService } from '../../services/taxonomy-service';
-import { getLogger } from '../../utils/logger';
+import { TaxonomyService } from '../../../services/taxonomy-service';
+import { getLogger } from '../../../utils/logger';
 
 const defaultLog = getLogger('paths/taxonomy/list');
 
-export const GET: Operation = [getSearchResults()];
+export const GET: Operation = [getSpeciesFromIds()];
 
-//TODO convert request body to parameters to accommodate app request
 GET.apiDoc = {
   description: 'Gets the labels of the taxonomic units identified by the provided list of ids.',
   tags: ['taxonomy'],
@@ -48,23 +47,15 @@ GET.apiDoc = {
  *
  * @returns {RequestHandler}
  */
-export function getSearchResults(): RequestHandler {
+export function getSpeciesFromIds(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'getSearchResults', message: 'request body', req_body: req.query });
 
-    const ids: string = req.query.ids?.toString() || '';
+    const ids = Object.values(qs.parse(req.query.ids?.toString() || ''));
 
     try {
-      const searchRequest = {
-        query: {
-          terms: {
-            _id: Object.values(qs.parse(ids))
-          }
-        }
-      };
-
-      const taxonomySearch = new TaxonomySearchService();
-      const response = await taxonomySearch.getTaxonomySearchResults(searchRequest);
+      const taxonomyService = new TaxonomyService();
+      const response = await taxonomyService.getSpeciesFromIds(ids as string[]);
 
       res.status(200).send({ searchResponse: response });
     } catch (error) {
