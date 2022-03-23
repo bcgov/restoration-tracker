@@ -10,7 +10,6 @@ import yup from 'utils/YupSchema';
 
 export interface IProjectGeneralInformationFormProps {
   species: IMultiAutocompleteFieldOption[];
-  error: (invalidElement: object) => void;
 }
 
 export interface IProjectGeneralInformationForm {
@@ -60,10 +59,6 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
 
 const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
-
-  if (formikProps.errors.project || formikProps.errors.species) {
-    props.error(formikProps.errors);
-  }
 
   return (
     <Grid container spacing={3}>

@@ -77,16 +77,12 @@ export const ProjectPermitFormYupSchema = yup.object().shape({
   })
 });
 
-export interface IProjectPermitFormProps {
-  error: (invalidElement: object) => void;
-}
-
 /**
  * Create project - Permit section
  *
  * @return {*}
  */
-const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
+const ProjectPermitForm: React.FC = () => {
   const classes = useStyles();
 
   const { values, handleChange, getFieldMeta, errors } = useFormikContext<IProjectPermitForm>();
@@ -100,10 +96,6 @@ const ProjectPermitForm: React.FC<IProjectPermitFormProps> = (props) => {
     'Road Use Permit',
     'Special Use Permit'
   ];
-
-  if (errors.permit) {
-    props.error(errors);
-  }
 
   return (
     <>

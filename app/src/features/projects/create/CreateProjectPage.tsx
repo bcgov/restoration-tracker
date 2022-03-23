@@ -61,7 +61,6 @@ import { useHistory } from 'react-router';
 import { Prompt } from 'react-router-dom';
 import { getFormattedDate } from 'utils/Utils';
 import yup from 'utils/YupSchema';
-import { handleFormError } from '../../edit/EditProjectPage';
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
@@ -398,7 +397,6 @@ const CreateProjectPage: React.FC = () => {
                             return { value: item.id, label: item.name };
                           }) || []
                         }
-                        error={handleFormError}
                       />
 
                       <Box component="fieldset" mt={5} mx={0}>
@@ -418,7 +416,6 @@ const CreateProjectPage: React.FC = () => {
                               return { value: item.id, iucn2_id: item.iucn2_id, label: item.name };
                             }) || []
                           }
-                          error={handleFormError}
                         />
                       </Box>
                     </Grid>
@@ -450,7 +447,7 @@ const CreateProjectPage: React.FC = () => {
                     </Grid>
 
                     <Grid item xs={12} md={9}>
-                      <ProjectPermitForm error={handleFormError}/>
+                      <ProjectPermitForm />
                     </Grid>
                   </Grid>
                 </Box>
@@ -508,7 +505,6 @@ const CreateProjectPage: React.FC = () => {
                         species={codes.codes.species.map((item) => {
                           return { value: item.id, label: item.name };
                         })}
-                        error={handleFormError}
                       />
                     </Grid>
                   </Grid>

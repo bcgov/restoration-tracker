@@ -76,7 +76,6 @@ export interface IProjectIUCNFormProps {
   classifications: IMultiAutocompleteFieldOption[];
   subClassifications1: IIUCNSubClassification1Option[];
   subClassifications2: IIUCNSubClassification2Option[];
-  error: (invalidElement: object) => void;
 }
 
 /**
@@ -88,10 +87,6 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
   const classes = useStyles();
 
   const { values, handleChange, getFieldMeta, errors } = useFormikContext<IProjectIUCNForm>();
-
-  if (errors.iucn) {
-    props.error(errors);
-  }
 
   return (
     <>

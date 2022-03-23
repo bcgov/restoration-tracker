@@ -57,7 +57,6 @@ export interface IProjectLocationFormProps {
   ranges: IAutocompleteFieldOption<number>[];
   regions: IAutocompleteFieldOption<number>[];
   species: IAutocompleteFieldOption<number>[];
-  error: (invalidElement: object) => void;
 }
 
 /**
@@ -99,10 +98,6 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
       return false;
     });
   };
-
-  if (errors.location) {
-    props.error(errors);
-  }
 
   return (
     <>
