@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { ListChildComponentProps, VariableSizeList } from 'react-window';
 import get from 'lodash-es/get';
 import { FilterOptionsState } from '@material-ui/lab';
+import { DebouncedFunc } from 'lodash-es';
 
 const LISTBOX_PADDING = 8; // px
 
@@ -23,15 +24,24 @@ export type IMultiAutocompleteField = {
   label: string;
   required?: boolean;
   filterLimit?: number;
-} & ({
-  type: 'api-search';
-  options?: null;
-  getInitList: (values: any[]) => Promise<IMultiAutocompleteFieldOption[]>;
-  search: (inputValue: string, exsistingValues: any[]) => Promise<IMultiAutocompleteFieldOption[]>;
-} | {
-  type?: 'default';
-  options: IMultiAutocompleteFieldOption[];
-})
+} & (
+  | {
+      type: 'api-search';
+      options?: null;
+      getInitList: (values: any[]) => Promise<IMultiAutocompleteFieldOption[]>;
+      search: DebouncedFunc<
+        (
+          inputValue: string,
+          exsistingValues: any[],
+          callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
+        ) => Promise<void>
+      >;
+    }
+  | {
+      type?: 'default';
+      options: IMultiAutocompleteFieldOption[];
+    }
+);
 
 function renderRow(props: ListChildComponentProps) {
   const { data, index, style } = props;
@@ -118,34 +128,40 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
   const classes = useStyles();
 
   const { values, touched, errors, setFieldValue } = useFormikContext<IMultiAutocompleteFieldOption>();
-  
+
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState(props.options || []);
 
   useEffect(() => {
     const getOptions = async () => {
-      if(props.type === 'api-search') {
+      if (props.type === 'api-search') {
         const response = await props.getInitList(get(values, props.id));
         setOptions(response);
       }
-    }
-    
+    };
+
     getOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
     const searchSpecies = async () => {
-      if(props.type === 'api-search') {
+      if (props.type === 'api-search') {
         const exsistingValues = get(values, props.id);
         const selectedOptions = options.slice(0, exsistingValues.length);
-        const newOptions = await props.search(inputValue, exsistingValues);
 
-        if(selectedOptions.length || newOptions.length || options.length) {
-          setOptions([...selectedOptions, ...newOptions]);
+        if (!inputValue) {
+          setOptions(selectedOptions);
+          props.search.cancel();
+        } else {
+          props.search(inputValue, exsistingValues, (newOptions) => {
+            if (selectedOptions.length || newOptions.length || options.length) {
+              setOptions([...selectedOptions, ...newOptions]);
+            }
+          });
         }
       }
-    }
+    };
 
     searchSpecies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -170,24 +186,20 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
     return option.value === value.value;
   };
 
-  const handleOnInputChange = (
-    event: React.ChangeEvent<{}>, 
-    value: string, 
-    reason: AutocompleteInputChangeReason
-  ) => {
-    if ( event && event.type === 'blur' ) {
+  const handleOnInputChange = (event: React.ChangeEvent<{}>, value: string, reason: AutocompleteInputChangeReason) => {
+    if (event && event.type === 'blur') {
       setInputValue('');
-    } else if ( reason !== 'reset' ) {
+    } else if (reason !== 'reset') {
       setInputValue(value);
     }
-  }
+  };
 
   const handleOnChange = (event: React.ChangeEvent<{}>, values: IMultiAutocompleteFieldOption[]) => {
     const selectedOptions = values;
-    const selectedOptionsValue = selectedOptions.map(a => a.value);
+    const selectedOptionsValue = selectedOptions.map((a) => a.value);
     const remainingOptions = options.filter((item) => !selectedOptionsValue.includes(item.value));
 
-    if(!inputValue && props.type === 'api-search') {
+    if (!inputValue && props.type === 'api-search') {
       setOptions(selectedOptions);
     } else {
       setOptions([...selectedOptions, ...remainingOptions]);
@@ -197,27 +209,27 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
       props.id,
       values.map((item) => item.value)
     );
-  }
+  };
 
   const handleFiltering = (
-    options: IMultiAutocompleteFieldOption[], 
+    options: IMultiAutocompleteFieldOption[],
     state: FilterOptionsState<IMultiAutocompleteFieldOption>
   ) => {
     const filterOptions = createFilterOptions<IMultiAutocompleteFieldOption>();
-    return props.type === 'api-search' ? options : filterOptions(options, state)
-  }
+    return props.type === 'api-search' ? options : filterOptions(options, state);
+  };
 
   return (
     <Autocomplete
       multiple
-      noOptionsText='Type to start searching'
+      noOptionsText="Type to start searching"
       autoHighlight={true}
       value={getExistingValue(get(values, props.id))}
       ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
       id={props.id}
       data-testid={props.id}
       options={options}
-      getOptionLabel={(option) =>  option.label}
+      getOptionLabel={(option) => option.label}
       getOptionSelected={handleGetOptionSelected}
       disableCloseOnSelect
       disableListWrap

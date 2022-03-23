@@ -6,7 +6,8 @@ import MultiAutocompleteFieldVariableSize, {
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import React from 'react';
+import { debounce } from 'lodash-es';
+import React, { useCallback } from 'react';
 import yup from 'utils/YupSchema';
 
 export interface IProjectGeneralInformationFormProps {
@@ -63,19 +64,30 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
 
   const restorationTrackerApi = useRestorationTrackerApi();
 
-  const convertOptions = (value: any): IMultiAutocompleteFieldOption[] => value.map((item: any) => {
-    return { value: parseInt(item.id), label: item.label };
-  })
+  const convertOptions = (value: any): IMultiAutocompleteFieldOption[] =>
+    value.map((item: any) => {
+      return { value: parseInt(item.id), label: item.label };
+    });
 
-  const handleGetInitList = async(values: any[]) => {
+  const handleGetInitList = async (values: any[]) => {
     const response = await restorationTrackerApi.searchTaxonomy.getListFromIds(values);
     return convertOptions(response.searchResponse);
-  }
+  };
 
-  const handleSearch = async(inputValue: string, exsistingValues: any[]) => {
-    const response = await restorationTrackerApi.searchTaxonomy.getSearchResults(inputValue);
-    return convertOptions(response.searchResponse).filter((item) => !exsistingValues.includes(item.value));
-  }
+  const handleSearch = useCallback(
+    debounce(
+      async (
+        inputValue: string,
+        exsistingValues: any[],
+        callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
+      ) => {
+        const response = await restorationTrackerApi.searchTaxonomy.getSearchResults(inputValue);
+        callback(convertOptions(response.searchResponse).filter((item) => !exsistingValues.includes(item.value)));
+      },
+      500
+    ),
+    []
+  );
 
   return (
     <Grid container spacing={3}>
@@ -113,7 +125,7 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
                 id="species.focal_species"
                 label="Focal Species"
                 required={true}
-                type='api-search'
+                type="api-search"
                 getInitList={handleGetInitList}
                 search={handleSearch}
               />
