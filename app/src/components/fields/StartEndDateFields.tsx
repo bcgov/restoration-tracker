@@ -1,9 +1,10 @@
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { DATE_FORMAT, DATE_LIMIT } from 'constants/dateTimeFormats';
+import { DialogContext, ISnackbarProps } from 'contexts/dialogContext';
 import get from 'lodash-es/get';
 import moment from 'moment';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 
 interface IStartEndDateFieldsProps {
   formikProps: any;
@@ -45,7 +46,7 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
       moment(rawEndDateValue).format(DATE_FORMAT.ShortDateFormat)) ||
     '';
 
-  const [endDateWarning, setEndDateWarning] = useState('');
+  const dialogContext = useContext(DialogContext);
 
   const updateEndDate = useCallback(() => {
     const updateEndDateVaule = moment(formattedStartDateValue).add(1, 'd').format(DATE_FORMAT.ShortDateFormat);
@@ -53,14 +54,18 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
   }, [formattedStartDateValue, endName, setFieldValue]);
 
   useEffect(() => {
+    const showSnackBar = (textDialogProps?: Partial<ISnackbarProps>) => {
+      dialogContext.setSnackbar({ ...textDialogProps, open: true });
+    };
+
     if (formattedEndDateValue && formattedStartDateValue >= formattedEndDateValue) {
       updateEndDate();
-      setEndDateWarning('Updated End Date to a Vaild Date');
+      showSnackBar({ snackbarMessage: 'Updated End Date to after selected Start Date.' });
     }
-  }, [formattedStartDateValue, formattedEndDateValue, updateEndDate]);
+  }, [formattedStartDateValue, formattedEndDateValue, updateEndDate, dialogContext]);
 
   const fillInEmptyEndDate = () => {
-    if(!formattedEndDateValue){
+    if (!formattedEndDateValue) {
       updateEndDate();
     }
   };
@@ -109,7 +114,6 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           type="date"
           onClick={() => {
             fillInEmptyEndDate();
-            setEndDateWarning('');
           }}
           InputProps={{
             // Chrome min/max dates
@@ -127,7 +131,7 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           }}
           onChange={handleChange}
           error={get(touched, endName) && Boolean(get(errors, endName))}
-          helperText={endDateWarning || (get(touched, endName) && get(errors, endName)) || endDateHelperText}
+          helperText={(get(touched, endName) && get(errors, endName)) || endDateHelperText}
           InputLabelProps={{
             shrink: true
           }}

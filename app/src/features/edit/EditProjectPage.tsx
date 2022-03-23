@@ -54,6 +54,50 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
+export const handleFormError = (formikError: object) => {
+  const getFieldErrorNames = (obj: Object, prefix = '', result: string[] = []) => {
+    Object.keys(obj).forEach((key) => {
+      const value = obj[key];
+      if (!value) return;
+
+      key = Number(key) || key === '0' ? `[${key}]` : key;
+
+      var nextKey = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'object') {
+        getFieldErrorNames(value, nextKey, result);
+      } else {
+        result.push(nextKey);
+      }
+    });
+    return result;
+  };
+
+  const handleErrorScroll = (element: any) => {
+    if (!element) return;
+    // Scroll to first known error into view
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  const findErrorLocation = (invalidElement: object) => {
+    const fieldErrorNames = getFieldErrorNames(invalidElement);
+
+    if (!fieldErrorNames) return;
+    const first = fieldErrorNames[fieldErrorNames.length - 1];
+
+    var element;
+
+    element = document.querySelector(`div.MuiContainer-root textarea[name="${first}"]`);
+    handleErrorScroll(element);
+    element = document.querySelector(`div.MuiContainer-root input[name="${first}"]`);
+    handleErrorScroll(element);
+    element = document.querySelector(`div.MuiContainer-root input[id="${first}"]`);
+    handleErrorScroll(element);
+  };
+
+  findErrorLocation(formikError);
+};
+
 /**
  * Page for editing a project.
  *
@@ -250,6 +294,7 @@ const EditProjectPage: React.FC = () => {
                             return { value: item.id, label: item.name };
                           }) || []
                         }
+                        error={handleFormError}
                       />
 
                       <Box component="fieldset" mt={5} mx={0}>
@@ -269,6 +314,7 @@ const EditProjectPage: React.FC = () => {
                               return { value: item.id, iucn2_id: item.iucn2_id, label: item.name };
                             }) || []
                           }
+                          error={handleFormError}
                         />
                       </Box>
                     </Grid>
@@ -300,7 +346,7 @@ const EditProjectPage: React.FC = () => {
                     </Grid>
 
                     <Grid item xs={12} md={9}>
-                      <ProjectPermitForm />
+                      <ProjectPermitForm error={handleFormError} />
                     </Grid>
                   </Grid>
                 </Box>
@@ -358,6 +404,7 @@ const EditProjectPage: React.FC = () => {
                         species={codes.codes.species.map((item) => {
                           return { value: item.id, label: item.name };
                         })}
+                        error={handleFormError}
                       />
                     </Grid>
                   </Grid>

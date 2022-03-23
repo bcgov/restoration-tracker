@@ -45,7 +45,7 @@ export const ProjectIUCNFormArrayItemInitialValues: IProjectIUCNFormArrayItem = 
 
 export const ProjectIUCNFormInitialValues: IProjectIUCNForm = {
   iucn: {
-    classificationDetails: []
+    classificationDetails: [ProjectIUCNFormArrayItemInitialValues]
   }
 };
 
@@ -76,6 +76,7 @@ export interface IProjectIUCNFormProps {
   classifications: IMultiAutocompleteFieldOption[];
   subClassifications1: IIUCNSubClassification1Option[];
   subClassifications2: IIUCNSubClassification2Option[];
+  error: (invalidElement: object) => void;
 }
 
 /**
@@ -87,6 +88,10 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
   const classes = useStyles();
 
   const { values, handleChange, getFieldMeta, errors } = useFormikContext<IProjectIUCNForm>();
+
+  if (errors.iucn) {
+    props.error(errors);
+  }
 
   return (
     <>
@@ -139,7 +144,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                             </MenuItem>
                           ))}
                         </Select>
-                        <FormHelperText>{classificationMeta.touched && classificationMeta.error}</FormHelperText>
+                        <FormHelperText error={true}>{classificationMeta.touched && classificationMeta.error}</FormHelperText>
                       </FormControl>
                     </Box>
 
@@ -172,7 +177,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                               </MenuItem>
                             ))}
                         </Select>
-                        <FormHelperText>
+                        <FormHelperText error={true}>
                           {subClassification1Meta.touched && subClassification1Meta.error}
                         </FormHelperText>
                       </FormControl>
@@ -204,7 +209,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                               </MenuItem>
                             ))}
                         </Select>
-                        <FormHelperText>
+                        <FormHelperText error={true}>
                           {subClassification2Meta.touched && subClassification2Meta.error}
                         </FormHelperText>
                       </FormControl>
