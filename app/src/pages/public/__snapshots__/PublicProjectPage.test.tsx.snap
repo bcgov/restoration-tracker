@@ -814,6 +814,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
         >
           <div
             class="MuiBox-root MuiBox-root-291"
+            hidden=""
           >
             <strong>
               Found 0 treatments
@@ -833,49 +834,50 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   class="MuiTableRow-root MuiTableRow-head"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                     width="50"
                   >
                     ID
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                   >
                     Type
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                   >
                     Treatments
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="110"
                   >
                     Width (m)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="120"
                   >
                     Length (m)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="110"
                   >
                     Area (Ha)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
-                    width="130"
-                  >
-                    Action
-                  </th>
+                    width="50"
+                  />
                 </tr>
               </thead>
               <tbody
@@ -886,7 +888,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   class="MuiTableRow-root"
                 >
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                    class="MuiTableCell-root MuiTableCell-body"
                     colspan="7"
                   >
                     <div
@@ -1695,6 +1697,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
         >
           <div
             class="MuiBox-root MuiBox-root-113"
+            hidden=""
           >
             <strong>
               Found 0 treatments
@@ -1714,49 +1717,50 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiTableRow-root MuiTableRow-head"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                     width="50"
                   >
                     ID
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                   >
                     Type
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                   >
                     Treatments
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="110"
                   >
                     Width (m)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="120"
                   >
                     Length (m)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="110"
                   >
                     Area (Ha)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
-                    width="130"
-                  >
-                    Action
-                  </th>
+                    width="50"
+                  />
                 </tr>
               </thead>
               <tbody
@@ -1767,7 +1771,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiTableRow-root"
                 >
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                    class="MuiTableCell-root MuiTableCell-body"
                     colspan="7"
                   >
                     <div
@@ -2576,6 +2580,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
         >
           <div
             class="MuiBox-root MuiBox-root-202"
+            hidden=""
           >
             <strong>
               Found 0 treatments
@@ -2595,49 +2600,50 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiTableRow-root MuiTableRow-head"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                     width="50"
                   >
                     ID
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                   >
                     Type
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
                     scope="col"
                   >
                     Treatments
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="110"
                   >
                     Width (m)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="120"
                   >
                     Length (m)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
+                    width="110"
                   >
                     Area (Ha)
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
                     scope="col"
-                    width="130"
-                  >
-                    Action
-                  </th>
+                    width="50"
+                  />
                 </tr>
               </thead>
               <tbody
@@ -2648,7 +2654,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiTableRow-root"
                 >
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                    class="MuiTableCell-root MuiTableCell-body"
                     colspan="7"
                   >
                     <div
