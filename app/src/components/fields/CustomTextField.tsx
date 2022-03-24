@@ -23,8 +23,6 @@ const CustomTextField: React.FC<ICustomTextField> = (props) => {
       variant="outlined"
       value={get(values, name)}
       fullWidth={true}
-      multiline={true}
-      rowsMax={24}
       error={get(touched, name) && Boolean(get(errors, name))}
       helperText={get(touched, name) && get(errors, name)}
       {...other}

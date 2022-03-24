@@ -12,6 +12,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
+import { ScrollToFormikError } from 'components/formik/ScrollToFormikError';
 import { EditProjectI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import ProjectContactForm from 'features/projects/components/ProjectContactForm';
@@ -22,7 +23,7 @@ import ProjectLocationForm from 'features/projects/components/ProjectLocationFor
 import ProjectPartnershipsForm from 'features/projects/components/ProjectPartnershipsForm';
 import ProjectPermitForm from 'features/projects/components/ProjectPermitForm';
 import { ProjectFormInitialValues, ProjectFormYupSchema } from 'features/projects/create/CreateProjectPage';
-import { Form, Formik, FormikProps, useFormikContext } from 'formik';
+import { Form, Formik, FormikProps } from 'formik';
 import History from 'history';
 import { APIError } from 'hooks/api/useAxios';
 import useCodes from 'hooks/useCodes';
@@ -53,48 +54,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginRight: '0.25rem'
   }
 }));
-
-export const HandleFormErrorComponent: React.FC = (props) => {
-  const formikProps = useFormikContext<IGetProjectForViewResponse>();
-
-  const { submitCount, isValid, errors } = formikProps;
-
-  const getFieldErrorNames = (obj: Object, prefix = '', result: string[] = []) => {
-    Object.keys(obj).forEach((key) => {
-      const value = obj[key];
-      if (!value) return;
-
-      key = Number(key) || key === '0' ? `[${key}]` : key;
-
-      var nextKey = prefix ? `${prefix}.${key}` : key;
-
-      if (typeof value === 'object') {
-        getFieldErrorNames(value, nextKey, result);
-      } else {
-        result.push(nextKey);
-      }
-    });
-    return result;
-  };
-
-  useEffect(() => {
-    if (isValid) {
-      return;
-    }
-
-    const fieldErrorNames = getFieldErrorNames(errors);
-    if (fieldErrorNames.length <= 0) return;
-
-    const element = document.getElementsByName(fieldErrorNames[0]);
-    if (!element.length) {
-      return;
-    }
-
-    element[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, [submitCount]);
-
-  return <></>;
-};
 
 /**
  * Page for editing a project.
@@ -279,7 +238,7 @@ const EditProjectPage: React.FC = () => {
               validateOnChange={false}
               onSubmit={handleProjectEdits}>
               <>
-                <HandleFormErrorComponent />
+                <ScrollToFormikError />
 
                 <Form noValidate>
                   <Box my={5}>
