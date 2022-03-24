@@ -34,6 +34,18 @@ export class TaxonomyService {
     });
   };
 
+  async getTaxonomyFromIds(ids: number[]) {
+    const response = await this.elasticSearch({
+      query: {
+        terms: {
+          _id: ids
+        }
+      }
+    });
+
+    return (response && response.hits.hits.map((item) => item._source)) || [];
+  }
+
   async getSpeciesFromIds(ids: string[]) {
     const response = await this.elasticSearch({
       query: {

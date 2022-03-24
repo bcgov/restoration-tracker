@@ -5,9 +5,10 @@ import { coordEach } from '@turf/meta';
 import jsonpatch from 'fast-json-patch';
 import { v4 as uuidv4 } from 'uuid';
 import { IDBConnection } from '../database/db';
+import { queries } from '../queries/queries';
 import { ProjectObject, ProjectService } from './project-service';
 import { DBService } from './service';
-import { TaxonomySearchService } from './taxonomy-service';
+import { TaxonomyService } from './taxonomy-service';
 
 export const EML_VERSION = '1.0.0';
 export const EML_PROVIDER_URL = '';
@@ -17,48 +18,16 @@ export const EML_ORGANIZATION_URL = '';
 export const EML_TAXONOMIC_PROVIDER_URL = '';
 export const INTELLECTUAL_RIGHTS = '';
 
-export type XmlLang = Record<string, unknown>;
-
-export type XmlAttributes<T extends object> = { $: T };
-
-export type EmlFile = {
-  eml: EmlSection;
-};
-
-export type EmlSection = XmlAttributes<EmlSectionAttributes> & EmlSectionChildren;
-export type EmlSectionAttributes = { packageId: string; system: string; scope?: string } & Partial<XmlLang>;
-export type EmlSectionChildren = { access: AccessSection; citation: CitationSection; dataset: DatasetSection };
-
-export type AccessSection = XmlAttributes<AccessSectionAttributes> & AccessSectionChildren;
-export type AccessSectionAttributes = {
-  authSystem: string;
-  id?: string;
-  order?: string;
-  scope?: string;
-  system?: string;
-};
-export type AccessSectionChildren = Record<string, unknown>;
-
-export type CitationSection = XmlAttributes<CitationSectionAttributes> & CitationSectionChildren;
-export type CitationSectionAttributes = {
-  id?: string;
-  system?: string;
-  scope?: string;
-};
-export type CitationSectionChildren = Record<string, unknown>;
-
-export type DatasetSection = XmlAttributes<DatasetSectionAttributes> & DatasetSectionChildren;
-export type DatasetSectionAttributes = { id?: string; system?: string; scope?: string };
-export type DatasetSectionChildren = Record<string, unknown>;
-
-export type AdditionalMetaDataSection = XmlAttributes<AdditionalMetaDataSectionAttributes> &
-  AdditionalMetaDataSectionChildren;
-export type AdditionalMetaDataSectionAttributes = { id?: string };
-export type AdditionalMetaDataSectionChildren = Record<string, unknown>;
-
-// https://gist.github.com/amoeba/0a435e236a64a867bb10dd158010ac80
+/**
+ * Service to produce EML data for a project.
+ *
+ * @see https://eml.ecoinformatics.org for EML specification
+ * @export
+ * @class EmlService
+ * @extends {DBService}
+ */
 export class EmlService extends DBService {
-  data: Record<any, any>;
+  data: Record<string, unknown>;
 
   projectId: number;
   packageId: string;
@@ -93,10 +62,9 @@ export class EmlService extends DBService {
     this.buildEMLSection();
     this.buildAccessSection();
     await this.buildDatasetSection();
+    await this.buildAdditionalMetadataSection();
 
-    await this.getFocalTaxonomicCoverage();
-
-    return this.data as EmlFile;
+    return this.data;
   }
 
   buildEMLSection() {
@@ -154,12 +122,73 @@ export class EmlService extends DBService {
             coverage: {
               geographicCoverage: await this.getGeographicCoverageEML(),
               temporalCoverage: this.getTemporalCoverageEML(),
-              taxonomicCoverage: ''
+              taxonomicCoverage: await this.getFocalTaxonomicCoverage()
             }
           },
           funding: this.getProjectFundingSources()
         }
       }
+    });
+  }
+
+  async buildAdditionalMetadataSection() {
+    const projectObject: ProjectObject = this.cache['project'];
+
+    if (!projectObject) {
+      throw Error('Project data not found');
+    }
+
+    const [firstNationsData] = await Promise.all([
+      this.connection.sql<{ name: string }>(queries.eml.getProjectFirstNationsSQL(this.projectId))
+    ]);
+
+    jsonpatch.applyOperation(this.data, {
+      op: 'add',
+      path: '/eml/additionalMetadata',
+      value: [
+        {
+          describes: this.packageId,
+          metadata: {
+            IUCNConservationActions: {
+              IUCNConservationAction: projectObject.iucn.classificationDetails.map((item) => {
+                return {
+                  IUCNConservationActionLevel1Classification: item.classification,
+                  IUCNConservationActionLevel2SubClassification: item.subClassification1,
+                  IUCNConservationActionLevel3SubClassification: item.subClassification2
+                };
+              })
+            }
+          }
+        },
+        {
+          describes: this.packageId,
+          metadata: {
+            stakeholderPartnerships: {
+              stakeholderPartnership: projectObject.partnerships.stakeholder_partnerships.map((item) => {
+                return { name: item };
+              })
+            }
+          }
+        },
+        {
+          describes: this.packageId,
+          metadata: {
+            firstNationPartnerships: {
+              firstNationPartnership: firstNationsData.rows.map((item) => {
+                return { name: item.name };
+              })
+            }
+          }
+        },
+        {
+          describes: this.packageId,
+          metadata: {
+            priorityArea: {
+              isPriority: false // TODO assign priority when its merged: projectObject.location.priority
+            }
+          }
+        }
+      ]
     });
   }
 
@@ -288,7 +317,7 @@ export class EmlService extends DBService {
     const projectBoundingBox = bbox(featureCollection(polygonFeatures));
 
     const geographicCoverage = {
-      geographicDescription: projectObject.location.region,
+      geographicDescription: projectObject.location.region, // TODO convert to text
       boundingCoordinates: {
         westBoundingCoordinate: projectBoundingBox[0],
         southBoundingCoordinate: projectBoundingBox[1],
@@ -297,25 +326,23 @@ export class EmlService extends DBService {
       }
     };
 
-    const datasetGPolygon: Record<any, any>[] = [];
+    const datasetGPolygons: Record<any, any>[] = [];
 
-    polygonFeatures.forEach((feature, i: number) => {
-      datasetGPolygon[i] = { datasetGPolygonOuterGRing: [] };
-
+    polygonFeatures.forEach((feature) => {
       const featureCoords: number[][] = [];
 
       coordEach(feature as AllGeoJSON, (currentCoord) => {
         featureCoords.push(currentCoord);
       });
 
-      datasetGPolygon[i] = {
+      datasetGPolygons.push({
         datasetGPolygonOuterGRing: featureCoords.map((coords) => {
           return { gRingPoint: { gRingLongitude: coords[0], gRingLatitude: coords[1] } };
         })
-      };
+      });
     });
 
-    return { ...geographicCoverage, datasetGPolygon: datasetGPolygon };
+    return { ...geographicCoverage, datasetGPolygon: datasetGPolygons };
   }
 
   async getFocalTaxonomicCoverage(): Promise<Record<any, any>> {
@@ -325,30 +352,23 @@ export class EmlService extends DBService {
       throw Error('Project data not found');
     }
 
-    const taxonomySearchService = new TaxonomySearchService();
+    const taxonomySearchService = new TaxonomyService();
 
-    const response = await taxonomySearchService.queryTaxonomyService({
-      query: {
-        terms: {
-          _id: projectObject.species.focal_species
-        }
-      }
+    const response = await taxonomySearchService.getTaxonomyFromIds(projectObject.species.focal_species);
+
+    const taxonomicClassifications: Record<string, any>[] = [];
+
+    response.forEach((item) => {
+      const taxonRecord = item as Record<string, any>;
+
+      taxonomicClassifications.push({
+        taxonRankName: taxonRecord.tty_name,
+        taxonRankValue: `${taxonRecord.unit_name1} ${taxonRecord.unit_name2} ${taxonRecord.unit_name3}`,
+        commonName: taxonRecord.english_name,
+        taxonId: { $: { provider: EML_TAXONOMIC_PROVIDER_URL }, _: taxonRecord.code }
+      });
     });
 
-    console.log(response);
-
-    return response;
-
-    // emlRoot.dataset.project.studyAreaDescription.coverage.taxonomicCoverage = { taxonomicClassification: [] };
-    // focalTaxonomicCoverage.rows.forEach(function (row: any, i: number) {
-    //   emlRoot.dataset.project.studyAreaDescription.coverage.taxonomicCoverage.taxonomicClassification[i] = {
-    //     taxonRankName: row.tty_name,
-    //     taxonRankValue: row.unit_name1 + ' ' + row.unit_name2,
-    //     commonName: row.english_name,
-    //     taxonId: { $: { provider: taxonomicProviderURL }, _: row.code }
-    //   };
-    // });
-
-    // return connection.query(sqlStatement.text, sqlStatement.values);
+    return { taxonomicClassification: taxonomicClassifications };
   }
 }
