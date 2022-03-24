@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { IDBConnection } from '../database/db';
 import { ProjectObject, ProjectService } from './project-service';
 import { DBService } from './service';
+import { TaxonomySearchService } from './taxonomy-service';
 
 export const EML_VERSION = '1.0.0';
 export const EML_PROVIDER_URL = '';
@@ -92,6 +93,8 @@ export class EmlService extends DBService {
     this.buildEMLSection();
     this.buildAccessSection();
     await this.buildDatasetSection();
+
+    await this.getFocalTaxonomicCoverage();
 
     return this.data as EmlFile;
   }
@@ -315,23 +318,37 @@ export class EmlService extends DBService {
     return { ...geographicCoverage, datasetGPolygon: datasetGPolygon };
   }
 
-  // async getFocalTaxonomicCoverage(surveyId: number, connection: IDBConnection): Promise<Record<any, any>> {
-  //   const sqlStatement = queries.dwc.getTaxonomicCoverageSQL(surveyId, true);
+  async getFocalTaxonomicCoverage(): Promise<Record<any, any>> {
+    const projectObject: ProjectObject = this.cache['project'];
 
-  //   if (!sqlStatement) {
-  //     throw new Error('Failed to build SQL statement');
-  //   }
+    if (!projectObject) {
+      throw Error('Project data not found');
+    }
 
-  //   emlRoot.dataset.project.studyAreaDescription.coverage.taxonomicCoverage = { taxonomicClassification: [] };
-  //   focalTaxonomicCoverage.rows.forEach(function (row: any, i: number) {
-  //     emlRoot.dataset.project.studyAreaDescription.coverage.taxonomicCoverage.taxonomicClassification[i] = {
-  //       taxonRankName: row.tty_name,
-  //       taxonRankValue: row.unit_name1 + ' ' + row.unit_name2,
-  //       commonName: row.english_name,
-  //       taxonId: { $: { provider: taxonomicProviderURL }, _: row.code }
-  //     };
-  //   });
+    const taxonomySearchService = new TaxonomySearchService();
 
-  //   return connection.query(sqlStatement.text, sqlStatement.values);
-  // }
+    const response = await taxonomySearchService.queryTaxonomyService({
+      query: {
+        terms: {
+          _id: projectObject.species.focal_species
+        }
+      }
+    });
+
+    console.log(response);
+
+    return response;
+
+    // emlRoot.dataset.project.studyAreaDescription.coverage.taxonomicCoverage = { taxonomicClassification: [] };
+    // focalTaxonomicCoverage.rows.forEach(function (row: any, i: number) {
+    //   emlRoot.dataset.project.studyAreaDescription.coverage.taxonomicCoverage.taxonomicClassification[i] = {
+    //     taxonRankName: row.tty_name,
+    //     taxonRankValue: row.unit_name1 + ' ' + row.unit_name2,
+    //     commonName: row.english_name,
+    //     taxonId: { $: { provider: taxonomicProviderURL }, _: row.code }
+    //   };
+    // });
+
+    // return connection.query(sqlStatement.text, sqlStatement.values);
+  }
 }

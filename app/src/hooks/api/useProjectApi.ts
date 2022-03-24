@@ -350,6 +350,18 @@ const useProjectApi = (axios: AxiosInstance) => {
     return status === 200;
   };
 
+  /**
+   * Download an EML file containing the project meta data.
+   *
+   * @param {number} projectId
+   * @return {*}  {Promise<any>}
+   */
+  const downloadProjectEML = async (projectId: number): Promise<any> => {
+    const { data } = await axios.get(`/api/project/${projectId}/export/eml`);
+
+    return data;
+  };
+
   return {
     getAllUserProjectsParticipation,
     getProjectsList,
@@ -372,7 +384,8 @@ const useProjectApi = (axios: AxiosInstance) => {
     addProjectParticipants,
     removeProjectParticipant,
     updateProjectParticipantRole,
-    getUserProjectsList
+    getUserProjectsList,
+    downloadProjectEML
   };
 };
 
