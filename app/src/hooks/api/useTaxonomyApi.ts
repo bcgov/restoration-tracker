@@ -5,7 +5,7 @@ const useTaxonomyApi = (axios: AxiosInstance): any => {
   const searchSpecies = async (value: string): Promise<any> => {
     axios.defaults.params = { terms: value };
 
-    const { data } = await axios(`/api/taxonomy/species/search`);
+    const { data } = await axios.get(`/api/taxonomy/species/search`);
 
     return data;
   };
