@@ -1,7 +1,5 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import moment from 'moment';
-import { COMPLETION_STATUS } from '../../constants/status';
 import { getAPIUserDBConnection } from '../../database/db';
 import { HTTP400 } from '../../errors/custom-error';
 import { projectIdResponseObject } from '../../openapi/schemas/project';
@@ -108,9 +106,6 @@ export function _extractProjects(rows: any[]): any[] {
       start_date: row.start_date,
       end_date: row.end_date,
       contact_agency_list: row.agency_list,
-      completion_status:
-        (row.end_date && moment(row.end_date).endOf('day').isBefore(moment()) && COMPLETION_STATUS.COMPLETED) ||
-        COMPLETION_STATUS.ACTIVE,
       permits_list: row.permits_list
     };
 

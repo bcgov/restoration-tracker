@@ -1,5 +1,3 @@
-import { COMPLETION_STATUS } from '../../constants/status';
-import moment from 'moment';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('models/public/project');
@@ -14,7 +12,6 @@ export class GetPublicProjectData {
   project_name: string;
   start_date: string;
   end_date: string;
-  completion_status: string;
 
   constructor(projectData?: any) {
     defaultLog.debug({ label: 'GetPublicProjectData', message: 'params', projectData });
@@ -22,12 +19,6 @@ export class GetPublicProjectData {
     this.project_name = projectData?.name || '';
     this.start_date = projectData?.start_date || '';
     this.end_date = projectData?.end_date || '';
-    this.completion_status =
-      (projectData &&
-        projectData.end_date &&
-        moment(projectData.end_date).endOf('day').isBefore(moment()) &&
-        COMPLETION_STATUS.COMPLETED) ||
-      COMPLETION_STATUS.ACTIVE;
   }
 }
 
