@@ -2,7 +2,7 @@
 -- ER/Studio Data Architect SQL Code Generation
 -- Project :      Restoration.DM1
 --
--- Date Created : Wednesday, March 23, 2022 14:24:46
+-- Date Created : Wednesday, March 23, 2022 20:34:58
 -- Target DBMS : PostgreSQL 10.x-12.x
 --
 
@@ -11,19 +11,19 @@
 --
 
 CREATE TABLE administrative_activity(
-    administrative_activity_id                integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    administrative_activity_status_type_id    integer          NOT NULL,
-    administrative_activity_type_id           integer          NOT NULL,
-    reported_system_user_id                   integer          NOT NULL,
+    administrative_activity_id                integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    administrative_activity_status_type_id    integer           NOT NULL,
+    administrative_activity_type_id           integer           NOT NULL,
+    reported_system_user_id                   integer           NOT NULL,
     assigned_system_user_id                   integer,
     description                               varchar(3000),
-    data                                      jsonb,
+    data                                      json,
     notes                                     varchar(3000),
-    create_date                               timestamp        DEFAULT now() NOT NULL,
-    create_user                               varchar(63)      DEFAULT user NOT NULL,
-    update_date                               timestamp,
-    update_user                               varchar(63),
-    revision_count                            integer          DEFAULT 0 NOT NULL,
+    create_date                               timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                               integer           NOT NULL,
+    update_date                               timestamptz(6),
+    update_user                               integer,
+    revision_count                            integer           DEFAULT 0 NOT NULL,
     CONSTRAINT administrative_activity_pk PRIMARY KEY (administrative_activity_id)
 )
 ;
@@ -48,11 +48,11 @@ COMMENT ON COLUMN administrative_activity.notes IS 'Notes associated with the re
 ;
 COMMENT ON COLUMN administrative_activity.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN administrative_activity.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN administrative_activity.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN administrative_activity.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN administrative_activity.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN administrative_activity.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN administrative_activity.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -64,16 +64,16 @@ COMMENT ON TABLE administrative_activity IS 'Administrative activity is a list o
 --
 
 CREATE TABLE administrative_activity_status_type(
-    administrative_activity_status_type_id    integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                                      varchar(50)     NOT NULL,
+    administrative_activity_status_type_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                                      varchar(50)       NOT NULL,
     description                               varchar(250),
-    record_effective_date                     date            NOT NULL,
+    record_effective_date                     date              NOT NULL,
     record_end_date                           date,
-    create_date                               timestamp       DEFAULT now() NOT NULL,
-    create_user                               varchar(63)     DEFAULT user NOT NULL,
-    update_date                               timestamp,
-    update_user                               varchar(63),
-    revision_count                            integer         DEFAULT 0 NOT NULL,
+    create_date                               timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                               integer           NOT NULL,
+    update_date                               timestamptz(6),
+    update_user                               integer,
+    revision_count                            integer           DEFAULT 0 NOT NULL,
     CONSTRAINT administrative_activity_status_type_pk PRIMARY KEY (administrative_activity_status_type_id)
 )
 ;
@@ -92,11 +92,11 @@ COMMENT ON COLUMN administrative_activity_status_type.record_end_date IS 'Record
 ;
 COMMENT ON COLUMN administrative_activity_status_type.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN administrative_activity_status_type.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN administrative_activity_status_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN administrative_activity_status_type.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN administrative_activity_status_type.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN administrative_activity_status_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN administrative_activity_status_type.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -108,16 +108,16 @@ COMMENT ON TABLE administrative_activity_status_type IS 'Administrative activity
 --
 
 CREATE TABLE administrative_activity_type(
-    administrative_activity_type_id    integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                               varchar(50)     NOT NULL,
+    administrative_activity_type_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                               varchar(50)       NOT NULL,
     description                        varchar(250),
-    record_effective_date              date            NOT NULL,
+    record_effective_date              date              NOT NULL,
     record_end_date                    date,
-    create_date                        timestamp       DEFAULT now() NOT NULL,
-    create_user                        varchar(63)     DEFAULT user NOT NULL,
-    update_date                        timestamp,
-    update_user                        varchar(63),
-    revision_count                     integer         DEFAULT 0 NOT NULL,
+    create_date                        timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                        integer           NOT NULL,
+    update_date                        timestamptz(6),
+    update_user                        integer,
+    revision_count                     integer           DEFAULT 0 NOT NULL,
     CONSTRAINT administrative_activity_type_pk PRIMARY KEY (administrative_activity_type_id)
 )
 ;
@@ -136,11 +136,11 @@ COMMENT ON COLUMN administrative_activity_type.record_end_date IS 'Record level 
 ;
 COMMENT ON COLUMN administrative_activity_type.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN administrative_activity_type.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN administrative_activity_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN administrative_activity_type.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN administrative_activity_type.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN administrative_activity_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN administrative_activity_type.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -154,15 +154,11 @@ COMMENT ON TABLE administrative_activity_type IS 'Administrative activity type d
 CREATE TABLE audit_log(
     audit_log_id      integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
     system_user_id    integer         NOT NULL,
-    create_date       timestamptz     DEFAULT now() NOT NULL,
+    create_date       TIMESTAMPTZ     DEFAULT now() NOT NULL,
     table_name        varchar(200)    NOT NULL,
     operation         varchar(20)     NOT NULL,
-    before_value      jsonb,
-    after_value       jsonb,
-    create_user       varchar(63)     DEFAULT user NOT NULL,
-    update_date       timestamp,
-    update_user       varchar(63),
-    revision_count    integer         DEFAULT 0 NOT NULL,
+    before_value      json,
+    after_value       json,
     CONSTRAINT audit_log_pk PRIMARY KEY (audit_log_id)
 )
 ;
@@ -183,14 +179,6 @@ COMMENT ON COLUMN audit_log.before_value IS 'The JSON representation of the befo
 ;
 COMMENT ON COLUMN audit_log.after_value IS 'The JSON representation of the after value of the record.'
 ;
-COMMENT ON COLUMN audit_log.create_user IS 'The user who created the record.'
-;
-COMMENT ON COLUMN audit_log.update_date IS 'The datetime the record was updated.'
-;
-COMMENT ON COLUMN audit_log.update_user IS 'The user who updated the record.'
-;
-COMMENT ON COLUMN audit_log.revision_count IS 'Revision count used for concurrency control.'
-;
 COMMENT ON TABLE audit_log IS 'Holds record level audit log data for the entire database.'
 ;
 
@@ -207,10 +195,10 @@ CREATE TABLE caribou_population_unit(
     geojson                       jsonb,
     record_effective_date         date                        NOT NULL,
     record_end_date               date,
-    create_date                   timestamp                   DEFAULT now() NOT NULL,
-    create_user                   varchar(63)                 DEFAULT user NOT NULL,
-    update_date                   timestamp,
-    update_user                   varchar(63),
+    create_date                   timestamptz(6)              DEFAULT now() NOT NULL,
+    create_user                   integer                     NOT NULL,
+    update_date                   timestamptz(6),
+    update_user                   integer,
     revision_count                integer                     DEFAULT 0 NOT NULL,
     CONSTRAINT caribou_population_unit_pk PRIMARY KEY (caribou_population_unit_id)
 )
@@ -236,11 +224,11 @@ COMMENT ON COLUMN caribou_population_unit.record_end_date IS 'Record level end d
 ;
 COMMENT ON COLUMN caribou_population_unit.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN caribou_population_unit.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN caribou_population_unit.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN caribou_population_unit.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN caribou_population_unit.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN caribou_population_unit.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN caribou_population_unit.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -252,16 +240,16 @@ COMMENT ON TABLE caribou_population_unit IS 'A list of caribou population units.
 --
 
 CREATE TABLE contact_type(
-    contact_type_id          integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                     varchar(50)     NOT NULL,
+    contact_type_id          integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                     varchar(50)       NOT NULL,
     description              varchar(250),
-    record_effective_date    date            NOT NULL,
+    record_effective_date    date              NOT NULL,
     record_end_date          date,
-    create_date              timestamp       DEFAULT now() NOT NULL,
-    create_user              varchar(63)     DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer         DEFAULT 0 NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT contact_type_pk PRIMARY KEY (contact_type_id)
 )
 ;
@@ -280,11 +268,11 @@ COMMENT ON COLUMN contact_type.record_end_date IS 'Record level end date.'
 ;
 COMMENT ON COLUMN contact_type.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN contact_type.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN contact_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN contact_type.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN contact_type.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN contact_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN contact_type.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -296,16 +284,16 @@ COMMENT ON TABLE contact_type IS 'A list of contact types. Example types include
 --
 
 CREATE TABLE feature_type(
-    feature_type_id          integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                     varchar(300)    NOT NULL,
+    feature_type_id          integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                     varchar(300)      NOT NULL,
     description              varchar(250),
-    record_effective_date    date            NOT NULL,
+    record_effective_date    date              NOT NULL,
     record_end_date          date,
-    create_date              timestamp       DEFAULT now() NOT NULL,
-    create_user              varchar(63)     DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer         DEFAULT 0 NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT feature_type_pk_1 PRIMARY KEY (feature_type_id)
 )
 ;
@@ -324,11 +312,11 @@ COMMENT ON COLUMN feature_type.record_end_date IS 'Record level end date.'
 ;
 COMMENT ON COLUMN feature_type.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN feature_type.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN feature_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN feature_type.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN feature_type.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN feature_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN feature_type.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -340,16 +328,16 @@ COMMENT ON TABLE feature_type IS 'A list of linear feature types.'
 --
 
 CREATE TABLE first_nations(
-    first_nations_id         integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                     varchar(300)    NOT NULL,
+    first_nations_id         integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                     varchar(300)      NOT NULL,
     description              varchar(250),
-    record_effective_date    date            NOT NULL,
+    record_effective_date    date              NOT NULL,
     record_end_date          date,
-    create_date              timestamp       DEFAULT now() NOT NULL,
-    create_user              varchar(63)     DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer         DEFAULT 0 NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT first_nations_pk PRIMARY KEY (first_nations_id)
 )
 ;
@@ -368,11 +356,11 @@ COMMENT ON COLUMN first_nations.record_end_date IS 'Record level end date.'
 ;
 COMMENT ON COLUMN first_nations.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN first_nations.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN first_nations.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN first_nations.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN first_nations.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN first_nations.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN first_nations.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -384,17 +372,17 @@ COMMENT ON TABLE first_nations IS 'A list of first nations.'
 --
 
 CREATE TABLE funding_source(
-    funding_source_id        integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                     varchar(100)     NOT NULL,
+    funding_source_id        integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                     varchar(100)      NOT NULL,
     description              varchar(250),
-    record_effective_date    date             NOT NULL,
+    record_effective_date    date              NOT NULL,
     record_end_date          date,
-    project_id_optional      character(10)    NOT NULL,
-    create_date              timestamp        DEFAULT now() NOT NULL,
-    create_user              varchar(63)      DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer          DEFAULT 0 NOT NULL,
+    project_id_optional      boolean           NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT funding_source_pk PRIMARY KEY (funding_source_id)
 )
 ;
@@ -415,11 +403,11 @@ COMMENT ON COLUMN funding_source.project_id_optional IS 'Provides whether the pr
 ;
 COMMENT ON COLUMN funding_source.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN funding_source.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN funding_source.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN funding_source.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN funding_source.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN funding_source.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN funding_source.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -431,17 +419,17 @@ COMMENT ON TABLE funding_source IS 'Agency or Ministry funding the project.'
 --
 
 CREATE TABLE investment_action_category(
-    investment_action_category_id    integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    funding_source_id                integer         NOT NULL,
+    investment_action_category_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    funding_source_id                integer           NOT NULL,
     name                             varchar(300),
     description                      varchar(250),
-    record_effective_date            date            NOT NULL,
+    record_effective_date            date              NOT NULL,
     record_end_date                  date,
-    create_date                      timestamp       DEFAULT now() NOT NULL,
-    create_user                      varchar(63)     DEFAULT user NOT NULL,
-    update_date                      timestamp,
-    update_user                      varchar(63),
-    revision_count                   integer         DEFAULT 0 NOT NULL,
+    create_date                      timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                      integer           NOT NULL,
+    update_date                      timestamptz(6),
+    update_user                      integer,
+    revision_count                   integer           DEFAULT 0 NOT NULL,
     CONSTRAINT investment_action_category_pk PRIMARY KEY (investment_action_category_id)
 )
 ;
@@ -462,11 +450,11 @@ COMMENT ON COLUMN investment_action_category.record_end_date IS 'Record level en
 ;
 COMMENT ON COLUMN investment_action_category.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN investment_action_category.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN investment_action_category.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN investment_action_category.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN investment_action_category.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN investment_action_category.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN investment_action_category.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -478,16 +466,16 @@ COMMENT ON TABLE investment_action_category IS 'The investment or action categor
 --
 
 CREATE TABLE iucn_conservation_action_level_1_classification(
-    iucn_conservation_action_level_1_classification_id    integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    iucn_conservation_action_level_1_classification_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
     name                                                  varchar(300),
     description                                           varchar(3000),
-    record_effective_date                                 date             NOT NULL,
+    record_effective_date                                 date              NOT NULL,
     record_end_date                                       date,
-    create_date                                           timestamp        DEFAULT now() NOT NULL,
-    create_user                                           varchar(63)      DEFAULT user NOT NULL,
-    update_date                                           timestamp,
-    update_user                                           varchar(63),
-    revision_count                                        integer          DEFAULT 0 NOT NULL,
+    create_date                                           timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                                           integer           NOT NULL,
+    update_date                                           timestamptz(6),
+    update_user                                           integer,
+    revision_count                                        integer           DEFAULT 0 NOT NULL,
     CONSTRAINT iucn_conservation_action_level_1_classification_pk PRIMARY KEY (iucn_conservation_action_level_1_classification_id)
 )
 ;
@@ -506,11 +494,11 @@ COMMENT ON COLUMN iucn_conservation_action_level_1_classification.record_end_dat
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_1_classification.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN iucn_conservation_action_level_1_classification.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN iucn_conservation_action_level_1_classification.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_1_classification.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN iucn_conservation_action_level_1_classification.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN iucn_conservation_action_level_1_classification.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_1_classification.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -522,17 +510,17 @@ COMMENT ON TABLE iucn_conservation_action_level_1_classification IS 'List of IUC
 --
 
 CREATE TABLE iucn_conservation_action_level_2_subclassification(
-    iucn_conservation_action_level_2_subclassification_id    integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    iucn_conservation_action_level_1_classification_id       integer          NOT NULL,
+    iucn_conservation_action_level_2_subclassification_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    iucn_conservation_action_level_1_classification_id       integer           NOT NULL,
     name                                                     varchar(300),
     description                                              varchar(3000),
-    record_effective_date                                    date             NOT NULL,
+    record_effective_date                                    date              NOT NULL,
     record_end_date                                          date,
-    create_date                                              timestamp        DEFAULT now() NOT NULL,
-    create_user                                              varchar(63)      DEFAULT user NOT NULL,
-    update_date                                              timestamp,
-    update_user                                              varchar(63),
-    revision_count                                           integer          DEFAULT 0 NOT NULL,
+    create_date                                              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                                              integer           NOT NULL,
+    update_date                                              timestamptz(6),
+    update_user                                              integer,
+    revision_count                                           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT iucn_conservation_action_level_2_subclassification_pk PRIMARY KEY (iucn_conservation_action_level_2_subclassification_id)
 )
 ;
@@ -553,11 +541,11 @@ COMMENT ON COLUMN iucn_conservation_action_level_2_subclassification.record_end_
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_2_subclassification.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN iucn_conservation_action_level_2_subclassification.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN iucn_conservation_action_level_2_subclassification.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_2_subclassification.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN iucn_conservation_action_level_2_subclassification.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN iucn_conservation_action_level_2_subclassification.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_2_subclassification.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -569,17 +557,17 @@ COMMENT ON TABLE iucn_conservation_action_level_2_subclassification IS 'List of 
 --
 
 CREATE TABLE iucn_conservation_action_level_3_subclassification(
-    iucn_conservation_action_level_3_subclassification_id    integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    iucn_conservation_action_level_2_subclassification_id    integer          NOT NULL,
+    iucn_conservation_action_level_3_subclassification_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    iucn_conservation_action_level_2_subclassification_id    integer           NOT NULL,
     name                                                     varchar(300),
     description                                              varchar(3000),
-    record_effective_date                                    date             NOT NULL,
+    record_effective_date                                    date              NOT NULL,
     record_end_date                                          date,
-    create_date                                              timestamp        DEFAULT now() NOT NULL,
-    create_user                                              varchar(63)      DEFAULT user NOT NULL,
-    update_date                                              timestamp,
-    update_user                                              varchar(63),
-    revision_count                                           integer          DEFAULT 0 NOT NULL,
+    create_date                                              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                                              integer           NOT NULL,
+    update_date                                              timestamptz(6),
+    update_user                                              integer,
+    revision_count                                           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT iucn_conservation_action_level_3_subclassification_pk PRIMARY KEY (iucn_conservation_action_level_3_subclassification_id)
 )
 ;
@@ -601,11 +589,11 @@ COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.record_end_
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN iucn_conservation_action_level_3_subclassification.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -617,15 +605,15 @@ COMMENT ON TABLE iucn_conservation_action_level_3_subclassification IS 'List of 
 --
 
 CREATE TABLE nrm_region(
-    nrm_region_id     integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id        integer         NOT NULL,
-    name              varchar(300)    NOT NULL,
-    objectid          integer         NOT NULL,
-    create_date       timestamp       DEFAULT now() NOT NULL,
-    create_user       varchar(63)     DEFAULT user NOT NULL,
-    update_date       timestamp,
-    update_user       varchar(63),
-    revision_count    integer         DEFAULT 0 NOT NULL,
+    nrm_region_id     integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id        integer           NOT NULL,
+    name              varchar(300)      NOT NULL,
+    objectid          integer           NOT NULL,
+    create_date       timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user       integer           NOT NULL,
+    update_date       timestamptz(6),
+    update_user       integer,
+    revision_count    integer           DEFAULT 0 NOT NULL,
     CONSTRAINT nrm_region_pl PRIMARY KEY (nrm_region_id)
 )
 ;
@@ -642,11 +630,11 @@ COMMENT ON COLUMN nrm_region.objectid IS 'The objectid supplied by the BCGW laye
 ;
 COMMENT ON COLUMN nrm_region.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN nrm_region.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN nrm_region.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN nrm_region.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN nrm_region.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN nrm_region.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN nrm_region.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -658,22 +646,22 @@ COMMENT ON TABLE nrm_region IS 'Natural Resource (NR) Region, are administrative
 --
 
 CREATE TABLE permit(
-    permit_id                    integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    system_user_id               integer         NOT NULL,
+    permit_id                    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    system_user_id               integer           NOT NULL,
     project_id                   integer,
-    number                       varchar(100)    NOT NULL,
-    type                         varchar(300)    NOT NULL,
+    number                       varchar(100)      NOT NULL,
+    type                         varchar(300)      NOT NULL,
     coordinator_first_name       varchar(50),
     coordinator_last_name        varchar(50),
     coordinator_email_address    varchar(500),
     coordinator_agency_name      varchar(300),
     issue_date                   date,
     end_date                     date,
-    create_date                  timestamp       DEFAULT now() NOT NULL,
-    create_user                  varchar(63)     DEFAULT user NOT NULL,
-    update_date                  timestamp,
-    update_user                  varchar(63),
-    revision_count               integer         DEFAULT 0 NOT NULL,
+    create_date                  timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                  integer           NOT NULL,
+    update_date                  timestamptz(6),
+    update_user                  integer,
+    revision_count               integer           DEFAULT 0 NOT NULL,
     CONSTRAINT permit_pk PRIMARY KEY (permit_id)
 )
 ;
@@ -705,11 +693,11 @@ COMMENT ON COLUMN permit.end_date IS 'The date the permit is no longer valid.'
 ;
 COMMENT ON COLUMN permit.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN permit.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN permit.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN permit.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN permit.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN permit.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN permit.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -729,18 +717,18 @@ NOTE: there are conceptual problems with associating permits to projects early i
 --
 
 CREATE TABLE project(
-    project_id           integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    uuid                 uuid             DEFAULT public.gen_random_uuid(),
+    project_id           integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    uuid                 uuid              DEFAULT public.gen_random_uuid(),
     name                 varchar(300),
-    objectives           varchar(3000)    NOT NULL,
-    start_date           date             NOT NULL,
+    objectives           varchar(3000)     NOT NULL,
+    start_date           date              NOT NULL,
     end_date             date,
-    publish_timestamp    timestamptz,
-    create_date          timestamp        DEFAULT now() NOT NULL,
-    create_user          varchar(63)      DEFAULT user NOT NULL,
-    update_date          timestamp,
-    update_user          varchar(63),
-    revision_count       integer          DEFAULT 0 NOT NULL,
+    publish_timestamp    TIMESTAMPTZ,
+    create_date          timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user          integer           NOT NULL,
+    update_date          timestamptz(6),
+    update_user          integer,
+    revision_count       integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_pk PRIMARY KEY (project_id)
 )
 ;
@@ -763,11 +751,11 @@ COMMENT ON COLUMN project.publish_timestamp IS 'A timestamp that indicates that 
 ;
 COMMENT ON COLUMN project.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -779,19 +767,19 @@ COMMENT ON TABLE project IS 'The top level organizational structure for project 
 --
 
 CREATE TABLE project_attachment(
-    project_attachment_id    integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id               integer          NOT NULL,
-    file_name                varchar(300)     NOT NULL,
+    project_attachment_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id               integer           NOT NULL,
+    file_name                varchar(300)      NOT NULL,
     file_type                varchar(300),
-    title                    varchar(300)     NOT NULL,
+    title                    varchar(300)      NOT NULL,
     description              varchar(3000),
-    key                      varchar(1000)    NOT NULL,
+    key                      varchar(1000)     NOT NULL,
     file_size                integer,
-    create_date              timestamp        DEFAULT now() NOT NULL,
-    create_user              varchar(63)      DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer          DEFAULT 0 NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_attachment_pk PRIMARY KEY (project_attachment_id)
 )
 ;
@@ -816,11 +804,11 @@ COMMENT ON COLUMN project_attachment.file_size IS 'The size of the file in bytes
 ;
 COMMENT ON COLUMN project_attachment.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_attachment.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_attachment.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_attachment.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_attachment.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_attachment.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_attachment.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -832,14 +820,14 @@ COMMENT ON TABLE project_attachment IS 'A list of project attachments.'
 --
 
 CREATE TABLE project_caribou_population_unit(
-    project_caribou_population_unit_id    integer        GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id                            integer        NOT NULL,
-    caribou_population_unit_id            integer        NOT NULL,
-    create_date                           timestamp      DEFAULT now() NOT NULL,
-    create_user                           varchar(63)    DEFAULT user NOT NULL,
-    update_date                           timestamp,
-    update_user                           varchar(63),
-    revision_count                        integer        DEFAULT 0 NOT NULL,
+    project_caribou_population_unit_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id                            integer           NOT NULL,
+    caribou_population_unit_id            integer           NOT NULL,
+    create_date                           timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                           integer           NOT NULL,
+    update_date                           timestamptz(6),
+    update_user                           integer,
+    revision_count                        integer           DEFAULT 0 NOT NULL,
     CONSTRAINT "PK63" PRIMARY KEY (project_caribou_population_unit_id)
 )
 ;
@@ -854,11 +842,11 @@ COMMENT ON COLUMN project_caribou_population_unit.caribou_population_unit_id IS 
 ;
 COMMENT ON COLUMN project_caribou_population_unit.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_caribou_population_unit.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_caribou_population_unit.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_caribou_population_unit.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_caribou_population_unit.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_caribou_population_unit.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_caribou_population_unit.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -870,20 +858,20 @@ COMMENT ON TABLE project_caribou_population_unit IS 'A associative entity that j
 --
 
 CREATE TABLE project_contact(
-    project_contact_id    integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id            integer         NOT NULL,
-    contact_type_id       integer         NOT NULL,
+    project_contact_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id            integer           NOT NULL,
+    contact_type_id       integer           NOT NULL,
     first_name            varchar(50),
     last_name             varchar(50),
-    agency                varchar(100)    NOT NULL,
+    agency                varchar(100)      NOT NULL,
     email_address         varchar(300),
-    is_primary            character(1)    NOT NULL,
-    is_public             character(1)    NOT NULL,
-    create_date           timestamp       DEFAULT now() NOT NULL,
-    create_user           varchar(63)     DEFAULT user NOT NULL,
-    update_date           timestamp,
-    update_user           varchar(63),
-    revision_count        integer         DEFAULT 0 NOT NULL,
+    is_primary            character(1)      NOT NULL,
+    is_public             character(1)      NOT NULL,
+    create_date           timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user           integer           NOT NULL,
+    update_date           timestamptz(6),
+    update_user           integer,
+    revision_count        integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_contact_pk PRIMARY KEY (project_contact_id)
 )
 ;
@@ -911,11 +899,11 @@ COMMENT ON COLUMN project_contact.is_public IS 'A flag that determines whether c
 ;
 COMMENT ON COLUMN project_contact.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_contact.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_contact.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_contact.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_contact.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_contact.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_contact.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -927,14 +915,14 @@ COMMENT ON TABLE project_contact IS 'Contact information for project participant
 --
 
 CREATE TABLE project_first_nation(
-    project_first_nation_id    integer        GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    first_nations_id           integer        NOT NULL,
-    project_id                 integer        NOT NULL,
-    create_date                timestamp      DEFAULT now() NOT NULL,
-    create_user                varchar(63)    DEFAULT user NOT NULL,
-    update_date                timestamp,
-    update_user                varchar(63),
-    revision_count             integer        DEFAULT 0 NOT NULL,
+    project_first_nation_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    first_nations_id           integer           NOT NULL,
+    project_id                 integer           NOT NULL,
+    create_date                timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                integer           NOT NULL,
+    update_date                timestamptz(6),
+    update_user                integer,
+    revision_count             integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_first_nation_pk PRIMARY KEY (project_first_nation_id)
 )
 ;
@@ -949,11 +937,11 @@ COMMENT ON COLUMN project_first_nation.project_id IS 'System generated surrogate
 ;
 COMMENT ON COLUMN project_first_nation.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_first_nation.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_first_nation.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_first_nation.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_first_nation.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_first_nation.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_first_nation.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -965,18 +953,18 @@ COMMENT ON TABLE project_first_nation IS 'A associative entity that joins projec
 --
 
 CREATE TABLE project_funding_source(
-    project_funding_source_id        integer        GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    investment_action_category_id    integer        NOT NULL,
-    project_id                       integer        NOT NULL,
+    project_funding_source_id        integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    investment_action_category_id    integer           NOT NULL,
+    project_id                       integer           NOT NULL,
     funding_source_project_id        varchar(50),
-    funding_amount                   money          NOT NULL,
-    funding_start_date               date           NOT NULL,
-    funding_end_date                 date           NOT NULL,
-    create_date                      timestamp      DEFAULT now() NOT NULL,
-    create_user                      varchar(63)    DEFAULT user NOT NULL,
-    update_date                      timestamp,
-    update_user                      varchar(63),
-    revision_count                   integer        DEFAULT 0 NOT NULL,
+    funding_amount                   money             NOT NULL,
+    funding_start_date               date              NOT NULL,
+    funding_end_date                 date              NOT NULL,
+    create_date                      timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                      integer           NOT NULL,
+    update_date                      timestamptz(6),
+    update_user                      integer,
+    revision_count                   integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_funding_source_pk PRIMARY KEY (project_funding_source_id)
 )
 ;
@@ -999,11 +987,11 @@ COMMENT ON COLUMN project_funding_source.funding_end_date IS 'End date for fundi
 ;
 COMMENT ON COLUMN project_funding_source.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_funding_source.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_funding_source.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_funding_source.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_funding_source.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_funding_source.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_funding_source.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1015,14 +1003,14 @@ COMMENT ON TABLE project_funding_source IS 'A associative entity that joins proj
 --
 
 CREATE TABLE project_iucn_action_classification(
-    project_iucn_action_classification_id                    integer        GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id                                               integer        NOT NULL,
-    iucn_conservation_action_level_3_subclassification_id    integer        NOT NULL,
-    create_date                                              timestamp      DEFAULT now() NOT NULL,
-    create_user                                              varchar(63)    DEFAULT user NOT NULL,
-    update_date                                              timestamp,
-    update_user                                              varchar(63),
-    revision_count                                           integer        DEFAULT 0 NOT NULL,
+    project_iucn_action_classification_id                    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id                                               integer           NOT NULL,
+    iucn_conservation_action_level_3_subclassification_id    integer           NOT NULL,
+    create_date                                              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                                              integer           NOT NULL,
+    update_date                                              timestamptz(6),
+    update_user                                              integer,
+    revision_count                                           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_iucn_action_classification_pk PRIMARY KEY (project_iucn_action_classification_id)
 )
 ;
@@ -1037,11 +1025,11 @@ COMMENT ON COLUMN project_iucn_action_classification.iucn_conservation_action_le
 ;
 COMMENT ON COLUMN project_iucn_action_classification.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_iucn_action_classification.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_iucn_action_classification.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_iucn_action_classification.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_iucn_action_classification.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_iucn_action_classification.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_iucn_action_classification.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1053,15 +1041,15 @@ COMMENT ON TABLE project_iucn_action_classification IS 'An associative entity th
 --
 
 CREATE TABLE project_participation(
-    project_participation_id    integer        GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id                  integer        NOT NULL,
-    system_user_id              integer        NOT NULL,
-    project_role_id             integer        NOT NULL,
-    create_date                 timestamp      DEFAULT now() NOT NULL,
-    create_user                 varchar(63)    DEFAULT user NOT NULL,
-    update_date                 timestamp,
-    update_user                 varchar(63),
-    revision_count              integer        DEFAULT 0 NOT NULL,
+    project_participation_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id                  integer           NOT NULL,
+    system_user_id              integer           NOT NULL,
+    project_role_id             integer           NOT NULL,
+    create_date                 timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                 integer           NOT NULL,
+    update_date                 timestamptz(6),
+    update_user                 integer,
+    revision_count              integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_participation_pk PRIMARY KEY (project_participation_id)
 )
 ;
@@ -1078,11 +1066,11 @@ COMMENT ON COLUMN project_participation.project_role_id IS 'System generated sur
 ;
 COMMENT ON COLUMN project_participation.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_participation.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_participation.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_participation.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_participation.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_participation.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_participation.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1094,17 +1082,17 @@ COMMENT ON TABLE project_participation IS 'A associative entity that joins proje
 --
 
 CREATE TABLE project_role(
-    project_role_id          integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                     varchar(50)      NOT NULL,
-    description              varchar(250)     NOT NULL,
-    record_effective_date    date             NOT NULL,
+    project_role_id          integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                     varchar(50)       NOT NULL,
+    description              varchar(250)      NOT NULL,
+    record_effective_date    date              NOT NULL,
     record_end_date          date,
     notes                    varchar(3000),
-    create_date              timestamp        DEFAULT now() NOT NULL,
-    create_user              varchar(63)      DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer          DEFAULT 0 NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_role_pk PRIMARY KEY (project_role_id)
 )
 ;
@@ -1125,11 +1113,11 @@ COMMENT ON COLUMN project_role.notes IS 'Notes associated with the record.'
 ;
 COMMENT ON COLUMN project_role.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_role.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_role.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_role.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_role.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_role.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_role.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1150,10 +1138,10 @@ CREATE TABLE project_spatial_component(
     geometry                             geometry(geometry, 3005),
     geography                            geography(geometry),
     geojson                              jsonb,
-    create_date                          timestamp                   DEFAULT now() NOT NULL,
-    create_user                          varchar(63)                 DEFAULT user NOT NULL,
-    update_date                          timestamp,
-    update_user                          varchar(63),
+    create_date                          timestamptz(6)              DEFAULT now() NOT NULL,
+    create_user                          integer                     NOT NULL,
+    update_date                          timestamptz(6),
+    update_user                          integer,
     revision_count                       integer                     DEFAULT 0 NOT NULL,
     CONSTRAINT project_spatial_component_pk PRIMARY KEY (project_spatial_component_id)
 )
@@ -1171,6 +1159,8 @@ COMMENT ON COLUMN project_spatial_component.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN project_spatial_component.description IS 'The description of the record.'
 ;
+COMMENT ON COLUMN project_spatial_component.priority IS 'Indicates that the boundary contains treatment units that are considered high value restoration targets.'
+;
 COMMENT ON COLUMN project_spatial_component.geometry IS 'The containing geometry of the record.'
 ;
 COMMENT ON COLUMN project_spatial_component.geography IS 'The containing geography of the record.'
@@ -1179,11 +1169,11 @@ COMMENT ON COLUMN project_spatial_component.geojson IS 'A JSON representation of
 ;
 COMMENT ON COLUMN project_spatial_component.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_spatial_component.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_spatial_component.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_spatial_component.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_spatial_component.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_spatial_component.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_spatial_component.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1195,16 +1185,16 @@ COMMENT ON TABLE project_spatial_component IS 'Project spatial component persist
 --
 
 CREATE TABLE project_spatial_component_type(
-    project_spatial_component_type_id    integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                                 varchar(300)    NOT NULL,
+    project_spatial_component_type_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                                 varchar(300)      NOT NULL,
     description                          varchar(250),
-    record_effective_date                date            NOT NULL,
+    record_effective_date                date              NOT NULL,
     record_end_date                      date,
-    create_date                          timestamp       DEFAULT now() NOT NULL,
-    create_user                          varchar(63)     DEFAULT user NOT NULL,
-    update_date                          timestamp,
-    update_user                          varchar(63),
-    revision_count                       integer         DEFAULT 0 NOT NULL,
+    create_date                          timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                          integer           NOT NULL,
+    update_date                          timestamptz(6),
+    update_user                          integer,
+    revision_count                       integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_spatial_component_type_pk PRIMARY KEY (project_spatial_component_type_id)
 )
 ;
@@ -1223,11 +1213,11 @@ COMMENT ON COLUMN project_spatial_component_type.record_end_date IS 'Record leve
 ;
 COMMENT ON COLUMN project_spatial_component_type.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_spatial_component_type.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_spatial_component_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_spatial_component_type.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_spatial_component_type.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_spatial_component_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_spatial_component_type.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1239,14 +1229,14 @@ COMMENT ON TABLE project_spatial_component_type IS 'A list of spatial component 
 --
 
 CREATE TABLE project_species(
-    project_species_id       integer        GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    wldtaxonomic_units_id    integer        NOT NULL,
-    project_id               integer        NOT NULL,
-    create_date              timestamp      DEFAULT now() NOT NULL,
-    create_user              varchar(63)    DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer        DEFAULT 0 NOT NULL,
+    project_species_id       integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    wldtaxonomic_units_id    integer           NOT NULL,
+    project_id               integer           NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT project_species_pk PRIMARY KEY (project_species_id)
 )
 ;
@@ -1261,11 +1251,11 @@ COMMENT ON COLUMN project_species.project_id IS 'System generated surrogate prim
 ;
 COMMENT ON COLUMN project_species.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN project_species.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN project_species.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_species.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN project_species.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN project_species.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN project_species.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1277,14 +1267,14 @@ COMMENT ON TABLE project_species IS 'The species of interest to the project.'
 --
 
 CREATE TABLE stakeholder_partnership(
-    stakeholder_partnership_id    integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id                    integer         NOT NULL,
+    stakeholder_partnership_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    project_id                    integer           NOT NULL,
     name                          varchar(300),
-    create_date                   timestamp       DEFAULT now() NOT NULL,
-    create_user                   varchar(63)     DEFAULT user NOT NULL,
-    update_date                   timestamp,
-    update_user                   varchar(63),
-    revision_count                integer         DEFAULT 0 NOT NULL,
+    create_date                   timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                   integer           NOT NULL,
+    update_date                   timestamptz(6),
+    update_user                   integer,
+    revision_count                integer           DEFAULT 0 NOT NULL,
     CONSTRAINT stakeholder_partnership_pk PRIMARY KEY (stakeholder_partnership_id)
 )
 ;
@@ -1299,11 +1289,11 @@ COMMENT ON COLUMN stakeholder_partnership.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN stakeholder_partnership.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN stakeholder_partnership.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN stakeholder_partnership.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN stakeholder_partnership.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN stakeholder_partnership.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN stakeholder_partnership.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN stakeholder_partnership.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1320,10 +1310,10 @@ CREATE TABLE system_constant(
     character_value       varchar(300),
     numeric_value         numeric(10, 0),
     description           varchar(250),
-    create_date           timestamp         DEFAULT now() NOT NULL,
-    create_user           varchar(63)       DEFAULT user NOT NULL,
-    update_date           timestamp,
-    update_user           varchar(63),
+    create_date           timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user           integer           NOT NULL,
+    update_date           timestamptz(6),
+    update_user           integer,
     revision_count        integer           DEFAULT 0 NOT NULL,
     CONSTRAINT system_constant_pk PRIMARY KEY (system_constant_id)
 )
@@ -1343,11 +1333,11 @@ COMMENT ON COLUMN system_constant.description IS 'The description of the record.
 ;
 COMMENT ON COLUMN system_constant.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN system_constant.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN system_constant.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_constant.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN system_constant.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN system_constant.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_constant.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1364,10 +1354,10 @@ CREATE TABLE system_metadata_constant(
     character_value                varchar(300),
     numeric_value                  numeric(10, 0),
     description                    varchar(250),
-    create_date                    timestamp         DEFAULT now() NOT NULL,
-    create_user                    varchar(63)       DEFAULT user NOT NULL,
-    update_date                    timestamp,
-    update_user                    varchar(63),
+    create_date                    timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                    integer           NOT NULL,
+    update_date                    timestamptz(6),
+    update_user                    integer,
     revision_count                 integer           DEFAULT 0 NOT NULL,
     CONSTRAINT system_metadata_constant_id_pk PRIMARY KEY (system_metadata_constant_id)
 )
@@ -1387,11 +1377,11 @@ COMMENT ON COLUMN system_metadata_constant.description IS 'The description of th
 ;
 COMMENT ON COLUMN system_metadata_constant.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN system_metadata_constant.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN system_metadata_constant.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_metadata_constant.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN system_metadata_constant.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN system_metadata_constant.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_metadata_constant.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1403,17 +1393,17 @@ COMMENT ON TABLE system_metadata_constant IS 'A list of system metadata constant
 --
 
 CREATE TABLE system_role(
-    system_role_id           integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                     varchar(50)      NOT NULL,
-    description              varchar(250)     NOT NULL,
-    record_effective_date    date             NOT NULL,
+    system_role_id           integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                     varchar(50)       NOT NULL,
+    description              varchar(250)      NOT NULL,
+    record_effective_date    date              NOT NULL,
     record_end_date          date,
     notes                    varchar(3000),
-    create_date              timestamp        DEFAULT now() NOT NULL,
-    create_user              varchar(63)      DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer          DEFAULT 0 NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT system_role_pk PRIMARY KEY (system_role_id)
 )
 ;
@@ -1434,11 +1424,11 @@ COMMENT ON COLUMN system_role.notes IS 'Notes associated with the record.'
 ;
 COMMENT ON COLUMN system_role.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN system_role.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN system_role.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_role.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN system_role.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN system_role.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_role.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1450,16 +1440,16 @@ COMMENT ON TABLE system_role IS 'Agency or Ministry funding the project.'
 --
 
 CREATE TABLE system_user(
-    system_user_id             integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    user_identity_source_id    integer         NOT NULL,
-    user_identifier            varchar(200)    NOT NULL,
-    record_effective_date      date            NOT NULL,
+    system_user_id             integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    user_identity_source_id    integer           NOT NULL,
+    user_identifier            varchar(200)      NOT NULL,
+    record_effective_date      date              NOT NULL,
     record_end_date            date,
-    create_date                timestamp       DEFAULT now() NOT NULL,
-    create_user                varchar(63)     DEFAULT user NOT NULL,
-    update_date                timestamp,
-    update_user                varchar(63),
-    revision_count             integer         DEFAULT 0 NOT NULL,
+    create_date                timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                integer           NOT NULL,
+    update_date                timestamptz(6),
+    update_user                integer,
+    revision_count             integer           DEFAULT 0 NOT NULL,
     CONSTRAINT system_user_pk PRIMARY KEY (system_user_id)
 )
 ;
@@ -1478,11 +1468,11 @@ COMMENT ON COLUMN system_user.record_end_date IS 'Record level end date.'
 ;
 COMMENT ON COLUMN system_user.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN system_user.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN system_user.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_user.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN system_user.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN system_user.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_user.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1494,14 +1484,14 @@ COMMENT ON TABLE system_user IS 'Agency or Ministry funding the project.'
 --
 
 CREATE TABLE system_user_role(
-    system_user_role_id    integer        GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    system_user_id         integer        NOT NULL,
-    system_role_id         integer        NOT NULL,
-    create_date            timestamp      DEFAULT now() NOT NULL,
-    create_user            varchar(63)    DEFAULT user NOT NULL,
-    update_date            timestamp,
-    update_user            varchar(63),
-    revision_count         integer        DEFAULT 0 NOT NULL,
+    system_user_role_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    system_user_id         integer           NOT NULL,
+    system_role_id         integer           NOT NULL,
+    create_date            timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user            integer           NOT NULL,
+    update_date            timestamptz(6),
+    update_user            integer,
+    revision_count         integer           DEFAULT 0 NOT NULL,
     CONSTRAINT system_user_role_pk PRIMARY KEY (system_user_role_id)
 )
 ;
@@ -1516,11 +1506,11 @@ COMMENT ON COLUMN system_user_role.system_role_id IS 'System generated surrogate
 ;
 COMMENT ON COLUMN system_user_role.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN system_user_role.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN system_user_role.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_user_role.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN system_user_role.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN system_user_role.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN system_user_role.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1532,14 +1522,14 @@ COMMENT ON TABLE system_user_role IS 'A associative entity that joins system use
 --
 
 CREATE TABLE treatment(
-    treatment_id         integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    treatment_unit_id    integer         NOT NULL,
+    treatment_id         integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    treatment_unit_id    integer           NOT NULL,
     year                 character(4),
-    create_date          timestamp       DEFAULT now() NOT NULL,
-    create_user          varchar(63)     DEFAULT user NOT NULL,
-    update_date          timestamp,
-    update_user          varchar(63),
-    revision_count       integer         DEFAULT 0 NOT NULL,
+    create_date          timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user          integer           NOT NULL,
+    update_date          timestamptz(6),
+    update_user          integer,
+    revision_count       integer           DEFAULT 0 NOT NULL,
     CONSTRAINT treatment_pk PRIMARY KEY (treatment_id)
 )
 ;
@@ -1554,11 +1544,11 @@ COMMENT ON COLUMN treatment.year IS 'The year the treatment was applied.'
 ;
 COMMENT ON COLUMN treatment.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN treatment.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN treatment.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN treatment.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN treatment.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN treatment.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN treatment.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1570,14 +1560,14 @@ COMMENT ON TABLE treatment IS 'Treatment persists the treatments applied to trea
 --
 
 CREATE TABLE treatment_treatment_type(
-    treatment_treatment_type_id    integer        GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    treatment_id                   integer        NOT NULL,
-    treatment_type_id              integer        NOT NULL,
-    create_date                    timestamp      DEFAULT now() NOT NULL,
-    create_user                    varchar(63)    DEFAULT user NOT NULL,
-    update_date                    timestamp,
-    update_user                    varchar(63),
-    revision_count                 integer        DEFAULT 0 NOT NULL,
+    treatment_treatment_type_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    treatment_id                   integer           NOT NULL,
+    treatment_type_id              integer           NOT NULL,
+    create_date                    timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                    integer           NOT NULL,
+    update_date                    timestamptz(6),
+    update_user                    integer,
+    revision_count                 integer           DEFAULT 0 NOT NULL,
     CONSTRAINT treatment_treatment_type_pk PRIMARY KEY (treatment_treatment_type_id)
 )
 ;
@@ -1592,11 +1582,11 @@ COMMENT ON COLUMN treatment_treatment_type.treatment_type_id IS 'System generate
 ;
 COMMENT ON COLUMN treatment_treatment_type.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN treatment_treatment_type.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN treatment_treatment_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN treatment_treatment_type.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN treatment_treatment_type.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN treatment_treatment_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN treatment_treatment_type.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1608,16 +1598,16 @@ COMMENT ON TABLE treatment_treatment_type IS 'Treatment Treatment Type is an ass
 --
 
 CREATE TABLE treatment_type(
-    treatment_type_id        integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                     varchar(300)    NOT NULL,
+    treatment_type_id        integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                     varchar(300)      NOT NULL,
     description              varchar(250),
-    record_effective_date    date            NOT NULL,
+    record_effective_date    date              NOT NULL,
     record_end_date          date,
-    create_date              timestamp       DEFAULT now() NOT NULL,
-    create_user              varchar(63)     DEFAULT user NOT NULL,
-    update_date              timestamp,
-    update_user              varchar(63),
-    revision_count           integer         DEFAULT 0 NOT NULL,
+    create_date              timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user              integer           NOT NULL,
+    update_date              timestamptz(6),
+    update_user              integer,
+    revision_count           integer           DEFAULT 0 NOT NULL,
     CONSTRAINT treatment_type_pk PRIMARY KEY (treatment_type_id)
 )
 ;
@@ -1636,11 +1626,11 @@ COMMENT ON COLUMN treatment_type.record_end_date IS 'Record level end date.'
 ;
 COMMENT ON COLUMN treatment_type.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN treatment_type.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN treatment_type.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN treatment_type.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN treatment_type.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN treatment_type.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN treatment_type.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1665,10 +1655,10 @@ CREATE TABLE treatment_unit(
     geometry                    geometry(geometry, 3005),
     geography                   geography(geometry),
     geojson                     jsonb,
-    create_date                 timestamp                   DEFAULT now() NOT NULL,
-    create_user                 varchar(63)                 DEFAULT user NOT NULL,
-    update_date                 timestamp,
-    update_user                 varchar(63),
+    create_date                 timestamptz(6)              DEFAULT now() NOT NULL,
+    create_user                 integer                     NOT NULL,
+    update_date                 timestamptz(6),
+    update_user                 integer,
     revision_count              integer                     DEFAULT 0 NOT NULL,
     CONSTRAINT treatment_unit_pk PRIMARY KEY (treatment_unit_id)
 )
@@ -1700,11 +1690,11 @@ COMMENT ON COLUMN treatment_unit.geojson IS 'A JSON representation of the geomet
 ;
 COMMENT ON COLUMN treatment_unit.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN treatment_unit.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN treatment_unit.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN treatment_unit.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN treatment_unit.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN treatment_unit.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN treatment_unit.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1716,17 +1706,17 @@ COMMENT ON TABLE treatment_unit IS 'Treatment Unit describes a set of geographic
 --
 
 CREATE TABLE user_identity_source(
-    user_identity_source_id    integer          GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    name                       varchar(50)      NOT NULL,
-    record_effective_date      date             NOT NULL,
+    user_identity_source_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    name                       varchar(50)       NOT NULL,
+    record_effective_date      date              NOT NULL,
     record_end_date            date,
     description                varchar(250),
     notes                      varchar(3000),
-    create_date                timestamp        DEFAULT now() NOT NULL,
-    create_user                varchar(63)      DEFAULT user NOT NULL,
-    update_date                timestamp,
-    update_user                varchar(63),
-    revision_count             integer          DEFAULT 0 NOT NULL,
+    create_date                timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user                integer           NOT NULL,
+    update_date                timestamptz(6),
+    update_user                integer,
+    revision_count             integer           DEFAULT 0 NOT NULL,
     CONSTRAINT user_identity_source_pk PRIMARY KEY (user_identity_source_id)
 )
 ;
@@ -1747,11 +1737,11 @@ COMMENT ON COLUMN user_identity_source.notes IS 'Notes associated with the recor
 ;
 COMMENT ON COLUMN user_identity_source.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN user_identity_source.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN user_identity_source.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN user_identity_source.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN user_identity_source.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN user_identity_source.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN user_identity_source.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1763,16 +1753,16 @@ COMMENT ON TABLE user_identity_source IS 'The source of the user identifier. Thi
 --
 
 CREATE TABLE webform_draft(
-    webform_draft_id    integer         GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    system_user_id      integer         NOT NULL,
-    name                varchar(300)    NOT NULL,
-    data                jsonb           NOT NULL,
+    webform_draft_id    integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    system_user_id      integer           NOT NULL,
+    name                varchar(300)      NOT NULL,
+    data                json              NOT NULL,
     security_token      uuid,
-    create_date         timestamp       DEFAULT now() NOT NULL,
-    create_user         varchar(63)     DEFAULT user NOT NULL,
-    update_date         timestamp,
-    update_user         varchar(63),
-    revision_count      integer         DEFAULT 0 NOT NULL,
+    create_date         timestamptz(6)    DEFAULT now() NOT NULL,
+    create_user         integer           NOT NULL,
+    update_date         timestamptz(6),
+    update_user         integer,
+    revision_count      integer           DEFAULT 0 NOT NULL,
     CONSTRAINT webform_draft_pk PRIMARY KEY (webform_draft_id)
 )
 ;
@@ -1791,11 +1781,11 @@ COMMENT ON COLUMN webform_draft.security_token IS 'The token indicates that this
 ;
 COMMENT ON COLUMN webform_draft.create_date IS 'The datetime the record was created.'
 ;
-COMMENT ON COLUMN webform_draft.create_user IS 'The user who created the record.'
+COMMENT ON COLUMN webform_draft.create_user IS 'The id of the user who created the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN webform_draft.update_date IS 'The datetime the record was updated.'
 ;
-COMMENT ON COLUMN webform_draft.update_user IS 'The user who updated the record.'
+COMMENT ON COLUMN webform_draft.update_user IS 'The id of the user who updated the record as identified in the system user table.'
 ;
 COMMENT ON COLUMN webform_draft.revision_count IS 'Revision count used for concurrency control.'
 ;
@@ -1826,11 +1816,6 @@ CREATE TABLE wldtaxonomic_units(
     end_date                   date,
     note                       varchar(2000),
     element_subnational_id     numeric(10, 0),
-    create_date                timestamp         DEFAULT now() NOT NULL,
-    create_user                varchar(63)       DEFAULT user NOT NULL,
-    update_date                timestamp,
-    update_user                varchar(63),
-    revision_count             integer           DEFAULT 0 NOT NULL,
     CONSTRAINT wldtaxonomic_units_pk PRIMARY KEY (wldtaxonomic_units_id)
 )
 ;
@@ -1875,16 +1860,6 @@ COMMENT ON COLUMN wldtaxonomic_units.note IS 'Free form text about the taxon.'
 ;
 COMMENT ON COLUMN wldtaxonomic_units.element_subnational_id IS 'Identifier that can be used to link this record to the matching Biotics field.'
 ;
-COMMENT ON COLUMN wldtaxonomic_units.create_date IS 'The datetime the record was created.'
-;
-COMMENT ON COLUMN wldtaxonomic_units.create_user IS 'The user who created the record.'
-;
-COMMENT ON COLUMN wldtaxonomic_units.update_date IS 'The datetime the record was updated.'
-;
-COMMENT ON COLUMN wldtaxonomic_units.update_user IS 'The user who updated the record.'
-;
-COMMENT ON COLUMN wldtaxonomic_units.revision_count IS 'Revision count used for concurrency control.'
-;
 COMMENT ON TABLE wldtaxonomic_units IS 'A table to mimic a view into SPI taxonomic data, specifically CWI_TXN.WLDTAXONOMIC_UNITS, for development purposes. This table should be replaced by live views of the data in production systems.'
 ;
 
@@ -1916,37 +1891,37 @@ CREATE INDEX "Ref1612" ON administrative_activity(administrative_activity_status
 -- INDEX: administrative_activity_status_type_nuk1 
 --
 
-CREATE UNIQUE INDEX administrative_activity_status_type_nuk1 ON administrative_activity_status_type(name, record_end_date)
+CREATE UNIQUE INDEX administrative_activity_status_type_nuk1 ON administrative_activity_status_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: administrative_activity_type_nuk1 
 --
 
-CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity_type(name, record_end_date)
+CREATE UNIQUE INDEX administrative_activity_type_nuk1 ON administrative_activity_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: caribou_population_unit_nuk1 
 --
 
-CREATE UNIQUE INDEX caribou_population_unit_nuk1 ON caribou_population_unit(name, record_end_date)
+CREATE UNIQUE INDEX caribou_population_unit_nuk1 ON caribou_population_unit(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: feature_type_nuk1 
 --
 
-CREATE UNIQUE INDEX feature_type_nuk1 ON feature_type(name, record_end_date)
+CREATE UNIQUE INDEX feature_type_nuk1 ON feature_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: first_nations_nuk1 
 --
 
-CREATE UNIQUE INDEX first_nations_nuk1 ON first_nations(name, record_end_date)
+CREATE UNIQUE INDEX first_nations_nuk1 ON first_nations(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: funding_source_nuk1 
 --
 
-CREATE UNIQUE INDEX funding_source_nuk1 ON funding_source(name, record_end_date)
+CREATE UNIQUE INDEX funding_source_nuk1 ON funding_source(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: investment_action_category_nuk1 
@@ -1964,7 +1939,7 @@ CREATE INDEX "Ref253" ON investment_action_category(funding_source_id)
 -- INDEX: iucn_conservation_action_level_1_classification_nuk1 
 --
 
-CREATE UNIQUE INDEX iucn_conservation_action_level_1_classification_nuk1 ON iucn_conservation_action_level_1_classification(name, record_end_date)
+CREATE UNIQUE INDEX iucn_conservation_action_level_1_classification_nuk1 ON iucn_conservation_action_level_1_classification(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: iucn_conservation_action_level_2_subclassification_nuk1 
@@ -2138,7 +2113,7 @@ CREATE INDEX "Ref1516" ON project_participation(project_role_id)
 -- INDEX: project_role_nuk1 
 --
 
-CREATE UNIQUE INDEX project_role_nuk1 ON project_role(name, record_end_date)
+CREATE UNIQUE INDEX project_role_nuk1 ON project_role(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: project_spatial_component_uk1 
@@ -2162,7 +2137,7 @@ CREATE INDEX "Ref2422" ON project_spatial_component(project_spatial_component_ty
 -- INDEX: project_spatial_component_type_uk1 
 --
 
-CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_component_type(name, record_end_date)
+CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_component_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: project_species_uk1 
@@ -2210,7 +2185,7 @@ CREATE UNIQUE INDEX system_metadata_constant_id_uk1 ON system_metadata_constant(
 -- INDEX: system_role_nuk1 
 --
 
-CREATE UNIQUE INDEX system_role_nuk1 ON system_role(name, record_end_date)
+CREATE UNIQUE INDEX system_role_nuk1 ON system_role(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: system_user_nuk1 
@@ -2276,7 +2251,7 @@ CREATE INDEX "Ref4051" ON treatment_treatment_type(treatment_type_id)
 -- INDEX: treatment_type_nuk1 
 --
 
-CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, record_end_date)
+CREATE UNIQUE INDEX treatment_type_nuk1 ON treatment_type(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: treatment_unit_uk1 
@@ -2300,7 +2275,7 @@ CREATE INDEX "Ref3432" ON treatment_unit(feature_type_id)
 -- INDEX: user_identity_source_nuk1 
 --
 
-CREATE UNIQUE INDEX user_identity_source_nuk1 ON user_identity_source(name, record_end_date)
+CREATE UNIQUE INDEX user_identity_source_nuk1 ON user_identity_source(name, (record_end_date is NULL)) where record_end_date is null
 ;
 -- 
 -- INDEX: "Ref298" 
