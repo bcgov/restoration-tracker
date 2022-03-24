@@ -43,6 +43,12 @@ import TreatmentSpatialUnits from './components/TreatmentSpatialUnits';
 import ProjectAttachments from './ProjectAttachments';
 import ProjectDetailsPage from './ProjectDetailsPage';
 
+import Dialog from '@material-ui/core/Dialog';
+// import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogTitle from '@material-ui/core/DialogTitle';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectDetailDrawer: {
@@ -121,6 +127,8 @@ const ViewProjectPage: React.FC = () => {
   const urlParams = useParams();
   const projectId = urlParams['id'];
   const dialogContext = useContext(DialogContext);
+
+  const [open, setOpen] = React.useState(false);
 
   const restorationTrackerApi = useRestorationTrackerApi();
 
@@ -298,8 +306,16 @@ const ViewProjectPage: React.FC = () => {
 
   const handleTabChange = (_: any, newValue: string) => setTabValue(newValue);
 
-  return (
+  const openMapDialog = () => {
+    setOpen(true);
+  };
 
+  const closeMapDialog = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
     <Box py={5} data-testid="view_project_page_component">
 
       <Container maxWidth="xl">
@@ -325,52 +341,59 @@ const ViewProjectPage: React.FC = () => {
         <Divider hidden></Divider>
         
         <Box mt={2}>
-        <Grid container spacing={5}>
+        <Grid container spacing={3}>
 
           <Grid item md={8}>
 
-            <Box component={Paper} p={3}>
+          <Paper variant="outlined">
+            <Box p={3}>
               <Box mb={3}>
-                <Box mb={2.5}>
+                <Box mt={0.5} mb={2.5}>
                   <Typography variant="h2">Project Objectives</Typography>
                 </Box>
                 <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
               </Box>
 
-              <Box>
-                <TreatmentSpatialUnits
-                  treatmentList={treatmentList}
-                  getTreatments={getTreatments}
-                  getAttachments={getAttachments}
-                />
-              </Box>
+              <TreatmentSpatialUnits
+                treatmentList={treatmentList}
+                getTreatments={getTreatments}
+                getAttachments={getAttachments}
+              />
 
               <Box mb={3}>
                 <Paper variant="outlined">
-                <Box height="500px">
-                  <LocationBoundary
-                    projectForViewData={projectWithDetails}
-                    treatmentList={treatmentList}
-                    codes={codes.codes}
-                    refresh={getProject}
-                  />
-                </Box>
-                <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+                  <Box height="500px" position="relative">
+                    <LocationBoundary
+                      projectForViewData={projectWithDetails}
+                      treatmentList={treatmentList}
+                      codes={codes.codes}
+                      refresh={getProject}
+                    />
+                    <Box position="absolute" top="10px" right="10px" zIndex="999">
+                      <Button variant="outlined" color="primary" onClick={openMapDialog}>
+                        Full Screen
+                      </Button>
+                    </Box>
+                  </Box>
+                  <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
                 </Paper>
               </Box>
 
               <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
             
             </Box>
+            </Paper>
 
           </Grid>
           <Grid item md={4}>
-            <Box component={Paper} p={3}>
-              <Box mb={2.5}>
-                <Typography variant="h2">Project Details</Typography>
+            <Paper variant="outlined">
+              <Box p={3}>
+                <Box mt={0.5} mb={2.5}>
+                  <Typography variant="h2">Project Details</Typography>
+                </Box>
+                <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
               </Box>
-              <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
-            </Box>
+            </Paper>
           </Grid>
 
         </Grid>
@@ -487,6 +510,38 @@ const ViewProjectPage: React.FC = () => {
 
       </Box>
     </Box>
+
+    <Dialog fullScreen open={open} onClose={closeMapDialog}>
+      <Box pr={3} pl={1} display="flex" alignItems="center">
+        <Box mr="1">
+          <IconButton onClick={closeMapDialog}>
+            <Icon path={mdiArrowLeft} size={1} />
+          </IconButton>
+        </Box>
+        <Box flex="1 1 auto">
+          <TreatmentSpatialUnits
+            treatmentList={treatmentList}
+            getTreatments={getTreatments}
+            getAttachments={getAttachments}
+          />
+        </Box>
+      </Box>
+      <Box display="flex" height="100%" flexDirection="column">
+        <Box flex="1 1 auto">
+          <LocationBoundary
+            projectForViewData={projectWithDetails}
+            treatmentList={treatmentList}
+            codes={codes.codes}
+            refresh={getProject}
+          />
+        </Box>
+        <Box flex="0 0 auto" height="300px">
+          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+        </Box>
+      </Box>
+    </Dialog>
+    
+    </>
   );
 };
 

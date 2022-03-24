@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
       // Metadata Definition Lists
       '& dl div + div': {
-        marginTop: theme.spacing(0.25)
+        marginTop: theme.spacing(0.5)
       },
       '& dd, dt': {
         display: 'inline-block',
