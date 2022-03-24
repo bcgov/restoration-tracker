@@ -139,7 +139,9 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                             </MenuItem>
                           ))}
                         </Select>
-                        <FormHelperText error={true}>{classificationMeta.touched && classificationMeta.error}</FormHelperText>
+                        <FormHelperText error={true}>
+                          {classificationMeta.touched && classificationMeta.error}
+                        </FormHelperText>
                       </FormControl>
                     </Box>
 

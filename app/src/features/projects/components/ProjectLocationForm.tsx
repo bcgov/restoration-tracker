@@ -174,7 +174,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
             <RadioGroup
               name="location.priority"
               aria-label="Location Priority"
-              value={values.location.priority || "false"}
+              value={values.location.priority || 'false'}
               onChange={handleChange}>
               <FormControlLabel
                 value="false"

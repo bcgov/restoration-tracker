@@ -19,7 +19,9 @@ const Objectives: React.FC<IProjectObjectivesProps> = (props) => {
 
   return (
     <>
-      <Typography style={{ whiteSpace: 'pre-line'}} variant="body2">{project.objectives}</Typography>
+      <Typography style={{ whiteSpace: 'pre-line' }} variant="body2">
+        {project.objectives}
+      </Typography>
     </>
   );
 };

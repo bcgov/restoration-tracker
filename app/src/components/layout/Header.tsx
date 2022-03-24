@@ -185,11 +185,7 @@ const Header: React.FC = () => {
   };
 
   const BetaLabel = () => {
-    return (
-      <span aria-label="This application is currently in beta phase of development">
-        Beta
-      </span>
-    );
+    return <span aria-label="This application is currently in beta phase of development">Beta</span>;
   };
 
   const EnvironmentLabel = () => {
@@ -207,7 +203,6 @@ const Header: React.FC = () => {
   return (
     <>
       <AppBar position="sticky" style={{ boxShadow: 'none' }}>
-
         <Toolbar className={classes.govHeaderToolbar}>
           <Box display="flex" justifyContent="space-between" width="100%">
             <Link to="/projects" className={classes.brand} aria-label="Go to Restoration Tracker Home">

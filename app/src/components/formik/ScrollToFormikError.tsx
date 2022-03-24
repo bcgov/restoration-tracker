@@ -46,8 +46,6 @@ export const ScrollToFormikError: React.FC = () => {
       return fieldTitle;
     };
 
-    console.log('errors: ', errors);
-
     const fieldErrorNames = getFieldErrorNames(errors);
     if (fieldErrorNames.length <= 0) {
       return;
@@ -62,7 +60,6 @@ export const ScrollToFormikError: React.FC = () => {
 
     showSnackBar(`ERROR: invalid form values: ${fieldTitle}`);
     element[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-
   }, [submitCount, isValid, errors]);
 
   return (
