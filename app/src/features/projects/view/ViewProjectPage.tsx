@@ -187,7 +187,8 @@ const ViewProjectPage: React.FC = () => {
   const completion_status =
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
-  const priority_status = ProjectStatusType.NOT_A_PRIORITY;
+  const priority_status =
+    projectWithDetails.location.priority === 'true' ? ProjectStatusType.PRIORITY : ProjectStatusType.NOT_A_PRIORITY;
 
   const TabPanel = (props: { children?: React.ReactNode; index: string; value: string }) => {
     const { children, value, index, ...other } = props;
@@ -222,8 +223,7 @@ const ViewProjectPage: React.FC = () => {
       chipLabel = 'Priority';
       chipStatusClass = classes.chipPriority;
     } else if (ProjectStatusType.NOT_A_PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipNotAPriority;
+      return;
     }
 
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
