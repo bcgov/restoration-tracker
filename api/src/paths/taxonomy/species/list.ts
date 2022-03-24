@@ -57,7 +57,7 @@ export function getSpeciesFromIds(): RequestHandler {
       const taxonomyService = new TaxonomyService();
       const response = await taxonomyService.getSpeciesFromIds(ids as string[]);
 
-      res.status(200).send({ searchResponse: response });
+      res.status(200).json({ searchResponse: response });
     } catch (error) {
       defaultLog.error({ label: 'getSearchResults', message: 'error', error });
       throw error;

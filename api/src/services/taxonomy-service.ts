@@ -6,17 +6,12 @@ import { SearchRequest } from '@elastic/elasticsearch/lib/api/types';
 const defaultLog = getLogger('services/taxonomy-service');
 
 export class TaxonomyService {
-  private client: Client;
-
-  constructor() {
-    this.client = new Client({ node: process.env.ELASTICSEARCH_URL });
-  }
-
   private async elasticSearch(searchRequest: SearchRequest) {
     defaultLog.debug({ label: 'elasticSearch', message: 'params', searchRequest: searchRequest });
 
     try {
-      const response = await this.client.search({
+      const client = new Client({ node: process.env.ELASTICSEARCH_URL });
+      const response = await client.search({
         index: 'taxonomy',
         ...searchRequest
       });

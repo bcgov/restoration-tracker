@@ -29,6 +29,10 @@ const mockUseCodes = ((useCodes as unknown) as jest.Mock).mockReturnValue({ code
 
 jest.mock('../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
+  taxonomy: {
+    searchSpecies: jest.fn().mockResolvedValue({ searchResponse: [] }),
+    getSpeciesFromIds: jest.fn().mockResolvedValue({ searchResponse: [] })
+  },
   codes: {
     getAllCodeSets: jest.fn<Promise<object>, []>()
   },
@@ -56,6 +60,8 @@ const renderContainer = () => {
 describe('CreateProjectPage', () => {
   beforeEach(() => {
     // clear mocks before each test
+    mockRestorationTrackerApi().taxonomy.searchSpecies.mockClear();
+    mockRestorationTrackerApi().taxonomy.getSpeciesFromIds.mockClear();
     mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
     mockRestorationTrackerApi().draft.createDraft.mockClear();
     mockRestorationTrackerApi().draft.updateDraft.mockClear();

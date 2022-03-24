@@ -55,7 +55,7 @@ export function searchSpecies(): RequestHandler {
       const taxonomySearch = new TaxonomyService();
       const response = await taxonomySearch.searchSpecies(term as string);
 
-      res.status(200).send({ searchResponse: response });
+      res.status(200).json({ searchResponse: response });
     } catch (error) {
       defaultLog.error({ label: 'getSearchResults', message: 'error', error });
       throw error;
