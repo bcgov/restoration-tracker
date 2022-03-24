@@ -810,94 +810,258 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
         class="MuiBox-root MuiBox-root-280"
       >
         <div
-          class="MuiBox-root MuiBox-root-287"
+          class="MuiPaper-root MuiAccordion-root makeStyles-accordion-282 MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
         >
           <div
-            class="MuiBox-root MuiBox-root-288"
+            aria-disabled="false"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root"
+            role="button"
+            tabindex="0"
           >
-            <strong>
-              Found 0 treatments
-            </strong>
+            <div
+              class="MuiAccordionSummary-content"
+            >
+              <strong>
+                Found 0 treatments
+              </strong>
+            </div>
+            <div
+              aria-disabled="false"
+              aria-hidden="true"
+              class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon MuiIconButton-edgeEnd"
+            >
+              <span
+                class="MuiIconButton-label"
+              >
+                <svg
+                  role="presentation"
+                  style="width: 1.5rem; height: 1.5rem;"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7,15L12,10L17,15H7Z"
+                    style="fill: currentColor;"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </div>
           </div>
           <div
-            class="MuiTableContainer-root MuiBox-root MuiBox-root-289"
+            class="MuiCollapse-container MuiCollapse-hidden"
+            style="min-height: 0px;"
           >
-            <table
-              aria-label="treatments-list-table"
-              class="MuiTable-root makeStyles-treatmentsTable-281 MuiTable-stickyHeader"
+            <div
+              class="MuiCollapse-wrapper"
             >
-              <thead
-                class="MuiTableHead-root"
+              <div
+                class="MuiCollapse-wrapperInner"
               >
-                <tr
-                  class="MuiTableRow-root MuiTableRow-head"
+                <div
+                  role="region"
                 >
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                    width="50"
-                  >
-                    ID
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Type
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Treatments
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Width (m)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Length (m)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Area (Ha)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                    width="130"
-                  >
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                class="MuiTableBody-root"
-                data-testid="project-table"
-              >
-                <tr
-                  class="MuiTableRow-root"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-                    colspan="7"
+                  <div
+                    class="MuiAccordionDetails-root"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-290"
+                      class="MuiBox-root MuiBox-root-288"
                     >
-                      No Treatments
+                      <div
+                        class="MuiTableContainer-root MuiBox-root MuiBox-root-289"
+                      >
+                        <table
+                          aria-label="treatments-list-table"
+                          class="MuiTable-root makeStyles-treatmentsTable-281 MuiTable-stickyHeader"
+                        >
+                          <thead
+                            class="MuiTableHead-root"
+                          >
+                            <tr
+                              class="MuiTableRow-root MuiTableRow-head"
+                            >
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                                width="50"
+                              >
+                                ID
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Type
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Year
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Treatments
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Width (m)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Length (m)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Area (ha)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                                width="130"
+                              >
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody
+                            class="MuiTableBody-root"
+                            data-testid="project-table"
+                          >
+                            <tr
+                              class="MuiTableRow-root"
+                            >
+                              <td
+                                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                                colspan="7"
+                              >
+                                <div
+                                  class="MuiBox-root MuiBox-root-290"
+                                >
+                                  No Treatments
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div
+                        class="MuiTablePagination-root makeStyles-pagination-283"
+                      >
+                        <div
+                          class="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
+                        >
+                          <div
+                            class="MuiTablePagination-spacer"
+                          />
+                          <p
+                            class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+                            id="mui-51488"
+                          >
+                            Rows per page:
+                          </p>
+                          <div
+                            class="MuiInputBase-root MuiTablePagination-input MuiTablePagination-selectRoot"
+                          >
+                            <div
+                              aria-haspopup="listbox"
+                              aria-labelledby="mui-51488 mui-96956"
+                              class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
+                              id="mui-96956"
+                              role="button"
+                              tabindex="0"
+                            >
+                              5
+                            </div>
+                            <input
+                              aria-hidden="true"
+                              class="MuiSelect-nativeInput"
+                              tabindex="-1"
+                              value="5"
+                            />
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSelect-icon MuiTablePagination-selectIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M7 10l5 5 5-5z"
+                              />
+                            </svg>
+                          </div>
+                          <p
+                            class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+                          >
+                            0-0 of 0
+                          </p>
+                          <div
+                            class="MuiTablePagination-actions"
+                          >
+                            <button
+                              aria-label="Previous page"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                              disabled=""
+                              tabindex="-1"
+                              title="Previous page"
+                              type="button"
+                            >
+                              <span
+                                class="MuiIconButton-label"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                            <button
+                              aria-label="Next page"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                              disabled=""
+                              tabindex="-1"
+                              title="Next page"
+                              type="button"
+                            >
+                              <span
+                                class="MuiIconButton-label"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1691,94 +1855,258 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
         class="MuiBox-root MuiBox-root-104"
       >
         <div
-          class="MuiBox-root MuiBox-root-111"
+          class="MuiPaper-root MuiAccordion-root makeStyles-accordion-106 MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
         >
           <div
-            class="MuiBox-root MuiBox-root-112"
+            aria-disabled="false"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root"
+            role="button"
+            tabindex="0"
           >
-            <strong>
-              Found 0 treatments
-            </strong>
+            <div
+              class="MuiAccordionSummary-content"
+            >
+              <strong>
+                Found 0 treatments
+              </strong>
+            </div>
+            <div
+              aria-disabled="false"
+              aria-hidden="true"
+              class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon MuiIconButton-edgeEnd"
+            >
+              <span
+                class="MuiIconButton-label"
+              >
+                <svg
+                  role="presentation"
+                  style="width: 1.5rem; height: 1.5rem;"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7,15L12,10L17,15H7Z"
+                    style="fill: currentColor;"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </div>
           </div>
           <div
-            class="MuiTableContainer-root MuiBox-root MuiBox-root-113"
+            class="MuiCollapse-container MuiCollapse-hidden"
+            style="min-height: 0px;"
           >
-            <table
-              aria-label="treatments-list-table"
-              class="MuiTable-root makeStyles-treatmentsTable-105 MuiTable-stickyHeader"
+            <div
+              class="MuiCollapse-wrapper"
             >
-              <thead
-                class="MuiTableHead-root"
+              <div
+                class="MuiCollapse-wrapperInner"
               >
-                <tr
-                  class="MuiTableRow-root MuiTableRow-head"
+                <div
+                  role="region"
                 >
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                    width="50"
-                  >
-                    ID
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Type
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Treatments
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Width (m)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Length (m)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Area (Ha)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                    width="130"
-                  >
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                class="MuiTableBody-root"
-                data-testid="project-table"
-              >
-                <tr
-                  class="MuiTableRow-root"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-                    colspan="7"
+                  <div
+                    class="MuiAccordionDetails-root"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-114"
+                      class="MuiBox-root MuiBox-root-112"
                     >
-                      No Treatments
+                      <div
+                        class="MuiTableContainer-root MuiBox-root MuiBox-root-113"
+                      >
+                        <table
+                          aria-label="treatments-list-table"
+                          class="MuiTable-root makeStyles-treatmentsTable-105 MuiTable-stickyHeader"
+                        >
+                          <thead
+                            class="MuiTableHead-root"
+                          >
+                            <tr
+                              class="MuiTableRow-root MuiTableRow-head"
+                            >
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                                width="50"
+                              >
+                                ID
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Type
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Year
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Treatments
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Width (m)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Length (m)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Area (ha)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                                width="130"
+                              >
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody
+                            class="MuiTableBody-root"
+                            data-testid="project-table"
+                          >
+                            <tr
+                              class="MuiTableRow-root"
+                            >
+                              <td
+                                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                                colspan="7"
+                              >
+                                <div
+                                  class="MuiBox-root MuiBox-root-114"
+                                >
+                                  No Treatments
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div
+                        class="MuiTablePagination-root makeStyles-pagination-107"
+                      >
+                        <div
+                          class="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
+                        >
+                          <div
+                            class="MuiTablePagination-spacer"
+                          />
+                          <p
+                            class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+                            id="mui-99134"
+                          >
+                            Rows per page:
+                          </p>
+                          <div
+                            class="MuiInputBase-root MuiTablePagination-input MuiTablePagination-selectRoot"
+                          >
+                            <div
+                              aria-haspopup="listbox"
+                              aria-labelledby="mui-99134 mui-36177"
+                              class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
+                              id="mui-36177"
+                              role="button"
+                              tabindex="0"
+                            >
+                              5
+                            </div>
+                            <input
+                              aria-hidden="true"
+                              class="MuiSelect-nativeInput"
+                              tabindex="-1"
+                              value="5"
+                            />
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSelect-icon MuiTablePagination-selectIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M7 10l5 5 5-5z"
+                              />
+                            </svg>
+                          </div>
+                          <p
+                            class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+                          >
+                            0-0 of 0
+                          </p>
+                          <div
+                            class="MuiTablePagination-actions"
+                          >
+                            <button
+                              aria-label="Previous page"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                              disabled=""
+                              tabindex="-1"
+                              title="Previous page"
+                              type="button"
+                            >
+                              <span
+                                class="MuiIconButton-label"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                            <button
+                              aria-label="Next page"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                              disabled=""
+                              tabindex="-1"
+                              title="Next page"
+                              type="button"
+                            >
+                              <span
+                                class="MuiIconButton-label"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2572,94 +2900,258 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
         class="MuiBox-root MuiBox-root-192"
       >
         <div
-          class="MuiBox-root MuiBox-root-199"
+          class="MuiPaper-root MuiAccordion-root makeStyles-accordion-194 MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
         >
           <div
-            class="MuiBox-root MuiBox-root-200"
+            aria-disabled="false"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root"
+            role="button"
+            tabindex="0"
           >
-            <strong>
-              Found 0 treatments
-            </strong>
+            <div
+              class="MuiAccordionSummary-content"
+            >
+              <strong>
+                Found 0 treatments
+              </strong>
+            </div>
+            <div
+              aria-disabled="false"
+              aria-hidden="true"
+              class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon MuiIconButton-edgeEnd"
+            >
+              <span
+                class="MuiIconButton-label"
+              >
+                <svg
+                  role="presentation"
+                  style="width: 1.5rem; height: 1.5rem;"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7,15L12,10L17,15H7Z"
+                    style="fill: currentColor;"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </div>
           </div>
           <div
-            class="MuiTableContainer-root MuiBox-root MuiBox-root-201"
+            class="MuiCollapse-container MuiCollapse-hidden"
+            style="min-height: 0px;"
           >
-            <table
-              aria-label="treatments-list-table"
-              class="MuiTable-root makeStyles-treatmentsTable-193 MuiTable-stickyHeader"
+            <div
+              class="MuiCollapse-wrapper"
             >
-              <thead
-                class="MuiTableHead-root"
+              <div
+                class="MuiCollapse-wrapperInner"
               >
-                <tr
-                  class="MuiTableRow-root MuiTableRow-head"
+                <div
+                  role="region"
                 >
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                    width="50"
-                  >
-                    ID
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Type
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Treatments
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Width (m)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Length (m)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                  >
-                    Area (Ha)
-                  </th>
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-                    scope="col"
-                    width="130"
-                  >
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                class="MuiTableBody-root"
-                data-testid="project-table"
-              >
-                <tr
-                  class="MuiTableRow-root"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-                    colspan="7"
+                  <div
+                    class="MuiAccordionDetails-root"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-202"
+                      class="MuiBox-root MuiBox-root-200"
                     >
-                      No Treatments
+                      <div
+                        class="MuiTableContainer-root MuiBox-root MuiBox-root-201"
+                      >
+                        <table
+                          aria-label="treatments-list-table"
+                          class="MuiTable-root makeStyles-treatmentsTable-193 MuiTable-stickyHeader"
+                        >
+                          <thead
+                            class="MuiTableHead-root"
+                          >
+                            <tr
+                              class="MuiTableRow-root MuiTableRow-head"
+                            >
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                                width="50"
+                              >
+                                ID
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Type
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Year
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Treatments
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Width (m)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Length (m)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                              >
+                                Area (ha)
+                              </th>
+                              <th
+                                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+                                scope="col"
+                                width="130"
+                              >
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody
+                            class="MuiTableBody-root"
+                            data-testid="project-table"
+                          >
+                            <tr
+                              class="MuiTableRow-root"
+                            >
+                              <td
+                                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+                                colspan="7"
+                              >
+                                <div
+                                  class="MuiBox-root MuiBox-root-202"
+                                >
+                                  No Treatments
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div
+                        class="MuiTablePagination-root makeStyles-pagination-195"
+                      >
+                        <div
+                          class="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
+                        >
+                          <div
+                            class="MuiTablePagination-spacer"
+                          />
+                          <p
+                            class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+                            id="mui-97548"
+                          >
+                            Rows per page:
+                          </p>
+                          <div
+                            class="MuiInputBase-root MuiTablePagination-input MuiTablePagination-selectRoot"
+                          >
+                            <div
+                              aria-haspopup="listbox"
+                              aria-labelledby="mui-97548 mui-10035"
+                              class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
+                              id="mui-10035"
+                              role="button"
+                              tabindex="0"
+                            >
+                              5
+                            </div>
+                            <input
+                              aria-hidden="true"
+                              class="MuiSelect-nativeInput"
+                              tabindex="-1"
+                              value="5"
+                            />
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSelect-icon MuiTablePagination-selectIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M7 10l5 5 5-5z"
+                              />
+                            </svg>
+                          </div>
+                          <p
+                            class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+                          >
+                            0-0 of 0
+                          </p>
+                          <div
+                            class="MuiTablePagination-actions"
+                          >
+                            <button
+                              aria-label="Previous page"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                              disabled=""
+                              tabindex="-1"
+                              title="Previous page"
+                              type="button"
+                            >
+                              <span
+                                class="MuiIconButton-label"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                            <button
+                              aria-label="Next page"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                              disabled=""
+                              tabindex="-1"
+                              title="Next page"
+                              type="button"
+                            >
+                              <span
+                                class="MuiIconButton-label"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
