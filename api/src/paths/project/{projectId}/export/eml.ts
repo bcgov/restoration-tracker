@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
+import xml2js from 'xml2js';
 import { getDBConnection } from '../../../../database/db';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { EmlService } from '../../../../services/eml-service';
@@ -81,14 +82,13 @@ export function getProjectEml(): RequestHandler {
 
       const jsonResponse = await emlService.buildProjectEml();
 
-      // const xml2jsBuilder = new xml2js.Builder();
+      const xml2jsBuilder = new xml2js.Builder();
 
-      // const xmlResponse = xml2jsBuilder.buildObject(jsonResponse);
+      const xmlResponse = xml2jsBuilder.buildObject(jsonResponse);
 
       await connection.commit();
 
-      // return res.status(200).json(xmlResponse);
-      return res.status(200).json(jsonResponse);
+      return res.status(200).json(xmlResponse);
     } catch (error) {
       defaultLog.error({ label: 'getProjectEml', message: 'error', error });
       await connection.rollback();

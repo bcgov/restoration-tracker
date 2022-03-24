@@ -5,18 +5,23 @@ import { coordEach } from '@turf/meta';
 import jsonpatch from 'fast-json-patch';
 import { v4 as uuidv4 } from 'uuid';
 import { IDBConnection } from '../database/db';
+import { getDbCharacterSystemMetaDataConstantSQL } from '../queries/codes/db-constant-queries';
 import { queries } from '../queries/queries';
 import { ProjectObject, ProjectService } from './project-service';
 import { DBService } from './service';
 import { TaxonomyService } from './taxonomy-service';
 
-export const EML_VERSION = '1.0.0';
-export const EML_PROVIDER_URL = '';
-export const EML_SECURITY_PROVIDER_URL = '';
-export const EML_ORGANIZATION_NAME = '';
-export const EML_ORGANIZATION_URL = '';
-export const EML_TAXONOMIC_PROVIDER_URL = '';
-export const INTELLECTUAL_RIGHTS = '';
+const DEFAULT_DB_CONSTANTS = {
+  EML_VERSION: '1.0.0',
+  EML_PROVIDER_URL: '',
+  EML_SECURITY_PROVIDER_URL: '',
+  EML_ORGANIZATION_NAME: '',
+  EML_ORGANIZATION_URL: '',
+  EML_TAXONOMIC_PROVIDER_URL: '',
+  EML_INTELLECTUAL_RIGHTS: ''
+};
+
+const NOT_SUPPLIED_CONSTANT = 'Not Supplied';
 
 /**
  * Service to produce EML data for a project.
@@ -36,6 +41,16 @@ export class EmlService extends DBService {
 
   cache: Record<any, any>;
 
+  constants: {
+    EML_VERSION: string;
+    EML_PROVIDER_URL: string;
+    EML_SECURITY_PROVIDER_URL: string;
+    EML_ORGANIZATION_NAME: string;
+    EML_ORGANIZATION_URL: string;
+    EML_TAXONOMIC_PROVIDER_URL: string;
+    EML_INTELLECTUAL_RIGHTS: string;
+  };
+
   constructor(options: { projectId: number; packageId?: string }, connection: IDBConnection) {
     super(connection);
 
@@ -48,12 +63,24 @@ export class EmlService extends DBService {
     this.projectService = new ProjectService(this.connection);
 
     this.cache = {};
+
+    this.constants = DEFAULT_DB_CONSTANTS;
   }
 
   async loadData() {
     const projectObject = await this.projectService.getProjectById(this.projectId);
 
     this.cache['project'] = projectObject;
+  }
+
+  async loadDBConstants() {
+    const [organizationUrl, organizationName] = await Promise.all([
+      this.connection.sql<{ constant: string }>(getDbCharacterSystemMetaDataConstantSQL('ORGANIZATION_URL')),
+      this.connection.sql<{ constant: string }>(getDbCharacterSystemMetaDataConstantSQL('ORGANIZATION_NAME_FULL'))
+    ]);
+
+    this.constants.EML_ORGANIZATION_URL = organizationUrl.rows[0].constant || NOT_SUPPLIED_CONSTANT;
+    this.constants.EML_ORGANIZATION_NAME = organizationName.rows[0].constant || NOT_SUPPLIED_CONSTANT;
   }
 
   async buildProjectEml() {
@@ -74,7 +101,7 @@ export class EmlService extends DBService {
       value: {
         $: {
           packageId: `urn:uuid:${this.packageId}`,
-          system: EML_PROVIDER_URL,
+          system: this.constants.EML_PROVIDER_URL,
           'xmlns:eml': 'https://eml.ecoinformatics.org/eml-2.2.0',
           'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
           'xmlns:stmml': 'http://www.xml-cml.org/schema/schema24',
@@ -89,7 +116,7 @@ export class EmlService extends DBService {
       op: 'add',
       path: '/eml/access',
       value: {
-        $: { authSystem: EML_SECURITY_PROVIDER_URL, order: 'allowFirst' },
+        $: { authSystem: this.constants.EML_SECURITY_PROVIDER_URL, order: 'allowFirst' },
         allow: { principal: 'public', permission: 'read' }
       }
     });
@@ -106,15 +133,18 @@ export class EmlService extends DBService {
       op: 'add',
       path: '/eml/dataset',
       value: {
-        $: { system: EML_PROVIDER_URL, id: this.packageId },
+        $: { system: this.constants.EML_PROVIDER_URL, id: this.packageId },
         title: options?.datasetTitle || this.packageId,
         pubDate: projectObject.project.publish_date,
         language: 'english',
-        metadataProvider: { organizationName: EML_ORGANIZATION_NAME, onlineUrl: EML_ORGANIZATION_URL },
-        intellectualRights: { para: INTELLECTUAL_RIGHTS },
+        metadataProvider: {
+          organizationName: this.constants.EML_ORGANIZATION_NAME,
+          onlineUrl: this.constants.EML_ORGANIZATION_URL
+        },
+        intellectualRights: { para: this.constants.EML_INTELLECTUAL_RIGHTS },
         contact: this.getProjectContact(),
         project: {
-          $: { id: projectObject.project.uuid, system: EML_PROVIDER_URL },
+          $: { id: projectObject.project.uuid, system: this.constants.EML_PROVIDER_URL },
           title: projectObject.project.project_name,
           personnel: this.getProjectPersonnel(),
           abstract: { section: { title: 'Objectives', para: projectObject.project.objectives } },
@@ -225,7 +255,7 @@ export class EmlService extends DBService {
     }
 
     if (!projectObject.contact.contacts.length) {
-      return { organizationName: 'Not Supplied', onlineUrl: EML_ORGANIZATION_URL };
+      return { organizationName: this.constants.EML_ORGANIZATION_NAME, onlineUrl: this.constants.EML_ORGANIZATION_URL };
     }
 
     const publicPrimaryContact = projectObject.contact.contacts.find(
@@ -365,7 +395,7 @@ export class EmlService extends DBService {
         taxonRankName: taxonRecord.tty_name,
         taxonRankValue: `${taxonRecord.unit_name1} ${taxonRecord.unit_name2} ${taxonRecord.unit_name3}`,
         commonName: taxonRecord.english_name,
-        taxonId: { $: { provider: EML_TAXONOMIC_PROVIDER_URL }, _: taxonRecord.code }
+        taxonId: { $: { provider: this.constants.EML_TAXONOMIC_PROVIDER_URL }, _: taxonRecord.code }
       });
     });
 
