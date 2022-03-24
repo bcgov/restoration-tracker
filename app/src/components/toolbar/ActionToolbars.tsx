@@ -58,7 +58,7 @@ export const H2ButtonToolbar: React.FC<IButtonToolbarProps> = (props) => {
         endIcon={props.buttonEndIcon}
         onClick={() => props.buttonOnClick()}
         {...props.buttonProps}>
-        <strong>{props.buttonLabel}</strong>
+        {props.buttonLabel}
       </Button>
     </ActionToolbar>
   );

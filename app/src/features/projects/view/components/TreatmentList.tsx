@@ -2,7 +2,7 @@ import { Divider } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,6 +11,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import { mdiInformationOutline } from '@mdi/js';
+import Icon from '@mdi/react';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import DoneDialog from 'components/dialog/DoneDialog';
 import React, { useState } from 'react';
@@ -155,25 +157,24 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   return (
     <>
       <Box display="flex" flexDirection="column" height="100%">
-        <Box display="flex" alignItems="center" justifyContent="space-between" p={2}>
+        
+        <Box alignItems="center" justifyContent="space-between" p={2} hidden>
           <strong>
             Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
           </strong>
         </Box>
 
-        <Box component={TableContainer} flex="1 1 auto">
-          <Table size="small" stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
+        <Box component={TableContainer} maxHeight="400px">
+          <Table stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
             <TableHead>
               <TableRow>
                 <TableCell width="50">ID</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Treatments</TableCell>
-                <TableCell align="right">Width (m)</TableCell>
-                <TableCell align="right">Length (m)</TableCell>
-                <TableCell align="right">Area (Ha)</TableCell>
-                <TableCell align="left" width="130">
-                  Action
-                </TableCell>
+                <TableCell align="right" width="110">Width (m)</TableCell>
+                <TableCell align="right" width="120">Length (m)</TableCell>
+                <TableCell align="right" width="110">Area (Ha)</TableCell>
+                <TableCell align="right" width="50"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -197,16 +198,16 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                       <TableCell align="right">{row.width}</TableCell>
                       <TableCell align="right">{row.length}</TableCell>
                       <TableCell align="right">{row.area}</TableCell>
-                      <TableCell align="left">
-                        <Button
-                          size="small"
-                          color="primary"
-                          variant="outlined"
-                          aria-label="view treatment unit details"
-                          data-testid="view-treatment-unit-details"
-                          onClick={() => viewTreatmentUnitDetailsDialog(row)}>
-                          View Details
-                        </Button>
+                      <TableCell align="right" width="50">
+                        <Box my={-1}>
+                          <IconButton
+                            color="primary"
+                            aria-label="view treatment unit details"
+                            data-testid="view-treatment-unit-details"
+                            onClick={() => viewTreatmentUnitDetailsDialog(row)}>
+                            <Icon path={mdiInformationOutline} size={1} />
+                          </IconButton>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   );

@@ -2,15 +2,20 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Typography from '@material-ui/core/Typography';
 import { mdiAccountMultipleOutline, mdiArrowLeft, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import clsx from 'clsx';
@@ -53,7 +58,11 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 400
     },
     chip: {
-      color: 'white'
+      color: 'white',
+      textTransform: 'uppercase',
+      fontSize: '11px',
+      fontWeight: 700,
+      letterSpacing: '0.02rem'
     },
     chipActive: {
       backgroundColor: theme.palette.success.main
@@ -90,6 +99,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     projectLocationBoundary: {
       background: '#ffffff'
+    },
+    titleContainerActions: {
+      '& button + button': {
+        marginLeft: theme.spacing(1)
+      }
     }
   })
 );
@@ -285,15 +299,87 @@ const ViewProjectPage: React.FC = () => {
   const handleTabChange = (_: any, newValue: string) => setTabValue(newValue);
 
   return (
-    <Box
-      display="flex"
-      position="absolute"
-      width="100%"
-      height="100%"
-      overflow="hidden"
-      data-testid="view_project_page_component">
+
+    <Box py={4} data-testid="view_project_page_component">
+
+      <Container maxWidth="xl">
+        <Box mb={4} display="flex" justifyContent="space-between">
+          <Box>
+            <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
+            <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
+              <Typography variant="subtitle2" color="textSecondary">Project Status:</Typography>
+              <Box ml={1}>{getChipIcon(completion_status)}</Box>
+              <Box ml={0.5}>{getChipIcon(priority_status)}</Box>
+            </Box>
+          </Box>
+          <Box className={classes.titleContainerActions}>
+            <Button variant="outlined" color="primary" onClick={() => history.push('users')}>
+              Manage Project Team
+            </Button>
+            <Button variant="outlined" color="primary" onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
+              Edit Project
+            </Button>
+          </Box>
+        </Box>
+
+        <Divider hidden></Divider>
+        
+        <Box mt={2}>
+        <Grid container spacing={5}>
+
+          <Grid item md={8}>
+
+            <Box component={Paper} p={3}>
+              <Box mb={3}>
+                <Box mb={2.5}>
+                  <Typography variant="h2">Project Objectives</Typography>
+                </Box>
+                <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+              </Box>
+
+              <Box>
+                <TreatmentSpatialUnits
+                  treatmentList={treatmentList}
+                  getTreatments={getTreatments}
+                  getAttachments={getAttachments}
+                />
+              </Box>
+
+              <Box mb={3}>
+                <Paper variant="outlined">
+                <Box height="500px">
+                  <LocationBoundary
+                    projectForViewData={projectWithDetails}
+                    treatmentList={treatmentList}
+                    codes={codes.codes}
+                    refresh={getProject}
+                  />
+                </Box>
+                <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+                </Paper>
+              </Box>
+
+              <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
+            
+            </Box>
+
+          </Grid>
+          <Grid item md={4}>
+            <Box component={Paper} p={3}>
+              <Box mb={2.5}>
+                <Typography variant="h2">Project Details</Typography>
+              </Box>
+              <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
+            </Box>
+          </Grid>
+
+        </Grid>
+        </Box>
+        
+      </Container>
+
       {/* Details Container */}
-      <Drawer variant="permanent" className={classes.projectDetailDrawer}>
+      <Drawer variant="permanent" className={classes.projectDetailDrawer} hidden>
         <Box display="flex" flexDirection="column" height="100%">
           <Box flex="0 auto" p={3}>
             <Box mb={2}>
@@ -377,7 +463,7 @@ const ViewProjectPage: React.FC = () => {
       </Drawer>
 
       {/* Map Container */}
-      <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
+      <Box flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary} hidden>
         <Box>
           <TreatmentSpatialUnits
             treatmentList={treatmentList}
@@ -395,9 +481,10 @@ const ViewProjectPage: React.FC = () => {
           />
         </Box>
 
-        <Box flex="0 0 auto" height="250px">
+        <Box flex="0 0 auto" height="250px" hidden>
           <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
         </Box>
+
       </Box>
     </Box>
   );

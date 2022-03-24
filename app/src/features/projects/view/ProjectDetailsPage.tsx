@@ -22,9 +22,6 @@ export interface IProjectDetailsProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectMetadata: {
-      padding: theme.spacing(3),
-      overflowY: 'auto',
-      backgroundColor: '#f7f8fa',
 
       // Metadata Definition Lists
       '& dl div + div': {
@@ -40,9 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       '& h3': {
         marginBottom: theme.spacing(2),
-        textTransform: 'uppercase',
         fontSize: '15px',
-        fontWeight: 700
+        fontWeight: 700,
+        textTransform: 'uppercase'
       },
       '& section + hr': {
         marginTop: theme.spacing(3),
@@ -62,8 +59,8 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <Box flex="1 auto" className={classes.projectMetadata}>
-      <Box component="section">
+    <Box className={classes.projectMetadata}>
+      <Box component="section" hidden>
         <Typography variant="body1" component={'h3'}>
           Objectives
         </Typography>
@@ -72,7 +69,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         </Box>
       </Box>
 
-      <Divider></Divider>
+      <Divider hidden></Divider>
 
       <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="GeneralInfoTitle">

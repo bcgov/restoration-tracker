@@ -48,7 +48,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
   return (
     <Box component="dl" data-testid="general_info_component">
-      <div>
+      <div hidden>
         <Typography variant="body2" component="dd" color="textSecondary">
           Project Name:
         </Typography>
@@ -80,7 +80,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
       </div>
       <div>
         <Typography variant="body2" component="dd" color="textSecondary">
-          Completion Date:
+          End Date:
         </Typography>
         <Typography variant="body2" component="dt">
           {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
