@@ -29,8 +29,13 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       '& dd, dt': {
         display: 'inline-block',
-        width: '50%',
         verticalAlign: 'top'
+      },
+      '& dt': {
+        width: '33.333%'
+      },
+      '& dd': {
+        width: '66.666%'
       },
       '& dd span': {
         display: 'inline'

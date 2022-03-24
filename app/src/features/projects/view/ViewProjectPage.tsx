@@ -300,10 +300,10 @@ const ViewProjectPage: React.FC = () => {
 
   return (
 
-    <Box py={4} data-testid="view_project_page_component">
+    <Box py={5} data-testid="view_project_page_component">
 
       <Container maxWidth="xl">
-        <Box mb={4} display="flex" justifyContent="space-between">
+        <Box mb={5} display="flex" justifyContent="space-between">
           <Box>
             <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
             <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">

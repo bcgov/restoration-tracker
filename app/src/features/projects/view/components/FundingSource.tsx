@@ -56,7 +56,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                   <Typography variant="body2" component="dt" color="textSecondary">
                     Funding Amount:
                   </Typography>
-                  <Typography variant="body2" component="dt">
+                  <Typography variant="body2" component="dd">
                     {getFormattedAmount(item.funding_amount)}
                   </Typography>
                 </div>
@@ -64,7 +64,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                   <Typography variant="body2" component="dt" color="textSecondary">
                     Project ID:
                   </Typography>
-                  <Typography variant="body2" component="dt">
+                  <Typography variant="body2" component="dd">
                     {item.agency_project_id}
                   </Typography>
                 </div>
@@ -72,7 +72,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                   <Typography variant="body2" component="dt" color="textSecondary">
                     Start Date:
                   </Typography>
-                  <Typography variant="body2" component="dt">
+                  <Typography variant="body2" component="dd">
                     {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.start_date)}
                   </Typography>
                 </div>
@@ -80,7 +80,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                   <Typography variant="body2" component="dt" color="textSecondary">
                     End Date:
                   </Typography>
-                  <Typography variant="body2" component="dt">
+                  <Typography variant="body2" component="dd">
                     {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.end)}
                   </Typography>
                 </div>
