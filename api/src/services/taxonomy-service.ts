@@ -1,7 +1,7 @@
 // import axios from 'axios';
 import { getLogger } from '../utils/logger';
 import { Client } from '@elastic/elasticsearch';
-import { SearchRequest } from '@elastic/elasticsearch/lib/api/types';
+import { SearchRequest, SearchHit } from '@elastic/elasticsearch/lib/api/types';
 
 const defaultLog = getLogger('services/taxonomy-service');
 
@@ -23,8 +23,8 @@ export class TaxonomyService {
     }
   }
 
-  private sanitizeSpeciesData = (data: any) => {
-    return data.map((item: any) => {
+  private sanitizeSpeciesData = (data: SearchHit<any>[]) => {
+    return data.map((item) => {
       const label = `${item._source.code}: ${item._source.tty_kingdom} ${item._source.tty_name},${
         item._source.unit_name1 ? ` ${item._source.unit_name1}` : ''
       }${item._source.unit_name2 ? ` ${item._source.unit_name2}` : ''}${

@@ -27,13 +27,34 @@ GET.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            type: 'object'
+            type: 'object',
+            properties: {
+              searchResponse: {
+                type: 'array',
+                items: {
+                  title: 'Species',
+                  type: 'object',
+                  required: ['id', 'label'],
+                  properties: {
+                    id: {
+                      type: 'string'
+                    },
+                    label: {
+                      type: 'string'
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    401: {
-      $ref: '#/components/responses/401'
+    400: {
+      $ref: '#/components/responses/400'
+    },
+    500: {
+      $ref: '#/components/responses/500'
     },
     default: {
       $ref: '#/components/responses/default'
