@@ -10,7 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
-import DoneDialog from 'components/dialog/DoneDialog';
+import ComponentDialog from 'components/dialog/ComponentDialog';
 import React, { useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 
@@ -96,7 +96,7 @@ const PublicTreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     ];
 
     return (
-      <DoneDialog
+      <ComponentDialog
         open={opentreatmentDetails}
         dialogTitle={`Treatment Unit Details: ${currentTreatmentDetail.id}`}
         onClose={() => {
@@ -146,7 +146,7 @@ const PublicTreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
           <Divider className={classes.divider} />
           <Typography variant="subtitle2">{currentTreatmentDetail.comments || 'No comments'}</Typography>
         </Box>
-      </DoneDialog>
+      </ComponentDialog>
     );
   };
 
