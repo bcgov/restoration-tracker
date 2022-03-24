@@ -22,7 +22,6 @@ export interface IProjectDetailsProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectMetadata: {
-
       // Metadata Definition Lists
       '& dl div + div': {
         marginTop: theme.spacing(0.5)

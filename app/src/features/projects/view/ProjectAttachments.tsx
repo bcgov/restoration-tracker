@@ -55,7 +55,7 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = (props) => {
 
       <H2ButtonToolbar
         toolbarProps={{
-          disableGutters:true
+          disableGutters: true
         }}
         label="Documents"
         buttonLabel="Upload Documents"
@@ -68,7 +68,6 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = (props) => {
       />
 
       <AttachmentsList projectId={projectId} attachmentsList={attachmentsList} getAttachments={getAttachments} />
-
     </>
   );
 };

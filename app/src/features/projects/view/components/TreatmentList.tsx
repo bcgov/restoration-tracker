@@ -157,7 +157,6 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   return (
     <>
       <Box display="flex" flexDirection="column" height="100%">
-        
         <Box alignItems="center" justifyContent="space-between" p={2} hidden>
           <strong>
             Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
@@ -171,9 +170,15 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                 <TableCell width="50">ID</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Treatments</TableCell>
-                <TableCell align="right" width="110">Width (m)</TableCell>
-                <TableCell align="right" width="120">Length (m)</TableCell>
-                <TableCell align="right" width="110">Area (Ha)</TableCell>
+                <TableCell align="right" width="110">
+                  Width (m)
+                </TableCell>
+                <TableCell align="right" width="120">
+                  Length (m)
+                </TableCell>
+                <TableCell align="right" width="110">
+                  Area (Ha)
+                </TableCell>
                 <TableCell align="right" width="50"></TableCell>
               </TableRow>
             </TableHead>
