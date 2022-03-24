@@ -2320,4 +2320,185 @@ describe('ProjectService', () => {
       }
     });
   });
+
+  describe('updateProjectRegionData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when no sql statement produced for deleteProjectRegionSQL', async () => {
+      const mockQuery = sinon.stub().onCall(0).returns(Promise.resolve([])).onCall(1).returns(Promise.resolve([]));
+
+      const mockDBConnection = getMockDBConnection({
+        query: mockQuery
+      });
+
+      sinon.stub(queries.project, 'deleteProjectRegionSQL').returns(null);
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        location: new projectUpdateModels.PutLocationData()
+      };
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.updateProjectRegionData(projectId, entities);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL delete statement');
+        expect((actualError as HTTPError).status).to.equal(500);
+      }
+    });
+
+    it('should insert the new region information', async () => {
+      const mockQuery = sinon.stub().onCall(0).returns(Promise.resolve([])).onCall(1).returns(Promise.resolve([]));
+
+      const mockDBConnection = getMockDBConnection({
+        query: mockQuery
+      });
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        location: {
+          geometry: [({} as unknown) as Feature],
+          priority: 'true',
+          region: 3640,
+          range: 1234
+        }
+      };
+
+      sinon.stub(queries.project, 'deleteProjectRegionSQL').returns(SQL`valid sql`);
+
+      const insertRegionStub = sinon.stub(ProjectService.prototype, 'insertRegion').resolves(1);
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      await projectService.updateProjectRegionData(projectId, entities);
+
+      expect(insertRegionStub).to.have.been.calledOnce;
+    });
+  });
+
+  describe('updateProjectRangeData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when no sql statement produced for deleteProjectRangeSQL', async () => {
+      const mockQuery = sinon.stub().onCall(0).returns(Promise.resolve([])).onCall(1).returns(Promise.resolve([]));
+
+      const mockDBConnection = getMockDBConnection({
+        query: mockQuery
+      });
+
+      sinon.stub(queries.project, 'deleteProjectRangeSQL').returns(null);
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        location: new projectUpdateModels.PutLocationData()
+      };
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.updateProjectRangeData(projectId, entities);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL delete statement');
+        expect((actualError as HTTPError).status).to.equal(500);
+      }
+    });
+
+    it('should insert the new range information', async () => {
+      const mockQuery = sinon.stub().onCall(0).returns(Promise.resolve([])).onCall(1).returns(Promise.resolve([]));
+
+      const mockDBConnection = getMockDBConnection({
+        query: mockQuery
+      });
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        location: {
+          geometry: [({} as unknown) as Feature],
+          priority: 'true',
+          region: 3640,
+          range: 1234
+        }
+      };
+
+      sinon.stub(queries.project, 'deleteProjectRangeSQL').returns(SQL`valid sql`);
+
+      const insertRangeStub = sinon.stub(ProjectService.prototype, 'insertRange').resolves(1);
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      await projectService.updateProjectRangeData(projectId, entities);
+
+      expect(insertRangeStub).to.have.been.calledOnce;
+    });
+  });
+
+  describe('updateProjectSpeciesData', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should throw a 400 response when no sql statement produced for deleteProjectSpeciesSQL', async () => {
+      const mockQuery = sinon.stub().onCall(0).returns(Promise.resolve([])).onCall(1).returns(Promise.resolve([]));
+
+      const mockDBConnection = getMockDBConnection({
+        query: mockQuery
+      });
+
+      sinon.stub(queries.project, 'deleteProjectSpeciesSQL').returns(null);
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        species: new projectUpdateModels.PutSpeciesData()
+      };
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      try {
+        await projectService.updateProjectSpeciesData(projectId, entities);
+        expect.fail();
+      } catch (actualError) {
+        expect((actualError as HTTPError).message).to.equal('Failed to build SQL delete statement');
+        expect((actualError as HTTPError).status).to.equal(500);
+      }
+    });
+
+    it('should insert the new species information', async () => {
+      const mockQuery = sinon.stub().onCall(0).returns(Promise.resolve([])).onCall(1).returns(Promise.resolve([]));
+
+      const mockDBConnection = getMockDBConnection({
+        query: mockQuery
+      });
+
+      const projectId = 1;
+      const entities: IUpdateProject = {
+        ...entitiesInitValue,
+        species: {
+          focal_species: [1, 2],
+          focal_species_names: ['abc', 'def']
+        }
+      };
+
+      sinon.stub(queries.project, 'deleteProjectSpeciesSQL').returns(SQL`valid sql`);
+
+      const insertSpeciesStub = sinon.stub(ProjectService.prototype, 'insertSpecies').resolves();
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      await projectService.updateProjectSpeciesData(projectId, entities);
+
+      expect(insertSpeciesStub).to.have.been.calledTwice;
+    });
+  });
 });
