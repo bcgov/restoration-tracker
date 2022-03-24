@@ -316,231 +316,235 @@ const ViewProjectPage: React.FC = () => {
 
   return (
     <>
-    <Box py={5} data-testid="view_project_page_component">
-
-      <Container maxWidth="xl">
-        <Box mb={5} display="flex" justifyContent="space-between">
-          <Box>
-            <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
-            <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
-              <Typography variant="subtitle2" color="textSecondary">Project Status:</Typography>
-              <Box ml={1}>{getChipIcon(completion_status)}</Box>
-              <Box ml={0.5}>{getChipIcon(priority_status)}</Box>
+      <Box py={5} data-testid="view_project_page_component">
+        <Container maxWidth="xl">
+          <Box mb={5} display="flex" justifyContent="space-between">
+            <Box>
+              <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
+              <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
+                <Typography variant="subtitle2" color="textSecondary">
+                  Project Status:
+                </Typography>
+                <Box ml={1}>{getChipIcon(completion_status)}</Box>
+                <Box ml={0.5}>{getChipIcon(priority_status)}</Box>
+              </Box>
+            </Box>
+            <Box className={classes.titleContainerActions}>
+              <Button variant="outlined" color="primary" onClick={() => history.push('users')}>
+                Manage Project Team
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
+                Edit Project
+              </Button>
             </Box>
           </Box>
-          <Box className={classes.titleContainerActions}>
-            <Button variant="outlined" color="primary" onClick={() => history.push('users')}>
-              Manage Project Team
-            </Button>
-            <Button variant="outlined" color="primary" onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
-              Edit Project
-            </Button>
-          </Box>
-        </Box>
 
-        <Divider hidden></Divider>
-        
-        <Box mt={2}>
-        <Grid container spacing={3}>
+          <Divider hidden></Divider>
 
-          <Grid item md={8}>
-
-          <Paper variant="outlined">
-            <Box p={3}>
-              <Box mb={3}>
-                <Box mt={0.5} mb={2.5}>
-                  <Typography variant="h2">Project Objectives</Typography>
-                </Box>
-                <Typography variant="body1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
-              </Box>
-
-              <TreatmentSpatialUnits
-                treatmentList={treatmentList}
-                getTreatments={getTreatments}
-                getAttachments={getAttachments}
-              />
-
-              <Box mb={3}>
+          <Box mt={2}>
+            <Grid container spacing={3}>
+              <Grid item md={8}>
                 <Paper variant="outlined">
-                  <Box height="500px" position="relative">
-                    <LocationBoundary
-                      projectForViewData={projectWithDetails}
+                  <Box p={3}>
+                    <Box mb={3}>
+                      <Box mt={0.5} mb={2.5}>
+                        <Typography variant="h2">Project Objectives</Typography>
+                      </Box>
+                      <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
+                    </Box>
+
+                    <TreatmentSpatialUnits
                       treatmentList={treatmentList}
+                      getTreatments={getTreatments}
+                      getAttachments={getAttachments}
+                    />
+
+                    <Box mb={3}>
+                      <Paper variant="outlined">
+                        <Box height="500px" position="relative">
+                          <LocationBoundary
+                            projectForViewData={projectWithDetails}
+                            treatmentList={treatmentList}
+                            codes={codes.codes}
+                            refresh={getProject}
+                          />
+                          <Box position="absolute" top="10px" right="10px" zIndex="999">
+                            <Button variant="outlined" color="primary" onClick={openMapDialog}>
+                              Full Screen
+                            </Button>
+                          </Box>
+                        </Box>
+                        <TreatmentList
+                          treatmentList={treatmentList}
+                          getTreatments={getTreatments}
+                          refresh={getProject}
+                        />
+                      </Paper>
+                    </Box>
+
+                    <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
+                  </Box>
+                </Paper>
+              </Grid>
+              <Grid item md={4}>
+                <Paper variant="outlined">
+                  <Box p={3}>
+                    <Box mt={0.5} mb={2.5}>
+                      <Typography variant="h2">Project Details</Typography>
+                    </Box>
+                    <ProjectDetailsPage
+                      projectForViewData={projectWithDetails}
                       codes={codes.codes}
                       refresh={getProject}
                     />
-                    <Box position="absolute" top="10px" right="10px" zIndex="999">
-                      <Button variant="outlined" color="primary" onClick={openMapDialog}>
-                        Full Screen
-                      </Button>
-                    </Box>
                   </Box>
-                  <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
                 </Paper>
+              </Grid>
+            </Grid>
+          </Box>
+        </Container>
+
+        {/* Details Container */}
+        <Drawer variant="permanent" className={classes.projectDetailDrawer} hidden>
+          <Box display="flex" flexDirection="column" height="100%">
+            <Box flex="0 auto" p={3}>
+              <Box mb={2}>
+                <Button
+                  component={Link}
+                  onClick={() => history.push('/admin/user/projects')}
+                  size="small"
+                  startIcon={<Icon path={mdiArrowLeft} size={0.8375} />}>
+                  Back to Projects
+                </Button>
               </Box>
-
-              <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
-            
-            </Box>
-            </Paper>
-
-          </Grid>
-          <Grid item md={4}>
-            <Paper variant="outlined">
-              <Box p={3}>
-                <Box mt={0.5} mb={2.5}>
-                  <Typography variant="h2">Project Details</Typography>
+              <Box display="flex" flexDirection={'row'}>
+                <Box component="h1" flex="1 1 auto" className={classes.projectTitle}>
+                  <b>Project -</b> {projectWithDetails.project.project_name}
                 </Box>
-                <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
-              </Box>
-            </Paper>
-          </Grid>
-
-        </Grid>
-        </Box>
-        
-      </Container>
-
-      {/* Details Container */}
-      <Drawer variant="permanent" className={classes.projectDetailDrawer} hidden>
-        <Box display="flex" flexDirection="column" height="100%">
-          <Box flex="0 auto" p={3}>
-            <Box mb={2}>
-              <Button
-                component={Link}
-                onClick={() => history.push('/admin/user/projects')}
-                size="small"
-                startIcon={<Icon path={mdiArrowLeft} size={0.8375} />}>
-                Back to Projects
-              </Button>
-            </Box>
-            <Box display="flex" flexDirection={'row'}>
-              <Box component="h1" flex="1 1 auto" className={classes.projectTitle}>
-                <b>Project -</b> {projectWithDetails.project.project_name}
-              </Box>
-              <RoleGuard
-                validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
-                validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}>
-                <Box flex="0 0 auto" mt={'-4px'} mr={-1}>
-                  <IconButton aria-controls="project-menu" aria-haspopup="true" onClick={handleClick}>
-                    <Icon path={mdiCogOutline} size={0.9375} />
-                  </IconButton>
-                  <Menu
-                    id="project-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}>
-                    <MenuItem onClick={() => history.push('users')}>
-                      <ListItemIcon>
-                        <Icon path={mdiAccountMultipleOutline} size={0.9375} />
-                      </ListItemIcon>
-                      Manage Project Team
-                    </MenuItem>
-                    <MenuItem onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
-                      <ListItemIcon>
-                        <Icon path={mdiPencilOutline} size={0.9375} />
-                      </ListItemIcon>
-                      Edit Project Details
-                    </MenuItem>
-                    <RoleGuard
-                      validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
-                      validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
-                      <MenuItem onClick={showDeleteProjectDialog}>
+                <RoleGuard
+                  validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+                  validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}>
+                  <Box flex="0 0 auto" mt={'-4px'} mr={-1}>
+                    <IconButton aria-controls="project-menu" aria-haspopup="true" onClick={handleClick}>
+                      <Icon path={mdiCogOutline} size={0.9375} />
+                    </IconButton>
+                    <Menu
+                      id="project-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}>
+                      <MenuItem onClick={() => history.push('users')}>
                         <ListItemIcon>
-                          <Icon path={mdiTrashCanOutline} size={0.9375} />
+                          <Icon path={mdiAccountMultipleOutline} size={0.9375} />
                         </ListItemIcon>
-                        Delete Project
+                        Manage Project Team
                       </MenuItem>
-                    </RoleGuard>
-                  </Menu>
-                </Box>
-              </RoleGuard>
+                      <MenuItem onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
+                        <ListItemIcon>
+                          <Icon path={mdiPencilOutline} size={0.9375} />
+                        </ListItemIcon>
+                        Edit Project Details
+                      </MenuItem>
+                      <RoleGuard
+                        validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+                        validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
+                        <MenuItem onClick={showDeleteProjectDialog}>
+                          <ListItemIcon>
+                            <Icon path={mdiTrashCanOutline} size={0.9375} />
+                          </ListItemIcon>
+                          Delete Project
+                        </MenuItem>
+                      </RoleGuard>
+                    </Menu>
+                  </Box>
+                </RoleGuard>
+              </Box>
+
+              <Box display="flex" flexDirection={'row'}>
+                <Box mr={0.5}>{getChipIcon(priority_status)}</Box>
+                <Box>{getChipIcon(completion_status)}</Box>
+              </Box>
             </Box>
 
-            <Box display="flex" flexDirection={'row'}>
-              <Box mr={0.5}>{getChipIcon(priority_status)}</Box>
-              <Box>{getChipIcon(completion_status)}</Box>
+            <Box>
+              <Tabs
+                className={classes.tabs}
+                value={tabValue}
+                onChange={handleTabChange}
+                variant="fullWidth"
+                aria-label="Project Navigation">
+                <Tab label="Project Details" value="project_details" />
+                <Tab label="Documents" value="project_documents" />
+              </Tabs>
             </Box>
+
+            <TabPanel value={tabValue} index="project_details">
+              <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
+            </TabPanel>
+            <TabPanel value={tabValue} index="project_documents">
+              <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
+            </TabPanel>
           </Box>
+        </Drawer>
 
+        {/* Map Container */}
+        <Box flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary} hidden>
           <Box>
-            <Tabs
-              className={classes.tabs}
-              value={tabValue}
-              onChange={handleTabChange}
-              variant="fullWidth"
-              aria-label="Project Navigation">
-              <Tab label="Project Details" value="project_details" />
-              <Tab label="Documents" value="project_documents" />
-            </Tabs>
+            <TreatmentSpatialUnits
+              treatmentList={treatmentList}
+              getTreatments={getTreatments}
+              getAttachments={getAttachments}
+            />
           </Box>
 
-          <TabPanel value={tabValue} index="project_details">
-            <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
-          </TabPanel>
-          <TabPanel value={tabValue} index="project_documents">
-            <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
-          </TabPanel>
-        </Box>
-      </Drawer>
+          <Box flex="1 1 auto">
+            <LocationBoundary
+              projectForViewData={projectWithDetails}
+              treatmentList={treatmentList}
+              codes={codes.codes}
+              refresh={getProject}
+            />
+          </Box>
 
-      {/* Map Container */}
-      <Box flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary} hidden>
-        <Box>
-          <TreatmentSpatialUnits
-            treatmentList={treatmentList}
-            getTreatments={getTreatments}
-            getAttachments={getAttachments}
-          />
-        </Box>
-
-        <Box flex="1 1 auto">
-          <LocationBoundary
-            projectForViewData={projectWithDetails}
-            treatmentList={treatmentList}
-            codes={codes.codes}
-            refresh={getProject}
-          />
-        </Box>
-
-        <Box flex="0 0 auto" height="250px" hidden>
-          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
-        </Box>
-
-      </Box>
-    </Box>
-
-    <Dialog fullScreen open={open} onClose={closeMapDialog}>
-      <Box pr={3} pl={1} display="flex" alignItems="center">
-        <Box mr="1">
-          <IconButton onClick={closeMapDialog}>
-            <Icon path={mdiArrowLeft} size={1} />
-          </IconButton>
-        </Box>
-        <Box flex="1 1 auto">
-          <TreatmentSpatialUnits
-            treatmentList={treatmentList}
-            getTreatments={getTreatments}
-            getAttachments={getAttachments}
-          />
+          <Box flex="0 0 auto" height="250px" hidden>
+            <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+          </Box>
         </Box>
       </Box>
-      <Box display="flex" height="100%" flexDirection="column">
-        <Box flex="1 1 auto">
-          <LocationBoundary
-            projectForViewData={projectWithDetails}
-            treatmentList={treatmentList}
-            codes={codes.codes}
-            refresh={getProject}
-          />
+
+      <Dialog fullScreen open={open} onClose={closeMapDialog}>
+        <Box pr={3} pl={1} display="flex" alignItems="center">
+          <Box mr="1">
+            <IconButton onClick={closeMapDialog}>
+              <Icon path={mdiArrowLeft} size={1} />
+            </IconButton>
+          </Box>
+          <Box flex="1 1 auto">
+            <TreatmentSpatialUnits
+              treatmentList={treatmentList}
+              getTreatments={getTreatments}
+              getAttachments={getAttachments}
+            />
+          </Box>
         </Box>
-        <Box flex="0 0 auto" height="300px">
-          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+        <Box display="flex" height="100%" flexDirection="column">
+          <Box flex="1 1 auto">
+            <LocationBoundary
+              projectForViewData={projectWithDetails}
+              treatmentList={treatmentList}
+              codes={codes.codes}
+              refresh={getProject}
+            />
+          </Box>
+          <Box flex="0 0 auto" height="300px">
+            <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+          </Box>
         </Box>
-      </Box>
-    </Dialog>
-    
+      </Dialog>
     </>
   );
 };
