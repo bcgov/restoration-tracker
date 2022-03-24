@@ -43,7 +43,7 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
     <Box component="dl" mb={0}>
       <div>
         <Typography component="dt" variant="body2" color="textSecondary" data-testid="indigenousData">
-          Indigenous Partnerships
+          Indigenous
         </Typography>
 
         <Typography component="dd" variant="body2">
@@ -63,7 +63,7 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
 
       <div>
         <Typography component="dt" variant="body2" color="textSecondary" data-testid="stakeholderData">
-          Other Partnerships
+          Other
         </Typography>
 
         <Typography component="dd" variant="body2">

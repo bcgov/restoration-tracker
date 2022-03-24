@@ -49,15 +49,15 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
   return (
     <Box component="dl" data-testid="general_info_component">
       <div hidden>
-        <Typography variant="body2" component="dd" color="textSecondary">
+        <Typography variant="body2" component="dt" color="textSecondary">
           Project Name:
         </Typography>
-        <Typography variant="body2" component="dt">
+        <Typography variant="body2" component="dd">
           {project.project_name}
         </Typography>
       </div>
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
+        <Typography variant="body2" component="dt" color="textSecondary">
           Region:
         </Typography>
         {getRegionName(location.region)}
@@ -71,23 +71,23 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
         </div>
       )}
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
+        <Typography variant="body2" component="dt" color="textSecondary">
           Start Date:
         </Typography>
-        <Typography variant="body2" component="dt">
+        <Typography variant="body2" component="dd">
           {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
         </Typography>
       </div>
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
+        <Typography variant="body2" component="dt" color="textSecondary">
           End Date:
         </Typography>
-        <Typography variant="body2" component="dt">
+        <Typography variant="body2" component="dd">
           {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
         </Typography>
       </div>
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
+        <Typography variant="body2" component="dt" color="textSecondary">
           Focal Species:
         </Typography>
         <Typography component="dd" variant="body2">
