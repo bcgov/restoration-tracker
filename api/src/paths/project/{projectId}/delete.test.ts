@@ -90,47 +90,6 @@ describe('deleteProject', () => {
     }
   });
 
-  it('should throw a 400 error when user has insufficient role to delete published project', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
-    const mockQuery = sinon.stub();
-
-    // mock project query
-    mockQuery.onCall(0).resolves({
-      rowCount: 1,
-      rows: [
-        {
-          id: 1,
-          publish_date: 'some date'
-        }
-      ]
-    });
-
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      query: mockQuery
-    });
-
-    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
-    mockReq.params = { projectId: '1' };
-    mockReq['system_user'] = { role_names: [] };
-
-    sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
-
-    try {
-      const result = delete_project.deleteProject();
-
-      await result(mockReq, mockRes, mockNext);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal(
-        'Cannot delete a published project if you are not a system administrator.'
-      );
-    }
-  });
-
   it('should throw a 400 error when failed to get result for project attachments', async () => {
     const dbConnectionObj = getMockDBConnection();
 

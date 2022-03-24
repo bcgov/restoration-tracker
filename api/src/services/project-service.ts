@@ -609,12 +609,6 @@ export class ProjectService extends DBService {
   }
 
   async insertContact(contact: IPostContact, project_id: number): Promise<number> {
-    const systemUserId = this.connection.systemUserId();
-
-    if (!systemUserId) {
-      throw new HTTP400('Failed to identify system user ID');
-    }
-
     const sqlStatement = SQL`
       INSERT INTO project_contact (
         project_id, contact_type_id, first_name, last_name, agency, email_address, is_public, is_primary
@@ -1058,6 +1052,8 @@ export class ProjectService extends DBService {
   }
 
   async updateProjectFundingData(projectId: number, entities: IUpdateProject): Promise<void> {
+    const putFundingSources = entities?.funding && new models.project.PutFundingData(entities.funding);
+
     const deleteSQLStatement = SQL`
       DELETE
         from project_funding_source
@@ -1065,9 +1061,11 @@ export class ProjectService extends DBService {
         project_id = ${projectId};
     `;
 
-    await this.connection.query(deleteSQLStatement.text, deleteSQLStatement.values);
+    const deleteFundingResult = await this.connection.query(deleteSQLStatement.text, deleteSQLStatement.values);
 
-    const putFundingSources = entities?.funding && new models.project.PutFundingData(entities.funding);
+    if (!deleteFundingResult) {
+      throw new HTTP409('Failed to delete project funding data');
+    }
 
     await Promise.all(
       putFundingSources?.fundingSources?.map((item) => {
@@ -1079,23 +1077,30 @@ export class ProjectService extends DBService {
   async updateProjectSpatialData(projectId: number, entities: IUpdateProject): Promise<void> {
     const putLocationData = entities?.location && new models.project.PutLocationData(entities.location);
 
+    if (!putLocationData?.geometry) {
+      // No spatial data to insert
+      return;
+    }
+
     const projectSpatialDeleteStatement = queries.project.deleteProjectSpatialSQL(projectId);
 
     if (!projectSpatialDeleteStatement) {
-      throw new HTTP500('Failed to build SQL delete statement');
+      throw new HTTP400('Failed to build SQL delete statement');
     }
 
-    await this.connection.query(projectSpatialDeleteStatement.text, projectSpatialDeleteStatement.values);
+    const deleteSpatialResult = await this.connection.query(
+      projectSpatialDeleteStatement.text,
+      projectSpatialDeleteStatement.values
+    );
 
-    if (!putLocationData?.geometry.length) {
-      // No spatial data to insert
-      return;
+    if (!deleteSpatialResult) {
+      throw new HTTP409('Failed to delete spatial data');
     }
 
     const sqlInsertStatement = queries.project.postProjectBoundarySQL(putLocationData, projectId);
 
     if (!sqlInsertStatement) {
-      throw new HTTP500('Failed to build SQL update statement');
+      throw new HTTP400('Failed to build SQL update statement');
     }
 
     const result = await this.connection.query(sqlInsertStatement.text, sqlInsertStatement.values);

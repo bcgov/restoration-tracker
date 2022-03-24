@@ -29,7 +29,7 @@ export interface IProjectParticipantsHeaderProps {
 }
 
 /**
- * Survey header for a single-survey view.
+ * Project Participant header for a single-project view.
  *
  * @param {*} props
  * @return {*}
