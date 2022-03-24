@@ -164,7 +164,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
           </strong>
         </Box>
 
-        <Box component={TableContainer} maxHeight="400px">
+        <Box component={TableContainer} maxHeight="500px">
           <Table stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
             <TableHead>
               <TableRow>
