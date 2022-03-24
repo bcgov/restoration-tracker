@@ -8,8 +8,8 @@ import ProjectFilter, {
 import { DialogContext } from 'contexts/dialogContext';
 import { Formik, FormikProps } from 'formik';
 import { APIError } from 'hooks/api/useAxios';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -24,8 +24,6 @@ const ProjectsPage: React.FC = () => {
   const location = useLocation();
   const restorationTrackerApi = useRestorationTrackerApi();
   const dialogContext = useContext(DialogContext);
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [isLoadingCodes, setIsLoadingCodes] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const [projects, setProjects] = useState<IGetProjectForViewResponse[]>([]);
@@ -130,22 +128,7 @@ const ProjectsPage: React.FC = () => {
     });
   };
 
-  //codes
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        return;
-      }
-      setCodes(codesResponse);
-    };
-
-    if (!isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(true);
-    }
-  }, [restorationTrackerApi.codes, isLoadingCodes, codes]);
+  const codes = useCodes();
 
   //projects
   useEffect(() => {
@@ -174,7 +157,7 @@ const ProjectsPage: React.FC = () => {
     }
   }, [isLoading, location.search, formikValues, collectFilterParams]);
 
-  if (!isLoadingCodes) {
+  if (!codes.isReady || !codes.codes) {
     return <CircularProgress data-testid="project-loading" className="pageProgress" size={40} />;
   }
 
@@ -196,27 +179,27 @@ const ProjectsPage: React.FC = () => {
           enableReinitialize={true}>
           <ProjectFilter
             contact_agency={
-              codes?.coordinator_agency?.map((item: any) => {
+              codes.codes.coordinator_agency?.map((item: any) => {
                 return item.name;
               }) || []
             }
             species={
-              codes?.species?.map((item) => {
+              codes.codes.species.map((item) => {
                 return { value: item.id, label: item.name };
               }) || []
             }
             funding_agency={
-              codes?.funding_source?.map((item) => {
+              codes.codes.funding_source.map((item) => {
                 return { value: item.id, label: item.name };
               }) || []
             }
             ranges={
-              codes?.ranges?.map((item) => {
+              codes.codes.ranges.map((item) => {
                 return { value: item.id, label: item.name };
               }) || []
             }
             region={
-              codes?.regions?.map((item) => {
+              codes.codes.regions.map((item) => {
                 return { value: item.id, label: item.name };
               }) || []
             }

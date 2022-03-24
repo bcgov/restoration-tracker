@@ -1,7 +1,7 @@
 [![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bcgov_restoration-tracker&metric=alert_status)](https://sonarcloud.io/dashboard?id=bcgov_restoration-tracker) [![codecov](https://codecov.io/gh/bcgov/restoration-tracker/branch/dev/graph/badge.svg?token=CyJ2NTS3Bh)](https://codecov.io/gh/bcgov/restoration-tracker) [![Restoration](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/w8oxci/dev&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/bq8wdr/runs)
 
 # Restoration Tracker
-Habitat Restoration &amp; Enhancement Tracker
+Restoration Tracker is a system which supports the planning, implementation and monitoring of restoration projects in British Columbia. The initial release (March 2022) collects project and treatment details for caribou herd restoration initiatives in the north east of the province. Future development will support all restoration projects within the province and will assist with planning and monitoring the effectiveness of these projects.
 
 # Pre-reqs
 

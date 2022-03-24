@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -19,6 +19,7 @@ import { CustomMenuButton } from 'components/toolbar/ActionToolbars';
 import { ProjectParticipantsI18N } from 'constants/i18n';
 import { DialogContext } from 'contexts/dialogContext';
 import { APIError } from 'hooks/api/useAxios';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { CodeSet, IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import {
@@ -57,9 +58,6 @@ const ProjectParticipantsPage: React.FC = () => {
 
   const [isLoadingProject, setIsLoadingProject] = useState(true);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
-
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [isLoadingCodes, setIsLoadingCodes] = useState(true);
 
   const [projectParticipants, setProjectParticipants] = useState<IGetProjectParticipantsResponseArrayItem[] | null>(
     null
@@ -113,22 +111,7 @@ const ProjectParticipantsPage: React.FC = () => {
     }
   }, [isLoadingProject, projectWithDetails, getProject]);
 
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        return;
-      }
-
-      setCodes(codesResponse);
-    };
-
-    if (isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(false);
-    }
-  }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
+  const codes = useCodes();
 
   const getProjectParticipants = useCallback(async () => {
     try {
@@ -185,9 +168,78 @@ const ProjectParticipantsPage: React.FC = () => {
     }
   };
 
-  const hasProjectParticipants = !!(projectParticipants && projectParticipants.length);
+  const TableRows: React.FC<{
+    projectParticipants: IGetProjectParticipantsResponseArrayItem[];
+    codes: IGetAllCodeSetsResponse;
+  }> = (tableRowsProps) => {
+    if (tableRowsProps.projectParticipants && tableRowsProps.projectParticipants.length) {
+      return (
+        <>
+          {tableRowsProps.projectParticipants.map((row) => (
+            <TableRow key={row.project_participation_id}>
+              <TableCell scope="row">
+                <strong>{row.user_identifier}</strong>
+              </TableCell>
+              <TableCell>
+                <Box m={-1}>
+                  <ChangeProjectRoleMenu
+                    row={row}
+                    projectRoleCodes={tableRowsProps.codes.project_roles}
+                    refresh={getProjectParticipants}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell align="center">
+                <Box m={-1}>
+                  <IconButton
+                    title="Remove Team Member"
+                    data-testid={'remove-project-participant-button'}
+                    onClick={() =>
+                      openYesNoDialog({
+                        dialogTitle: ProjectParticipantsI18N.removeParticipantTitle,
+                        dialogContent: (
+                          <Typography variant="body1" component="div" color="textSecondary">
+                            Removing user <strong>{row.user_identifier}</strong> will revoke their access to project.
+                            Are you sure you want to proceed?
+                          </Typography>
+                        ),
+                        yesButtonProps: { color: 'secondary' },
+                        onYes: () => {
+                          handleRemoveProjectParticipant(row.project_participation_id);
+                          dialogContext.setYesNoDialog({ open: false });
+                          dialogContext.setSnackbar({
+                            open: true,
+                            snackbarMessage: (
+                              <Typography variant="body2" component="div">
+                                User <strong>{row.user_identifier}</strong> removed from project.
+                              </Typography>
+                            )
+                          });
+                        }
+                      })
+                    }>
+                    <Icon path={mdiTrashCanOutline} size={1} />
+                  </IconButton>
+                </Box>
+              </TableCell>
+            </TableRow>
+          ))}
+        </>
+      );
+    }
 
-  if (!codes || !projectParticipants || !projectWithDetails) {
+    return (
+      <TableRow>
+        <TableCell colSpan={3}>
+          <Box display="flex" justifyContent="center">
+            No Team Members
+          </Box>
+        </TableCell>
+      </TableRow>
+    );
+  };
+
+  if (!codes.isReady || !codes.codes || !projectParticipants || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} />;
   }
 
@@ -195,7 +247,7 @@ const ProjectParticipantsPage: React.FC = () => {
     <>
       <ProjectParticipantsHeader
         projectWithDetails={projectWithDetails}
-        codes={codes}
+        codes={codes.codes}
         refresh={getProjectParticipants}
       />
 
@@ -219,65 +271,7 @@ const ProjectParticipantsPage: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {hasProjectParticipants &&
-                  projectParticipants?.map((row) => (
-                    <TableRow key={row.project_participation_id}>
-                      <TableCell scope="row">
-                        <strong>{row.user_identifier}</strong>
-                      </TableCell>
-                      <TableCell>
-                        <Box m={-1}>
-                          <ChangeProjectRoleMenu
-                            row={row}
-                            projectRoleCodes={codes.project_roles}
-                            refresh={getProjectParticipants}
-                          />
-                        </Box>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Box m={-1}>
-                          <IconButton
-                            title="Remove Team Member"
-                            data-testid={'remove-project-participant-button'}
-                            onClick={() =>
-                              openYesNoDialog({
-                                dialogTitle: ProjectParticipantsI18N.removeParticipantTitle,
-                                dialogContent: (
-                                  <Typography variant="body1" component="div" color="textSecondary">
-                                    Removing user <strong>{row.user_identifier}</strong> will revoke their access to
-                                    project. Are you sure you want to proceed?
-                                  </Typography>
-                                ),
-                                yesButtonProps: { color: 'secondary' },
-                                onYes: () => {
-                                  handleRemoveProjectParticipant(row.project_participation_id);
-                                  dialogContext.setYesNoDialog({ open: false });
-                                  dialogContext.setSnackbar({
-                                    open: true,
-                                    snackbarMessage: (
-                                      <Typography variant="body2" component="div">
-                                        User <strong>{row.user_identifier}</strong> removed from project.
-                                      </Typography>
-                                    )
-                                  });
-                                }
-                              })
-                            }>
-                            <Icon path={mdiTrashCanOutline} size={1} />
-                          </IconButton>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                {!hasProjectParticipants && (
-                  <TableRow>
-                    <TableCell colSpan={3}>
-                      <Box display="flex" justifyContent="center">
-                        No Team Members
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                )}
+                <TableRows projectParticipants={projectParticipants} codes={codes.codes} />
               </TableBody>
             </Table>
           </Paper>

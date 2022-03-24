@@ -237,7 +237,7 @@ export interface IGetProjectForViewResponseLocation {
   range: number;
 }
 
-interface IGetProjectForViewResponseContactArrayItem {
+export interface IGetProjectForViewResponseContactArrayItem {
   first_name: string;
   last_name: string;
   email_address: string;
