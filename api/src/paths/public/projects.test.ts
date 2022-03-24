@@ -6,7 +6,6 @@ import * as projects from './projects';
 import * as db from '../../database/db';
 import public_queries from '../../queries/public';
 import SQL from 'sql-template-strings';
-import { COMPLETION_STATUS } from '../../constants/status';
 import { getMockDBConnection } from '../../__mocks__/db';
 import { HTTPError } from '../../errors/custom-error';
 
@@ -93,7 +92,6 @@ describe('getPublicProjectsList', () => {
         start_date: projectsList[0].start_date,
         end_date: projectsList[0].end_date,
         contact_agency_list: projectsList[0].agency_list,
-        completion_status: COMPLETION_STATUS.COMPLETED,
         permits_list: projectsList[0].permits_list
       }
     ]);

@@ -29,8 +29,7 @@ describe('ProjectsListPage', () => {
           project_name: 'Project 1',
           start_date: null,
           end_date: '2020-01-01', // date in the past
-          project_type: 'project type',
-          publish_status: 'Published'
+          project_type: 'project type'
         },
         permit: {
           permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
@@ -65,8 +64,7 @@ describe('ProjectsListPage', () => {
           project_name: 'Project 1',
           start_date: '2022-02-09',
           end_date: '2022-02-09',
-          project_type: 'project type',
-          publish_status: 'Unpublished'
+          project_type: 'project type'
         },
         permit: {
           permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
@@ -88,7 +86,6 @@ describe('ProjectsListPage', () => {
         end_date: '2022-02-09',
         coordinator_agency: 'string',
         permits_list: 'string',
-        publish_status: 'string',
         completion_status: 'Draft'
       }
     ];
@@ -117,8 +114,7 @@ describe('ProjectsListPage', () => {
           project_name: 'Project 1',
           start_date: '2022-02-09',
           end_date: '2022-02-09',
-          project_type: 'project type',
-          publish_status: 'Unpublished'
+          project_type: 'project type'
         },
         permit: {
           permits: [{ permit_number: 1 }, { permit_number: 2 }, { permit_number: 3 }]
@@ -159,7 +155,6 @@ describe('ProjectsListPage', () => {
         end_date: '2022-02-09',
         coordinator_agency: 'string',
         permits_list: 'string',
-        publish_status: 'string',
         completion_status: 'Draft'
       }
     ];

@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export interface IAttachmentsListProps {
   projectId: number;
-  surveyId?: number;
   attachmentsList: IGetProjectAttachment[];
   getAttachments: (forceFetch: boolean) => void;
 }
