@@ -280,6 +280,8 @@ export class ProjectService extends DBService {
       WHERE
         project_id = ${projectId}
     `;
+
+    //Will build this sql to select agency ONLY IF the contact is public
     const sqlStatementJustAgencies = SQL``;
 
     if (isPublic) {
