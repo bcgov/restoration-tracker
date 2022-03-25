@@ -12,17 +12,27 @@ import { ProjectObject, ProjectService } from './project-service';
 import { DBService } from './service';
 import { TaxonomyService } from './taxonomy-service';
 
+const NOT_SUPPLIED_CONSTANT = 'Not Supplied';
+
 const DEFAULT_DB_CONSTANTS = {
   EML_VERSION: '1.0.0',
-  EML_PROVIDER_URL: '',
-  EML_SECURITY_PROVIDER_URL: '',
-  EML_ORGANIZATION_NAME: '',
-  EML_ORGANIZATION_URL: '',
-  EML_TAXONOMIC_PROVIDER_URL: '',
-  EML_INTELLECTUAL_RIGHTS: ''
+  EML_PROVIDER_URL: NOT_SUPPLIED_CONSTANT,
+  EML_SECURITY_PROVIDER_URL: NOT_SUPPLIED_CONSTANT,
+  EML_ORGANIZATION_NAME: NOT_SUPPLIED_CONSTANT,
+  EML_ORGANIZATION_URL: NOT_SUPPLIED_CONSTANT,
+  EML_TAXONOMIC_PROVIDER_URL: NOT_SUPPLIED_CONSTANT,
+  EML_INTELLECTUAL_RIGHTS: NOT_SUPPLIED_CONSTANT
 };
 
-const NOT_SUPPLIED_CONSTANT = 'Not Supplied';
+type EMLDBConstants = {
+  EML_VERSION: string;
+  EML_PROVIDER_URL: string;
+  EML_SECURITY_PROVIDER_URL: string;
+  EML_ORGANIZATION_NAME: string;
+  EML_ORGANIZATION_URL: string;
+  EML_TAXONOMIC_PROVIDER_URL: string;
+  EML_INTELLECTUAL_RIGHTS: string;
+};
 
 /**
  * Service to produce EML data for a project.
@@ -42,15 +52,7 @@ export class EmlService extends DBService {
 
   cache: Record<any, any>;
 
-  constants: {
-    EML_VERSION: string;
-    EML_PROVIDER_URL: string;
-    EML_SECURITY_PROVIDER_URL: string;
-    EML_ORGANIZATION_NAME: string;
-    EML_ORGANIZATION_URL: string;
-    EML_TAXONOMIC_PROVIDER_URL: string;
-    EML_INTELLECTUAL_RIGHTS: string;
-  };
+  constants: EMLDBConstants;
 
   constructor(options: { projectId: number; packageId?: string }, connection: IDBConnection) {
     super(connection);
@@ -68,13 +70,21 @@ export class EmlService extends DBService {
     this.constants = DEFAULT_DB_CONSTANTS;
   }
 
-  async loadData() {
-    const projectObject = await this.projectService.getProjectById(this.projectId);
+  get projectData(): ProjectObject {
+    if (!this.cache['projectData']) {
+      throw Error('Project data was not loaded');
+    }
 
-    this.cache['project'] = projectObject;
+    return this.cache['projectData'];
   }
 
-  async loadDBConstants() {
+  async loadProjectData() {
+    const projectData = await this.projectService.getProjectById(this.projectId);
+
+    this.cache['projectData'] = projectData;
+  }
+
+  async loadEMLDBConstants() {
     const [organizationUrl, organizationName] = await Promise.all([
       this.connection.sql<{ constant: string }>(getDbCharacterSystemMetaDataConstantSQL('ORGANIZATION_URL')),
       this.connection.sql<{ constant: string }>(getDbCharacterSystemMetaDataConstantSQL('ORGANIZATION_NAME_FULL'))
@@ -85,7 +95,8 @@ export class EmlService extends DBService {
   }
 
   async buildProjectEml() {
-    await this.loadData();
+    await this.loadProjectData();
+    await this.loadEMLDBConstants();
 
     this.buildEMLSection();
     this.buildAccessSection();
@@ -124,19 +135,13 @@ export class EmlService extends DBService {
   }
 
   async buildDatasetSection(options?: { datasetTitle?: string }) {
-    const projectObject: ProjectObject = this.cache['project'];
-
-    if (!projectObject) {
-      throw Error('Project data not found');
-    }
-
     jsonpatch.applyOperation(this.data, {
       op: 'add',
       path: '/eml/dataset',
       value: {
         $: { system: this.constants.EML_PROVIDER_URL, id: this.packageId },
         title: options?.datasetTitle || this.packageId,
-        pubDate: projectObject.project.publish_date,
+        pubDate: this.projectData.project.publish_date,
         language: 'english',
         metadataProvider: {
           organizationName: this.constants.EML_ORGANIZATION_NAME,
@@ -145,10 +150,10 @@ export class EmlService extends DBService {
         intellectualRights: { para: this.constants.EML_INTELLECTUAL_RIGHTS },
         contact: this.getProjectContact(),
         project: {
-          $: { id: projectObject.project.uuid, system: this.constants.EML_PROVIDER_URL },
-          title: projectObject.project.project_name,
+          $: { id: this.projectData.project.uuid, system: this.constants.EML_PROVIDER_URL },
+          title: this.projectData.project.project_name,
           personnel: this.getProjectPersonnel(),
-          abstract: { section: { title: 'Objectives', para: projectObject.project.objectives } },
+          abstract: { section: { title: 'Objectives', para: this.projectData.project.objectives } },
           studyAreaDescription: {
             coverage: {
               geographicCoverage: await this.getGeographicCoverageEML(),
@@ -163,12 +168,6 @@ export class EmlService extends DBService {
   }
 
   async buildAdditionalMetadataSection() {
-    const projectObject: ProjectObject = this.cache['project'];
-
-    if (!projectObject) {
-      throw Error('Project data not found');
-    }
-
     const [firstNationsData] = await Promise.all([
       this.connection.sql<{ name: string }>(queries.eml.getProjectFirstNationsSQL(this.projectId))
     ]);
@@ -181,7 +180,7 @@ export class EmlService extends DBService {
           describes: this.packageId,
           metadata: {
             IUCNConservationActions: {
-              IUCNConservationAction: projectObject.iucn.classificationDetails.map((item) => {
+              IUCNConservationAction: this.projectData.iucn.classificationDetails.map((item) => {
                 return {
                   IUCNConservationActionLevel1Classification: item.classification,
                   IUCNConservationActionLevel2SubClassification: item.subClassification1,
@@ -195,7 +194,7 @@ export class EmlService extends DBService {
           describes: this.packageId,
           metadata: {
             stakeholderPartnerships: {
-              stakeholderPartnership: projectObject.partnerships.stakeholder_partnerships.map((item) => {
+              stakeholderPartnership: this.projectData.partnerships.stakeholder_partnerships.map((item) => {
                 return { name: item };
               })
             }
@@ -215,7 +214,7 @@ export class EmlService extends DBService {
           describes: this.packageId,
           metadata: {
             permits: {
-              permit: projectObject.permit.permits.map((item) => {
+              permit: this.projectData.permit.permits.map((item) => {
                 return { permitType: item.permit_type, permitNumber: item.permit_number };
               })
             }
@@ -225,7 +224,7 @@ export class EmlService extends DBService {
           describes: this.packageId,
           metadata: {
             priorityArea: {
-              isPriority: false // TODO assign priority when its merged: projectObject.location.priority
+              isPriority: false // TODO assign priority when its merged: this.projectData.location.priority
             }
           }
         }
@@ -234,17 +233,11 @@ export class EmlService extends DBService {
   }
 
   getProjectPersonnel(): Record<any, any>[] {
-    const projectObject: ProjectObject = this.cache['project'];
-
-    if (!projectObject) {
-      throw Error('Project data not found');
-    }
-
-    if (!projectObject.contact.contacts.length) {
+    if (!this.projectData.contact.contacts.length) {
       return [];
     }
 
-    return projectObject.contact.contacts.map((item) => {
+    return this.projectData.contact.contacts.map((item) => {
       if (JSON.parse(item.is_public)) {
         return {
           individualName: { givenName: item.first_name, surName: item.last_name },
@@ -259,17 +252,11 @@ export class EmlService extends DBService {
   }
 
   getProjectContact(): Record<any, any> {
-    const projectObject: ProjectObject = this.cache['project'];
-
-    if (!projectObject) {
-      throw Error('Project data not found');
-    }
-
-    if (!projectObject.contact.contacts.length) {
+    if (!this.projectData.contact.contacts.length) {
       return { organizationName: this.constants.EML_ORGANIZATION_NAME, onlineUrl: this.constants.EML_ORGANIZATION_URL };
     }
 
-    const publicPrimaryContact = projectObject.contact.contacts.find(
+    const publicPrimaryContact = this.projectData.contact.contacts.find(
       (item) => JSON.parse(item.is_primary) && JSON.parse(item.is_public)
     );
     if (publicPrimaryContact) {
@@ -280,12 +267,12 @@ export class EmlService extends DBService {
       };
     }
 
-    const privatePrimaryContact = projectObject.contact.contacts.find((item) => JSON.parse(item.is_primary));
+    const privatePrimaryContact = this.projectData.contact.contacts.find((item) => JSON.parse(item.is_primary));
     if (privatePrimaryContact) {
       return { organizationName: privatePrimaryContact.agency };
     }
 
-    const publicContact = projectObject.contact.contacts.find((item) => JSON.parse(item.is_public));
+    const publicContact = this.projectData.contact.contacts.find((item) => JSON.parse(item.is_public));
     if (publicContact) {
       return {
         individualName: { givenName: publicContact.first_name, surName: publicContact.last_name },
@@ -294,18 +281,12 @@ export class EmlService extends DBService {
       };
     }
 
-    const privateContact = projectObject.contact.contacts[0];
+    const privateContact = this.projectData.contact.contacts[0];
     return { organizationName: privateContact.agency };
   }
 
   getProjectFundingSources(): Record<any, any>[] {
-    const projectObject: ProjectObject = this.cache['project'];
-
-    if (!projectObject) {
-      throw Error('Project data not found');
-    }
-
-    return projectObject.funding.fundingSources.map((item) => {
+    return this.projectData.funding.fundingSources.map((item) => {
       return {
         section: {
           title: item.agency_name,
@@ -322,32 +303,20 @@ export class EmlService extends DBService {
   }
 
   getTemporalCoverageEML(): Record<any, any> {
-    const projectObject: ProjectObject = this.cache['project'];
-
-    if (!projectObject) {
-      throw Error('Project data not found');
-    }
-
     return {
       rangeOfDates: {
-        beginDate: { calendarDate: projectObject.project.start_date },
-        endDate: { calendarDate: projectObject.project.end_date }
+        beginDate: { calendarDate: this.projectData.project.start_date },
+        endDate: { calendarDate: this.projectData.project.end_date }
       }
     };
   }
 
   async getGeographicCoverageEML(): Promise<Record<any, any>> {
-    const projectObject: ProjectObject = this.cache['project'];
-
-    if (!projectObject) {
-      throw Error('Project data not found');
-    }
-
-    if (!projectObject.location.geometry) {
+    if (!this.projectData.location.geometry) {
       return {};
     }
 
-    const polygonFeatures = projectObject.location.geometry?.map((item) => {
+    const polygonFeatures = this.projectData.location.geometry?.map((item) => {
       if (item.geometry.type === 'Point' && item.properties?.radius) {
         return circle(item.geometry, item.properties.radius, { units: 'meters' });
       }
@@ -357,7 +326,7 @@ export class EmlService extends DBService {
 
     const projectBoundingBox = bbox(featureCollection(polygonFeatures));
 
-    const regionName = (await getNRMRegions()).find((item) => item.id === projectObject.location.region);
+    const regionName = (await getNRMRegions()).find((item) => item.id === this.projectData.location.region);
 
     const geographicCoverage = {
       geographicDescription: regionName,
@@ -389,15 +358,9 @@ export class EmlService extends DBService {
   }
 
   async getFocalTaxonomicCoverage(): Promise<Record<any, any>> {
-    const projectObject: ProjectObject = this.cache['project'];
-
-    if (!projectObject) {
-      throw Error('Project data not found');
-    }
-
     const taxonomySearchService = new TaxonomyService();
 
-    const response = await taxonomySearchService.getTaxonomyFromIds(projectObject.species.focal_species);
+    const response = await taxonomySearchService.getTaxonomyFromIds(this.projectData.species.focal_species);
 
     const taxonomicClassifications: Record<string, any>[] = [];
 

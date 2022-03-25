@@ -76,9 +76,11 @@ export function getProjectEml(): RequestHandler {
     const connection = getDBConnection(req['keycloak_token']);
 
     try {
+      const projectId = Number(req.params.projectId);
+
       await connection.open();
 
-      const emlService = new EmlService({ projectId: Number(req.params.projectId) }, connection);
+      const emlService = new EmlService({ projectId: projectId }, connection);
 
       const jsonResponse = await emlService.buildProjectEml();
 
@@ -88,7 +90,10 @@ export function getProjectEml(): RequestHandler {
 
       await connection.commit();
 
-      return res.status(200).json(xmlResponse);
+      res.attachment(`project_${projectId}_eml.xml`);
+      res.type('xml');
+
+      return res.status(200).send(xmlResponse);
     } catch (error) {
       defaultLog.error({ label: 'getProjectEml', message: 'error', error });
       await connection.rollback();
