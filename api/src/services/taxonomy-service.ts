@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { getLogger } from '../utils/logger';
 import { Client } from '@elastic/elasticsearch';
 import { SearchRequest, SearchHit } from '@elastic/elasticsearch/lib/api/types';
@@ -25,11 +24,11 @@ export class TaxonomyService {
 
   private sanitizeSpeciesData = (data: SearchHit<any>[]) => {
     return data.map((item) => {
-      const label = `${item._source.code}: ${item._source.tty_kingdom} ${item._source.tty_name},${
-        item._source.unit_name1 ? ` ${item._source.unit_name1}` : ''
-      }${item._source.unit_name2 ? ` ${item._source.unit_name2}` : ''}${
-        item._source.unit_name3 ? ` ${item._source.unit_name3}` : ''
-      }${item._source.english_name ? `, ${item._source.english_name}` : ''}`;
+      const unit_name1 = item._source.unit_name1 || '';
+      const unit_name2 = item._source.unit_name2 || '';
+      const unit_name3 = item._source.unit_name3 || '';
+      const english_name = item._source.english_name || '';
+      const label = `${item._source.code}: ${item._source.tty_kingdom} ${item._source.tty_name}, ${unit_name1} ${unit_name2} ${unit_name3}, ${english_name}`;
 
       return { id: item._id, label: label };
     });

@@ -192,8 +192,7 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
     }
   };
 
-  const handleOnChange = (event: React.ChangeEvent<any>, values: IMultiAutocompleteFieldOption[]) => {
-    const selectedOptions = values;
+  const handleOnChange = (event: React.ChangeEvent<any>, selectedOptions: IMultiAutocompleteFieldOption[]) => {
     const selectedOptionsValue = selectedOptions.map((item) => item.value);
     const remainingOptions = options.filter((item) => !selectedOptionsValue.includes(item.value));
 
@@ -207,30 +206,30 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
 
     setFieldValue(
       props.id,
-      values.map((item) => item.value)
+      selectedOptions.map((item) => item.value)
     );
   };
 
   const filterOptionsKeepingSelectedOnTop = (
-    options: IMultiAutocompleteFieldOption[],
+    optionsList: IMultiAutocompleteFieldOption[],
     state: FilterOptionsState<IMultiAutocompleteFieldOption>
   ) => {
     const exsistingValues = get(values, props.id);
     const [selectedOptions, remainingOptions] = [
-      options.filter((item) => exsistingValues.includes(item.value)),
-      options.filter((item) => !exsistingValues.includes(item.value))
+      optionsList.filter((item) => exsistingValues.includes(item.value)),
+      optionsList.filter((item) => !exsistingValues.includes(item.value))
     ];
     const filterOptions = createFilterOptions<IMultiAutocompleteFieldOption>();
     return [...selectedOptions, ...filterOptions(remainingOptions, state)];
   };
 
   const handleFiltering = (
-    options: IMultiAutocompleteFieldOption[],
+    optionsList: IMultiAutocompleteFieldOption[],
     state: FilterOptionsState<IMultiAutocompleteFieldOption>
   ) => {
     // For api-search selected will be always on top and options doesn't need to be filtered
     // as search funciton maintains both of this.
-    return props.type === 'api-search' ? options : filterOptionsKeepingSelectedOnTop(options, state);
+    return props.type === 'api-search' ? optionsList : filterOptionsKeepingSelectedOnTop(optionsList, state);
   };
 
   return (
