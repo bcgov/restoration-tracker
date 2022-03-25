@@ -8,6 +8,7 @@ import useDraftApi from './api/useDraftApi';
 import useExternalApi from './api/useExternalApi';
 import useProjectApi, { usePublicProjectApi } from './api/useProjectApi';
 import useSearchApi, { usePublicSearchApi } from './api/useSearchApi';
+import useTaxonomyApi from './api/useTaxonomyApi';
 import useUserApi from './api/useUserApi';
 
 /**
@@ -22,6 +23,8 @@ export const useRestorationTrackerApi = () => {
   const project = useProjectApi(apiAxios);
 
   const search = useSearchApi(apiAxios);
+
+  const taxonomy = useTaxonomyApi(apiAxios);
 
   const codes = useCodesApi(apiAxios);
 
@@ -41,6 +44,7 @@ export const useRestorationTrackerApi = () => {
   return {
     project,
     search,
+    taxonomy,
     codes,
     draft,
     user,

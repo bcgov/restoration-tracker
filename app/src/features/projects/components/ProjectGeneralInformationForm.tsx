@@ -5,7 +5,9 @@ import MultiAutocompleteFieldVariableSize, {
 } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
-import React from 'react';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { debounce } from 'lodash-es';
+import React, { useCallback } from 'react';
 import yup from 'utils/YupSchema';
 
 export interface IProjectGeneralInformationFormProps {
@@ -60,6 +62,36 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
 const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
+  const restorationTrackerApi = useRestorationTrackerApi();
+
+  const convertOptions = (value: any): IMultiAutocompleteFieldOption[] =>
+    value.map((item: any) => {
+      return { value: parseInt(item.id), label: item.label };
+    });
+
+  const handleGetInitList = async (values: number[]) => {
+    const response = await restorationTrackerApi.taxonomy.getSpeciesFromIds(values);
+    return convertOptions(response.searchResponse);
+  };
+
+  const handleSearch = useCallback(
+    debounce(
+      async (
+        inputValue: string,
+        exsistingValues: (string | number)[],
+        callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
+      ) => {
+        const response = await restorationTrackerApi.taxonomy.searchSpecies(inputValue);
+        const newOptions = convertOptions(response.searchResponse).filter(
+          (item) => !exsistingValues.includes(item.value)
+        );
+        callback(newOptions);
+      },
+      500
+    ),
+    []
+  );
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={9}>
@@ -89,14 +121,15 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
               />
             </Grid>
           </Grid>
-
           <Grid item xs={12}>
             <Grid item xs={12}>
               <MultiAutocompleteFieldVariableSize
                 id="species.focal_species"
                 label="Focal Species"
-                options={props.species}
                 required={true}
+                type="api-search"
+                getInitList={handleGetInitList}
+                search={handleSearch}
               />
             </Grid>
           </Grid>

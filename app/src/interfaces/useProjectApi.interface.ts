@@ -65,7 +65,6 @@ export interface IGetProjectsListResponse {
   end_date: string;
   contact_agency_list: string;
   permits_list: string;
-  publish_status: string;
   completion_status: string;
 }
 
@@ -237,7 +236,7 @@ export interface IGetProjectForViewResponseLocation {
   range: number;
 }
 
-interface IGetProjectForViewResponseContactArrayItem {
+export interface IGetProjectForViewResponseContactArrayItem {
   first_name: string;
   last_name: string;
   email_address: string;

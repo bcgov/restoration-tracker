@@ -14,14 +14,6 @@ export const EditProjectI18N = {
     'An error has occurred while attempting to edit your project, please try again. If the error persists, please contact your system administrator.'
 };
 
-export const CreateSurveyI18N = {
-  cancelTitle: 'Cancel Create Survey',
-  cancelText: 'Are you sure you want to cancel?',
-  createErrorTitle: 'Error Creating Survey',
-  createErrorText:
-    'An error has occurred while attempting to create your survey, please try again. If the error persists, please contact your system administrator.'
-};
-
 export const CreatePermitsI18N = {
   cancelTitle: 'Cancel Create Permits',
   cancelText: 'Are you sure you want to cancel?',
@@ -78,27 +70,6 @@ export const EditGeneralInformationI18N = {
     'An error has occurred while attempting to edit your general information, please try again. If the error persists, please contact your system administrator.'
 };
 
-export const EditSurveyGeneralInformationI18N = {
-  editTitle: 'Edit Survey General Information',
-  editErrorTitle: 'Error Editing Survey General Information',
-  editErrorText:
-    'An error has occurred while attempting to edit your survey general information, please try again. If the error persists, please contact your system administrator.'
-};
-
-export const EditSurveyStudyAreaI18N = {
-  editTitle: 'Edit Survey Study Area',
-  editErrorTitle: 'Error Editing Survey Study Area',
-  editErrorText:
-    'An error has occurred while attempting to edit your survey study area, please try again. If the error persists, please contact your system administrator.'
-};
-
-export const EditSurveyProprietorI18N = {
-  editTitle: 'Edit Survey Proprietor',
-  editErrorTitle: 'Error Editing Survey Proprietor',
-  editErrorText:
-    'An error has occurred while attempting to edit your survey proprietor information, please try again. If the error persists, please contact your system administrator.'
-};
-
 export const EditLocationBoundaryI18N = {
   editTitle: 'Edit Project Location',
   editErrorTitle: 'Error Editing Project Location',
@@ -143,8 +114,7 @@ export const EditFundingI18N = {
 
 export const DeleteProjectFundingI18N = {
   deleteTitle: 'Remove Funding Source',
-  deleteText:
-    'Are you sure you want to remove this project funding source? It will also remove the associated survey funding source.',
+  deleteText: 'Are you sure you want to remove this project funding source?',
   deleteErrorTitle: 'Error Removing Funding Source',
   deleteErrorText:
     'An error has occurred while attempting to delete your funding source details, please try again. If the error persists, please contact your system administrator.'
@@ -172,34 +142,10 @@ export const ReviewAccessRequestI18N = {
 
 export const DeleteProjectI18N = {
   deleteTitle: 'Delete Project',
-  deleteText: 'Are you sure you want to delete this project, its attachments and associated surveys/observations?',
+  deleteText: 'Are you sure you want to delete this project, its attachments and associated treatments?',
   deleteErrorTitle: 'Error Deleting Project',
   deleteErrorText:
-    'An error has occurred while attempting to delete this project, its attachments and associated surveys/observations, please try again. If the error persists, please contact your system administrator.'
-};
-
-export const PublishProjectI18N = {
-  publishTitle: 'Publish Project',
-  publishText: 'Are you sure you want to publish this project?',
-  publishErrorTitle: 'Error Publishing Project',
-  publishErrorText:
-    'An error has occurred while attempting to publish this project, please try again. If the error persists, please contact your system administrator.'
-};
-
-export const DeleteSurveyI18N = {
-  deleteTitle: 'Delete Survey',
-  deleteText: 'Are you sure you want to delete this survey, its attachments and associated observations?',
-  deleteErrorTitle: 'Error Deleting Project',
-  deleteErrorText:
-    'An error has occurred while attempting to delete this project, its attachments and associated surveys/observations, please try again. If the error persists, please contact your system administrator.'
-};
-
-export const PublishSurveyI18N = {
-  publishTitle: 'Publish Survey',
-  publishText: 'Are you sure you want to publish this survey?',
-  publishErrorTitle: 'Error Publishing Survey',
-  publishErrorText:
-    'An error has occurred while attempting to publish this survey, please try again. If the error persists, please contact your system administrator.'
+    'An error has occurred while attempting to delete this project, its attachments and associated treatments, please try again. If the error persists, please contact your system administrator.'
 };
 
 export const DeleteSystemUserI18N = {

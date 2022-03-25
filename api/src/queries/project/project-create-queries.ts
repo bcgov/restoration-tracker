@@ -290,7 +290,6 @@ export const postProjectIUCNSQL = (iucn3_id: number, project_id: number): SQLSta
  * SQL query to insert a focal species row into the study_species table.
  *
  * @param {number} speciesId
- * @param {number} surveyId
  * @returns {SQLStatement} sql query object
  */
 export const postProjectSpeciesSQL = (speciesId: number, projectId: number): SQLStatement | null => {

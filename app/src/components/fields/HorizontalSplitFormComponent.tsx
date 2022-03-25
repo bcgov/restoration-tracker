@@ -9,7 +9,7 @@ export interface IHorizontalSplitFormComponentProps {
 }
 
 /**
- * Shared component for various survey sections
+ * Shared component for various sections
  *
  * @return {*}
  */

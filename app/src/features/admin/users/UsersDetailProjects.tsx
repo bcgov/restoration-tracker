@@ -14,9 +14,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { mdiMenuDown, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
 import { IErrorDialogProps } from '../../../components/dialog/ErrorDialog';
 import { IYesNoDialogProps } from '../../../components/dialog/YesNoDialog';
 import { CustomMenuButton } from '../../../components/toolbar/ActionToolbars';
@@ -57,14 +58,11 @@ export interface IProjectDetailsProps {
  */
 const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
   const { userDetails } = props;
-  const urlParams = useParams();
   const restorationTrackerApi = useRestorationTrackerApi();
   const dialogContext = useContext(DialogContext);
   const history = useHistory();
   const classes = useStyles();
 
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-  const [isLoadingCodes, setIsLoadingCodes] = useState(true);
   const [assignedProjects, setAssignedProjects] = useState<IGetUserProjectsListResponse[]>();
 
   const handleGetUserProjects = useCallback(
@@ -85,22 +83,7 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
     handleGetUserProjects(userDetails.id);
   }, [userDetails.id, assignedProjects, handleGetUserProjects]);
 
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        return;
-      }
-
-      setCodes(codesResponse);
-    };
-
-    if (isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(false);
-    }
-  }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
+  const codes = useCodes();
 
   const handleRemoveProjectParticipant = async (projectId: number, projectParticipationId: number) => {
     try {
@@ -163,7 +146,84 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
     [defaultErrorDialogProps, dialogContext]
   );
 
-  if (!codes || !assignedProjects) {
+  const TableRows: React.FC<{
+    assignedProjects: IGetUserProjectsListResponse[];
+    codes: IGetAllCodeSetsResponse;
+  }> = (tableRowsProps) => {
+    if (tableRowsProps.assignedProjects && tableRowsProps.assignedProjects.length) {
+      return (
+        <>
+          {tableRowsProps.assignedProjects.map((row) => (
+            <TableRow key={row.project_id}>
+              <TableCell scope="row">
+                <Link
+                  color="primary"
+                  onClick={() => history.push(`/admin/projects/${row.project_id}/details`)}
+                  aria-current="page">
+                  <Typography variant="body2">
+                    <strong>{row.name}</strong>
+                  </Typography>
+                </Link>
+              </TableCell>
+
+              <TableCell>
+                <Box m={-1}>
+                  <ChangeProjectRoleMenu
+                    row={row}
+                    user_identifier={userDetails.user_identifier}
+                    projectRoleCodes={tableRowsProps.codes.project_roles}
+                    refresh={refresh}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell align="center">
+                <Box m={-1}>
+                  <IconButton
+                    title="Remove Project Participant"
+                    data-testid={'remove-project-participant-button'}
+                    onClick={() =>
+                      openYesNoDialog({
+                        dialogTitle: SystemUserI18N.removeUserFromProject,
+                        dialogContent: (
+                          <>
+                            <Typography variant="body1" color="textPrimary">
+                              Removing user <strong>{userDetails.user_identifier}</strong> will revoke their access to
+                              the project.
+                            </Typography>
+                            <Typography variant="body1" color="textPrimary">
+                              Are you sure you want to proceed?
+                            </Typography>
+                          </>
+                        ),
+                        yesButtonProps: { color: 'secondary' },
+                        onYes: () => {
+                          handleRemoveProjectParticipant(row.project_id, row.project_participation_id);
+                          dialogContext.setYesNoDialog({ open: false });
+                        }
+                      })
+                    }>
+                    <Icon path={mdiTrashCanOutline} size={1} />
+                  </IconButton>
+                </Box>
+              </TableCell>
+            </TableRow>
+          ))}
+        </>
+      );
+    }
+
+    return (
+      <TableRow>
+        <TableCell colSpan={3}>
+          <Box display="flex" justifyContent="center">
+            No Projects
+          </Box>
+        </TableCell>
+      </TableRow>
+    );
+  };
+
+  if (!codes.isReady || !codes.codes || !assignedProjects) {
     return <CircularProgress data-testid="project-loading" className="pageProgress" size={40} />;
   }
 
@@ -188,71 +248,7 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody data-testid="resources-table">
-                {assignedProjects.length > 0 &&
-                  assignedProjects?.map((row) => (
-                    <TableRow key={row.project_id}>
-                      <TableCell scope="row">
-                        <Link
-                          color="primary"
-                          onClick={() => history.push(`/admin/projects/${row.project_id}/details`)}
-                          aria-current="page">
-                          <Typography variant="body2">
-                            <strong>{row.name}</strong>
-                          </Typography>
-                        </Link>
-                      </TableCell>
-
-                      <TableCell>
-                        <Box m={-1}>
-                          <ChangeProjectRoleMenu
-                            row={row}
-                            user_identifier={props.userDetails.user_identifier}
-                            projectRoleCodes={codes.project_roles}
-                            refresh={refresh}
-                          />
-                        </Box>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Box m={-1}>
-                          <IconButton
-                            title="Remove Project Participant"
-                            data-testid={'remove-project-participant-button'}
-                            onClick={() =>
-                              openYesNoDialog({
-                                dialogTitle: SystemUserI18N.removeUserFromProject,
-                                dialogContent: (
-                                  <>
-                                    <Typography variant="body1" color="textPrimary">
-                                      Removing user <strong>{userDetails.user_identifier}</strong> will revoke their
-                                      access to the project.
-                                    </Typography>
-                                    <Typography variant="body1" color="textPrimary">
-                                      Are you sure you want to proceed?
-                                    </Typography>
-                                  </>
-                                ),
-                                yesButtonProps: { color: 'secondary' },
-                                onYes: () => {
-                                  handleRemoveProjectParticipant(row.project_id, row.project_participation_id);
-                                  dialogContext.setYesNoDialog({ open: false });
-                                }
-                              })
-                            }>
-                            <Icon path={mdiTrashCanOutline} size={1} />
-                          </IconButton>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                {!assignedProjects.length && (
-                  <TableRow>
-                    <TableCell colSpan={3}>
-                      <Box display="flex" justifyContent="center">
-                        No Projects
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                )}
+                <TableRows assignedProjects={assignedProjects} codes={codes.codes} />
               </TableBody>
             </Table>
           </Box>

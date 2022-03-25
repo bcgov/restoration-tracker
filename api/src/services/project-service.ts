@@ -272,7 +272,7 @@ export class ProjectService extends DBService {
   }
 
   async getContactData(projectId: number, isPublic: boolean): Promise<GetContactData> {
-    const sqlStatement = SQL`
+    const sqlStatementAllColumns = SQL`
       SELECT
         *
       FROM
@@ -281,15 +281,30 @@ export class ProjectService extends DBService {
         project_id = ${projectId}
     `;
 
+    //Will build this sql to select agency ONLY IF the contact is public
+    const sqlStatementJustAgencies = SQL``;
+
     if (isPublic) {
-      sqlStatement.append(SQL`
+      sqlStatementAllColumns.append(SQL`
         AND is_public = 'Y'
+      `);
+      sqlStatementJustAgencies.append(SQL`
+        SELECT
+          agency
+        FROM
+          project_contact
+        WHERE
+          project_id = ${projectId}
+        AND is_public = 'N'
       `);
     }
 
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
+    const response = await Promise.all([
+      this.connection.query(sqlStatementAllColumns.text, sqlStatementAllColumns.values),
+      this.connection.query(sqlStatementJustAgencies.text, sqlStatementJustAgencies.values)
+    ]);
 
-    const result = (response && response.rows) || null;
+    const result = (response[0] && response[1] && [...response[0].rows, ...response[1].rows]) || null;
 
     if (!result) {
       throw new HTTP400('Failed to get project contact data');
@@ -596,12 +611,6 @@ export class ProjectService extends DBService {
   }
 
   async insertContact(contact: IPostContact, project_id: number): Promise<number> {
-    const systemUserId = this.connection.systemUserId();
-
-    if (!systemUserId) {
-      throw new HTTP400('Failed to identify system user ID');
-    }
-
     const sqlStatement = SQL`
       INSERT INTO project_contact (
         project_id, contact_type_id, first_name, last_name, agency, email_address, is_public, is_primary
@@ -1045,6 +1054,8 @@ export class ProjectService extends DBService {
   }
 
   async updateProjectFundingData(projectId: number, entities: IUpdateProject): Promise<void> {
+    const putFundingSources = entities?.funding && new models.project.PutFundingData(entities.funding);
+
     const deleteSQLStatement = SQL`
       DELETE
         from project_funding_source
@@ -1052,9 +1063,11 @@ export class ProjectService extends DBService {
         project_id = ${projectId};
     `;
 
-    await this.connection.query(deleteSQLStatement.text, deleteSQLStatement.values);
+    const deleteFundingResult = await this.connection.query(deleteSQLStatement.text, deleteSQLStatement.values);
 
-    const putFundingSources = entities?.funding && new models.project.PutFundingData(entities.funding);
+    if (!deleteFundingResult) {
+      throw new HTTP409('Failed to delete project funding data');
+    }
 
     await Promise.all(
       putFundingSources?.fundingSources?.map((item) => {
@@ -1066,23 +1079,30 @@ export class ProjectService extends DBService {
   async updateProjectSpatialData(projectId: number, entities: IUpdateProject): Promise<void> {
     const putLocationData = entities?.location && new models.project.PutLocationData(entities.location);
 
+    if (!putLocationData?.geometry) {
+      // No spatial data to insert
+      return;
+    }
+
     const projectSpatialDeleteStatement = queries.project.deleteProjectSpatialSQL(projectId);
 
     if (!projectSpatialDeleteStatement) {
-      throw new HTTP500('Failed to build SQL delete statement');
+      throw new HTTP400('Failed to build SQL delete statement');
     }
 
-    await this.connection.query(projectSpatialDeleteStatement.text, projectSpatialDeleteStatement.values);
+    const deleteSpatialResult = await this.connection.query(
+      projectSpatialDeleteStatement.text,
+      projectSpatialDeleteStatement.values
+    );
 
-    if (!putLocationData?.geometry.length) {
-      // No spatial data to insert
-      return;
+    if (!deleteSpatialResult) {
+      throw new HTTP409('Failed to delete spatial data');
     }
 
     const sqlInsertStatement = queries.project.postProjectBoundarySQL(putLocationData, projectId);
 
     if (!sqlInsertStatement) {
-      throw new HTTP500('Failed to build SQL update statement');
+      throw new HTTP400('Failed to build SQL update statement');
     }
 
     const result = await this.connection.query(sqlInsertStatement.text, sqlInsertStatement.values);

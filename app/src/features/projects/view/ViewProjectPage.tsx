@@ -22,8 +22,8 @@ import { PROJECT_ROLE, SYSTEM_ROLE } from 'constants/roles';
 import { DialogContext } from 'contexts/dialogContext';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
 import { APIError } from 'hooks/api/useAxios';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import {
   IGetProjectAttachment,
   IGetProjectForViewResponse,
@@ -115,26 +115,7 @@ const ViewProjectPage: React.FC = () => {
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
   const [treatmentList, setTreatmentList] = useState<IGetProjectTreatment[]>([]);
 
-  const [isLoadingCodes, setIsLoadingCodes] = useState(false);
-  const [codes, setCodes] = useState<IGetAllCodeSetsResponse>();
-
-  useEffect(() => {
-    const getCodes = async () => {
-      const codesResponse = await restorationTrackerApi.codes.getAllCodeSets();
-
-      if (!codesResponse) {
-        // TODO error handling/messaging
-        return;
-      }
-
-      setCodes(codesResponse);
-    };
-
-    if (!isLoadingCodes && !codes) {
-      getCodes();
-      setIsLoadingCodes(true);
-    }
-  }, [urlParams, restorationTrackerApi.codes, isLoadingCodes, codes]);
+  const codes = useCodes();
 
   const getProject = useCallback(async () => {
     const projectWithDetailsResponse = await restorationTrackerApi.project.getProjectById(urlParams['id']);
@@ -189,7 +170,7 @@ const ViewProjectPage: React.FC = () => {
       setIsLoadingProject(true);
     }
   }, [isLoadingProject, projectWithDetails, getProject, getAttachments, getTreatments]);
-  if (!codes || !projectWithDetails) {
+  if (!codes.isReady || !codes.codes || !projectWithDetails) {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
 
@@ -387,7 +368,7 @@ const ViewProjectPage: React.FC = () => {
           </Box>
 
           <TabPanel value={tabValue} index="project_details">
-            <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes} refresh={getProject} />
+            <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
           </TabPanel>
           <TabPanel value={tabValue} index="project_documents">
             <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
@@ -409,7 +390,7 @@ const ViewProjectPage: React.FC = () => {
           <LocationBoundary
             projectForViewData={projectWithDetails}
             treatmentList={treatmentList}
-            codes={codes}
+            codes={codes.codes}
             refresh={getProject}
           />
         </Box>
