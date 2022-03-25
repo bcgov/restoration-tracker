@@ -7,11 +7,11 @@ import {
   IGetProjectForViewResponse,
   IGetProjectParticipantsResponse,
   IGetProjectsListResponse,
+  IGetProjectTreatmentsResponse,
   IGetUserProjectsListResponse,
+  IPostTreatmentUnitResponse,
   IProjectAdvancedFilterRequest,
   IUploadAttachmentResponse,
-  IGetProjectTreatmentsResponse,
-  IPostTreatmentUnitResponse,
   TreatmentSearchCriteria
 } from 'interfaces/useProjectApi.interface';
 import qs from 'qs';
@@ -354,12 +354,14 @@ const useProjectApi = (axios: AxiosInstance) => {
    * Download an EML file containing the project meta data.
    *
    * @param {number} projectId
-   * @return {*}  {Promise<any>}
+   * @return {*}  {Promise<{ fileData: string; fileName: string }>}
    */
-  const downloadProjectEML = async (projectId: number): Promise<any> => {
-    const { data } = await axios.get(`/api/project/${projectId}/export/eml`);
+  const downloadProjectEML = async (projectId: number): Promise<{ fileData: string; fileName: string }> => {
+    const response = await axios.get(`/api/project/${projectId}/export/eml`);
 
-    return data;
+    const fileName = response.headers?.['content-disposition']?.split('filename=')[1] || 'project_eml.xml';
+
+    return { fileData: response.data, fileName: fileName };
   };
 
   return {

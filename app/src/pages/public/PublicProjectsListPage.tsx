@@ -24,7 +24,7 @@ import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, useHistory } from 'react-router';
-import { getFormattedDate } from 'utils/Utils';
+import { getFormattedDate, triggerFileDownload } from 'utils/Utils';
 
 const useStyles = makeStyles((theme: Theme) => ({
   linkButton: {
@@ -103,10 +103,7 @@ const PublicProjectsListPage = () => {
   const handleDownloadProjectEML = async (projectId: number) => {
     const response = await restorationTrackerApi.project.downloadProjectEML(projectId);
 
-    const blob = new Blob([response], { type: 'text/xml' });
-    const url = window.URL.createObjectURL(blob);
-
-    window.open(url);
+    triggerFileDownload(response.fileData, response.fileName);
   };
 
   return (

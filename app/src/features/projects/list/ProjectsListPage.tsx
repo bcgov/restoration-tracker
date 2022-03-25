@@ -23,7 +23,7 @@ import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React from 'react';
 import { useHistory } from 'react-router';
-import { getFormattedDate } from 'utils/Utils';
+import { getFormattedDate, triggerFileDownload } from 'utils/Utils';
 
 const useStyles = makeStyles((theme: Theme) => ({
   linkButton: {
@@ -68,8 +68,6 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
     let chipLabel;
     let chipStatusClass;
 
-    console.log(statusType);
-
     if (ProjectStatusType.ACTIVE === statusType) {
       chipLabel = 'Active';
       chipStatusClass = classes.chipActive;
@@ -87,10 +85,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
   const handleDownloadProjectEML = async (projectId: number) => {
     const response = await restorationTrackerApi.project.downloadProjectEML(projectId);
 
-    const blob = new Blob([response], { type: 'text/xml' });
-    const url = window.URL.createObjectURL(blob);
-
-    window.open(url);
+    triggerFileDownload(response.fileData, response.fileName);
   };
 
   /**

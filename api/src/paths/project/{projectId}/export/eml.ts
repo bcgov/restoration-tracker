@@ -73,14 +73,10 @@ export function getProjectEml(): RequestHandler {
 
       const xmlResponse = xml2jsBuilder.buildObject(jsonResponse);
 
-      const fileName = `project_${projectId}_eml.xml`;
+      res.attachment(`project_${projectId}_eml.xml`);
+      res.contentType('application/xml');
 
-      res.set({
-        'Content-Disposition': `attachment; filename=${fileName}`,
-        'Content-Type': 'text/xml; charset=utf-8'
-      });
-      res.write(Buffer.from(xmlResponse));
-      return res.end();
+      return res.status(200).send(xmlResponse);
     } catch (error) {
       defaultLog.error({ label: 'getProjectEml', message: 'error', error });
       await connection.rollback();
