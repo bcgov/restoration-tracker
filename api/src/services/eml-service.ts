@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { IDBConnection } from '../database/db';
 import { getDbCharacterSystemMetaDataConstantSQL } from '../queries/codes/db-constant-queries';
 import { queries } from '../queries/queries';
+import { getNRMRegions } from '../utils/spatial-utils';
 import { ProjectObject, ProjectService } from './project-service';
 import { DBService } from './service';
 import { TaxonomyService } from './taxonomy-service';
@@ -213,6 +214,16 @@ export class EmlService extends DBService {
         {
           describes: this.packageId,
           metadata: {
+            permits: {
+              permit: projectObject.permit.permits.map((item) => {
+                return { permitType: item.permit_type, permitNumber: item.permit_number };
+              })
+            }
+          }
+        },
+        {
+          describes: this.packageId,
+          metadata: {
             priorityArea: {
               isPriority: false // TODO assign priority when its merged: projectObject.location.priority
             }
@@ -346,8 +357,10 @@ export class EmlService extends DBService {
 
     const projectBoundingBox = bbox(featureCollection(polygonFeatures));
 
+    const regionName = (await getNRMRegions()).find((item) => item.id === projectObject.location.region);
+
     const geographicCoverage = {
-      geographicDescription: projectObject.location.region, // TODO convert to text
+      geographicDescription: regionName,
       boundingCoordinates: {
         westBoundingCoordinate: projectBoundingBox[0],
         southBoundingCoordinate: projectBoundingBox[1],
