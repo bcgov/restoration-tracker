@@ -58,6 +58,7 @@ const phases = {
     version: `${version}-${changeId}`,
     tag: tag,
     env: 'build',
+    elasticsearchURL: 'https://elasticsearch-af2668-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     branch: branch,
     logLevel: isStaticDeployment && 'info' || 'debug'
@@ -76,6 +77,7 @@ const phases = {
       (isStaticDeployment && (staticUrlsAPI.dev || defaultHost)) ||
       `${name}-${changeId}-af2668-dev.apps.silver.devops.gov.bc.ca`,
     env: 'dev',
+    elasticsearchURL: 'https://elasticsearch-af2668-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     certificateURL: config.certificateURL.dev,
     replicas: 1,
@@ -94,6 +96,7 @@ const phases = {
     tag: `test-${version}`,
     host: staticUrlsAPI.test,
     env: 'test',
+    elasticsearchURL: 'https://elasticsearch-af2668-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     certificateURL: config.certificateURL.test,
     replicas: 3,
@@ -112,6 +115,7 @@ const phases = {
     tag: `prod-${version}`,
     host: staticUrlsAPI.prod,
     env: 'prod',
+    elasticsearchURL: 'http://es01:9200',
     tz: config.timezone.api,
     certificateURL: config.certificateURL.prod,
     replicas: 3,
