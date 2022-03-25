@@ -68,6 +68,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
     let chipLabel;
     let chipStatusClass;
 
+    console.log(statusType);
+
     if (ProjectStatusType.ACTIVE === statusType) {
       chipLabel = 'Active';
       chipStatusClass = classes.chipActive;
@@ -84,7 +86,11 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
 
   const handleDownloadProjectEML = async (projectId: number) => {
     const response = await restorationTrackerApi.project.downloadProjectEML(projectId);
-    window.open(response);
+
+    const blob = new Blob([response], { type: 'text/xml' });
+    const url = window.URL.createObjectURL(blob);
+
+    window.open(url);
   };
 
   /**
@@ -114,7 +120,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
             <TableBody data-testid="project-table">
               {!drafts?.length && !projects?.length && (
                 <TableRow>
-                  <TableCell colSpan={6}>
+                  <TableCell colSpan={7}>
                     <Box display="flex" justifyContent="center">
                       No Results
                     </Box>

@@ -1,6 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
@@ -12,12 +13,15 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import { mdiDownload } from '@mdi/js';
+import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ProjectStatusType } from 'constants/misc';
 import { AuthStateContext } from 'contexts/authStateContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
+import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, useHistory } from 'react-router';
 import { getFormattedDate } from 'utils/Utils';
@@ -64,6 +68,14 @@ const PublicProjectsListPage = () => {
     }
   }, [restorationTrackerApi, isLoading]);
 
+  const getProjectStatusType = (projectData: IGetProjectsListResponse): ProjectStatusType => {
+    if (projectData.end_date && moment(projectData.end_date).endOf('day').isBefore(moment())) {
+      return ProjectStatusType.COMPLETED;
+    }
+
+    return ProjectStatusType.ACTIVE;
+  };
+
   const getChipIcon = (status_name: string) => {
     let chipLabel;
     let chipStatusClass;
@@ -88,6 +100,15 @@ const PublicProjectsListPage = () => {
     return <Redirect to={{ pathname: '/admin/projects' }} />;
   }
 
+  const handleDownloadProjectEML = async (projectId: number) => {
+    const response = await restorationTrackerApi.project.downloadProjectEML(projectId);
+
+    const blob = new Blob([response], { type: 'text/xml' });
+    const url = window.URL.createObjectURL(blob);
+
+    window.open(url);
+  };
+
   return (
     <Box my={4}>
       <Container maxWidth="xl">
@@ -105,12 +126,13 @@ const PublicProjectsListPage = () => {
                   <TableCell>Start Date</TableCell>
                   <TableCell>End Date</TableCell>
                   <TableCell>Status</TableCell>
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody data-testid="project-table">
                 {!projects?.length && (
                   <TableRow>
-                    <TableCell colSpan={6}>
+                    <TableCell colSpan={7}>
                       <Box display="flex" justifyContent="center">
                         No Results
                       </Box>
@@ -133,7 +155,17 @@ const PublicProjectsListPage = () => {
                     <TableCell>{row.contact_agency_list}</TableCell>
                     <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
                     <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.end_date)}</TableCell>
-                    <TableCell>{getChipIcon(row.completion_status)}</TableCell>
+                    <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        title="Download Project EML"
+                        aria-label="Download Project EML"
+                        size="small"
+                        data-testid="project-table-download-eml"
+                        onClick={() => handleDownloadProjectEML(row.id)}>
+                        <Icon path={mdiDownload} size={1} />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
