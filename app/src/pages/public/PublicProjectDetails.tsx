@@ -138,7 +138,8 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
 
-  const priority_status = ProjectStatusType.NOT_A_PRIORITY;
+  const priority_status =
+    projectForViewData.location.priority === 'true' ? ProjectStatusType.PRIORITY : ProjectStatusType.NOT_A_PRIORITY;
 
   const getChipIcon = (status_name: string) => {
     let chipLabel;
@@ -157,8 +158,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
       chipLabel = 'Priority';
       chipStatusClass = classes.chipPriority;
     } else if (ProjectStatusType.NOT_A_PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipNotAPriority;
+      return;
     }
 
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;

@@ -157,17 +157,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   <div
                     class="MuiBox-root MuiBox-root-247"
-                  >
-                    <div
-                      class="MuiChip-root makeStyles-chip-234 makeStyles-chipNotAPriority-240 MuiChip-sizeSmall"
-                    >
-                      <span
-                        class="MuiChip-label MuiChip-labelSmall"
-                      >
-                        Priority
-                      </span>
-                    </div>
-                  </div>
+                  />
                   <div
                     class="MuiBox-root MuiBox-root-248"
                   >
@@ -1038,17 +1028,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   <div
                     class="MuiBox-root MuiBox-root-69"
-                  >
-                    <div
-                      class="MuiChip-root makeStyles-chip-56 makeStyles-chipNotAPriority-62 MuiChip-sizeSmall"
-                    >
-                      <span
-                        class="MuiChip-label MuiChip-labelSmall"
-                      >
-                        Priority
-                      </span>
-                    </div>
-                  </div>
+                  />
                   <div
                     class="MuiBox-root MuiBox-root-70"
                   >
@@ -1919,17 +1899,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   <div
                     class="MuiBox-root MuiBox-root-158"
-                  >
-                    <div
-                      class="MuiChip-root makeStyles-chip-145 makeStyles-chipNotAPriority-151 MuiChip-sizeSmall"
-                    >
-                      <span
-                        class="MuiChip-label MuiChip-labelSmall"
-                      >
-                        Priority
-                      </span>
-                    </div>
-                  </div>
+                  />
                   <div
                     class="MuiBox-root MuiBox-root-159"
                   >
