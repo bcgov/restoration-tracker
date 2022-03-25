@@ -139,7 +139,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         />
       </ComponentDialog>
 
-      <Toolbar disableGutters>
+      <Toolbar>
         <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
           <Typography variant="h2">Restoration Treatments</Typography>
 

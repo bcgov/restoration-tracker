@@ -48,7 +48,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
         {hasFundingSources &&
           funding.fundingSources.map((item: any, index: number) => (
             <li key={index} data-testid="funding_data">
-              <Box>
+              <Box mb={1}>
                 <strong>{item.agency_name}</strong>
               </Box>
               <Box component="dl" mt={0.5} mb={0}>

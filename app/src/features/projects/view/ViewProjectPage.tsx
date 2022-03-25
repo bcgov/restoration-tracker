@@ -306,6 +306,7 @@ const ViewProjectPage: React.FC = () => {
 
   const handleTabChange = (_: any, newValue: string) => setTabValue(newValue);
 
+  // Full Screen Map Dialog
   const openMapDialog = () => {
     setOpen(true);
   };
@@ -347,15 +348,21 @@ const ViewProjectPage: React.FC = () => {
           <Box mt={2}>
             <Grid container spacing={3}>
               <Grid item md={8}>
-                <Paper variant="outlined">
-                  <Box p={3}>
-                    <Box mb={3}>
-                      <Box mt={0.5} mb={2.5}>
-                        <Typography variant="h2">Project Objectives</Typography>
+                
+                <Box>
+                  
+                  <Box mb={3}>
+                    <Paper elevation={2}>
+                      <Box p={3}>
+                        <Box mb={2}>
+                          <Typography variant="h2">Project Objectives</Typography>
+                        </Box>
+                        <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
                       </Box>
-                      <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
-                    </Box>
-
+                    </Paper>
+                  </Box>
+                    
+                  <Paper elevation={2}> 
                     <TreatmentSpatialUnits
                       treatmentList={treatmentList}
                       getTreatments={getTreatments}
@@ -363,38 +370,39 @@ const ViewProjectPage: React.FC = () => {
                     />
 
                     <Box mb={3}>
-                      <Paper variant="outlined">
-                        <Box height="500px" position="relative">
-                          <LocationBoundary
-                            projectForViewData={projectWithDetails}
-                            treatmentList={treatmentList}
-                            codes={codes.codes}
-                            refresh={getProject}
-                          />
-                          <Box position="absolute" top="10px" right="10px" zIndex="999">
-                            <Button variant="outlined" color="primary" onClick={openMapDialog}>
-                              Full Screen
-                            </Button>
-                          </Box>
-                        </Box>
-                        <TreatmentList
+                      <Box height="500px" position="relative">
+                        <LocationBoundary
+                          projectForViewData={projectWithDetails}
                           treatmentList={treatmentList}
-                          getTreatments={getTreatments}
+                          codes={codes.codes}
                           refresh={getProject}
                         />
-                      </Paper>
+                        <Box position="absolute" top="10px" right="10px" zIndex="999">
+                          <Button variant="outlined" color="primary" onClick={openMapDialog}>
+                            Full Screen
+                          </Button>
+                        </Box>
+                      </Box>
+                      <TreatmentList
+                        treatmentList={treatmentList}
+                        getTreatments={getTreatments}
+                        refresh={getProject}
+                      />
                     </Box>
+                  </Paper>
 
+                  <Paper elevation={2}>
                     <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
-                  </Box>
-                </Paper>
+                  </Paper>
+                </Box>
+
               </Grid>
               <Grid item md={4}>
-                <Paper variant="outlined">
-                  <Box p={3}>
-                    <Box mt={0.5} mb={2.5}>
+                <Paper elevation={2}> 
+                  <Box>
+                    {/* <Box mt={0.5} mb={2.5}>
                       <Typography variant="h2">Project Details</Typography>
-                    </Box>
+                    </Box> */}
                     <ProjectDetailsPage
                       projectForViewData={projectWithDetails}
                       codes={codes.codes}
@@ -518,7 +526,7 @@ const ViewProjectPage: React.FC = () => {
 
       <Dialog fullScreen open={open} onClose={closeMapDialog}>
         <Box pr={3} pl={1} display="flex" alignItems="center">
-          <Box mr="1">
+          <Box mr="0.5">
             <IconButton onClick={closeMapDialog}>
               <Icon path={mdiArrowLeft} size={1} />
             </IconButton>
