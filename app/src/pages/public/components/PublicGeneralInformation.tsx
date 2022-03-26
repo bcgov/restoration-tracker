@@ -51,13 +51,13 @@ const PublicGeneralInformation: React.FC<IPublicProjectDetailsProps> = (props) =
           Focal Species:
         </Typography>
         <Typography component="dd" variant="body2">
-          {species.focal_species_names?.map((item: any, index: number) => {
+          {species/* {species.focal_species_names?.map((item: any, index: number) => {
             return (
               <span key={index} data-testid="focal_species_data">
                 {item}
               </span>
             );
-          })}
+          })} */}
         </Typography>
       </div>
     </Box>

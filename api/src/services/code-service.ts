@@ -32,7 +32,6 @@ export interface IAllCodeSets {
   project_roles: CodeSet;
   administrative_activity_status_type: CodeSet;
   ranges: CodeSet;
-  species: CodeSet;
 }
 
 export class CodeService extends DBService {
@@ -54,7 +53,6 @@ export class CodeService extends DBService {
         system_roles,
         project_roles,
         administrative_activity_status_type,
-        species,
         ranges
       ],
       regions
@@ -69,7 +67,6 @@ export class CodeService extends DBService {
         this.connection.query(queries.codes.getSystemRolesSQL().text),
         this.connection.query(queries.codes.getProjectRolesSQL().text),
         this.connection.query(queries.codes.getAdministrativeActivityStatusTypeSQL().text),
-        this.connection.query(queries.codes.getTaxonsSQL().text),
         this.connection.query(queries.codes.getCaribouPopulationUnitsSQL().text)
       ]),
       getNRMRegions()
@@ -93,7 +90,6 @@ export class CodeService extends DBService {
       project_roles: (project_roles && project_roles.rows) || [],
       administrative_activity_status_type:
         (administrative_activity_status_type && administrative_activity_status_type.rows) || [],
-      species: (species && species.rows) || [],
       regions: regions || [],
       // TODO Temporarily hard coded list of code values below
       coordinator_agency,

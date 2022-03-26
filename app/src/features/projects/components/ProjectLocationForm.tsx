@@ -24,7 +24,6 @@ import { Feature } from 'geojson';
 import React, { useState } from 'react';
 import { handleGPXUpload, handleKMLUpload, handleShapefileUpload } from 'utils/mapBoundaryUploadHelpers';
 import yup from 'utils/YupSchema';
-import { IProjectGeneralInformationForm } from './ProjectGeneralInformationForm';
 
 export interface IProjectLocationForm {
   location: {
@@ -56,7 +55,6 @@ export const ProjectLocationFormYupSchema = yup.object().shape({
 export interface IProjectLocationFormProps {
   ranges: IAutocompleteFieldOption<number>[];
   regions: IAutocompleteFieldOption<number>[];
-  species: IAutocompleteFieldOption<number>[];
 }
 
 /**
@@ -65,7 +63,7 @@ export interface IProjectLocationFormProps {
  * @return {*}
  */
 const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
-  const formikProps = useFormikContext<IProjectLocationForm & Partial<IProjectGeneralInformationForm>>();
+  const formikProps = useFormikContext<IProjectLocationForm>();
 
   const { errors, touched, values, handleChange, setFieldValue } = formikProps;
 
@@ -83,20 +81,6 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
 
       return Promise.resolve();
     };
-  };
-
-  const checkForCaribouSpecies = (focalSpecies: number[]): boolean => {
-    //checks currently selected focal species, to determine if any are Caribou
-    return props.species.some((codeItem) => {
-      if (
-        focalSpecies.some((item) => {
-          return codeItem.value === item ? true : false;
-        })
-      ) {
-        return codeItem.label.includes('Caribou') ? true : false;
-      }
-      return false;
-    });
   };
 
   return (
@@ -127,40 +111,38 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
           </Grid>
         </Grid>
 
-        {values.species && checkForCaribouSpecies(values.species.focal_species) && (
-          <Box>
-            <Box mb={2} maxWidth={'72ch'}>
-              <Typography variant="body1" color="textSecondary">
-                Specify the caribou range associate with this project.
-              </Typography>
-            </Box>
-
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <FormControl component="fieldset" required={true} fullWidth variant="outlined">
-                  <InputLabel id="caribou-range-select-label">Caribou Range</InputLabel>
-                  <Select
-                    id="caribou-range-select"
-                    name="location.range"
-                    labelId="caribou-range-select-label"
-                    label="Caribou Range"
-                    value={values.location.range ? values.location.range : ''}
-                    onChange={handleChange}
-                    error={touched.location?.range && Boolean(errors.location?.range)}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Caribou Range' }}>
-                    {props.ranges.map((item) => (
-                      <MenuItem key={item.value} value={item.value}>
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText>{errors.location?.range}</FormHelperText>
-                </FormControl>
-              </Grid>
-            </Grid>
+        <Box>
+          <Box my={2} maxWidth={'72ch'}>
+            <Typography variant="body1" color="textSecondary">
+              Specify the caribou range associate with this project.
+            </Typography>
           </Box>
-        )}
+
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <FormControl component="fieldset" required={false} fullWidth variant="outlined">
+                <InputLabel id="caribou-range-select-label">Caribou Range</InputLabel>
+                <Select
+                  id="caribou-range-select"
+                  name="location.range"
+                  labelId="caribou-range-select-label"
+                  label="Caribou Range"
+                  value={values.location.range ? values.location.range : ''}
+                  onChange={handleChange}
+                  error={touched.location?.range && Boolean(errors.location?.range)}
+                  displayEmpty
+                  inputProps={{ 'aria-label': 'Caribou Range' }}>
+                  {props.ranges.map((item) => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>{errors.location?.range}</FormHelperText>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
 
       <Box mb={4}>

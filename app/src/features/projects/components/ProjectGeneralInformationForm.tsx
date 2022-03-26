@@ -10,10 +10,6 @@ import { debounce } from 'lodash-es';
 import React, { useCallback } from 'react';
 import yup from 'utils/YupSchema';
 
-export interface IProjectGeneralInformationFormProps {
-  species: IMultiAutocompleteFieldOption[];
-}
-
 export interface IProjectGeneralInformationForm {
   project: {
     project_name: string;
@@ -59,7 +55,7 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
  * @return {*}
  */
 
-const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
+const ProjectGeneralInformationForm: React.FC = () => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
   const restorationTrackerApi = useRestorationTrackerApi();
