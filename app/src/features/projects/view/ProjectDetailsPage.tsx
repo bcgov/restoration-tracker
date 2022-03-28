@@ -22,31 +22,39 @@ export interface IProjectDetailsProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectMetadata: {
-      padding: theme.spacing(3),
-      overflowY: 'auto',
-      backgroundColor: '#f7f8fa',
-
       // Metadata Definition Lists
+      '& dl': {
+        marginBottom: 0
+      },
       '& dl div + div': {
-        marginTop: theme.spacing(0.25)
+        marginTop: theme.spacing(0.75)
       },
       '& dd, dt': {
         display: 'inline-block',
-        width: '50%',
         verticalAlign: 'top'
+      },
+      '& dt': {
+        width: '33.333%'
+      },
+      '& dd': {
+        width: '66.666%'
       },
       '& dd span': {
         display: 'inline'
       },
       '& h3': {
         marginBottom: theme.spacing(2),
-        textTransform: 'uppercase',
         fontSize: '15px',
-        fontWeight: 700
+        fontWeight: 700,
+        textTransform: 'uppercase'
       },
       '& section + hr': {
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3)
+        // marginTop: theme.spacing(3),
+        // marginBottom: theme.spacing(3)
+      },
+      '& ul': {
+        border: '1px solid #ccccccc',
+        borderRadius: '4px'
       }
     }
   })
@@ -62,8 +70,8 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <Box flex="1 auto" className={classes.projectMetadata}>
-      <Box component="section">
+    <Box className={classes.projectMetadata}>
+      <Box component="section" hidden>
         <Typography variant="body1" component={'h3'}>
           Objectives
         </Typography>
@@ -72,9 +80,9 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         </Box>
       </Box>
 
-      <Divider></Divider>
+      <Divider hidden></Divider>
 
-      <Box component="section">
+      <Box component="section" p={3}>
         <Typography variant="body1" component={'h3'} data-testid="GeneralInfoTitle">
           General Information
         </Typography>
@@ -83,7 +91,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
 
       <Divider></Divider>
 
-      <Box component="section">
+      <Box component="section" p={3}>
         <Typography variant="body1" component={'h3'} data-testid="ContactsTitle">
           Project Contacts
         </Typography>
@@ -92,7 +100,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
 
       <Divider></Divider>
 
-      <Box component="section">
+      <Box component="section" p={3}>
         <Typography variant="body1" component={'h3'} data-testid="IUCNTitle">
           IUCN Conservation Actions Classifications
         </Typography>
@@ -101,7 +109,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
 
       <Divider></Divider>
 
-      <Box component="section">
+      <Box component="section" p={3}>
         <Typography variant="body1" component={'h3'} data-testid="PermitsTitle">
           Permits
         </Typography>
@@ -110,7 +118,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
 
       <Divider></Divider>
 
-      <Box component="section">
+      <Box component="section" p={3}>
         <Typography variant="body1" component={'h3'} data-testid="FundingSourceTitle">
           Funding Sources
         </Typography>
@@ -119,7 +127,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
 
       <Divider></Divider>
 
-      <Box component="section">
+      <Box component="section" p={3}>
         <Typography variant="body1" component={'h3'} data-testid="PartnershipTitle">
           Partnerships
         </Typography>

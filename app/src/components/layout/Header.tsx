@@ -25,9 +25,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  govHeader: {
-    borderBottom: '2px solid #fcba19'
-  },
+  govHeader: {},
   govHeaderToolbar: {
     height: '70px'
   },

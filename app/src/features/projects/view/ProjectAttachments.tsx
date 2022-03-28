@@ -1,11 +1,10 @@
-import Box from '@material-ui/core/Box';
 import { mdiTrayArrowUp } from '@mdi/js';
 import Icon from '@mdi/react';
 import AttachmentsList from 'components/attachments/AttachmentsList';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
-import { H3ButtonToolbar } from 'components/toolbar/ActionToolbars';
+import { H2ButtonToolbar } from 'components/toolbar/ActionToolbars';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectAttachment, IUploadAttachmentResponse } from 'interfaces/useProjectApi.interface';
 import React, { useState } from 'react';
@@ -46,26 +45,26 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = (props) => {
     <>
       <ComponentDialog
         open={openUploadAttachments}
-        dialogTitle="Upload Attachments"
+        dialogTitle="Upload Documents"
         onClose={() => {
           setOpenUploadAttachments(false);
           getAttachments(true);
         }}>
         <FileUpload uploadHandler={getUploadHandler()} />
       </ComponentDialog>
-      <H3ButtonToolbar
+
+      <H2ButtonToolbar
         label="Documents"
-        buttonLabel="Upload"
-        buttonTitle="Upload Document"
+        buttonLabel="Upload Documents"
+        buttonTitle="Upload Documents"
         buttonStartIcon={<Icon path={mdiTrayArrowUp} size={1} />}
         buttonOnClick={handleUploadAttachmentClick}
         buttonProps={{
           variant: 'outlined'
         }}
       />
-      <Box px={3} pb={2}>
-        <AttachmentsList projectId={projectId} attachmentsList={attachmentsList} getAttachments={getAttachments} />
-      </Box>
+
+      <AttachmentsList projectId={projectId} attachmentsList={attachmentsList} getAttachments={getAttachments} />
     </>
   );
 };

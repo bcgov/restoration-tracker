@@ -14,7 +14,7 @@ const appTheme = createMuiTheme({
   palette: {
     // https://material-ui.com/customization/palette/
     background: {
-      default: '#f5f5f5'
+      default: '#fafafa'
     },
     primary: {
       light: '#5469a4',

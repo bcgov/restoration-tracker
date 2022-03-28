@@ -2,16 +2,14 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Drawer from '@material-ui/core/Drawer';
+import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import { mdiAccountMultipleOutline, mdiArrowLeft, mdiCogOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
+import Typography from '@material-ui/core/Typography';
+import { mdiArrowLeft } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import clsx from 'clsx';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
@@ -38,6 +36,12 @@ import TreatmentSpatialUnits from './components/TreatmentSpatialUnits';
 import ProjectAttachments from './ProjectAttachments';
 import ProjectDetailsPage from './ProjectDetailsPage';
 
+import Dialog from '@material-ui/core/Dialog';
+// import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogTitle from '@material-ui/core/DialogTitle';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectDetailDrawer: {
@@ -53,7 +57,11 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 400
     },
     chip: {
-      color: 'white'
+      color: 'white',
+      textTransform: 'uppercase',
+      fontSize: '11px',
+      fontWeight: 700,
+      letterSpacing: '0.02rem'
     },
     chipActive: {
       backgroundColor: theme.palette.success.main
@@ -90,6 +98,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     projectLocationBoundary: {
       background: '#ffffff'
+    },
+    titleContainerActions: {
+      '& button + button': {
+        marginLeft: theme.spacing(1)
+      }
     }
   })
 );
@@ -100,13 +113,13 @@ const useStyles = makeStyles((theme: Theme) =>
  * @return {*}
  */
 const ViewProjectPage: React.FC = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [tabValue, setTabValue] = React.useState('project_details');
   const classes = useStyles();
   const history = useHistory();
   const urlParams = useParams();
   const projectId = urlParams['id'];
   const dialogContext = useContext(DialogContext);
+
+  const [open, setOpen] = React.useState(false);
 
   const restorationTrackerApi = useRestorationTrackerApi();
 
@@ -189,22 +202,6 @@ const ViewProjectPage: React.FC = () => {
     ProjectStatusType.ACTIVE;
   const priority_status = ProjectStatusType.NOT_A_PRIORITY;
 
-  const TabPanel = (props: { children?: React.ReactNode; index: string; value: string }) => {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        className={classes.tabPanel}
-        {...other}>
-        {value === index && children}
-      </div>
-    );
-  };
-
   const getChipIcon = (status_name: string) => {
     let chipLabel;
     let chipStatusClass;
@@ -277,129 +274,159 @@ const ViewProjectPage: React.FC = () => {
     }
   };
 
-  // Project Actions Menu
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
+  // Full Screen Map Dialog
+  const openMapDialog = () => {
+    setOpen(true);
+  };
 
-  const handleClose = () => setAnchorEl(null);
-
-  const handleTabChange = (_: any, newValue: string) => setTabValue(newValue);
+  const closeMapDialog = () => {
+    setOpen(false);
+  };
 
   return (
-    <Box
-      display="flex"
-      position="absolute"
-      width="100%"
-      height="100%"
-      overflow="hidden"
-      data-testid="view_project_page_component">
-      {/* Details Container */}
-      <Drawer variant="permanent" className={classes.projectDetailDrawer}>
-        <Box display="flex" flexDirection="column" height="100%">
-          <Box flex="0 auto" p={3}>
-            <Box mb={2}>
-              <Button
-                component={Link}
-                onClick={() => history.push('/admin/user/projects')}
-                size="small"
-                startIcon={<Icon path={mdiArrowLeft} size={0.8375} />}>
-                Back to Projects
-              </Button>
-            </Box>
-            <Box display="flex" flexDirection={'row'}>
-              <Box component="h1" flex="1 1 auto" className={classes.projectTitle}>
-                <b>Project -</b> {projectWithDetails.project.project_name}
+    <>
+      <Box py={5} data-testid="view_project_page_component">
+        <Container maxWidth="xl">
+          <Box mb={5} display="flex" justifyContent="space-between">
+            <Box>
+              <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
+              <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
+                <Typography variant="subtitle2" color="textSecondary">
+                  Project Status:
+                </Typography>
+                <Box ml={1}>{getChipIcon(completion_status)}</Box>
+                <Box ml={0.5}>{getChipIcon(priority_status)}</Box>
               </Box>
-              <RoleGuard
-                validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
-                validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}>
-                <Box flex="0 0 auto" mt={'-4px'} mr={-1}>
-                  <IconButton aria-controls="project-menu" aria-haspopup="true" onClick={handleClick}>
-                    <Icon path={mdiCogOutline} size={0.9375} />
-                  </IconButton>
-                  <Menu
-                    id="project-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}>
-                    <MenuItem onClick={() => history.push('users')}>
-                      <ListItemIcon>
-                        <Icon path={mdiAccountMultipleOutline} size={0.9375} />
-                      </ListItemIcon>
-                      Manage Project Team
-                    </MenuItem>
-                    <MenuItem onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
-                      <ListItemIcon>
-                        <Icon path={mdiPencilOutline} size={0.9375} />
-                      </ListItemIcon>
-                      Edit Project Details
-                    </MenuItem>
-                    <RoleGuard
-                      validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
-                      validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
-                      <MenuItem onClick={showDeleteProjectDialog}>
-                        <ListItemIcon>
-                          <Icon path={mdiTrashCanOutline} size={0.9375} />
-                        </ListItemIcon>
-                        Delete Project
-                      </MenuItem>
-                    </RoleGuard>
-                  </Menu>
+            </Box>
+            <RoleGuard
+              validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+              validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}>
+              <Box className={classes.titleContainerActions}>
+                <Button variant="outlined" color="primary" onClick={() => history.push('users')}>
+                  Manage Project Team
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
+                  Edit Project
+                </Button>
+                <RoleGuard
+                  validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+                  validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={showDeleteProjectDialog}>
+                    Delete Project
+                  </Button>
+                </RoleGuard>
+              </Box>
+            </RoleGuard>
+          </Box>
+
+          <Divider hidden></Divider>
+
+          <Box mt={2}>
+            <Grid container spacing={3}>
+              <Grid item md={8}>
+                
+                <Box>
+                  
+                  <Box mb={3}>
+                    <Paper elevation={2}>
+                      <Box p={3}>
+                        <Box mb={2}>
+                          <Typography variant="h2">Project Objectives</Typography>
+                        </Box>
+                        <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
+                      </Box>
+                    </Paper>
+                  </Box>
+                    
+                  <Paper elevation={2}>
+                    <Box px={3}>
+                      <TreatmentSpatialUnits
+                        treatmentList={treatmentList}
+                        getTreatments={getTreatments}
+                        getAttachments={getAttachments}
+                      />
+                    </Box>
+
+                    <Box mb={3}>
+                      <Box height="500px" position="relative">
+                        <LocationBoundary
+                          projectForViewData={projectWithDetails}
+                          treatmentList={treatmentList}
+                          codes={codes.codes}
+                          refresh={getProject}
+                        />
+                        <Box position="absolute" top="10px" right="10px" zIndex="999">
+                          <Button variant="outlined" color="primary" onClick={openMapDialog}>
+                            Full Screen
+                          </Button>
+                        </Box>
+                      </Box>
+                      <TreatmentList
+                        treatmentList={treatmentList}
+                        getTreatments={getTreatments}
+                        refresh={getProject}
+                      />
+                    </Box>
+                  </Paper>
+
+                  <Paper elevation={2}>
+                    <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
+                  </Paper>
                 </Box>
-              </RoleGuard>
-            </Box>
 
-            <Box display="flex" flexDirection={'row'}>
-              <Box mr={0.5}>{getChipIcon(priority_status)}</Box>
-              <Box>{getChipIcon(completion_status)}</Box>
-            </Box>
+              </Grid>
+
+              <Grid item md={4}>
+                <Paper elevation={2}> 
+                  <ProjectDetailsPage
+                    projectForViewData={projectWithDetails}
+                    codes={codes.codes}
+                    refresh={getProject}
+                  />
+                </Paper>
+              </Grid>
+            </Grid>
+
           </Box>
-
-          <Box>
-            <Tabs
-              className={classes.tabs}
-              value={tabValue}
-              onChange={handleTabChange}
-              variant="fullWidth"
-              aria-label="Project Navigation">
-              <Tab label="Project Details" value="project_details" />
-              <Tab label="Documents" value="project_documents" />
-            </Tabs>
-          </Box>
-
-          <TabPanel value={tabValue} index="project_details">
-            <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
-          </TabPanel>
-          <TabPanel value={tabValue} index="project_documents">
-            <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
-          </TabPanel>
-        </Box>
-      </Drawer>
-
-      {/* Map Container */}
-      <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
-        <Box>
-          <TreatmentSpatialUnits
-            treatmentList={treatmentList}
-            getTreatments={getTreatments}
-            getAttachments={getAttachments}
-          />
-        </Box>
-
-        <Box flex="1 1 auto">
-          <LocationBoundary
-            projectForViewData={projectWithDetails}
-            treatmentList={treatmentList}
-            codes={codes.codes}
-            refresh={getProject}
-          />
-        </Box>
-
-        <Box flex="0 0 auto" height="250px">
-          <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
-        </Box>
+        </Container>
       </Box>
-    </Box>
+
+      <Dialog fullScreen open={open} onClose={closeMapDialog}>
+        <Box pr={3} pl={1} display="flex" alignItems="center">
+          <Box>
+            <IconButton onClick={closeMapDialog}>
+              <Icon path={mdiArrowLeft} size={1} />
+            </IconButton>
+          </Box>
+          <Box flex="1 1 auto">
+            <TreatmentSpatialUnits
+              treatmentList={treatmentList}
+              getTreatments={getTreatments}
+              getAttachments={getAttachments}
+            />
+          </Box>
+        </Box>
+        <Box display="flex" height="100%" flexDirection="column">
+          <Box flex="1 1 auto">
+            <LocationBoundary
+              projectForViewData={projectWithDetails}
+              treatmentList={treatmentList}
+              codes={codes.codes}
+              refresh={getProject}
+            />
+          </Box>
+          <Box flex="0 0 auto" height="300px">
+            <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+          </Box>
+        </Box>
+      </Dialog>
+    </>
   );
 };
 

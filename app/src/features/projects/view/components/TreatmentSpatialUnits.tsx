@@ -1,11 +1,10 @@
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { mdiMenuDown, mdiTrashCanOutline, mdiTrayArrowUp } from '@mdi/js';
 import Icon from '@mdi/react';
@@ -125,7 +124,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     <Box>
       <ComponentDialog
         open={openImportTreatments}
-        dialogTitle="Upload Treatments"
+        dialogTitle="Import Treatments"
         onClose={() => {
           setOpenImportTreatments(false);
           getTreatments(true);
@@ -140,19 +139,21 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         />
       </ComponentDialog>
 
-      <Toolbar>
-        <Grid container alignItems="center" justify="space-between">
-          <Grid item>
+      <Toolbar disableGutters>
+        <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
+          <Typography variant="h2">Restoration Treatments</Typography>
+
+          <Box>
             <Button
               id={'open-layer-menu'}
               data-testid={'open-layer-menu'}
-              variant="text"
+              variant="outlined"
               color="primary"
-              title={'Open Layer Menu'}
-              aria-label={'Open Layer Menu'}
+              title={'Filter Treaatments'}
+              aria-label={'Filter Treatments'}
               endIcon={<Icon path={mdiMenuDown} size={1} />}
               onClick={handleClick}>
-              <strong>Project Layers ({yearList?.length})</strong>
+              Filter Treatments ({yearList?.length})
             </Button>
 
             <Menu
@@ -188,7 +189,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                     );
                   })}
 
-                <Box m={2}>
+                <Box>
                   <Button
                     id={'upload-spatial'}
                     data-testid={'upload-spatial'}
@@ -199,26 +200,27 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                     aria-label={'Import Spatial'}
                     startIcon={<Icon path={mdiTrayArrowUp} size={1} />}
                     onClick={handleImportTreatmentClick}>
-                    <strong>Import</strong>
+                    Import Treatments
                   </Button>
                 </Box>
               </Box>
             </Menu>
-          </Grid>
-          <Grid item>
-            <Button
-              id={'upload-spatial'}
-              data-testid={'upload-spatial'}
-              variant="contained"
-              color="primary"
-              title={'Import Spatial'}
-              aria-label={'Import Spatial'}
-              startIcon={<Icon path={mdiTrayArrowUp} size={1} />}
-              onClick={handleImportTreatmentClick}>
-              <strong>Import</strong>
-            </Button>
-          </Grid>
-        </Grid>
+
+            <Box display="inline-block" ml={1}>
+              <Button
+                id={'upload-spatial'}
+                data-testid={'upload-spatial'}
+                variant="outlined"
+                color="primary"
+                title={'Import Spatial'}
+                aria-label={'Import Spatial'}
+                startIcon={<Icon path={mdiTrayArrowUp} size={1} />}
+                onClick={handleImportTreatmentClick}>
+                Import Treatments
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </Toolbar>
     </Box>
   );

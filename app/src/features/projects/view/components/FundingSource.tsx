@@ -48,7 +48,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
         {hasFundingSources &&
           funding.fundingSources.map((item: any, index: number) => (
             <li key={index} data-testid="funding_data">
-              <Box>
+              <Box mb={1}>
                 <strong>{item.agency_name}</strong>
               </Box>
               <Box component="dl" mt={0.5} mb={0}>
@@ -56,7 +56,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                   <Typography variant="body2" component="dt" color="textSecondary">
                     Funding Amount:
                   </Typography>
-                  <Typography variant="body2" component="dt">
+                  <Typography variant="body2" component="dd">
                     {getFormattedAmount(item.funding_amount)}
                   </Typography>
                 </div>
@@ -64,7 +64,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                   <Typography variant="body2" component="dt" color="textSecondary">
                     Project ID:
                   </Typography>
-                  <Typography variant="body2" component="dt">
+                  <Typography variant="body2" component="dd">
                     {item.agency_project_id}
                   </Typography>
                 </div>
@@ -72,7 +72,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                   <Typography variant="body2" component="dt" color="textSecondary">
                     Start Date:
                   </Typography>
-                  <Typography variant="body2" component="dt">
+                  <Typography variant="body2" component="dd">
                     {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.start_date)}
                   </Typography>
                 </div>
@@ -80,7 +80,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                   <Typography variant="body2" component="dt" color="textSecondary">
                     End Date:
                   </Typography>
-                  <Typography variant="body2" component="dt">
+                  <Typography variant="body2" component="dd">
                     {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.end)}
                   </Typography>
                 </div>
