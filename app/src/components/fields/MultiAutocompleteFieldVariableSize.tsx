@@ -173,9 +173,13 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
-  // const getExistingValue = (existingValues: (number | string)[]): IMultiAutocompleteFieldOption[] => {
-  //   return existingValues && options.filter((option) => existingValues.includes(option.value));
-  // };
+  const getExistingValue = (existingValues: (number | string)[]): IMultiAutocompleteFieldOption[] => {
+    if (existingValues) {
+      const selectedVals = options.filter((option) => existingValues.includes(option.value));
+      return selectedVals;
+    }
+    return [];
+  };
 
   const handleGetOptionSelected = (
     option: IMultiAutocompleteFieldOption,
@@ -237,7 +241,7 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
       multiple
       noOptionsText="Type to start searching"
       autoHighlight={true}
-      value={undefined}
+      value={getExistingValue(get(values, props.id))}
       ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
       id={props.id}
       data-testid={props.id}

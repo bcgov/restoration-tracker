@@ -130,8 +130,10 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
                   value={values.location.range ? values.location.range : ''}
                   onChange={handleChange}
                   error={touched.location?.range && Boolean(errors.location?.range)}
-                  displayEmpty
                   inputProps={{ 'aria-label': 'Caribou Range' }}>
+                  <MenuItem key={'empty'} value={undefined}>
+                    Not Applicable
+                  </MenuItem>
                   {props.ranges.map((item) => (
                     <MenuItem key={item.value} value={item.value}>
                       {item.label}

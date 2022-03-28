@@ -123,7 +123,6 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
                 id="ranges"
                 data-testid="ranges"
                 label="Caribou Ranges"
-                type='default'
                 options={props.ranges}
                 required={false}
               />
@@ -133,7 +132,6 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
                 id="region"
                 data-testid="region"
                 label="FLNRO Region"
-                type='default'
                 options={props.region}
                 required={false}
               />
