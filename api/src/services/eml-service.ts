@@ -168,8 +168,11 @@ export class EmlService extends DBService {
   }
 
   async buildAdditionalMetadataSection() {
-    const [firstNationsData] = await Promise.all([
-      this.connection.sql<{ name: string }>(queries.eml.getProjectFirstNationsSQL(this.projectId))
+    const [firstNationsData, iucnClassificationDetailsData] = await Promise.all([
+      this.connection.sql<{ name: string }>(queries.eml.getProjectFirstNationsSQL(this.projectId)),
+      this.connection.sql<{ level_1_name: string; level_2_name: string; level_3_name: string }>(
+        queries.eml.getIUCNClassificationsDetailsSQL(this.projectId)
+      )
     ]);
 
     jsonpatch.applyOperation(this.data, {
@@ -180,11 +183,11 @@ export class EmlService extends DBService {
           describes: this.packageId,
           metadata: {
             IUCNConservationActions: {
-              IUCNConservationAction: this.projectData.iucn.classificationDetails.map((item) => {
+              IUCNConservationAction: iucnClassificationDetailsData.rows.map((item) => {
                 return {
-                  IUCNConservationActionLevel1Classification: item.classification,
-                  IUCNConservationActionLevel2SubClassification: item.subClassification1,
-                  IUCNConservationActionLevel3SubClassification: item.subClassification2
+                  IUCNConservationActionLevel1Classification: item.level_1_name,
+                  IUCNConservationActionLevel2SubClassification: item.level_2_name,
+                  IUCNConservationActionLevel3SubClassification: item.level_3_name
                 };
               })
             }
