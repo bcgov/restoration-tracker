@@ -6,8 +6,6 @@ const defaultLog = getLogger('services/taxonomy-service');
 
 export class TaxonomyService {
   private async elasticSearch(searchRequest: SearchRequest) {
-    // defaultLog.debug({ label: 'elasticSearch', message: 'params', searchRequest: searchRequest });
-
     try {
       const client = new Client({ node: process.env.ELASTICSEARCH_URL });
       const response = await client.search({
@@ -15,7 +13,6 @@ export class TaxonomyService {
         ...searchRequest
       });
 
-      // defaultLog.debug({ label: 'elasticSearch', message: 'response', response_data: response });
       return response;
     } catch (error) {
       defaultLog.debug({ label: 'elasticSearch', message: 'error', error });

@@ -108,7 +108,6 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-
               <MultiAutocompleteFieldVariableSize
                 id="species"
                 label="Species"
