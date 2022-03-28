@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import PublicGeneralInformation from './PublicGeneralInformation';
@@ -14,16 +14,28 @@ describe('PublicGeneralInformation', () => {
         start_date: '2021-01-10',
         end_date: '',
         publish_date: '2021-01-26',
-        objectives: 'Project objectives',
-        region: 'NRM Region 1'
+        objectives: 'Project objectives'
       },
       species: {
         focal_species_names: ['species1', 'species2']
+      },
+      location: {
+        region: 123
       }
     } as IGetProjectForViewResponse;
 
+    const codes = {
+      regions: [
+        {
+          id: 1,
+          name: 'region1'
+        },
+        { id: 2, name: 'region2' }
+      ]
+    };
+
     const { getByText } = render(
-      <PublicGeneralInformation projectForViewData={projectPermitData} refresh={mockRefresh} />
+      <PublicGeneralInformation projectForViewData={projectPermitData} codes={codes} refresh={mockRefresh} />
     );
 
     expect(getByText('Test Project Name', { exact: false })).toBeVisible();
@@ -40,16 +52,28 @@ describe('PublicGeneralInformation', () => {
         start_date: '2021-01-10',
         end_date: '2021-01-26',
         publish_date: '2021-01-26',
-        objectives: 'Project objectives',
-        region: 'NRM Region 1'
+        objectives: 'Project objectives'
       },
       species: {
         focal_species_names: ['species1', 'species2']
+      },
+      location: {
+        region: 123
       }
     } as IGetProjectForViewResponse;
 
+    const codes = {
+      regions: [
+        {
+          id: 1,
+          name: 'region1'
+        },
+        { id: 2, name: 'region2' }
+      ]
+    };
+
     const { getByText } = render(
-      <PublicGeneralInformation projectForViewData={projectPermitData} refresh={mockRefresh} />
+      <PublicGeneralInformation projectForViewData={projectPermitData} codes={codes} refresh={mockRefresh} />
     );
 
     expect(getByText('Test Project Name', { exact: false })).toBeVisible();

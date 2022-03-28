@@ -68,7 +68,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                       Project Details
                     </span>
                     <span
-                      class="PrivateTabIndicator-root-221 PrivateTabIndicator-colorSecondary-223 MuiTabs-indicator"
+                      class="MuiTouchRipple-root"
                     />
                   </button>
                   <button
@@ -83,8 +83,15 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     >
                       Documents
                     </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
                   </button>
                 </div>
+                <span
+                  class="PrivateTabIndicator-root-221 PrivateTabIndicator-colorSecondary-223 MuiTabs-indicator"
+                  style="left: 0px; width: 0px;"
+                />
               </div>
             </div>
           </div>
@@ -128,6 +135,9 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                       </span>
                       Back to Projects
                     </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
                   </a>
                 </div>
                 <div
@@ -645,6 +655,9 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                       </svg>
                     </span>
                   </span>
+                  <span
+                    class="MuiTouchRipple-root"
+                  />
                 </button>
               </div>
             </div>
@@ -659,9 +672,162 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
           data-testid="map_container"
         >
           <div
-            class="makeStyles-map-282"
+            class="makeStyles-map-282 leaflet-container leaflet-grab leaflet-touch-drag"
             id="project_location_form_map"
-          />
+            style="position: relative;"
+            tabindex="0"
+          >
+            <div
+              class="leaflet-pane leaflet-map-pane"
+              style="left: 0px; top: 0px;"
+            >
+              <div
+                class="leaflet-pane leaflet-tile-pane"
+              >
+                <div
+                  class="leaflet-layer "
+                  style="z-index: 1;"
+                >
+                  <div
+                    class="leaflet-tile-container leaflet-zoom-animated"
+                    style="z-index: 18; left: 0px; top: 0px;"
+                  >
+                    <img
+                      alt=""
+                      class="leaflet-tile"
+                      role="presentation"
+                      src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
+                      style="width: 256px; height: 256px; left: -159px; top: -31px;"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="leaflet-pane leaflet-shadow-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-overlay-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-marker-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-tooltip-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-popup-pane"
+              />
+            </div>
+            <div
+              class="leaflet-control-container"
+            >
+              <div
+                class="leaflet-top leaflet-left"
+              >
+                <div
+                  class="leaflet-control-zoom leaflet-bar leaflet-control"
+                >
+                  <a
+                    aria-label="Zoom in"
+                    class="leaflet-control-zoom-in"
+                    href="#"
+                    role="button"
+                    title="Zoom in"
+                  >
+                    +
+                  </a>
+                  <a
+                    aria-label="Zoom out"
+                    class="leaflet-control-zoom-out"
+                    href="#"
+                    role="button"
+                    title="Zoom out"
+                  >
+                    −
+                  </a>
+                </div>
+                <div
+                  class="leaflet-control-fullscreen leaflet-bar leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-fullscreen-button leaflet-bar-part"
+                    href="#"
+                    title="View Fullscreen"
+                  />
+                </div>
+              </div>
+              <div
+                class="leaflet-top leaflet-right"
+              />
+              <div
+                class="leaflet-bottom leaflet-left"
+              />
+              <div
+                class="leaflet-bottom leaflet-right"
+              >
+                <div
+                  aria-haspopup="true"
+                  class="leaflet-control-layers leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-layers-toggle"
+                    href="#"
+                    title="Layers"
+                  />
+                  <section
+                    class="leaflet-control-layers-list"
+                  >
+                    <div
+                      class="leaflet-control-layers-base"
+                    >
+                      <label>
+                        <div>
+                          <input
+                            checked="checked"
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_67"
+                            type="radio"
+                          />
+                          <span>
+                             BC Government
+                          </span>
+                        </div>
+                      </label>
+                      <label>
+                        <div>
+                          <input
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_67"
+                            type="radio"
+                          />
+                          <span>
+                             Esri Imagery
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+                    <div
+                      class="leaflet-control-layers-separator"
+                      style="display: none;"
+                    />
+                    <div
+                      class="leaflet-control-layers-overlays"
+                    />
+                  </section>
+                </div>
+                <div
+                  class="leaflet-control-attribution leaflet-control"
+                >
+                  <a
+                    href="https://leafletjs.com"
+                    title="A JS library for interactive maps"
+                  >
+                    Leaflet
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -971,6 +1137,30 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           class="MuiTypography-root MuiTypography-body2"
                         >
                           Test Project Name
+                        </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Region:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                          data-testid="project-region"
+                        />
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Range:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                          data-testid="project-region"
+                        >
+                          test 1
                         </dt>
                       </div>
                       <div>
@@ -1688,7 +1878,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       Project Details
                     </span>
                     <span
-                      class="PrivateTabIndicator-root-132 PrivateTabIndicator-colorSecondary-134 MuiTabs-indicator"
+                      class="MuiTouchRipple-root"
                     />
                   </button>
                   <button
@@ -1703,8 +1893,15 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     >
                       Documents
                     </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
                   </button>
                 </div>
+                <span
+                  class="PrivateTabIndicator-root-132 PrivateTabIndicator-colorSecondary-134 MuiTabs-indicator"
+                  style="left: 0px; width: 0px;"
+                />
               </div>
             </div>
           </div>
@@ -1748,6 +1945,9 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </span>
                       Back to Projects
                     </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
                   </a>
                 </div>
                 <div
@@ -2265,6 +2465,9 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </svg>
                     </span>
                   </span>
+                  <span
+                    class="MuiTouchRipple-root"
+                  />
                 </button>
               </div>
             </div>
@@ -2279,9 +2482,162 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
           data-testid="map_container"
         >
           <div
-            class="makeStyles-map-193"
+            class="makeStyles-map-193 leaflet-container leaflet-grab leaflet-touch-drag"
             id="project_location_form_map"
-          />
+            style="position: relative;"
+            tabindex="0"
+          >
+            <div
+              class="leaflet-pane leaflet-map-pane"
+              style="left: 0px; top: 0px;"
+            >
+              <div
+                class="leaflet-pane leaflet-tile-pane"
+              >
+                <div
+                  class="leaflet-layer "
+                  style="z-index: 1;"
+                >
+                  <div
+                    class="leaflet-tile-container leaflet-zoom-animated"
+                    style="z-index: 18; left: 0px; top: 0px;"
+                  >
+                    <img
+                      alt=""
+                      class="leaflet-tile"
+                      role="presentation"
+                      src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
+                      style="width: 256px; height: 256px; left: -159px; top: -31px;"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="leaflet-pane leaflet-shadow-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-overlay-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-marker-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-tooltip-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-popup-pane"
+              />
+            </div>
+            <div
+              class="leaflet-control-container"
+            >
+              <div
+                class="leaflet-top leaflet-left"
+              >
+                <div
+                  class="leaflet-control-zoom leaflet-bar leaflet-control"
+                >
+                  <a
+                    aria-label="Zoom in"
+                    class="leaflet-control-zoom-in"
+                    href="#"
+                    role="button"
+                    title="Zoom in"
+                  >
+                    +
+                  </a>
+                  <a
+                    aria-label="Zoom out"
+                    class="leaflet-control-zoom-out"
+                    href="#"
+                    role="button"
+                    title="Zoom out"
+                  >
+                    −
+                  </a>
+                </div>
+                <div
+                  class="leaflet-control-fullscreen leaflet-bar leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-fullscreen-button leaflet-bar-part"
+                    href="#"
+                    title="View Fullscreen"
+                  />
+                </div>
+              </div>
+              <div
+                class="leaflet-top leaflet-right"
+              />
+              <div
+                class="leaflet-bottom leaflet-left"
+              />
+              <div
+                class="leaflet-bottom leaflet-right"
+              >
+                <div
+                  aria-haspopup="true"
+                  class="leaflet-control-layers leaflet-control"
+                >
+                  <a
+                    class="leaflet-control-layers-toggle"
+                    href="#"
+                    title="Layers"
+                  />
+                  <section
+                    class="leaflet-control-layers-list"
+                  >
+                    <div
+                      class="leaflet-control-layers-base"
+                    >
+                      <label>
+                        <div>
+                          <input
+                            checked="checked"
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_52"
+                            type="radio"
+                          />
+                          <span>
+                             BC Government
+                          </span>
+                        </div>
+                      </label>
+                      <label>
+                        <div>
+                          <input
+                            class="leaflet-control-layers-selector"
+                            name="leaflet-base-layers_52"
+                            type="radio"
+                          />
+                          <span>
+                             Esri Imagery
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+                    <div
+                      class="leaflet-control-layers-separator"
+                      style="display: none;"
+                    />
+                    <div
+                      class="leaflet-control-layers-overlays"
+                    />
+                  </section>
+                </div>
+                <div
+                  class="leaflet-control-attribution leaflet-control"
+                >
+                  <a
+                    href="https://leafletjs.com"
+                    title="A JS library for interactive maps"
+                  >
+                    Leaflet
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
