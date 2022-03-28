@@ -238,6 +238,30 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                         <dd
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
+                          Region:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                          data-testid="project-region"
+                        />
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Range:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                          data-testid="project-region"
+                        >
+                          test 1
+                        </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
                           Start Date:
                         </dd>
                         <dt
@@ -1119,6 +1143,30 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         <dd
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
+                          Region:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                          data-testid="project-region"
+                        />
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Range:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                          data-testid="project-region"
+                        >
+                          test 1
+                        </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
                           Start Date:
                         </dd>
                         <dt
@@ -1994,6 +2042,30 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           class="MuiTypography-root MuiTypography-body2"
                         >
                           Test Project Name
+                        </dt>
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Region:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                          data-testid="project-region"
+                        />
+                      </div>
+                      <div>
+                        <dd
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          Range:
+                        </dd>
+                        <dt
+                          class="MuiTypography-root MuiTypography-body2"
+                          data-testid="project-region"
+                        >
+                          test 1
                         </dt>
                       </div>
                       <div>

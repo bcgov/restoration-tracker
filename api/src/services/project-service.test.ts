@@ -713,7 +713,7 @@ describe('ProjectService', () => {
     });
 
     it('returns row on success', async () => {
-      const mockRowObj = [{ project_id: 1 }];
+      const mockRowObj = [{ focal_species: [1], focal_species_names: ['name'] }];
 
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
@@ -726,7 +726,7 @@ describe('ProjectService', () => {
 
       const result = await projectService.getSpeciesData(projectId);
 
-      expect(result).to.deep.include(new projectViewModels.GetSpeciesData(mockRowObj));
+      expect(result).to.deep.include(new projectViewModels.GetSpeciesData([]));
     });
   });
 

@@ -205,7 +205,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
             General Information
           </Typography>
           <Box mt={2}>
-            <PublicGeneralInformation projectForViewData={projectForViewData} refresh={refresh} />
+            <PublicGeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
           </Box>
         </Box>
 
