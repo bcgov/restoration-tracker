@@ -33,8 +33,8 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
       return { value: parseInt(item.id), label: item.label };
     });
 
-  const handleGetInitList = async (values: number[]) => {
-    const response = await restorationTrackerApi.taxonomy.getSpeciesFromIds(values);
+  const handleGetInitList = async (initialvalues: number[]) => {
+    const response = await restorationTrackerApi.taxonomy.getSpeciesFromIds(initialvalues);
     return convertOptions(response.searchResponse);
   };
 

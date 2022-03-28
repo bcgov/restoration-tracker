@@ -23,7 +23,7 @@ export interface IMultiAutocompleteFieldOption {
 export type ApiSearchTypeParam = {
   type: 'api-search';
   options?: null;
-  getInitList: (values: number[]) => Promise<IMultiAutocompleteFieldOption[]>;
+  getInitList: (initialValues: number[]) => Promise<IMultiAutocompleteFieldOption[]>;
   search: DebouncedFunc<
     (
       inputValue: string,
