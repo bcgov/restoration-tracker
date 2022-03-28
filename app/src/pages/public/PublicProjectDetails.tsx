@@ -30,28 +30,10 @@ export interface IPublicProjectDetailsProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    projectDetailDrawer: {
-      '&.MuiDrawer-docked': {
-        flex: '0 1 auto'
-      },
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        overflow: 'hidden',
-        zIndex: 'auto'
-      }
-    },
-    projectDetailMain: {
-      background: '#ffffff'
-    },
     projectTitle: {
       margin: 0,
       fontSize: '1.5rem',
       fontWeight: 400
-    },
-    contentTitle: {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-      fontSize: '2rem'
     },
     projectMetadata: {
       padding: theme.spacing(3),
@@ -81,21 +63,6 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: theme.spacing(3)
       }
     },
-    treatmentsContainer: {
-      display: 'none'
-    },
-    actionButton: {
-      minWidth: '6rem',
-      '& + button': {
-        marginLeft: '0.5rem'
-      }
-    },
-    linkButton: {
-      textAlign: 'left'
-    },
-    filtersBox: {
-      background: '#f7f8fa'
-    },
     chip: {
       color: 'white'
     },
@@ -113,9 +80,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     chipPriority: {
       backgroundColor: theme.palette.info.dark
-    },
-    chipNotAPriority: {
-      backgroundColor: theme.palette.text.disabled
     }
   })
 );
@@ -138,7 +102,7 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
 
-  const priority_status = ProjectStatusType.NOT_A_PRIORITY;
+  const priority_status = projectForViewData.location.priority === 'true';
 
   const getChipIcon = (status_name: string) => {
     let chipLabel;
@@ -153,12 +117,6 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
     } else if (ProjectStatusType.DRAFT === status_name) {
       chipLabel = 'Draft';
       chipStatusClass = classes.chipDraft;
-    } else if (ProjectStatusType.PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipPriority;
-    } else if (ProjectStatusType.NOT_A_PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipNotAPriority;
     }
 
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
@@ -183,7 +141,11 @@ const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
           </Box>
         </Box>
         <Box mt={1} display="flex" flexDirection={'row'}>
-          <Box mr={0.5}>{getChipIcon(priority_status)}</Box>
+          {priority_status && (
+            <Box mr={0.5}>
+              <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
+            </Box>
+          )}
           <Box>{getChipIcon(completion_status)}</Box>
         </Box>
       </Box>

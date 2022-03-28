@@ -825,7 +825,7 @@ describe('ProjectService', () => {
         },
         location: {
           geometry: [({} as unknown) as Feature],
-          priority: 'true',
+          priority: true,
           region: 3640,
           range: 1234
         }
