@@ -1,5 +1,6 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Formik } from 'formik';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
 import ProjectGeneralInformationForm, {
@@ -8,8 +9,26 @@ import ProjectGeneralInformationForm, {
   ProjectGeneralInformationFormYupSchema
 } from './ProjectGeneralInformationForm';
 
+jest.mock('../../../hooks/useRestorationTrackerApi');
+const mockuseRestorationTrackerApi = {
+  taxonomy: {
+    searchSpecies: jest.fn().mockResolvedValue({ searchResponse: [] }),
+    getSpeciesFromIds: jest.fn().mockResolvedValue({ searchResponse: [] })
+  }
+};
+
+const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest.Mock<
+  typeof mockuseRestorationTrackerApi
+>).mockReturnValue(mockuseRestorationTrackerApi);
+
 describe('ProjectGeneralInformationForm', () => {
-  it('renders correctly with default empty values', () => {
+  beforeEach(() => {
+    // clear mocks before each test
+    mockRestorationTrackerApi().taxonomy.searchSpecies.mockClear();
+    mockRestorationTrackerApi().taxonomy.getSpeciesFromIds.mockClear();
+  });
+
+  it('renders correctly with default empty values', async () => {
     const { getByTestId } = render(
       <Formik
         initialValues={ProjectGeneralInformationFormInitialValues}
@@ -29,13 +48,15 @@ describe('ProjectGeneralInformationForm', () => {
       </Formik>
     );
 
-    expect(getByTestId('project.project_name')).toBeVisible();
-    expect(getByTestId('start_date')).toBeVisible();
-    expect(getByTestId('end_date')).toBeVisible();
-    expect(getByTestId('project.objectives')).toBeVisible();
+    await waitFor(() => {
+      expect(getByTestId('project.project_name')).toBeVisible();
+      expect(getByTestId('start_date')).toBeVisible();
+      expect(getByTestId('end_date')).toBeVisible();
+      expect(getByTestId('project.objectives')).toBeVisible();
+    });
   });
 
-  it('renders correctly with existing details values', () => {
+  it('renders correctly with existing details values', async () => {
     const existingFormValues: IProjectGeneralInformationForm = {
       project: {
         project_name: 'name 1',
@@ -67,11 +88,13 @@ describe('ProjectGeneralInformationForm', () => {
       </Formik>
     );
 
-    expect(getByTestId('project.project_name')).toBeVisible();
-    expect(getByTestId('start_date')).toBeVisible();
-    expect(getByTestId('end_date')).toBeVisible();
-    expect(getByTestId('project.objectives')).toBeVisible();
-    expect(getByDisplayValue('name 1')).toBeVisible();
-    expect(getByDisplayValue('my objectives')).toBeVisible();
+    await waitFor(() => {
+      expect(getByTestId('project.project_name')).toBeVisible();
+      expect(getByTestId('start_date')).toBeVisible();
+      expect(getByTestId('end_date')).toBeVisible();
+      expect(getByTestId('project.objectives')).toBeVisible();
+      expect(getByDisplayValue('name 1')).toBeVisible();
+      expect(getByDisplayValue('my objectives')).toBeVisible();
+    });
   });
 });

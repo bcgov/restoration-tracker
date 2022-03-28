@@ -22,18 +22,18 @@
  create trigger journal_system_constant after insert or update or delete on restoration.system_constant for each row execute procedure tr_journal_trigger();
  create trigger journal_system_metadata_constant after insert or update or delete on restoration.system_metadata_constant for each row execute procedure tr_journal_trigger();
  create trigger journal_treatment after insert or update or delete on restoration.treatment for each row execute procedure tr_journal_trigger();
- create trigger journal_system_user after insert or update or delete on restoration.system_user for each row execute procedure tr_journal_trigger();
  create trigger journal_project_spatial_component after insert or update or delete on restoration.project_spatial_component for each row execute procedure tr_journal_trigger();
  create trigger journal_stakeholder_partnership after insert or update or delete on restoration.stakeholder_partnership for each row execute procedure tr_journal_trigger();
  create trigger journal_system_user_role after insert or update or delete on restoration.system_user_role for each row execute procedure tr_journal_trigger();
  create trigger journal_system_role after insert or update or delete on restoration.system_role for each row execute procedure tr_journal_trigger();
- create trigger journal_webform_draft after insert or update or delete on restoration.webform_draft for each row execute procedure tr_journal_trigger();
  create trigger journal_treatment_treatment_type after insert or update or delete on restoration.treatment_treatment_type for each row execute procedure tr_journal_trigger();
- create trigger journal_treatment_unit after insert or update or delete on restoration.treatment_unit for each row execute procedure tr_journal_trigger();
- create trigger journal_user_identity_source after insert or update or delete on restoration.user_identity_source for each row execute procedure tr_journal_trigger();
+ create trigger journal_webform_draft after insert or update or delete on restoration.webform_draft for each row execute procedure tr_journal_trigger();
  create trigger journal_treatment_type after insert or update or delete on restoration.treatment_type for each row execute procedure tr_journal_trigger();
+ create trigger journal_treatment_unit after insert or update or delete on restoration.treatment_unit for each row execute procedure tr_journal_trigger();
+ create trigger journal_system_user after insert or update or delete on restoration.system_user for each row execute procedure tr_journal_trigger();
  create trigger journal_administrative_activity after insert or update or delete on restoration.administrative_activity for each row execute procedure tr_journal_trigger();
  create trigger journal_administrative_activity_type after insert or update or delete on restoration.administrative_activity_type for each row execute procedure tr_journal_trigger();
  create trigger journal_iucn_conservation_action_level_2_subclassification after insert or update or delete on restoration.iucn_conservation_action_level_2_subclassification for each row execute procedure tr_journal_trigger();
  create trigger journal_project_attachment after insert or update or delete on restoration.project_attachment for each row execute procedure tr_journal_trigger();
+ create trigger journal_user_identity_source after insert or update or delete on restoration.user_identity_source for each row execute procedure tr_journal_trigger();
 
