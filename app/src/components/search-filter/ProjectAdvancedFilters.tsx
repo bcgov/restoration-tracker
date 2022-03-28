@@ -42,12 +42,12 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
     debounce(
       async (
         inputValue: string,
-        exsistingValues: (string | number)[],
+        existingValues: (string | number)[],
         callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
       ) => {
         const response = await restorationTrackerApi.taxonomy.searchSpecies(inputValue);
         const newOptions = convertOptions(response.searchResponse).filter(
-          (item) => !exsistingValues.includes(item.value)
+          (item) => !existingValues.includes(item.value)
         );
         callback(newOptions);
       },

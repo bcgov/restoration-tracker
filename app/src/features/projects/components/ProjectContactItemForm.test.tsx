@@ -28,8 +28,8 @@ describe('ProjectContactItemForm', () => {
     expect(getByTestId('contact_agency')).toBeVisible();
   });
 
-  it('renders renders correctly with exsisting values', () => {
-    const exsistingValues: IProjectContactItemForm = {
+  it('renders renders correctly with existing values', () => {
+    const existingValues: IProjectContactItemForm = {
       first_name: 'John',
       last_name: 'Doe',
       email_address: 'jd@example.com',
@@ -40,7 +40,7 @@ describe('ProjectContactItemForm', () => {
 
     const { getByTestId, getByDisplayValue } = render(
       <Formik
-        initialValues={exsistingValues}
+        initialValues={existingValues}
         validationSchema={ProjectContactItemYupSchema}
         validateOnBlur={true}
         validateOnChange={false}

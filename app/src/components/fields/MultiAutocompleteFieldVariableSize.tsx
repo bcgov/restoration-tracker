@@ -1,16 +1,16 @@
 import Checkbox from '@material-ui/core/Checkbox';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import TextField from '@material-ui/core/TextField';
 import CheckBox from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlank from '@material-ui/icons/CheckBoxOutlineBlank';
+import { FilterOptionsState } from '@material-ui/lab';
 import Autocomplete, { AutocompleteInputChangeReason, createFilterOptions } from '@material-ui/lab/Autocomplete';
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useFormikContext } from 'formik';
+import { DebouncedFunc } from 'lodash-es';
+import get from 'lodash-es/get';
 import React, { useEffect, useState } from 'react';
 import { ListChildComponentProps, VariableSizeList } from 'react-window';
-import get from 'lodash-es/get';
-import { FilterOptionsState } from '@material-ui/lab';
-import { DebouncedFunc } from 'lodash-es';
 
 const LISTBOX_PADDING = 8; // px
 
@@ -27,7 +27,7 @@ export type ApiSearchTypeParam = {
   search: DebouncedFunc<
     (
       inputValue: string,
-      exsistingValues: (string | number)[],
+      existingValues: (string | number)[],
       callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
     ) => Promise<void>
   >;
@@ -146,14 +146,14 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
             setOptions(response);
           },
           async searchSpecies() {
-            const exsistingValues = get(values, props.id);
-            const selectedOptions = options.slice(0, exsistingValues.length);
+            const existingValues = get(values, props.id);
+            const selectedOptions = (existingValues?.length && options.slice(0, existingValues.length)) || [];
 
             if (!inputValue) {
               setOptions(selectedOptions);
               props.search.cancel();
             } else {
-              props.search(inputValue, exsistingValues, (newOptions) => {
+              props.search(inputValue, existingValues, (newOptions) => {
                 if (selectedOptions.length || newOptions.length || options.length) {
                   setOptions([...selectedOptions, ...newOptions]);
                 }
@@ -217,10 +217,10 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
     optionsList: IMultiAutocompleteFieldOption[],
     state: FilterOptionsState<IMultiAutocompleteFieldOption>
   ) => {
-    const exsistingValues = get(values, props.id);
+    const existingValues = get(values, props.id);
     const [selectedOptions, remainingOptions] = [
-      optionsList.filter((item) => exsistingValues.includes(item.value)),
-      optionsList.filter((item) => !exsistingValues.includes(item.value))
+      optionsList.filter((item) => existingValues.includes(item.value)),
+      optionsList.filter((item) => !existingValues.includes(item.value))
     ];
     const filterOptions = createFilterOptions<IMultiAutocompleteFieldOption>();
     return [...selectedOptions, ...filterOptions(remainingOptions, state)];
