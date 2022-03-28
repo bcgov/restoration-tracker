@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import PublicGeneralInformation from './PublicGeneralInformation';
