@@ -61,7 +61,7 @@ export const ProjectAdvancedFiltersInitialValues: IProjectAdvancedFilters = {
   contact_agency: '',
   funding_agency: [],
   permit_number: '',
-  species: '',
+  species: [],
   start_date: '',
   end_date: '',
   ranges: '',
@@ -73,7 +73,7 @@ export interface IProjectAdvancedFilters {
   contact_agency?: string | string[];
   funding_agency?: number | number[];
   permit_number?: string;
-  species?: string | string[];
+  species?: number | number[];
   start_date?: string;
   end_date?: string;
   ranges?: string | string[];

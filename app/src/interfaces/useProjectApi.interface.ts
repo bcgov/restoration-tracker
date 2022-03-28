@@ -23,7 +23,7 @@ export interface IProjectAdvancedFilterRequest {
   contact_agency?: string | string[];
   funding_agency?: number | number[];
   permit_number?: string;
-  species?: string | string[];
+  species?: number | number[];
   start_date?: string;
   end_date?: string;
 }

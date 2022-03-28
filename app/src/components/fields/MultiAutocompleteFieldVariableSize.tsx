@@ -175,8 +175,7 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
 
   const getExistingValue = (existingValues: (number | string)[]): IMultiAutocompleteFieldOption[] => {
     if (existingValues) {
-      const selectedVals = options.filter((option) => existingValues.includes(option.value));
-      return selectedVals;
+      return options.filter((option) => existingValues.includes(option.value));
     }
     return [];
   };
