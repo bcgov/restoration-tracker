@@ -372,7 +372,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                         <span
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          123 -
+                          123 - 
                           <span>
                             Permit type
                           </span>
@@ -821,10 +821,14 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
         class="MuiBox-root MuiBox-root-216"
       >
         <div
-          class="MuiBox-root MuiBox-root-223"
+          class="MuiPaper-root MuiAccordion-root makeStyles-accordion-218 MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
         >
           <div
-            class="MuiBox-root MuiBox-root-224"
+            aria-disabled="false"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root"
+            role="button"
+            tabindex="0"
           >
             <div
               class="MuiAccordionSummary-content"
@@ -858,11 +862,11 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
             </div>
           </div>
           <div
-            class="MuiTableContainer-root MuiBox-root MuiBox-root-225"
+            class="MuiCollapse-container MuiCollapse-hidden"
+            style="min-height: 0px;"
           >
-            <table
-              aria-label="treatments-list-table"
-              class="MuiTable-root makeStyles-treatmentsTable-217 MuiTable-stickyHeader"
+            <div
+              class="MuiCollapse-wrapper"
             >
               <div
                 class="MuiCollapse-wrapperInner"
@@ -874,14 +878,14 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     class="MuiAccordionDetails-root"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-226"
+                      class="MuiBox-root MuiBox-root-224"
                     >
                       <div
-                        class="MuiTableContainer-root MuiBox-root MuiBox-root-289"
+                        class="MuiTableContainer-root MuiBox-root MuiBox-root-225"
                       >
                         <table
                           aria-label="treatments-list-table"
-                          class="MuiTable-root makeStyles-treatmentsTable-281 MuiTable-stickyHeader"
+                          class="MuiTable-root makeStyles-treatmentsTable-217 MuiTable-stickyHeader"
                         >
                           <thead
                             class="MuiTableHead-root"
@@ -953,7 +957,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                                 colspan="7"
                               >
                                 <div
-                                  class="MuiBox-root MuiBox-root-290"
+                                  class="MuiBox-root MuiBox-root-226"
                                 >
                                   No Treatments
                                 </div>
@@ -963,7 +967,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                         </table>
                       </div>
                       <div
-                        class="MuiTablePagination-root makeStyles-pagination-283"
+                        class="MuiTablePagination-root makeStyles-pagination-219"
                       >
                         <div
                           class="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
@@ -973,7 +977,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           />
                           <p
                             class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-                            id="mui-51488"
+                            id="mui-94147"
                           >
                             Rows per page:
                           </p>
@@ -982,9 +986,9 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           >
                             <div
                               aria-haspopup="listbox"
-                              aria-labelledby="mui-51488 mui-96956"
+                              aria-labelledby="mui-94147 mui-92776"
                               class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
-                              id="mui-96956"
+                              id="mui-92776"
                               role="button"
                               tabindex="0"
                             >
@@ -1424,7 +1428,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         <span
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          123 -
+                          123 - 
                           <span>
                             Permit type
                           </span>
@@ -1873,10 +1877,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
         class="MuiBox-root MuiBox-root-72"
       >
         <div
-          class="MuiBox-root MuiBox-root-79"
+          class="MuiPaper-root MuiAccordion-root makeStyles-accordion-74 MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
         >
           <div
-            class="MuiBox-root MuiBox-root-80"
+            aria-disabled="false"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root"
+            role="button"
+            tabindex="0"
           >
             <div
               class="MuiAccordionSummary-content"
@@ -1910,11 +1918,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             </div>
           </div>
           <div
-            class="MuiTableContainer-root MuiBox-root MuiBox-root-81"
+            class="MuiCollapse-container MuiCollapse-hidden"
+            style="min-height: 0px;"
           >
-            <table
-              aria-label="treatments-list-table"
-              class="MuiTable-root makeStyles-treatmentsTable-73 MuiTable-stickyHeader"
+            <div
+              class="MuiCollapse-wrapper"
             >
               <div
                 class="MuiCollapse-wrapperInner"
@@ -1926,14 +1934,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     class="MuiAccordionDetails-root"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-82"
+                      class="MuiBox-root MuiBox-root-80"
                     >
                       <div
-                        class="MuiTableContainer-root MuiBox-root MuiBox-root-113"
+                        class="MuiTableContainer-root MuiBox-root MuiBox-root-81"
                       >
                         <table
                           aria-label="treatments-list-table"
-                          class="MuiTable-root makeStyles-treatmentsTable-105 MuiTable-stickyHeader"
+                          class="MuiTable-root makeStyles-treatmentsTable-73 MuiTable-stickyHeader"
                         >
                           <thead
                             class="MuiTableHead-root"
@@ -2005,7 +2013,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                                 colspan="7"
                               >
                                 <div
-                                  class="MuiBox-root MuiBox-root-114"
+                                  class="MuiBox-root MuiBox-root-82"
                                 >
                                   No Treatments
                                 </div>
@@ -2015,7 +2023,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         </table>
                       </div>
                       <div
-                        class="MuiTablePagination-root makeStyles-pagination-107"
+                        class="MuiTablePagination-root makeStyles-pagination-75"
                       >
                         <div
                           class="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
@@ -2025,7 +2033,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           />
                           <p
                             class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-                            id="mui-99134"
+                            id="mui-18553"
                           >
                             Rows per page:
                           </p>
@@ -2034,9 +2042,9 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           >
                             <div
                               aria-haspopup="listbox"
-                              aria-labelledby="mui-99134 mui-36177"
+                              aria-labelledby="mui-18553 mui-82891"
                               class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
-                              id="mui-36177"
+                              id="mui-82891"
                               role="button"
                               tabindex="0"
                             >
@@ -2476,7 +2484,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         <span
                           class="MuiTypography-root MuiTypography-body2"
                         >
-                          123 -
+                          123 - 
                           <span>
                             Permit type
                           </span>
@@ -2925,10 +2933,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
         class="MuiBox-root MuiBox-root-144"
       >
         <div
-          class="MuiBox-root MuiBox-root-151"
+          class="MuiPaper-root MuiAccordion-root makeStyles-accordion-146 MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
         >
           <div
-            class="MuiBox-root MuiBox-root-152"
+            aria-disabled="false"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root"
+            role="button"
+            tabindex="0"
           >
             <div
               class="MuiAccordionSummary-content"
@@ -2962,11 +2974,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             </div>
           </div>
           <div
-            class="MuiTableContainer-root MuiBox-root MuiBox-root-153"
+            class="MuiCollapse-container MuiCollapse-hidden"
+            style="min-height: 0px;"
           >
-            <table
-              aria-label="treatments-list-table"
-              class="MuiTable-root makeStyles-treatmentsTable-145 MuiTable-stickyHeader"
+            <div
+              class="MuiCollapse-wrapper"
             >
               <div
                 class="MuiCollapse-wrapperInner"
@@ -2978,14 +2990,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     class="MuiAccordionDetails-root"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-154"
+                      class="MuiBox-root MuiBox-root-152"
                     >
                       <div
-                        class="MuiTableContainer-root MuiBox-root MuiBox-root-201"
+                        class="MuiTableContainer-root MuiBox-root MuiBox-root-153"
                       >
                         <table
                           aria-label="treatments-list-table"
-                          class="MuiTable-root makeStyles-treatmentsTable-193 MuiTable-stickyHeader"
+                          class="MuiTable-root makeStyles-treatmentsTable-145 MuiTable-stickyHeader"
                         >
                           <thead
                             class="MuiTableHead-root"
@@ -3057,7 +3069,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                                 colspan="7"
                               >
                                 <div
-                                  class="MuiBox-root MuiBox-root-202"
+                                  class="MuiBox-root MuiBox-root-154"
                                 >
                                   No Treatments
                                 </div>
@@ -3067,7 +3079,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         </table>
                       </div>
                       <div
-                        class="MuiTablePagination-root makeStyles-pagination-195"
+                        class="MuiTablePagination-root makeStyles-pagination-147"
                       >
                         <div
                           class="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
@@ -3077,7 +3089,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           />
                           <p
                             class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-                            id="mui-97548"
+                            id="mui-91935"
                           >
                             Rows per page:
                           </p>
@@ -3086,9 +3098,9 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           >
                             <div
                               aria-haspopup="listbox"
-                              aria-labelledby="mui-97548 mui-10035"
+                              aria-labelledby="mui-91935 mui-96855"
                               class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
-                              id="mui-10035"
+                              id="mui-96855"
                               role="button"
                               tabindex="0"
                             >
