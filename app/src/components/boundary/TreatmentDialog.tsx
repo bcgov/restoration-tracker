@@ -22,91 +22,16 @@ import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    projectDetailDrawer: {
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        overflow: 'hidden'
-      }
-    },
     projectDetailMain: {
       background: '#ffffff'
-    },
-    projectTitle: {
-      margin: 0,
-      fontSize: '1.5rem',
-      fontWeight: 400
     },
     contentTitle: {
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(1),
       fontSize: '2rem'
     },
-    projectMetadata: {
-      overflowY: 'auto',
-      backgroundColor: '#f5f5f5',
-
-      // Metadata Definition Lists
-      '& dl div + div': {
-        marginTop: theme.spacing(0.25)
-      },
-      '& dd, dt': {
-        display: 'inline-block',
-        width: '50%'
-      },
-
-      '& h3': {
-        // textTransform: 'uppercase',
-        fontWeight: 700
-      },
-      '& section + hr': {
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3)
-      }
-    },
-    projectContactList: {
-      marginLeft: 0,
-      marginRight: 0,
-      padding: 0,
-      listStyleType: 'none',
-      '& li + li': {
-        marginTop: theme.spacing(1.5)
-      }
-    },
     treatmentsContainer: {
       display: 'none'
-    },
-    actionButton: {
-      minWidth: '6rem',
-      '& + button': {
-        marginLeft: '0.5rem'
-      }
-    },
-    linkButton: {
-      textAlign: 'left'
-    },
-    filtersBox: {
-      background: '#f7f8fa'
-    },
-    chip: {
-      color: 'white'
-    },
-    chipActive: {
-      backgroundColor: theme.palette.success.main
-    },
-    chipPublishedCompleted: {
-      backgroundColor: theme.palette.success.main
-    },
-    chipUnpublished: {
-      backgroundColor: theme.palette.text.disabled
-    },
-    chipDraft: {
-      backgroundColor: theme.palette.info.main
-    },
-    chipPriority: {
-      backgroundColor: theme.palette.info.dark
-    },
-    chipNotAPriority: {
-      backgroundColor: theme.palette.text.disabled
     }
   })
 );
