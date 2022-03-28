@@ -24,6 +24,7 @@ import {
 import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
+import { TaxonomyService } from './taxonomy-service';
 
 export class ProjectService extends DBService {
   /**
@@ -210,15 +211,11 @@ export class ProjectService extends DBService {
   async getSpeciesData(projectId: number): Promise<GetSpeciesData> {
     const sqlStatement = SQL`
       SELECT
-       *
+        wldtaxonomic_units_id
       FROM
-        wldtaxonomic_units as wtu
-      LEFT OUTER JOIN
-        project_species as ps
-      ON
-        ps.wldtaxonomic_units_id = wtu.wldtaxonomic_units_id
+        project_species
       WHERE
-        ps.project_id = ${projectId};
+        project_id = ${projectId};
       `;
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
@@ -229,7 +226,11 @@ export class ProjectService extends DBService {
       throw new HTTP400('Failed to get species data');
     }
 
-    return new GetSpeciesData(result);
+    const taxonomyService = new TaxonomyService();
+
+    const species = await taxonomyService.getSpeciesFromIds(result);
+
+    return new GetSpeciesData(species);
   }
 
   async getIUCNClassificationData(projectId: number): Promise<GetIUCNClassificationData> {
@@ -280,6 +281,8 @@ export class ProjectService extends DBService {
       WHERE
         project_id = ${projectId}
     `;
+
+    //Will build this sql to select agency ONLY IF the contact is public
     const sqlStatementJustAgencies = SQL``;
 
     if (isPublic) {

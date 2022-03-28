@@ -58,10 +58,8 @@ export class GetSpeciesData {
     this.focal_species_names = [];
     input?.length &&
       input.forEach((item: any) => {
-        this.focal_species.push(item.wldtaxonomic_units_id);
-        this.focal_species_names.push(
-          [item.english_name, item.unit_name1, item.unit_name2, item.unit_name3].filter(Boolean).join(' - ')
-        );
+        this.focal_species.push(Number(item.id));
+        this.focal_species_names.push(item.label);
       });
   }
 }

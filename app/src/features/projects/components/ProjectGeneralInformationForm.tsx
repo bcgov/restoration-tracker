@@ -5,12 +5,10 @@ import MultiAutocompleteFieldVariableSize, {
 } from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
-import React from 'react';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { debounce } from 'lodash-es';
+import React, { useCallback } from 'react';
 import yup from 'utils/YupSchema';
-
-export interface IProjectGeneralInformationFormProps {
-  species: IMultiAutocompleteFieldOption[];
-}
 
 export interface IProjectGeneralInformationForm {
   project: {
@@ -57,8 +55,38 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
  * @return {*}
  */
 
-const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
+const ProjectGeneralInformationForm: React.FC = () => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
+
+  const restorationTrackerApi = useRestorationTrackerApi();
+
+  const convertOptions = (value: any): IMultiAutocompleteFieldOption[] =>
+    value.map((item: any) => {
+      return { value: parseInt(item.id), label: item.label };
+    });
+
+  const handleGetInitList = async (initialvalues: number[]) => {
+    const response = await restorationTrackerApi.taxonomy.getSpeciesFromIds(initialvalues);
+    return convertOptions(response.searchResponse);
+  };
+
+  const handleSearch = useCallback(
+    debounce(
+      async (
+        inputValue: string,
+        existingValues: (string | number)[],
+        callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
+      ) => {
+        const response = await restorationTrackerApi.taxonomy.searchSpecies(inputValue);
+        const newOptions = convertOptions(response.searchResponse).filter(
+          (item) => !existingValues.includes(item.value)
+        );
+        callback(newOptions);
+      },
+      500
+    ),
+    []
+  );
 
   return (
     <Grid container spacing={3}>
@@ -89,14 +117,15 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
               />
             </Grid>
           </Grid>
-
           <Grid item xs={12}>
             <Grid item xs={12}>
               <MultiAutocompleteFieldVariableSize
                 id="species.focal_species"
                 label="Focal Species"
-                options={props.species}
                 required={true}
+                type="api-search"
+                getInitList={handleGetInitList}
+                search={handleSearch}
               />
             </Grid>
           </Grid>

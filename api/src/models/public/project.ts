@@ -21,30 +21,3 @@ export class GetPublicProjectData {
     this.end_date = projectData?.end_date || '';
   }
 }
-
-/**
- * Pre-processes GET public (published) project attachments data
- *
- * @export
- * @class GetPublicAttachmentsData
- */
-export class GetPublicAttachmentsData {
-  attachmentsList: any[];
-
-  constructor(attachmentsData?: any) {
-    defaultLog.debug({ label: 'GetPublicAttachmentsData', message: 'params', attachmentsData });
-
-    this.attachmentsList =
-      (attachmentsData?.length &&
-        attachmentsData.map((item: any) => {
-          return {
-            id: item.id,
-            fileName: item.file_name,
-            lastModified: item.update_date || item.create_date,
-            size: item.file_size,
-            securityToken: item.is_secured
-          };
-        })) ||
-      [];
-  }
-}

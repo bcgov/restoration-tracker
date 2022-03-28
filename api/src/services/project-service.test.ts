@@ -283,38 +283,6 @@ describe('ProjectService', () => {
     });
   });
 
-  describe('getProjectById', () => {
-    afterEach(() => {
-      sinon.restore();
-    });
-
-    // it('returns project details on success', async () => {
-    //   const mockRowObj = [{ project_id: 1 }];
-
-    //   const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
-    //   const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
-
-    //   sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
-
-    //   const projectId = 1;
-    //   const isPublic = false;
-
-    //   const projectService = new ProjectService(mockDBConnection);
-
-    //   const result = await projectService.getProjectById(projectId, isPublic);
-
-    //   expect(result).to.deep.include({
-    //     project: new projectViewModels.GetProjectData(mockRowObj[0]),
-    //     iucn: new projectViewModels.GetIUCNClassificationData(mockRowObj),
-    //     contact: new projectViewModels.GetContactData(mockRowObj),
-    //     permit: new projectViewModels.GetPermitData(mockRowObj),
-    //     partnerships: new projectViewModels.GetPartnershipsData(mockRowObj, mockRowObj),
-    //     funding: new projectViewModels.GetFundingData(mockRowObj),
-    //     location: new projectViewModels.GetLocationData(mockRowObj)
-    //   });
-    // });
-  });
-
   describe('getProjectData', () => {
     afterEach(() => {
       sinon.restore();
@@ -456,7 +424,7 @@ describe('ProjectService', () => {
       }
     });
 
-    it('returns row on success', async () => {
+    it('returns row on success when isPublic is false', async () => {
       const mockRowObj = [{ project_id: 1 }];
 
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
@@ -473,6 +441,50 @@ describe('ProjectService', () => {
       const { contacts } = new projectViewModels.GetContactData(mockRowObj);
 
       expect(result).to.deep.include({ contacts: [...contacts, ...contacts] });
+    });
+
+    it('returns row on success when isPublic is true', async () => {
+      const mockRowObj = [
+        {
+          first_name: '',
+          last_name: '',
+          email_address: '',
+          agency: '',
+          is_public: 'Y',
+          is_primary: 'Y'
+        },
+        {
+          first_name: '',
+          last_name: '',
+          email_address: '',
+          agency: 'Agency_name',
+          is_public: 'N',
+          is_primary: 'N'
+        }
+      ];
+
+      const mockQuery = sinon
+        .stub()
+        .onCall(0)
+        .returns(Promise.resolve({ rows: [mockRowObj[0]] }))
+        .onCall(1)
+        .returns(Promise.resolve({ rows: [mockRowObj[1]] }));
+
+      const mockDBConnection = getMockDBConnection({
+        query: mockQuery
+      });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getContactData(projectId, true);
+
+      const { contacts } = new projectViewModels.GetContactData(mockRowObj);
+
+      expect(result).to.deep.include({ contacts: [...contacts] });
     });
   });
 
@@ -701,7 +713,7 @@ describe('ProjectService', () => {
     });
 
     it('returns row on success', async () => {
-      const mockRowObj = [{ project_id: 1 }];
+      const mockRowObj = [{ focal_species: [1], focal_species_names: ['name'] }];
 
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
@@ -714,7 +726,7 @@ describe('ProjectService', () => {
 
       const result = await projectService.getSpeciesData(projectId);
 
-      expect(result).to.deep.include(new projectViewModels.GetSpeciesData(mockRowObj));
+      expect(result).to.deep.include(new projectViewModels.GetSpeciesData([]));
     });
   });
 
@@ -2499,6 +2511,31 @@ describe('ProjectService', () => {
       await projectService.updateProjectSpeciesData(projectId, entities);
 
       expect(insertSpeciesStub).to.have.been.calledTwice;
+    });
+  });
+
+  describe('getProjectsByIds', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should get a project list that is not public', async () => {
+      const mockQuery = sinon.stub().onCall(0).returns(Promise.resolve([])).onCall(1).returns(Promise.resolve([]));
+
+      const mockDBConnection = getMockDBConnection({
+        query: mockQuery
+      });
+
+      const projectIds = [1, 2, 3];
+      const isPublic = false;
+
+      const getProjectByIdStub = sinon.stub(ProjectService.prototype, 'getProjectById').resolves();
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      await projectService.getProjectsByIds(projectIds, isPublic);
+
+      expect(getProjectByIdStub).to.have.been.calledThrice;
     });
   });
 });
