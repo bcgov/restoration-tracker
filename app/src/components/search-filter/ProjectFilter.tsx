@@ -1,12 +1,18 @@
-import { Box, Button, Card, Chip, Grid, Input, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import Chip from '@material-ui/core/Chip';
+import Grid from '@material-ui/core/Grid';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Typography from '@material-ui/core/Typography';
+import { mdiClose, mdiMagnify, mdiMenuDown, mdiMenuUp } from '@mdi/js';
 import { Icon } from '@mdi/react';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { mdiMagnify, mdiMenuDown, mdiMenuUp, mdiClose } from '@mdi/js';
+import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteField';
 import { useFormikContext } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteField';
 import ProjectAdvancedFilters from './ProjectAdvancedFilters';
 
 const useStyles = makeStyles((theme: Theme) => ({
