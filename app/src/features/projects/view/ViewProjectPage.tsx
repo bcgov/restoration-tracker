@@ -70,9 +70,6 @@ const useStyles = makeStyles((theme: Theme) =>
     chipPriority: {
       backgroundColor: theme.palette.info.dark
     },
-    chipNotAPriority: {
-      backgroundColor: theme.palette.text.disabled
-    },
     tabs: {
       flexDirection: 'row',
       '& .MuiTabs-indicator': {
@@ -187,7 +184,8 @@ const ViewProjectPage: React.FC = () => {
   const completion_status =
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
-  const priority_status = ProjectStatusType.NOT_A_PRIORITY;
+
+  const priority_status = projectWithDetails.location.priority === 'true';
 
   const TabPanel = (props: { children?: React.ReactNode; index: string; value: string }) => {
     const { children, value, index, ...other } = props;
@@ -218,12 +216,6 @@ const ViewProjectPage: React.FC = () => {
     } else if (ProjectStatusType.DRAFT === status_name) {
       chipLabel = 'Draft';
       chipStatusClass = classes.chipDraft;
-    } else if (ProjectStatusType.PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipPriority;
-    } else if (ProjectStatusType.NOT_A_PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipNotAPriority;
     }
 
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
@@ -350,7 +342,11 @@ const ViewProjectPage: React.FC = () => {
             </Box>
 
             <Box display="flex" flexDirection={'row'}>
-              <Box mr={0.5}>{getChipIcon(priority_status)}</Box>
+              {priority_status && (
+                <Box mr={0.5}>
+                  <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
+                </Box>
+              )}
               <Box>{getChipIcon(completion_status)}</Box>
             </Box>
           </Box>

@@ -31,12 +31,6 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
     );
   };
 
-  const checkForCaribouSpecies = (focalSpecies: string[]): boolean => {
-    return focalSpecies.some((item) => {
-      return item.includes('Caribou') ? true : false;
-    });
-  };
-
   const getRangeName = (rangeNumber: number) => {
     const codeValue = props.codes.ranges.find((code) => code.id === rangeNumber);
     return (
@@ -62,7 +56,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
         </Typography>
         {getRegionName(location.region)}
       </div>
-      {species && species.focal_species_names && checkForCaribouSpecies(species.focal_species_names) && (
+      {location && location.range && (
         <div>
           <Typography variant="body2" component="dd" color="textSecondary">
             Range:
@@ -95,6 +89,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
             return (
               <span key={index} data-testid="focal_species_data">
                 {item}
+                <br></br>
               </span>
             );
           })}
