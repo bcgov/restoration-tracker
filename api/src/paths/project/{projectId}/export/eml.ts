@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import xml2js from 'xml2js';
 import { getAPIUserDBConnection } from '../../../../database/db';
 import { EmlService } from '../../../../services/eml-service';
 import { getLogger } from '../../../../utils/logger';
@@ -29,7 +28,19 @@ GET.apiDoc = {
       content: {
         'application/json': {
           schema: {
-            title: 'Draft Get Response Object'
+            type: 'object',
+            required: ['eml'],
+            properties: {
+              eml: {
+                type: 'string',
+                description: 'Project EML data in XML format'
+              }
+            }
+          },
+          encoding: {
+            eml: {
+              contentType: 'application/xml; charset=utf-8'
+            }
           }
         }
       }
@@ -56,27 +67,24 @@ export function getProjectEml(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'getProjectEml', message: 'params', files: req.body });
 
+    const projectId = Number(req.params.projectId);
+
     const connection = getAPIUserDBConnection();
 
     try {
-      const projectId = Number(req.params.projectId);
-
       await connection.open();
 
       const emlService = new EmlService({ projectId: projectId }, connection);
 
-      const jsonResponse = await emlService.buildProjectEml();
+      const xmlData = await emlService.buildProjectEml();
 
       await connection.commit();
 
-      const xml2jsBuilder = new xml2js.Builder();
-
-      const xmlResponse = xml2jsBuilder.buildObject(jsonResponse);
-
+      res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
       res.attachment(`project_${projectId}_eml.xml`);
       res.contentType('application/xml');
 
-      return res.status(200).send(xmlResponse);
+      return res.status(200).send({ eml: xmlData });
     } catch (error) {
       defaultLog.error({ label: 'getProjectEml', message: 'error', error });
       await connection.rollback();

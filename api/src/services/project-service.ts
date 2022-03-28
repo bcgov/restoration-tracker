@@ -19,22 +19,13 @@ import {
   GetPartnershipsData,
   GetPermitData,
   GetProjectData,
-  GetSpeciesData
+  GetSpeciesData,
+  ProjectObject
 } from '../models/project-view';
 import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
 import { DBService } from './service';
 
-export type ProjectObject = {
-  project: GetProjectData;
-  species: GetSpeciesData;
-  iucn: GetIUCNClassificationData;
-  contact: GetContactData;
-  permit: GetPermitData;
-  partnerships: GetPartnershipsData;
-  funding: GetFundingData;
-  location: GetLocationData;
-};
 export class ProjectService extends DBService {
   /**
    * Gets the project participant, adding them if they do not already exist.

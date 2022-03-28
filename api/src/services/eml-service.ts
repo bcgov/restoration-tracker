@@ -4,11 +4,13 @@ import { AllGeoJSON, featureCollection } from '@turf/helpers';
 import { coordEach } from '@turf/meta';
 import jsonpatch from 'fast-json-patch';
 import { v4 as uuidv4 } from 'uuid';
+import xml2js from 'xml2js';
 import { IDBConnection } from '../database/db';
+import { ProjectObject } from '../models/project-view';
 import { getDbCharacterSystemMetaDataConstantSQL } from '../queries/codes/db-constant-queries';
 import { queries } from '../queries/queries';
 import { getNRMRegions } from '../utils/spatial-utils';
-import { ProjectObject, ProjectService } from './project-service';
+import { ProjectService } from './project-service';
 import { DBService } from './service';
 import { TaxonomyService } from './taxonomy-service';
 
@@ -43,16 +45,18 @@ type EMLDBConstants = {
  * @extends {DBService}
  */
 export class EmlService extends DBService {
-  data: Record<string, unknown>;
+  private data: Record<string, unknown>;
 
-  projectId: number;
-  packageId: string;
+  private projectId: number;
+  private packageId: string;
 
-  projectService: ProjectService;
+  private projectService: ProjectService;
 
-  cache: Record<any, any>;
+  private cache: Record<any, any>;
 
-  constants: EMLDBConstants;
+  private constants: EMLDBConstants;
+
+  private xml2jsBuilder: xml2js.Builder;
 
   constructor(options: { projectId: number; packageId?: string }, connection: IDBConnection) {
     super(connection);
@@ -68,32 +72,16 @@ export class EmlService extends DBService {
     this.cache = {};
 
     this.constants = DEFAULT_DB_CONSTANTS;
+
+    this.xml2jsBuilder = new xml2js.Builder();
   }
 
-  get projectData(): ProjectObject {
-    if (!this.cache['projectData']) {
-      throw Error('Project data was not loaded');
-    }
-
-    return this.cache['projectData'];
-  }
-
-  async loadProjectData() {
-    const projectData = await this.projectService.getProjectById(this.projectId);
-
-    this.cache['projectData'] = projectData;
-  }
-
-  async loadEMLDBConstants() {
-    const [organizationUrl, organizationName] = await Promise.all([
-      this.connection.sql<{ constant: string }>(getDbCharacterSystemMetaDataConstantSQL('ORGANIZATION_URL')),
-      this.connection.sql<{ constant: string }>(getDbCharacterSystemMetaDataConstantSQL('ORGANIZATION_NAME_FULL'))
-    ]);
-
-    this.constants.EML_ORGANIZATION_URL = organizationUrl.rows[0].constant || NOT_SUPPLIED_CONSTANT;
-    this.constants.EML_ORGANIZATION_NAME = organizationName.rows[0].constant || NOT_SUPPLIED_CONSTANT;
-  }
-
+  /**
+   * Compiles and returns the project metadata as an Ecological Metadata Language (EML) compliant XML string.
+   *
+   * @return {*}
+   * @memberof EmlService
+   */
   async buildProjectEml() {
     await this.loadProjectData();
     await this.loadEMLDBConstants();
@@ -103,10 +91,34 @@ export class EmlService extends DBService {
     await this.buildDatasetSection();
     await this.buildAdditionalMetadataSection();
 
-    return this.data;
+    return this.xml2jsBuilder.buildObject(this.data);
   }
 
-  buildEMLSection() {
+  private async loadEMLDBConstants() {
+    const [organizationUrl, organizationName] = await Promise.all([
+      this.connection.sql<{ constant: string }>(getDbCharacterSystemMetaDataConstantSQL('ORGANIZATION_URL')),
+      this.connection.sql<{ constant: string }>(getDbCharacterSystemMetaDataConstantSQL('ORGANIZATION_NAME_FULL'))
+    ]);
+
+    this.constants.EML_ORGANIZATION_URL = organizationUrl.rows[0].constant || NOT_SUPPLIED_CONSTANT;
+    this.constants.EML_ORGANIZATION_NAME = organizationName.rows[0].constant || NOT_SUPPLIED_CONSTANT;
+  }
+
+  private get projectData(): ProjectObject {
+    if (!this.cache['projectData']) {
+      throw Error('Project data was not loaded');
+    }
+
+    return this.cache['projectData'];
+  }
+
+  private async loadProjectData() {
+    const projectData = await this.projectService.getProjectById(this.projectId);
+
+    this.cache['projectData'] = projectData;
+  }
+
+  private buildEMLSection() {
     jsonpatch.applyOperation(this.data, {
       op: 'add',
       path: '/eml',
@@ -123,7 +135,7 @@ export class EmlService extends DBService {
     });
   }
 
-  buildAccessSection() {
+  private buildAccessSection() {
     jsonpatch.applyOperation(this.data, {
       op: 'add',
       path: '/eml/access',
@@ -134,7 +146,7 @@ export class EmlService extends DBService {
     });
   }
 
-  async buildDatasetSection(options?: { datasetTitle?: string }) {
+  private async buildDatasetSection(options?: { datasetTitle?: string }) {
     jsonpatch.applyOperation(this.data, {
       op: 'add',
       path: '/eml/dataset',
@@ -167,7 +179,7 @@ export class EmlService extends DBService {
     });
   }
 
-  async buildAdditionalMetadataSection() {
+  private async buildAdditionalMetadataSection() {
     const [firstNationsData, iucnClassificationDetailsData] = await Promise.all([
       this.connection.sql<{ name: string }>(queries.eml.getProjectFirstNationsSQL(this.projectId)),
       this.connection.sql<{ level_1_name: string; level_2_name: string; level_3_name: string }>(
@@ -235,7 +247,7 @@ export class EmlService extends DBService {
     });
   }
 
-  getProjectPersonnel(): Record<any, any>[] {
+  private getProjectPersonnel(): Record<any, any>[] {
     if (!this.projectData.contact.contacts.length) {
       return [];
     }
@@ -254,7 +266,7 @@ export class EmlService extends DBService {
     });
   }
 
-  getProjectContact(): Record<any, any> {
+  private getProjectContact(): Record<any, any> {
     if (!this.projectData.contact.contacts.length) {
       return { organizationName: this.constants.EML_ORGANIZATION_NAME, onlineUrl: this.constants.EML_ORGANIZATION_URL };
     }
@@ -288,7 +300,7 @@ export class EmlService extends DBService {
     return { organizationName: privateContact.agency };
   }
 
-  getProjectFundingSources(): Record<any, any>[] {
+  private getProjectFundingSources(): Record<any, any>[] {
     return this.projectData.funding.fundingSources.map((item) => {
       return {
         section: {
@@ -305,7 +317,7 @@ export class EmlService extends DBService {
     });
   }
 
-  getTemporalCoverageEML(): Record<any, any> {
+  private getTemporalCoverageEML(): Record<any, any> {
     return {
       rangeOfDates: {
         beginDate: { calendarDate: this.projectData.project.start_date },
@@ -314,7 +326,7 @@ export class EmlService extends DBService {
     };
   }
 
-  async getGeographicCoverageEML(): Promise<Record<any, any>> {
+  private async getGeographicCoverageEML(): Promise<Record<any, any>> {
     if (!this.projectData.location.geometry) {
       return {};
     }
@@ -360,7 +372,7 @@ export class EmlService extends DBService {
     return { ...geographicCoverage, datasetGPolygon: datasetGPolygons };
   }
 
-  async getFocalTaxonomicCoverage(): Promise<Record<any, any>> {
+  private async getFocalTaxonomicCoverage(): Promise<Record<any, any>> {
     const taxonomySearchService = new TaxonomyService();
 
     const response = await taxonomySearchService.getTaxonomyFromIds(this.projectData.species.focal_species);
