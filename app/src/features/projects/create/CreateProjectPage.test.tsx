@@ -97,7 +97,7 @@ describe('CreateProjectPage', () => {
 
     const PageTitle = await findByText('Create Restoration Project');
 
-    expect(PageTitle).toBeInTheDocument();
+    expect(PageTitle).toBeVisible();
   });
 
   describe('Are you sure? Dialog', () => {
