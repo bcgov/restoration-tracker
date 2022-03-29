@@ -49,8 +49,8 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
   const dialogContext = useContext(DialogContext);
 
   const updateEndDate = useCallback(() => {
-    const updateEndDateVaule = moment(formattedStartDateValue).add(1, 'd').format(DATE_FORMAT.ShortDateFormat);
-    setFieldValue(endName, updateEndDateVaule, true);
+    const updateEndDateValue = moment(formattedStartDateValue).add(1, 'd').format(DATE_FORMAT.ShortDateFormat);
+    setFieldValue(endName, updateEndDateValue, true);
   }, [formattedStartDateValue, endName, setFieldValue]);
 
   useEffect(() => {
