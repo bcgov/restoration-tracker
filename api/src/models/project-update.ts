@@ -38,12 +38,14 @@ export class PutLocationData {
   geometry: Feature[];
   region: number;
   range: number;
+  priority: boolean;
   revision_count: number;
 
   constructor(obj?: any) {
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
     this.region = obj?.region || null;
     this.range = obj?.range || null;
+    this.priority = (obj?.priority && JSON.parse(obj.priority)) || false;
     this.revision_count = obj?.revision_count ?? null;
   }
 }

@@ -200,12 +200,30 @@ const ViewProjectPage: React.FC = () => {
   const completion_status =
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
+
+  //const priority_status = projectWithDetails.location.priority === 'true';
+
   const priority_status = ProjectStatusType.NOT_A_PRIORITY;
+
+  // const TabPanel = (props: { children?: React.ReactNode; index: string; value: string }) => {
+  //   const { children, value, index, ...other } = props;
+
+  //   return (
+  //     <div
+  //       role="tabpanel"
+  //       hidden={value !== index}
+  //       id={`simple-tabpanel-${index}`}
+  //       aria-labelledby={`simple-tab-${index}`}
+  //       className={classes.tabPanel}
+  //       {...other}>
+  //       {value === index && children}
+  //     </div>
+  //   );
+  // };
 
   const getChipIcon = (status_name: string) => {
     let chipLabel;
     let chipStatusClass;
-
     if (ProjectStatusType.ACTIVE === status_name) {
       chipLabel = 'Active';
       chipStatusClass = classes.chipActive;
@@ -314,10 +332,7 @@ const ViewProjectPage: React.FC = () => {
                 <RoleGuard
                   validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
                   validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={showDeleteProjectDialog}>
+                  <Button variant="outlined" color="primary" onClick={showDeleteProjectDialog}>
                     Delete Project
                   </Button>
                 </RoleGuard>
@@ -330,9 +345,7 @@ const ViewProjectPage: React.FC = () => {
           <Box mt={2}>
             <Grid container spacing={3}>
               <Grid item md={8}>
-                
                 <Box>
-                  
                   <Box mb={3}>
                     <Paper elevation={2}>
                       <Box p={3}>
@@ -343,7 +356,7 @@ const ViewProjectPage: React.FC = () => {
                       </Box>
                     </Paper>
                   </Box>
-                    
+
                   <Paper elevation={2}>
                     <Box px={3}>
                       <TreatmentSpatialUnits
@@ -367,11 +380,7 @@ const ViewProjectPage: React.FC = () => {
                           </Button>
                         </Box>
                       </Box>
-                      <TreatmentList
-                        treatmentList={treatmentList}
-                        getTreatments={getTreatments}
-                        refresh={getProject}
-                      />
+                      <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
                     </Box>
                   </Paper>
 
@@ -379,11 +388,10 @@ const ViewProjectPage: React.FC = () => {
                     <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
                   </Paper>
                 </Box>
-
               </Grid>
 
               <Grid item md={4}>
-                <Paper elevation={2}> 
+                <Paper elevation={2}>
                   <ProjectDetailsPage
                     projectForViewData={projectWithDetails}
                     codes={codes.codes}
@@ -393,6 +401,14 @@ const ViewProjectPage: React.FC = () => {
               </Grid>
             </Grid>
 
+            <Box display="flex" flexDirection={'row'}>
+              {priority_status && (
+                <Box mr={0.5}>
+                  <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
+                </Box>
+              )}
+              <Box>{getChipIcon(completion_status)}</Box>
+            </Box>
           </Box>
         </Container>
       </Box>

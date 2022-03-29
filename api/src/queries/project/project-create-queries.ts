@@ -75,12 +75,14 @@ export const postProjectBoundarySQL = (locationData: PostLocationData, projectId
       project_id,
       project_spatial_component_type_id,
       name,
+      priority,
       geojson,
       geography
     ) VALUES (
       ${projectId},
       (SELECT project_spatial_component_type_id from project_spatial_component_type WHERE name = ${componentTypeName}),
       ${componentName},
+      ${locationData.priority ? 'Y' : 'N'},
       ${JSON.stringify(locationData.geometry)}
   `;
 

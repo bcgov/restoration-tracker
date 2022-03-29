@@ -18,6 +18,7 @@ import { ProjectStatusType } from 'constants/misc';
 import { AuthStateContext } from 'contexts/authStateContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
+import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, useHistory } from 'react-router';
 import { getFormattedDate } from 'utils/Utils';
@@ -64,7 +65,11 @@ const PublicProjectsListPage = () => {
     }
   }, [restorationTrackerApi, isLoading]);
 
-  const getChipIcon = (status_name: string) => {
+  const getChipIcon = (end_date: string) => {
+    const status_name =
+      (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
+      ProjectStatusType.ACTIVE;
+
     let chipLabel;
     let chipStatusClass;
 
@@ -133,7 +138,7 @@ const PublicProjectsListPage = () => {
                     <TableCell>{row.contact_agency_list}</TableCell>
                     <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
                     <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.end_date)}</TableCell>
-                    <TableCell>{getChipIcon(row.completion_status)}</TableCell>
+                    <TableCell>{getChipIcon(row.end_date)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -271,6 +271,11 @@ GET.apiDoc = {
                       ...(geoJsonFeature as object)
                     }
                   },
+                  priority: {
+                    type: 'string',
+                    enum: ['true', 'false'],
+                    nullable: true
+                  },
                   region: {
                     type: 'number'
                   },

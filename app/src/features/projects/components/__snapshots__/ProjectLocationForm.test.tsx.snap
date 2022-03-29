@@ -80,9 +80,90 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
         </fieldset>
       </div>
     </div>
+    <div
+      class="MuiBox-root MuiBox-root-6"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-7"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+        >
+          Specify the caribou range associate with this project.
+        </p>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+        >
+          <fieldset
+            class="MuiFormControl-root MuiFormControl-fullWidth"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+              data-shrink="false"
+              id="caribou-range-select-label"
+            >
+              Caribou Range
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            >
+              <div
+                aria-haspopup="listbox"
+                aria-label="Caribou Range"
+                aria-labelledby="caribou-range-select-label caribou-range-select"
+                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+                id="caribou-range-select"
+                role="button"
+                tabindex="0"
+              >
+                <span>
+                  ​
+                </span>
+              </div>
+              <input
+                aria-hidden="true"
+                class="MuiSelect-nativeInput"
+                name="location.range"
+                tabindex="-1"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden="true"
+                class="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="PrivateNotchedOutline-legendLabelled-4"
+                >
+                  <span>
+                    Caribou Range
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-contained"
+            />
+          </fieldset>
+        </div>
+      </div>
+    </div>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-6"
+    class="MuiBox-root MuiBox-root-8"
   >
     <fieldset
       class="MuiFormControl-root"
@@ -99,7 +180,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
         </span>
       </legend>
       <div
-        class="MuiBox-root MuiBox-root-7"
+        class="MuiBox-root MuiBox-root-9"
       >
         <div
           aria-label="Location Priority"
@@ -111,21 +192,21 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
           >
             <span
               aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-8 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-9 Mui-checked MuiIconButton-colorPrimary"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-10 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-11 Mui-checked MuiIconButton-colorPrimary"
             >
               <span
                 class="MuiIconButton-label"
               >
                 <input
                   checked=""
-                  class="PrivateSwitchBase-input-11"
+                  class="PrivateSwitchBase-input-13"
                   name="location.priority"
                   required=""
                   type="radio"
                   value="false"
                 />
                 <div
-                  class="PrivateRadioButtonIcon-root-12 PrivateRadioButtonIcon-checked-14"
+                  class="PrivateRadioButtonIcon-root-14 PrivateRadioButtonIcon-checked-16"
                 >
                   <svg
                     aria-hidden="true"
@@ -139,7 +220,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-13 MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-15 MuiSvgIcon-fontSizeSmall"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -164,20 +245,20 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
           >
             <span
               aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-8 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-10 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
             >
               <span
                 class="MuiIconButton-label"
               >
                 <input
-                  class="PrivateSwitchBase-input-11"
+                  class="PrivateSwitchBase-input-13"
                   name="location.priority"
                   required=""
                   type="radio"
                   value="true"
                 />
                 <div
-                  class="PrivateRadioButtonIcon-root-12"
+                  class="PrivateRadioButtonIcon-root-14"
                 >
                   <svg
                     aria-hidden="true"
@@ -191,7 +272,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-13 MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-15 MuiSvgIcon-fontSizeSmall"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -219,7 +300,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
     </fieldset>
   </div>
   <fieldset
-    class="MuiBox-root MuiBox-root-15"
+    class="MuiBox-root MuiBox-root-17"
   >
     <legend
       class="MuiTypography-root MuiTypography-body1"
@@ -227,7 +308,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
       Project Boundary
     </legend>
     <div
-      class="MuiBox-root MuiBox-root-16"
+      class="MuiBox-root MuiBox-root-18"
     >
       <p
         class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -236,7 +317,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
       </p>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-17"
+      class="MuiBox-root MuiBox-root-19"
     >
       <span
         aria-disabled="false"
@@ -270,10 +351,10 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
       </span>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-18"
+      class="MuiBox-root MuiBox-root-20"
     >
       <div
-        class="makeStyles-map-19 leaflet-container leaflet-grab leaflet-touch-drag"
+        class="makeStyles-map-21 leaflet-container leaflet-grab leaflet-touch-drag"
         id="project_location_map"
         style="position: relative;"
         tabindex="0"
@@ -541,7 +622,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
 exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-39"
+    class="MuiBox-root MuiBox-root-43"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -601,10 +682,10 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-40 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-44 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-42 PrivateNotchedOutline-legendNotched-43"
+                class="PrivateNotchedOutline-legendLabelled-46 PrivateNotchedOutline-legendNotched-47"
               >
                 <span>
                   NRM Region
@@ -618,9 +699,88 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
         </fieldset>
       </div>
     </div>
+    <div
+      class="MuiBox-root MuiBox-root-48"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-49"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+        >
+          Specify the caribou range associate with this project.
+        </p>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+        >
+          <fieldset
+            class="MuiFormControl-root MuiFormControl-fullWidth"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              data-shrink="true"
+              id="caribou-range-select-label"
+            >
+              Caribou Range
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            >
+              <div
+                aria-haspopup="listbox"
+                aria-label="Caribou Range"
+                aria-labelledby="caribou-range-select-label caribou-range-select"
+                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+                id="caribou-range-select"
+                role="button"
+                tabindex="0"
+              >
+                test 1
+              </div>
+              <input
+                aria-hidden="true"
+                class="MuiSelect-nativeInput"
+                name="location.range"
+                tabindex="-1"
+                value="1"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden="true"
+                class="PrivateNotchedOutline-root-44 MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="PrivateNotchedOutline-legendLabelled-46 PrivateNotchedOutline-legendNotched-47"
+                >
+                  <span>
+                    Caribou Range
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled"
+            />
+          </fieldset>
+        </div>
+      </div>
+    </div>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-44"
+    class="MuiBox-root MuiBox-root-50"
   >
     <fieldset
       class="MuiFormControl-root"
@@ -637,7 +797,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
         </span>
       </legend>
       <div
-        class="MuiBox-root MuiBox-root-45"
+        class="MuiBox-root MuiBox-root-51"
       >
         <div
           aria-label="Location Priority"
@@ -649,21 +809,21 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
           >
             <span
               aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-46 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-47 Mui-checked MuiIconButton-colorPrimary"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-52 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-53 Mui-checked MuiIconButton-colorPrimary"
             >
               <span
                 class="MuiIconButton-label"
               >
                 <input
                   checked=""
-                  class="PrivateSwitchBase-input-49"
+                  class="PrivateSwitchBase-input-55"
                   name="location.priority"
                   required=""
                   type="radio"
                   value="false"
                 />
                 <div
-                  class="PrivateRadioButtonIcon-root-50 PrivateRadioButtonIcon-checked-52"
+                  class="PrivateRadioButtonIcon-root-56 PrivateRadioButtonIcon-checked-58"
                 >
                   <svg
                     aria-hidden="true"
@@ -677,7 +837,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-51 MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-57 MuiSvgIcon-fontSizeSmall"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -702,20 +862,20 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
           >
             <span
               aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-46 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-52 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
             >
               <span
                 class="MuiIconButton-label"
               >
                 <input
-                  class="PrivateSwitchBase-input-49"
+                  class="PrivateSwitchBase-input-55"
                   name="location.priority"
                   required=""
                   type="radio"
                   value="true"
                 />
                 <div
-                  class="PrivateRadioButtonIcon-root-50"
+                  class="PrivateRadioButtonIcon-root-56"
                 >
                   <svg
                     aria-hidden="true"
@@ -729,7 +889,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-51 MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-57 MuiSvgIcon-fontSizeSmall"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -757,7 +917,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
     </fieldset>
   </div>
   <fieldset
-    class="MuiBox-root MuiBox-root-53"
+    class="MuiBox-root MuiBox-root-59"
   >
     <legend
       class="MuiTypography-root MuiTypography-body1"
@@ -765,7 +925,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
       Project Boundary
     </legend>
     <div
-      class="MuiBox-root MuiBox-root-54"
+      class="MuiBox-root MuiBox-root-60"
     >
       <p
         class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -774,7 +934,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
       </p>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-55"
+      class="MuiBox-root MuiBox-root-61"
     >
       <span
         aria-disabled="false"
@@ -808,10 +968,10 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
       </span>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-56"
+      class="MuiBox-root MuiBox-root-62"
     >
       <div
-        class="makeStyles-map-57 leaflet-container leaflet-grab leaflet-touch-drag"
+        class="makeStyles-map-63 leaflet-container leaflet-grab leaflet-touch-drag"
         id="project_location_map"
         style="position: relative;"
         tabindex="0"
@@ -1094,7 +1254,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
 exports[`ProjectLocationForm renders correctly with existing location values 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-20"
+    class="MuiBox-root MuiBox-root-22"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -1154,10 +1314,10 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-21 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-23 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-23 PrivateNotchedOutline-legendNotched-24"
+                class="PrivateNotchedOutline-legendLabelled-25 PrivateNotchedOutline-legendNotched-26"
               >
                 <span>
                   NRM Region
@@ -1171,9 +1331,88 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
         </fieldset>
       </div>
     </div>
+    <div
+      class="MuiBox-root MuiBox-root-27"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-28"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+        >
+          Specify the caribou range associate with this project.
+        </p>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+        >
+          <fieldset
+            class="MuiFormControl-root MuiFormControl-fullWidth"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              data-shrink="true"
+              id="caribou-range-select-label"
+            >
+              Caribou Range
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+            >
+              <div
+                aria-haspopup="listbox"
+                aria-label="Caribou Range"
+                aria-labelledby="caribou-range-select-label caribou-range-select"
+                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+                id="caribou-range-select"
+                role="button"
+                tabindex="0"
+              >
+                test 1
+              </div>
+              <input
+                aria-hidden="true"
+                class="MuiSelect-nativeInput"
+                name="location.range"
+                tabindex="-1"
+                value="1"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden="true"
+                class="PrivateNotchedOutline-root-23 MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="PrivateNotchedOutline-legendLabelled-25 PrivateNotchedOutline-legendNotched-26"
+                >
+                  <span>
+                    Caribou Range
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled"
+            />
+          </fieldset>
+        </div>
+      </div>
+    </div>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-25"
+    class="MuiBox-root MuiBox-root-29"
   >
     <fieldset
       class="MuiFormControl-root"
@@ -1190,7 +1429,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
         </span>
       </legend>
       <div
-        class="MuiBox-root MuiBox-root-26"
+        class="MuiBox-root MuiBox-root-30"
       >
         <div
           aria-label="Location Priority"
@@ -1202,21 +1441,21 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
           >
             <span
               aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-27 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-28 Mui-checked MuiIconButton-colorPrimary"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-31 MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-checked-32 Mui-checked MuiIconButton-colorPrimary"
             >
               <span
                 class="MuiIconButton-label"
               >
                 <input
                   checked=""
-                  class="PrivateSwitchBase-input-30"
+                  class="PrivateSwitchBase-input-34"
                   name="location.priority"
                   required=""
                   type="radio"
                   value="false"
                 />
                 <div
-                  class="PrivateRadioButtonIcon-root-31 PrivateRadioButtonIcon-checked-33"
+                  class="PrivateRadioButtonIcon-root-35 PrivateRadioButtonIcon-checked-37"
                 >
                   <svg
                     aria-hidden="true"
@@ -1230,7 +1469,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-32 MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-36 MuiSvgIcon-fontSizeSmall"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -1255,20 +1494,20 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
           >
             <span
               aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-27 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-31 MuiRadio-root MuiRadio-colorPrimary MuiIconButton-colorPrimary"
             >
               <span
                 class="MuiIconButton-label"
               >
                 <input
-                  class="PrivateSwitchBase-input-30"
+                  class="PrivateSwitchBase-input-34"
                   name="location.priority"
                   required=""
                   type="radio"
                   value="true"
                 />
                 <div
-                  class="PrivateRadioButtonIcon-root-31"
+                  class="PrivateRadioButtonIcon-root-35"
                 >
                   <svg
                     aria-hidden="true"
@@ -1282,7 +1521,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-32 MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root PrivateRadioButtonIcon-layer-36 MuiSvgIcon-fontSizeSmall"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -1310,7 +1549,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
     </fieldset>
   </div>
   <fieldset
-    class="MuiBox-root MuiBox-root-34"
+    class="MuiBox-root MuiBox-root-38"
   >
     <legend
       class="MuiTypography-root MuiTypography-body1"
@@ -1318,7 +1557,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
       Project Boundary
     </legend>
     <div
-      class="MuiBox-root MuiBox-root-35"
+      class="MuiBox-root MuiBox-root-39"
     >
       <p
         class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -1327,7 +1566,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
       </p>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-36"
+      class="MuiBox-root MuiBox-root-40"
     >
       <span
         aria-disabled="false"
@@ -1361,10 +1600,10 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
       </span>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-37"
+      class="MuiBox-root MuiBox-root-41"
     >
       <div
-        class="makeStyles-map-38 leaflet-container leaflet-grab leaflet-touch-drag"
+        class="makeStyles-map-42 leaflet-container leaflet-grab leaflet-touch-drag"
         id="project_location_map"
         style="position: relative;"
         tabindex="0"

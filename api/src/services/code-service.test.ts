@@ -41,8 +41,7 @@ describe('CodeService', () => {
         'project_roles',
         'administrative_activity_status_type',
         'ranges',
-        'regions',
-        'species'
+        'regions'
       );
 
       const queryReturn = [{ id: 1, name: 'codeName' }];
@@ -60,7 +59,6 @@ describe('CodeService', () => {
       expect(response.administrative_activity_status_type).to.eql(queryReturn);
       expect(response.ranges).to.eql(queryReturn);
       //expect(response.regions).to.eql(queryReturn);
-      expect(response.species).to.eql(queryReturn);
     });
 
     it('returns all empty code sets', async function () {
@@ -87,8 +85,7 @@ describe('CodeService', () => {
         'project_roles',
         'administrative_activity_status_type',
         'ranges',
-        'regions',
-        'species'
+        'regions'
       );
       expect(response.first_nations).to.eql([]);
       expect(response.funding_source).to.eql([]);
@@ -103,7 +100,6 @@ describe('CodeService', () => {
       expect(response.administrative_activity_status_type).to.eql([]);
       expect(response.ranges).to.eql([]);
       //expect(response.regions).to.eql([]);
-      expect(response.species).to.eql([]);
     });
   });
 });

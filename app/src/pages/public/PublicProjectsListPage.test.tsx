@@ -31,11 +31,10 @@ describe('PublicProjectsListPage', () => {
       {
         id: 1,
         name: 'Project 1',
-        start_date: null,
-        end_date: null,
+        start_date: '11/01/2020',
+        end_date: '12/01/2020',
         coordinator_agency: 'contact agency',
-        permits_list: '1, 2, 3',
-        completion_status: 'Completed'
+        permits_list: '1, 2, 3'
       }
     ]);
 
