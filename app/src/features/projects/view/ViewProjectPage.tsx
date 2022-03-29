@@ -330,6 +330,15 @@ const ViewProjectPage: React.FC = () => {
                 </Paper>
               </Grid>
             </Grid>
+
+            <Box display="flex" flexDirection={'row'}>
+              {priority_status && (
+                <Box mr={0.5}>
+                  <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
+                </Box>
+              )}
+              <Box>{getChipIcon(completion_status)}</Box>
+            </Box>
           </Box>
         </Container>
       </Box>
