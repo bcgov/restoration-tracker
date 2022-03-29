@@ -35,12 +35,7 @@ import TreatmentList from './components/TreatmentList';
 import TreatmentSpatialUnits from './components/TreatmentSpatialUnits';
 import ProjectAttachments from './ProjectAttachments';
 import ProjectDetailsPage from './ProjectDetailsPage';
-
 import Dialog from '@material-ui/core/Dialog';
-// import DialogActions from '@material-ui/core/DialogActions';
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -119,7 +114,7 @@ const ViewProjectPage: React.FC = () => {
   const projectId = urlParams['id'];
   const dialogContext = useContext(DialogContext);
 
-  const [open, setOpen] = React.useState(false);
+  const [openFullScreen, setOpenFullScreen] = React.useState(false);
 
   const restorationTrackerApi = useRestorationTrackerApi();
 
@@ -201,25 +196,7 @@ const ViewProjectPage: React.FC = () => {
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
 
-  //const priority_status = projectWithDetails.location.priority === 'true';
-
   const priority_status = ProjectStatusType.NOT_A_PRIORITY;
-
-  // const TabPanel = (props: { children?: React.ReactNode; index: string; value: string }) => {
-  //   const { children, value, index, ...other } = props;
-
-  //   return (
-  //     <div
-  //       role="tabpanel"
-  //       hidden={value !== index}
-  //       id={`simple-tabpanel-${index}`}
-  //       aria-labelledby={`simple-tab-${index}`}
-  //       className={classes.tabPanel}
-  //       {...other}>
-  //       {value === index && children}
-  //     </div>
-  //   );
-  // };
 
   const getChipIcon = (status_name: string) => {
     let chipLabel;
@@ -294,11 +271,11 @@ const ViewProjectPage: React.FC = () => {
 
   // Full Screen Map Dialog
   const openMapDialog = () => {
-    setOpen(true);
+    setOpenFullScreen(true);
   };
 
   const closeMapDialog = () => {
-    setOpen(false);
+    setOpenFullScreen(false);
   };
 
   return (
@@ -413,7 +390,7 @@ const ViewProjectPage: React.FC = () => {
         </Container>
       </Box>
 
-      <Dialog fullScreen open={open} onClose={closeMapDialog}>
+      <Dialog fullScreen open={openFullScreen} onClose={closeMapDialog}>
         <Box pr={3} pl={1} display="flex" alignItems="center">
           <Box>
             <IconButton onClick={closeMapDialog}>
