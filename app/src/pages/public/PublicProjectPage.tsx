@@ -227,7 +227,11 @@ const PublicProjectPage = () => {
                   Project Status:
                 </Typography>
                 <Box ml={1}>{getChipIcon(completion_status)}</Box>
-                <Box ml={0.5}>{getChipIcon(priority_status)}</Box>
+                {priority_status && (
+                  <Box ml={0.5}>
+                    <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
+                  </Box>
+                )}
               </Box>
             </Box>
           </Box>
@@ -287,15 +291,6 @@ const PublicProjectPage = () => {
                 </Paper>
               </Grid>
             </Grid>
-
-            <Box display="flex" flexDirection={'row'}>
-              {priority_status && (
-                <Box mr={0.5}>
-                  <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
-                </Box>
-              )}
-              <Box>{getChipIcon(completion_status)}</Box>
-            </Box>
           </Box>
         </Container>
       </Box>

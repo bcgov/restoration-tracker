@@ -9,7 +9,6 @@ import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import FundingSource from './components/FundingSource';
 import GeneralInformation from './components/GeneralInformation';
-import Objectives from './components/Objectives';
 import ProjectContact from './components/ProjectContact';
 import ProjectPermits from './components/ProjectPermits';
 
@@ -71,17 +70,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
 
   return (
     <Box className={classes.projectMetadata}>
-      <Box component="section" hidden>
-        <Typography variant="body1" component={'h3'}>
-          Objectives
-        </Typography>
-        <Box mt={2}>
-          <Objectives projectForViewData={projectForViewData} refresh={refresh} />
-        </Box>
-      </Box>
-
-      <Divider hidden></Divider>
-
       <Box component="section" p={3}>
         <Typography variant="body1" component={'h3'} data-testid="GeneralInfoTitle">
           General Information

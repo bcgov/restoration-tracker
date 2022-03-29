@@ -1,23 +1,13 @@
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
-import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { mdiArrowLeft } from '@mdi/js';
-import Icon from '@mdi/react';
-import clsx from 'clsx';
-import { ProjectStatusType } from 'constants/misc';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
-import moment from 'moment';
 import React from 'react';
-import { useHistory } from 'react-router';
 import PublicFundingSource from './components/PublicFundingSource';
 import PublicGeneralInformation from './components/PublicGeneralInformation';
 import PublicIUCNClassification from './components/PublicIUCNClassification';
-import PublicObjectives from './components/PublicObjectives';
 import PublicPartnerships from './components/PublicPartnerships';
 import PublicProjectContact from './components/PublicProjectContact';
 import PublicProjectPermits from './components/PublicProjectPermits';
@@ -92,138 +82,71 @@ const useStyles = makeStyles((theme: Theme) =>
 const PublicProjectDetails: React.FC<IPublicProjectDetailsProps> = (props) => {
   const classes = useStyles();
 
-  const history = useHistory();
-
   const { projectForViewData, codes, refresh } = props;
 
-  const end_date = projectForViewData.project.end_date;
-
-  const completion_status =
-    (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
-    ProjectStatusType.ACTIVE;
-
-  const priority_status = projectForViewData.location.priority === 'true';
-
-  const getChipIcon = (status_name: string) => {
-    let chipLabel;
-    let chipStatusClass;
-
-    if (ProjectStatusType.ACTIVE === status_name) {
-      chipLabel = 'Active';
-      chipStatusClass = classes.chipActive;
-    } else if (ProjectStatusType.COMPLETED === status_name) {
-      chipLabel = 'Completed';
-      chipStatusClass = classes.chipPublishedCompleted;
-    } else if (ProjectStatusType.DRAFT === status_name) {
-      chipLabel = 'Draft';
-      chipStatusClass = classes.chipDraft;
-    }
-
-    return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
-  };
-
   return (
-    <Box display="flex" flexDirection="column" height="100%">
-      {/* Project Title Container */}
-      <Box flex="0 auto" p={3}>
-        <Box mb={2}>
-          <Button
-            component={Link}
-            onClick={() => history.push('/projects')}
-            size="small"
-            startIcon={<Icon path={mdiArrowLeft} size={0.875}></Icon>}>
-            Back to Projects
-          </Button>
-        </Box>
-        <Box display="flex" flexDirection={'row'}>
-          <Box component="h1" flex="1 1 auto" className={classes.projectTitle}>
-            <b>Project -</b> {projectForViewData.project.project_name}
-          </Box>
-        </Box>
-        <Box mt={1} display="flex" flexDirection={'row'}>
-          {priority_status && (
-            <Box mr={0.5}>
-              <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
-            </Box>
-          )}
-          <Box>{getChipIcon(completion_status)}</Box>
+    <Box flex="1 auto" className={classes.projectMetadata}>
+      <Box component="section">
+        <Typography variant="body1" component={'h3'}>
+          General Information
+        </Typography>
+        <Box mt={2}>
+          <PublicGeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
       </Box>
 
-      {/* Project Metadata */}
-      <Box flex="1 auto" className={classes.projectMetadata}>
-        <Box component="section">
-          <Typography variant="body1" component={'h3'}>
-            Objectives
-          </Typography>
-          <Box mt={2}>
-            <PublicObjectives projectForViewData={projectForViewData} refresh={refresh} />
-          </Box>
+      <Divider></Divider>
+
+      <Box component="section">
+        <Typography variant="body1" component={'h3'}>
+          Project Contacts
+        </Typography>
+        <Box mt={2}>
+          <PublicProjectContact projectForViewData={projectForViewData} refresh={refresh} />
         </Box>
+      </Box>
 
-        <Divider></Divider>
-        <Box component="section">
-          <Typography variant="body1" component={'h3'}>
-            General Information
-          </Typography>
-          <Box mt={2}>
-            <PublicGeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-          </Box>
+      <Divider></Divider>
+
+      <Box component="section">
+        <Typography variant="body1" component={'h3'} data-testid="projectPermitsTitle">
+          Permits
+        </Typography>
+        <Box mt={2}>
+          <PublicProjectPermits projectForViewData={projectForViewData} refresh={refresh} />
         </Box>
+      </Box>
 
-        <Divider></Divider>
+      <Divider></Divider>
 
-        <Box component="section">
-          <Typography variant="body1" component={'h3'}>
-            Project Contacts
-          </Typography>
-          <Box mt={2}>
-            <PublicProjectContact projectForViewData={projectForViewData} refresh={refresh} />
-          </Box>
+      <Box component="section">
+        <Typography variant="body1" component={'h3'} data-testid="IUCNTitle">
+          IUCN Conservation Actions Classifications
+        </Typography>
+        <Box mt={2}>
+          <PublicIUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
+      </Box>
 
-        <Divider></Divider>
+      <Divider></Divider>
 
-        <Box component="section">
-          <Typography variant="body1" component={'h3'} data-testid="projectPermitsTitle">
-            Permits
-          </Typography>
-          <Box mt={2}>
-            <PublicProjectPermits projectForViewData={projectForViewData} refresh={refresh} />
-          </Box>
+      <Box component="section">
+        <Typography variant="body1" component={'h3'} data-testid="fundingSourcesTitle">
+          Funding Sources
+        </Typography>
+        <Box mt={2}>
+          <PublicFundingSource projectForViewData={projectForViewData} refresh={refresh} />
         </Box>
+      </Box>
 
-        <Divider></Divider>
+      <Divider></Divider>
 
-        <Box component="section">
-          <Typography variant="body1" component={'h3'} data-testid="IUCNTitle">
-            IUCN Conservation Actions Classifications
-          </Typography>
-          <Box mt={2}>
-            <PublicIUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-          </Box>
-        </Box>
-
-        <Divider></Divider>
-
-        <Box component="section">
-          <Typography variant="body1" component={'h3'} data-testid="fundingSourcesTitle">
-            Funding Sources
-          </Typography>
-          <Box mt={2}>
-            <PublicFundingSource projectForViewData={projectForViewData} refresh={refresh} />
-          </Box>
-        </Box>
-
-        <Divider></Divider>
-
-        <Box component="section">
-          <Typography variant="body1" component={'h3'} data-testid="partnershipsTitle">
-            Partnerships
-          </Typography>
-          <Box mt={2}>
-            <PublicPartnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
-          </Box>
+      <Box component="section">
+        <Typography variant="body1" component={'h3'} data-testid="partnershipsTitle">
+          Partnerships
+        </Typography>
+        <Box mt={2}>
+          <PublicPartnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
         </Box>
       </Box>
     </Box>
