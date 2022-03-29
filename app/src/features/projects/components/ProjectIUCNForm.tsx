@@ -45,7 +45,7 @@ export const ProjectIUCNFormArrayItemInitialValues: IProjectIUCNFormArrayItem = 
 
 export const ProjectIUCNFormInitialValues: IProjectIUCNForm = {
   iucn: {
-    classificationDetails: []
+    classificationDetails: [ProjectIUCNFormArrayItemInitialValues]
   }
 };
 
@@ -139,7 +139,9 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                             </MenuItem>
                           ))}
                         </Select>
-                        <FormHelperText>{classificationMeta.touched && classificationMeta.error}</FormHelperText>
+                        <FormHelperText error={true}>
+                          {classificationMeta.touched && classificationMeta.error}
+                        </FormHelperText>
                       </FormControl>
                     </Box>
 
@@ -172,7 +174,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                               </MenuItem>
                             ))}
                         </Select>
-                        <FormHelperText>
+                        <FormHelperText error={true}>
                           {subClassification1Meta.touched && subClassification1Meta.error}
                         </FormHelperText>
                       </FormControl>
@@ -204,7 +206,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                               </MenuItem>
                             ))}
                         </Select>
-                        <FormHelperText>
+                        <FormHelperText error={true}>
                           {subClassification2Meta.touched && subClassification2Meta.error}
                         </FormHelperText>
                       </FormControl>

@@ -217,46 +217,10 @@ describe('TreatmentList', () => {
             treatment_year: '2015'
           }
         ]
-      },
-      {
-        id: 'TU11',
-        type: 'Road',
-        width: 100,
-        length: 100,
-        area: 10000,
-        comments: 'something11',
-        description: 'anything11',
-        geometry: {} as Feature,
-        treatments: [
-          {
-            treatment_name: 'Seeding',
-            treatment_year: '2020'
-          },
-          {
-            treatment_name: 'Tree Bending',
-            treatment_year: '2021'
-          }
-        ]
-      },
-      {
-        id: 'TU12',
-        type: 'Other',
-        width: 100,
-        length: 100,
-        area: 10000,
-        comments: 'something12',
-        description: 'anything12',
-        geometry: {} as Feature,
-        treatments: [
-          {
-            treatment_name: 'Tree Felling',
-            treatment_year: '2015'
-          }
-        ]
       }
     ];
 
-    const { getByText, queryByText, getByLabelText } = render(
+    const { getByText, getByLabelText } = render(
       <TreatmentList treatmentList={largeTreatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
     );
 
@@ -265,18 +229,14 @@ describe('TreatmentList', () => {
     expect(getByText('TU3')).toBeInTheDocument();
     expect(getByText('TU4')).toBeInTheDocument();
     expect(getByText('TU5')).toBeInTheDocument();
+
+    fireEvent.click(getByLabelText('Next page'));
+
     expect(getByText('TU6')).toBeInTheDocument();
     expect(getByText('TU7')).toBeInTheDocument();
     expect(getByText('TU8')).toBeInTheDocument();
     expect(getByText('TU9')).toBeInTheDocument();
     expect(getByText('TU10')).toBeInTheDocument();
-    expect(queryByText('TU11')).toBeNull();
-
-    fireEvent.click(getByLabelText('Next page'));
-
-    expect(getByText('TU11')).toBeInTheDocument();
-    expect(getByText('TU12')).toBeInTheDocument();
-    expect(queryByText('TU1')).toBeNull();
   });
 
   it('renders correctly with closed treatment unit details dialog', async () => {

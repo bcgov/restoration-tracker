@@ -25,7 +25,6 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  govHeader: {},
   govHeaderToolbar: {
     height: '70px'
   },
@@ -62,11 +61,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   },
   appPhaseTag: {
-    marginLeft: theme.spacing(0.5),
+    marginLeft: theme.spacing(0.75),
     color: '#fcba19',
     textTransform: 'uppercase',
-    fontSize: '0.875rem',
-    fontWeight: 700
+    fontSize: '0.75rem',
+    fontWeight: 400
   },
   userProfile: {
     color: theme.palette.primary.contrastText,
@@ -186,11 +185,7 @@ const Header: React.FC = () => {
   };
 
   const BetaLabel = () => {
-    return (
-      <sup className={classes.appPhaseTag} aria-label="This application is currently in beta phase of development">
-        Beta
-      </sup>
-    );
+    return <span aria-label="This application is currently in beta phase of development">Beta</span>;
   };
 
   const EnvironmentLabel = () => {
@@ -199,41 +194,41 @@ const Header: React.FC = () => {
     }
 
     return (
-      <sup
-        className={classes.appPhaseTag}
-        aria-label={`This application is currently being run in the ${config?.REACT_APP_NODE_ENV} environment`}>
+      <span aria-label={`This application is currently being run in the ${config?.REACT_APP_NODE_ENV} environment`}>
         & {config?.REACT_APP_NODE_ENV}
-      </sup>
+      </span>
     );
   };
 
   return (
     <>
       <AppBar position="sticky" style={{ boxShadow: 'none' }}>
-        <Box className={classes.govHeader}>
-          <Toolbar className={classes.govHeaderToolbar}>
-            <Box display="flex" justifyContent="space-between" width="100%">
-              <Link to="/projects" className={classes.brand} aria-label="Go to Restoration Tracker Home">
-                <picture>
-                  <source srcSet={headerImageLarge} media="(min-width: 1200px)"></source>
-                  <source srcSet={headerImageSmall} media="(min-width: 600px)"></source>
-                  <img src={headerImageSmall} alt={'Government of British Columbia'} />
-                </picture>
-                <span>
-                  Restoration Tracker
+        <Toolbar className={classes.govHeaderToolbar}>
+          <Box display="flex" justifyContent="space-between" width="100%">
+            <Link to="/projects" className={classes.brand} aria-label="Go to Restoration Tracker Home">
+              <picture>
+                <source srcSet={headerImageLarge} media="(min-width: 1200px)"></source>
+                <source srcSet={headerImageSmall} media="(min-width: 600px)"></source>
+                <img src={headerImageSmall} alt={'Government of British Columbia'} />
+              </picture>
+              <span>
+                Restoration Tracker
+                <sup className={classes.appPhaseTag}>
                   <BetaLabel />
+                  &nbsp;
                   <EnvironmentLabel />
-                </span>
-              </Link>
-              <UnAuthGuard>
-                <PublicViewUser />
-              </UnAuthGuard>
-              <AuthGuard>
-                <LoggedInUser />
-              </AuthGuard>
-            </Box>
-          </Toolbar>
-        </Box>
+                </sup>
+              </span>
+            </Link>
+            <UnAuthGuard>
+              <PublicViewUser />
+            </UnAuthGuard>
+            <AuthGuard>
+              <LoggedInUser />
+            </AuthGuard>
+          </Box>
+        </Toolbar>
+
         <Box className={classes.mainNav}>
           <Toolbar variant="dense" className={classes.mainNavToolbar} role="navigation" aria-label="Main Navigation">
             <UnAuthGuard>

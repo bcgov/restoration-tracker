@@ -113,7 +113,7 @@ const ProjectGeneralInformationForm: React.FC = () => {
               <CustomTextField
                 name="project.objectives"
                 label="Objectives"
-                other={{ required: true, multiline: true, rows: 4 }}
+                other={{ required: true, multiline: true, rowsMax: 24 }}
               />
             </Grid>
           </Grid>

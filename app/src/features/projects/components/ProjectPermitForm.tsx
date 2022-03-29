@@ -139,7 +139,9 @@ const ProjectPermitForm: React.FC = () => {
                                   </MenuItem>
                                 ))}
                               </Select>
-                              <FormHelperText>{permitTypeMeta.touched && permitTypeMeta.error}</FormHelperText>
+                              <FormHelperText error={true}>
+                                {permitTypeMeta.touched && permitTypeMeta.error}
+                              </FormHelperText>
                             </FormControl>
                           </Grid>
                           <Grid item xs={6}>

@@ -103,7 +103,7 @@ describe('ProjectIUCNForm', () => {
   });
 
   it('changes fields on the IUCN menu items as expected', async () => {
-    const { asFragment, getAllByRole, getByRole, queryByTestId, getByText } = render(
+    const { asFragment, getAllByRole, getByRole, getByText, queryAllByTestId } = render(
       <Formik
         initialValues={ProjectIUCNFormInitialValues}
         validationSchema={ProjectIUCNFormYupSchema}
@@ -120,12 +120,12 @@ describe('ProjectIUCNForm', () => {
       </Formik>
     );
 
-    expect(queryByTestId('iucn-classification-grid')).toBeNull();
+    expect(queryAllByTestId('iucn-classification-grid').length).toEqual(1);
 
     fireEvent.click(getByText('Add Classification'));
 
     await waitFor(() => {
-      expect(queryByTestId('iucn-classification-grid')).toBeInTheDocument();
+      expect(queryAllByTestId('iucn-classification-grid').length).toEqual(2);
     });
 
     fireEvent.mouseDown(getAllByRole('button')[0]);
@@ -146,7 +146,7 @@ describe('ProjectIUCNForm', () => {
   });
 
   it('adds an IUCN classification when the add button is clicked', async () => {
-    const { getByText, queryByTestId } = render(
+    const { getByText, queryAllByTestId } = render(
       <Formik
         initialValues={ProjectIUCNFormInitialValues}
         validationSchema={ProjectIUCNFormYupSchema}
@@ -163,12 +163,12 @@ describe('ProjectIUCNForm', () => {
       </Formik>
     );
 
-    expect(queryByTestId('iucn-classification-grid')).toBeNull();
+    expect(queryAllByTestId('iucn-classification-grid').length).toEqual(1);
 
     fireEvent.click(getByText('Add Classification'));
 
     await waitFor(() => {
-      expect(queryByTestId('iucn-classification-grid')).toBeInTheDocument();
+      expect(queryAllByTestId('iucn-classification-grid').length).toEqual(2);
     });
   });
 

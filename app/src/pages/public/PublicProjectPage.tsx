@@ -193,7 +193,7 @@ const PublicProjectPage = () => {
             />
           </Box>
 
-          <Box flex="0 0 auto" height="250px">
+          <Box flex="0 0 auto">
             <PublicTreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
           </Box>
         </Box>
