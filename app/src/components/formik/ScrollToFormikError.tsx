@@ -25,7 +25,7 @@ export const ScrollToFormikError: React.FC = () => {
 
         key = Number(key) || key === '0' ? `[${key}]` : key;
 
-        var nextKey = prefix ? `${prefix}.${key}` : key;
+        const nextKey = prefix ? `${prefix}.${key}` : key;
 
         if (typeof value === 'object') {
           getFieldErrorNames(value, nextKey, result);
@@ -39,7 +39,7 @@ export const ScrollToFormikError: React.FC = () => {
     const getFieldTitle = (absoluteErrorName: string) => {
       const fieldTitleArray = absoluteErrorName.split('.');
       const fieldTitleSplit = fieldTitleArray[fieldTitleArray.length - 1].split('_');
-      var fieldTitleUpperCase = '';
+      let fieldTitleUpperCase = '';
       fieldTitleSplit.forEach((item) => {
         fieldTitleUpperCase += `${item.charAt(0).toUpperCase() + item.slice(1)} `;
       });
