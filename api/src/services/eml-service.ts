@@ -239,7 +239,7 @@ export class EmlService extends DBService {
           describes: this.packageId,
           metadata: {
             priorityArea: {
-              isPriority: false // TODO assign priority when its merged: this.projectData.location.priority
+              isPriority: this.projectData.location.priority
             }
           }
         }
