@@ -90,7 +90,7 @@ exports[`ProjectPermitForm renders correctly with error on the permits field due
                     </fieldset>
                   </div>
                   <p
-                    class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled"
+                    class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
                   />
                 </div>
               </div>
@@ -253,7 +253,7 @@ exports[`ProjectPermitForm renders correctly with error on the permits field due
                     </fieldset>
                   </div>
                   <p
-                    class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled"
+                    class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
                   />
                 </div>
               </div>
@@ -469,7 +469,7 @@ exports[`ProjectPermitForm renders correctly with errors on the permit_number an
                     </fieldset>
                   </div>
                   <p
-                    class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled"
+                    class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
                   />
                 </div>
               </div>

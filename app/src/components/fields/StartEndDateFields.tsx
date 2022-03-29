@@ -1,9 +1,10 @@
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { DATE_FORMAT, DATE_LIMIT } from 'constants/dateTimeFormats';
+import { DialogContext, ISnackbarProps } from 'contexts/dialogContext';
 import get from 'lodash-es/get';
 import moment from 'moment';
-import React from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 
 interface IStartEndDateFieldsProps {
   formikProps: any;
@@ -21,7 +22,7 @@ interface IStartEndDateFieldsProps {
  */
 const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
   const {
-    formikProps: { values, handleChange, errors, touched },
+    formikProps: { values, handleChange, errors, touched, setFieldValue },
     startName,
     endName,
     startRequired,
@@ -44,6 +45,30 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
       moment(rawEndDateValue).isValid() &&
       moment(rawEndDateValue).format(DATE_FORMAT.ShortDateFormat)) ||
     '';
+
+  const dialogContext = useContext(DialogContext);
+
+  const updateEndDate = useCallback(() => {
+    const updateEndDateValue = moment(formattedStartDateValue).add(1, 'd').format(DATE_FORMAT.ShortDateFormat);
+    setFieldValue(endName, updateEndDateValue, true);
+  }, [formattedStartDateValue, endName, setFieldValue]);
+
+  useEffect(() => {
+    const showSnackBar = (textDialogProps?: Partial<ISnackbarProps>) => {
+      dialogContext.setSnackbar({ ...textDialogProps, open: true });
+    };
+
+    if (formattedEndDateValue && formattedStartDateValue >= formattedEndDateValue) {
+      updateEndDate();
+      showSnackBar({ snackbarMessage: 'Updated End Date to after selected Start Date.' });
+    }
+  }, [formattedStartDateValue, formattedEndDateValue, updateEndDate, dialogContext]);
+
+  const fillInEmptyEndDate = () => {
+    if (!formattedEndDateValue) {
+      updateEndDate();
+    }
+  };
 
   return (
     <Grid container item spacing={3}>
@@ -87,13 +112,20 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           required={endRequired}
           value={formattedEndDateValue}
           type="date"
+          onFocus={() => {
+            fillInEmptyEndDate();
+          }}
           InputProps={{
             // Chrome min/max dates
-            inputProps: { min: DATE_LIMIT.min, max: DATE_LIMIT.max, 'data-testid': 'end-date' }
+            inputProps: {
+              min: formattedStartDateValue,
+              max: DATE_LIMIT.max,
+              'data-testid': 'end-date'
+            }
           }}
           inputProps={{
             // Firefox min/max dates
-            min: DATE_LIMIT.min,
+            min: formattedStartDateValue,
             max: DATE_LIMIT.max,
             'data-testid': 'end-date'
           }}
