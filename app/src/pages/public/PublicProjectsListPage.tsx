@@ -1,6 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
@@ -12,6 +13,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import { mdiDownload } from '@mdi/js';
+import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ProjectStatusType } from 'constants/misc';
@@ -21,7 +24,7 @@ import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, useHistory } from 'react-router';
-import { getFormattedDate } from 'utils/Utils';
+import { getFormattedDate, triggerFileDownload } from 'utils/Utils';
 
 const useStyles = makeStyles((theme: Theme) => ({
   linkButton: {
@@ -65,11 +68,15 @@ const PublicProjectsListPage = () => {
     }
   }, [restorationTrackerApi, isLoading]);
 
-  const getChipIcon = (end_date: string) => {
-    const status_name =
-      (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
-      ProjectStatusType.ACTIVE;
+  const getProjectStatusType = (projectData: IGetProjectsListResponse): ProjectStatusType => {
+    if (projectData.end_date && moment(projectData.end_date).endOf('day').isBefore(moment())) {
+      return ProjectStatusType.COMPLETED;
+    }
 
+    return ProjectStatusType.ACTIVE;
+  };
+
+  const getChipIcon = (status_name: string) => {
     let chipLabel;
     let chipStatusClass;
 
@@ -93,6 +100,12 @@ const PublicProjectsListPage = () => {
     return <Redirect to={{ pathname: '/admin/projects' }} />;
   }
 
+  const handleDownloadProjectEML = async (projectId: number) => {
+    const response = await restorationTrackerApi.project.downloadProjectEML(projectId);
+
+    triggerFileDownload(response.fileData, response.fileName);
+  };
+
   return (
     <Box my={4}>
       <Container maxWidth="xl">
@@ -110,12 +123,13 @@ const PublicProjectsListPage = () => {
                   <TableCell>Start Date</TableCell>
                   <TableCell>End Date</TableCell>
                   <TableCell>Status</TableCell>
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody data-testid="project-table">
                 {!projects?.length && (
                   <TableRow>
-                    <TableCell colSpan={6}>
+                    <TableCell colSpan={7}>
                       <Box display="flex" justifyContent="center">
                         No Results
                       </Box>
@@ -138,7 +152,17 @@ const PublicProjectsListPage = () => {
                     <TableCell>{row.contact_agency_list}</TableCell>
                     <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
                     <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.end_date)}</TableCell>
-                    <TableCell>{getChipIcon(row.end_date)}</TableCell>
+                    <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        title="Download Project EML"
+                        aria-label="Download Project EML"
+                        size="small"
+                        data-testid="project-table-download-eml"
+                        onClick={() => handleDownloadProjectEML(row.id)}>
+                        <Icon path={mdiDownload} size={1} />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -24,6 +24,9 @@ describe('ProjectLocationForm', () => {
             ranges={codes.ranges.map((item) => {
               return { value: item.id, label: item.name };
             })}
+            species={codes.species.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
             regions={codes.regions.map((item) => {
               return { value: item.id, label: item.name };
             })}
@@ -52,8 +55,8 @@ describe('ProjectLocationForm', () => {
             }
           }
         ],
-        range: '1',
-        region: 'Omineca',
+        range: 1,
+        region: 1,
         priority: 'false'
       }
     };
@@ -68,6 +71,9 @@ describe('ProjectLocationForm', () => {
         {() => (
           <ProjectLocationForm
             ranges={codes.ranges.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+            species={codes.species.map((item) => {
               return { value: item.id, label: item.name };
             })}
             regions={codes.regions.map((item) => {
@@ -98,8 +104,8 @@ describe('ProjectLocationForm', () => {
             }
           }
         ],
-        region: 'Omineca',
-        range: '1',
+        range: 1,
+        region: 1,
         priority: 'false'
       }
     };
@@ -116,6 +122,9 @@ describe('ProjectLocationForm', () => {
         {() => (
           <ProjectLocationForm
             ranges={codes.ranges.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+            species={codes.species.map((item) => {
               return { value: item.id, label: item.name };
             })}
             regions={codes.regions.map((item) => {

@@ -1,6 +1,7 @@
-import { Card, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
 import Chip from '@material-ui/core/Chip';
+import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -10,15 +11,19 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import { mdiDownload } from '@mdi/js';
+import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ProjectStatusType } from 'constants/misc';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetDraftsListResponse } from 'interfaces/useDraftApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
 import React from 'react';
 import { useHistory } from 'react-router';
-import { getFormattedDate } from 'utils/Utils';
+import { getFormattedDate, triggerFileDownload } from 'utils/Utils';
 
 const useStyles = makeStyles((theme: Theme) => ({
   linkButton: {
@@ -49,6 +54,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
   const history = useHistory();
   const classes = useStyles();
 
+  const restorationTrackerApi = useRestorationTrackerApi();
+
   const getProjectStatusType = (projectData: IGetProjectForViewResponse): ProjectStatusType => {
     if (projectData.project.end_date && moment(projectData.project.end_date).endOf('day').isBefore(moment())) {
       return ProjectStatusType.COMPLETED;
@@ -75,6 +82,12 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
   };
 
+  const handleDownloadProjectEML = async (projectId: number) => {
+    const response = await restorationTrackerApi.project.downloadProjectEML(projectId);
+
+    triggerFileDownload(response.fileData, response.fileName);
+  };
+
   /**
    * Displays project list.
    */
@@ -96,12 +109,13 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
+                <TableCell />
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
               {!drafts?.length && !projects?.length && (
                 <TableRow>
-                  <TableCell colSpan={6}>
+                  <TableCell colSpan={7}>
                     <Box display="flex" justifyContent="center">
                       No Results
                     </Box>
@@ -126,6 +140,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell />
                   <TableCell />
                   <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
+                  <TableCell />
                 </TableRow>
               ))}
               {projects?.map((row) => (
@@ -145,6 +160,16 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.start_date)}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.end_date)}</TableCell>
                   <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      title="Download Project EML"
+                      aria-label="Download Project EML"
+                      size="small"
+                      data-testid="project-table-download-eml"
+                      onClick={() => handleDownloadProjectEML(row.project.project_id)}>
+                      <Icon path={mdiDownload} size={1} />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -658,9 +658,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
               role="button"
               tabindex="0"
             >
-              <span>
-                ​
-              </span>
+              Region code
             </div>
             <input
               aria-hidden="true"
@@ -668,7 +666,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
               name="location.region"
               required=""
               tabindex="-1"
-              value="Omineca"
+              value="1"
             />
             <svg
               aria-hidden="true"
@@ -1290,9 +1288,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
               role="button"
               tabindex="0"
             >
-              <span>
-                ​
-              </span>
+              Region code
             </div>
             <input
               aria-hidden="true"
@@ -1300,7 +1296,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
               name="location.region"
               required=""
               tabindex="-1"
-              value="Omineca"
+              value="1"
             />
             <svg
               aria-hidden="true"
