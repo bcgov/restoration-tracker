@@ -31,8 +31,8 @@ describe('PublicProjectsListPage', () => {
       {
         id: 1,
         name: 'Project 1',
-        start_date: '11/01/2020',
-        end_date: '12/01/2020',
+        start_date: '2020-01-01',
+        end_date: '2020-01-02',
         coordinator_agency: 'contact agency',
         permits_list: '1, 2, 3'
       }
@@ -55,7 +55,7 @@ describe('PublicProjectsListPage', () => {
       {
         id: 1,
         name: 'Project 1',
-        start_date: null,
+        start_date: '2020-01-01',
         end_date: null,
         coordinator_agency: 'contact agency',
         permits_list: '1, 2, 3',

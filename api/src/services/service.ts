@@ -7,7 +7,7 @@ import { IDBConnection } from '../database/db';
  * @class DBService
  */
 export class DBService<T extends IDBConnection = IDBConnection> {
-  connection: T;
+  protected connection: T;
 
   constructor(connection: T) {
     this.connection = connection;

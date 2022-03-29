@@ -138,13 +138,27 @@ export const getFormattedFileSize = (fileSize: number) => {
 };
 
 /**
- * Function to get an object key by the value
- * Ex: let obj = { 'role': 'admin' } -> getKeyByValue(obj, 'admin') will return 'role'
+ * Temporarily adds and clicks an anchor tag in order to trigger the browser file download.
  *
- * @param {object} object
- * @param {any} value
- * @returns {any} key for the corresponding value
+ * @param {string} fileData
+ * @param {string} fileName
  */
-export function getKeyByValue(object: any, value: any) {
-  return Object.keys(object).find((key) => object[key] === value);
-}
+export const triggerFileDownload = (fileData: string, fileName: string) => {
+  // add anchor tag to page
+  const a = document.createElement('a');
+  document.body.appendChild(a);
+
+  // set anchor link
+  const url = window.URL.createObjectURL(new Blob([fileData]));
+  a.href = url;
+  a.download = fileName;
+
+  // click anchor tag to trigger browser file download
+  a.click();
+
+  // clean up
+  setTimeout(() => {
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }, 0);
+};
