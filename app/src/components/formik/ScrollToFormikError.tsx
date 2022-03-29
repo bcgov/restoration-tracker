@@ -18,7 +18,7 @@ export const ScrollToFormikError: React.FC = () => {
       setOpenSnackbar({ open: true, msg: message });
     };
 
-    const getFieldErrorNames = (obj: Object, prefix = '', result: string[] = []) => {
+    const getFieldErrorNames = (obj: object, prefix = '', result: string[] = []) => {
       Object.keys(obj).forEach((key) => {
         const value = obj[key];
         if (!value) return;
