@@ -253,7 +253,7 @@ const PublicProjectPage = () => {
                   </Box>
 
                   <Paper elevation={2}>
-                    <Box flex="1 1 auto">
+                    <Box px={3}>
                       <PublicTreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
                     </Box>
 
@@ -270,6 +270,11 @@ const PublicProjectPage = () => {
                           </Button>
                         </Box>
                       </Box>
+                      <PublicTreatmentList
+                        treatmentList={treatmentList}
+                        getTreatments={getTreatments}
+                        refresh={getProject}
+                      />
                     </Box>
                   </Paper>
 
