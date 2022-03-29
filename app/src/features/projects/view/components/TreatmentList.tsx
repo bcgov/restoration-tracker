@@ -1,6 +1,3 @@
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -17,8 +14,6 @@ import TableRow from '@material-ui/core/TableRow';
 import { IGetProjectTreatment, IGetTreatmentItem, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import React, { useState } from 'react';
-import Icon from '@mdi/react';
-import { mdiMenuUp } from '@mdi/js';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 
 export interface IProjectTreatmentListProps {
@@ -69,8 +64,6 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-
-  const [tableOpen, setTableOpen] = useState(false);
 
   const [opentreatmentDetails, setOpentreatmentDetails] = useState(false);
   const [currentTreatmentDetail, setCurrentTreatmentDetail] = useState<IGetProjectTreatment>();
@@ -197,86 +190,83 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
 
   return (
     <>
-      <Accordion expanded={tableOpen} onChange={() => setTableOpen(!tableOpen)} className={classes.accordion}>
-        <AccordionSummary expandIcon={<Icon path={mdiMenuUp} size={1} />}>
+      <Box display="flex" flexDirection="column" height="100%">
+        <Box alignItems="center" justifyContent="space-between" p={2} hidden>
           <strong>
             Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
           </strong>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Box display="flex" flexDirection="column" width="100%">
-            <Box component={TableContainer} height="200px">
-              <Table size="small" stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell width="50">ID</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell align="center">Year</TableCell>
-                    <TableCell>Treatments</TableCell>
-                    <TableCell align="right">Width (m)</TableCell>
-                    <TableCell align="right">Length (m)</TableCell>
-                    <TableCell align="right">Area (ha)</TableCell>
-                    <TableCell align="left" width="130">
-                      Action
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody data-testid="project-table">
-                  {!treatmentList?.length && (
-                    <TableRow>
-                      <TableCell colSpan={7}>
-                        <Box display="flex" justifyContent="center">
-                          No Treatments
-                        </Box>
+        </Box>
+
+        <Box component={TableContainer} flex="1 1 auto">
+          <Table size="small" stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
+            <TableHead>
+              <TableRow>
+                <TableCell width="50">ID</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Treatments</TableCell>
+                <TableCell align="right">Width (m)</TableCell>
+                <TableCell align="right">Length (m)</TableCell>
+                <TableCell align="right">Area (Ha)</TableCell>
+                <TableCell align="left" width="130">
+                  Action
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody data-testid="project-table">
+              {!treatmentList?.length && (
+                <TableRow>
+                  <TableCell colSpan={7}>
+                    <Box display="flex" justifyContent="center">
+                      No Treatments
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {treatmentList.length > 0 &&
+                treatmentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                  return (
+                    <TableRow key={row.id}>
+                      <TableCell>{row.id}</TableCell>
+                      <TableCell>{row.type}</TableCell>
+                      <TableCell align="center">{formatTreatmentYearColumnTable(row.treatments, false)}</TableCell>
+                      <TableCell>{formatTreatmentYearColumnTable(row.treatments, true)}</TableCell>
+                      <TableCell align="right">{row.width}</TableCell>
+                      <TableCell align="right">{row.length}</TableCell>
+                      <TableCell align="right">{row.area}</TableCell>
+                      <TableCell align="left">
+                        <Button
+                          size="small"
+                          color="primary"
+                          variant="outlined"
+                          aria-label="view treatment unit details"
+                          data-testid="view-treatment-unit-details"
+                          onClick={() => viewTreatmentUnitDetailsDialog(row)}>
+                          View Details
+                        </Button>
                       </TableCell>
                     </TableRow>
-                  )}
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </Box>
 
-                  {treatmentList.length > 0 &&
-                    treatmentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                      return (
-                        <TableRow key={row.id}>
-                          <TableCell>{row.id}</TableCell>
-                          <TableCell>{row.type}</TableCell>
-                          <TableCell align="center">{formatTreatmentYearColumnTable(row.treatments, false)}</TableCell>
-                          <TableCell>{formatTreatmentYearColumnTable(row.treatments, true)}</TableCell>
-                          <TableCell align="right">{row.width}</TableCell>
-                          <TableCell align="right">{row.length}</TableCell>
-                          <TableCell align="right">{row.area}</TableCell>
-                          <TableCell align="left">
-                            <Button
-                              size="small"
-                              color="primary"
-                              variant="outlined"
-                              aria-label="view treatment unit details"
-                              data-testid="view-treatment-unit-details"
-                              onClick={() => viewTreatmentUnitDetailsDialog(row)}>
-                              View Details
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </Box>
-
-            <TablePagination
-              className={classes.pagination}
-              rowsPerPageOptions={[5, 10, 15, 20]}
-              component="div"
-              count={treatmentList.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onChangePage={(event: unknown, newPage: number) => handleChangePage(event, newPage, setPage)}
-              onChangeRowsPerPage={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleChangeRowsPerPage(event, setPage, setRowsPerPage)
-              }
-            />
-          </Box>
-        </AccordionDetails>
-      </Accordion>
-
+        {treatmentList.length > 0 && (
+          <TablePagination
+            className={classes.pagination}
+            rowsPerPageOptions={[5, 10, 15, 20]}
+            component="div"
+            count={treatmentList.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={(event: unknown, newPage: number) => handleChangePage(event, newPage, setPage)}
+            onChangeRowsPerPage={(event: React.ChangeEvent<HTMLInputElement>) =>
+              handleChangeRowsPerPage(event, setPage, setRowsPerPage)
+            }
+          />
+        )}
+      </Box>
       <TreatmentDetailDialog />
     </>
   );
