@@ -14,8 +14,6 @@ import { mdiArrowLeft } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import clsx from 'clsx';
 import { ProjectStatusType } from 'constants/misc';
-import TreatmentSpatialUnits from 'features/projects/view/components/TreatmentSpatialUnits';
-
 import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import {
@@ -24,13 +22,14 @@ import {
   IGetProjectTreatment,
   TreatmentSearchCriteria
 } from 'interfaces/useProjectApi.interface';
+import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import moment from 'moment';
 import PublicLocationBoundary from './components/PublicLocationBoundary';
-import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
-import PublicProjectDetails from './PublicProjectDetails';
 import PublicProjectAttachments from './components/PublicProjectAttachments';
+import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
+import PublicTreatmentList from './components/PublicTreatmentList';
+import PublicProjectDetails from './PublicProjectDetails';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -254,7 +253,7 @@ const PublicProjectPage = () => {
                   </Box>
 
                   <Paper elevation={2}>
-                    <Box px={3}>
+                    <Box flex="1 1 auto">
                       <PublicTreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
                     </Box>
 
@@ -271,7 +270,6 @@ const PublicProjectPage = () => {
                           </Button>
                         </Box>
                       </Box>
-                      <PublicTreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
                     </Box>
                   </Paper>
 
@@ -303,11 +301,7 @@ const PublicProjectPage = () => {
             </IconButton>
           </Box>
           <Box flex="1 1 auto">
-            <TreatmentSpatialUnits
-              treatmentList={treatmentList}
-              getTreatments={getTreatments}
-              getAttachments={getAttachments}
-            />
+            <PublicTreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
           </Box>
         </Box>
         <Box display="flex" height="100%" flexDirection="column">
@@ -319,7 +313,7 @@ const PublicProjectPage = () => {
             />
           </Box>
           <Box flex="0 0 auto" height="300px">
-            <PublicTreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
+            <PublicTreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
           </Box>
         </Box>
       </Dialog>
