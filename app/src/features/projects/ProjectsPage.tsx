@@ -41,7 +41,7 @@ const ProjectsPage: React.FC = () => {
         contact_agency: urlParams.contact_agency,
         funding_agency: (urlParams.funding_agency as unknown) as number[],
         permit_number: urlParams.permit_number,
-        species: (urlParams.species as unknown) as number[],
+        species: urlParams.species,
         start_date: urlParams.start_date,
         end_date: urlParams.end_date,
         ranges: urlParams.ranges,
@@ -183,11 +183,6 @@ const ProjectsPage: React.FC = () => {
             contact_agency={
               codes.codes.coordinator_agency?.map((item: any) => {
                 return item.name;
-              }) || []
-            }
-            species={
-              codes.codes.species.map((item) => {
-                return { value: item.id, label: item.name };
               }) || []
             }
             funding_agency={

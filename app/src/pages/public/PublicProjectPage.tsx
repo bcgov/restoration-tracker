@@ -29,32 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '30rem'
       }
     },
-    projectTitle: {
-      margin: 0,
-      fontSize: '1.5rem',
-      fontWeight: 400
-    },
-    chip: {
-      color: 'white'
-    },
-    chipActive: {
-      backgroundColor: theme.palette.success.main
-    },
-    chipPublishedCompleted: {
-      backgroundColor: theme.palette.success.main
-    },
-    chipUnpublished: {
-      backgroundColor: theme.palette.text.disabled
-    },
-    chipDraft: {
-      backgroundColor: theme.palette.info.main
-    },
-    chipPriority: {
-      backgroundColor: theme.palette.info.dark
-    },
-    chipNotAPriority: {
-      backgroundColor: theme.palette.text.disabled
-    },
     tabs: {
       flexDirection: 'row',
       '& .MuiTabs-indicator': {

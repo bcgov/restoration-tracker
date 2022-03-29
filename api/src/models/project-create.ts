@@ -143,11 +143,13 @@ export class PostSpeciesData {
  */
 export class PostLocationData {
   geometry: Feature[];
+  priority: boolean;
   region: number;
   range: number;
 
   constructor(obj?: any) {
     this.geometry = (obj?.geometry?.length && obj.geometry) || [];
+    this.priority = (obj?.priority && JSON.parse(obj.priority)) || false;
     this.region = obj?.region || null;
     this.range = obj?.range || null;
   }

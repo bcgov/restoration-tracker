@@ -10,10 +10,6 @@ import { debounce } from 'lodash-es';
 import React, { useCallback } from 'react';
 import yup from 'utils/YupSchema';
 
-export interface IProjectGeneralInformationFormProps {
-  species: IMultiAutocompleteFieldOption[];
-}
-
 export interface IProjectGeneralInformationForm {
   project: {
     project_name: string;
@@ -59,7 +55,7 @@ export const ProjectGeneralInformationFormYupSchema = yup.object().shape({
  * @return {*}
  */
 
-const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProps> = (props) => {
+const ProjectGeneralInformationForm: React.FC = () => {
   const formikProps = useFormikContext<IProjectGeneralInformationForm>();
 
   const restorationTrackerApi = useRestorationTrackerApi();
@@ -69,8 +65,8 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
       return { value: parseInt(item.id), label: item.label };
     });
 
-  const handleGetInitList = async (values: number[]) => {
-    const response = await restorationTrackerApi.taxonomy.getSpeciesFromIds(values);
+  const handleGetInitList = async (initialvalues: number[]) => {
+    const response = await restorationTrackerApi.taxonomy.getSpeciesFromIds(initialvalues);
     return convertOptions(response.searchResponse);
   };
 
@@ -78,12 +74,12 @@ const ProjectGeneralInformationForm: React.FC<IProjectGeneralInformationFormProp
     debounce(
       async (
         inputValue: string,
-        exsistingValues: (string | number)[],
+        existingValues: (string | number)[],
         callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
       ) => {
         const response = await restorationTrackerApi.taxonomy.searchSpecies(inputValue);
         const newOptions = convertOptions(response.searchResponse).filter(
-          (item) => !exsistingValues.includes(item.value)
+          (item) => !existingValues.includes(item.value)
         );
         callback(newOptions);
       },

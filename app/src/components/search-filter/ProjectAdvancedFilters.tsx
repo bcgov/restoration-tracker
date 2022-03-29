@@ -12,11 +12,12 @@ import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocomple
 import MultiAutocompleteFieldVariableSize from 'components/fields/MultiAutocompleteFieldVariableSize';
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
-import React from 'react';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import React, { useCallback } from 'react';
 import { IProjectAdvancedFilters } from './ProjectFilter';
+import { debounce } from 'lodash-es';
 
 export interface IProjectAdvancedFiltersProps {
-  species: IMultiAutocompleteFieldOption[];
   contact_agency: string[];
   funding_agency: IMultiAutocompleteFieldOption[];
   ranges: IMultiAutocompleteFieldOption[];
@@ -31,6 +32,36 @@ export interface IProjectAdvancedFiltersProps {
 const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const formikProps = useFormikContext<IProjectAdvancedFilters>();
   const { handleChange, values } = formikProps;
+
+  const restorationTrackerApi = useRestorationTrackerApi();
+
+  const convertOptions = (value: any): IMultiAutocompleteFieldOption[] =>
+    value.map((item: any) => {
+      return { value: parseInt(item.id), label: item.label };
+    });
+
+  const handleGetInitList = async (initialvalues: number[]) => {
+    const response = await restorationTrackerApi.taxonomy.getSpeciesFromIds(initialvalues);
+    return convertOptions(response.searchResponse);
+  };
+
+  const handleSearch = useCallback(
+    debounce(
+      async (
+        inputValue: string,
+        existingValues: (string | number)[],
+        callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
+      ) => {
+        const response = await restorationTrackerApi.taxonomy.searchSpecies(inputValue);
+        const newOptions = convertOptions(response.searchResponse).filter(
+          (item) => !existingValues.includes(item.value)
+        );
+        callback(newOptions);
+      },
+      500
+    ),
+    []
+  );
 
   return (
     <Box data-testid="advancedFilters">
@@ -86,10 +117,11 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
             <Grid item xs={12}>
               <MultiAutocompleteFieldVariableSize
                 id="species"
-                data-testid="species"
                 label="Species"
-                options={props.species}
                 required={false}
+                type="api-search"
+                getInitList={handleGetInitList}
+                search={handleSearch}
               />
             </Grid>
             <Grid item xs={6}>

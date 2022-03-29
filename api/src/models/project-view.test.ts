@@ -212,18 +212,12 @@ describe('GetSpeciesData', () => {
 
     const obj = [
       {
-        wldtaxonomic_units_id: 1,
-        english_name: 'english1',
-        unit_name1: 'unit11',
-        unit_name2: 'unit12',
-        unit_name3: 'unit13'
+        id: 1,
+        label: 'english1'
       },
       {
-        wldtaxonomic_units_id: 2,
-        english_name: 'english2',
-        unit_name1: 'unit21',
-        unit_name2: '',
-        unit_name3: ''
+        id: 2,
+        label: 'english2'
       }
     ];
 
@@ -236,7 +230,7 @@ describe('GetSpeciesData', () => {
     });
 
     it('sets focal species names', function () {
-      expect(data.focal_species_names).to.eql(['english1 - unit11 - unit12 - unit13', 'english2 - unit21']);
+      expect(data.focal_species_names).to.eql(['english1', 'english2']);
     });
   });
 });

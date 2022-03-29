@@ -91,7 +91,7 @@ export const ProjectAdvancedFiltersKeyLabels = {
   contact_agency: { label: 'Contact Agency' },
   funding_agency: { label: 'Funding Agency', codeSet: 'funding_agency' },
   permit_number: { label: 'Permit Number' },
-  species: { label: 'Species', codeSet: 'species' },
+  species: { label: 'Species' },
   start_date: { label: 'Start Date' },
   end_date: { label: 'End Date' },
   ranges: { label: 'Caribou Ranges', codeSet: 'ranges' },
@@ -100,7 +100,6 @@ export const ProjectAdvancedFiltersKeyLabels = {
 
 export interface IProjectAdvancedFiltersProps {
   filterChipParams: IProjectAdvancedFilters;
-  species: IMultiAutocompleteFieldOption[];
   contact_agency: string[];
   funding_agency: IMultiAutocompleteFieldOption[];
   ranges: IMultiAutocompleteFieldOption[];
@@ -114,7 +113,7 @@ export interface IProjectAdvancedFiltersProps {
  */
 const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
   const classes = useStyles();
-  const { filterChipParams, contact_agency, species, funding_agency, region, ranges } = props;
+  const { filterChipParams, contact_agency, funding_agency, region, ranges } = props;
 
   const [isAdvancedFiltersOpen, setIsAdvancedFiltersOpen] = useState(false);
   const [isFiltersChipsOpen, setIsFiltersChipsOpen] = useState(false);
@@ -297,7 +296,6 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
             <Box my={5}>
               <ProjectAdvancedFilters
                 contact_agency={contact_agency}
-                species={species}
                 funding_agency={funding_agency}
                 ranges={ranges}
                 region={region}
