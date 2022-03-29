@@ -1,8 +1,8 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
+import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,11 +11,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft } from '@mdi/js';
 import { Icon } from '@mdi/react';
-import clsx from 'clsx';
+import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/ProjectChips';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { RoleGuard } from 'components/security/Guards';
 import { DeleteProjectI18N } from 'constants/i18n';
-import { ProjectStatusType } from 'constants/misc';
 import { PROJECT_ROLE, SYSTEM_ROLE } from 'constants/roles';
 import { DialogContext } from 'contexts/dialogContext';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
@@ -23,19 +22,17 @@ import { APIError } from 'hooks/api/useAxios';
 import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import {
-  IGetProjectAttachment,
-  IGetProjectForViewResponse,
-  IGetProjectTreatment,
-  TreatmentSearchCriteria
+    IGetProjectAttachment,
+    IGetProjectForViewResponse,
+    IGetProjectTreatment,
+    TreatmentSearchCriteria
 } from 'interfaces/useProjectApi.interface';
-import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import TreatmentList from './components/TreatmentList';
 import TreatmentSpatialUnits from './components/TreatmentSpatialUnits';
 import ProjectAttachments from './ProjectAttachments';
 import ProjectDetailsPage from './ProjectDetailsPage';
-import Dialog from '@material-ui/core/Dialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,31 +47,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 0,
       fontSize: '1.5rem',
       fontWeight: 400
-    },
-    chip: {
-      color: 'white',
-      textTransform: 'uppercase',
-      fontSize: '11px',
-      fontWeight: 700,
-      letterSpacing: '0.02rem'
-    },
-    chipActive: {
-      backgroundColor: theme.palette.success.main
-    },
-    chipPublishedCompleted: {
-      backgroundColor: theme.palette.success.main
-    },
-    chipUnpublished: {
-      backgroundColor: theme.palette.text.disabled
-    },
-    chipDraft: {
-      backgroundColor: theme.palette.info.main
-    },
-    chipPriority: {
-      backgroundColor: theme.palette.info.dark
-    },
-    chipNotAPriority: {
-      backgroundColor: theme.palette.text.disabled
     },
     tabs: {
       flexDirection: 'row',
@@ -191,29 +163,7 @@ const ViewProjectPage: React.FC = () => {
     onYes: () => dialogContext.setYesNoDialog({ open: false })
   };
 
-  const end_date = projectWithDetails.project.end_date;
-  const completion_status =
-    (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
-    ProjectStatusType.ACTIVE;
-
-  const priority_status = projectWithDetails.location.priority === 'true';
-
-  const getChipIcon = (status_name: string) => {
-    let chipLabel;
-    let chipStatusClass;
-    if (ProjectStatusType.ACTIVE === status_name) {
-      chipLabel = 'Active';
-      chipStatusClass = classes.chipActive;
-    } else if (ProjectStatusType.COMPLETED === status_name) {
-      chipLabel = 'Completed';
-      chipStatusClass = classes.chipPublishedCompleted;
-    } else if (ProjectStatusType.DRAFT === status_name) {
-      chipLabel = 'Draft';
-      chipStatusClass = classes.chipDraft;
-    }
-
-    return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
-  };
+  const isPriority = projectWithDetails.location.priority === 'true';
 
   const showDeleteErrorDialog = (textDialogProps?: Partial<IErrorDialogProps>) => {
     dialogContext.setErrorDialog({ ...deleteErrorDialogProps, ...textDialogProps, open: true });
@@ -283,10 +233,15 @@ const ViewProjectPage: React.FC = () => {
                 <Typography variant="subtitle2" color="textSecondary">
                   Project Status:
                 </Typography>
-                <Box ml={1}>{getChipIcon(completion_status)}</Box>
-                {priority_status && (
+                <Box ml={1}>
+                  <ProjectStatusChip
+                    startDate={projectWithDetails.project.start_date}
+                    endDate={projectWithDetails.project.end_date}
+                  />
+                </Box>
+                {isPriority && (
                   <Box ml={0.5}>
-                    <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
+                    <ProjectPriorityChip />
                   </Box>
                 )}
               </Box>

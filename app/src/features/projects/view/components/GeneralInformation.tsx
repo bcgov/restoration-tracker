@@ -34,7 +34,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
   const getRangeName = (rangeNumber: number) => {
     const codeValue = props.codes.ranges.find((code) => code.id === rangeNumber);
     return (
-      <Typography variant="body2" component="dt" data-testid="project-region">
+      <Typography variant="body2" component="dd" data-testid="project-region">
         {codeValue?.name}
       </Typography>
     );
@@ -61,9 +61,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
           <Typography variant="body2" component="dt" color="textSecondary">
             Range
           </Typography>
-          <Typography variant="body2" component="dd">
-            {getRangeName(location.range)}
-          </Typography>
+          {getRangeName(location.range)}
         </div>
       )}
       <div>
