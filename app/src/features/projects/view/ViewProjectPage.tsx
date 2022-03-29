@@ -196,7 +196,7 @@ const ViewProjectPage: React.FC = () => {
     (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
     ProjectStatusType.ACTIVE;
 
-  const priority_status = ProjectStatusType.NOT_A_PRIORITY;
+  const priority_status = projectWithDetails.location.priority === 'true';
 
   const getChipIcon = (status_name: string) => {
     let chipLabel;
@@ -210,12 +210,6 @@ const ViewProjectPage: React.FC = () => {
     } else if (ProjectStatusType.DRAFT === status_name) {
       chipLabel = 'Draft';
       chipStatusClass = classes.chipDraft;
-    } else if (ProjectStatusType.PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipPriority;
-    } else if (ProjectStatusType.NOT_A_PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipNotAPriority;
     }
 
     return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
@@ -290,7 +284,11 @@ const ViewProjectPage: React.FC = () => {
                   Project Status:
                 </Typography>
                 <Box ml={1}>{getChipIcon(completion_status)}</Box>
-                <Box ml={0.5}>{getChipIcon(priority_status)}</Box>
+                {priority_status && (
+                  <Box ml={0.5}>
+                    <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
+                  </Box>
+                )}
               </Box>
             </Box>
             <RoleGuard
@@ -377,15 +375,6 @@ const ViewProjectPage: React.FC = () => {
                 </Paper>
               </Grid>
             </Grid>
-
-            <Box display="flex" flexDirection={'row'}>
-              {priority_status && (
-                <Box mr={0.5}>
-                  <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
-                </Box>
-              )}
-              <Box>{getChipIcon(completion_status)}</Box>
-            </Box>
           </Box>
         </Container>
       </Box>
