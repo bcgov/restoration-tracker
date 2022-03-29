@@ -977,7 +977,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           />
                           <p
                             class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-                            id="mui-22526"
+                            id="mui-24251"
                           >
                             Rows per page:
                           </p>
@@ -986,9 +986,9 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           >
                             <div
                               aria-haspopup="listbox"
-                              aria-labelledby="mui-22526 mui-94346"
+                              aria-labelledby="mui-24251 mui-87254"
                               class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
-                              id="mui-94346"
+                              id="mui-87254"
                               role="button"
                               tabindex="0"
                             >
@@ -2033,7 +2033,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           />
                           <p
                             class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-                            id="mui-99938"
+                            id="mui-77557"
                           >
                             Rows per page:
                           </p>
@@ -2042,9 +2042,9 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           >
                             <div
                               aria-haspopup="listbox"
-                              aria-labelledby="mui-99938 mui-72093"
+                              aria-labelledby="mui-77557 mui-34728"
                               class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
-                              id="mui-72093"
+                              id="mui-34728"
                               role="button"
                               tabindex="0"
                             >
@@ -3089,7 +3089,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           />
                           <p
                             class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-                            id="mui-39139"
+                            id="mui-62376"
                           >
                             Rows per page:
                           </p>
@@ -3098,9 +3098,9 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           >
                             <div
                               aria-haspopup="listbox"
-                              aria-labelledby="mui-39139 mui-28110"
+                              aria-labelledby="mui-62376 mui-94502"
                               class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
-                              id="mui-28110"
+                              id="mui-94502"
                               role="button"
                               tabindex="0"
                             >
