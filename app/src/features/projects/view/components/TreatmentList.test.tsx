@@ -248,18 +248,19 @@ describe('TreatmentList', () => {
     expect(queryByText('anything2')).toBeNull();
   });
 
-  // it('renders correctly with open treatment unit details dialog', async () => {
-  //   const { getByText, getAllByText } = render(
-  //     <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
-  //   );
+  it('renders correctly with open treatment unit details dialog', async () => {
+    const { getByText, getAllByTestId } = render(
+      <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
+    );
 
-  //   expect(getByText('Other')).toBeInTheDocument();
-  //   expect(getByText('Road')).toBeInTheDocument();
+    expect(getByText('Other')).toBeInTheDocument();
+    expect(getByText('Road')).toBeInTheDocument();
 
-  //   fireEvent.click(getAllByText('View Details')[0]);
-  //   await waitFor(() => {
-  //     expect(getByText('something1', { exact: false })).toBeInTheDocument();
-  //     expect(getByText('anything1', { exact: false })).toBeInTheDocument();
-  //   });
-  // });
+    fireEvent.click(getAllByTestId('view-treatment-unit-details')[0]);
+
+    await waitFor(() => {
+      expect(getByText('something1', { exact: false })).toBeInTheDocument();
+      expect(getByText('anything1', { exact: false })).toBeInTheDocument();
+    });
+  });
 });

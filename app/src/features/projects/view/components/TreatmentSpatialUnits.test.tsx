@@ -67,35 +67,17 @@ describe('TreatmentSpatialUnits', () => {
     });
   });
 
-  // it('renders correctly with Treatment Units', async () => {
-  //   mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([{ year: 99 }]);
+  it('renders correctly with Treatment Units', async () => {
+    mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([{ year: 99 }]);
 
-  //   const { getByText } = render(
-  //     <Router history={history}>
-  //       <TreatmentSpatialUnits treatmentList={[]} getTreatments={jest.fn()} getAttachments={jest.fn()} />
-  //     </Router>
-  //   );
+    const { getByText } = render(
+      <Router history={history}>
+        <TreatmentSpatialUnits treatmentList={[]} getTreatments={jest.fn()} getAttachments={jest.fn()} />
+      </Router>
+    );
 
-  //   screen.debug();
-
-  //   await waitFor(() => {
-  //     expect(getByText('Filter Treatments (1)')).toBeInTheDocument();
-  //   });
-  // });
-
-  // it('renders menu correctly with Treatment Units', async () => {
-  //   mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([{ year: 99 }]);
-  //   const { getByText } = render(
-  //     <Router history={history}>
-  //       <TreatmentSpatialUnits treatmentList={[]} getTreatments={jest.fn()} getAttachments={jest.fn()} />
-  //     </Router>
-  //   );
-
-  //   await waitFor(() => {
-  //     fireEvent.click(getByText('Project Layers (1)'));
-  //   });
-  //   await waitFor(() => {
-  //     expect(getByText('TREATMENT UNIT LAYERS (1)')).toBeInTheDocument();
-  //   });
-  // });
+    await waitFor(() => {
+      expect(getByText('Filter Treatments (1)')).toBeInTheDocument();
+    });
+  });
 });

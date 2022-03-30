@@ -4,8 +4,6 @@ import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import Partnerships from './Partnerships';
 
-jest.mock('../../../../hooks/useRestorationTrackerApi');
-
 const mockRefresh = jest.fn();
 
 describe('Partnerships', () => {

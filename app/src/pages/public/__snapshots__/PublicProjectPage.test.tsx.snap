@@ -28,17 +28,17 @@ exports[`PublicProjectPage renders a spinner if no project is loaded 1`] = `
 exports[`PublicProjectPage renders correctly with no end date 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-209"
+    class="MuiBox-root MuiBox-root-117"
     data-testid="view_project_page_component"
   >
     <div
       class="MuiContainer-root MuiContainer-maxWidthXl"
     >
       <div
-        class="MuiBox-root MuiBox-root-210"
+        class="MuiBox-root MuiBox-root-118"
       >
         <div
-          class="MuiBox-root MuiBox-root-211"
+          class="MuiBox-root MuiBox-root-119"
         >
           <h1
             class="MuiTypography-root MuiTypography-h1"
@@ -46,7 +46,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
             Test Project Name
           </h1>
           <div
-            class="MuiBox-root MuiBox-root-212"
+            class="MuiBox-root MuiBox-root-120"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
@@ -54,10 +54,10 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
               Project Status:
             </h6>
             <div
-              class="MuiBox-root MuiBox-root-213"
+              class="MuiBox-root MuiBox-root-121"
             >
               <div
-                class="MuiChip-root makeStyles-chip-197 makeStyles-chipActive-198 MuiChip-sizeSmall"
+                class="MuiChip-root makeStyles-chip-122 makeStyles-chipActive-123 MuiChip-sizeSmall"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall"
@@ -66,28 +66,11 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 </span>
               </div>
             </div>
-            <div
-              class="MuiBox-root MuiBox-root-214"
-            >
-              <div
-                class="MuiChip-root makeStyles-chip-197 makeStyles-chipPriority-202 MuiChip-sizeSmall"
-              >
-                <span
-                  class="MuiChip-label MuiChip-labelSmall"
-                >
-                  Priority
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-      <hr
-        class="MuiDivider-root"
-        hidden=""
-      />
       <div
-        class="MuiBox-root MuiBox-root-215"
+        class="MuiBox-root MuiBox-root-128"
       >
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -96,19 +79,19 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-8"
           >
             <div
-              class="MuiBox-root MuiBox-root-216"
+              class="MuiBox-root MuiBox-root-129"
             >
               <div
-                class="MuiBox-root MuiBox-root-217"
+                class="MuiBox-root MuiBox-root-130"
               >
                 <div
                   class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-218"
+                    class="MuiBox-root MuiBox-root-131"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-219"
+                      class="MuiBox-root MuiBox-root-132"
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h2"
@@ -128,16 +111,16 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-220"
+                  class="MuiBox-root MuiBox-root-133"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-221"
+                    class="MuiBox-root MuiBox-root-134"
                   >
                     <div
                       class="MuiToolbar-root MuiToolbar-regular"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-222"
+                        class="MuiBox-root MuiBox-root-135"
                       >
                         <h2
                           class="MuiTypography-root MuiTypography-h2"
@@ -145,7 +128,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           Restoration Treatments
                         </h2>
                         <div
-                          class="MuiBox-root MuiBox-root-223"
+                          class="MuiBox-root MuiBox-root-136"
                         >
                           <button
                             aria-label="Filter Treatments"
@@ -185,17 +168,17 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-224"
+                  class="MuiBox-root MuiBox-root-137"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-225"
+                    class="MuiBox-root MuiBox-root-138"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-226"
+                      class="MuiBox-root MuiBox-root-139"
                       data-testid="map_container"
                     >
                       <div
-                        class="makeStyles-map-227 leaflet-container leaflet-grab leaflet-touch-drag"
+                        class="makeStyles-map-140 leaflet-container leaflet-grab leaflet-touch-drag"
                         id="project_location_form_map"
                         style="position: relative;"
                         tabindex="0"
@@ -353,7 +336,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-228"
+                      class="MuiBox-root MuiBox-root-141"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
@@ -372,22 +355,14 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-236"
+                    class="MuiBox-root MuiBox-root-148"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-237"
-                      hidden=""
-                    >
-                      <strong>
-                        Found 0 treatments
-                      </strong>
-                    </div>
-                    <div
-                      class="MuiTableContainer-root MuiBox-root MuiBox-root-238"
+                      class="MuiTableContainer-root MuiBox-root MuiBox-root-149"
                     >
                       <table
                         aria-label="treatments-list-table"
-                        class="MuiTable-root makeStyles-treatmentsTable-229 MuiTable-stickyHeader"
+                        class="MuiTable-root makeStyles-treatmentsTable-142 MuiTable-stickyHeader"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -407,6 +382,12 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                               scope="col"
                             >
                               Type
+                            </th>
+                            <th
+                              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                              scope="col"
+                            >
+                              Year
                             </th>
                             <th
                               class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
@@ -454,7 +435,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                               colspan="7"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-239"
+                                class="MuiBox-root MuiBox-root-150"
                               >
                                 No Treatments
                               </div>
@@ -470,10 +451,10 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-240"
+                  class="MuiBox-root MuiBox-root-151"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-241"
+                    class="MuiBox-root MuiBox-root-152"
                   >
                     <h3
                       class="MuiTypography-root MuiTypography-h3"
@@ -482,14 +463,14 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     </h3>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-242"
+                    class="MuiBox-root MuiBox-root-153"
                   >
                     <div
                       class="MuiTableContainer-root"
                     >
                       <table
                         aria-label="attachments-list-table"
-                        class="MuiTable-root makeStyles-attachmentsTable-243"
+                        class="MuiTable-root makeStyles-attachmentsTable-154"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -539,200 +520,161 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
               class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-252 makeStyles-projectMetadata-245"
+                class="MuiBox-root MuiBox-root-156 makeStyles-projectMetadata-155"
               >
                 <section
-                  class="MuiBox-root MuiBox-root-253"
+                  class="MuiBox-root MuiBox-root-157"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
+                    data-testid="GeneralInfoTitle"
                   >
                     General Information
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-254"
+                  <dl
+                    class="MuiBox-root MuiBox-root-158"
+                    data-testid="general_info_component"
                   >
-                    <dl
-                      class="MuiBox-root MuiBox-root-255"
-                      data-testid="general_info_component"
-                    >
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Project Name:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          Test Project Name
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Region:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                          data-testid="project-region"
-                        />
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Range:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                          data-testid="project-region"
-                        >
-                          test 1
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Start Date:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          Oct 10, 1998
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Completion Date:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          ---
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Focal Species:
-                        </dd>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
-                        />
-                      </div>
-                    </dl>
-                  </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Project Name
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        Test Project Name
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Region
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                        data-testid="project-region"
+                      />
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Range
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                        data-testid="project-region"
+                      >
+                        test 1
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Start Date
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        Oct 10, 1998
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        End Date
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        ---
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Focal Species
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      />
+                    </div>
+                  </dl>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-256"
+                  class="MuiBox-root MuiBox-root-159"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
+                    data-testid="ContactsTitle"
                   >
                     Project Contacts
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-257"
+                  <ul
+                    class="makeStyles-projectContactList-160"
                   >
-                    <ul
-                      class="makeStyles-projectContactList-258"
+                    <li
+                      class="MuiBox-root MuiBox-root-162"
                     >
-                      <li
-                        class="MuiBox-root MuiBox-root-261"
+                      <div
+                        class="MuiBox-root MuiBox-root-163"
                       >
-                        <div
-                          class="MuiBox-root MuiBox-root-262"
+                        <svg
+                          class="makeStyles-contactIcon-161"
+                          role="presentation"
+                          style="width: 2.25rem; height: 2.25rem;"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            class="makeStyles-contactIcon-259"
-                            role="presentation"
-                            style="width: 2.25rem; height: 2.25rem;"
-                            viewBox="0 0 24 24"
+                          <path
+                            d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                            style="fill: currentColor;"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <div>
+                          <strong
+                            data-testid="contact_name"
                           >
-                            <path
-                              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
-                              style="fill: currentColor;"
-                            />
-                          </svg>
+                             Amanda Christensen
+                            <sup>
+                              <span
+                                class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                              >
+                                 Primary
+                              </span>
+                            </sup>
+                          </strong>
                         </div>
                         <div>
-                          <div>
-                            <strong
-                              data-testid="contact_name"
-                            >
-                               Amanda Christensen
-                              <sup>
-                                <span
-                                  class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
-                                >
-                                   Primary
-                                </span>
-                              </sup>
-                            </strong>
-                          </div>
-                          <div>
-                            <a
-                              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                              href="#"
-                            >
-                              amanda@christensen.com
-                            </a>
-                          </div>
-                          <div>
-                            Amanda and associates
-                          </div>
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                            href="#"
+                          >
+                            amanda@christensen.com
+                          </a>
                         </div>
-                      </li>
-                    </ul>
-                  </div>
+                        <div>
+                          Amanda and associates
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-263"
-                >
-                  <h3
-                    class="MuiTypography-root MuiTypography-body1"
-                    data-testid="projectPermitsTitle"
-                  >
-                    Permits
-                  </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-264"
-                  >
-                    <ul
-                      class="makeStyles-projectPermitList-265"
-                    >
-                      <li
-                        data-testid="permit_item"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          123 - 
-                          <span>
-                            Permit type
-                          </span>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </section>
-                <hr
-                  class="MuiDivider-root"
-                />
-                <section
-                  class="MuiBox-root MuiBox-root-266"
+                  class="MuiBox-root MuiBox-root-164"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -740,193 +682,208 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   >
                     IUCN Conservation Actions Classifications
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-267"
+                  <ul
+                    class="makeStyles-projectIucnList-165"
                   >
-                    <ul
-                      class="makeStyles-projectIucnList-268"
+                    <li
+                      data-testid="iucn_data"
                     >
-                      <li
-                        data-testid="iucn_data"
-                      >
-                        IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
-                      </li>
-                    </ul>
-                  </div>
+                      IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-269"
+                  class="MuiBox-root MuiBox-root-166"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
-                    data-testid="fundingSourcesTitle"
+                    data-testid="PermitsTitle"
+                  >
+                    Permits
+                  </h3>
+                  <ul
+                    class="makeStyles-projectPermitList-167"
+                  >
+                    <li
+                      data-testid="permit_item"
+                    >
+                      <span
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        123 - 
+                        <span>
+                          Permit type
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-168"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="FundingSourceTitle"
                   >
                     Funding Sources
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-270"
+                  <ul
+                    class="makeStyles-projectFundingList-169"
                   >
-                    <ul
-                      class="makeStyles-projectFundingList-271"
+                    <li
+                      data-testid="funding_data"
                     >
-                      <li
-                        data-testid="funding_data"
+                      <div
+                        class="MuiBox-root MuiBox-root-170"
                       >
-                        <div
-                          class="MuiBox-root MuiBox-root-272"
-                        >
-                          <strong
-                            data-testid="agencyTitle"
+                        <strong>
+                          agency name
+                        </strong>
+                      </div>
+                      <dl
+                        class="MuiBox-root MuiBox-root-171"
+                      >
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                           >
-                            agency name
-                          </strong>
+                            Funding Amount:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            $333
+                          </dd>
                         </div>
-                        <dl
-                          class="MuiBox-root MuiBox-root-273"
-                        >
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Funding Amount:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              $333
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Project ID:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              ABC123
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Start Date:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              Apr 14, 2000
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              End Date:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              Apr 13, 2021
-                            </dt>
-                          </div>
-                        </dl>
-                      </li>
-                    </ul>
-                  </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            Project ID:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            ABC123
+                          </dd>
+                        </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            Start Date:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            Apr 14, 2000
+                          </dd>
+                        </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            End Date:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            Apr 13, 2021
+                          </dd>
+                        </div>
+                      </dl>
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-274"
+                  class="MuiBox-root MuiBox-root-172"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
-                    data-testid="partnershipsTitle"
+                    data-testid="PartnershipTitle"
                   >
                     Partnerships
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-275"
+                  <dl
+                    class="MuiBox-root MuiBox-root-174"
                   >
-                    <dl
-                      class="MuiBox-root MuiBox-root-277"
-                    >
-                      <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                          data-testid="indigenousData"
-                        >
-                          Indigenous Partnerships
-                        </dt>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          <span
-                            class="makeStyles-partnerItem-276"
-                            data-testid="indigenous_partners_data"
-                          >
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
-                          </span>
-                          <span
-                            class="makeStyles-partnerItem-276"
-                            data-testid="indigenous_partners_data"
-                          >
-                            First nations code
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
-                          </span>
-                        </dd>
-                      </div>
-                      <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                          data-testid="stakeholderData"
-                        >
-                          Other Partnerships
-                        </dt>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        data-testid="indigenousData"
+                      >
+                        Indigenous
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        <span
+                          class="makeStyles-partnerItem-173"
+                          data-testid="indigenous_partners_data"
                         >
                           <span
-                            class="makeStyles-partnerItem-276"
-                            data-testid="stakeholder_partners_data"
+                            class="seperator"
                           >
-                            partner2
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
+                            , 
                           </span>
+                        </span>
+                        <span
+                          class="makeStyles-partnerItem-173"
+                          data-testid="indigenous_partners_data"
+                        >
+                          First nations code
                           <span
-                            class="makeStyles-partnerItem-276"
-                            data-testid="stakeholder_partners_data"
+                            class="seperator"
                           >
-                            partner3
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
+                            , 
                           </span>
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
+                        </span>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        data-testid="stakeholderData"
+                      >
+                        Other
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        <span
+                          class="makeStyles-partnerItem-173"
+                          data-testid="stakeholder_partners_data"
+                        >
+                          partner2
+                          <span
+                            class="seperator"
+                          >
+                            , 
+                          </span>
+                        </span>
+                        <span
+                          class="makeStyles-partnerItem-173"
+                          data-testid="stakeholder_partners_data"
+                        >
+                          partner3
+                          <span
+                            class="seperator"
+                          >
+                            , 
+                          </span>
+                        </span>
+                      </dd>
+                    </div>
+                  </dl>
                 </section>
               </div>
             </div>
@@ -941,17 +898,17 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
 exports[`PublicProjectPage renders public project page when project is loaded (project is active) 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-43"
+    class="MuiBox-root MuiBox-root-1"
     data-testid="view_project_page_component"
   >
     <div
       class="MuiContainer-root MuiContainer-maxWidthXl"
     >
       <div
-        class="MuiBox-root MuiBox-root-44"
+        class="MuiBox-root MuiBox-root-2"
       >
         <div
-          class="MuiBox-root MuiBox-root-45"
+          class="MuiBox-root MuiBox-root-3"
         >
           <h1
             class="MuiTypography-root MuiTypography-h1"
@@ -959,7 +916,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             Test Project Name
           </h1>
           <div
-            class="MuiBox-root MuiBox-root-46"
+            class="MuiBox-root MuiBox-root-4"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
@@ -967,10 +924,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
               Project Status:
             </h6>
             <div
-              class="MuiBox-root MuiBox-root-47"
+              class="MuiBox-root MuiBox-root-5"
             >
               <div
-                class="MuiChip-root makeStyles-chip-31 makeStyles-chipActive-32 MuiChip-sizeSmall"
+                class="MuiChip-root makeStyles-chip-6 makeStyles-chipActive-7 MuiChip-sizeSmall"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall"
@@ -979,28 +936,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 </span>
               </div>
             </div>
-            <div
-              class="MuiBox-root MuiBox-root-48"
-            >
-              <div
-                class="MuiChip-root makeStyles-chip-31 makeStyles-chipPriority-36 MuiChip-sizeSmall"
-              >
-                <span
-                  class="MuiChip-label MuiChip-labelSmall"
-                >
-                  Priority
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-      <hr
-        class="MuiDivider-root"
-        hidden=""
-      />
       <div
-        class="MuiBox-root MuiBox-root-49"
+        class="MuiBox-root MuiBox-root-12"
       >
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -1009,19 +949,19 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-8"
           >
             <div
-              class="MuiBox-root MuiBox-root-50"
+              class="MuiBox-root MuiBox-root-13"
             >
               <div
-                class="MuiBox-root MuiBox-root-51"
+                class="MuiBox-root MuiBox-root-14"
               >
                 <div
                   class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-52"
+                    class="MuiBox-root MuiBox-root-15"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-53"
+                      class="MuiBox-root MuiBox-root-16"
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h2"
@@ -1041,16 +981,16 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-54"
+                  class="MuiBox-root MuiBox-root-17"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-55"
+                    class="MuiBox-root MuiBox-root-18"
                   >
                     <div
                       class="MuiToolbar-root MuiToolbar-regular"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-56"
+                        class="MuiBox-root MuiBox-root-19"
                       >
                         <h2
                           class="MuiTypography-root MuiTypography-h2"
@@ -1058,7 +998,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           Restoration Treatments
                         </h2>
                         <div
-                          class="MuiBox-root MuiBox-root-57"
+                          class="MuiBox-root MuiBox-root-20"
                         >
                           <button
                             aria-label="Filter Treatments"
@@ -1098,17 +1038,17 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-58"
+                  class="MuiBox-root MuiBox-root-21"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-59"
+                    class="MuiBox-root MuiBox-root-22"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-60"
+                      class="MuiBox-root MuiBox-root-23"
                       data-testid="map_container"
                     >
                       <div
-                        class="makeStyles-map-61 leaflet-container leaflet-grab leaflet-touch-drag"
+                        class="makeStyles-map-24 leaflet-container leaflet-grab leaflet-touch-drag"
                         id="project_location_form_map"
                         style="position: relative;"
                         tabindex="0"
@@ -1266,7 +1206,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-62"
+                      class="MuiBox-root MuiBox-root-25"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
@@ -1285,22 +1225,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-70"
+                    class="MuiBox-root MuiBox-root-32"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-71"
-                      hidden=""
-                    >
-                      <strong>
-                        Found 0 treatments
-                      </strong>
-                    </div>
-                    <div
-                      class="MuiTableContainer-root MuiBox-root MuiBox-root-72"
+                      class="MuiTableContainer-root MuiBox-root MuiBox-root-33"
                     >
                       <table
                         aria-label="treatments-list-table"
-                        class="MuiTable-root makeStyles-treatmentsTable-63 MuiTable-stickyHeader"
+                        class="MuiTable-root makeStyles-treatmentsTable-26 MuiTable-stickyHeader"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -1320,6 +1252,12 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                               scope="col"
                             >
                               Type
+                            </th>
+                            <th
+                              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                              scope="col"
+                            >
+                              Year
                             </th>
                             <th
                               class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
@@ -1367,7 +1305,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                               colspan="7"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-73"
+                                class="MuiBox-root MuiBox-root-34"
                               >
                                 No Treatments
                               </div>
@@ -1383,10 +1321,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-74"
+                  class="MuiBox-root MuiBox-root-35"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-75"
+                    class="MuiBox-root MuiBox-root-36"
                   >
                     <h3
                       class="MuiTypography-root MuiTypography-h3"
@@ -1395,14 +1333,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     </h3>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-76"
+                    class="MuiBox-root MuiBox-root-37"
                   >
                     <div
                       class="MuiTableContainer-root"
                     >
                       <table
                         aria-label="attachments-list-table"
-                        class="MuiTable-root makeStyles-attachmentsTable-77"
+                        class="MuiTable-root makeStyles-attachmentsTable-38"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -1452,200 +1390,161 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
               class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-86 makeStyles-projectMetadata-79"
+                class="MuiBox-root MuiBox-root-40 makeStyles-projectMetadata-39"
               >
                 <section
-                  class="MuiBox-root MuiBox-root-87"
+                  class="MuiBox-root MuiBox-root-41"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
+                    data-testid="GeneralInfoTitle"
                   >
                     General Information
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-88"
+                  <dl
+                    class="MuiBox-root MuiBox-root-42"
+                    data-testid="general_info_component"
                   >
-                    <dl
-                      class="MuiBox-root MuiBox-root-89"
-                      data-testid="general_info_component"
-                    >
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Project Name:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          Test Project Name
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Region:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                          data-testid="project-region"
-                        />
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Range:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                          data-testid="project-region"
-                        >
-                          test 1
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Start Date:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          Oct 10, 1998
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Completion Date:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          Feb 26, 2100
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Focal Species:
-                        </dd>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
-                        />
-                      </div>
-                    </dl>
-                  </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Project Name
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        Test Project Name
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Region
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                        data-testid="project-region"
+                      />
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Range
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                        data-testid="project-region"
+                      >
+                        test 1
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Start Date
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        Oct 10, 1998
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        End Date
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        Feb 26, 2100
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Focal Species
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      />
+                    </div>
+                  </dl>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-90"
+                  class="MuiBox-root MuiBox-root-43"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
+                    data-testid="ContactsTitle"
                   >
                     Project Contacts
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-91"
+                  <ul
+                    class="makeStyles-projectContactList-44"
                   >
-                    <ul
-                      class="makeStyles-projectContactList-92"
+                    <li
+                      class="MuiBox-root MuiBox-root-46"
                     >
-                      <li
-                        class="MuiBox-root MuiBox-root-95"
+                      <div
+                        class="MuiBox-root MuiBox-root-47"
                       >
-                        <div
-                          class="MuiBox-root MuiBox-root-96"
+                        <svg
+                          class="makeStyles-contactIcon-45"
+                          role="presentation"
+                          style="width: 2.25rem; height: 2.25rem;"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            class="makeStyles-contactIcon-93"
-                            role="presentation"
-                            style="width: 2.25rem; height: 2.25rem;"
-                            viewBox="0 0 24 24"
+                          <path
+                            d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                            style="fill: currentColor;"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <div>
+                          <strong
+                            data-testid="contact_name"
                           >
-                            <path
-                              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
-                              style="fill: currentColor;"
-                            />
-                          </svg>
+                             Amanda Christensen
+                            <sup>
+                              <span
+                                class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                              >
+                                 Primary
+                              </span>
+                            </sup>
+                          </strong>
                         </div>
                         <div>
-                          <div>
-                            <strong
-                              data-testid="contact_name"
-                            >
-                               Amanda Christensen
-                              <sup>
-                                <span
-                                  class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
-                                >
-                                   Primary
-                                </span>
-                              </sup>
-                            </strong>
-                          </div>
-                          <div>
-                            <a
-                              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                              href="#"
-                            >
-                              amanda@christensen.com
-                            </a>
-                          </div>
-                          <div>
-                            Amanda and associates
-                          </div>
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                            href="#"
+                          >
+                            amanda@christensen.com
+                          </a>
                         </div>
-                      </li>
-                    </ul>
-                  </div>
+                        <div>
+                          Amanda and associates
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-97"
-                >
-                  <h3
-                    class="MuiTypography-root MuiTypography-body1"
-                    data-testid="projectPermitsTitle"
-                  >
-                    Permits
-                  </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-98"
-                  >
-                    <ul
-                      class="makeStyles-projectPermitList-99"
-                    >
-                      <li
-                        data-testid="permit_item"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          123 - 
-                          <span>
-                            Permit type
-                          </span>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </section>
-                <hr
-                  class="MuiDivider-root"
-                />
-                <section
-                  class="MuiBox-root MuiBox-root-100"
+                  class="MuiBox-root MuiBox-root-48"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -1653,193 +1552,208 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   >
                     IUCN Conservation Actions Classifications
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-101"
+                  <ul
+                    class="makeStyles-projectIucnList-49"
                   >
-                    <ul
-                      class="makeStyles-projectIucnList-102"
+                    <li
+                      data-testid="iucn_data"
                     >
-                      <li
-                        data-testid="iucn_data"
-                      >
-                        IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
-                      </li>
-                    </ul>
-                  </div>
+                      IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-103"
+                  class="MuiBox-root MuiBox-root-50"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
-                    data-testid="fundingSourcesTitle"
+                    data-testid="PermitsTitle"
+                  >
+                    Permits
+                  </h3>
+                  <ul
+                    class="makeStyles-projectPermitList-51"
+                  >
+                    <li
+                      data-testid="permit_item"
+                    >
+                      <span
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        123 - 
+                        <span>
+                          Permit type
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-52"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="FundingSourceTitle"
                   >
                     Funding Sources
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-104"
+                  <ul
+                    class="makeStyles-projectFundingList-53"
                   >
-                    <ul
-                      class="makeStyles-projectFundingList-105"
+                    <li
+                      data-testid="funding_data"
                     >
-                      <li
-                        data-testid="funding_data"
+                      <div
+                        class="MuiBox-root MuiBox-root-54"
                       >
-                        <div
-                          class="MuiBox-root MuiBox-root-106"
-                        >
-                          <strong
-                            data-testid="agencyTitle"
+                        <strong>
+                          agency name
+                        </strong>
+                      </div>
+                      <dl
+                        class="MuiBox-root MuiBox-root-55"
+                      >
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                           >
-                            agency name
-                          </strong>
+                            Funding Amount:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            $333
+                          </dd>
                         </div>
-                        <dl
-                          class="MuiBox-root MuiBox-root-107"
-                        >
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Funding Amount:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              $333
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Project ID:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              ABC123
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Start Date:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              Apr 14, 2000
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              End Date:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              Apr 13, 2021
-                            </dt>
-                          </div>
-                        </dl>
-                      </li>
-                    </ul>
-                  </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            Project ID:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            ABC123
+                          </dd>
+                        </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            Start Date:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            Apr 14, 2000
+                          </dd>
+                        </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            End Date:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            Apr 13, 2021
+                          </dd>
+                        </div>
+                      </dl>
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-108"
+                  class="MuiBox-root MuiBox-root-56"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
-                    data-testid="partnershipsTitle"
+                    data-testid="PartnershipTitle"
                   >
                     Partnerships
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-109"
+                  <dl
+                    class="MuiBox-root MuiBox-root-58"
                   >
-                    <dl
-                      class="MuiBox-root MuiBox-root-111"
-                    >
-                      <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                          data-testid="indigenousData"
-                        >
-                          Indigenous Partnerships
-                        </dt>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          <span
-                            class="makeStyles-partnerItem-110"
-                            data-testid="indigenous_partners_data"
-                          >
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
-                          </span>
-                          <span
-                            class="makeStyles-partnerItem-110"
-                            data-testid="indigenous_partners_data"
-                          >
-                            First nations code
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
-                          </span>
-                        </dd>
-                      </div>
-                      <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                          data-testid="stakeholderData"
-                        >
-                          Other Partnerships
-                        </dt>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        data-testid="indigenousData"
+                      >
+                        Indigenous
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        <span
+                          class="makeStyles-partnerItem-57"
+                          data-testid="indigenous_partners_data"
                         >
                           <span
-                            class="makeStyles-partnerItem-110"
-                            data-testid="stakeholder_partners_data"
+                            class="seperator"
                           >
-                            partner2
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
+                            , 
                           </span>
+                        </span>
+                        <span
+                          class="makeStyles-partnerItem-57"
+                          data-testid="indigenous_partners_data"
+                        >
+                          First nations code
                           <span
-                            class="makeStyles-partnerItem-110"
-                            data-testid="stakeholder_partners_data"
+                            class="seperator"
                           >
-                            partner3
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
+                            , 
                           </span>
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
+                        </span>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        data-testid="stakeholderData"
+                      >
+                        Other
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        <span
+                          class="makeStyles-partnerItem-57"
+                          data-testid="stakeholder_partners_data"
+                        >
+                          partner2
+                          <span
+                            class="seperator"
+                          >
+                            , 
+                          </span>
+                        </span>
+                        <span
+                          class="makeStyles-partnerItem-57"
+                          data-testid="stakeholder_partners_data"
+                        >
+                          partner3
+                          <span
+                            class="seperator"
+                          >
+                            , 
+                          </span>
+                        </span>
+                      </dd>
+                    </div>
+                  </dl>
                 </section>
               </div>
             </div>
@@ -1854,17 +1768,17 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
 exports[`PublicProjectPage renders public project page when project is loaded (project is completed) 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-126"
+    class="MuiBox-root MuiBox-root-59"
     data-testid="view_project_page_component"
   >
     <div
       class="MuiContainer-root MuiContainer-maxWidthXl"
     >
       <div
-        class="MuiBox-root MuiBox-root-127"
+        class="MuiBox-root MuiBox-root-60"
       >
         <div
-          class="MuiBox-root MuiBox-root-128"
+          class="MuiBox-root MuiBox-root-61"
         >
           <h1
             class="MuiTypography-root MuiTypography-h1"
@@ -1872,7 +1786,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             Test Project Name
           </h1>
           <div
-            class="MuiBox-root MuiBox-root-129"
+            class="MuiBox-root MuiBox-root-62"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
@@ -1880,10 +1794,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
               Project Status:
             </h6>
             <div
-              class="MuiBox-root MuiBox-root-130"
+              class="MuiBox-root MuiBox-root-63"
             >
               <div
-                class="MuiChip-root makeStyles-chip-114 makeStyles-chipPublishedCompleted-116 MuiChip-sizeSmall"
+                class="MuiChip-root makeStyles-chip-64 makeStyles-chipPublishedCompleted-66 MuiChip-sizeSmall"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall"
@@ -1892,28 +1806,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 </span>
               </div>
             </div>
-            <div
-              class="MuiBox-root MuiBox-root-131"
-            >
-              <div
-                class="MuiChip-root makeStyles-chip-114 makeStyles-chipPriority-119 MuiChip-sizeSmall"
-              >
-                <span
-                  class="MuiChip-label MuiChip-labelSmall"
-                >
-                  Priority
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-      <hr
-        class="MuiDivider-root"
-        hidden=""
-      />
       <div
-        class="MuiBox-root MuiBox-root-132"
+        class="MuiBox-root MuiBox-root-70"
       >
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -1922,19 +1819,19 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-8"
           >
             <div
-              class="MuiBox-root MuiBox-root-133"
+              class="MuiBox-root MuiBox-root-71"
             >
               <div
-                class="MuiBox-root MuiBox-root-134"
+                class="MuiBox-root MuiBox-root-72"
               >
                 <div
                   class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-135"
+                    class="MuiBox-root MuiBox-root-73"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-136"
+                      class="MuiBox-root MuiBox-root-74"
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h2"
@@ -1954,16 +1851,16 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-137"
+                  class="MuiBox-root MuiBox-root-75"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-138"
+                    class="MuiBox-root MuiBox-root-76"
                   >
                     <div
                       class="MuiToolbar-root MuiToolbar-regular"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-139"
+                        class="MuiBox-root MuiBox-root-77"
                       >
                         <h2
                           class="MuiTypography-root MuiTypography-h2"
@@ -1971,7 +1868,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           Restoration Treatments
                         </h2>
                         <div
-                          class="MuiBox-root MuiBox-root-140"
+                          class="MuiBox-root MuiBox-root-78"
                         >
                           <button
                             aria-label="Filter Treatments"
@@ -2011,17 +1908,17 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-141"
+                  class="MuiBox-root MuiBox-root-79"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-142"
+                    class="MuiBox-root MuiBox-root-80"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-143"
+                      class="MuiBox-root MuiBox-root-81"
                       data-testid="map_container"
                     >
                       <div
-                        class="makeStyles-map-144 leaflet-container leaflet-grab leaflet-touch-drag"
+                        class="makeStyles-map-82 leaflet-container leaflet-grab leaflet-touch-drag"
                         id="project_location_form_map"
                         style="position: relative;"
                         tabindex="0"
@@ -2179,7 +2076,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-145"
+                      class="MuiBox-root MuiBox-root-83"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
@@ -2198,22 +2095,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-153"
+                    class="MuiBox-root MuiBox-root-90"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-154"
-                      hidden=""
-                    >
-                      <strong>
-                        Found 0 treatments
-                      </strong>
-                    </div>
-                    <div
-                      class="MuiTableContainer-root MuiBox-root MuiBox-root-155"
+                      class="MuiTableContainer-root MuiBox-root MuiBox-root-91"
                     >
                       <table
                         aria-label="treatments-list-table"
-                        class="MuiTable-root makeStyles-treatmentsTable-146 MuiTable-stickyHeader"
+                        class="MuiTable-root makeStyles-treatmentsTable-84 MuiTable-stickyHeader"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -2233,6 +2122,12 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                               scope="col"
                             >
                               Type
+                            </th>
+                            <th
+                              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                              scope="col"
+                            >
+                              Year
                             </th>
                             <th
                               class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
@@ -2280,7 +2175,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                               colspan="7"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-156"
+                                class="MuiBox-root MuiBox-root-92"
                               >
                                 No Treatments
                               </div>
@@ -2296,10 +2191,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-157"
+                  class="MuiBox-root MuiBox-root-93"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-158"
+                    class="MuiBox-root MuiBox-root-94"
                   >
                     <h3
                       class="MuiTypography-root MuiTypography-h3"
@@ -2308,14 +2203,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     </h3>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-159"
+                    class="MuiBox-root MuiBox-root-95"
                   >
                     <div
                       class="MuiTableContainer-root"
                     >
                       <table
                         aria-label="attachments-list-table"
-                        class="MuiTable-root makeStyles-attachmentsTable-160"
+                        class="MuiTable-root makeStyles-attachmentsTable-96"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -2365,200 +2260,161 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
               class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-169 makeStyles-projectMetadata-162"
+                class="MuiBox-root MuiBox-root-98 makeStyles-projectMetadata-97"
               >
                 <section
-                  class="MuiBox-root MuiBox-root-170"
+                  class="MuiBox-root MuiBox-root-99"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
+                    data-testid="GeneralInfoTitle"
                   >
                     General Information
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-171"
+                  <dl
+                    class="MuiBox-root MuiBox-root-100"
+                    data-testid="general_info_component"
                   >
-                    <dl
-                      class="MuiBox-root MuiBox-root-172"
-                      data-testid="general_info_component"
-                    >
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Project Name:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          Test Project Name
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Region:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                          data-testid="project-region"
-                        />
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Range:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                          data-testid="project-region"
-                        >
-                          test 1
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Start Date:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          Oct 10, 1998
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Completion Date:
-                        </dd>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          Feb 26, 2021
-                        </dt>
-                      </div>
-                      <div>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                        >
-                          Focal Species:
-                        </dd>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
-                        />
-                      </div>
-                    </dl>
-                  </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Project Name
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        Test Project Name
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Region
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                        data-testid="project-region"
+                      />
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Range
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                        data-testid="project-region"
+                      >
+                        test 1
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Start Date
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        Oct 10, 1998
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        End Date
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        Feb 26, 2021
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                      >
+                        Focal Species
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      />
+                    </div>
+                  </dl>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-173"
+                  class="MuiBox-root MuiBox-root-101"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
+                    data-testid="ContactsTitle"
                   >
                     Project Contacts
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-174"
+                  <ul
+                    class="makeStyles-projectContactList-102"
                   >
-                    <ul
-                      class="makeStyles-projectContactList-175"
+                    <li
+                      class="MuiBox-root MuiBox-root-104"
                     >
-                      <li
-                        class="MuiBox-root MuiBox-root-178"
+                      <div
+                        class="MuiBox-root MuiBox-root-105"
                       >
-                        <div
-                          class="MuiBox-root MuiBox-root-179"
+                        <svg
+                          class="makeStyles-contactIcon-103"
+                          role="presentation"
+                          style="width: 2.25rem; height: 2.25rem;"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            class="makeStyles-contactIcon-176"
-                            role="presentation"
-                            style="width: 2.25rem; height: 2.25rem;"
-                            viewBox="0 0 24 24"
+                          <path
+                            d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
+                            style="fill: currentColor;"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <div>
+                          <strong
+                            data-testid="contact_name"
                           >
-                            <path
-                              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"
-                              style="fill: currentColor;"
-                            />
-                          </svg>
+                             Amanda Christensen
+                            <sup>
+                              <span
+                                class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                              >
+                                 Primary
+                              </span>
+                            </sup>
+                          </strong>
                         </div>
                         <div>
-                          <div>
-                            <strong
-                              data-testid="contact_name"
-                            >
-                               Amanda Christensen
-                              <sup>
-                                <span
-                                  class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
-                                >
-                                   Primary
-                                </span>
-                              </sup>
-                            </strong>
-                          </div>
-                          <div>
-                            <a
-                              class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                              href="#"
-                            >
-                              amanda@christensen.com
-                            </a>
-                          </div>
-                          <div>
-                            Amanda and associates
-                          </div>
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                            href="#"
+                          >
+                            amanda@christensen.com
+                          </a>
                         </div>
-                      </li>
-                    </ul>
-                  </div>
+                        <div>
+                          Amanda and associates
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-180"
-                >
-                  <h3
-                    class="MuiTypography-root MuiTypography-body1"
-                    data-testid="projectPermitsTitle"
-                  >
-                    Permits
-                  </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-181"
-                  >
-                    <ul
-                      class="makeStyles-projectPermitList-182"
-                    >
-                      <li
-                        data-testid="permit_item"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          123 - 
-                          <span>
-                            Permit type
-                          </span>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </section>
-                <hr
-                  class="MuiDivider-root"
-                />
-                <section
-                  class="MuiBox-root MuiBox-root-183"
+                  class="MuiBox-root MuiBox-root-106"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -2566,193 +2422,208 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   >
                     IUCN Conservation Actions Classifications
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-184"
+                  <ul
+                    class="makeStyles-projectIucnList-107"
                   >
-                    <ul
-                      class="makeStyles-projectIucnList-185"
+                    <li
+                      data-testid="iucn_data"
                     >
-                      <li
-                        data-testid="iucn_data"
-                      >
-                        IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
-                      </li>
-                    </ul>
-                  </div>
+                      IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-186"
+                  class="MuiBox-root MuiBox-root-108"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
-                    data-testid="fundingSourcesTitle"
+                    data-testid="PermitsTitle"
+                  >
+                    Permits
+                  </h3>
+                  <ul
+                    class="makeStyles-projectPermitList-109"
+                  >
+                    <li
+                      data-testid="permit_item"
+                    >
+                      <span
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        123 - 
+                        <span>
+                          Permit type
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+                </section>
+                <hr
+                  class="MuiDivider-root"
+                />
+                <section
+                  class="MuiBox-root MuiBox-root-110"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-body1"
+                    data-testid="FundingSourceTitle"
                   >
                     Funding Sources
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-187"
+                  <ul
+                    class="makeStyles-projectFundingList-111"
                   >
-                    <ul
-                      class="makeStyles-projectFundingList-188"
+                    <li
+                      data-testid="funding_data"
                     >
-                      <li
-                        data-testid="funding_data"
+                      <div
+                        class="MuiBox-root MuiBox-root-112"
                       >
-                        <div
-                          class="MuiBox-root MuiBox-root-189"
-                        >
-                          <strong
-                            data-testid="agencyTitle"
+                        <strong>
+                          agency name
+                        </strong>
+                      </div>
+                      <dl
+                        class="MuiBox-root MuiBox-root-113"
+                      >
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                           >
-                            agency name
-                          </strong>
+                            Funding Amount:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            $333
+                          </dd>
                         </div>
-                        <dl
-                          class="MuiBox-root MuiBox-root-190"
-                        >
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Funding Amount:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              $333
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Project ID:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              ABC123
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              Start Date:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              Apr 14, 2000
-                            </dt>
-                          </div>
-                          <div>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                            >
-                              End Date:
-                            </dt>
-                            <dt
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              Apr 13, 2021
-                            </dt>
-                          </div>
-                        </dl>
-                      </li>
-                    </ul>
-                  </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            Project ID:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            ABC123
+                          </dd>
+                        </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            Start Date:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            Apr 14, 2000
+                          </dd>
+                        </div>
+                        <div>
+                          <dt
+                            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                          >
+                            End Date:
+                          </dt>
+                          <dd
+                            class="MuiTypography-root MuiTypography-body2"
+                          >
+                            Apr 13, 2021
+                          </dd>
+                        </div>
+                      </dl>
+                    </li>
+                  </ul>
                 </section>
                 <hr
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-191"
+                  class="MuiBox-root MuiBox-root-114"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
-                    data-testid="partnershipsTitle"
+                    data-testid="PartnershipTitle"
                   >
                     Partnerships
                   </h3>
-                  <div
-                    class="MuiBox-root MuiBox-root-192"
+                  <dl
+                    class="MuiBox-root MuiBox-root-116"
                   >
-                    <dl
-                      class="MuiBox-root MuiBox-root-194"
-                    >
-                      <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                          data-testid="indigenousData"
-                        >
-                          Indigenous Partnerships
-                        </dt>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
-                        >
-                          <span
-                            class="makeStyles-partnerItem-193"
-                            data-testid="indigenous_partners_data"
-                          >
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
-                          </span>
-                          <span
-                            class="makeStyles-partnerItem-193"
-                            data-testid="indigenous_partners_data"
-                          >
-                            First nations code
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
-                          </span>
-                        </dd>
-                      </div>
-                      <div>
-                        <dt
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                          data-testid="stakeholderData"
-                        >
-                          Other Partnerships
-                        </dt>
-                        <dd
-                          class="MuiTypography-root MuiTypography-body2"
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        data-testid="indigenousData"
+                      >
+                        Indigenous
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        <span
+                          class="makeStyles-partnerItem-115"
+                          data-testid="indigenous_partners_data"
                         >
                           <span
-                            class="makeStyles-partnerItem-193"
-                            data-testid="stakeholder_partners_data"
+                            class="seperator"
                           >
-                            partner2
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
+                            , 
                           </span>
+                        </span>
+                        <span
+                          class="makeStyles-partnerItem-115"
+                          data-testid="indigenous_partners_data"
+                        >
+                          First nations code
                           <span
-                            class="makeStyles-partnerItem-193"
-                            data-testid="stakeholder_partners_data"
+                            class="seperator"
                           >
-                            partner3
-                            <span
-                              class="seperator"
-                            >
-                              , 
-                            </span>
+                            , 
                           </span>
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
+                        </span>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        data-testid="stakeholderData"
+                      >
+                        Other
+                      </dt>
+                      <dd
+                        class="MuiTypography-root MuiTypography-body2"
+                      >
+                        <span
+                          class="makeStyles-partnerItem-115"
+                          data-testid="stakeholder_partners_data"
+                        >
+                          partner2
+                          <span
+                            class="seperator"
+                          >
+                            , 
+                          </span>
+                        </span>
+                        <span
+                          class="makeStyles-partnerItem-115"
+                          data-testid="stakeholder_partners_data"
+                        >
+                          partner3
+                          <span
+                            class="seperator"
+                          >
+                            , 
+                          </span>
+                        </span>
+                      </dd>
+                    </div>
+                  </dl>
                 </section>
               </div>
             </div>

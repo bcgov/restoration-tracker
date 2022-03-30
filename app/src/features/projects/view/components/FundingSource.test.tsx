@@ -1,14 +1,13 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import FundingSource from './FundingSource';
-jest.mock('../../../../hooks/useRestorationTrackerApi');
+
 const mockRefresh = jest.fn();
 
 describe('FundingSource', () => {
-  it('renders data correctly', async () => {
-    const { getByTestId } = render(
+  it('renders correctly with 1 funding source', () => {
+    const { getByText } = render(
       <FundingSource
         projectForViewData={{
           ...getProjectForViewResponse,
@@ -22,22 +21,25 @@ describe('FundingSource', () => {
                 investment_action_category: 1,
                 investment_action_category_name: 'investment action',
                 funding_amount: 333,
-                start_date: '2000-04-14',
-                end_date: '2021-04-13',
+                start_date: '2021-01-10',
+                end_date: '2021-01-20',
                 revision_count: 1
               }
             ]
           }
         }}
-        codes={codes}
         refresh={mockRefresh}
       />
     );
 
-    expect(getByTestId('funding_data')).toBeInTheDocument();
+    expect(getByText('agency name', { exact: false })).toBeVisible();
+    expect(getByText('$333', { exact: false })).toBeVisible();
+    expect(getByText('ABC123', { exact: false })).toBeVisible();
+    expect(getByText('Jan 10, 2021', { exact: false })).toBeVisible();
+    expect(getByText('Jan 20, 2021', { exact: false })).toBeVisible();
   });
 
-  it('renders correctly with no funding', () => {
+  it('renders correctly with no funding sources', () => {
     const { getByTestId } = render(
       <FundingSource
         projectForViewData={{
@@ -46,11 +48,10 @@ describe('FundingSource', () => {
             fundingSources: []
           }
         }}
-        codes={codes}
         refresh={mockRefresh}
       />
     );
 
-    expect(getByTestId('no_funding_loaded')).toBeVisible();
+    expect(getByTestId('no_funding_sources')).toBeVisible();
   });
 });

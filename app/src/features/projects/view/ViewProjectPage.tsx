@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Dialog from '@material-ui/core/Dialog';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
@@ -36,36 +35,6 @@ import ProjectDetailsPage from './ProjectDetailsPage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    projectDetailDrawer: {
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        overflow: 'hidden',
-        width: '30rem'
-      }
-    },
-    projectTitle: {
-      margin: 0,
-      fontSize: '1.5rem',
-      fontWeight: 400
-    },
-    tabs: {
-      flexDirection: 'row',
-      '& .MuiTabs-indicator': {
-        backgroundColor: '#1a5a96'
-      },
-      '& .MuiTab-root.Mui-selected': {
-        color: '#1a5a96'
-      }
-    },
-    tabPanel: {
-      overflowY: 'auto'
-    },
-    tabIcon: {
-      verticalAlign: 'middle'
-    },
-    projectLocationBoundary: {
-      background: '#ffffff'
-    },
     titleContainerActions: {
       '& button + button': {
         marginLeft: theme.spacing(1)
@@ -269,8 +238,6 @@ const ViewProjectPage: React.FC = () => {
               </Box>
             </RoleGuard>
           </Box>
-
-          <Divider hidden></Divider>
 
           <Box mt={2}>
             <Grid container spacing={3}>

@@ -1,15 +1,13 @@
 import { render } from '@testing-library/react';
-import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import React from 'react';
-import IUCNClassification from './IUCNClassification';
 import { codes } from 'test-helpers/code-helpers';
-
-jest.mock('../../../../hooks/useRestorationTrackerApi');
+import { getProjectForViewResponse } from 'test-helpers/project-helpers';
+import IUCNClassification from './IUCNClassification';
 
 const mockRefresh = jest.fn();
 
 describe('IUCNClassification', () => {
-  it('renders correctly with no classification details', () => {
+  it('renders correctly with no IUCN classifications', () => {
     const { getByTestId } = render(
       <IUCNClassification
         projectForViewData={{
@@ -26,8 +24,8 @@ describe('IUCNClassification', () => {
     expect(getByTestId('no_classification')).toBeVisible();
   });
 
-  it('renders correctly with classification details', () => {
-    const { getByTestId } = render(
+  it('renders correctly with 1 IUCN classification', () => {
+    const { getByTestId, getByText } = render(
       <IUCNClassification
         projectForViewData={{
           ...getProjectForViewResponse,
@@ -47,5 +45,9 @@ describe('IUCNClassification', () => {
     );
 
     expect(getByTestId('iucn_data')).toBeVisible();
+
+    expect(getByText('IUCN class', { exact: false })).toBeVisible();
+    expect(getByText('IUCN subclass 1', { exact: false })).toBeVisible();
+    expect(getByText('IUCN subclass 2', { exact: false })).toBeVisible();
   });
 });

@@ -1,19 +1,17 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Dialog from '@material-ui/core/Dialog';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft } from '@mdi/js';
 import { Icon } from '@mdi/react';
-import clsx from 'clsx';
-import { ProjectStatusType } from 'constants/misc';
+import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/ProjectChips';
+import TreatmentList from 'features/projects/view/components/TreatmentList';
+import ProjectDetailsPage from 'features/projects/view/ProjectDetailsPage';
 import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import {
@@ -22,79 +20,11 @@ import {
   IGetProjectTreatment,
   TreatmentSearchCriteria
 } from 'interfaces/useProjectApi.interface';
-import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import PublicLocationBoundary from './components/PublicLocationBoundary';
 import PublicProjectAttachments from './components/PublicProjectAttachments';
 import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
-import PublicTreatmentList from './components/PublicTreatmentList';
-import PublicProjectDetails from './PublicProjectDetails';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    projectDetailDrawer: {
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        overflow: 'hidden',
-        width: '30rem'
-      }
-    },
-    projectTitle: {
-      margin: 0,
-      fontSize: '1.5rem',
-      fontWeight: 400
-    },
-    chip: {
-      color: 'white',
-      textTransform: 'uppercase',
-      fontSize: '11px',
-      fontWeight: 700,
-      letterSpacing: '0.02rem'
-    },
-    chipActive: {
-      backgroundColor: theme.palette.success.main
-    },
-    chipPublishedCompleted: {
-      backgroundColor: theme.palette.success.main
-    },
-    chipUnpublished: {
-      backgroundColor: theme.palette.text.disabled
-    },
-    chipDraft: {
-      backgroundColor: theme.palette.info.main
-    },
-    chipPriority: {
-      backgroundColor: theme.palette.info.dark
-    },
-    chipNotAPriority: {
-      backgroundColor: theme.palette.text.disabled
-    },
-    tabs: {
-      flexDirection: 'row',
-      '& .MuiTabs-indicator': {
-        backgroundColor: '#1a5a96'
-      },
-      '& .MuiTab-root.Mui-selected': {
-        color: '#1a5a96'
-      }
-    },
-    tabPanel: {
-      overflowY: 'auto'
-    },
-    tabIcon: {
-      verticalAlign: 'middle'
-    },
-    projectLocationBoundary: {
-      background: '#ffffff'
-    },
-    titleContainerActions: {
-      '& button + button': {
-        marginLeft: theme.spacing(1)
-      }
-    }
-  })
-);
 
 /**
  * Page to display a single Public (published) Project.
@@ -102,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
  * @return {*}
  */
 const PublicProjectPage = () => {
-  const classes = useStyles();
   const urlParams = useParams();
   const projectId = urlParams['id'];
 
@@ -175,35 +104,7 @@ const PublicProjectPage = () => {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
 
-  const end_date = projectWithDetails.project.end_date;
-  const completion_status =
-    (end_date && moment(end_date).endOf('day').isBefore(moment()) && ProjectStatusType.COMPLETED) ||
-    ProjectStatusType.ACTIVE;
-
-  const priority_status = ProjectStatusType.NOT_A_PRIORITY;
-
-  const getChipIcon = (status_name: string) => {
-    let chipLabel;
-    let chipStatusClass;
-    if (ProjectStatusType.ACTIVE === status_name) {
-      chipLabel = 'Active';
-      chipStatusClass = classes.chipActive;
-    } else if (ProjectStatusType.COMPLETED === status_name) {
-      chipLabel = 'Completed';
-      chipStatusClass = classes.chipPublishedCompleted;
-    } else if (ProjectStatusType.DRAFT === status_name) {
-      chipLabel = 'Draft';
-      chipStatusClass = classes.chipDraft;
-    } else if (ProjectStatusType.PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipPriority;
-    } else if (ProjectStatusType.NOT_A_PRIORITY === status_name) {
-      chipLabel = 'Priority';
-      chipStatusClass = classes.chipNotAPriority;
-    }
-
-    return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
-  };
+  const isPriority = projectWithDetails.location.priority === 'true';
 
   // Full Screen Map Dialog
   const openMapDialog = () => {
@@ -225,17 +126,20 @@ const PublicProjectPage = () => {
                 <Typography variant="subtitle2" color="textSecondary">
                   Project Status:
                 </Typography>
-                <Box ml={1}>{getChipIcon(completion_status)}</Box>
-                {priority_status && (
+                <Box ml={1}>
+                  <ProjectStatusChip
+                    startDate={projectWithDetails.project.start_date}
+                    endDate={projectWithDetails.project.end_date}
+                  />
+                </Box>
+                {isPriority && (
                   <Box ml={0.5}>
-                    <Chip size="small" className={clsx(classes.chip, classes.chipPriority)} label="Priority" />
+                    <ProjectPriorityChip />
                   </Box>
                 )}
               </Box>
             </Box>
           </Box>
-
-          <Divider hidden></Divider>
 
           <Box mt={2}>
             <Grid container spacing={3}>
@@ -270,11 +174,7 @@ const PublicProjectPage = () => {
                           </Button>
                         </Box>
                       </Box>
-                      <PublicTreatmentList
-                        treatmentList={treatmentList}
-                        getTreatments={getTreatments}
-                        refresh={getProject}
-                      />
+                      <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
                     </Box>
                   </Paper>
 
@@ -286,7 +186,7 @@ const PublicProjectPage = () => {
 
               <Grid item md={4}>
                 <Paper elevation={2}>
-                  <PublicProjectDetails
+                  <ProjectDetailsPage
                     projectForViewData={projectWithDetails}
                     codes={codes.codes}
                     refresh={getProject}
@@ -318,7 +218,7 @@ const PublicProjectPage = () => {
             />
           </Box>
           <Box flex="0 0 auto" height="300px">
-            <PublicTreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+            <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
           </Box>
         </Box>
       </Dialog>

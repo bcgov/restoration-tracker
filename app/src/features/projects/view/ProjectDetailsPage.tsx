@@ -101,7 +101,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="PermitsTitle">
           Permits
         </Typography>
-        <ProjectPermits projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+        <ProjectPermits projectForViewData={projectForViewData} refresh={refresh} />
       </Box>
 
       <Divider></Divider>
@@ -110,7 +110,7 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="FundingSourceTitle">
           Funding Sources
         </Typography>
-        <FundingSource projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+        <FundingSource projectForViewData={projectForViewData} refresh={refresh} />
       </Box>
 
       <Divider></Divider>

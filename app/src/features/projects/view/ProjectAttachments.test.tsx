@@ -1,10 +1,10 @@
 import {
   cleanup,
   fireEvent,
-  render,
-  waitFor,
+  getByTestId as rawGetByTestId,
   queryByTestId as rawQueryByTestId,
-  getByTestId as rawGetByTestId
+  render,
+  waitFor
 } from '@testing-library/react';
 import { DialogContextProvider } from 'contexts/dialogContext';
 import { createMemoryHistory } from 'history';
@@ -63,33 +63,33 @@ describe('ProjectAttachments', () => {
     cleanup();
   });
 
-  // it('correctly opens and closes the file upload dialog', async () => {
-  //   const { getByTestId, getByText, queryByText } = render(
-  //     <Router history={history}>
-  //       <ProjectAttachments
-  //         attachmentsList={attachmentsList}
-  //         getAttachments={mockRestorationTrackerApi().project.getProjectAttachments}
-  //       />
-  //     </Router>
-  //   );
+  it('correctly opens and closes the file upload dialog', async () => {
+    const { getByTestId, getByText, queryByText } = render(
+      <Router history={history}>
+        <ProjectAttachments
+          attachmentsList={attachmentsList}
+          getAttachments={mockRestorationTrackerApi().project.getProjectAttachments}
+        />
+      </Router>
+    );
 
-  //   expect(getByTestId('h3-button-toolbar-Upload')).toBeInTheDocument();
-  //   expect(queryByText('Upload Attachments')).not.toBeInTheDocument();
+    expect(getByTestId('h2-button-toolbar-Upload')).toBeInTheDocument();
+    expect(queryByText('Upload Documents', { exact: true })).not.toBeInTheDocument();
 
-  //   fireEvent.click(getByTestId('h3-button-toolbar-Upload'));
+    fireEvent.click(getByTestId('h2-button-toolbar-Upload'));
 
-  //   await waitFor(() => {
-  //     expect(queryByText('Upload Attachments')).toBeInTheDocument();
-  //   });
+    await waitFor(() => {
+      expect(queryByText('Upload Documents', { exact: true })).toBeInTheDocument();
+    });
 
-  //   expect(getByText('Close')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
 
-  //   fireEvent.click(getByText('Close'));
+    fireEvent.click(getByText('Close'));
 
-  //   await waitFor(() => {
-  //     expect(queryByText('Upload Attachments')).not.toBeInTheDocument();
-  //   });
-  // });
+    await waitFor(() => {
+      expect(queryByText('Upload Documents', { exact: true })).not.toBeInTheDocument();
+    });
+  });
 
   it('renders correctly with no attachments', () => {
     const { getByText } = render(

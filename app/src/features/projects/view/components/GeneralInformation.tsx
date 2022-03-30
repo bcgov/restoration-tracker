@@ -42,7 +42,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
   return (
     <Box component="dl" data-testid="general_info_component">
-      <div hidden>
+      <div>
         <Typography variant="body2" component="dt" color="textSecondary">
           Project Name
         </Typography>

@@ -201,12 +201,6 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   return (
     <>
       <Box display="flex" flexDirection="column" height="100%">
-        <Box alignItems="center" justifyContent="space-between" p={2} hidden>
-          <strong>
-            Found {treatmentList?.length} {treatmentList?.length !== 1 ? 'treatments' : 'treatment'}
-          </strong>
-        </Box>
-
         <Box component={TableContainer} maxHeight="500px">
           <Table stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
             <TableHead>

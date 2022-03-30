@@ -2,7 +2,6 @@ import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 import { getFormattedAmount, getFormattedDate } from 'utils/Utils';
@@ -24,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface IProjectFundingProps {
   projectForViewData: IGetProjectForViewResponse;
-  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 
@@ -81,7 +79,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
                     End Date:
                   </Typography>
                   <Typography variant="body2" component="dd">
-                    {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.end)}
+                    {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, item.end_date)}
                   </Typography>
                 </div>
               </Box>
@@ -90,7 +88,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
 
         {!hasFundingSources && (
           <li>
-            <Typography variant="body2" data-testid="no_funding_loaded">
+            <Typography variant="body2" data-testid="no_funding_sources">
               No Funding Sources
             </Typography>
           </li>
