@@ -112,7 +112,7 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           required={endRequired}
           value={formattedEndDateValue}
           type="date"
-          onClick={() => {
+          onFocus={() => {
             fillInEmptyEndDate();
           }}
           InputProps={{

@@ -18,14 +18,14 @@ export const ScrollToFormikError: React.FC = () => {
       setOpenSnackbar({ open: true, msg: message });
     };
 
-    const getFieldErrorNames = (obj: Object, prefix = '', result: string[] = []) => {
+    const getFieldErrorNames = (obj: object, prefix = '', result: string[] = []) => {
       Object.keys(obj).forEach((key) => {
         const value = obj[key];
         if (!value) return;
 
         key = Number(key) || key === '0' ? `[${key}]` : key;
 
-        var nextKey = prefix ? `${prefix}.${key}` : key;
+        const nextKey = prefix ? `${prefix}.${key}` : key;
 
         if (typeof value === 'object') {
           getFieldErrorNames(value, nextKey, result);
@@ -39,7 +39,7 @@ export const ScrollToFormikError: React.FC = () => {
     const getFieldTitle = (absoluteErrorName: string) => {
       const fieldTitleArray = absoluteErrorName.split('.');
       const fieldTitleSplit = fieldTitleArray[fieldTitleArray.length - 1].split('_');
-      var fieldTitleUpperCase = '';
+      let fieldTitleUpperCase = '';
       fieldTitleSplit.forEach((item) => {
         fieldTitleUpperCase += `${item.charAt(0).toUpperCase() + item.slice(1)} `;
       });

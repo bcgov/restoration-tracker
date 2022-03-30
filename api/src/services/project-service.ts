@@ -19,7 +19,8 @@ import {
   GetPartnershipsData,
   GetPermitData,
   GetProjectData,
-  GetSpeciesData
+  GetSpeciesData,
+  ProjectObject
 } from '../models/project-view';
 import { IUpdateProject } from '../paths/project/{projectId}/update';
 import { queries } from '../queries/queries';
@@ -133,31 +134,10 @@ export class ProjectService extends DBService {
    * @param {number} projectId
    * @param {boolean} [isPublic=false] Set to `true` if the return value should not include data that is not meant for
    * public consumption.
-   * @return {*}  {Promise<{
-   *     project: GetProjectData;
-   *     species: GetSpeciesData;
-   *     iucn: GetIUCNClassificationData;
-   *     contact: GetContactData;
-   *     permit: GetPermitData;
-   *     partnerships: GetPartnershipsData;
-   *     funding: GetFundingData;
-   *     location: GetLocationData;
-   *   }>}
+   * @return {*}  {Promise<ProjectObject>}
    * @memberof ProjectService
    */
-  async getProjectById(
-    projectId: number,
-    isPublic = false
-  ): Promise<{
-    project: GetProjectData;
-    species: GetSpeciesData;
-    iucn: GetIUCNClassificationData;
-    contact: GetContactData;
-    permit: GetPermitData;
-    partnerships: GetPartnershipsData;
-    funding: GetFundingData;
-    location: GetLocationData;
-  }> {
+  async getProjectById(projectId: number, isPublic = false): Promise<ProjectObject> {
     const [
       projectData,
       speciesData,

@@ -1,7 +1,19 @@
 import { Feature } from 'geojson';
 
+export type ProjectObject = {
+  project: GetProjectData;
+  species: GetSpeciesData;
+  iucn: GetIUCNClassificationData;
+  contact: GetContactData;
+  permit: GetPermitData;
+  partnerships: GetPartnershipsData;
+  funding: GetFundingData;
+  location: GetLocationData;
+};
+
 export class GetProjectData {
   project_id: number;
+  uuid: string;
   project_name: string;
   start_date: string;
   end_date: string;
@@ -11,6 +23,7 @@ export class GetProjectData {
 
   constructor(projectData?: any) {
     this.project_id = projectData?.project_id || null;
+    this.uuid = projectData?.uuid || null;
     this.project_name = projectData?.name || '';
     this.start_date = projectData?.start_date || null;
     this.end_date = projectData?.end_date || null;

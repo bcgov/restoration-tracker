@@ -30,11 +30,6 @@ const useStyles = makeStyles({
       verticalAlign: 'top'
     }
   },
-  accordion: {
-    '& .MuiAccordionDetails-root': {
-      padding: 0
-    }
-  },
   pagination: {
     flex: '0 0 auto'
   },
