@@ -3,9 +3,9 @@ import { Formik } from 'formik';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
 import ProjectLocationForm, {
-    IProjectLocationForm,
-    ProjectLocationFormInitialValues,
-    ProjectLocationFormYupSchema
+  IProjectLocationForm,
+  ProjectLocationFormInitialValues,
+  ProjectLocationFormYupSchema
 } from './ProjectLocationForm';
 
 describe('ProjectLocationForm', () => {
