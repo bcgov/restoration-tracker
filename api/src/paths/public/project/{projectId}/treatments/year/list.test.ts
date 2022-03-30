@@ -3,11 +3,12 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as db from '../../../../../../database/db';
-import { getMockDBConnection } from '../../../../../../__mocks__/db';
 import { HTTPError } from '../../../../../../errors/custom-error';
-import { getTreatmentYears } from './list';
 import { TreatmentService } from '../../../../../../services/treatment-service';
-import { registerMockDBConnection } from '../../../../../../__mocks__/db';
+import { getMockDBConnection, getRequestHandlerMocks } from '../../../../../../__mocks__/db';
+import * as list from './list';
+import { getTreatmentYears } from './list';
+
 
 chai.use(sinonChai);
 
@@ -52,21 +53,47 @@ describe('getTreatmentYears', () => {
       }
     ];
 
-    const mockDBConnection = registerMockDBConnection({
-      query: sinon.stub().resolves({ rows: sampleTreatmentYears })
-    });
+    const dbConnectionObj = getMockDBConnection();
 
-    const treatmentService = new TreatmentService(mockDBConnection);
+    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
-    const response = await treatmentService.getProjectTreatmentsYears(1);
+    mockReq.params = {
+      projectId: '1'
+    };
 
-    expect(response).to.be.eql([
-      {
-        year: '2020'
-      },
-      {
-        year: '2021'
-      }
-    ]);
+    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+
+    sinon.stub(TreatmentService.prototype, 'getProjectTreatmentsYears').resolves(sampleTreatmentYears);
+
+    const requestHandler = list.getTreatmentYears();
+
+    await requestHandler(mockReq, mockRes, mockNext);
+
+    expect(mockRes.statusValue).to.equal(200);
+    expect(mockRes.jsonValue).to.equal(sampleTreatmentYears);
+  });
+
+  it('should throw an error when getProjectTreatmentYears fails', async () => {
+    const dbConnectionObj = getMockDBConnection({ rollback: sinon.stub(), release: sinon.stub() });
+
+    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
+
+    sinon.stub(TreatmentService.prototype, 'getProjectTreatmentsYears').rejects(new Error('a test error'));
+
+    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
+
+    mockReq.params = {
+      projectId: '1'
+    };
+
+    try {
+      const requestHandler = list.getTreatmentYears();
+      await requestHandler(mockReq, mockRes, mockNext);
+      expect.fail();
+    } catch (actualError) {
+      expect(dbConnectionObj.rollback).to.have.been.called;
+      expect(dbConnectionObj.release).to.have.been.called;
+      expect((actualError as HTTPError).message).to.equal('a test error');
+    }
   });
 });
