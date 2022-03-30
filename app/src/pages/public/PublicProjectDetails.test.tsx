@@ -24,15 +24,14 @@ describe('PublicProjectDetails', () => {
   jest.spyOn(console, 'debug').mockImplementation(() => {});
 
   it('renders correctly', async () => {
-    const { getByText, getByTestId, queryAllByText } = render(
+    const { getByTestId, queryAllByText } = render(
       <Router history={history}>
         <PublicProjectDetails projectForViewData={getProjectForViewResponse} codes={codes} refresh={jest.fn()} />
       </Router>
     );
 
     await waitFor(() => {
-      expect(queryAllByText('Test Project Name', { exact: false }).length).toEqual(2);
-      expect(getByText('Completed', { exact: false })).toBeVisible();
+      expect(queryAllByText('Test Project Name', { exact: false }).length).toEqual(1);
       expect(getByTestId('projectPermitsTitle')).toBeVisible();
       expect(getByTestId('IUCNTitle')).toBeVisible();
       expect(getByTestId('fundingSourcesTitle')).toBeVisible();
