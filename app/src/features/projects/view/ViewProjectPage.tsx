@@ -22,10 +22,10 @@ import { APIError } from 'hooks/api/useAxios';
 import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import {
-    IGetProjectAttachment,
-    IGetProjectForViewResponse,
-    IGetProjectTreatment,
-    TreatmentSearchCriteria
+  IGetProjectAttachment,
+  IGetProjectForViewResponse,
+  IGetProjectTreatment,
+  TreatmentSearchCriteria
 } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';

@@ -164,30 +164,43 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     );
   };
 
-  const formatTreatmentYearColumnTable = (treatments: IGetTreatmentItem[], returnTreatments: boolean) => {
+  const formatTreatmentYears = (treatments: IGetTreatmentItem[]) => {
     const formattedTreatmentsYears = handleFormattingTreatmentsYears(treatments);
 
     const filteredYears: JSX.Element[] = [];
-    const filteredTreatments: JSX.Element[] = [];
 
     if (Array.isArray(formattedTreatmentsYears)) {
       formattedTreatmentsYears.forEach((item: string) => {
         const split = item.split(' - ');
         filteredYears.push(<Box key={item}>{split[0]}</Box>);
-        filteredTreatments.push(<Box key={item}>{split[1]}</Box>);
 
         if (formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) + 1]) {
           filteredYears.push(<Divider key={split[0]}></Divider>);
+        }
+      });
+    }
+
+    return filteredYears;
+  };
+
+  const formatTreatments = (treatments: IGetTreatmentItem[]) => {
+    const formattedTreatmentsYears = handleFormattingTreatmentsYears(treatments);
+
+    const filteredTreatments: JSX.Element[] = [];
+
+    if (Array.isArray(formattedTreatmentsYears)) {
+      formattedTreatmentsYears.forEach((item: string) => {
+        const split = item.split(' - ');
+
+        filteredTreatments.push(<Box key={item}>{split[1]}</Box>);
+
+        if (formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) + 1]) {
           filteredTreatments.push(<Divider key={split[1]}></Divider>);
         }
       });
     }
 
-    if (returnTreatments) {
-      return filteredTreatments;
-    }
-
-    return filteredYears;
+    return filteredTreatments;
   };
 
   return (
@@ -205,6 +218,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
               <TableRow>
                 <TableCell width="50">ID</TableCell>
                 <TableCell>Type</TableCell>
+                <TableCell>Year</TableCell>
                 <TableCell>Treatments</TableCell>
                 <TableCell align="right" width="110">
                   Width (m)
@@ -235,8 +249,8 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                     <TableRow key={row.id}>
                       <TableCell>{row.id}</TableCell>
                       <TableCell>{row.type}</TableCell>
-                      <TableCell align="center">{formatTreatmentYearColumnTable(row.treatments, false)}</TableCell>
-                      <TableCell>{formatTreatmentYearColumnTable(row.treatments, true)}</TableCell>
+                      <TableCell align="center">{formatTreatmentYears(row.treatments)}</TableCell>
+                      <TableCell>{formatTreatments(row.treatments)}</TableCell>
                       <TableCell align="right">{row.width}</TableCell>
                       <TableCell align="right">{row.length}</TableCell>
                       <TableCell align="right">{row.area}</TableCell>
