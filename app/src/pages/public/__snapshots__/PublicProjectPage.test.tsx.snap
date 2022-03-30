@@ -456,11 +456,11 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   <div
                     class="MuiBox-root MuiBox-root-152"
                   >
-                    <h3
-                      class="MuiTypography-root MuiTypography-h3"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h2"
                     >
                       Documents
-                    </h3>
+                    </h2>
                   </div>
                   <div
                     class="MuiBox-root MuiBox-root-153"
@@ -1326,11 +1326,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   <div
                     class="MuiBox-root MuiBox-root-36"
                   >
-                    <h3
-                      class="MuiTypography-root MuiTypography-h3"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h2"
                     >
                       Documents
-                    </h3>
+                    </h2>
                   </div>
                   <div
                     class="MuiBox-root MuiBox-root-37"
@@ -2196,11 +2196,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   <div
                     class="MuiBox-root MuiBox-root-94"
                   >
-                    <h3
-                      class="MuiTypography-root MuiTypography-h3"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h2"
                     >
                       Documents
-                    </h3>
+                    </h2>
                   </div>
                   <div
                     class="MuiBox-root MuiBox-root-95"
