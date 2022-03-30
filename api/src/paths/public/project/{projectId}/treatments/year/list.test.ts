@@ -9,7 +9,6 @@ import { getMockDBConnection, getRequestHandlerMocks } from '../../../../../../_
 import * as list from './list';
 import { getTreatmentYears } from './list';
 
-
 chai.use(sinonChai);
 
 describe('getTreatmentYears', () => {
