@@ -109,7 +109,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell />
+                <TableCell width="50"/>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -140,7 +140,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell />
                   <TableCell />
                   <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
-                  <TableCell />
+                  <TableCell width="50"/>
                 </TableRow>
               ))}
               {projects?.map((row) => (
@@ -161,14 +161,15 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.end_date)}</TableCell>
                   <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
                   <TableCell>
-                    <IconButton
-                      title="Download Project EML"
-                      aria-label="Download Project EML"
-                      size="small"
-                      data-testid="project-table-download-eml"
-                      onClick={() => handleDownloadProjectEML(row.project.project_id)}>
-                      <Icon path={mdiDownload} size={1} />
-                    </IconButton>
+                    <Box my={-1}>
+                      <IconButton
+                        title="Download Project EML"
+                        aria-label="Download Project EML"
+                        data-testid="project-table-download-eml"
+                        onClick={() => handleDownloadProjectEML(row.project.project_id)}>
+                        <Icon path={mdiDownload} size={1} />
+                      </IconButton>
+                    </Box>
                   </TableCell>
                 </TableRow>
               ))}
