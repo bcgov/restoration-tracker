@@ -207,15 +207,15 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
               <TableRow>
                 <TableCell width="50">ID</TableCell>
                 <TableCell>Type</TableCell>
-                <TableCell>Year</TableCell>
+                <TableCell width="80">Year</TableCell>
                 <TableCell>Treatments</TableCell>
-                <TableCell align="right" width="110">
+                <TableCell align="right" width="105">
                   Width (m)
                 </TableCell>
-                <TableCell align="right" width="120">
+                <TableCell align="right" width="110">
                   Length (m)
                 </TableCell>
-                <TableCell align="right" width="110">
+                <TableCell align="right" width="100">
                   Area (Ha)
                 </TableCell>
                 <TableCell align="right" width="50"></TableCell>
@@ -238,15 +238,37 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                     <TableRow key={row.id}>
                       <TableCell>{row.id}</TableCell>
                       <TableCell>{row.type}</TableCell>
-                      <TableCell align="center">{formatTreatmentYears(row.treatments)}</TableCell>
-                      <TableCell>{formatTreatments(row.treatments)}</TableCell>
+                      <TableCell colSpan={2}>
+
+                        <Box display="flex">
+                          <Box flex="0 0 auto" width="80px">2014</Box>
+                          <Box flex="1 1 auto">Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment</Box>
+                        </Box>
+
+                        <Box my={1}>
+                          <Divider></Divider>
+                        </Box>
+
+                        <Box display="flex">
+                          <Box flex="0 0 auto" width="80px">2015</Box>
+                          <Box flex="1 1 auto">Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment</Box>
+                        </Box>
+
+                        <Box hidden>
+                          {formatTreatmentYears(row.treatments)}
+                          {formatTreatments(row.treatments)}
+                        </Box>
+
+                      </TableCell>
                       <TableCell align="right">{row.width}</TableCell>
                       <TableCell align="right">{row.length}</TableCell>
                       <TableCell align="right">{row.area}</TableCell>
                       <TableCell align="right" width="50">
-                        <Box my={-1}>
+                        <Box my={-0.65}>
                           <IconButton
+                            size="small"
                             color="primary"
+                            title="View details"
                             aria-label="view treatment unit details"
                             data-testid="view-treatment-unit-details"
                             onClick={() => viewTreatmentUnitDetailsDialog(row)}>
