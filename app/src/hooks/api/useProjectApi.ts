@@ -359,7 +359,9 @@ const useProjectApi = (axios: AxiosInstance) => {
   const downloadProjectEML = async (projectId: number): Promise<{ fileData: string; fileName: string }> => {
     const response = await axios.get<{ eml: string }>(`/api/project/${projectId}/export/eml`);
 
-    const fileName = response.headers?.['content-disposition']?.split('filename=')[1] || 'project_eml.xml';
+    const fileName =
+      response.headers?.['content-disposition']?.split('filename=')[1].replace(/(^['"]|['"]$)/g, '') ||
+      'project_eml.xml';
 
     return { fileData: response.data.eml, fileName: fileName };
   };
