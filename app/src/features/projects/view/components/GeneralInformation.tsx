@@ -25,7 +25,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
   const getRegionName = (regionNumber: number) => {
     const codeValue = props.codes.regions.find((code) => code.id === regionNumber);
     return (
-      <Typography variant="body2" component="dt" data-testid="project-region">
+      <Typography variant="body2" component="dd" data-testid="project-region">
         {codeValue?.name}
       </Typography>
     );
@@ -34,7 +34,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
   const getRangeName = (rangeNumber: number) => {
     const codeValue = props.codes.ranges.find((code) => code.id === rangeNumber);
     return (
-      <Typography variant="body2" component="dt" data-testid="project-region">
+      <Typography variant="body2" component="dd" data-testid="project-region">
         {codeValue?.name}
       </Typography>
     );
@@ -43,46 +43,46 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
   return (
     <Box component="dl" data-testid="general_info_component">
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
-          Project Name:
+        <Typography variant="body2" component="dt" color="textSecondary">
+          Project Name
         </Typography>
-        <Typography variant="body2" component="dt">
+        <Typography variant="body2" component="dd">
           {project.project_name}
         </Typography>
       </div>
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
-          Region:
+        <Typography variant="body2" component="dt" color="textSecondary">
+          Region
         </Typography>
         {getRegionName(location.region)}
       </div>
       {location && location.range && (
         <div>
-          <Typography variant="body2" component="dd" color="textSecondary">
-            Range:
+          <Typography variant="body2" component="dt" color="textSecondary">
+            Range
           </Typography>
           {getRangeName(location.range)}
         </div>
       )}
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
-          Start Date:
+        <Typography variant="body2" component="dt" color="textSecondary">
+          Start Date
         </Typography>
-        <Typography variant="body2" component="dt">
+        <Typography variant="body2" component="dd">
           {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
         </Typography>
       </div>
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
-          Completion Date:
+        <Typography variant="body2" component="dt" color="textSecondary">
+          End Date
         </Typography>
-        <Typography variant="body2" component="dt">
+        <Typography variant="body2" component="dd">
           {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
         </Typography>
       </div>
       <div>
-        <Typography variant="body2" component="dd" color="textSecondary">
-          Focal Species:
+        <Typography variant="body2" component="dt" color="textSecondary">
+          Focal Species
         </Typography>
         <Typography component="dd" variant="body2">
           {species.focal_species_names?.map((item: any, index: number) => {

@@ -1,7 +1,6 @@
 import Box from '@material-ui/core/Box';
 import { IStaticLayer, IStaticLayerFeature } from 'components/map/components/StaticLayers';
 import MapContainer from 'components/map/MapContainer';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse, IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React, { useEffect, useState } from 'react';
 import { calculateUpdatedMapBounds } from 'utils/mapBoundaryUploadHelpers';
@@ -9,7 +8,6 @@ import { calculateUpdatedMapBounds } from 'utils/mapBoundaryUploadHelpers';
 export interface ILocationBoundaryProps {
   projectForViewData: IGetProjectForViewResponse;
   treatmentList: IGetProjectTreatment[];
-  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 

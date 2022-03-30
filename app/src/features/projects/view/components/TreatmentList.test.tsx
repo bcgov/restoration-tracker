@@ -249,14 +249,15 @@ describe('TreatmentList', () => {
   });
 
   it('renders correctly with open treatment unit details dialog', async () => {
-    const { getByText, getAllByText } = render(
+    const { getByText, getAllByTestId } = render(
       <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
     );
 
     expect(getByText('Other')).toBeInTheDocument();
     expect(getByText('Road')).toBeInTheDocument();
 
-    fireEvent.click(getAllByText('View Details')[0]);
+    fireEvent.click(getAllByTestId('view-treatment-unit-details')[0]);
+
     await waitFor(() => {
       expect(getByText('something1', { exact: false })).toBeInTheDocument();
       expect(getByText('anything1', { exact: false })).toBeInTheDocument();

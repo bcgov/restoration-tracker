@@ -1,10 +1,10 @@
 import {
   cleanup,
   fireEvent,
-  render,
-  waitFor,
+  getByTestId as rawGetByTestId,
   queryByTestId as rawQueryByTestId,
-  getByTestId as rawGetByTestId
+  render,
+  waitFor
 } from '@testing-library/react';
 import { DialogContextProvider } from 'contexts/dialogContext';
 import { createMemoryHistory } from 'history';
@@ -73,13 +73,13 @@ describe('ProjectAttachments', () => {
       </Router>
     );
 
-    expect(getByTestId('h3-button-toolbar-Upload')).toBeInTheDocument();
-    expect(queryByText('Upload Attachments')).not.toBeInTheDocument();
+    expect(getByTestId('h2-button-toolbar-Upload')).toBeInTheDocument();
+    expect(queryByText('Upload Documents', { exact: true })).not.toBeInTheDocument();
 
-    fireEvent.click(getByTestId('h3-button-toolbar-Upload'));
+    fireEvent.click(getByTestId('h2-button-toolbar-Upload'));
 
     await waitFor(() => {
-      expect(queryByText('Upload Attachments')).toBeInTheDocument();
+      expect(queryByText('Upload Documents', { exact: true })).toBeInTheDocument();
     });
 
     expect(getByText('Close')).toBeInTheDocument();
@@ -87,7 +87,7 @@ describe('ProjectAttachments', () => {
     fireEvent.click(getByText('Close'));
 
     await waitFor(() => {
-      expect(queryByText('Upload Attachments')).not.toBeInTheDocument();
+      expect(queryByText('Upload Documents', { exact: true })).not.toBeInTheDocument();
     });
   });
 

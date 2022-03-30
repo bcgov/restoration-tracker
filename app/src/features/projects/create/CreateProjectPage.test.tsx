@@ -68,8 +68,6 @@ describe('CreateProjectPage', () => {
     mockRestorationTrackerApi().draft.getDraft.mockClear();
 
     mockUseCodes.mockClear();
-
-    jest.spyOn(console, 'debug').mockImplementation(() => {});
   });
 
   afterEach(() => {

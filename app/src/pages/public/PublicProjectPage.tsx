@@ -1,10 +1,18 @@
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Drawer from '@material-ui/core/Drawer';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import PublicTreatmentList from 'features/projects/view/components/TreatmentList';
+import Container from '@material-ui/core/Container';
+import Dialog from '@material-ui/core/Dialog';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { mdiArrowLeft } from '@mdi/js';
+import { Icon } from '@mdi/react';
+import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/ProjectChips';
+import LocationBoundary from 'features/projects/view/components/LocationBoundary';
+import TreatmentList from 'features/projects/view/components/TreatmentList';
+import ProjectDetailsPage from 'features/projects/view/ProjectDetailsPage';
 import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import {
@@ -15,41 +23,8 @@ import {
 } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import PublicLocationBoundary from './components/PublicLocationBoundary';
-import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
-import PublicProjectDetails from './PublicProjectDetails';
 import PublicProjectAttachments from './components/PublicProjectAttachments';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    projectDetailDrawer: {
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        overflow: 'hidden',
-        width: '30rem'
-      }
-    },
-    tabs: {
-      flexDirection: 'row',
-      '& .MuiTabs-indicator': {
-        backgroundColor: '#1a5a96'
-      },
-      '& .MuiTab-root.Mui-selected': {
-        color: '#1a5a96'
-      },
-      backgroundColor: '#f7f8fa'
-    },
-    tabPanel: {
-      overflowY: 'auto'
-    },
-    tabIcon: {
-      verticalAlign: 'middle'
-    },
-    projectLocationBoundary: {
-      background: '#ffffff'
-    }
-  })
-);
+import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
 
 /**
  * Page to display a single Public (published) Project.
@@ -58,20 +33,21 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const PublicProjectPage = () => {
   const urlParams = useParams();
-  const restorationTrackerApi = useRestorationTrackerApi();
-  const classes = useStyles();
-
   const projectId = urlParams['id'];
-  const codes = useCodes();
 
-  const [tabValue, setTabValue] = React.useState('project_details');
+  const [openFullScreen, setOpenFullScreen] = React.useState(false);
+
+  const restorationTrackerApi = useRestorationTrackerApi();
+
   const [isLoadingProject, setIsLoadingProject] = useState(false);
   const [projectWithDetails, setProjectWithDetails] = useState<IGetProjectForViewResponse | null>(null);
   const [attachmentsList, setAttachmentsList] = useState<IGetProjectAttachment[]>([]);
   const [treatmentList, setTreatmentList] = useState<IGetProjectTreatment[]>([]);
 
+  const codes = useCodes();
+
   const getProject = useCallback(async () => {
-    const projectWithDetailsResponse = await restorationTrackerApi.public.project.getProjectForView(projectId || 1);
+    const projectWithDetailsResponse = await restorationTrackerApi.public.project.getProjectForView(projectId);
 
     if (!projectWithDetailsResponse) {
       // TODO error handling/messaging
@@ -128,76 +104,124 @@ const PublicProjectPage = () => {
     return <CircularProgress className="pageProgress" size={40} data-testid="loading_spinner" />;
   }
 
-  const TabPanel = (props: { children?: React.ReactNode; index: string; value: string }) => {
-    const { children, value, index, ...other } = props;
+  const isPriority = projectWithDetails.location.priority === 'true';
 
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        className={classes.tabPanel}
-        {...other}>
-        {value === index && children}
-      </div>
-    );
+  // Full Screen Map Dialog
+  const openMapDialog = () => {
+    setOpenFullScreen(true);
   };
 
-  const handleTabChange = (_: any, newValue: string) => setTabValue(newValue);
+  const closeMapDialog = () => {
+    setOpenFullScreen(false);
+  };
 
   return (
     <>
-      <Box
-        display="flex"
-        position="absolute"
-        width="100%"
-        height="100%"
-        overflow="hidden"
-        data-testid="view_project_page_component">
-        {/* Details Container */}
-        <Drawer variant="permanent" className={classes.projectDetailDrawer}>
-          <Box display="flex" flexDirection="column" height="100%">
+      <Box py={5} data-testid="view_project_page_component">
+        <Container maxWidth="xl">
+          <Box mb={5} display="flex" justifyContent="space-between">
             <Box>
-              <Tabs
-                className={classes.tabs}
-                value={tabValue}
-                onChange={handleTabChange}
-                variant="fullWidth"
-                aria-label="Project Navigation">
-                <Tab label="Project Details" value="project_details" />
-                <Tab label="Documents" value="project_documents" />
-              </Tabs>
+              <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
+              <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
+                <Typography variant="subtitle2" color="textSecondary">
+                  Project Status:
+                </Typography>
+                <Box ml={1}>
+                  <ProjectStatusChip
+                    startDate={projectWithDetails.project.start_date}
+                    endDate={projectWithDetails.project.end_date}
+                  />
+                </Box>
+                {isPriority && (
+                  <Box ml={0.5}>
+                    <ProjectPriorityChip />
+                  </Box>
+                )}
+              </Box>
             </Box>
-
-            <TabPanel value={tabValue} index="project_details">
-              <PublicProjectDetails projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
-            </TabPanel>
-            <TabPanel value={tabValue} index="project_documents">
-              <PublicProjectAttachments projectForViewData={projectWithDetails} />
-            </TabPanel>
           </Box>
-        </Drawer>
 
-        {/* Map Container */}
-        <Box display="flex" flex="1 1 auto" flexDirection="column" className={classes.projectLocationBoundary}>
+          <Box mt={2}>
+            <Grid container spacing={3}>
+              <Grid item md={8}>
+                <Box>
+                  <Box mb={3}>
+                    <Paper elevation={2}>
+                      <Box p={3}>
+                        <Box mb={2}>
+                          <Typography variant="h2">Project Objectives</Typography>
+                        </Box>
+                        <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
+                      </Box>
+                    </Paper>
+                  </Box>
+
+                  <Paper elevation={2}>
+                    <Box px={3}>
+                      <PublicTreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
+                    </Box>
+
+                    <Box mb={3}>
+                      <Box height="500px" position="relative">
+                        <LocationBoundary
+                          projectForViewData={projectWithDetails}
+                          treatmentList={treatmentList}
+                          refresh={getProject}
+                        />
+                        <Box position="absolute" top="10px" right="10px" zIndex="999">
+                          <Button variant="outlined" color="primary" onClick={openMapDialog}>
+                            Full Screen
+                          </Button>
+                        </Box>
+                      </Box>
+                      <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+                    </Box>
+                  </Paper>
+
+                  <Paper elevation={2}>
+                    <PublicProjectAttachments projectForViewData={projectWithDetails} />
+                  </Paper>
+                </Box>
+              </Grid>
+
+              <Grid item md={4}>
+                <Paper elevation={2}>
+                  <ProjectDetailsPage
+                    projectForViewData={projectWithDetails}
+                    codes={codes.codes}
+                    refresh={getProject}
+                  />
+                </Paper>
+              </Grid>
+            </Grid>
+          </Box>
+        </Container>
+      </Box>
+
+      <Dialog fullScreen open={openFullScreen} onClose={closeMapDialog}>
+        <Box pr={3} pl={1} display="flex" alignItems="center">
           <Box>
+            <IconButton onClick={closeMapDialog}>
+              <Icon path={mdiArrowLeft} size={1} />
+            </IconButton>
+          </Box>
+          <Box flex="1 1 auto">
             <PublicTreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
           </Box>
-
+        </Box>
+        <Box display="flex" height="100%" flexDirection="column">
           <Box flex="1 1 auto">
-            <PublicLocationBoundary
+            <LocationBoundary
               projectForViewData={projectWithDetails}
               treatmentList={treatmentList}
               refresh={getProject}
             />
           </Box>
-
-          <Box flex="0 0 auto">
-            <PublicTreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+          <Box flex="0 0 auto" height="300px">
+            <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
           </Box>
         </Box>
-      </Box>
+      </Dialog>
     </>
   );
 };

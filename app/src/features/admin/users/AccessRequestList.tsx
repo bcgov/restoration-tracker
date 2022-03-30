@@ -1,6 +1,5 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -12,7 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
+import { AccessStatusChip } from 'components/chips/RequestChips';
 import RequestDialog from 'components/dialog/RequestDialog';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ReviewAccessRequestI18N } from 'constants/i18n';
@@ -35,18 +34,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     '& td': {
       verticalAlign: 'middle'
     }
-  },
-  chip: {
-    color: 'white'
-  },
-  chipPending: {
-    backgroundColor: theme.palette.primary.main
-  },
-  chipActioned: {
-    backgroundColor: theme.palette.success.main
-  },
-  chipRejected: {
-    backgroundColor: theme.palette.error.main
   }
 }));
 
@@ -137,24 +124,6 @@ const AccessRequestList: React.FC<IAccessRequestListProps> = (props) => {
     }
   };
 
-  const getChipIcon = (status_name: string) => {
-    let chipLabel;
-    let chipStatusClass;
-
-    if (AdministrativeActivityStatusType.REJECTED === status_name) {
-      chipLabel = 'Denied';
-      chipStatusClass = classes.chipRejected;
-    } else if (AdministrativeActivityStatusType.ACTIONED === status_name) {
-      chipLabel = 'Approved';
-      chipStatusClass = classes.chipActioned;
-    } else {
-      chipLabel = 'Pending';
-      chipStatusClass = classes.chipPending;
-    }
-
-    return <Chip size="small" className={clsx(classes.chip, chipStatusClass)} label={chipLabel} />;
-  };
-
   return (
     <>
       <RequestDialog
@@ -212,7 +181,9 @@ const AccessRequestList: React.FC<IAccessRequestListProps> = (props) => {
                   <TableRow data-testid={`access-request-row-${index}`} key={index}>
                     <TableCell>{row.data?.username || ''}</TableCell>
                     <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.create_date)}</TableCell>
-                    <TableCell>{getChipIcon(row.status_name)}</TableCell>
+                    <TableCell>
+                      <AccessStatusChip status={row.status_name} />
+                    </TableCell>
 
                     <TableCell align="center">
                       {row.status_name === AdministrativeActivityStatusType.PENDING && (

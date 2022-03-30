@@ -1,7 +1,6 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,7 +11,6 @@ import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-
 export interface IProjectSpatialUnitsProps {
   treatmentList: IGetProjectTreatment[];
   getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
@@ -96,19 +94,21 @@ const PublicTreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props)
 
   return (
     <Box>
-      <Toolbar>
-        <Grid container alignItems="center" justify="space-between">
-          <Grid item>
+      <Toolbar disableGutters>
+        <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
+          <Typography variant="h2">Restoration Treatments</Typography>
+
+          <Box>
             <Button
               id={'open-layer-menu'}
               data-testid={'open-layer-menu'}
-              variant="text"
+              variant="outlined"
               color="primary"
-              title={'Open Layer Menu'}
-              aria-label={'Open Layer Menu'}
+              title={'Filter Treaatments'}
+              aria-label={'Filter Treatments'}
               endIcon={<Icon path={mdiMenuDown} size={1} />}
               onClick={handleClick}>
-              <strong>Project Layers ({yearList?.length})</strong>
+              Filter Treatments ({yearList?.length})
             </Button>
 
             <Menu
@@ -142,8 +142,8 @@ const PublicTreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props)
                   })}
               </Box>
             </Menu>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Toolbar>
     </Box>
   );

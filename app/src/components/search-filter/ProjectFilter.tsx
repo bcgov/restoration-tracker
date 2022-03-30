@@ -301,16 +301,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
                 region={region}
               />
 
-              <Box textAlign="right" hidden>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  className={classes.actionButton}
-                  onClick={handleFilterUpdate}>
-                  Apply
-                </Button>
+              <Box textAlign="right" mt={3}>
                 <Button
                   type="reset"
                   variant="outlined"

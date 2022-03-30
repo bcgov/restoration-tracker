@@ -9,7 +9,7 @@ const MapBounds: React.FC<IMapBoundsProps> = (props) => {
   const map = useMap();
 
   if (props.bounds) {
-    map.fitBounds(props.bounds);
+    map.fitBounds(props.bounds, { padding: [30, 30] });
   }
 
   return null;

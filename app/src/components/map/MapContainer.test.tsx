@@ -6,13 +6,6 @@ import { IStaticLayer } from './components/StaticLayers';
 import MapContainer from './MapContainer';
 
 describe('MapContainer', () => {
-  // To ignore: Deprecated use of _flat, please use L.LineUtil.isFlat instead
-  console.warn = jest.fn();
-
-  beforeEach(() => {
-    jest.spyOn(console, 'debug').mockImplementation(() => {});
-  });
-
   afterEach(() => {
     cleanup();
   });

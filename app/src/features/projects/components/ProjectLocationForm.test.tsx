@@ -8,8 +8,6 @@ import ProjectLocationForm, {
   ProjectLocationFormYupSchema
 } from './ProjectLocationForm';
 
-jest.spyOn(console, 'debug').mockImplementation(() => {});
-
 describe('ProjectLocationForm', () => {
   it('renders correctly with default empty values', async () => {
     const { asFragment } = render(
@@ -22,9 +20,6 @@ describe('ProjectLocationForm', () => {
         {() => (
           <ProjectLocationForm
             ranges={codes.ranges.map((item) => {
-              return { value: item.id, label: item.name };
-            })}
-            species={codes.species.map((item) => {
               return { value: item.id, label: item.name };
             })}
             regions={codes.regions.map((item) => {
@@ -73,9 +68,6 @@ describe('ProjectLocationForm', () => {
             ranges={codes.ranges.map((item) => {
               return { value: item.id, label: item.name };
             })}
-            species={codes.species.map((item) => {
-              return { value: item.id, label: item.name };
-            })}
             regions={codes.regions.map((item) => {
               return { value: item.id, label: item.name };
             })}
@@ -122,9 +114,6 @@ describe('ProjectLocationForm', () => {
         {() => (
           <ProjectLocationForm
             ranges={codes.ranges.map((item) => {
-              return { value: item.id, label: item.name };
-            })}
-            species={codes.species.map((item) => {
               return { value: item.id, label: item.name };
             })}
             regions={codes.regions.map((item) => {

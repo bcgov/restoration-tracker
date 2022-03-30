@@ -49,12 +49,12 @@ const PublicProjectAttachments: React.FC<IPublicProjectAttachmentsProps> = () =>
   }, []);
 
   return (
-    <Box py={1}>
-      <Box mt={2} mb={3} px={2} display="flex" justifyContent="space-between">
-        <Typography variant="h3">Documents</Typography>
+    <Box pt={1}>
+      <Box mt={2} mb={3} px={3} display="flex" justifyContent="space-between">
+        <Typography variant="h2">Documents</Typography>
       </Box>
 
-      <Box mb={3}>
+      <Box>
         <PublicAttachmentsList
           projectId={projectId}
           attachmentsList={attachmentsList}
