@@ -195,7 +195,11 @@ export class TreatmentService extends DBService {
     const treatmentUnitTypes = await this.getTreatmentUnitTypes();
 
     const givenTypesString = treatmentFeatureProperties.Treatments;
-    const givenTypesSplit = givenTypesString.split('; ');
+
+    const givenTypesSplit = givenTypesString
+      .split(';')
+      .map((item) => item.trim())
+      .filter(Boolean);
 
     const treatmentTypes: number[] = [];
 
