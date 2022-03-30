@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme: Theme) =>
     projectMetadata: {
       padding: theme.spacing(3),
       overflowY: 'auto',
-      backgroundColor: '#f7f8fa',
 
       // Metadata Definition Lists
       '& dl div + div': {

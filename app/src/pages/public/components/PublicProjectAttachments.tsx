@@ -54,7 +54,7 @@ const PublicProjectAttachments: React.FC<IPublicProjectAttachmentsProps> = () =>
         <Typography variant="h3">Documents</Typography>
       </Box>
 
-      <Box mb={3}>
+      <Box>
         <PublicAttachmentsList
           projectId={projectId}
           attachmentsList={attachmentsList}
