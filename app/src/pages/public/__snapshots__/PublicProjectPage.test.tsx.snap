@@ -28,17 +28,17 @@ exports[`PublicProjectPage renders a spinner if no project is loaded 1`] = `
 exports[`PublicProjectPage renders correctly with no end date 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-117"
+    class="MuiBox-root MuiBox-root-119"
     data-testid="view_project_page_component"
   >
     <div
       class="MuiContainer-root MuiContainer-maxWidthXl"
     >
       <div
-        class="MuiBox-root MuiBox-root-118"
+        class="MuiBox-root MuiBox-root-120"
       >
         <div
-          class="MuiBox-root MuiBox-root-119"
+          class="MuiBox-root MuiBox-root-121"
         >
           <h1
             class="MuiTypography-root MuiTypography-h1"
@@ -46,7 +46,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
             Test Project Name
           </h1>
           <div
-            class="MuiBox-root MuiBox-root-120"
+            class="MuiBox-root MuiBox-root-122"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
@@ -54,10 +54,10 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
               Project Status:
             </h6>
             <div
-              class="MuiBox-root MuiBox-root-121"
+              class="MuiBox-root MuiBox-root-123"
             >
               <div
-                class="MuiChip-root makeStyles-chip-122 makeStyles-chipActive-123 MuiChip-sizeSmall"
+                class="MuiChip-root makeStyles-chip-124 makeStyles-chipActive-125 MuiChip-sizeSmall"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall"
@@ -70,7 +70,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-128"
+        class="MuiBox-root MuiBox-root-130"
       >
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -79,19 +79,19 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-8"
           >
             <div
-              class="MuiBox-root MuiBox-root-129"
+              class="MuiBox-root MuiBox-root-131"
             >
               <div
-                class="MuiBox-root MuiBox-root-130"
+                class="MuiBox-root MuiBox-root-132"
               >
                 <div
                   class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-131"
+                    class="MuiBox-root MuiBox-root-133"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-132"
+                      class="MuiBox-root MuiBox-root-134"
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h2"
@@ -111,16 +111,16 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-133"
+                  class="MuiBox-root MuiBox-root-135"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-134"
+                    class="MuiBox-root MuiBox-root-136"
                   >
                     <div
                       class="MuiToolbar-root MuiToolbar-regular"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-135"
+                        class="MuiBox-root MuiBox-root-137"
                       >
                         <h2
                           class="MuiTypography-root MuiTypography-h2"
@@ -128,7 +128,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           Restoration Treatments
                         </h2>
                         <div
-                          class="MuiBox-root MuiBox-root-136"
+                          class="MuiBox-root MuiBox-root-138"
                         >
                           <button
                             aria-label="Filter Treatments"
@@ -168,17 +168,17 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-137"
+                  class="MuiBox-root MuiBox-root-139"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-138"
+                    class="MuiBox-root MuiBox-root-140"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-139"
+                      class="MuiBox-root MuiBox-root-141"
                       data-testid="map_container"
                     >
                       <div
-                        class="makeStyles-map-140 leaflet-container leaflet-grab leaflet-touch-drag"
+                        class="makeStyles-map-142 leaflet-container leaflet-grab leaflet-touch-drag"
                         id="project_location_form_map"
                         style="position: relative;"
                         tabindex="0"
@@ -336,7 +336,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-141"
+                      class="MuiBox-root MuiBox-root-143"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
@@ -355,14 +355,14 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-148"
+                    class="MuiBox-root MuiBox-root-150"
                   >
                     <div
-                      class="MuiTableContainer-root MuiBox-root MuiBox-root-149"
+                      class="MuiTableContainer-root MuiBox-root MuiBox-root-151"
                     >
                       <table
                         aria-label="treatments-list-table"
-                        class="MuiTable-root makeStyles-treatmentsTable-142 MuiTable-stickyHeader"
+                        class="MuiTable-root makeStyles-treatmentsTable-144 MuiTable-stickyHeader"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -435,7 +435,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                               colspan="7"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-150"
+                                class="MuiBox-root MuiBox-root-152"
                               >
                                 No Treatments
                               </div>
@@ -451,10 +451,10 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-151"
+                  class="MuiBox-root MuiBox-root-153"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-152"
+                    class="MuiBox-root MuiBox-root-154"
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h2"
@@ -463,14 +463,14 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     </h2>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-153"
+                    class="MuiBox-root MuiBox-root-155"
                   >
                     <div
                       class="MuiTableContainer-root"
                     >
                       <table
                         aria-label="attachments-list-table"
-                        class="MuiTable-root makeStyles-attachmentsTable-154"
+                        class="MuiTable-root makeStyles-attachmentsTable-156"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -520,10 +520,10 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
               class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-156 makeStyles-projectMetadata-155"
+                class="MuiBox-root MuiBox-root-158 makeStyles-projectMetadata-157"
               >
                 <section
-                  class="MuiBox-root MuiBox-root-157"
+                  class="MuiBox-root MuiBox-root-159"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -532,7 +532,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     General Information
                   </h3>
                   <dl
-                    class="MuiBox-root MuiBox-root-158"
+                    class="MuiBox-root MuiBox-root-160"
                     data-testid="general_info_component"
                   >
                     <div>
@@ -611,7 +611,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-159"
+                  class="MuiBox-root MuiBox-root-161"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -620,16 +620,16 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     Project Contacts
                   </h3>
                   <ul
-                    class="makeStyles-projectContactList-160"
+                    class="makeStyles-projectContactList-162"
                   >
                     <li
-                      class="MuiBox-root MuiBox-root-162"
+                      class="MuiBox-root MuiBox-root-165"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-163"
+                        class="MuiBox-root MuiBox-root-166"
                       >
                         <svg
-                          class="makeStyles-contactIcon-161"
+                          class="makeStyles-contactIcon-163"
                           role="presentation"
                           style="width: 2.25rem; height: 2.25rem;"
                           viewBox="0 0 24 24"
@@ -674,7 +674,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-164"
+                  class="MuiBox-root MuiBox-root-167"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -683,7 +683,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     IUCN Conservation Actions Classifications
                   </h3>
                   <ul
-                    class="makeStyles-projectIucnList-165"
+                    class="makeStyles-projectIucnList-168"
                   >
                     <li
                       data-testid="iucn_data"
@@ -696,7 +696,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-166"
+                  class="MuiBox-root MuiBox-root-169"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -705,7 +705,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     Permits
                   </h3>
                   <ul
-                    class="makeStyles-projectPermitList-167"
+                    class="makeStyles-projectPermitList-170"
                   >
                     <li
                       data-testid="permit_item"
@@ -725,7 +725,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-168"
+                  class="MuiBox-root MuiBox-root-171"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -734,20 +734,20 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     Funding Sources
                   </h3>
                   <ul
-                    class="makeStyles-projectFundingList-169"
+                    class="makeStyles-projectFundingList-172"
                   >
                     <li
                       data-testid="funding_data"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-170"
+                        class="MuiBox-root MuiBox-root-173"
                       >
                         <strong>
                           agency name
                         </strong>
                       </div>
                       <dl
-                        class="MuiBox-root MuiBox-root-171"
+                        class="MuiBox-root MuiBox-root-174"
                       >
                         <div>
                           <dt
@@ -805,7 +805,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-172"
+                  class="MuiBox-root MuiBox-root-175"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -814,7 +814,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                     Partnerships
                   </h3>
                   <dl
-                    class="MuiBox-root MuiBox-root-174"
+                    class="MuiBox-root MuiBox-root-177"
                   >
                     <div>
                       <dt
@@ -827,7 +827,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                         class="MuiTypography-root MuiTypography-body2"
                       >
                         <span
-                          class="makeStyles-partnerItem-173"
+                          class="makeStyles-partnerItem-176"
                           data-testid="indigenous_partners_data"
                         >
                           <span
@@ -837,7 +837,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           </span>
                         </span>
                         <span
-                          class="makeStyles-partnerItem-173"
+                          class="makeStyles-partnerItem-176"
                           data-testid="indigenous_partners_data"
                         >
                           First nations code
@@ -860,7 +860,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                         class="MuiTypography-root MuiTypography-body2"
                       >
                         <span
-                          class="makeStyles-partnerItem-173"
+                          class="makeStyles-partnerItem-176"
                           data-testid="stakeholder_partners_data"
                         >
                           partner2
@@ -871,7 +871,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           </span>
                         </span>
                         <span
-                          class="makeStyles-partnerItem-173"
+                          class="makeStyles-partnerItem-176"
                           data-testid="stakeholder_partners_data"
                         >
                           partner3
@@ -1493,10 +1493,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     class="makeStyles-projectContactList-44"
                   >
                     <li
-                      class="MuiBox-root MuiBox-root-46"
+                      class="MuiBox-root MuiBox-root-47"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-47"
+                        class="MuiBox-root MuiBox-root-48"
                       >
                         <svg
                           class="makeStyles-contactIcon-45"
@@ -1544,7 +1544,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-48"
+                  class="MuiBox-root MuiBox-root-49"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -1553,7 +1553,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     IUCN Conservation Actions Classifications
                   </h3>
                   <ul
-                    class="makeStyles-projectIucnList-49"
+                    class="makeStyles-projectIucnList-50"
                   >
                     <li
                       data-testid="iucn_data"
@@ -1566,7 +1566,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-50"
+                  class="MuiBox-root MuiBox-root-51"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -1575,7 +1575,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     Permits
                   </h3>
                   <ul
-                    class="makeStyles-projectPermitList-51"
+                    class="makeStyles-projectPermitList-52"
                   >
                     <li
                       data-testid="permit_item"
@@ -1595,7 +1595,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-52"
+                  class="MuiBox-root MuiBox-root-53"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -1604,20 +1604,20 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     Funding Sources
                   </h3>
                   <ul
-                    class="makeStyles-projectFundingList-53"
+                    class="makeStyles-projectFundingList-54"
                   >
                     <li
                       data-testid="funding_data"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-54"
+                        class="MuiBox-root MuiBox-root-55"
                       >
                         <strong>
                           agency name
                         </strong>
                       </div>
                       <dl
-                        class="MuiBox-root MuiBox-root-55"
+                        class="MuiBox-root MuiBox-root-56"
                       >
                         <div>
                           <dt
@@ -1675,7 +1675,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-56"
+                  class="MuiBox-root MuiBox-root-57"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -1684,7 +1684,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     Partnerships
                   </h3>
                   <dl
-                    class="MuiBox-root MuiBox-root-58"
+                    class="MuiBox-root MuiBox-root-59"
                   >
                     <div>
                       <dt
@@ -1697,7 +1697,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         class="MuiTypography-root MuiTypography-body2"
                       >
                         <span
-                          class="makeStyles-partnerItem-57"
+                          class="makeStyles-partnerItem-58"
                           data-testid="indigenous_partners_data"
                         >
                           <span
@@ -1707,7 +1707,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           </span>
                         </span>
                         <span
-                          class="makeStyles-partnerItem-57"
+                          class="makeStyles-partnerItem-58"
                           data-testid="indigenous_partners_data"
                         >
                           First nations code
@@ -1730,7 +1730,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         class="MuiTypography-root MuiTypography-body2"
                       >
                         <span
-                          class="makeStyles-partnerItem-57"
+                          class="makeStyles-partnerItem-58"
                           data-testid="stakeholder_partners_data"
                         >
                           partner2
@@ -1741,7 +1741,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           </span>
                         </span>
                         <span
-                          class="makeStyles-partnerItem-57"
+                          class="makeStyles-partnerItem-58"
                           data-testid="stakeholder_partners_data"
                         >
                           partner3
@@ -1768,17 +1768,17 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
 exports[`PublicProjectPage renders public project page when project is loaded (project is completed) 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root MuiBox-root-59"
+    class="MuiBox-root MuiBox-root-60"
     data-testid="view_project_page_component"
   >
     <div
       class="MuiContainer-root MuiContainer-maxWidthXl"
     >
       <div
-        class="MuiBox-root MuiBox-root-60"
+        class="MuiBox-root MuiBox-root-61"
       >
         <div
-          class="MuiBox-root MuiBox-root-61"
+          class="MuiBox-root MuiBox-root-62"
         >
           <h1
             class="MuiTypography-root MuiTypography-h1"
@@ -1786,7 +1786,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             Test Project Name
           </h1>
           <div
-            class="MuiBox-root MuiBox-root-62"
+            class="MuiBox-root MuiBox-root-63"
           >
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
@@ -1794,10 +1794,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
               Project Status:
             </h6>
             <div
-              class="MuiBox-root MuiBox-root-63"
+              class="MuiBox-root MuiBox-root-64"
             >
               <div
-                class="MuiChip-root makeStyles-chip-64 makeStyles-chipPublishedCompleted-66 MuiChip-sizeSmall"
+                class="MuiChip-root makeStyles-chip-65 makeStyles-chipPublishedCompleted-67 MuiChip-sizeSmall"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall"
@@ -1810,7 +1810,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-70"
+        class="MuiBox-root MuiBox-root-71"
       >
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -1819,19 +1819,19 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-8"
           >
             <div
-              class="MuiBox-root MuiBox-root-71"
+              class="MuiBox-root MuiBox-root-72"
             >
               <div
-                class="MuiBox-root MuiBox-root-72"
+                class="MuiBox-root MuiBox-root-73"
               >
                 <div
                   class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-73"
+                    class="MuiBox-root MuiBox-root-74"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-74"
+                      class="MuiBox-root MuiBox-root-75"
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h2"
@@ -1851,16 +1851,16 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-75"
+                  class="MuiBox-root MuiBox-root-76"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-76"
+                    class="MuiBox-root MuiBox-root-77"
                   >
                     <div
                       class="MuiToolbar-root MuiToolbar-regular"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-77"
+                        class="MuiBox-root MuiBox-root-78"
                       >
                         <h2
                           class="MuiTypography-root MuiTypography-h2"
@@ -1868,7 +1868,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           Restoration Treatments
                         </h2>
                         <div
-                          class="MuiBox-root MuiBox-root-78"
+                          class="MuiBox-root MuiBox-root-79"
                         >
                           <button
                             aria-label="Filter Treatments"
@@ -1908,17 +1908,17 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-79"
+                  class="MuiBox-root MuiBox-root-80"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-80"
+                    class="MuiBox-root MuiBox-root-81"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-81"
+                      class="MuiBox-root MuiBox-root-82"
                       data-testid="map_container"
                     >
                       <div
-                        class="makeStyles-map-82 leaflet-container leaflet-grab leaflet-touch-drag"
+                        class="makeStyles-map-83 leaflet-container leaflet-grab leaflet-touch-drag"
                         id="project_location_form_map"
                         style="position: relative;"
                         tabindex="0"
@@ -2076,7 +2076,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-83"
+                      class="MuiBox-root MuiBox-root-84"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
@@ -2095,14 +2095,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-90"
+                    class="MuiBox-root MuiBox-root-91"
                   >
                     <div
-                      class="MuiTableContainer-root MuiBox-root MuiBox-root-91"
+                      class="MuiTableContainer-root MuiBox-root MuiBox-root-92"
                     >
                       <table
                         aria-label="treatments-list-table"
-                        class="MuiTable-root makeStyles-treatmentsTable-84 MuiTable-stickyHeader"
+                        class="MuiTable-root makeStyles-treatmentsTable-85 MuiTable-stickyHeader"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -2175,7 +2175,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                               colspan="7"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-92"
+                                class="MuiBox-root MuiBox-root-93"
                               >
                                 No Treatments
                               </div>
@@ -2191,10 +2191,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-93"
+                  class="MuiBox-root MuiBox-root-94"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-94"
+                    class="MuiBox-root MuiBox-root-95"
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h2"
@@ -2203,14 +2203,14 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     </h2>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-95"
+                    class="MuiBox-root MuiBox-root-96"
                   >
                     <div
                       class="MuiTableContainer-root"
                     >
                       <table
                         aria-label="attachments-list-table"
-                        class="MuiTable-root makeStyles-attachmentsTable-96"
+                        class="MuiTable-root makeStyles-attachmentsTable-97"
                       >
                         <thead
                           class="MuiTableHead-root"
@@ -2260,10 +2260,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
               class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-98 makeStyles-projectMetadata-97"
+                class="MuiBox-root MuiBox-root-99 makeStyles-projectMetadata-98"
               >
                 <section
-                  class="MuiBox-root MuiBox-root-99"
+                  class="MuiBox-root MuiBox-root-100"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -2272,7 +2272,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     General Information
                   </h3>
                   <dl
-                    class="MuiBox-root MuiBox-root-100"
+                    class="MuiBox-root MuiBox-root-101"
                     data-testid="general_info_component"
                   >
                     <div>
@@ -2351,7 +2351,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-101"
+                  class="MuiBox-root MuiBox-root-102"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -2360,16 +2360,16 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     Project Contacts
                   </h3>
                   <ul
-                    class="makeStyles-projectContactList-102"
+                    class="makeStyles-projectContactList-103"
                   >
                     <li
-                      class="MuiBox-root MuiBox-root-104"
+                      class="MuiBox-root MuiBox-root-106"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-105"
+                        class="MuiBox-root MuiBox-root-107"
                       >
                         <svg
-                          class="makeStyles-contactIcon-103"
+                          class="makeStyles-contactIcon-104"
                           role="presentation"
                           style="width: 2.25rem; height: 2.25rem;"
                           viewBox="0 0 24 24"
@@ -2414,7 +2414,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-106"
+                  class="MuiBox-root MuiBox-root-108"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -2423,7 +2423,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     IUCN Conservation Actions Classifications
                   </h3>
                   <ul
-                    class="makeStyles-projectIucnList-107"
+                    class="makeStyles-projectIucnList-109"
                   >
                     <li
                       data-testid="iucn_data"
@@ -2436,7 +2436,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-108"
+                  class="MuiBox-root MuiBox-root-110"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -2445,7 +2445,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     Permits
                   </h3>
                   <ul
-                    class="makeStyles-projectPermitList-109"
+                    class="makeStyles-projectPermitList-111"
                   >
                     <li
                       data-testid="permit_item"
@@ -2465,7 +2465,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-110"
+                  class="MuiBox-root MuiBox-root-112"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -2474,20 +2474,20 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     Funding Sources
                   </h3>
                   <ul
-                    class="makeStyles-projectFundingList-111"
+                    class="makeStyles-projectFundingList-113"
                   >
                     <li
                       data-testid="funding_data"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-112"
+                        class="MuiBox-root MuiBox-root-114"
                       >
                         <strong>
                           agency name
                         </strong>
                       </div>
                       <dl
-                        class="MuiBox-root MuiBox-root-113"
+                        class="MuiBox-root MuiBox-root-115"
                       >
                         <div>
                           <dt
@@ -2545,7 +2545,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   class="MuiDivider-root"
                 />
                 <section
-                  class="MuiBox-root MuiBox-root-114"
+                  class="MuiBox-root MuiBox-root-116"
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-body1"
@@ -2554,7 +2554,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                     Partnerships
                   </h3>
                   <dl
-                    class="MuiBox-root MuiBox-root-116"
+                    class="MuiBox-root MuiBox-root-118"
                   >
                     <div>
                       <dt
@@ -2567,7 +2567,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         class="MuiTypography-root MuiTypography-body2"
                       >
                         <span
-                          class="makeStyles-partnerItem-115"
+                          class="makeStyles-partnerItem-117"
                           data-testid="indigenous_partners_data"
                         >
                           <span
@@ -2577,7 +2577,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           </span>
                         </span>
                         <span
-                          class="makeStyles-partnerItem-115"
+                          class="makeStyles-partnerItem-117"
                           data-testid="indigenous_partners_data"
                         >
                           First nations code
@@ -2600,7 +2600,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         class="MuiTypography-root MuiTypography-body2"
                       >
                         <span
-                          class="makeStyles-partnerItem-115"
+                          class="makeStyles-partnerItem-117"
                           data-testid="stakeholder_partners_data"
                         >
                           partner2
@@ -2611,7 +2611,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           </span>
                         </span>
                         <span
-                          class="makeStyles-partnerItem-115"
+                          class="makeStyles-partnerItem-117"
                           data-testid="stakeholder_partners_data"
                         >
                           partner3

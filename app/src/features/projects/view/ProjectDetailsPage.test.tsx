@@ -21,8 +21,6 @@ describe('ProjectDetailsPage', () => {
     }
   });
 
-  //   jest.spyOn(console, 'debug').mockImplementation(() => {});
-
   it('renders correctly', async () => {
     const { getByTestId, queryAllByText } = render(
       <Router history={history}>

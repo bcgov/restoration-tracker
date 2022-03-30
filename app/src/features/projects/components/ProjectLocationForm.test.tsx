@@ -3,12 +3,10 @@ import { Formik } from 'formik';
 import React from 'react';
 import { codes } from 'test-helpers/code-helpers';
 import ProjectLocationForm, {
-  IProjectLocationForm,
-  ProjectLocationFormInitialValues,
-  ProjectLocationFormYupSchema
+    IProjectLocationForm,
+    ProjectLocationFormInitialValues,
+    ProjectLocationFormYupSchema
 } from './ProjectLocationForm';
-
-jest.spyOn(console, 'debug').mockImplementation(() => {});
 
 describe('ProjectLocationForm', () => {
   it('renders correctly with default empty values', async () => {
@@ -22,9 +20,6 @@ describe('ProjectLocationForm', () => {
         {() => (
           <ProjectLocationForm
             ranges={codes.ranges.map((item) => {
-              return { value: item.id, label: item.name };
-            })}
-            species={codes.species.map((item) => {
               return { value: item.id, label: item.name };
             })}
             regions={codes.regions.map((item) => {
@@ -73,9 +68,6 @@ describe('ProjectLocationForm', () => {
             ranges={codes.ranges.map((item) => {
               return { value: item.id, label: item.name };
             })}
-            species={codes.species.map((item) => {
-              return { value: item.id, label: item.name };
-            })}
             regions={codes.regions.map((item) => {
               return { value: item.id, label: item.name };
             })}
@@ -122,9 +114,6 @@ describe('ProjectLocationForm', () => {
         {() => (
           <ProjectLocationForm
             ranges={codes.ranges.map((item) => {
-              return { value: item.id, label: item.name };
-            })}
-            species={codes.species.map((item) => {
               return { value: item.id, label: item.name };
             })}
             regions={codes.regions.map((item) => {

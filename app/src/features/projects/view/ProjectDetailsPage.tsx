@@ -2,10 +2,13 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { RoleGuard } from 'components/security/Guards';
+import { PROJECT_ROLE, SYSTEM_ROLE } from 'constants/roles';
 import IUCNClassification from 'features/projects/view/components/IUCNClassification';
 import Partnerships from 'features/projects/view/components/Partnerships';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import PublicProjectContact from 'pages/public/components/PublicProjectContact';
 import React from 'react';
 import FundingSource from './components/FundingSource';
 import GeneralInformation from './components/GeneralInformation';
@@ -83,7 +86,12 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="ContactsTitle">
           Project Contacts
         </Typography>
-        <ProjectContact projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
+        <RoleGuard
+          validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+          validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR, PROJECT_ROLE.PROJECT_VIEWER]}
+          fallback={<PublicProjectContact projectForViewData={projectForViewData} refresh={refresh} />}>
+          <ProjectContact projectForViewData={projectForViewData} refresh={refresh} />
+        </RoleGuard>
       </Box>
 
       <Divider></Divider>

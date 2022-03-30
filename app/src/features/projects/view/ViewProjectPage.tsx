@@ -268,7 +268,6 @@ const ViewProjectPage: React.FC = () => {
                         <LocationBoundary
                           projectForViewData={projectWithDetails}
                           treatmentList={treatmentList}
-                          codes={codes.codes}
                           refresh={getProject}
                         />
                         <Box position="absolute" top="10px" right="10px" zIndex="999">
@@ -321,7 +320,6 @@ const ViewProjectPage: React.FC = () => {
             <LocationBoundary
               projectForViewData={projectWithDetails}
               treatmentList={treatmentList}
-              codes={codes.codes}
               refresh={getProject}
             />
           </Box>

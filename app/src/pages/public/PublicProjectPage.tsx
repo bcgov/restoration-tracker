@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { mdiArrowLeft } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/ProjectChips';
+import LocationBoundary from 'features/projects/view/components/LocationBoundary';
 import TreatmentList from 'features/projects/view/components/TreatmentList';
 import ProjectDetailsPage from 'features/projects/view/ProjectDetailsPage';
 import useCodes from 'hooks/useCodes';
@@ -22,7 +23,6 @@ import {
 } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import PublicLocationBoundary from './components/PublicLocationBoundary';
 import PublicProjectAttachments from './components/PublicProjectAttachments';
 import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
 
@@ -163,7 +163,7 @@ const PublicProjectPage = () => {
 
                     <Box mb={3}>
                       <Box height="500px" position="relative">
-                        <PublicLocationBoundary
+                        <LocationBoundary
                           projectForViewData={projectWithDetails}
                           treatmentList={treatmentList}
                           refresh={getProject}
@@ -211,7 +211,7 @@ const PublicProjectPage = () => {
         </Box>
         <Box display="flex" height="100%" flexDirection="column">
           <Box flex="1 1 auto">
-            <PublicLocationBoundary
+            <LocationBoundary
               projectForViewData={projectWithDetails}
               treatmentList={treatmentList}
               refresh={getProject}

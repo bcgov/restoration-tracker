@@ -4,13 +4,11 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { mdiAccountCircleOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 
 export interface IProjectContactProps {
   projectForViewData: IGetProjectForViewResponse;
-  codes: IGetAllCodeSetsResponse;
   refresh: () => void;
 }
 

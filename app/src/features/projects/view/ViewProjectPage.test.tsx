@@ -12,8 +12,6 @@ import { codes } from 'test-helpers/code-helpers';
 import { getProjectForViewResponse } from 'test-helpers/project-helpers';
 import ViewProjectPage from './ViewProjectPage';
 
-//import { codes } from 'test-helpers/code-helpers';
-
 const history = createMemoryHistory();
 
 jest.mock('../../../hooks/useRestorationTrackerApi');
@@ -50,7 +48,6 @@ const defaultAuthState = {
 const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest.Mock<
   typeof mockuseRestorationTrackerApi
 >).mockReturnValue(mockuseRestorationTrackerApi);
-//const mockRefresh = jest.fn();
 
 describe('ViewProjectPage', () => {
   beforeEach(() => {
