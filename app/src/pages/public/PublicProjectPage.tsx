@@ -118,7 +118,7 @@ const PublicProjectPage = () => {
   const codes = useCodes();
 
   const getProject = useCallback(async () => {
-    const projectWithDetailsResponse = await restorationTrackerApi.public.project.getProjectForView(projectId || 1);
+    const projectWithDetailsResponse = await restorationTrackerApi.public.project.getProjectForView(projectId);
 
     if (!projectWithDetailsResponse) {
       // TODO error handling/messaging
