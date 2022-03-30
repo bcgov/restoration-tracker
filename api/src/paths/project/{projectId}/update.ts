@@ -191,22 +191,20 @@ PUT.apiDoc = {
                   type: 'array',
                   items: {
                     type: 'object',
-                    required: [], // TODO double check which fields are required
+                    required: [
+                      'agency_id',
+                      'investment_action_category',
+                      'agency_project_id',
+                      'funding_amount',
+                      'start_date',
+                      'end_date'
+                    ],
                     properties: {
-                      id: {
-                        type: 'number'
-                      },
                       agency_id: {
                         type: 'number'
                       },
                       investment_action_category: {
                         type: 'number'
-                      },
-                      investment_action_category_name: {
-                        type: 'string'
-                      },
-                      agency_name: {
-                        type: 'string'
                       },
                       funding_amount: {
                         type: 'number'
@@ -274,7 +272,8 @@ PUT.apiDoc = {
                   }
                 },
                 region: {
-                  type: 'number'
+                  type: 'number',
+                  nullable: true
                 }
               }
             }
