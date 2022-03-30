@@ -414,7 +414,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                               scope="col"
                               width="110"
                             >
-                              Area (Ha)
+                              Area (ha)
                             </th>
                             <th
                               class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
@@ -1284,7 +1284,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                               scope="col"
                               width="110"
                             >
-                              Area (Ha)
+                              Area (ha)
                             </th>
                             <th
                               class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
@@ -2154,7 +2154,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                               scope="col"
                               width="110"
                             >
-                              Area (Ha)
+                              Area (ha)
                             </th>
                             <th
                               class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"

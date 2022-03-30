@@ -62,12 +62,12 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
 
-  const [opentreatmentDetails, setOpentreatmentDetails] = useState(false);
+  const [opentreatmentDetails, setOpenTreatmentDetails] = useState(false);
   const [currentTreatmentDetail, setCurrentTreatmentDetail] = useState<IGetProjectTreatment>();
 
   const viewTreatmentUnitDetailsDialog = (treatment: IGetProjectTreatment) => {
     setCurrentTreatmentDetail(treatment);
-    setOpentreatmentDetails(true);
+    setOpenTreatmentDetails(true);
   };
 
   const handleFormattingTreatmentsYears = (treatments: IGetTreatmentItem[]) => {
@@ -83,9 +83,9 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     });
 
     const Year_Treatments: string[] = Object.entries(treatmentsByYear).map(([key, value]) => {
-      const treatmentNamesString = Array.from(value).join(', ');
+      const treatmentNamesString = Array.from(value).filter(Boolean).join(', ');
 
-      return `${key} - ${treatmentNamesString}`;
+      return [key, treatmentNamesString].filter(Boolean).join(' - ');
     });
 
     return Year_Treatments;
@@ -109,7 +109,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
         open={opentreatmentDetails}
         dialogTitle={`Treatment Unit Details: ${currentTreatmentDetail.id}`}
         onClose={() => {
-          setOpentreatmentDetails(false);
+          setOpenTreatmentDetails(false);
           setCurrentTreatmentDetail(undefined);
         }}>
         <Box component="section" mt="5px">
@@ -216,7 +216,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                   Length (m)
                 </TableCell>
                 <TableCell align="right" width="100">
-                  Area (Ha)
+                  Area (ha)
                 </TableCell>
                 <TableCell align="right" width="50"></TableCell>
               </TableRow>
@@ -239,10 +239,13 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                       <TableCell>{row.id}</TableCell>
                       <TableCell>{row.type}</TableCell>
                       <TableCell colSpan={2}>
-
                         <Box display="flex">
-                          <Box flex="0 0 auto" width="80px">2014</Box>
-                          <Box flex="1 1 auto">Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment</Box>
+                          <Box flex="0 0 auto" width="80px">
+                            2014
+                          </Box>
+                          <Box flex="1 1 auto">
+                            Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment
+                          </Box>
                         </Box>
 
                         <Box my={1}>
@@ -250,15 +253,18 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                         </Box>
 
                         <Box display="flex">
-                          <Box flex="0 0 auto" width="80px">2015</Box>
-                          <Box flex="1 1 auto">Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment</Box>
+                          <Box flex="0 0 auto" width="80px">
+                            2015
+                          </Box>
+                          <Box flex="1 1 auto">
+                            Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment
+                          </Box>
                         </Box>
 
                         <Box hidden>
                           {formatTreatmentYears(row.treatments)}
                           {formatTreatments(row.treatments)}
                         </Box>
-
                       </TableCell>
                       <TableCell align="right">{row.width}</TableCell>
                       <TableCell align="right">{row.length}</TableCell>
