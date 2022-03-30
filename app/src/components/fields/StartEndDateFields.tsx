@@ -48,9 +48,15 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
 
   const dialogContext = useContext(DialogContext);
 
-  const updateEndDate = useCallback(() => {
+  const setEndDateToAfterStartDate = useCallback(() => {
+    if (formattedEndDateValue || !formattedStartDateValue) {
+      return;
+    }
+
     const updateEndDateValue = moment(formattedStartDateValue).add(1, 'd').format(DATE_FORMAT.ShortDateFormat);
-    setFieldValue(endName, updateEndDateValue, true);
+    setFieldValue(endName, updateEndDateValue);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formattedStartDateValue, endName, setFieldValue]);
 
   useEffect(() => {
@@ -59,16 +65,10 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
     };
 
     if (formattedEndDateValue && formattedStartDateValue >= formattedEndDateValue) {
-      updateEndDate();
+      setEndDateToAfterStartDate();
       showSnackBar({ snackbarMessage: 'Updated End Date to after selected Start Date.' });
     }
-  }, [formattedStartDateValue, formattedEndDateValue, updateEndDate, dialogContext]);
-
-  const fillInEmptyEndDate = () => {
-    if (!formattedEndDateValue) {
-      updateEndDate();
-    }
-  };
+  }, [formattedStartDateValue, formattedEndDateValue, setEndDateToAfterStartDate, dialogContext]);
 
   return (
     <Grid container item spacing={3}>
@@ -112,9 +112,7 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           required={endRequired}
           value={formattedEndDateValue}
           type="date"
-          onFocus={() => {
-            fillInEmptyEndDate();
-          }}
+          onFocus={setEndDateToAfterStartDate}
           InputProps={{
             // Chrome min/max dates
             inputProps: {

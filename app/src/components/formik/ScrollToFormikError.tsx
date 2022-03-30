@@ -6,19 +6,30 @@ import React, { useEffect, useState } from 'react';
 
 export const ScrollToFormikError: React.FC = () => {
   const formikProps = useFormikContext<IGetProjectForViewResponse>();
-  const { submitCount, isValid, errors } = formikProps;
+  const { errors } = formikProps;
   const [openSnackbar, setOpenSnackbar] = useState({ open: false, msg: '' });
 
-  useEffect(() => {
-    if (isValid) {
-      return;
-    }
+  //formik does not maintain object order, this list is to assist selecting top most error.
+  const formikErrorTopDownList = [
+    'project.project_name',
+    'project.start_date',
+    'project.objectives',
+    'species.focal_species',
+    'iucn.classificationDetails.classification',
+    'iucn.classificationDetails.subClassification1',
+    'iucn.classificationDetails.subClassification2',
+    'permit.permits.permit_number',
+    'permit.permits.permit_type',
+    'location.region',
+    'location.geometry'
+  ];
 
+  useEffect(() => {
     const showSnackBar = (message: string) => {
       setOpenSnackbar({ open: true, msg: message });
     };
 
-    const getFieldErrorNames = (obj: object, prefix = '', result: string[] = []) => {
+    const getAllFieldErrorNames = (obj: object, prefix = '', result: string[] = []) => {
       Object.keys(obj).forEach((key) => {
         const value = obj[key];
         if (!value) return;
@@ -28,12 +39,20 @@ export const ScrollToFormikError: React.FC = () => {
         const nextKey = prefix ? `${prefix}.${key}` : key;
 
         if (typeof value === 'object') {
-          getFieldErrorNames(value, nextKey, result);
+          getAllFieldErrorNames(value, nextKey, result);
         } else {
           result.push(nextKey);
         }
       });
       return result;
+    };
+
+    const getFirstErrorField = (errorArray: string[]) => {
+      return formikErrorTopDownList.find((listError) => {
+        return errorArray.find((trueError) => {
+          return listError === trueError;
+        });
+      });
     };
 
     const getFieldTitle = (absoluteErrorName: string) => {
@@ -46,21 +65,27 @@ export const ScrollToFormikError: React.FC = () => {
       return fieldTitleUpperCase;
     };
 
-    const fieldErrorNames = getFieldErrorNames(errors);
-    if (fieldErrorNames.length <= 0) {
+    const fieldErrorNames = getAllFieldErrorNames(errors);
+
+    const topFieldError = getFirstErrorField(fieldErrorNames);
+
+    if (!topFieldError) {
       return;
     }
 
-    const element = document.getElementsByName(fieldErrorNames[fieldErrorNames.length - 1]);
-    if (element.length <= 0) {
+    const fieldTitle = getFieldTitle(topFieldError);
+    showSnackBar(`Error Invalid Form Value: ${fieldTitle}`);
+
+    const errorElement = document.getElementsByName(topFieldError);
+
+    if (errorElement.length <= 0) {
       return;
     }
 
-    const fieldTitle = getFieldTitle(fieldErrorNames[fieldErrorNames.length - 1]);
+    errorElement[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-    showSnackBar(`ERROR: invalid form values: ${fieldTitle}`);
-    element[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, [submitCount, isValid, errors]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors]);
 
   return (
     <>
