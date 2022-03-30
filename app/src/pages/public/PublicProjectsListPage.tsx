@@ -107,70 +107,72 @@ const PublicProjectsListPage = () => {
   };
 
   return (
-    <Box my={4}>
-      <Container maxWidth="xl">
-        <Box mb={5}>
+    <Container maxWidth="xl">
+      <Box mb={5}>
+        <Box mb={1}>
           <Typography variant="h1">Projects</Typography>
         </Box>
-        <Paper>
-          <TableContainer>
-            <Table>
-              <TableHead>
+        <Typography variant="body1" color="textSecondary">Species inventory projects and related data in British Columbia</Typography>
+      </Box>
+      <Paper>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Permits</TableCell>
+                <TableCell>Contact Agencies</TableCell>
+                <TableCell>Start Date</TableCell>
+                <TableCell>End Date</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell width="50"/>
+              </TableRow>
+            </TableHead>
+            <TableBody data-testid="project-table">
+              {!projects?.length && (
                 <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Permits</TableCell>
-                  <TableCell>Contact Agencies</TableCell>
-                  <TableCell>Start Date</TableCell>
-                  <TableCell>End Date</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell />
+                  <TableCell colSpan={7}>
+                    <Box display="flex" justifyContent="center">
+                      No Results
+                    </Box>
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody data-testid="project-table">
-                {!projects?.length && (
-                  <TableRow>
-                    <TableCell colSpan={7}>
-                      <Box display="flex" justifyContent="center">
-                        No Results
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                )}
-                {projects?.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
-                      <Link
-                        data-testid={row.name}
-                        underline="always"
-                        component="button"
-                        variant="body2"
-                        onClick={() => navigateToPublicProjectPage(row.id)}>
-                        {row.name}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{row.permits_list}</TableCell>
-                    <TableCell>{row.contact_agency_list}</TableCell>
-                    <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
-                    <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.end_date)}</TableCell>
-                    <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
-                    <TableCell>
+              )}
+              {projects?.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    <Link
+                      data-testid={row.name}
+                      underline="always"
+                      component="button"
+                      variant="body2"
+                      onClick={() => navigateToPublicProjectPage(row.id)}>
+                      {row.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{row.permits_list}</TableCell>
+                  <TableCell>{row.contact_agency_list}</TableCell>
+                  <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.start_date)}</TableCell>
+                  <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.end_date)}</TableCell>
+                  <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
+                  <TableCell>
+                    <Box my={-1}>
                       <IconButton
                         title="Download Project EML"
                         aria-label="Download Project EML"
-                        size="small"
                         data-testid="project-table-download-eml"
                         onClick={() => handleDownloadProjectEML(row.id)}>
                         <Icon path={mdiDownload} size={1} />
                       </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </Container>
-    </Box>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+    </Container>
   );
 };
 

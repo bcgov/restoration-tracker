@@ -30,7 +30,7 @@ const PublicLayout: React.FC = (props) => {
 
         <Header />
 
-        <Box component="main" flex="1 1 auto">
+        <Box component="main" flex="1 1 auto" py={4}>
           {React.Children.map(props.children, (child: any) => {
             return React.cloneElement(child);
           })}

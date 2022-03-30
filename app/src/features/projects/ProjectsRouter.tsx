@@ -19,16 +19,12 @@ import ProjectsPage from './ProjectsPage';
 const ProjectsRouter: React.FC = () => {
   return (
     <Switch>
-      <AppRoute exact path="/admin/projects" layout={ProjectsLayout}>
-        <ProjectsLayout>
-          <ProjectsPage />
-        </ProjectsLayout>
+      <AppRoute exact path="/admin/projects">
+        <ProjectsPage />
       </AppRoute>
 
       <AppRoute exact path="/admin/projects/create" layout={ProjectsLayout}>
-        <ProjectsLayout>
-          <CreateProjectPage />
-        </ProjectsLayout>
+        <CreateProjectPage />
       </AppRoute>
 
       <AppRoute exact path="/admin/projects/:id/edit" layout={ProjectsLayout}>
@@ -36,9 +32,7 @@ const ProjectsRouter: React.FC = () => {
           validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
           validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}
           fallback={(projectId) => <Redirect to={`/projects/${projectId}`} path="" />}>
-          <ProjectsLayout>
-            <EditProjectPage />
-          </ProjectsLayout>
+          <EditProjectPage />
         </RoleGuard>
       </AppRoute>
 
@@ -49,9 +43,7 @@ const ProjectsRouter: React.FC = () => {
           validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
           validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR, PROJECT_ROLE.PROJECT_VIEWER]}
           fallback={(projectId) => <Redirect to={`/projects/${projectId}`} />}>
-          <ProjectsLayout>
             <ViewProjectPage />
-          </ProjectsLayout>
         </RoleGuard>
       </AppRoute>
 
@@ -60,9 +52,7 @@ const ProjectsRouter: React.FC = () => {
           validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
           validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}
           fallback={(projectId) => <Redirect to={`/projects/${projectId}`} />}>
-          <ProjectsLayout>
-            <ProjectParticipantsPage />
-          </ProjectsLayout>
+          <ProjectParticipantsPage />
         </RoleGuard>
       </AppRoute>
 

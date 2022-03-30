@@ -193,112 +193,111 @@ const ViewProjectPage: React.FC = () => {
 
   return (
     <>
-      <Box py={5} data-testid="view_project_page_component">
-        <Container maxWidth="xl">
-          <Box mb={5} display="flex" justifyContent="space-between">
-            <Box>
-              <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
-              <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
-                <Typography variant="subtitle2" color="textSecondary">
-                  Project Status:
-                </Typography>
-                <Box ml={1}>
-                  <ProjectStatusChip
-                    startDate={projectWithDetails.project.start_date}
-                    endDate={projectWithDetails.project.end_date}
-                  />
-                </Box>
-                {isPriority && (
-                  <Box ml={0.5}>
-                    <ProjectPriorityChip />
-                  </Box>
-                )}
+      <Container maxWidth="xl" data-testid="view_project_page_component">
+        <Box mb={5} display="flex" justifyContent="space-between">
+          <Box>
+            <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
+            <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
+              <Typography variant="subtitle2" color="textSecondary">
+                Project Status:
+              </Typography>
+              <Box ml={1}>
+                <ProjectStatusChip
+                  startDate={projectWithDetails.project.start_date}
+                  endDate={projectWithDetails.project.end_date}
+                />
               </Box>
+              {isPriority && (
+                <Box ml={0.5}>
+                  <ProjectPriorityChip />
+                </Box>
+              )}
             </Box>
-            <RoleGuard
-              validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
-              validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}>
-              <Box className={classes.titleContainerActions}>
-                <Button variant="outlined" color="primary" onClick={() => history.push('users')}>
-                  Manage Project Team
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
-                  Edit Project
-                </Button>
-                <RoleGuard
-                  validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
-                  validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
-                  <Button variant="outlined" color="primary" onClick={showDeleteProjectDialog}>
-                    Delete Project
-                  </Button>
-                </RoleGuard>
-              </Box>
-            </RoleGuard>
           </Box>
+          <RoleGuard
+            validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+            validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}>
+            <Box className={classes.titleContainerActions}>
+              <Button variant="outlined" color="primary" onClick={() => history.push('users')}>
+                Manage Project Team
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
+                Edit Project
+              </Button>
+              <RoleGuard
+                validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+                validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
+                <Button variant="outlined" color="primary" onClick={showDeleteProjectDialog}>
+                  Delete Project
+                </Button>
+              </RoleGuard>
+            </Box>
+          </RoleGuard>
+        </Box>
 
-          <Box mt={2}>
-            <Grid container spacing={3}>
-              <Grid item md={8}>
-                <Box>
-                  <Box mb={3}>
-                    <Paper elevation={2}>
-                      <Box p={3}>
-                        <Box mb={2}>
-                          <Typography variant="h2">Project Objectives</Typography>
-                        </Box>
-                        <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
-                      </Box>
-                    </Paper>
-                  </Box>
-
+        <Box mt={2}>
+          <Grid container spacing={3}>
+            <Grid item md={8}>
+              <Box>
+                <Box mb={3}>
                   <Paper elevation={2}>
-                    <Box px={3}>
-                      <TreatmentSpatialUnits
-                        treatmentList={treatmentList}
-                        getTreatments={getTreatments}
-                        getAttachments={getAttachments}
-                      />
-                    </Box>
-
-                    <Box mb={3}>
-                      <Box height="500px" position="relative">
-                        <LocationBoundary
-                          projectForViewData={projectWithDetails}
-                          treatmentList={treatmentList}
-                          refresh={getProject}
-                        />
-                        <Box position="absolute" top="10px" right="10px" zIndex="999">
-                          <Button variant="outlined" color="primary" onClick={openMapDialog}>
-                            Full Screen
-                          </Button>
-                        </Box>
+                    <Box p={3}>
+                      <Box mb={2}>
+                        <Typography variant="h2">Project Objectives</Typography>
                       </Box>
-                      <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+                      <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
                     </Box>
-                  </Paper>
-
-                  <Paper elevation={2}>
-                    <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
                   </Paper>
                 </Box>
-              </Grid>
 
-              <Grid item md={4}>
                 <Paper elevation={2}>
-                  <ProjectDetailsPage
-                    projectForViewData={projectWithDetails}
-                    codes={codes.codes}
-                    refresh={getProject}
-                  />
+                  <Box px={3}>
+                    <TreatmentSpatialUnits
+                      treatmentList={treatmentList}
+                      getTreatments={getTreatments}
+                      getAttachments={getAttachments}
+                    />
+                  </Box>
+
+                  <Box mb={3}>
+                    <Box height="500px" position="relative">
+                      <LocationBoundary
+                        projectForViewData={projectWithDetails}
+                        treatmentList={treatmentList}
+                        refresh={getProject}
+                      />
+                      <Box position="absolute" top="10px" right="10px" zIndex="999">
+                        <Button variant="outlined" color="primary" onClick={openMapDialog}>
+                          Full Screen
+                        </Button>
+                      </Box>
+                    </Box>
+                    <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+                  </Box>
                 </Paper>
-              </Grid>
+
+                <Paper elevation={2}>
+                  <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
+                </Paper>
+              </Box>
             </Grid>
-          </Box>
-        </Container>
-      </Box>
+
+            <Grid item md={4}>
+              <Paper elevation={2}>
+                <ProjectDetailsPage
+                  projectForViewData={projectWithDetails}
+                  codes={codes.codes}
+                  refresh={getProject}
+                />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+
 
       <Dialog fullScreen open={openFullScreen} onClose={closeMapDialog}>
         <Box pr={3} pl={1} display="flex" alignItems="center">

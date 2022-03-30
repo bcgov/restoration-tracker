@@ -32,17 +32,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: '1px solid rgba(0, 0, 0, 0.23)',
     borderRadius: '4px 0 0 4px',
     backgroundColor: '#f6f6f6',
+    transition: 'all ease-out 0.25s',
     '&:hover': {
       borderColor: theme.palette.primary.main,
-      borderWidth: '2px'
+      boxShadow: '0 0 0 1px #003366 inset'
     },
     '&:active': {
       borderColor: theme.palette.primary.main,
-      borderWidth: '2px'
+      boxShadow: '0 0 0 1px #003366 inset'
     },
     '&:focus': {
       borderColor: theme.palette.primary.main,
-      borderWidth: '2px'
+      boxShadow: '0 0 0 1px #003366 inset'
     }
   },
   filterToggleBtn: {
