@@ -126,7 +126,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>File Size</TableCell>
-                <TableCell></TableCell>
+                <TableCell width="100" align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -140,7 +140,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
                         </Link>
                       </TableCell>
                       <TableCell>{getFormattedFileSize(row.size)}</TableCell>
-                      <TableCell align="right">
+                      <TableCell align="center">
                         <AttachmentItemMenuButton
                           attachment={row}
                           handleDownloadFileClick={handleDownloadFileClick}
@@ -204,8 +204,8 @@ const AttachmentItemMenuButton: React.FC<IAttachmentItemMenuButtonProps> = (prop
       <Box my={-1}>
         <Box>
           <IconButton
-            color="primary"
-            aria-label="delete attachment"
+            size="small"
+            aria-label="document actions"
             onClick={handleClick}
             data-testid="attachment-action-menu">
             <Icon path={mdiDotsVertical} size={1} />

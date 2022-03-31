@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { mdiMenuDown, mdiTrashCanOutline, mdiTrayArrowUp } from '@mdi/js';
+import { mdiMenuDown, mdiTrashCanOutline, mdiImport } from '@mdi/js';
 import Icon from '@mdi/react';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
@@ -161,7 +161,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
             <Button
               id={'open-layer-menu'}
               data-testid={'open-layer-menu'}
-              variant="outlined"
+              variant="text"
               color="primary"
               title={'Filter Treaatments'}
               aria-label={'Filter Treatments'}
@@ -179,7 +179,9 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}>
 
-                {!yearList && <Typography>No Treatment Years Available</Typography>}
+                {yearList.length === 0 && 
+                  <MenuItem dense disabled>No treatments available</MenuItem>
+                }
                 {yearList.length >= 1 &&
                   yearList.map((year) => {
                     return (
@@ -213,7 +215,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                 color="primary"
                 title={'Import Spatial'}
                 aria-label={'Import Spatial'}
-                startIcon={<Icon path={mdiTrayArrowUp} size={1} />}
+                startIcon={<Icon path={mdiImport} size={1} />}
                 onClick={handleImportTreatmentClick}>
                 Import Treatments
               </Button>

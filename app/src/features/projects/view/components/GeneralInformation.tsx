@@ -42,31 +42,31 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
   return (
     <Box component="dl" data-testid="general_info_component">
-      <div>
+      {/* <div>
         <Typography variant="body2" component="dt" color="textSecondary">
           Project Name
         </Typography>
         <Typography variant="body2" component="dd">
           {project.project_name}
         </Typography>
-      </div>
+      </div> */}
       <div>
         <Typography variant="body2" component="dt" color="textSecondary">
-          Region
+          Region:
         </Typography>
         {getRegionName(location.region)}
       </div>
       {location && location.range && (
         <div>
           <Typography variant="body2" component="dt" color="textSecondary">
-            Range
+            Caribou Range:
           </Typography>
           {getRangeName(location.range)}
         </div>
       )}
       <div>
         <Typography variant="body2" component="dt" color="textSecondary">
-          Start Date
+          Start Date:
         </Typography>
         <Typography variant="body2" component="dd">
           {getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.start_date)}
@@ -74,7 +74,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
       </div>
       <div>
         <Typography variant="body2" component="dt" color="textSecondary">
-          End Date
+          End Date:
         </Typography>
         <Typography variant="body2" component="dd">
           {project.end_date ? getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, project.end_date) : '---'}
@@ -82,7 +82,7 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
       </div>
       <div>
         <Typography variant="body2" component="dt" color="textSecondary">
-          Focal Species
+          Focal Species:
         </Typography>
         <Typography component="dd" variant="body2">
           {species.focal_species_names?.map((item: any, index: number) => {

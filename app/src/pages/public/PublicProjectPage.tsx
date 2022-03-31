@@ -122,7 +122,7 @@ const PublicProjectPage = () => {
           <Box>
             <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
             <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
-              <Typography variant="subtitle2" color="textSecondary">
+              <Typography variant="subtitle2" component="span" color="textSecondary">
                 Project Status:
               </Typography>
               <Box ml={1}>
