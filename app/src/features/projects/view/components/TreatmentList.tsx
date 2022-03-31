@@ -71,20 +71,6 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     setOpenTreatmentDetails(true);
   };
 
-  const getDividedList = (items: string[]): ReactElement[] => {
-    const list: JSX.Element[] = [];
-
-    items.forEach((item, index) => {
-      list.push(<Box key={item}>{item}</Box>);
-
-      if (index !== items.length - 1) {
-        list.push(<Divider key={item}></Divider>);
-      }
-    });
-
-    return list;
-  };
-
   const TreatmentDetailDialog = () => {
     if (!currentTreatmentDetail) {
       return <></>;
@@ -156,6 +142,33 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     );
   };
 
+  const formatYearsTreatmentsBox = (treatmentsByYear: Record<string, string>) => {
+    const formattedTreatments: ReactElement[] = [];
+
+    const treatmentEntries = Object.entries(treatmentsByYear);
+
+    treatmentEntries.forEach(([key, value], index) => {
+      formattedTreatments.push(
+        <Box display="flex" key={`${key}-${index}-value`}>
+          <Box flex="0 0 auto" width="80px">
+            {key}
+          </Box>
+          <Box flex="1 1 auto">{value}</Box>
+        </Box>
+      );
+
+      if (index !== treatmentEntries.length - 1) {
+        formattedTreatments.push(
+          <Box my={1} key={`${key}-${index}-divider`}>
+            <Divider></Divider>
+          </Box>
+        );
+      }
+    });
+
+    return formattedTreatments;
+  };
+
   return (
     <>
       <Box display="flex" flexDirection="column" height="100%">
@@ -176,7 +189,9 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                 <TableCell align="right" width="100">
                   Area (ha)
                 </TableCell>
-                <TableCell align="right" width="50"></TableCell>
+                <TableCell align="center" width="100">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -197,37 +212,12 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                       <TableCell>{row.id}</TableCell>
                       <TableCell>{row.type}</TableCell>
                       <TableCell colSpan={2}>
-                        <Box display="flex">
-                          <Box flex="0 0 auto" width="80px">
-                            2014
-                          </Box>
-                          <Box flex="1 1 auto">
-                            Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment
-                          </Box>
-                        </Box>
-
-                        <Box my={1}>
-                          <Divider></Divider>
-                        </Box>
-
-                        <Box display="flex">
-                          <Box flex="0 0 auto" width="80px">
-                            2015
-                          </Box>
-                          <Box flex="1 1 auto">
-                            Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment
-                          </Box>
-                        </Box>
-
-                        <Box hidden>
-                          {getDividedList(Object.keys(groupTreatmentsByYear(row.treatments)))}
-                          {getDividedList(Object.values(groupTreatmentsByYear(row.treatments)))}
-                        </Box>
+                        {formatYearsTreatmentsBox(groupTreatmentsByYear(row.treatments))}
                       </TableCell>
                       <TableCell align="right">{row.width}</TableCell>
                       <TableCell align="right">{row.length}</TableCell>
                       <TableCell align="right">{row.area}</TableCell>
-                      <TableCell align="right" width="50">
+                      <TableCell align="center">
                         <Box my={-0.65}>
                           <IconButton
                             size="small"
