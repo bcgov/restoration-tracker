@@ -1,6 +1,6 @@
 # bcgov/restoration-tracker/app
 
-A standard React web-app for Restoration Tracker management activities.
+A standard React web-app for Habitat Restoration Tracker management activities.
 
 ## Documenation
 
