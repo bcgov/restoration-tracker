@@ -1,23 +1,23 @@
+import { ListItem } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import { mdiMenuDown, mdiTrashCanOutline, mdiTrayArrowUp } from '@mdi/js';
 import Icon from '@mdi/react';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
+import { DialogContext } from 'contexts/dialogContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
-import React, { useCallback, useEffect, useState, useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { makeStyles } from '@material-ui/core/styles';
-import { DialogContext } from 'contexts/dialogContext';
 
 const useStyles = makeStyles({
   filterMenu: {
@@ -207,17 +207,19 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               {yearList.length >= 1 &&
                 yearList.map((year) => {
                   return (
-                    <MenuItem
+                    <ListItem
                       dense
                       disableGutters
                       className={classes.filterMenu}
                       key={year.year}
-                      selected={selectedSpatialLayer[year.year]}
-                      onClick={() => handleSelectedSwitch(year.year)}>
-                      <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
+                      selected={selectedSpatialLayer[year.year]}>
+                      <ListItemIcon onClick={() => handleSelectedSwitch(year.year)}>
+                        <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
+                      </ListItemIcon>
                       <Box flexGrow={1} ml={0.5}>
                         {year.year}
                       </Box>
+
                       <ListItemIcon
                         aria-labelledby="delete treatment year data"
                         title="Delete treatment year data"
@@ -226,7 +228,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                         }}>
                         <Icon path={mdiTrashCanOutline} size={0.9375} />
                       </ListItemIcon>
-                    </MenuItem>
+                    </ListItem>
                   );
                 })}
             </Menu>
