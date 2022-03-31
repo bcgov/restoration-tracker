@@ -224,7 +224,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
             <TableBody data-testid="project-table">
               {!treatmentList?.length && (
                 <TableRow>
-                  <TableCell colSpan={7}>
+                  <TableCell colSpan={8}>
                     <Box display="flex" justifyContent="center">
                       No Treatments
                     </Box>
