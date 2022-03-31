@@ -86,6 +86,7 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
     dialogContext.setYesNoDialog({
       ...defaultYesNoDialogProps,
       open: true,
+      yesButtonProps: { color: 'secondary' },
       onYes: () => {
         deleteAttachment(attachment);
         dialogContext.setYesNoDialog({ open: false });
