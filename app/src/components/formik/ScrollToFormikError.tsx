@@ -49,13 +49,10 @@ export const ScrollToFormikError: React.FC = () => {
 
     const getFirstErrorField = (errorArray: string[]): string | undefined => {
       for (const listError of formikErrorTopDownList) {
-        const foundError = errorArray.find((trueError) => {
+        for (const trueError of errorArray) {
           if (trueError.match(listError) || listError === trueError) {
             return trueError;
           }
-        });
-        if (foundError) {
-          return foundError;
         }
       }
     };
