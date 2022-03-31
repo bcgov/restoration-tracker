@@ -94,6 +94,7 @@ export function getTreatmentYears(): RequestHandler {
     } catch (error) {
       defaultLog.error({ label: 'getProjectTreatments', message: 'error', error });
       await connection.rollback();
+
       throw error;
     } finally {
       connection.release();

@@ -65,7 +65,7 @@ GET.apiDoc = {
 
 export function getProjectEml(): RequestHandler {
   return async (req, res) => {
-    defaultLog.debug({ label: 'getProjectEml', message: 'params', files: req.body });
+    defaultLog.debug({ label: 'getProjectEml', message: 'params', files: req.params });
 
     const projectId = Number(req.params.projectId);
 
@@ -83,6 +83,11 @@ export function getProjectEml(): RequestHandler {
       res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
       res.attachment(`project_${projectId}_eml.xml`);
       res.contentType('application/xml');
+
+      console.log('req.params is', req.params);
+      console.log('res header is:', res.header);
+      console.log('res attachment is:', res.attachment);
+      console.log('res content type is:', res.contentType);
 
       return res.status(200).send({ eml: xmlData });
     } catch (error) {
