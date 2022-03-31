@@ -108,7 +108,7 @@ export function deleteTreatmentsByYear(): RequestHandler {
 
       return res.status(200).send();
     } catch (error) {
-      defaultLog.error({ label: 'deleteTreatmentUnit', message: 'error', error });
+      defaultLog.error({ label: 'deleteTreatmentsByYear', message: 'error', error });
       await connection.rollback();
       throw error;
     } finally {

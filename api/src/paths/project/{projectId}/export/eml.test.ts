@@ -3,15 +3,15 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as db from '../../../../database/db';
+
 import { HTTPError } from '../../../../errors/custom-error';
-import { GetAttachmentsData } from '../../../../models/project-attachments';
-import { AttachmentService } from '../../../../services/attachment-service';
+import { getProjectEml } from './eml';
+import { EmlService } from '../../../../services/eml-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../../__mocks__/db';
-import { getAttachments } from './list';
 
 chai.use(sinonChai);
 
-describe('getAttachments', () => {
+describe('getProjectEml', () => {
   const dbConnectionObj = getMockDBConnection();
 
   const sampleReq = {
@@ -22,18 +22,6 @@ describe('getAttachments', () => {
     }
   } as any;
 
-  let actualResult: any = null;
-
-  const sampleRes = {
-    status: () => {
-      return {
-        json: (result: any) => {
-          actualResult = result;
-        }
-      };
-    }
-  };
-
   afterEach(() => {
     sinon.restore();
   });
@@ -42,7 +30,7 @@ describe('getAttachments', () => {
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     try {
-      await getAttachments()(
+      await getProjectEml()(
         { ...sampleReq, params: { ...sampleReq.params, projectId: null } },
         (null as unknown) as any,
         (null as unknown) as any
@@ -50,26 +38,16 @@ describe('getAttachments', () => {
       expect.fail();
     } catch (actualError) {
       expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required path param `projectId`');
+      expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
     }
   });
 
-  it('should return a list of project attachments, on success', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    sinon.stub(AttachmentService.prototype, 'getAttachments').resolves(new GetAttachmentsData());
-
-    await getAttachments()(sampleReq, sampleRes as any, (null as unknown) as any);
-
-    expect(actualResult).to.be.eql(new GetAttachmentsData());
-  });
-
-  it('should throw an error when list attachments fails', async () => {
+  it('should throw an error when buildProjectEml fails', async () => {
     const dbConnectionObj = getMockDBConnection({ rollback: sinon.stub(), release: sinon.stub() });
 
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    sinon.stub(AttachmentService.prototype, 'getAttachments').rejects(new Error('a test error'));
+    sinon.stub(EmlService.prototype, 'buildProjectEml').rejects(new Error('a test error'));
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -78,7 +56,7 @@ describe('getAttachments', () => {
     };
 
     try {
-      const requestHandler = getAttachments();
+      const requestHandler = getProjectEml();
       await requestHandler(mockReq, mockRes, mockNext);
       expect.fail();
     } catch (actualError) {
