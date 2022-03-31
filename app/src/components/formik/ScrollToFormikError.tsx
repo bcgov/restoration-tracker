@@ -9,7 +9,8 @@ export const ScrollToFormikError: React.FC = () => {
   const { errors } = formikProps;
   const [openSnackbar, setOpenSnackbar] = useState({ open: false, msg: '' });
 
-  //formik does not maintain object order, this list is to assist selecting top most error.
+  //In order to scroll to top most error, a list needs to be provided of the given order of fields.
+  //This is done because formik object errors does not maintain any order in relation to the fields of the page.
   const formikErrorTopDownList = [
     'project.project_name',
     'project.start_date',
