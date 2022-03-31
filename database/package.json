@@ -1,7 +1,7 @@
 {
   "name": "restoration-tracker-db",
   "version": "0.0.0",
-  "description": "Database migrations/seeding for Restoration Tracker",
+  "description": "Database migrations/seeding for Habitat Restoration Tracker",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
