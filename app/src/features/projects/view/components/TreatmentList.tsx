@@ -14,9 +14,10 @@ import Typography from '@material-ui/core/Typography';
 import { mdiInformationOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import ComponentDialog from 'components/dialog/ComponentDialog';
-import { IGetProjectTreatment, IGetTreatmentItem, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
-import React, { useState } from 'react';
+import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
+import React, { ReactElement, useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
+import { getFormattedTreatmentStringsByYear, groupTreatmentsByYear } from 'utils/treatments';
 
 export interface IProjectTreatmentListProps {
   treatmentList: IGetProjectTreatment[];
@@ -70,25 +71,18 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     setOpenTreatmentDetails(true);
   };
 
-  const handleFormattingTreatmentsYears = (treatments: IGetTreatmentItem[]) => {
-    const treatmentsByYear: { [key: string]: Set<string> } = {};
+  const getDividedList = (items: string[]): ReactElement[] => {
+    const list: JSX.Element[] = [];
 
-    treatments.forEach((item) => {
-      if (!treatmentsByYear[item.treatment_year]) {
-        treatmentsByYear[item.treatment_year] = new Set();
-        treatmentsByYear[item.treatment_year].add(item.treatment_name);
-      } else {
-        treatmentsByYear[item.treatment_year].add(item.treatment_name);
+    items.forEach((item, index) => {
+      list.push(<Box key={item}>{item}</Box>);
+
+      if (index !== items.length - 1) {
+        list.push(<Divider key={item}></Divider>);
       }
     });
 
-    const Year_Treatments: string[] = Object.entries(treatmentsByYear).map(([key, value]) => {
-      const treatmentNamesString = Array.from(value).filter(Boolean).join(', ');
-
-      return [key, treatmentNamesString].filter(Boolean).join(' - ');
-    });
-
-    return Year_Treatments;
+    return list;
   };
 
   const TreatmentDetailDialog = () => {
@@ -101,7 +95,10 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
       { title: 'Type', value: currentTreatmentDetail.type },
       { title: 'Width (m) / Length (m)', value: `${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}` },
       { title: 'Area (ha)', value: currentTreatmentDetail.area },
-      { title: 'Treatments', value: handleFormattingTreatmentsYears(currentTreatmentDetail.treatments) }
+      {
+        title: 'Treatments',
+        value: getFormattedTreatmentStringsByYear(groupTreatmentsByYear(currentTreatmentDetail.treatments))
+      }
     ];
 
     return (
@@ -157,45 +154,6 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
         </Box>
       </ComponentDialog>
     );
-  };
-
-  const formatTreatmentYears = (treatments: IGetTreatmentItem[]) => {
-    const formattedTreatmentsYears = handleFormattingTreatmentsYears(treatments);
-
-    const filteredYears: JSX.Element[] = [];
-
-    if (Array.isArray(formattedTreatmentsYears)) {
-      formattedTreatmentsYears.forEach((item: string) => {
-        const split = item.split(' - ');
-        filteredYears.push(<Box key={item}>{split[0]}</Box>);
-
-        if (formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) + 1]) {
-          filteredYears.push(<Divider key={split[0]}></Divider>);
-        }
-      });
-    }
-
-    return filteredYears;
-  };
-
-  const formatTreatments = (treatments: IGetTreatmentItem[]) => {
-    const formattedTreatmentsYears = handleFormattingTreatmentsYears(treatments);
-
-    const filteredTreatments: JSX.Element[] = [];
-
-    if (Array.isArray(formattedTreatmentsYears)) {
-      formattedTreatmentsYears.forEach((item: string) => {
-        const split = item.split(' - ');
-
-        filteredTreatments.push(<Box key={item}>{split[1]}</Box>);
-
-        if (formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) + 1]) {
-          filteredTreatments.push(<Divider key={split[1]}></Divider>);
-        }
-      });
-    }
-
-    return filteredTreatments;
   };
 
   return (
@@ -262,8 +220,8 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                         </Box>
 
                         <Box hidden>
-                          {formatTreatmentYears(row.treatments)}
-                          {formatTreatments(row.treatments)}
+                          {getDividedList(Object.keys(groupTreatmentsByYear(row.treatments)))}
+                          {getDividedList(Object.values(groupTreatmentsByYear(row.treatments)))}
                         </Box>
                       </TableCell>
                       <TableCell align="right">{row.width}</TableCell>

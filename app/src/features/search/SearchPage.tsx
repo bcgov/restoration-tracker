@@ -94,7 +94,12 @@ const SearchPage: React.FC = () => {
         <Typography variant="h1">Map</Typography>
       </Box>
       <Box height={750}>
-        <MapContainer mapId="search_boundary_map" scrollWheelZoom={true} markers={geometries} />
+        <MapContainer
+          mapId="search_boundary_map"
+          fullScreenControl={true}
+          scrollWheelZoom={true}
+          markers={geometries}
+        />
       </Box>
     </Container>
   );
