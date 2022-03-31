@@ -126,7 +126,9 @@ const AttachmentsList: React.FC<IAttachmentsListProps> = (props) => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>File Size</TableCell>
-                <TableCell width="100" align="center">Actions</TableCell>
+                <TableCell width="100" align="center">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

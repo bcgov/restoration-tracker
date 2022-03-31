@@ -1,22 +1,23 @@
+import { ListItem } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { mdiMenuDown, mdiTrashCanOutline, mdiImport } from '@mdi/js';
+import { mdiImport, mdiMenuDown, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
+import { DialogContext } from 'contexts/dialogContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   filterMenu: {
@@ -61,6 +62,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
 
   const handleClose = () => setAnchorEl(null);
+  const dialogContext = useContext(DialogContext);
 
   const handleUpload = (): IUploadHandler => {
     return (file, cancelToken, handleFileUploadProgress) => {
@@ -75,6 +77,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const handleDeleteTreatmentsByYear = async (year: number) => {
     await restorationTrackerApi.project.deleteProjectTreatmentsByYear(projectId, year);
+
     handleSelectedSwitch(year);
     getTreatmentYears(true);
   };
@@ -133,6 +136,29 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     }
   }, [getTreatmentYears, yearList.length, isTreatmentLoading]);
 
+  const defaultYesNoDialogProps = {
+    dialogText: 'Are you sure you want to permanently delete these treatments?',
+    open: false,
+    onClose: () => dialogContext.setYesNoDialog({ open: false }),
+    onNo: () => dialogContext.setYesNoDialog({ open: false }),
+    onYes: () => dialogContext.setYesNoDialog({ open: false })
+  };
+
+  const showDeleteTreatmentYearDialog = (year: string | number) => {
+    dialogContext.setYesNoDialog({
+      ...defaultYesNoDialogProps,
+      dialogTitle: `Delete ${year} treatments`,
+      open: true,
+      yesButtonProps: { color: 'secondary' },
+      yesButtonLabel: 'Delete',
+      noButtonLabel: 'Cancel',
+      onYes: () => {
+        handleDeleteTreatmentsByYear(Number(year));
+        dialogContext.setYesNoDialog({ open: false });
+      }
+    });
+  };
+
   return (
     <Box>
       <ComponentDialog
@@ -157,7 +183,6 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
           <Typography variant="h2">Restoration Treatments</Typography>
 
           <Box>
-            
             <Button
               id={'open-layer-menu'}
               data-testid={'open-layer-menu'}
@@ -178,33 +203,34 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-
-                {yearList.length === 0 && 
-                  <MenuItem dense disabled>No treatments available</MenuItem>
-                }
-                {yearList.length >= 1 &&
-                  yearList.map((year) => {
-                    return (
-                      <MenuItem
-                        dense
-                        disableGutters
-                        className={classes.filterMenu}
-                        key={year.year}
-                        selected={selectedSpatialLayer[year.year]}
-                        onClick={() => handleSelectedSwitch(year.year)}>
+              {!yearList && <Typography>No Treatment Years Available</Typography>}
+              {yearList.length >= 1 &&
+                yearList.map((year) => {
+                  return (
+                    <ListItem
+                      dense
+                      disableGutters
+                      className={classes.filterMenu}
+                      key={year.year}
+                      selected={selectedSpatialLayer[year.year]}>
+                      <ListItemIcon onClick={() => handleSelectedSwitch(year.year)}>
                         <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
-                        <Box flexGrow={1} ml={0.5}>{year.year}</Box>
-                        <ListItemIcon
-                          aria-labelledby='delete treatment year data'
-                          title="Delete treatment year data"
-                          onClick={() => handleDeleteTreatmentsByYear(year.year)}
-                        >
-                          <Icon path={mdiTrashCanOutline} size={0.9375} />
-                        </ListItemIcon>
-                      </MenuItem>
-                    );
-                  })}
+                      </ListItemIcon>
+                      <Box flexGrow={1} ml={0.5}>
+                        {year.year}
+                      </Box>
 
+                      <ListItemIcon
+                        aria-labelledby="delete treatment year data"
+                        title="Delete treatment year data"
+                        onClick={() => {
+                          showDeleteTreatmentYearDialog(year.year);
+                        }}>
+                        <Icon path={mdiTrashCanOutline} size={0.9375} />
+                      </ListItemIcon>
+                    </ListItem>
+                  );
+                })}
             </Menu>
 
             <Box display="inline-block" ml={1}>
@@ -220,7 +246,6 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                 Import Treatments
               </Button>
             </Box>
-
           </Box>
         </Box>
       </Toolbar>

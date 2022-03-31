@@ -112,7 +112,9 @@ const PublicProjectsListPage = () => {
         <Box mb={1}>
           <Typography variant="h1">Projects</Typography>
         </Box>
-        <Typography variant="body1" color="textSecondary">Species inventory projects and related data in British Columbia</Typography>
+        <Typography variant="body1" color="textSecondary">
+          Species inventory projects and related data in British Columbia
+        </Typography>
       </Box>
       <Paper>
         <TableContainer>
@@ -125,7 +127,7 @@ const PublicProjectsListPage = () => {
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell width="50"/>
+                <TableCell width="50" />
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">

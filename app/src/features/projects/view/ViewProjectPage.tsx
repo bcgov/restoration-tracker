@@ -126,7 +126,7 @@ const ViewProjectPage: React.FC = () => {
   const defaultYesNoDialogProps = {
     dialogTitle: DeleteProjectI18N.deleteTitle,
     dialogText: DeleteProjectI18N.deleteText,
-    
+
     open: false,
     onClose: () => dialogContext.setYesNoDialog({ open: false }),
     onNo: () => dialogContext.setYesNoDialog({ open: false }),
@@ -250,7 +250,9 @@ const ViewProjectPage: React.FC = () => {
                       <Box mb={2}>
                         <Typography variant="h2">Project Objectives</Typography>
                       </Box>
-                      <Typography variant="body1" color="textSecondary">{projectWithDetails.project.objectives}</Typography>
+                      <Typography variant="body1" color="textSecondary">
+                        {projectWithDetails.project.objectives}
+                      </Typography>
                     </Box>
                   </Paper>
                 </Box>
@@ -273,7 +275,7 @@ const ViewProjectPage: React.FC = () => {
                       />
                       <Box position="absolute" top="10px" right="10px" zIndex="999">
                         <Button
-                          size="small" 
+                          size="small"
                           variant="outlined"
                           color="primary"
                           startIcon={<Icon path={mdiFullscreen} size={1} />}
@@ -294,17 +296,12 @@ const ViewProjectPage: React.FC = () => {
 
             <Grid item md={4}>
               <Paper elevation={2}>
-                <ProjectDetailsPage
-                  projectForViewData={projectWithDetails}
-                  codes={codes.codes}
-                  refresh={getProject}
-                />
+                <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
               </Paper>
             </Grid>
           </Grid>
         </Box>
       </Container>
-
 
       <Dialog fullScreen open={openFullScreen} onClose={closeMapDialog}>
         <Box pr={3} pl={1} display="flex" alignItems="center">

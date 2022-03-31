@@ -55,7 +55,6 @@ const MyProjectsPage: React.FC = () => {
 
   return (
     <Container maxWidth="xl">
-
       <Box mb={5} display="flex" justifyContent="space-between">
         <Typography variant="h1">My Projects</Typography>
         <SystemRoleGuard
@@ -72,7 +71,6 @@ const MyProjectsPage: React.FC = () => {
       </Box>
 
       <ProjectsListPage projects={projects} drafts={drafts} />
-
     </Container>
   );
 };

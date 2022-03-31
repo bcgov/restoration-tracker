@@ -109,7 +109,9 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell width="100" align="center">Actions</TableCell>
+                <TableCell width="100" align="center">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">

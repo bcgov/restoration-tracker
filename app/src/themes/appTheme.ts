@@ -203,7 +203,7 @@ const appTheme = createMuiTheme({
         letterSpacing: '0.02rem',
         textTransform: 'uppercase',
         fontSize: '12px',
-        fontWeight: 700,
+        fontWeight: 700
       },
       stickyHeader: {
         backgroundColor: '#f0f0f0'

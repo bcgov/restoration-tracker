@@ -141,10 +141,7 @@ const Header: React.FC = () => {
         <Box pl={2}>
           <Divider orientation="vertical" />
         </Box>
-        <IconButton
-          aria-label="need help"
-          className={classes.govHeaderIconButton}
-          onClick={showSupportDialog}>
+        <IconButton aria-label="need help" className={classes.govHeaderIconButton} onClick={showSupportDialog}>
           <Icon path={mdiHelpCircle} size={1.12} />
         </IconButton>
       </Box>
@@ -275,7 +272,9 @@ const Header: React.FC = () => {
             </OtherLink>
             .
           </Typography>
-          <Typography variant="body1" color="textSecondary">A support representative will respond to your request shortly.</Typography>
+          <Typography variant="body1" color="textSecondary">
+            A support representative will respond to your request shortly.
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="primary" onClick={hideSupportDialog}>
