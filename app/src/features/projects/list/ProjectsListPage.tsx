@@ -109,7 +109,9 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell width="50" />
+                <TableCell width="100" align="center">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -140,7 +142,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell />
                   <TableCell />
                   <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
-                  <TableCell width="50" />
+                  <TableCell></TableCell>
                 </TableRow>
               ))}
               {projects?.map((row) => (
@@ -160,9 +162,10 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.start_date)}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.end_date)}</TableCell>
                   <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Box my={-1}>
                       <IconButton
+                        size="small"
                         title="Download Project EML"
                         aria-label="Download Project EML"
                         data-testid="project-table-download-eml"

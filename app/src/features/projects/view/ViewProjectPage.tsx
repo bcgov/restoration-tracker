@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { mdiArrowLeft } from '@mdi/js';
+import { mdiArrowLeft, mdiFullscreen } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/ProjectChips';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
@@ -200,7 +200,7 @@ const ViewProjectPage: React.FC = () => {
           <Box>
             <Typography variant="h1">{projectWithDetails.project.project_name}</Typography>
             <Box mt={1.5} display="flex" flexDirection={'row'} alignItems="center">
-              <Typography variant="subtitle2" color="textSecondary">
+              <Typography variant="subtitle2" component="span" color="textSecondary">
                 Project Status:
               </Typography>
               <Box ml={1}>
@@ -250,7 +250,9 @@ const ViewProjectPage: React.FC = () => {
                       <Box mb={2}>
                         <Typography variant="h2">Project Objectives</Typography>
                       </Box>
-                      <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
+                      <Typography variant="body1" color="textSecondary">
+                        {projectWithDetails.project.objectives}
+                      </Typography>
                     </Box>
                   </Paper>
                 </Box>
@@ -272,8 +274,13 @@ const ViewProjectPage: React.FC = () => {
                         refresh={getProject}
                       />
                       <Box position="absolute" top="10px" right="10px" zIndex="999">
-                        <Button variant="outlined" color="primary" onClick={openMapDialog}>
-                          Full Screen
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          color="primary"
+                          startIcon={<Icon path={mdiFullscreen} size={1} />}
+                          onClick={openMapDialog}>
+                          View Full Screen
                         </Button>
                       </Box>
                     </Box>
@@ -298,8 +305,8 @@ const ViewProjectPage: React.FC = () => {
 
       <Dialog fullScreen open={openFullScreen} onClose={closeMapDialog}>
         <Box pr={3} pl={1} display="flex" alignItems="center">
-          <Box>
-            <IconButton onClick={closeMapDialog}>
+          <Box mr={1}>
+            <IconButton onClick={closeMapDialog} aria-label="back to project">
               <Icon path={mdiArrowLeft} size={1} />
             </IconButton>
           </Box>

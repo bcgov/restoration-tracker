@@ -15,11 +15,11 @@ export const ScrollToFormikError: React.FC = () => {
     'project.start_date',
     'project.objectives',
     'species.focal_species',
-    'iucn.classificationDetails.classification',
-    'iucn.classificationDetails.subClassification1',
-    'iucn.classificationDetails.subClassification2',
-    'permit.permits.permit_number',
-    'permit.permits.permit_type',
+    /^iucn\.classificationDetails\.\[\d+]\.classification$/,
+    /^iucn\.classificationDetails\.\[\d+]\.subClassification1$/,
+    /^iucn\.classificationDetails\.\[\d+]\.subClassification2$/,
+    /^permit\.permits\.\[\d+]\.permit_number$/,
+    /^permit\.permits\.\[\d+]\.permit_type$/,
     'location.region',
     'location.geometry'
   ];
@@ -47,12 +47,17 @@ export const ScrollToFormikError: React.FC = () => {
       return result;
     };
 
-    const getFirstErrorField = (errorArray: string[]) => {
-      return formikErrorTopDownList.find((listError) => {
-        return errorArray.find((trueError) => {
-          return listError === trueError;
+    const getFirstErrorField = (errorArray: string[]): string | undefined => {
+      for (const listError of formikErrorTopDownList) {
+        const foundError = errorArray.find((trueError) => {
+          if (trueError.match(listError) || listError === trueError) {
+            return trueError;
+          }
         });
-      });
+        if (foundError) {
+          return foundError;
+        }
+      }
     };
 
     const getFieldTitle = (absoluteErrorName: string) => {

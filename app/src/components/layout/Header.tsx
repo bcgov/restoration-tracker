@@ -141,7 +141,7 @@ const Header: React.FC = () => {
         <Box pl={2}>
           <Divider orientation="vertical" />
         </Box>
-        <IconButton className={classes.govHeaderIconButton} onClick={showSupportDialog}>
+        <IconButton aria-label="need help" className={classes.govHeaderIconButton} onClick={showSupportDialog}>
           <Icon path={mdiHelpCircle} size={1.12} />
         </IconButton>
       </Box>

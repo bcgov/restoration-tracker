@@ -211,7 +211,9 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                 <TableCell align="right" width="100">
                   Area (ha)
                 </TableCell>
-                <TableCell align="right" width="50"></TableCell>
+                <TableCell align="center" width="100">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -235,7 +237,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                       <TableCell align="right">{row.width}</TableCell>
                       <TableCell align="right">{row.length}</TableCell>
                       <TableCell align="right">{row.area}</TableCell>
-                      <TableCell align="right" width="50">
+                      <TableCell align="center">
                         <Box my={-0.65}>
                           <IconButton
                             size="small"
