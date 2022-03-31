@@ -159,42 +159,35 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     );
   };
 
-  const formatTreatmentYears = (treatments: IGetTreatmentItem[]) => {
-    const formattedTreatmentsYears = handleFormattingTreatmentsYears(treatments);
-
-    const filteredYears: JSX.Element[] = [];
-
-    if (Array.isArray(formattedTreatmentsYears)) {
-      formattedTreatmentsYears.forEach((item: string) => {
-        const split = item.split(' - ');
-        filteredYears.push(<Box key={item}>{split[0]}</Box>);
-
-        if (formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) + 1]) {
-          filteredYears.push(<Divider key={split[0]}></Divider>);
-        }
-      });
-    }
-
-    return filteredYears;
-  };
-
-  const formatTreatments = (treatments: IGetTreatmentItem[]) => {
-    const formattedTreatmentsYears = handleFormattingTreatmentsYears(treatments);
+  const formatYearsTreatmentsBox = (treatments: IGetTreatmentItem[]) => {
+    const formattedTreatments = handleFormattingTreatmentsYears(treatments);
 
     const filteredTreatments: JSX.Element[] = [];
 
-    if (Array.isArray(formattedTreatmentsYears)) {
-      formattedTreatmentsYears.forEach((item: string) => {
+    if (Array.isArray(formattedTreatments)) {
+      formattedTreatments.forEach((item: string) => {
         const split = item.split(' - ');
 
-        filteredTreatments.push(<Box key={item}>{split[1]}</Box>);
+        filteredTreatments.push(
+          <Box display="flex" key={item}>
+            <Box key={split[0]} flex="0 0 auto" width="80px">
+              {split[0]}
+            </Box>
+            <Box key={split[1]} flex="1 1 auto">
+              {split[1]}
+            </Box>
+          </Box>
+        );
 
-        if (formattedTreatmentsYears[formattedTreatmentsYears.indexOf(item) + 1]) {
-          filteredTreatments.push(<Divider key={split[1]}></Divider>);
+        if (formattedTreatments[formattedTreatments.indexOf(item) + 1]) {
+          filteredTreatments.push(
+            <Box my={1} key={`divider-${item}`}>
+              <Divider></Divider>
+            </Box>
+          );
         }
       });
     }
-
     return filteredTreatments;
   };
 
@@ -238,34 +231,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                     <TableRow key={row.id}>
                       <TableCell>{row.id}</TableCell>
                       <TableCell>{row.type}</TableCell>
-                      <TableCell colSpan={2}>
-                        <Box display="flex">
-                          <Box flex="0 0 auto" width="80px">
-                            2014
-                          </Box>
-                          <Box flex="1 1 auto">
-                            Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment
-                          </Box>
-                        </Box>
-
-                        <Box my={1}>
-                          <Divider></Divider>
-                        </Box>
-
-                        <Box display="flex">
-                          <Box flex="0 0 auto" width="80px">
-                            2015
-                          </Box>
-                          <Box flex="1 1 auto">
-                            Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment, Treatment
-                          </Box>
-                        </Box>
-
-                        <Box hidden>
-                          {formatTreatmentYears(row.treatments)}
-                          {formatTreatments(row.treatments)}
-                        </Box>
-                      </TableCell>
+                      <TableCell colSpan={2}>{formatYearsTreatmentsBox(row.treatments)}</TableCell>
                       <TableCell align="right">{row.width}</TableCell>
                       <TableCell align="right">{row.length}</TableCell>
                       <TableCell align="right">{row.area}</TableCell>
