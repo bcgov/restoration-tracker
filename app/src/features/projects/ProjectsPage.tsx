@@ -165,12 +165,13 @@ const ProjectsPage: React.FC = () => {
 
   return (
     <Container maxWidth="xl">
-
       <Box mb={5}>
         <Box mb={1}>
           <Typography variant="h1">Projects</Typography>
         </Box>
-        <Typography variant="body1" color="textSecondary">Find species inventory projects and related data in British Columbia</Typography>
+        <Typography variant="body1" color="textSecondary">
+          Find species inventory projects and related data in British Columbia
+        </Typography>
       </Box>
 
       <Box mb={5}>
@@ -207,7 +208,6 @@ const ProjectsPage: React.FC = () => {
       </Box>
 
       <ProjectsListPage projects={projects} />
-
     </Container>
   );
 };

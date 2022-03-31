@@ -109,7 +109,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell width="50"/>
+                <TableCell width="50" />
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -140,7 +140,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell />
                   <TableCell />
                   <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
-                  <TableCell width="50"/>
+                  <TableCell width="50" />
                 </TableRow>
               ))}
               {projects?.map((row) => (

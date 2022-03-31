@@ -43,7 +43,7 @@ const ProjectsRouter: React.FC = () => {
           validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
           validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR, PROJECT_ROLE.PROJECT_VIEWER]}
           fallback={(projectId) => <Redirect to={`/projects/${projectId}`} />}>
-            <ViewProjectPage />
+          <ViewProjectPage />
         </RoleGuard>
       </AppRoute>
 

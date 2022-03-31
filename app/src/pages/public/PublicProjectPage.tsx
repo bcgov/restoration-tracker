@@ -185,11 +185,7 @@ const PublicProjectPage = () => {
 
             <Grid item md={4}>
               <Paper elevation={2}>
-                <ProjectDetailsPage
-                  projectForViewData={projectWithDetails}
-                  codes={codes.codes}
-                  refresh={getProject}
-                />
+                <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
               </Paper>
             </Grid>
           </Grid>

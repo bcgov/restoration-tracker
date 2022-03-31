@@ -145,7 +145,9 @@ const PublicTreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props)
                       selected={selectedSpatialLayer[year.year]}
                       onClick={() => handleSelectedSwitch(year.year)}>
                       <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
-                      <Box flexGrow={1} ml={0.5}>{year.year}</Box>
+                      <Box flexGrow={1} ml={0.5}>
+                        {year.year}
+                      </Box>
                     </MenuItem>
                   );
                 })}

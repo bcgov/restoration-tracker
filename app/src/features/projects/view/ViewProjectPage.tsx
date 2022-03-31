@@ -126,7 +126,7 @@ const ViewProjectPage: React.FC = () => {
   const defaultYesNoDialogProps = {
     dialogTitle: DeleteProjectI18N.deleteTitle,
     dialogText: DeleteProjectI18N.deleteText,
-    
+
     open: false,
     onClose: () => dialogContext.setYesNoDialog({ open: false }),
     onNo: () => dialogContext.setYesNoDialog({ open: false }),
@@ -289,17 +289,12 @@ const ViewProjectPage: React.FC = () => {
 
             <Grid item md={4}>
               <Paper elevation={2}>
-                <ProjectDetailsPage
-                  projectForViewData={projectWithDetails}
-                  codes={codes.codes}
-                  refresh={getProject}
-                />
+                <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
               </Paper>
             </Grid>
           </Grid>
         </Box>
       </Container>
-
 
       <Dialog fullScreen open={openFullScreen} onClose={closeMapDialog}>
         <Box pr={3} pl={1} display="flex" alignItems="center">

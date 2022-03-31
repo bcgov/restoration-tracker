@@ -21,11 +21,7 @@ const useStyles = makeStyles(() => ({
 const ProjectsLayout: React.FC = (props) => {
   const classes = useStyles();
 
-  return (
-    <Box className={classes.projectsLayoutRoot}>
-      {props.children}
-    </Box>
-  );
+  return <Box className={classes.projectsLayoutRoot}>{props.children}</Box>;
 };
 
 export default ProjectsLayout;

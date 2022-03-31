@@ -107,7 +107,7 @@ const ManageUsersPage: React.FC = () => {
           }}
         />
       </Box>
-      
+
       <ActiveUsersList activeUsers={activeUsers} codes={codes.codes} refresh={refreshActiveUsers} />
     </Container>
   );

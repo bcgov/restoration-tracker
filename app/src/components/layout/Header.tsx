@@ -272,7 +272,9 @@ const Header: React.FC = () => {
             </OtherLink>
             .
           </Typography>
-          <Typography variant="body1" color="textSecondary">A support representative will respond to your request shortly.</Typography>
+          <Typography variant="body1" color="textSecondary">
+            A support representative will respond to your request shortly.
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="primary" onClick={hideSupportDialog}>
