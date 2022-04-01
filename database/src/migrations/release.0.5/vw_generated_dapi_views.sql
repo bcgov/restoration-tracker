@@ -36,4 +36,5 @@
  create or replace view treatment_unit as select * from restoration.treatment_unit;
  create or replace view user_identity_source as select * from restoration.user_identity_source;
  create or replace view webform_draft as select * from restoration.webform_draft;
+ create or replace view wldtaxonomic_units as select * from restoration.wldtaxonomic_units;
 
