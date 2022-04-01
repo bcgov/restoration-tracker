@@ -50,40 +50,56 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
   const publicContact = ({ is_public }: IGetProjectForViewResponseContactArrayItem) =>
     !JSON.parse(is_public) ? classes.agencyOnlyContainer : '';
 
+  const hasContacts = contact.contacts && contact.contacts.length > 0;
+
   return (
     <>
       <ul className={classes.projectContactList}>
-        {contact.contacts.map((contactDetails, index) => (
-          <Box component="li" display="flex" flexDirection="row" key={index} className={publicContact(contactDetails)}>
-            <Box mr={2} className={publicContact(contactDetails)}>
-              <Icon
-                className={classes.contactIcon}
-                path={JSON.parse(contactDetails.is_public) ? mdiAccountCircleOutline : mdiDomain}
-                size={1.5}
-              />
+        {hasContacts &&
+          contact.contacts.map((contactDetails, index) => (
+            <Box
+              component="li"
+              display="flex"
+              flexDirection="row"
+              key={index}
+              className={publicContact(contactDetails)}>
+              <Box mr={2} className={publicContact(contactDetails)}>
+                <Icon
+                  className={classes.contactIcon}
+                  path={JSON.parse(contactDetails.is_public) ? mdiAccountCircleOutline : mdiDomain}
+                  size={1.5}
+                />
+              </Box>
+              <div>
+                <div>
+                  <strong data-testid="contact_name">
+                    {' '}
+                    {contactDetails.first_name} {contactDetails.last_name}
+                    {JSON.parse(contactDetails.is_primary) && (
+                      <sup>
+                        <Typography variant="caption" color="textSecondary">
+                          {' '}
+                          Primary
+                        </Typography>
+                      </sup>
+                    )}
+                  </strong>
+                </div>
+                <div>
+                  <Link href="#">{contactDetails.email_address}</Link>
+                </div>
+                <div>{contactDetails.agency}</div>
+              </div>
             </Box>
-            <div>
-              <div>
-                <strong data-testid="contact_name">
-                  {' '}
-                  {contactDetails.first_name} {contactDetails.last_name}
-                  {JSON.parse(contactDetails.is_primary) && (
-                    <sup>
-                      <Typography variant="caption" color="textSecondary">
-                        {' '}
-                        Primary
-                      </Typography>
-                    </sup>
-                  )}
-                </strong>
-              </div>
-              <div>
-                <Link href="#">{contactDetails.email_address}</Link>
-              </div>
-              <div>{contactDetails.agency}</div>
-            </div>
-          </Box>
-        ))}
+          ))}
+
+        {!hasContacts && (
+          <li>
+            <Typography variant="body2" data-testid="no_contacts">
+              No Contacts
+            </Typography>
+          </li>
+        )}
       </ul>
     </>
   );

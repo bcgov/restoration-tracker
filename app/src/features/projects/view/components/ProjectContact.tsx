@@ -38,11 +38,13 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
   const { contact } = projectForViewData;
   const classes = useStyles();
 
+  const hasContacts = contact.contacts && contact.contacts.length > 0;
+
   return (
     <>
-      {contact.contacts.map((contactDetails, index) => (
-        <ul className={classes.projectContactList} key={index}>
-          <Box component="li" display="flex" flexDirection="row">
+      <ul className={classes.projectContactList}>
+        {contact.contacts.map((contactDetails, index) => (
+          <Box component="li" display="flex" flexDirection="row" key={index}>
             <Box mr={2}>
               <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.5} />
             </Box>
@@ -67,8 +69,16 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
               <div>{contactDetails.agency}</div>
             </div>
           </Box>
-        </ul>
-      ))}
+        ))}
+
+        {!hasContacts && (
+          <li>
+            <Typography variant="body2" data-testid="no_contacts">
+              No Contacts
+            </Typography>
+          </li>
+        )}
+      </ul>
     </>
   );
 };
