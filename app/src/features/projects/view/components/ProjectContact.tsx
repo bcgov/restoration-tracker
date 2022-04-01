@@ -51,15 +51,13 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
             <div>
               <div>
                 <strong data-testid="contact_name">
-                  {' '}
                   {contactDetails.first_name} {contactDetails.last_name}
                   {JSON.parse(contactDetails.is_primary) && (
-                    <sup>
+                    <Box ml={1} component="sup">
                       <Typography variant="caption" color="textSecondary">
-                        {' '}
                         Primary
                       </Typography>
-                    </sup>
+                    </Box>
                   )}
                 </strong>
               </div>
