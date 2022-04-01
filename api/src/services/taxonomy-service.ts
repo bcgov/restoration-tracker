@@ -65,9 +65,15 @@ export class TaxonomyService {
   async searchSpecies(term: string) {
     const response = await this.elasticSearch({
       query: {
-        multi_match: {
-          query: term,
-          fields: ['unit_name1', 'unit_name2', 'unit_name3', 'code', 'tty_kingdom', 'tty_name', 'english_name']
+        bool: {
+          should: [
+            { wildcard: { english_name: { value: `*${term}*`, boost: 4.0 } } },
+            { wildcard: { unit_name1: { value: `*${term}*`, boost: 3.0 } } },
+            { wildcard: { unit_name2: { value: `*${term}*`, boost: 3.0 } } },
+            { wildcard: { unit_name3: { value: `*${term}*`, boost: 3.0 } } },
+            { wildcard: { code: { value: `*${term}*`, boost: 2.0 } } },
+            { wildcard: { tty_kingdom: { value: `*${term}*`, boost: 1.0 } } }
+          ]
         }
       }
     });
