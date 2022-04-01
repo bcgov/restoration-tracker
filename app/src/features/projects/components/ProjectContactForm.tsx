@@ -156,12 +156,11 @@ const ProjectContactForm: React.FC<IProjectContactFormProps> = ({ coordinator_ag
                         <Typography className={classes.title}>
                           {`${contact.first_name} ${contact.last_name}`}
                           {JSON.parse(contact.is_primary) && (
-                            <sup>
+                            <Box ml={1} component="sup">
                               <Typography variant="caption" color="textSecondary">
-                                {' '}
                                 Primary
                               </Typography>
-                            </sup>
+                            </Box>
                           )}
                         </Typography>
                         <IconButton
