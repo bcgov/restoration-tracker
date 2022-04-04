@@ -5,6 +5,7 @@ export interface IAccessRequestDataObject {
   identitySource: string;
   role: number;
   company: string;
+  comments: string;
   request_reason: string;
 }
 

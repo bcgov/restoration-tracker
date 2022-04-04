@@ -47,6 +47,7 @@ describe('ReviewAccessRequestForm', () => {
         identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
         role: 2,
         company: 'test data company',
+        comments: 'test data comment',
         request_reason: 'reason for request'
       }
     });
