@@ -11,7 +11,5 @@ export enum AdministrativeActivityStatusType {
 export enum ProjectStatusType {
   COMPLETED = 'Completed',
   ACTIVE = 'Active',
-  DRAFT = 'Draft',
-  PRIORITY = 'Priority',
-  NOT_A_PRIORITY = 'Not_A_Priority'
+  DRAFT = 'Draft'
 }
