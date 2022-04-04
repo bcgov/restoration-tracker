@@ -231,7 +231,7 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
 
   const sqlStatement: SQLStatement = SQL`
     SELECT
-      tu.name as id, tu.description, ft.name as type , tu.width, tu.length, tu.area, tu.comments, t.year as treatment_year, tt.name as treatment_name
+      tu.name as id, tu.description, ft.name as type , tu.width, tu.length, tu.area, t.year as treatment_year, tt.name as treatment_name
     FROM
       treatment_unit tu
     LEFT JOIN

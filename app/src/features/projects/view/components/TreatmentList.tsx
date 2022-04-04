@@ -131,13 +131,6 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
             {currentTreatmentDetail.description || 'No description available'}
           </Typography>
         </Box>
-        <Box component="section" mt="25px">
-          <Typography variant="subtitle2">
-            <b>COMMENTS</b>
-          </Typography>
-          <Divider className={classes.divider} />
-          <Typography variant="subtitle2">{currentTreatmentDetail.comments || 'No comments'}</Typography>
-        </Box>
       </ComponentDialog>
     );
   };

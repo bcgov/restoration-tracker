@@ -80,10 +80,6 @@ GET.apiDoc = {
                       type: 'string',
                       nullable: true
                     },
-                    comments: {
-                      type: 'string',
-                      nullable: true
-                    },
                     geometry: {
                       ...(geoJsonFeature as object)
                     },

@@ -90,15 +90,6 @@ const ReviewAccessRequestForm: React.FC<IReviewAccessRequestFormProps> = (props)
             </Grid>
             <Grid item xs={12}>
               <Typography component="dt" variant="subtitle2" color="textSecondary">
-                Additional Comments
-              </Typography>
-              <Typography component="dd" variant="body1">
-                {props.request.data.comments || 'Not Applicable'}
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Typography component="dt" variant="subtitle2" color="textSecondary">
                 Reason
               </Typography>
               <Typography component="dd" variant="body1">

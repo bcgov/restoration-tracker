@@ -50,7 +50,6 @@ describe('LocationBoundary', () => {
       width: 100,
       length: 100,
       area: 10000,
-      comments: 'something12',
       description: 'anything12',
       treatments: [
         {

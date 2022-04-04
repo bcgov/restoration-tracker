@@ -334,7 +334,6 @@ export class TreatmentService extends DBService {
         'treatment.year as treatment_year',
         'treatment_type.name as treatment_name',
         'treatment_unit.description',
-        'treatment_unit.comments',
         'treatment_unit.geojson'
       )
       .from('treatment_unit');
@@ -363,7 +362,6 @@ export class TreatmentService extends DBService {
     queryBuilder.groupBy('treatment.year');
     queryBuilder.groupBy('treatment_type.name');
     queryBuilder.groupBy('treatment_unit.description');
-    queryBuilder.groupBy('treatment_unit.comments');
     queryBuilder.groupBy('treatment_unit.geojson');
 
     queryBuilder.where('treatment_unit.project_id', projectId);

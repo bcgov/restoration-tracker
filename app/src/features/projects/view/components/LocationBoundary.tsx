@@ -177,14 +177,6 @@ const TreatmentPopup: React.FC<{ treatment: IGetProjectTreatment }> = (props) =>
           {treatment.description}
         </Typography>
       </div>
-      <div>
-        <Typography variant="body2" component="dt" color="textSecondary">
-          Comments
-        </Typography>
-        <Typography variant="body2" component="dd">
-          {treatment.comments}
-        </Typography>
-      </div>
     </Box>
   );
 };
