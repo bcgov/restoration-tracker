@@ -1,6 +1,5 @@
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
@@ -228,33 +227,29 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
   }
 
   return (
-    <Container maxWidth="xl">
-      <Box pt={3}>
-        <Paper>
-          <Toolbar className={classes.projectMembersToolbar}>
-            <Typography data-testid="projects_header" variant="h2">
-              Assigned Projects ({assignedProjects?.length})
-            </Typography>
-          </Toolbar>
-          <Box>
-            <Table className={classes.projectMembersTable}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Project Name</TableCell>
-                  <TableCell>Project Role</TableCell>
-                  <TableCell width="100px" align="center">
-                    Actions
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody data-testid="resources-table">
-                <TableRows assignedProjects={assignedProjects} codes={codes.codes} />
-              </TableBody>
-            </Table>
-          </Box>
-        </Paper>
+    <Paper>
+      <Toolbar className={classes.projectMembersToolbar}>
+        <Typography data-testid="projects_header" variant="h2">
+          Assigned Projects ({assignedProjects?.length})
+        </Typography>
+      </Toolbar>
+      <Box>
+        <Table className={classes.projectMembersTable}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Project Name</TableCell>
+              <TableCell>Project Role</TableCell>
+              <TableCell width="100px" align="center">
+                Actions
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody data-testid="resources-table">
+            <TableRows assignedProjects={assignedProjects} codes={codes.codes} />
+          </TableBody>
+        </Table>
       </Box>
-    </Container>
+    </Paper>
   );
 };
 
