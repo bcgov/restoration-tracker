@@ -1,9 +1,10 @@
 import { Knex } from 'knex';
 
-const DB_SCHEMA = 'restoration'
+const DB_SCHEMA: string = process.env.DB_SCHEMA
 
 /**
- * Apply restoration release changes.
+ * Removes the `comments` column from the `treatment_unit` table, since
+ * comments associated with Treatments is no longer required.
  *
  * @export
  * @param {Knex} knex
