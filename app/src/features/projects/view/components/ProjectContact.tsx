@@ -59,7 +59,7 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
                   </strong>
                 </div>
                 <div>
-                  <Link href="#">{contactDetails.email_address}</Link>
+                  <Link href={'mailto:' + contactDetails.email_address}>{contactDetails.email_address}</Link>
                 </div>
                 <div>{contactDetails.agency}</div>
               </Box>
