@@ -2,8 +2,6 @@ name: Test Checks
 
 on:
   push:
-    branches:
-      - dev
   pull_request:
 
 jobs:

@@ -3,7 +3,6 @@
 name: Clean out Dev from closed PR Artifacts
 on:
   pull_request:
-    branches: [dev]
     types: [closed]
 jobs:
   clean:
