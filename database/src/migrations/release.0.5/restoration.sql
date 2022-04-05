@@ -1650,6 +1650,7 @@ CREATE TABLE treatment_unit(
     width                       float4,
     length                      float4,
     area                        float4,
+    comments                    varchar(3000),
     reconnaissance_conducted    character(1)                NOT NULL,
     geometry                    geometry(geometry, 3005),
     geography                   geography(geometry),
@@ -1676,6 +1677,8 @@ COMMENT ON COLUMN treatment_unit.name IS 'The name of the record.'
 COMMENT ON COLUMN treatment_unit.description IS 'The description of the record.'
 ;
 COMMENT ON COLUMN treatment_unit.area IS 'The area of the treatment unit in hectares.'
+;
+COMMENT ON COLUMN treatment_unit.comments IS 'The comments of the record.'
 ;
 COMMENT ON COLUMN treatment_unit.reconnaissance_conducted IS 'Defines whether reconnaissance was conducted or not for a treatment unit.'
 ;
