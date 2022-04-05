@@ -136,7 +136,7 @@ export function uploadTreatmentSpatial(): RequestHandler {
 
       if (checkFeaturePropertiesValid.length >= 1) {
         defaultLog.error({ label: 'uploadTreatmentSpatial', message: 'error', errors: checkFeaturePropertiesValid });
-        throw new HTTP400('Error Invalid File Upload', checkFeaturePropertiesValid);
+        throw new HTTP400('Errors were encountered during import', checkFeaturePropertiesValid);
       }
 
       const responsePostProjectAllTreatments = await treatmentService.insertAllProjectTreatmentUnits(

@@ -234,8 +234,8 @@ const FileUploadItem: React.FC<IFileUploadItemProps> = (props) => {
 
               {errors && (
                 <Box display="flex" alignItems="center">
-                  <Button color="primary" onClick={() => setOpenDialog(!openDialog)}>
-                    Show Detailed Error Message
+                  <Button className={classes.errorColor} onClick={() => setOpenDialog(!openDialog)}>
+                    View Details
                   </Button>
                   <ComponentDialog
                     open={openDialog}
