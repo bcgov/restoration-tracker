@@ -1135,7 +1135,7 @@ CREATE TABLE project_spatial_component(
     name                                 varchar(50)                 NOT NULL,
     description                          varchar(3000),
     geometry                             geometry(geometry, 3005),
-    priority                             character(1)                NOT NULL,
+    priority                             character(1)                DEFAULT 'N' NOT NULL,
     geography                            geography(geometry),
     geojson                              jsonb,
     create_date                          timestamptz(6)              DEFAULT now() NOT NULL,

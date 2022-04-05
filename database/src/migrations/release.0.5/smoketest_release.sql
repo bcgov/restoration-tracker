@@ -71,7 +71,7 @@ begin
   insert into project_attachment (project_id, file_name, title, key, file_size, file_type) values (_project_id, 'test_filename.txt', 'test filename', 'projects/'||_project_id::text, 10000, 'video');
   insert into project_first_nation (project_id, first_nations_id) values (_project_id, (select first_nations_id from first_nations where name = 'Kitselas Nation'));
   insert into permit (system_user_id, number, type, issue_date, end_date) values (_system_user_id, '8377262', 'permit type', now(), now()+interval '1 day');
-  insert into project_spatial_component (name, project_id, geography, project_spatial_component_type_id, priority) values ('test project spatial', _project_id, _geography, (select project_spatial_component_type_id from project_spatial_component_type where name = 'Boundary'), 'Y');
+  insert into project_spatial_component (name, project_id, geography, project_spatial_component_type_id) values ('test project spatial', _project_id, _geography, (select project_spatial_component_type_id from project_spatial_component_type where name = 'Boundary'));
   insert into project_contact (project_id, contact_type_id, first_name, last_name, agency, email_address, is_primary, is_public) values (_project_id, (select contact_type_id from contact_type where name = 'Coordinator'), 'john', 'doe', 'an agency', 'nobody@nowhere.com', 'Y', 'Y');
   insert into nrm_region (project_id, name, objectid) values (_project_id, 'test region name', 367463);
   insert into project_caribou_population_unit (project_id, caribou_population_unit_id) values (_project_id, (select caribou_population_unit_id from caribou_population_unit where name = 'Atlin'));
