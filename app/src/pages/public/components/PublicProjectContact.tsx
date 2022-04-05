@@ -66,7 +66,6 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
               flexDirection="row"
               key={index}
               className={publicContact(contactDetails)}>
-              
               <Box ml={1} mr={2} className={publicContact(contactDetails)}>
                 <Icon
                   className={classes.contactIcon}
@@ -87,11 +86,7 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
                 <div>{contactDetails.agency}</div>
               </Box>
 
-              <Box>
-                {JSON.parse(contactDetails.is_primary) && (
-                  <Chip size="small" label="PRIMARY" />
-                )}
-              </Box>
+              <Box>{JSON.parse(contactDetails.is_primary) && <Chip size="small" label="PRIMARY" />}</Box>
             </Box>
           ))}
 
