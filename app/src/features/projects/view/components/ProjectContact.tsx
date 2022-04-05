@@ -63,11 +63,7 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
                 </div>
                 <div>{contactDetails.agency}</div>
               </Box>
-              <Box>
-                {JSON.parse(contactDetails.is_primary) && (
-                  <Chip size="small" label="PRIMARY" />
-                )}
-              </Box>
+              <Box>{JSON.parse(contactDetails.is_primary) && <Chip size="small" label="PRIMARY" />}</Box>
             </Box>
           </Box>
         ))}

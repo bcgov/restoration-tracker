@@ -103,7 +103,7 @@ describe('ProjectIUCNForm', () => {
   });
 
   it('changes fields on the IUCN menu items as expected', async () => {
-    const { asFragment, getAllByRole, getByRole, getByText, queryAllByTestId } = render(
+    const { getAllByText, queryAllByTestId, getAllByRole, getByRole } = render(
       <Formik
         initialValues={ProjectIUCNFormInitialValues}
         validationSchema={ProjectIUCNFormYupSchema}
@@ -122,27 +122,21 @@ describe('ProjectIUCNForm', () => {
 
     expect(queryAllByTestId('iucn-classification-grid').length).toEqual(1);
 
-    fireEvent.click(getByText('Add Classification'));
-
-    await waitFor(() => {
-      expect(queryAllByTestId('iucn-classification-grid').length).toEqual(2);
-    });
-
-    fireEvent.mouseDown(getAllByRole('button')[0]);
-    const classificationListbox = within(getByRole('listbox'));
-    fireEvent.click(classificationListbox.getByText(/Class 1/i));
-
     fireEvent.mouseDown(getAllByRole('button')[1]);
-    const subClassification1Listbox = within(getByRole('listbox'));
-    fireEvent.click(subClassification1Listbox.getByText(/A Sub-class 1/i));
+    const classificationListbox = within(getByRole('listbox'));
+    fireEvent.click(classificationListbox.getAllByText('Class 1', { exact: false })[0]);
 
     fireEvent.mouseDown(getAllByRole('button')[2]);
-    const subClassification2Listbox = within(getByRole('listbox'));
-    fireEvent.click(subClassification2Listbox.getByText(/A Sub-class 2/i));
+    const subClassification1Listbox = within(getByRole('listbox'));
+    fireEvent.click(subClassification1Listbox.getAllByText('A Sub-class 1', { exact: false })[0]);
 
-    await waitFor(() => {
-      expect(asFragment()).toMatchSnapshot();
-    });
+    fireEvent.mouseDown(getAllByRole('button')[3]);
+    const subClassification2Listbox = within(getByRole('listbox'));
+    fireEvent.click(subClassification2Listbox.getAllByText('A Sub-class 2', { exact: false })[0]);
+
+    expect(getAllByText('Class 1').length).toEqual(2);
+    expect(getAllByText('A Sub-class 1', { exact: false }).length).toEqual(2);
+    expect(getAllByText('A Sub-class 2', { exact: false }).length).toEqual(2);
   });
 
   it('adds an IUCN classification when the add button is clicked', async () => {
@@ -264,12 +258,17 @@ describe('ProjectIUCNForm', () => {
             classification: 1,
             subClassification1: 3,
             subClassification2: 5
+          },
+          {
+            classification: 2,
+            subClassification1: 1,
+            subClassification2: 3
           }
         ]
       }
     };
 
-    const { getByTestId, queryByTestId } = render(
+    const { getByTestId, queryAllByTestId } = render(
       <Formik
         initialValues={existingFormValues}
         validationSchema={ProjectIUCNFormYupSchema}
@@ -286,12 +285,12 @@ describe('ProjectIUCNForm', () => {
       </Formik>
     );
 
-    expect(queryByTestId('iucn-classification-grid')).toBeInTheDocument();
+    expect(queryAllByTestId('iucn-classification-grid').length).toEqual(2);
 
     fireEvent.click(getByTestId('delete-icon'));
 
     await waitFor(() => {
-      expect(queryByTestId('iucn-classification-grid')).toBeNull();
+      expect(queryAllByTestId('iucn-classification-grid').length).toEqual(1);
     });
   });
 });

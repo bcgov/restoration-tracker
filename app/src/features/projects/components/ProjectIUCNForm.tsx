@@ -210,7 +210,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                           id={`iucn.classificationDetails.[${index}].subClassification2`}
                           name={`iucn.classificationDetails.[${index}].subClassification2`}
                           labelId="subClassification2"
-                          label="Sub-classification"
+                          label="Sub-classification2"
                           value={classificationDetail.subClassification2}
                           onChange={handleChange}
                           disabled={!classificationDetail.subClassification1}
