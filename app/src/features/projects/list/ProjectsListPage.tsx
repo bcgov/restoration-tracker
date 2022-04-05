@@ -165,9 +165,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell align="center">
                     <Box my={-1}>
                       <IconButton
-                        size="small"
                         title="Download Project EML"
-                        aria-label="Download Project EML"
+                        aria-label="download project EML"
                         data-testid="project-table-download-eml"
                         onClick={() => handleDownloadProjectEML(row.project.project_id)}>
                         <Icon path={mdiDownload} size={1} />

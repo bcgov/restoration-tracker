@@ -189,7 +189,6 @@ const appTheme = createMuiTheme({
     },
     MuiTableCell: {
       root: {
-        verticalAlign: 'top',
         '&:first-child': {
           paddingLeft: '24px'
         },
