@@ -18,7 +18,6 @@ export enum SYSTEM_USER_ROLE_ID {
 const systemUsers = [
   { identifier: 'aagahche', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
   { identifier: 'cgarrett', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
-  { identifier: 'jrpopkin', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
   { identifier: 'jxdunsdo', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
   { identifier: 'keinarss', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
   { identifier: 'mbaerg', type: SYSTEM_IDENTITY_SOURCE.IDIR, roleId: SYSTEM_USER_ROLE_ID.SYSTEM_ADMINISTRATOR },
@@ -73,12 +72,12 @@ export async function seed(knex: Knex): Promise<void> {
  * @param {string} userIdentifier
  */
 const getSystemUserSQL = (userIdentifier: string) => `
- SELECT
-   user_identifier
- FROM
-   system_user
- WHERE
-   user_identifier = '${userIdentifier}';
+  SELECT
+    user_identifier
+  FROM
+    system_user
+  WHERE
+    user_identifier = '${userIdentifier}';
 `;
 
 /**
@@ -116,11 +115,11 @@ const insertSystemUserSQL = (userIdentifier: string, userType: string) => `
  * @param {number} roleId
  */
 const insertSystemUserRoleSQL = (userIdentifier: string, roleId: number) => `
- INSERT INTO system_user_role (
-   system_user_id,
-   system_role_id
- ) VALUES (
-   (SELECT system_user_id from system_user where user_identifier = '${userIdentifier}'),
-   ${roleId}
- );
- `;
+  INSERT INTO system_user_role (
+    system_user_id,
+    system_role_id
+  ) VALUES (
+    (SELECT system_user_id from system_user where user_identifier = '${userIdentifier}'),
+    ${roleId}
+  );
+`;

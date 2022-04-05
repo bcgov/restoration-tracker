@@ -1,6 +1,7 @@
 [![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bcgov_restoration-tracker&metric=alert_status)](https://sonarcloud.io/dashboard?id=bcgov_restoration-tracker) [![codecov](https://codecov.io/gh/bcgov/restoration-tracker/branch/dev/graph/badge.svg?token=CyJ2NTS3Bh)](https://codecov.io/gh/bcgov/restoration-tracker) [![Restoration](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/w8oxci/dev&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/bq8wdr/runs)
 
 # Habitat Restoration Tracker
+
 The Habitat Restoration Tracker is a system which supports the planning, implementation and monitoring of restoration projects in British Columbia. The initial release (March 2022) collects project and treatment details for caribou herd restoration initiatives in the north east of the province. Future development will support all restoration projects within the province and will assist with planning and monitoring the effectiveness of these projects.
 
 # Pre-reqs
@@ -24,12 +25,14 @@ The Habitat Restoration Tracker is a system which supports the planning, impleme
 
 ### Windows
 
+_Note: there are 2 mutually exclusive modes that Docker Desktop supports on Windows: Hyper-V or WSL2. You should be able to run the application in either mode, but this documentation was only written with instructions for Hyper-V. See https://code.visualstudio.com/blogs/2020/03/02/docker-in-wsl2 for possible instructions on using Docker Desktop in WSL2._
+
 If prompted, install Docker using Hyper-V (not WSL 2)
 
 ### Grant Docker access to your local folders
 
-This setup for Habitat Restoration Tracker uses volumes to support live reload.  
-To leverage live reload you will need to ensure Docker is running using Hyper-V (not the WSL2 engine).
+This setup uses volumes to support live reload.  
+Ensure Docker Desktop has access to your file system so that it can detect file changes and trigger live reload.
 
 #### MacOS
 
@@ -105,7 +108,7 @@ make env
 Result of running `make env` for the first time:  
 ![make env screenshot](readme_screenshots/running_make_env.png "Running `make env`")
 
-## Start all Habitat Restoration Tracker Applications
+## Start all Applications
 
 Starts all applications (database, api, app, and n8n).
 
@@ -152,7 +155,7 @@ make install
 
 ## Delete All Containers
 
-Will stop and delete the Habitat Restoration Tracker docker containers.  
+Will stop and delete the application docker containers.  
 This is useful when you want to clear out all database content, returning it to its initial default state.  
 After you've run `make clean`, running `make web` will launch new containers, with a fresh instance of the database.
 
@@ -317,7 +320,6 @@ _Note: all of the above connection values can be found in the `.env` file_
 # Acknowledgements
 
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=bcgov_restoration-tracker)
-
 
 # License
 
