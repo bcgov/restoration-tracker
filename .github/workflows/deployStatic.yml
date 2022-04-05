@@ -5,6 +5,10 @@ name: Static Deploy on OpenShift
 on:
   pull_request:
     types: [opened, reopened, synchronize, closed]
+    branches:
+      - dev
+      - test
+      - prod
 
 jobs:
   # Print variables for logging and debugging purposes
