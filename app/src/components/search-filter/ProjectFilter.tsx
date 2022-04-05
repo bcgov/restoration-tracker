@@ -232,7 +232,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
       <Card>
         <Box m={3}>
           <Box mb={3}>
-            <Typography variant="h3">Filter Projects</Typography>
+            <Typography variant="h2">Filter Projects</Typography>
           </Box>
           <Box display="flex">
             <Box flex="1 1 auto" display="flex">
