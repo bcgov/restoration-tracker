@@ -53,7 +53,7 @@ const IDIRRequestForm: React.FC<IIDIRRequestFormProps> = (props) => {
                 name="role"
                 labelId="role-label"
                 label="Role"
-                value={values.role}
+                value={values.role || 'Not Defined'}
                 labelWidth={300}
                 onChange={handleChange}
                 error={touched.role && Boolean(errors.role)}
@@ -64,6 +64,9 @@ const IDIRRequestForm: React.FC<IIDIRRequestFormProps> = (props) => {
                     {item.name}
                   </MenuItem>
                 ))}
+                <MenuItem key={'NotDefined'} value={''}>
+                    Not Defined
+                  </MenuItem>
               </Select>
               <FormHelperText>{errors.role}</FormHelperText>
             </FormControl>

@@ -92,14 +92,6 @@ export function updateSystemRolesHandler(): RequestHandler {
       req_body: req.body
     });
 
-    if (!req.params || !req.params.userId) {
-      throw new HTTP400('Missing required path param: userId');
-    }
-
-    if (!req.body || !req.body.roles || !req.body.roles.length) {
-      throw new HTTP400('Missing required body param: roles');
-    }
-
     const userId = Number(req.params.userId);
     const roles: number[] = req.body.roles;
     const connection = getDBConnection(req['keycloak_token']);
@@ -120,7 +112,9 @@ export function updateSystemRolesHandler(): RequestHandler {
       }
 
       //add new user system roles
-      await userService.addUserSystemRoles(userId, roles);
+      if (roles.length) {
+        await userService.addUserSystemRoles(userId, roles);
+      }
 
       await connection.commit();
 
