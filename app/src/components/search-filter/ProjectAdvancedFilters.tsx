@@ -52,7 +52,7 @@ const ProjectAdvancedFilters: React.FC<IProjectAdvancedFiltersProps> = (props) =
         existingValues: (string | number)[],
         callback: (searchedValues: IMultiAutocompleteFieldOption[]) => void
       ) => {
-        const response = await restorationTrackerApi.taxonomy.searchSpecies(inputValue);
+        const response = await restorationTrackerApi.taxonomy.searchSpecies(inputValue.toLowerCase());
         const newOptions = convertOptions(response.searchResponse).filter(
           (item) => !existingValues.includes(item.value)
         );

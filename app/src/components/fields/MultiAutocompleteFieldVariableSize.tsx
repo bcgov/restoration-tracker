@@ -264,6 +264,7 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
               checked={selected}
               disabled={(props.options && props.options?.indexOf(option) !== -1) || false}
               value={option.value}
+              color="default"
             />
             {option.label}
           </>
