@@ -15,7 +15,7 @@ export const groupTreatmentsByYear = (treatments: IGetTreatmentItem[]): Record<s
   const treatmentsByYearArray: Record<string, string> = {};
 
   Object.entries(treatmentsByYearSet).forEach(([key, value]) => {
-    treatmentsByYearArray[key] = Array.from(value).filter(Boolean).join(', ');
+    treatmentsByYearArray[key] = Array.from(value).filter(Boolean).sort().join(', ');
   });
 
   return treatmentsByYearArray;
