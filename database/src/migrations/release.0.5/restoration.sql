@@ -2,7 +2,7 @@
 -- ER/Studio Data Architect SQL Code Generation
 -- Project :      Restoration.DM1
 --
--- Date Created : Thursday, March 24, 2022 15:53:41
+-- Date Created : Friday, April 01, 2022 09:46:39
 -- Target DBMS : PostgreSQL 10.x-12.x
 --
 
@@ -1134,8 +1134,8 @@ CREATE TABLE project_spatial_component(
     project_spatial_component_type_id    integer                     NOT NULL,
     name                                 varchar(50)                 NOT NULL,
     description                          varchar(3000),
-    priority                             character(1)                DEFAULT 'N' NOT NULL,
     geometry                             geometry(geometry, 3005),
+    priority                             character(1)                DEFAULT 'N' NOT NULL,
     geography                            geography(geometry),
     geojson                              jsonb,
     create_date                          timestamptz(6)              DEFAULT now() NOT NULL,
@@ -1159,9 +1159,9 @@ COMMENT ON COLUMN project_spatial_component.name IS 'The name of the record.'
 ;
 COMMENT ON COLUMN project_spatial_component.description IS 'The description of the record.'
 ;
-COMMENT ON COLUMN project_spatial_component.priority IS 'Indicates that the boundary contains treatment units that are considered high value restoration targets.'
-;
 COMMENT ON COLUMN project_spatial_component.geometry IS 'The containing geometry of the record.'
+;
+COMMENT ON COLUMN project_spatial_component.priority IS 'Indicates that the boundary contains treatment units that are considered high value restoration targets.'
 ;
 COMMENT ON COLUMN project_spatial_component.geography IS 'The containing geography of the record.'
 ;
@@ -1230,8 +1230,8 @@ COMMENT ON TABLE project_spatial_component_type IS 'A list of spatial component 
 
 CREATE TABLE project_species(
     project_species_id       integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-    project_id               integer           NOT NULL,
     wldtaxonomic_units_id    integer           NOT NULL,
+    project_id               integer           NOT NULL,
     create_date              timestamptz(6)    DEFAULT now() NOT NULL,
     create_user              integer           NOT NULL,
     update_date              timestamptz(6),
@@ -1245,9 +1245,9 @@ CREATE TABLE project_species(
 
 COMMENT ON COLUMN project_species.project_species_id IS 'System generated surrogate primary key identifier.'
 ;
-COMMENT ON COLUMN project_species.project_id IS 'System generated surrogate primary key identifier.'
+COMMENT ON COLUMN project_species.wldtaxonomic_units_id IS 'System generated UID for a taxon.'
 ;
-COMMENT ON COLUMN project_species.wldtaxonomic_units_id IS 'The associated species identifier as provided by the BiohubBC Taxonomic Service.'
+COMMENT ON COLUMN project_species.project_id IS 'System generated surrogate primary key identifier.'
 ;
 COMMENT ON COLUMN project_species.create_date IS 'The datetime the record was created.'
 ;
@@ -1793,6 +1793,77 @@ COMMENT ON TABLE webform_draft IS 'A persistent store for draft webform data. Fo
 ;
 
 -- 
+-- TABLE: wldtaxonomic_units 
+--
+
+CREATE TABLE wldtaxonomic_units(
+    wldtaxonomic_units_id      integer           GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+    unit_name1                 varchar(50)       NOT NULL,
+    unit_name2                 varchar(50),
+    unit_name3                 varchar(50),
+    taxon_authority            varchar(100),
+    code                       varchar(35),
+    english_name               varchar(50),
+    tty_kingdom                varchar(10)       NOT NULL,
+    tty_name                   varchar(20)       NOT NULL,
+    tcn_id                     numeric(10, 0),
+    txn_id                     numeric(10, 0),
+    sensitive_data_flag        varchar(1),
+    breed_in_bc_flag           varchar(1),
+    introduced_species_flag    varchar(1),
+    phylo_sort_sequence        numeric(10, 0),
+    start_date                 date,
+    end_date                   date,
+    note                       varchar(2000),
+    element_subnational_id     numeric(10, 0),
+    CONSTRAINT wldtaxonomic_units_pk PRIMARY KEY (wldtaxonomic_units_id)
+)
+;
+
+
+
+COMMENT ON COLUMN wldtaxonomic_units.wldtaxonomic_units_id IS 'System generated UID for a taxon.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.unit_name1 IS 'The first part of a species or taxon  name.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.unit_name2 IS 'Idenifies the species.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.unit_name3 IS 'Subspecies name.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.taxon_authority IS 'Name of the author(s) who first described the species, eg. Linnae'
+;
+COMMENT ON COLUMN wldtaxonomic_units.code IS 'Code commonly used to identify a taxon usually at a species or su'
+;
+COMMENT ON COLUMN wldtaxonomic_units.english_name IS 'Common english name of the species or taxa. Ex. Grizzly Bear'
+;
+COMMENT ON COLUMN wldtaxonomic_units.tty_kingdom IS 'The kingdom the taxon hierarchy represents'
+;
+COMMENT ON COLUMN wldtaxonomic_units.tty_name IS 'The name of the taxon level, eg. PHYLUM, ORDER, GENUS, etc'
+;
+COMMENT ON COLUMN wldtaxonomic_units.tcn_id IS 'FK: WLD_COMMON_NAMES'
+;
+COMMENT ON COLUMN wldtaxonomic_units.txn_id IS 'System generated UID for a taxon.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.sensitive_data_flag IS 'Indicates that the data is sensitive and access restricted'
+;
+COMMENT ON COLUMN wldtaxonomic_units.breed_in_bc_flag IS 'Indicates whether or not an animal breeds in BC.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.introduced_species_flag IS 'Indicates that species is not native to British Columbia.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.phylo_sort_sequence IS 'The phologenetic sequence order of the taxon.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.start_date IS 'The date the taxon name becomes effective.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.end_date IS 'The date a taxon becomes obsolete.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.note IS 'Free form text about the taxon.'
+;
+COMMENT ON COLUMN wldtaxonomic_units.element_subnational_id IS 'Identifier that can be used to link this record to the matching Biotics field.'
+;
+COMMENT ON TABLE wldtaxonomic_units IS 'A table to mimic a view into SPI taxonomic data, specifically CWI_TXN.WLDTAXONOMIC_UNITS, for development purposes. This table should be replaced by live views of the data in production systems.'
+;
+
+-- 
 -- INDEX: "Ref299" 
 --
 
@@ -2073,6 +2144,12 @@ CREATE UNIQUE INDEX project_spatial_component_type_uk1 ON project_spatial_compon
 --
 
 CREATE UNIQUE INDEX project_species_uk1 ON project_species(project_id, wldtaxonomic_units_id)
+;
+-- 
+-- INDEX: "Ref5843" 
+--
+
+CREATE INDEX "Ref5843" ON project_species(wldtaxonomic_units_id)
 ;
 -- 
 -- INDEX: "Ref1344" 
@@ -2409,6 +2486,11 @@ ALTER TABLE project_spatial_component ADD CONSTRAINT "Refproject_spatial_compone
 -- 
 -- TABLE: project_species 
 --
+
+ALTER TABLE project_species ADD CONSTRAINT "Refwldtaxonomic_units43" 
+    FOREIGN KEY (wldtaxonomic_units_id)
+    REFERENCES wldtaxonomic_units(wldtaxonomic_units_id)
+;
 
 ALTER TABLE project_species ADD CONSTRAINT "Refproject44" 
     FOREIGN KEY (project_id)
