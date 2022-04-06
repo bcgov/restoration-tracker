@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
 
-const DB_SCHEMA = process.env.DB_SCHEMA
+const DB_SCHEMA = process.env.DB_SCHEMA;
 
 /**
  * Removes the `comments` column from the `treatment_unit` table, since
