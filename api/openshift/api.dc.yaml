@@ -36,10 +36,18 @@ parameters:
     description: Application timezone
     required: false
     value: 'America/Vancouver'
-  - name: CERTIFICATE_URL
-    description: Authentication certificate urls
+  - name: KEYCLOAK_HOST
+    description: Key clock login url
+    value: 'https://oidc.gov.bc.ca/auth'
     required: true
-    value: 'https://oidc.gov.bc.ca/auth/realms/35r1iman/protocol/openid-connect/certs'
+  - name: KEYCLOAK_REALM
+    description: Realm identifier or name
+    value: '35r1iman'
+    required: true
+  - name: KEYCLOAK_CLIENT_ID
+    description: Client Id for application
+    value: 'biohubbc'
+    required: true
   - name: API_PORT_DEFAULT
     value: '6100'
   - name: API_PORT_DEFAULT_NAME
@@ -141,8 +149,12 @@ objects:
                       name: ${DB_SERVICE_NAME}
                 - name: DB_PORT
                   value: '5432'
-                - name: KEYCLOAK_URL
-                  value: ${CERTIFICATE_URL}
+                - name: KEYCLOAK_HOST
+                  value: ${KEYCLOAK_HOST}
+                - name: KEYCLOAK_CLIENT_ID
+                  value: ${KEYCLOAK_CLIENT_ID}
+                - name: KEYCLOAK_REALM
+                  value: ${KEYCLOAK_REALM}
                 - name: CHANGE_VERSION
                   value: ${CHANGE_ID}
                 - name: NODE_ENV

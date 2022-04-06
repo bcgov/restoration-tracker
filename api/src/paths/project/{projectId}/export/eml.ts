@@ -84,11 +84,6 @@ export function getProjectEml(): RequestHandler {
       res.attachment(`project_${projectId}_eml.xml`);
       res.contentType('application/xml');
 
-      console.log('req.params is', req.params);
-      console.log('res header is:', res.header);
-      console.log('res attachment is:', res.attachment);
-      console.log('res content type is:', res.contentType);
-
       return res.status(200).send({ eml: xmlData });
     } catch (error) {
       defaultLog.error({ label: 'getProjectEml', message: 'error', error });

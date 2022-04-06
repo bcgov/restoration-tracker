@@ -267,9 +267,3 @@ export const coordinator_agency: CodeSet = [
   { id: 264, name: 'Yukon Energy Corporation' },
   { id: 265, name: 'Other' }
 ];
-
-export const regional_offices = [
-  { id: 1, name: 'Office 1' },
-  { id: 2, name: 'Office 2' },
-  { id: 3, name: 'Office 3' }
-];
