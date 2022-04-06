@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: 0
       },
       '& dl div + div': {
-        marginTop: theme.spacing(0.75)
+        marginTop: '5px'
       },
       '& dd, dt': {
         display: 'inline-block',

@@ -20,7 +20,7 @@ const AppRouter: React.FC = () => {
   const location = useLocation();
 
   const getTitle = (page: string) => {
-    return `Restoration-Tracker - ${page}`;
+    return `Habitat Restoration Tracker - ${page}`;
   };
 
   return (

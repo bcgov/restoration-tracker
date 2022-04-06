@@ -9,17 +9,18 @@ export const ScrollToFormikError: React.FC = () => {
   const { errors } = formikProps;
   const [openSnackbar, setOpenSnackbar] = useState({ open: false, msg: '' });
 
-  //formik does not maintain object order, this list is to assist selecting top most error.
+  //In order to scroll to top most error, a list needs to be provided of the given order of fields.
+  //This is done because formik object errors does not maintain any order in relation to the fields of the page.
   const formikErrorTopDownList = [
     'project.project_name',
     'project.start_date',
     'project.objectives',
     'species.focal_species',
-    'iucn.classificationDetails.classification',
-    'iucn.classificationDetails.subClassification1',
-    'iucn.classificationDetails.subClassification2',
-    'permit.permits.permit_number',
-    'permit.permits.permit_type',
+    /^iucn\.classificationDetails\.\[\d+]\.classification$/,
+    /^iucn\.classificationDetails\.\[\d+]\.subClassification1$/,
+    /^iucn\.classificationDetails\.\[\d+]\.subClassification2$/,
+    /^permit\.permits\.\[\d+]\.permit_number$/,
+    /^permit\.permits\.\[\d+]\.permit_type$/,
     'location.region',
     'location.geometry'
   ];
@@ -47,12 +48,14 @@ export const ScrollToFormikError: React.FC = () => {
       return result;
     };
 
-    const getFirstErrorField = (errorArray: string[]) => {
-      return formikErrorTopDownList.find((listError) => {
-        return errorArray.find((trueError) => {
-          return listError === trueError;
-        });
-      });
+    const getFirstErrorField = (errorArray: string[]): string | undefined => {
+      for (const listError of formikErrorTopDownList) {
+        for (const trueError of errorArray) {
+          if (trueError.match(listError) || listError === trueError) {
+            return trueError;
+          }
+        }
+      }
     };
 
     const getFieldTitle = (absoluteErrorName: string) => {

@@ -67,7 +67,7 @@ describe('TreatmentService', () => {
       sinon.restore();
     });
 
-    it('should return an array of invalid paramerters within a single treatment unit', async function () {
+    it('should return an array of invalid parameters within a single treatment unit', async function () {
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
       const treatmentService = new TreatmentService(mockDBConnection);
 
@@ -90,7 +90,7 @@ describe('TreatmentService', () => {
 
       const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
 
-      expect(response[0].missingProperties.length).to.be.equal(6);
+      expect(response[0].missingProperties.length).to.be.equal(5);
     });
 
     it('should return an array of invalid units with invalid properties', async function () {
@@ -359,7 +359,7 @@ describe('TreatmentService', () => {
           ]
         },
         properties: {
-          OBJECTID: 1,
+          OBJECTID: 2,
           SHAPE_Leng: 3498.988939,
           TU_ID: 1,
           Width_m: 240,

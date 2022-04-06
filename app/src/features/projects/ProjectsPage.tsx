@@ -165,14 +165,16 @@ const ProjectsPage: React.FC = () => {
 
   return (
     <Container maxWidth="xl">
-      <Box m={5}>
+      <Box mb={5}>
         <Box mb={1}>
           <Typography variant="h1">Projects</Typography>
         </Box>
-        <Typography>Find species inventory projects and related data in British Columbia</Typography>
+        <Typography variant="body1" color="textSecondary">
+          Find species inventory projects and related data in British Columbia
+        </Typography>
       </Box>
 
-      <Box m={5}>
+      <Box mb={5}>
         <Formik<IProjectAdvancedFilters>
           innerRef={formikRef}
           initialValues={formikValues}
@@ -205,9 +207,7 @@ const ProjectsPage: React.FC = () => {
         </Formik>
       </Box>
 
-      <Box m={5}>
-        <ProjectsListPage projects={projects} />
-      </Box>
+      <ProjectsListPage projects={projects} />
     </Container>
   );
 };

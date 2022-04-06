@@ -93,8 +93,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
    */
   return (
     <Card>
-      <Box display="flex" alignItems="center" justifyContent="space-between" m={1} p={2}>
-        <Typography variant="h4" component="h3">
+      <Box display="flex" alignItems="center" justifyContent="space-between" p={3}>
+        <Typography variant="h2">
           Found {projects?.length} {projects?.length !== 1 ? 'projects' : 'project'}
         </Typography>
       </Box>
@@ -109,7 +109,9 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell />
+                <TableCell width="100" align="center">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -140,7 +142,7 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell />
                   <TableCell />
                   <TableCell>{getChipIcon(ProjectStatusType.DRAFT)}</TableCell>
-                  <TableCell />
+                  <TableCell></TableCell>
                 </TableRow>
               ))}
               {projects?.map((row) => (
@@ -160,15 +162,16 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.start_date)}</TableCell>
                   <TableCell>{getFormattedDate(DATE_FORMAT.ShortMediumDateFormat, row.project.end_date)}</TableCell>
                   <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      title="Download Project EML"
-                      aria-label="Download Project EML"
-                      size="small"
-                      data-testid="project-table-download-eml"
-                      onClick={() => handleDownloadProjectEML(row.project.project_id)}>
-                      <Icon path={mdiDownload} size={1} />
-                    </IconButton>
+                  <TableCell align="center">
+                    <Box my={-1}>
+                      <IconButton
+                        title="Download Project EML"
+                        aria-label="download project EML"
+                        data-testid="project-table-download-eml"
+                        onClick={() => handleDownloadProjectEML(row.project.project_id)}>
+                        <Icon path={mdiDownload} size={1} />
+                      </IconButton>
+                    </Box>
                   </TableCell>
                 </TableRow>
               ))}

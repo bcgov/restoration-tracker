@@ -141,7 +141,7 @@ const Header: React.FC = () => {
         <Box pl={2}>
           <Divider orientation="vertical" />
         </Box>
-        <IconButton className={classes.govHeaderIconButton} onClick={showSupportDialog}>
+        <IconButton aria-label="need help" className={classes.govHeaderIconButton} onClick={showSupportDialog}>
           <Icon path={mdiHelpCircle} size={1.12} />
         </IconButton>
       </Box>
@@ -205,14 +205,14 @@ const Header: React.FC = () => {
       <AppBar position="sticky" style={{ boxShadow: 'none' }}>
         <Toolbar className={classes.govHeaderToolbar}>
           <Box display="flex" justifyContent="space-between" width="100%">
-            <Link to="/projects" className={classes.brand} aria-label="Go to Restoration Tracker Home">
+            <Link to="/projects" className={classes.brand} aria-label="Go to Habitat Restoration Tracker Home">
               <picture>
                 <source srcSet={headerImageLarge} media="(min-width: 1200px)"></source>
                 <source srcSet={headerImageSmall} media="(min-width: 600px)"></source>
                 <img src={headerImageSmall} alt={'Government of British Columbia'} />
               </picture>
               <span>
-                Restoration Tracker
+                Habitat Restoration Tracker
                 <sup className={classes.appPhaseTag}>
                   <BetaLabel />
                   &nbsp;
@@ -262,17 +262,19 @@ const Header: React.FC = () => {
       <Dialog open={open}>
         <DialogTitle>Need Help?</DialogTitle>
         <DialogContent>
-          <Typography variant="body1" gutterBottom>
+          <Typography variant="body1" component="div" color="textSecondary" gutterBottom>
             For technical support or questions about this application, please contact:&nbsp;
             <OtherLink
-              href="mailto:restoration-tracker@gov.bc.ca?subject=Restoration Tracker - Secure Document Access Request"
+              href="mailto:biohub@gov.bc.ca?subject=Habitat Restoration Tracker - Secure Document Access Request"
               underline="always"
               onClick={preventDefault}>
-              restoration-tracker@gov.bc.ca
+              biohub@gov.bc.ca
             </OtherLink>
             .
           </Typography>
-          <Typography variant="body1">A support representative will respond to your request shortly.</Typography>
+          <Typography variant="body1" color="textSecondary">
+            A support representative will respond to your request shortly.
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="primary" onClick={hideSupportDialog}>

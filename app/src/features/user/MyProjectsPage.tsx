@@ -55,26 +55,22 @@ const MyProjectsPage: React.FC = () => {
 
   return (
     <Container maxWidth="xl">
-      <Box m={5}>
-        <Box mb={1} display="flex" justifyContent="space-between">
-          <Typography variant="h1">My Projects</Typography>
-          <SystemRoleGuard
-            validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR, SYSTEM_ROLE.PROJECT_CREATOR]}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Icon path={mdiPlus} size={1} />}
-              onClick={() => history.push('/admin/projects/create')}
-              data-testid="create-project-button">
-              Create Project
-            </Button>
-          </SystemRoleGuard>
-        </Box>
+      <Box mb={5} display="flex" justifyContent="space-between">
+        <Typography variant="h1">My Projects</Typography>
+        <SystemRoleGuard
+          validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR, SYSTEM_ROLE.PROJECT_CREATOR]}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Icon path={mdiPlus} size={1} />}
+            onClick={() => history.push('/admin/projects/create')}
+            data-testid="create-project-button">
+            Create Project
+          </Button>
+        </SystemRoleGuard>
       </Box>
 
-      <Box m={5}>
-        <ProjectsListPage projects={projects} drafts={drafts} />
-      </Box>
+      <ProjectsListPage projects={projects} drafts={drafts} />
     </Container>
   );
 };

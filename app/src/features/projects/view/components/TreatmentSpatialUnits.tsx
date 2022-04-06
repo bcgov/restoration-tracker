@@ -1,21 +1,34 @@
+import { ListItem } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { mdiMenuDown, mdiTrashCanOutline, mdiTrayArrowUp } from '@mdi/js';
+import { mdiImport, mdiMenuDown, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
+import { DialogContext } from 'contexts/dialogContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+
+const useStyles = makeStyles({
+  filterMenu: {
+    minWidth: '200px !important',
+    padding: 0,
+    borderBottom: '1px solid #ffffff',
+    '&:last-child': {
+      borderBottom: 'none'
+    }
+  }
+});
 
 export interface IProjectSpatialUnitsProps {
   treatmentList: IGetProjectTreatment[];
@@ -29,6 +42,7 @@ export interface IProjectSpatialUnitsProps {
  * @return {*}
  */
 const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
+  const classes = useStyles();
   const { getTreatments, getAttachments } = props;
   const urlParams = useParams();
   const projectId = urlParams['id'];
@@ -48,6 +62,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
 
   const handleClose = () => setAnchorEl(null);
+  const dialogContext = useContext(DialogContext);
 
   const handleUpload = (): IUploadHandler => {
     return (file, cancelToken, handleFileUploadProgress) => {
@@ -62,6 +77,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const handleDeleteTreatmentsByYear = async (year: number) => {
     await restorationTrackerApi.project.deleteProjectTreatmentsByYear(projectId, year);
+
     handleSelectedSwitch(year);
     getTreatmentYears(true);
   };
@@ -120,6 +136,29 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     }
   }, [getTreatmentYears, yearList.length, isTreatmentLoading]);
 
+  const defaultYesNoDialogProps = {
+    dialogText: 'Are you sure you want to permanently delete these treatments?',
+    open: false,
+    onClose: () => dialogContext.setYesNoDialog({ open: false }),
+    onNo: () => dialogContext.setYesNoDialog({ open: false }),
+    onYes: () => dialogContext.setYesNoDialog({ open: false })
+  };
+
+  const showDeleteTreatmentYearDialog = (year: string | number) => {
+    dialogContext.setYesNoDialog({
+      ...defaultYesNoDialogProps,
+      dialogTitle: `Delete ${year} treatments`,
+      open: true,
+      yesButtonProps: { color: 'secondary' },
+      yesButtonLabel: 'Delete',
+      noButtonLabel: 'Cancel',
+      onYes: () => {
+        handleDeleteTreatmentsByYear(Number(year));
+        dialogContext.setYesNoDialog({ open: false });
+      }
+    });
+  };
+
   return (
     <Box>
       <ComponentDialog
@@ -147,13 +186,13 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
             <Button
               id={'open-layer-menu'}
               data-testid={'open-layer-menu'}
-              variant="outlined"
+              variant="text"
               color="primary"
               title={'Filter Treaatments'}
               aria-label={'Filter Treatments'}
               endIcon={<Icon path={mdiMenuDown} size={1} />}
               onClick={handleClick}>
-              Filter Treatments ({yearList?.length})
+              Filter Treatment Years ({yearList?.length})
             </Button>
 
             <Menu
@@ -164,46 +203,38 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-              <Box mt={1} width={300}>
-                <Box m={2} p={1}>
-                  <Typography>
-                    <strong>TREATMENT UNIT LAYERS ({yearList?.length})</strong>
-                  </Typography>
+              {yearList.length === 0 && (
+                <Box flexGrow={1} m={0.5}>
+                  <Typography>No Treatment Years Available</Typography>
                 </Box>
-
-                {!yearList && <Typography>No Treatment Years Available</Typography>}
-                {yearList.length >= 1 &&
-                  yearList.map((year) => {
-                    return (
-                      <MenuItem
-                        key={year.year}
-                        selected={selectedSpatialLayer[year.year]}
-                        onClick={() => handleSelectedSwitch(year.year)}
-                        disableGutters>
+              )}
+              {yearList.length >= 1 &&
+                yearList.map((year) => {
+                  return (
+                    <ListItem
+                      dense
+                      disableGutters
+                      className={classes.filterMenu}
+                      key={year.year}
+                      selected={selectedSpatialLayer[year.year]}>
+                      <ListItemIcon onClick={() => handleSelectedSwitch(year.year)}>
                         <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
-                        <Box flexGrow={1}>Treatment Year {year.year}</Box>
-                        <ListItemIcon onClick={() => handleDeleteTreatmentsByYear(year.year)}>
-                          <Icon path={mdiTrashCanOutline} size={1.25} />
-                        </ListItemIcon>
-                      </MenuItem>
-                    );
-                  })}
+                      </ListItemIcon>
+                      <Box flexGrow={1} ml={0.5}>
+                        {year.year}
+                      </Box>
 
-                <Box>
-                  <Button
-                    id={'upload-spatial'}
-                    data-testid={'upload-spatial'}
-                    variant="contained"
-                    fullWidth
-                    color="primary"
-                    title={'Import Spatial'}
-                    aria-label={'Import Spatial'}
-                    startIcon={<Icon path={mdiTrayArrowUp} size={1} />}
-                    onClick={handleImportTreatmentClick}>
-                    Import Treatments
-                  </Button>
-                </Box>
-              </Box>
+                      <ListItemIcon
+                        aria-labelledby="delete treatment year data"
+                        title="Delete treatment year data"
+                        onClick={() => {
+                          showDeleteTreatmentYearDialog(year.year);
+                        }}>
+                        <Icon path={mdiTrashCanOutline} size={0.9375} />
+                      </ListItemIcon>
+                    </ListItem>
+                  );
+                })}
             </Menu>
 
             <Box display="inline-block" ml={1}>
@@ -214,7 +245,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                 color="primary"
                 title={'Import Spatial'}
                 aria-label={'Import Spatial'}
-                startIcon={<Icon path={mdiTrayArrowUp} size={1} />}
+                startIcon={<Icon path={mdiImport} size={1} />}
                 onClick={handleImportTreatmentClick}>
                 Import Treatments
               </Button>

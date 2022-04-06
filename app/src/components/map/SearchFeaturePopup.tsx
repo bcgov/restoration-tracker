@@ -14,7 +14,7 @@ export const SearchFeaturePopup: React.FC<{ featureData: any }> = (props) => {
   const { featureData } = props;
 
   return (
-    <Popup key={featureData.id} keepInView={false} autoPan={false}>
+    <Popup key={featureData.id} keepInView={false} autoPan={false} closeButton={false}>
       <Box mb={2}>
         <Typography variant="body1">Project: {featureData.name}</Typography>
       </Box>

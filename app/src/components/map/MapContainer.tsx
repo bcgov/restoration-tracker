@@ -42,6 +42,7 @@ export interface IMapContainerProps {
   staticLayers?: IStaticLayer[];
   drawControls?: IMapDrawControlsProps;
   scrollWheelZoom?: boolean;
+  fullScreenControl?: boolean;
   markers?: IMarker[];
   bounds?: any;
   zoom?: number;
@@ -57,12 +58,15 @@ const MapContainer: React.FC<IMapContainerProps> = (props) => {
     staticLayers,
     drawControls,
     scrollWheelZoom,
+    fullScreenControl,
     markers,
     bounds,
     zoom,
     eventHandlers,
     LeafletMapContainerProps
   } = props;
+
+  const fullscreenControlProp = (fullScreenControl && { pseudoFullscreen: true }) || undefined;
 
   return (
     <LeafletMapContainer
@@ -77,14 +81,14 @@ const MapContainer: React.FC<IMapContainerProps> = (props) => {
         [90, 180]
       ]}
       maxBoundsViscosity={1}
-      fullscreenControl={true}
+      fullscreenControl={fullscreenControlProp}
       {...LeafletMapContainerProps}>
       <FullScreenScrollingEventHandler bounds={bounds} scrollWheelZoom={scrollWheelZoom || false} />
 
       <MapBounds bounds={bounds} />
 
       {drawControls && (
-        <FeatureGroup pathOptions={{ color: 'orange' }}>
+        <FeatureGroup>
           <DrawControls
             features={props.drawControls?.features}
             onChange={(features: Feature[]) => {

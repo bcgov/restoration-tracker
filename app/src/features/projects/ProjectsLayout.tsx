@@ -7,12 +7,8 @@ const useStyles = makeStyles(() => ({
     position: 'relative',
     width: 'inherit',
     height: '100%',
-    display: 'flex',
     flex: '1',
     flexDirection: 'column'
-  },
-  projectsContainer: {
-    flex: '1'
   }
 }));
 
@@ -25,11 +21,7 @@ const useStyles = makeStyles(() => ({
 const ProjectsLayout: React.FC = (props) => {
   const classes = useStyles();
 
-  return (
-    <Box className={classes.projectsLayoutRoot}>
-      <Box className={classes.projectsContainer}>{props.children}</Box>
-    </Box>
-  );
+  return <Box className={classes.projectsLayoutRoot}>{props.children}</Box>;
 };
 
 export default ProjectsLayout;

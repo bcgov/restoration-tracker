@@ -1,7 +1,6 @@
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
@@ -39,21 +38,12 @@ const UsersDetailPage: React.FC = (props) => {
   }
 
   return (
-    <>
+    <Container maxWidth="xl">
       <UsersDetailHeader userDetails={selectedUser} />
-
-      <Container maxWidth="xl">
-        <Box my={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={12}>
-              <Box>
-                <UsersDetailProjects userDetails={selectedUser} />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
-    </>
+      <Box my={3}>
+        <UsersDetailProjects userDetails={selectedUser} />
+      </Box>
+    </Container>
   );
 };
 

@@ -92,27 +92,24 @@ const ManageUsersPage: React.FC = () => {
   }
 
   return (
-    <Box my={4}>
-      <Container maxWidth="xl">
-        <Box mb={5} display="flex" alignItems="center" justifyContent="space-between">
-          <Typography variant="h1">Manage Users</Typography>
-        </Box>
+    <Container maxWidth="xl">
+      <Box mb={5} display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h1">Manage Users</Typography>
+      </Box>
 
-        <Box>
-          <AccessRequestList
-            accessRequests={accessRequests}
-            codes={codes.codes}
-            refresh={() => {
-              refreshAccessRequests();
-              refreshActiveUsers();
-            }}
-          />
-        </Box>
-        <Box pt={3}>
-          <ActiveUsersList activeUsers={activeUsers} codes={codes.codes} refresh={refreshActiveUsers} />
-        </Box>
-      </Container>
-    </Box>
+      <Box mb={5}>
+        <AccessRequestList
+          accessRequests={accessRequests}
+          codes={codes.codes}
+          refresh={() => {
+            refreshAccessRequests();
+            refreshActiveUsers();
+          }}
+        />
+      </Box>
+
+      <ActiveUsersList activeUsers={activeUsers} codes={codes.codes} refresh={refreshActiveUsers} />
+    </Container>
   );
 };
 

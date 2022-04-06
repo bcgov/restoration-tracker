@@ -1,10 +1,9 @@
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { DATE_FORMAT, DATE_LIMIT } from 'constants/dateTimeFormats';
-import { DialogContext, ISnackbarProps } from 'contexts/dialogContext';
 import get from 'lodash-es/get';
 import moment from 'moment';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React from 'react';
 
 interface IStartEndDateFieldsProps {
   formikProps: any;
@@ -22,7 +21,7 @@ interface IStartEndDateFieldsProps {
  */
 const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
   const {
-    formikProps: { values, handleChange, errors, touched, setFieldValue },
+    formikProps: { values, handleChange, errors, touched },
     startName,
     endName,
     startRequired,
@@ -45,30 +44,6 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
       moment(rawEndDateValue).isValid() &&
       moment(rawEndDateValue).format(DATE_FORMAT.ShortDateFormat)) ||
     '';
-
-  const dialogContext = useContext(DialogContext);
-
-  const setEndDateToAfterStartDate = useCallback(() => {
-    if (formattedEndDateValue || !formattedStartDateValue) {
-      return;
-    }
-
-    const updateEndDateValue = moment(formattedStartDateValue).add(1, 'd').format(DATE_FORMAT.ShortDateFormat);
-    setFieldValue(endName, updateEndDateValue);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formattedStartDateValue, endName, setFieldValue]);
-
-  useEffect(() => {
-    const showSnackBar = (textDialogProps?: Partial<ISnackbarProps>) => {
-      dialogContext.setSnackbar({ ...textDialogProps, open: true });
-    };
-
-    if (formattedEndDateValue && formattedStartDateValue >= formattedEndDateValue) {
-      setEndDateToAfterStartDate();
-      showSnackBar({ snackbarMessage: 'Updated End Date to after selected Start Date.' });
-    }
-  }, [formattedStartDateValue, formattedEndDateValue, setEndDateToAfterStartDate, dialogContext]);
 
   return (
     <Grid container item spacing={3}>
@@ -112,7 +87,6 @@ const StartEndDateFields: React.FC<IStartEndDateFieldsProps> = (props) => {
           required={endRequired}
           value={formattedEndDateValue}
           type="date"
-          onFocus={setEndDateToAfterStartDate}
           InputProps={{
             // Chrome min/max dates
             inputProps: {

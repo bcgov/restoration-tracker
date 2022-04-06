@@ -1,7 +1,7 @@
 #!make
 
 # ------------------------------------------------------------------------------
-# Makefile -- Restoration Tracker
+# Makefile --Habitat Restoration Tracker
 # ------------------------------------------------------------------------------
 
 -include .env
@@ -57,7 +57,7 @@ clean: ## Closes and cleans (removes) all project containers
 
 ## ------------------------------------------------------------------------------
 ## Build/Run Postgres DB Commands
-## - Builds all of the Restoration Tracker postgres db projects (db, db_setup)
+## - Builds all of the Habitat Restoration Tracker postgres db projects (db, db_setup)
 ## ------------------------------------------------------------------------------
 
 build-postgres: ## Builds the postgres db containers
@@ -74,7 +74,7 @@ run-postgres: ## Runs the postgres db containers
 
 ## ------------------------------------------------------------------------------
 ## Build/Run Backend Commands
-## - Builds all of the Restoration Tracker backend projects (db, db_setup, api)
+## - Builds all of the Habitat Restoration Tracker backend projects (db, db_setup, api)
 ## ------------------------------------------------------------------------------
 
 build-backend: ## Builds all backend containers
@@ -91,7 +91,7 @@ run-backend: ## Runs all backend containers
 
 ## ------------------------------------------------------------------------------
 ## Build/Run Backend+Web Commands (backend + web frontend)
-## - Builds all of the Restoration Tracker backend+web projects (db, db_setup, api, app)
+## - Builds all of the Habitat Restoration Tracker backend+web projects (db, db_setup, api, app)
 ## ------------------------------------------------------------------------------
 
 build-web: ## Builds all backend+web containers

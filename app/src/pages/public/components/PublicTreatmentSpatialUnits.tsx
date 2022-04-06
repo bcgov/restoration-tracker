@@ -11,6 +11,19 @@ import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  filterMenu: {
+    minWidth: '200px !important',
+    padding: 0,
+    borderBottom: '1px solid #ffffff',
+    '&:last-child': {
+      borderBottom: 'none'
+    }
+  }
+});
+
 export interface IProjectSpatialUnitsProps {
   treatmentList: IGetProjectTreatment[];
   getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
@@ -22,6 +35,7 @@ export interface IProjectSpatialUnitsProps {
  * @return {*}
  */
 const PublicTreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
+  const classes = useStyles();
   const { getTreatments } = props;
   const urlParams = useParams();
   const projectId = urlParams['id'];
@@ -119,28 +133,24 @@ const PublicTreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props)
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-              <Box mt={1} width={300}>
-                <Box m={2} p={1}>
-                  <Typography>
-                    <strong>TREATMENT UNIT LAYERS ({yearList?.length})</strong>
-                  </Typography>
-                </Box>
-
-                {!yearList && <Typography>No Treatment Years Available</Typography>}
-                {yearList.length >= 1 &&
-                  yearList.map((year) => {
-                    return (
-                      <MenuItem
-                        key={year.year}
-                        selected={selectedSpatialLayer[year.year]}
-                        onClick={() => handleSelectedSwitch(year.year)}
-                        disableGutters>
-                        <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
-                        <Box flexGrow={1}>Treatment Year {year.year}</Box>
-                      </MenuItem>
-                    );
-                  })}
-              </Box>
+              {!yearList && <Typography>No Treatment Years Available</Typography>}
+              {yearList.length >= 1 &&
+                yearList.map((year) => {
+                  return (
+                    <MenuItem
+                      dense
+                      disableGutters
+                      className={classes.filterMenu}
+                      key={year.year}
+                      selected={selectedSpatialLayer[year.year]}
+                      onClick={() => handleSelectedSwitch(year.year)}>
+                      <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
+                      <Box flexGrow={1} ml={0.5}>
+                        {year.year}
+                      </Box>
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </Box>
         </Box>

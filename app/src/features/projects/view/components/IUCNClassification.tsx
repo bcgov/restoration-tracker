@@ -38,21 +38,21 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
   } = props;
 
   const hasIucnClassifications = iucn.classificationDetails && iucn.classificationDetails.length > 0;
-
   return (
     <ul className={classes.projectIucnList}>
       {hasIucnClassifications &&
         iucn.classificationDetails.map((classificationDetail: any, index: number) => {
-          const iucn1_name =
-            props.codes.iucn_conservation_action_level_1_classification[classificationDetail.classification - 1].name;
+          const iucn1_name = props.codes.iucn_conservation_action_level_1_classification.find(
+            (code) => code.id === classificationDetail.classification
+          )?.name;
 
-          const iucn2_name =
-            props.codes.iucn_conservation_action_level_2_subclassification[classificationDetail.subClassification1 - 1]
-              .name;
+          const iucn2_name = props.codes.iucn_conservation_action_level_2_subclassification.find(
+            (code) => code.id === classificationDetail.subClassification1
+          )?.name;
 
-          const iucn3_name =
-            props.codes.iucn_conservation_action_level_3_subclassification[classificationDetail.subClassification2 - 1]
-              .name;
+          const iucn3_name = props.codes.iucn_conservation_action_level_3_subclassification.find(
+            (code) => code.id === classificationDetail.subClassification2
+          )?.name;
 
           return (
             <li key={index} data-testid="iucn_data">

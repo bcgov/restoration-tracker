@@ -1,6 +1,5 @@
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import centroid from '@turf/centroid';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
@@ -90,22 +89,19 @@ const SearchPage: React.FC = () => {
    * Displays search results visualized on a map spatially.
    */
   return (
-    <Box my={4}>
-      <Container maxWidth="xl">
-        <Box mb={5} display="flex" justifyContent="space-between">
-          <Typography variant="h1">Map</Typography>
-        </Box>
-        <Box>
-          <Box mb={4}>
-            <Grid item xs={12}>
-              <Box mt={2} height={750}>
-                <MapContainer mapId="search_boundary_map" scrollWheelZoom={true} markers={geometries} />
-              </Box>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </Box>
+    <Container maxWidth="xl">
+      <Box mb={5} display="flex" justifyContent="space-between">
+        <Typography variant="h1">Map</Typography>
+      </Box>
+      <Box height={750}>
+        <MapContainer
+          mapId="search_boundary_map"
+          fullScreenControl={true}
+          scrollWheelZoom={true}
+          markers={geometries}
+        />
+      </Box>
+    </Container>
   );
 };
 

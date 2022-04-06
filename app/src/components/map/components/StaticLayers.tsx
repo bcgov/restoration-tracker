@@ -61,6 +61,7 @@ const StaticLayers: React.FC<IStaticLayersProps> = (props) => {
                   <Popup
                     key={`static-feature-popup-${id}-${index}`}
                     keepInView={false}
+                    closeButton={false}
                     autoPan={false}
                     {...item.PopupProps}>
                     {item.popup}

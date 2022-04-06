@@ -27,7 +27,7 @@ describe('TreatmentSpatialUnits', () => {
     cleanup();
   });
 
-  it('renders correctly with no Treatment Units', async () => {
+  it('renders correctly with no Treatment Years', async () => {
     await act(async () => {
       mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([]);
       const { getByText } = render(
@@ -36,20 +36,20 @@ describe('TreatmentSpatialUnits', () => {
         </Router>
       );
 
-      expect(getByText('Filter Treatments (0)')).toBeInTheDocument();
+      expect(getByText('Filter Treatment Years (0)', { exact: false })).toBeInTheDocument();
     });
   });
 
-  it('renders menu correctly with no Treatment Units', async () => {
+  it('renders menu correctly with no Treatment Years', async () => {
     const { getByText } = render(
       <Router history={history}>
         <TreatmentSpatialUnits treatmentList={[]} getTreatments={jest.fn()} getAttachments={jest.fn()} />
       </Router>
     );
 
-    fireEvent.click(getByText('Filter Treatments (0)'));
+    fireEvent.click(getByText('Filter Treatment Years (0)'));
     await waitFor(() => {
-      expect(getByText('TREATMENT UNIT LAYERS (0)')).toBeInTheDocument();
+      expect(getByText('No Treatment Years Available', { exact: false })).toBeInTheDocument();
     });
   });
 
@@ -60,14 +60,14 @@ describe('TreatmentSpatialUnits', () => {
       </Router>
     );
 
-    fireEvent.click(getByTestId('open-layer-menu'));
+    fireEvent.click(getByTestId('upload-spatial'));
     await waitFor(() => {
       const items = getAllByText('Import Treatments');
       expect(items).toHaveLength(2);
     });
   });
 
-  it('renders correctly with Treatment Units', async () => {
+  it('renders correctly with Treatment Years', async () => {
     mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([{ year: 99 }]);
 
     const { getByText } = render(
@@ -77,7 +77,7 @@ describe('TreatmentSpatialUnits', () => {
     );
 
     await waitFor(() => {
-      expect(getByText('Filter Treatments (1)')).toBeInTheDocument();
+      expect(getByText('Filter Treatment Years (1)')).toBeInTheDocument();
     });
   });
 });

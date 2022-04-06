@@ -1,7 +1,7 @@
 {
   "name": "restoration-tracker-api",
   "version": "0.0.0",
-  "description": "API for Restoration Tracker Web App",
+  "description": "API for Habitat Restoration Tracker Web App",
   "license": "Apache-2.0",
   "main": "app",
   "repository": {

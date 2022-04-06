@@ -201,6 +201,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
         <Box height={500}>
           <MapContainer
             mapId={'project_location_map'}
+            fullScreenControl={true}
             drawControls={{
               features: values.location.geometry,
               onChange: (features) => setFieldValue('location.geometry', features)

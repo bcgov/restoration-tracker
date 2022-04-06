@@ -19,11 +19,18 @@ export class TaxonomyService {
 
   private sanitizeSpeciesData = (data: SearchHit<any>[]) => {
     return data.map((item) => {
-      const unit_name1 = item._source.unit_name1 || '';
-      const unit_name2 = item._source.unit_name2 || '';
-      const unit_name3 = item._source.unit_name3 || '';
-      const english_name = item._source.english_name || '';
-      const label = `${item._source.code}: ${item._source.tty_kingdom} ${item._source.tty_name}, ${unit_name1} ${unit_name2} ${unit_name3}, ${english_name}`;
+      const label = [
+        item._source.code,
+        [
+          [item._source.tty_kingdom, item._source.tty_name].filter(Boolean).join(' '),
+          [item._source.unit_name1, item._source.unit_name2, item._source.unit_name3].filter(Boolean).join(' '),
+          item._source.english_name
+        ]
+          .filter(Boolean)
+          .join(', ')
+      ]
+        .filter(Boolean)
+        .join(': ');
 
       return { id: item._id, label: label };
     });
@@ -56,9 +63,15 @@ export class TaxonomyService {
   async searchSpecies(term: string) {
     const response = await this.elasticSearch({
       query: {
-        multi_match: {
-          query: term,
-          fields: ['unit_name1', 'unit_name2', 'unit_name3', 'code', 'tty_kingdom', 'tty_name', 'english_name']
+        bool: {
+          should: [
+            { wildcard: { english_name: { value: `*${term}*`, boost: 4.0 } } },
+            { wildcard: { unit_name1: { value: `*${term}*`, boost: 3.0 } } },
+            { wildcard: { unit_name2: { value: `*${term}*`, boost: 3.0 } } },
+            { wildcard: { unit_name3: { value: `*${term}*`, boost: 3.0 } } },
+            { wildcard: { code: { value: `*${term}*`, boost: 2.0 } } },
+            { wildcard: { tty_kingdom: { value: `*${term}*`, boost: 1.0 } } }
+          ]
         }
       }
     });
