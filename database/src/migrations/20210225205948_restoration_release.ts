@@ -76,6 +76,9 @@ export async function up(knex: Knex): Promise<void> {
   const populate_caribou_population_unit = fs.readFileSync(
     path.join(__dirname, DB_RELEASE, 'populate_caribou_population_unit.sql')
   );
+  const populate_wldtaxonomic_units = fs.readFileSync(
+    path.join(__dirname, DB_RELEASE, 'populate_wldtaxonomic_units.sql')
+  );
 
   const vw_generated_dapi_views = fs.readFileSync(path.join(__dirname, DB_RELEASE, 'vw_generated_dapi_views.sql'));
 
@@ -142,6 +145,9 @@ export async function up(knex: Knex): Promise<void> {
     ${populate_feature_type}
     ${populate_contact_type}
     ${populate_caribou_population_unit}
+
+    -- temporary external interface tables
+    ${populate_wldtaxonomic_units}
 
     -- create the views
     set search_path = restoration_dapi_v1;
