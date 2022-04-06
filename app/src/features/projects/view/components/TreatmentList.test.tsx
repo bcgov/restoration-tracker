@@ -235,7 +235,6 @@ describe('TreatmentList', () => {
       <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
     );
 
-    expect(queryByText('something2')).toBeNull();
     expect(queryByText('anything2')).toBeNull();
   });
 
@@ -250,7 +249,6 @@ describe('TreatmentList', () => {
     fireEvent.click(getAllByTestId('view-treatment-unit-details')[0]);
 
     await waitFor(() => {
-      expect(getByText('something1', { exact: false })).toBeInTheDocument();
       expect(getByText('anything1', { exact: false })).toBeInTheDocument();
     });
   });
