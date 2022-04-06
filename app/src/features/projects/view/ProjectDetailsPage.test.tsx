@@ -22,14 +22,13 @@ describe('ProjectDetailsPage', () => {
   });
 
   it('renders correctly', async () => {
-    const { getByTestId, queryAllByText } = render(
+    const { getByTestId } = render(
       <Router history={history}>
         <ProjectDetailsPage projectForViewData={getProjectForViewResponse} codes={codes} refresh={jest.fn()} />
       </Router>
     );
 
     await waitFor(() => {
-      expect(queryAllByText('Test Project Name', { exact: false }).length).toEqual(1);
       expect(getByTestId('GeneralInfoTitle')).toBeVisible();
       expect(getByTestId('ContactsTitle')).toBeVisible();
       expect(getByTestId('PermitsTitle')).toBeVisible();

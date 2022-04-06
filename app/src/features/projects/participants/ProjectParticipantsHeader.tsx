@@ -82,7 +82,7 @@ const ProjectParticipantsHeader: React.FC<IProjectParticipantsHeaderProps> = (pr
   return (
     <>
       <Container maxWidth="xl">
-        <Box py={3}>
+        <Box pb={3}>
           <Breadcrumbs>
             <Link color="primary" onClick={() => history.push('/admin/projects')} aria-current="page">
               <Typography variant="body2">Projects</Typography>

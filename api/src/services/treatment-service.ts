@@ -55,7 +55,6 @@ export class TreatmentService extends DBService {
       //collect errors of a single unit
       const treatmentUnitError: string[] = [];
 
-      !Number.isInteger(item.properties.OBJECTID) && treatmentUnitError.push('Missing property OBJECTID');
       !Number.isInteger(item.properties.TU_ID) && treatmentUnitError.push('Missing property TU_ID');
       !Number.isInteger(item.properties.Width_m) && treatmentUnitError.push('Missing property Width_m');
       !Number.isInteger(item.properties.Length_m) && treatmentUnitError.push('Missing property Length_m');

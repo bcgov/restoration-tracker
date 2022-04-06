@@ -103,11 +103,13 @@ exports[`Project Contact Form renders correctly the filled component correctly 1
                 class="MuiTypography-root makeStyles-title-12 MuiTypography-body1"
               >
                 Nerea Oneal
-                <sup>
+                <sup
+                  class="MuiBox-root MuiBox-root-20"
+                >
                   <span
                     class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
                   >
-                     Primary
+                    Primary
                   </span>
                 </sup>
               </p>
@@ -168,7 +170,7 @@ exports[`Project Contact Form renders correctly the filled component correctly 1
               class="MuiDivider-root"
             />
             <div
-              class="MuiBox-root MuiBox-root-20"
+              class="MuiBox-root MuiBox-root-21"
             >
               <div
                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
@@ -218,11 +220,13 @@ exports[`Project Contact Form renders correctly the filled component correctly 1
                 class="MuiTypography-root makeStyles-title-12 MuiTypography-body1"
               >
                 John Doe
-                <sup>
+                <sup
+                  class="MuiBox-root MuiBox-root-22"
+                >
                   <span
                     class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
                   >
-                     Primary
+                    Primary
                   </span>
                 </sup>
               </p>
@@ -283,7 +287,7 @@ exports[`Project Contact Form renders correctly the filled component correctly 1
               class="MuiDivider-root"
             />
             <div
-              class="MuiBox-root MuiBox-root-21"
+              class="MuiBox-root MuiBox-root-23"
             >
               <div
                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"

@@ -203,7 +203,11 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-              {!yearList && <Typography>No Treatment Years Available</Typography>}
+              {yearList.length === 0 && (
+                <Box flexGrow={1} m={0.5}>
+                  <Typography>No Treatment Years Available</Typography>
+                </Box>
+              )}
               {yearList.length >= 1 &&
                 yearList.map((year) => {
                   return (

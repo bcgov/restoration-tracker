@@ -86,6 +86,13 @@ const appTheme = createMuiTheme({
         margin: 'auto'
       }
     },
+    MuiChip: {
+      labelSmall: {
+        fontSize: '11px',
+        fontWeight: 700,
+        textTransform: 'uppercase'
+      }
+    },
     MuiDialog: {
       paperWidthXl: {
         width: '800px'
@@ -189,7 +196,6 @@ const appTheme = createMuiTheme({
     },
     MuiTableCell: {
       root: {
-        verticalAlign: 'top',
         '&:first-child': {
           paddingLeft: '24px'
         },

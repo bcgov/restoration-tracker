@@ -1,540 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ProjectIUCNForm changes fields on the IUCN menu items as expected 1`] = `
+exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
 <DocumentFragment>
   <legend
     class="MuiTypography-root MuiTypography-body1"
   >
-    IUCN Conservation Actions Classifications (Optional)
+    IUCN Conservation Actions Classifications 
   </legend>
   <div
-    class="MuiBox-root MuiBox-root-37"
+    class="MuiBox-root MuiBox-root-4"
   >
     <p
       class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
       Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach each of the project's objectives.
-    </p>
-  </div>
-  <div
-    class="MuiBox-root MuiBox-root-38"
-  >
-    <div
-      class="MuiBox-root MuiBox-root-39"
-      data-testid="iucn-classification-grid"
-    >
-      <div
-        class="MuiBox-root MuiBox-root-40 makeStyles-iucnInputContainer-35"
-      >
-        <div
-          class="MuiBox-root MuiBox-root-41 makeStyles-iucnInput-36"
-        >
-          <div
-            class="MuiFormControl-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
-              data-shrink="true"
-              id="classification"
-            >
-              Classification
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
-            >
-              <div
-                aria-haspopup="listbox"
-                aria-label="Classification"
-                aria-labelledby="classification iucn.classificationDetails.[0].classification"
-                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
-                id="iucn.classificationDetails.[0].classification"
-                role="button"
-                tabindex="0"
-              >
-                Class 1
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput"
-                name="iucn.classificationDetails.[0].classification"
-                tabindex="-1"
-                value="1"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-42 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-44 PrivateNotchedOutline-legendNotched-45"
-                >
-                  <span>
-                    Classification
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-            <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
-            />
-          </div>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-46"
-        >
-          <svg
-            role="presentation"
-            style="width: 1.125rem; height: 1.125rem;"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"
-              style="fill: currentColor;"
-            />
-          </svg>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-47 makeStyles-iucnInput-36"
-        >
-          <div
-            class="MuiFormControl-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
-              data-shrink="true"
-              id="subClassification1"
-            >
-              Sub-classification
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
-            >
-              <div
-                aria-haspopup="listbox"
-                aria-label="subClassification1"
-                aria-labelledby="subClassification1 iucn.classificationDetails.[0].subClassification1"
-                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
-                id="iucn.classificationDetails.[0].subClassification1"
-                role="button"
-                tabindex="0"
-              >
-                A Sub-class 1
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput"
-                name="iucn.classificationDetails.[0].subClassification1"
-                tabindex="-1"
-                value="3"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-42 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-44 PrivateNotchedOutline-legendNotched-45"
-                >
-                  <span>
-                    Sub-classification
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-            <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
-            />
-          </div>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-48"
-        >
-          <svg
-            role="presentation"
-            style="width: 1.125rem; height: 1.125rem;"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"
-              style="fill: currentColor;"
-            />
-          </svg>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-49 makeStyles-iucnInput-36"
-        >
-          <div
-            class="MuiFormControl-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-focused Mui-focused"
-              data-shrink="true"
-              id="subClassification2"
-            >
-              Sub-classification
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root Mui-focused Mui-focused MuiInputBase-formControl"
-            >
-              <div
-                aria-haspopup="listbox"
-                aria-label="subClassification2"
-                aria-labelledby="subClassification2 iucn.classificationDetails.[0].subClassification2"
-                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
-                id="iucn.classificationDetails.[0].subClassification2"
-                role="button"
-                tabindex="0"
-              >
-                A Sub-class 2
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput"
-                name="iucn.classificationDetails.[0].subClassification2"
-                tabindex="-1"
-                value="5"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-42 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-44 PrivateNotchedOutline-legendNotched-45"
-                >
-                  <span>
-                    Sub-classification
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-            <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-focused"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiBox-root MuiBox-root-50"
-      >
-        <button
-          aria-label="delete"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
-          data-testid="delete-icon"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label"
-          >
-            <svg
-              role="presentation"
-              style="width: 1.5rem; height: 1.5rem;"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                style="fill: currentColor;"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
-      </div>
-    </div>
-    <div
-      class="MuiBox-root MuiBox-root-52"
-      data-testid="iucn-classification-grid"
-    >
-      <div
-        class="MuiBox-root MuiBox-root-53 makeStyles-iucnInputContainer-35"
-      >
-        <div
-          class="MuiBox-root MuiBox-root-54 makeStyles-iucnInput-36"
-        >
-          <div
-            class="MuiFormControl-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
-              data-shrink="false"
-              id="classification"
-            >
-              Classification
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
-            >
-              <div
-                aria-haspopup="listbox"
-                aria-label="Classification"
-                aria-labelledby="classification iucn.classificationDetails.[1].classification"
-                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
-                id="iucn.classificationDetails.[1].classification"
-                role="button"
-                tabindex="0"
-              >
-                <span>
-                  ​
-                </span>
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput"
-                name="iucn.classificationDetails.[1].classification"
-                tabindex="-1"
-                value=""
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-42 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-44"
-                >
-                  <span>
-                    Classification
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-            <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error"
-            />
-          </div>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-55"
-        >
-          <svg
-            role="presentation"
-            style="width: 1.125rem; height: 1.125rem;"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"
-              style="fill: currentColor;"
-            />
-          </svg>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-56 makeStyles-iucnInput-36"
-        >
-          <div
-            class="MuiFormControl-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
-              data-shrink="false"
-              id="subClassification1"
-            >
-              Sub-classification
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root Mui-disabled Mui-disabled MuiInputBase-formControl"
-            >
-              <div
-                aria-disabled="true"
-                aria-haspopup="listbox"
-                aria-label="subClassification1"
-                aria-labelledby="subClassification1 iucn.classificationDetails.[1].subClassification1"
-                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input Mui-disabled Mui-disabled Mui-disabled"
-                id="iucn.classificationDetails.[1].subClassification1"
-                role="button"
-              >
-                <span>
-                  ​
-                </span>
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput"
-                name="iucn.classificationDetails.[1].subClassification1"
-                tabindex="-1"
-                value=""
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined Mui-disabled"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-42 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-44"
-                >
-                  <span>
-                    Sub-classification
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-            <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error"
-            />
-          </div>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-57"
-        >
-          <svg
-            role="presentation"
-            style="width: 1.125rem; height: 1.125rem;"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"
-              style="fill: currentColor;"
-            />
-          </svg>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-58 makeStyles-iucnInput-36"
-        >
-          <div
-            class="MuiFormControl-root MuiFormControl-fullWidth"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
-              data-shrink="false"
-              id="subClassification2"
-            >
-              Sub-classification
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root Mui-disabled Mui-disabled MuiInputBase-formControl"
-            >
-              <div
-                aria-disabled="true"
-                aria-haspopup="listbox"
-                aria-label="subClassification2"
-                aria-labelledby="subClassification2 iucn.classificationDetails.[1].subClassification2"
-                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input Mui-disabled Mui-disabled Mui-disabled"
-                id="iucn.classificationDetails.[1].subClassification2"
-                role="button"
-              >
-                <span>
-                  ​
-                </span>
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput"
-                name="iucn.classificationDetails.[1].subClassification2"
-                tabindex="-1"
-                value=""
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined Mui-disabled"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7 10l5 5 5-5z"
-                />
-              </svg>
-              <fieldset
-                aria-hidden="true"
-                class="PrivateNotchedOutline-root-42 MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="PrivateNotchedOutline-legendLabelled-44"
-                >
-                  <span>
-                    Sub-classification
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-            <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiBox-root MuiBox-root-59"
-      >
-        <button
-          aria-label="delete"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
-          data-testid="delete-icon"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label"
-          >
-            <svg
-              role="presentation"
-              style="width: 1.5rem; height: 1.5rem;"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                style="fill: currentColor;"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
-      </div>
-    </div>
-    <div
-      class="MuiBox-root MuiBox-root-51"
-    >
       <button
-        aria-label="Add Another"
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-learnMoreBtn-3 MuiButton-textPrimary"
+        data-testid="prop-dialog-btn"
         tabindex="0"
         type="button"
       >
@@ -542,58 +24,29 @@ exports[`ProjectIUCNForm changes fields on the IUCN menu items as expected 1`] =
           class="MuiButton-label"
         >
           <span
-            class="MuiButton-startIcon MuiButton-iconSizeMedium"
+            class="MuiTypography-root MuiTypography-body1"
           >
-            <svg
-              role="presentation"
-              style="width: 1.5rem; height: 1.5rem;"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
-                style="fill: currentColor;"
-              />
-            </svg>
+            Learn more.
           </span>
-          Add Classification
         </span>
         <span
           class="MuiTouchRipple-root"
         />
       </button>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
-<DocumentFragment>
-  <legend
-    class="MuiTypography-root MuiTypography-body1"
-  >
-    IUCN Conservation Actions Classifications (Optional)
-  </legend>
-  <div
-    class="MuiBox-root MuiBox-root-3"
-  >
-    <p
-      class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-    >
-      Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach each of the project's objectives.
     </p>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-4"
+    class="MuiBox-root MuiBox-root-5"
   >
     <div
-      class="MuiBox-root MuiBox-root-5"
+      class="MuiBox-root MuiBox-root-6"
       data-testid="iucn-classification-grid"
     >
       <div
-        class="MuiBox-root MuiBox-root-6 makeStyles-iucnInputContainer-1"
+        class="MuiBox-root MuiBox-root-7 makeStyles-iucnInputContainer-1"
       >
         <div
-          class="MuiBox-root MuiBox-root-7 makeStyles-iucnInput-2"
+          class="MuiBox-root MuiBox-root-8 makeStyles-iucnInput-2"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -640,10 +93,10 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-8 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-9 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-10"
+                  class="PrivateNotchedOutline-legendLabelled-11"
                 >
                   <span>
                     Classification
@@ -657,7 +110,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-12"
+          class="MuiBox-root MuiBox-root-13"
         >
           <svg
             role="presentation"
@@ -671,7 +124,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-13 makeStyles-iucnInput-2"
+          class="MuiBox-root MuiBox-root-14 makeStyles-iucnInput-2"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -718,10 +171,10 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-8 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-9 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-10"
+                  class="PrivateNotchedOutline-legendLabelled-11"
                 >
                   <span>
                     Sub-classification
@@ -735,7 +188,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-14"
+          class="MuiBox-root MuiBox-root-15"
         >
           <svg
             role="presentation"
@@ -749,7 +202,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-15 makeStyles-iucnInput-2"
+          class="MuiBox-root MuiBox-root-16 makeStyles-iucnInput-2"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -796,13 +249,13 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-8 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-9 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-10"
+                  class="PrivateNotchedOutline-legendLabelled-11"
                 >
                   <span>
-                    Sub-classification
+                    Sub-classification2
                   </span>
                 </legend>
               </fieldset>
@@ -812,35 +265,6 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
             />
           </div>
         </div>
-      </div>
-      <div
-        class="MuiBox-root MuiBox-root-16"
-      >
-        <button
-          aria-label="delete"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
-          data-testid="delete-icon"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label"
-          >
-            <svg
-              role="presentation"
-              style="width: 1.5rem; height: 1.5rem;"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                style="fill: currentColor;"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
       </div>
     </div>
     <div
@@ -885,29 +309,48 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
   <legend
     class="MuiTypography-root MuiTypography-body1"
   >
-    IUCN Conservation Actions Classifications (Optional)
+    IUCN Conservation Actions Classifications 
   </legend>
   <div
-    class="MuiBox-root MuiBox-root-112"
+    class="MuiBox-root MuiBox-root-105"
   >
     <p
       class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
       Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach each of the project's objectives.
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-learnMoreBtn-104 MuiButton-textPrimary"
+        data-testid="prop-dialog-btn"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-body1"
+          >
+            Learn more.
+          </span>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
     </p>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-113"
+    class="MuiBox-root MuiBox-root-106"
   >
     <div
-      class="MuiBox-root MuiBox-root-114"
+      class="MuiBox-root MuiBox-root-107"
       data-testid="iucn-classification-grid"
     >
       <div
-        class="MuiBox-root MuiBox-root-115 makeStyles-iucnInputContainer-110"
+        class="MuiBox-root MuiBox-root-108 makeStyles-iucnInputContainer-102"
       >
         <div
-          class="MuiBox-root MuiBox-root-116 makeStyles-iucnInput-111"
+          class="MuiBox-root MuiBox-root-109 makeStyles-iucnInput-103"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -952,10 +395,10 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-117 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-110 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-119 PrivateNotchedOutline-legendNotched-120"
+                  class="PrivateNotchedOutline-legendLabelled-112 PrivateNotchedOutline-legendNotched-113"
                 >
                   <span>
                     Classification
@@ -969,7 +412,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-121"
+          class="MuiBox-root MuiBox-root-114"
         >
           <svg
             role="presentation"
@@ -983,7 +426,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-122 makeStyles-iucnInput-111"
+          class="MuiBox-root MuiBox-root-115 makeStyles-iucnInput-103"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1028,10 +471,10 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-117 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-110 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-119 PrivateNotchedOutline-legendNotched-120"
+                  class="PrivateNotchedOutline-legendLabelled-112 PrivateNotchedOutline-legendNotched-113"
                 >
                   <span>
                     Sub-classification
@@ -1045,7 +488,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-123"
+          class="MuiBox-root MuiBox-root-116"
         >
           <svg
             role="presentation"
@@ -1059,7 +502,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-124 makeStyles-iucnInput-111"
+          class="MuiBox-root MuiBox-root-117 makeStyles-iucnInput-103"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1104,13 +547,13 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-117 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-110 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-119 PrivateNotchedOutline-legendNotched-120"
+                  class="PrivateNotchedOutline-legendLabelled-112 PrivateNotchedOutline-legendNotched-113"
                 >
                   <span>
-                    Sub-classification
+                    Sub-classification2
                   </span>
                 </legend>
               </fieldset>
@@ -1121,38 +564,9 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </div>
         </div>
       </div>
-      <div
-        class="MuiBox-root MuiBox-root-125"
-      >
-        <button
-          aria-label="delete"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
-          data-testid="delete-icon"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label"
-          >
-            <svg
-              role="presentation"
-              style="width: 1.5rem; height: 1.5rem;"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                style="fill: currentColor;"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
-      </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-126"
+      class="MuiBox-root MuiBox-root-118"
     >
       <button
         aria-label="Add Another"
@@ -1193,29 +607,48 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
   <legend
     class="MuiTypography-root MuiTypography-body1"
   >
-    IUCN Conservation Actions Classifications (Optional)
+    IUCN Conservation Actions Classifications 
   </legend>
   <div
-    class="MuiBox-root MuiBox-root-87"
+    class="MuiBox-root MuiBox-root-80"
   >
     <p
       class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
       Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach each of the project's objectives.
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-learnMoreBtn-79 MuiButton-textPrimary"
+        data-testid="prop-dialog-btn"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-body1"
+          >
+            Learn more.
+          </span>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
     </p>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-88"
+    class="MuiBox-root MuiBox-root-81"
   >
     <div
-      class="MuiBox-root MuiBox-root-89"
+      class="MuiBox-root MuiBox-root-82"
       data-testid="iucn-classification-grid"
     >
       <div
-        class="MuiBox-root MuiBox-root-90 makeStyles-iucnInputContainer-85"
+        class="MuiBox-root MuiBox-root-83 makeStyles-iucnInputContainer-77"
       >
         <div
-          class="MuiBox-root MuiBox-root-91 makeStyles-iucnInput-86"
+          class="MuiBox-root MuiBox-root-84 makeStyles-iucnInput-78"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1260,10 +693,10 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-85 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-94 PrivateNotchedOutline-legendNotched-95"
+                  class="PrivateNotchedOutline-legendLabelled-87 PrivateNotchedOutline-legendNotched-88"
                 >
                   <span>
                     Classification
@@ -1277,7 +710,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-96"
+          class="MuiBox-root MuiBox-root-89"
         >
           <svg
             role="presentation"
@@ -1291,7 +724,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-97 makeStyles-iucnInput-86"
+          class="MuiBox-root MuiBox-root-90 makeStyles-iucnInput-78"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1336,10 +769,10 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-85 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-94 PrivateNotchedOutline-legendNotched-95"
+                  class="PrivateNotchedOutline-legendLabelled-87 PrivateNotchedOutline-legendNotched-88"
                 >
                   <span>
                     Sub-classification
@@ -1353,7 +786,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-98"
+          class="MuiBox-root MuiBox-root-91"
         >
           <svg
             role="presentation"
@@ -1367,7 +800,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-99 makeStyles-iucnInput-86"
+          class="MuiBox-root MuiBox-root-92 makeStyles-iucnInput-78"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1412,13 +845,13 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-85 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-94 PrivateNotchedOutline-legendNotched-95"
+                  class="PrivateNotchedOutline-legendLabelled-87 PrivateNotchedOutline-legendNotched-88"
                 >
                   <span>
-                    Sub-classification
+                    Sub-classification2
                   </span>
                 </legend>
               </fieldset>
@@ -1429,45 +862,16 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </div>
         </div>
       </div>
-      <div
-        class="MuiBox-root MuiBox-root-100"
-      >
-        <button
-          aria-label="delete"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
-          data-testid="delete-icon"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label"
-          >
-            <svg
-              role="presentation"
-              style="width: 1.5rem; height: 1.5rem;"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                style="fill: currentColor;"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
-      </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-101"
+      class="MuiBox-root MuiBox-root-93"
       data-testid="iucn-classification-grid"
     >
       <div
-        class="MuiBox-root MuiBox-root-102 makeStyles-iucnInputContainer-85"
+        class="MuiBox-root MuiBox-root-94 makeStyles-iucnInputContainer-77"
       >
         <div
-          class="MuiBox-root MuiBox-root-103 makeStyles-iucnInput-86"
+          class="MuiBox-root MuiBox-root-95 makeStyles-iucnInput-78"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1512,10 +916,10 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-85 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-94 PrivateNotchedOutline-legendNotched-95"
+                  class="PrivateNotchedOutline-legendLabelled-87 PrivateNotchedOutline-legendNotched-88"
                 >
                   <span>
                     Classification
@@ -1529,7 +933,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-104"
+          class="MuiBox-root MuiBox-root-96"
         >
           <svg
             role="presentation"
@@ -1543,7 +947,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-105 makeStyles-iucnInput-86"
+          class="MuiBox-root MuiBox-root-97 makeStyles-iucnInput-78"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1588,10 +992,10 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-85 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-94 PrivateNotchedOutline-legendNotched-95"
+                  class="PrivateNotchedOutline-legendLabelled-87 PrivateNotchedOutline-legendNotched-88"
                 >
                   <span>
                     Sub-classification
@@ -1605,7 +1009,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-106"
+          class="MuiBox-root MuiBox-root-98"
         >
           <svg
             role="presentation"
@@ -1619,7 +1023,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-107 makeStyles-iucnInput-86"
+          class="MuiBox-root MuiBox-root-99 makeStyles-iucnInput-78"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1664,13 +1068,13 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-85 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-94 PrivateNotchedOutline-legendNotched-95"
+                  class="PrivateNotchedOutline-legendLabelled-87 PrivateNotchedOutline-legendNotched-88"
                 >
                   <span>
-                    Sub-classification
+                    Sub-classification2
                   </span>
                 </legend>
               </fieldset>
@@ -1682,7 +1086,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-108"
+        class="MuiBox-root MuiBox-root-100"
       >
         <button
           aria-label="delete"
@@ -1712,7 +1116,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-109"
+      class="MuiBox-root MuiBox-root-101"
     >
       <button
         aria-label="Add Another"
@@ -1753,29 +1157,48 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
   <legend
     class="MuiTypography-root MuiTypography-body1"
   >
-    IUCN Conservation Actions Classifications (Optional)
+    IUCN Conservation Actions Classifications 
   </legend>
   <div
-    class="MuiBox-root MuiBox-root-20"
+    class="MuiBox-root MuiBox-root-21"
   >
     <p
       class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
     >
       Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach each of the project's objectives.
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-learnMoreBtn-20 MuiButton-textPrimary"
+        data-testid="prop-dialog-btn"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-body1"
+          >
+            Learn more.
+          </span>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
     </p>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-21"
+    class="MuiBox-root MuiBox-root-22"
   >
     <div
-      class="MuiBox-root MuiBox-root-22"
+      class="MuiBox-root MuiBox-root-23"
       data-testid="iucn-classification-grid"
     >
       <div
-        class="MuiBox-root MuiBox-root-23 makeStyles-iucnInputContainer-18"
+        class="MuiBox-root MuiBox-root-24 makeStyles-iucnInputContainer-18"
       >
         <div
-          class="MuiBox-root MuiBox-root-24 makeStyles-iucnInput-19"
+          class="MuiBox-root MuiBox-root-25 makeStyles-iucnInput-19"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1820,10 +1243,10 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-25 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-26 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-27 PrivateNotchedOutline-legendNotched-28"
+                  class="PrivateNotchedOutline-legendLabelled-28 PrivateNotchedOutline-legendNotched-29"
                 >
                   <span>
                     Classification
@@ -1837,7 +1260,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-29"
+          class="MuiBox-root MuiBox-root-30"
         >
           <svg
             role="presentation"
@@ -1851,7 +1274,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-30 makeStyles-iucnInput-19"
+          class="MuiBox-root MuiBox-root-31 makeStyles-iucnInput-19"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1896,10 +1319,10 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-25 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-26 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-27 PrivateNotchedOutline-legendNotched-28"
+                  class="PrivateNotchedOutline-legendLabelled-28 PrivateNotchedOutline-legendNotched-29"
                 >
                   <span>
                     Sub-classification
@@ -1913,7 +1336,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-31"
+          class="MuiBox-root MuiBox-root-32"
         >
           <svg
             role="presentation"
@@ -1927,7 +1350,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
           </svg>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-32 makeStyles-iucnInput-19"
+          class="MuiBox-root MuiBox-root-33 makeStyles-iucnInput-19"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth"
@@ -1972,13 +1395,13 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-25 MuiOutlinedInput-notchedOutline"
+                class="PrivateNotchedOutline-root-26 MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-27 PrivateNotchedOutline-legendNotched-28"
+                  class="PrivateNotchedOutline-legendLabelled-28 PrivateNotchedOutline-legendNotched-29"
                 >
                   <span>
-                    Sub-classification
+                    Sub-classification2
                   </span>
                 </legend>
               </fieldset>
@@ -1988,35 +1411,6 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
             />
           </div>
         </div>
-      </div>
-      <div
-        class="MuiBox-root MuiBox-root-33"
-      >
-        <button
-          aria-label="delete"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
-          data-testid="delete-icon"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label"
-          >
-            <svg
-              role="presentation"
-              style="width: 1.5rem; height: 1.5rem;"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                style="fill: currentColor;"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
       </div>
     </div>
     <div

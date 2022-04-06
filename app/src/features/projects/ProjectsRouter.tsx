@@ -19,7 +19,7 @@ import ProjectsPage from './ProjectsPage';
 const ProjectsRouter: React.FC = () => {
   return (
     <Switch>
-      <AppRoute exact path="/admin/projects">
+      <AppRoute exact path="/admin/projects" layout={ProjectsLayout}>
         <ProjectsPage />
       </AppRoute>
 

@@ -11,9 +11,11 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import { mdiArrowRight, mdiPlus, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
+import ComponentDialog from 'components/dialog/ComponentDialog';
 import { IMultiAutocompleteFieldOption } from 'components/fields/MultiAutocompleteFieldVariableSize';
+import { ICUN_CONSERVATION_CLASSIFICATION_REFERENCE_URL } from 'constants/misc';
 import { FieldArray, useFormikContext } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import yup from 'utils/YupSchema';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -22,6 +24,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   iucnInput: {
     width: '250px'
+  },
+  learnMoreBtn: {
+    textDecoration: 'underline',
+    lineHeight: 'auto',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
   }
 }));
 
@@ -61,6 +70,8 @@ export const ProjectIUCNFormYupSchema = yup.object().shape({
   iucn: yup.object().shape({
     classificationDetails: yup
       .array()
+      .min(1)
+      .required('Required')
       .of(
         yup.object().shape({
           classification: yup.number().required('You must specify a classification'),
@@ -85,17 +96,25 @@ export interface IProjectIUCNFormProps {
  */
 const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
   const classes = useStyles();
-
   const { values, handleChange, getFieldMeta, errors } = useFormikContext<IProjectIUCNForm>();
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const openAttachment = async (attachment: string) => window.open(attachment);
   return (
     <>
-      <Typography component="legend">IUCN Conservation Actions Classifications (Optional)</Typography>
+      <Typography component="legend">IUCN Conservation Actions Classifications </Typography>
 
       <Box mb={3} maxWidth={'72ch'}>
         <Typography variant="body1" color="textSecondary">
           Conservation actions are specific actions or sets of tasks undertaken by project staff designed to reach each
           of the project's objectives.
+          <Button
+            color="primary"
+            className={classes.learnMoreBtn}
+            data-testid="prop-dialog-btn"
+            onClick={() => setOpenDialog(true)}>
+            <Typography component="span">Learn more.</Typography>
+          </Button>
         </Typography>
       </Box>
 
@@ -191,7 +210,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                           id={`iucn.classificationDetails.[${index}].subClassification2`}
                           name={`iucn.classificationDetails.[${index}].subClassification2`}
                           labelId="subClassification2"
-                          label="Sub-classification"
+                          label="Sub-classification2"
                           value={classificationDetail.subClassification2}
                           onChange={handleChange}
                           disabled={!classificationDetail.subClassification1}
@@ -212,16 +231,17 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                       </FormControl>
                     </Box>
                   </Box>
-
-                  <Box ml={0.5}>
-                    <IconButton
-                      data-testid="delete-icon"
-                      color="primary"
-                      aria-label="delete"
-                      onClick={() => arrayHelpers.remove(index)}>
-                      <Icon path={mdiTrashCanOutline} size={1} />
-                    </IconButton>
-                  </Box>
+                  {index >= 1 && (
+                    <Box ml={0.5}>
+                      <IconButton
+                        data-testid="delete-icon"
+                        color="primary"
+                        aria-label="delete"
+                        onClick={() => arrayHelpers.remove(index)}>
+                        <Icon path={mdiTrashCanOutline} size={1} />
+                      </IconButton>
+                    </Box>
+                  )}
                 </Box>
               );
             })}
@@ -248,6 +268,41 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
           </Box>
         )}
       />
+
+      <ComponentDialog open={openDialog} dialogTitle="IUCN Information" onClose={() => setOpenDialog(false)}>
+        <Typography variant="body1">
+          The taxonomies presented here began with a collaborative effort between the World Conservation Union (IUCN)
+          and CMP to create standard classifications of the conservation actions biologist and other conservation actors
+          can take to counter threats to species and ecosystem conservation.
+          <br></br>
+          <br></br>
+          This classification is designed to provide a simple, hierarchical, comprehensive, consistent, expandable,
+          exclusive, and scalable classification of all conservation actions.
+          <br></br>
+          <br></br>
+          The classifications are intended to:
+          <ul>
+            <li>Help conservation teams describe what is happening at their site.</li>
+            <li>
+              A common classification of conservation actions which enables practitioners to search a database of
+              conservation projects and find projects using similar actions.
+            </li>
+            <li>
+              Create general summaries or “roll-ups” for broader organizational purposes and/or use by senior managers,
+              researcher, NGOs, etc. Summaries can tally the frequency of actions across projects at various
+              organizational scales or be combined with other information for more detailed summaries.
+            </li>
+          </ul>
+          For a detailed explanation about each classification:
+          <Button
+            color="primary"
+            className={classes.learnMoreBtn}
+            data-testid="prop-dialog-btn"
+            onClick={() => openAttachment(ICUN_CONSERVATION_CLASSIFICATION_REFERENCE_URL)}>
+            <Typography component="span">Download CMP Classificiations</Typography>
+          </Button>
+        </Typography>
+      </ComponentDialog>
     </>
   );
 };

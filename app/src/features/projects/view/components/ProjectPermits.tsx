@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
       listStyleType: 'none',
       '& li + li': {
-        marginTop: theme.spacing(1),
-        paddingTop: theme.spacing(1),
+        marginTop: theme.spacing(1.5),
+        paddingTop: theme.spacing(1.5),
         borderTop: '1px solid #dddddd'
       }
     }

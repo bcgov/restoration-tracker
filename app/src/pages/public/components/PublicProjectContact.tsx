@@ -1,4 +1,5 @@
 import Box from '@material-ui/core/Box';
+import Chip from '@material-ui/core/Chip';
 import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -19,11 +20,13 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
       listStyleType: 'none',
       '& li + li': {
-        marginTop: theme.spacing(1.5)
+        marginTop: theme.spacing(1.5),
+        paddingTop: theme.spacing(1.5),
+        borderTop: '1px solid #dddddd'
       }
     },
     contactIcon: {
-      color: '#1a5a96'
+      color: '#575759'
     },
     agencyOnlyContainer: {
       display: 'flex',
@@ -63,31 +66,27 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
               flexDirection="row"
               key={index}
               className={publicContact(contactDetails)}>
-              <Box mr={2} className={publicContact(contactDetails)}>
+              <Box ml={1} mr={2} className={publicContact(contactDetails)}>
                 <Icon
                   className={classes.contactIcon}
                   path={JSON.parse(contactDetails.is_public) ? mdiAccountCircleOutline : mdiDomain}
-                  size={1.5}
+                  size={1}
                 />
               </Box>
-              <div>
+
+              <Box>
                 <div>
                   <strong data-testid="contact_name">
                     {contactDetails.first_name} {contactDetails.last_name}
-                    {JSON.parse(contactDetails.is_primary) && (
-                      <Box ml={1} component="sup">
-                        <Typography variant="caption" color="textSecondary">
-                          Primary
-                        </Typography>
-                      </Box>
-                    )}
                   </strong>
                 </div>
                 <div>
-                  <Link href="#">{contactDetails.email_address}</Link>
+                  <Link href={'mailto:' + contactDetails.email_address}>{contactDetails.email_address}</Link>
                 </div>
                 <div>{contactDetails.agency}</div>
-              </div>
+              </Box>
+
+              <Box>{JSON.parse(contactDetails.is_primary) && <Chip size="small" label="PRIMARY" />}</Box>
             </Box>
           ))}
 

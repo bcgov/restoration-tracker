@@ -161,8 +161,8 @@ const TreatmentPopup: React.FC<{ treatment: IGetProjectTreatment }> = (props) =>
         <Typography variant="body2" component="dd">
           {(treatmentStrings.length > 1 && (
             <Box component="ul" pl={2} m={0}>
-              {treatmentStrings.map((treatment, index) => (
-                <li key={index}>{treatment}</li>
+              {treatmentStrings.map((item, index) => (
+                <li key={index}>{item}</li>
               ))}
             </Box>
           )) ||

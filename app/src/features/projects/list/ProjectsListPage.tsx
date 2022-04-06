@@ -93,8 +93,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
    */
   return (
     <Card>
-      <Box display="flex" alignItems="center" justifyContent="space-between" m={1} p={2}>
-        <Typography variant="h4" component="h3">
+      <Box display="flex" alignItems="center" justifyContent="space-between" p={3}>
+        <Typography variant="h2">
           Found {projects?.length} {projects?.length !== 1 ? 'projects' : 'project'}
         </Typography>
       </Box>
@@ -165,9 +165,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
                   <TableCell align="center">
                     <Box my={-1}>
                       <IconButton
-                        size="small"
                         title="Download Project EML"
-                        aria-label="Download Project EML"
+                        aria-label="download project EML"
                         data-testid="project-table-download-eml"
                         onClick={() => handleDownloadProjectEML(row.project.project_id)}>
                         <Icon path={mdiDownload} size={1} />
