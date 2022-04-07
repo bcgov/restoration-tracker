@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { mdiArrowLeft, mdiFullscreen } from '@mdi/js';
+import { mdiAccountMultipleOutline, mdiArrowLeft, mdiFullscreen, mdiPencilOutline } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/ProjectChips';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
@@ -38,6 +38,17 @@ const useStyles = makeStyles((theme: Theme) =>
     titleContainerActions: {
       '& button + button': {
         marginLeft: theme.spacing(1)
+      }
+    },
+    fullScreenBtn: {
+      padding: '3px',
+      borderRadius: '4px',
+      background: '#ffffff',
+      color: '#000000',
+      border: '2px solid rgba(0,0,0,0.2)',
+      backgroundClip: 'padding-box',
+      '&:hover': {
+        backgroundColor: '#eeeeee'
       }
     }
   })
@@ -220,20 +231,30 @@ const ViewProjectPage: React.FC = () => {
             validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
             validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR]}>
             <Box className={classes.titleContainerActions}>
-              <Button variant="outlined" color="primary" onClick={() => history.push('users')}>
-                Manage Project Team
+              <Button
+                aria-label="manage project team"
+                variant="outlined"
+                color="primary"
+                startIcon={<Icon path={mdiAccountMultipleOutline} size={1} />}
+                onClick={() => history.push('users')}>
+                Project Team
               </Button>
               <Button
                 variant="outlined"
                 color="primary"
+                startIcon={<Icon path={mdiPencilOutline} size={1} />}
                 onClick={() => history.push(`/admin/projects/${urlParams['id']}/edit`)}>
                 Edit Project
               </Button>
               <RoleGuard
                 validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
                 validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD]}>
-                <Button variant="outlined" color="primary" onClick={showDeleteProjectDialog}>
-                  Delete Project
+                <Button
+                  aria-label="delete project"
+                  variant="outlined"
+                  color="primary"
+                  onClick={showDeleteProjectDialog}>
+                  Delete
                 </Button>
               </RoleGuard>
             </Box>
@@ -241,22 +262,21 @@ const ViewProjectPage: React.FC = () => {
         </Box>
 
         <Box mt={2}>
-          <Grid container spacing={3}>
+          <Grid container spacing={4}>
             <Grid item md={8}>
-              <Box>
-                <Box mb={3}>
-                  <Paper elevation={2}>
-                    <Box p={3}>
-                      <Box mb={2}>
-                        <Typography variant="h2">Project Objectives</Typography>
-                      </Box>
-                      <Typography variant="body1" color="textSecondary">
-                        {projectWithDetails.project.objectives}
-                      </Typography>
+              {/* Project Objectives */}
+              <Box mb={3}>
+                <Paper elevation={2}>
+                  <Box p={3}>
+                    <Box mb={2}>
+                      <Typography variant="h2">Project Objectives</Typography>
                     </Box>
-                  </Paper>
-                </Box>
-
+                    <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
+                  </Box>
+                </Paper>
+              </Box>
+              {/* Treatments */}
+              <Box mb={3}>
                 <Paper elevation={2}>
                   <Box px={3}>
                     <TreatmentSpatialUnits
@@ -265,35 +285,30 @@ const ViewProjectPage: React.FC = () => {
                       getAttachments={getAttachments}
                     />
                   </Box>
-
-                  <Box mb={3}>
-                    <Box height="500px" position="relative">
-                      <LocationBoundary
-                        projectForViewData={projectWithDetails}
-                        treatmentList={treatmentList}
-                        refresh={getProject}
-                      />
-                      <Box position="absolute" top="10px" right="10px" zIndex="999">
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          color="primary"
-                          startIcon={<Icon path={mdiFullscreen} size={1} />}
-                          onClick={openMapDialog}>
-                          View Full Screen
-                        </Button>
-                      </Box>
+                  <Box height="500px" position="relative">
+                    <LocationBoundary
+                      projectForViewData={projectWithDetails}
+                      treatmentList={treatmentList}
+                      refresh={getProject}
+                    />
+                    <Box position="absolute" top="80px" left="10px" zIndex="999">
+                      <IconButton
+                        aria-label="view full screen map"
+                        title="View full screen map"
+                        className={classes.fullScreenBtn}
+                        onClick={openMapDialog}>
+                        <Icon path={mdiFullscreen} size={1} />
+                      </IconButton>
                     </Box>
-                    <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
                   </Box>
-                </Paper>
-
-                <Paper elevation={2}>
-                  <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
+                  <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
                 </Paper>
               </Box>
+              {/* Documents */}
+              <Paper elevation={2}>
+                <ProjectAttachments attachmentsList={attachmentsList} getAttachments={getAttachments} />
+              </Paper>
             </Grid>
-
             <Grid item md={4}>
               <Paper elevation={2}>
                 <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />

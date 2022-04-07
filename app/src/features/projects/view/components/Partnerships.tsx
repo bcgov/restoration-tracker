@@ -40,10 +40,10 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
   const hasStakeholderPartnerships = stakeholder_partnerships && stakeholder_partnerships.length > 0;
 
   return (
-    <Box component="dl" mb={0}>
+    <Box component="dl">
       <div>
-        <Typography component="dt" variant="body2" color="textSecondary" data-testid="indigenousData">
-          Indigenous
+        <Typography component="dt" variant="body2" color="textSecondary" data-testid="indigenousData" aria-label="Indigenous Partnerships">
+          Indigenous:
         </Typography>
 
         <Typography component="dd" variant="body2">
@@ -62,8 +62,8 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
       </div>
 
       <div>
-        <Typography component="dt" variant="body2" color="textSecondary" data-testid="stakeholderData">
-          Other
+        <Typography component="dt" variant="body2" color="textSecondary" data-testid="stakeholderData" aria-label="Other Partnerships">
+          Other:
         </Typography>
 
         <Typography component="dd" variant="body2">

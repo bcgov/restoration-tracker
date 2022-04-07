@@ -8,12 +8,6 @@ const useStyles = makeStyles((theme: Theme) =>
     projectPermitList: {
       margin: 0,
       padding: 0,
-      listStyleType: 'none',
-      '& li + li': {
-        marginTop: theme.spacing(1.5),
-        paddingTop: theme.spacing(1.5),
-        borderTop: '1px solid #dddddd'
-      }
     }
   })
 );

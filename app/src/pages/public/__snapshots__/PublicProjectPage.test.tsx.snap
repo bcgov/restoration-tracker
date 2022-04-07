@@ -32,10 +32,10 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
     data-testid="view_project_page_component"
   >
     <div
-      class="MuiBox-root MuiBox-root-125"
+      class="MuiBox-root MuiBox-root-130"
     >
       <div
-        class="MuiBox-root MuiBox-root-126"
+        class="MuiBox-root MuiBox-root-131"
       >
         <h1
           class="MuiTypography-root MuiTypography-h1"
@@ -43,7 +43,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
           Test Project Name
         </h1>
         <div
-          class="MuiBox-root MuiBox-root-127"
+          class="MuiBox-root MuiBox-root-132"
         >
           <span
             class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
@@ -51,10 +51,10 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
             Project Status:
           </span>
           <div
-            class="MuiBox-root MuiBox-root-128"
+            class="MuiBox-root MuiBox-root-133"
           >
             <div
-              class="MuiChip-root makeStyles-chip-129 makeStyles-chipActive-130 MuiChip-sizeSmall"
+              class="MuiChip-root makeStyles-chip-134 makeStyles-chipActive-135 MuiChip-sizeSmall"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall"
@@ -67,7 +67,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-135"
+      class="MuiBox-root MuiBox-root-140"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -76,48 +76,48 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-8"
         >
           <div
-            class="MuiBox-root MuiBox-root-136"
+            class="MuiBox-root MuiBox-root-141"
           >
-            <div
-              class="MuiBox-root MuiBox-root-137"
-            >
-              <div
-                class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-138"
-                >
-                  <div
-                    class="MuiBox-root MuiBox-root-139"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h2"
-                    >
-                      Project Objectives
-                    </h2>
-                  </div>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1"
-                  >
-                    Project objectives
-                  </p>
-                </div>
-              </div>
-            </div>
             <div
               class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-140"
+                class="MuiBox-root MuiBox-root-142"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-142"
+                  class="MuiBox-root MuiBox-root-143"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h2"
+                  >
+                    Project Objectives
+                  </h2>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  Project objectives
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-144"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-145"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-147"
                 >
                   <div
                     class="MuiToolbar-root MuiToolbar-regular"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-143"
+                      class="MuiBox-root MuiBox-root-148"
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h2"
@@ -125,7 +125,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                         Restoration Treatments
                       </h2>
                       <div
-                        class="MuiBox-root MuiBox-root-144"
+                        class="MuiBox-root MuiBox-root-149"
                       >
                         <button
                           aria-label="Filter Treatments"
@@ -165,340 +165,347 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-145"
+                class="MuiBox-root MuiBox-root-150"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-146"
+                  class="MuiBox-root MuiBox-root-152 makeStyles-mapContainer-151"
+                  data-testid="map_container"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-148 makeStyles-mapContainer-147"
-                    data-testid="map_container"
+                    class="makeStyles-map-153 leaflet-container leaflet-grab leaflet-touch-drag"
+                    id="project_location_form_map"
+                    style="position: relative;"
+                    tabindex="0"
                   >
                     <div
-                      class="makeStyles-map-149 leaflet-container leaflet-grab leaflet-touch-drag"
-                      id="project_location_form_map"
-                      style="position: relative;"
-                      tabindex="0"
+                      class="leaflet-pane leaflet-map-pane"
+                      style="left: 0px; top: 0px;"
                     >
                       <div
-                        class="leaflet-pane leaflet-map-pane"
-                        style="left: 0px; top: 0px;"
+                        class="leaflet-pane leaflet-tile-pane"
                       >
                         <div
-                          class="leaflet-pane leaflet-tile-pane"
+                          class="leaflet-layer "
+                          style="z-index: 1;"
                         >
                           <div
-                            class="leaflet-layer "
-                            style="z-index: 1;"
+                            class="leaflet-tile-container leaflet-zoom-animated"
+                            style="z-index: 18; left: 0px; top: 0px;"
                           >
-                            <div
-                              class="leaflet-tile-container leaflet-zoom-animated"
-                              style="z-index: 18; left: 0px; top: 0px;"
-                            >
-                              <img
-                                alt=""
-                                class="leaflet-tile"
-                                role="presentation"
-                                src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
-                                style="width: 256px; height: 256px; left: -159px; top: -31px;"
-                              />
-                            </div>
+                            <img
+                              alt=""
+                              class="leaflet-tile"
+                              role="presentation"
+                              src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
+                              style="width: 256px; height: 256px; left: -159px; top: -31px;"
+                            />
                           </div>
                         </div>
-                        <div
-                          class="leaflet-pane leaflet-shadow-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-overlay-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-marker-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-tooltip-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-popup-pane"
-                        />
                       </div>
                       <div
-                        class="leaflet-control-container"
+                        class="leaflet-pane leaflet-shadow-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-overlay-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-marker-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-tooltip-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-popup-pane"
+                      />
+                    </div>
+                    <div
+                      class="leaflet-control-container"
+                    >
+                      <div
+                        class="leaflet-top leaflet-left"
                       >
                         <div
-                          class="leaflet-top leaflet-left"
+                          class="leaflet-control-zoom leaflet-bar leaflet-control"
                         >
-                          <div
-                            class="leaflet-control-zoom leaflet-bar leaflet-control"
+                          <a
+                            aria-label="Zoom in"
+                            class="leaflet-control-zoom-in"
+                            href="#"
+                            role="button"
+                            title="Zoom in"
                           >
-                            <a
-                              aria-label="Zoom in"
-                              class="leaflet-control-zoom-in"
-                              href="#"
-                              role="button"
-                              title="Zoom in"
+                            +
+                          </a>
+                          <a
+                            aria-label="Zoom out"
+                            class="leaflet-control-zoom-out"
+                            href="#"
+                            role="button"
+                            title="Zoom out"
+                          >
+                            −
+                          </a>
+                        </div>
+                      </div>
+                      <div
+                        class="leaflet-top leaflet-right"
+                      />
+                      <div
+                        class="leaflet-bottom leaflet-left"
+                      />
+                      <div
+                        class="leaflet-bottom leaflet-right"
+                      >
+                        <div
+                          aria-haspopup="true"
+                          class="leaflet-control-layers leaflet-control"
+                        >
+                          <a
+                            class="leaflet-control-layers-toggle"
+                            href="#"
+                            title="Layers"
+                          />
+                          <section
+                            class="leaflet-control-layers-list"
+                          >
+                            <div
+                              class="leaflet-control-layers-base"
                             >
-                              +
-                            </a>
-                            <a
-                              aria-label="Zoom out"
-                              class="leaflet-control-zoom-out"
-                              href="#"
-                              role="button"
-                              title="Zoom out"
-                            >
-                              −
-                            </a>
-                          </div>
+                              <label>
+                                <div>
+                                  <input
+                                    checked="checked"
+                                    class="leaflet-control-layers-selector"
+                                    name="leaflet-base-layers_63"
+                                    type="radio"
+                                  />
+                                  <span>
+                                     BC Government
+                                  </span>
+                                </div>
+                              </label>
+                              <label>
+                                <div>
+                                  <input
+                                    class="leaflet-control-layers-selector"
+                                    name="leaflet-base-layers_63"
+                                    type="radio"
+                                  />
+                                  <span>
+                                     Esri Imagery
+                                  </span>
+                                </div>
+                              </label>
+                            </div>
+                            <div
+                              class="leaflet-control-layers-separator"
+                              style="display: none;"
+                            />
+                            <div
+                              class="leaflet-control-layers-overlays"
+                            />
+                          </section>
                         </div>
                         <div
-                          class="leaflet-top leaflet-right"
-                        />
-                        <div
-                          class="leaflet-bottom leaflet-left"
-                        />
-                        <div
-                          class="leaflet-bottom leaflet-right"
+                          class="leaflet-control-attribution leaflet-control"
                         >
-                          <div
-                            aria-haspopup="true"
-                            class="leaflet-control-layers leaflet-control"
+                          <a
+                            href="https://leafletjs.com"
+                            title="A JS library for interactive maps"
                           >
-                            <a
-                              class="leaflet-control-layers-toggle"
-                              href="#"
-                              title="Layers"
-                            />
-                            <section
-                              class="leaflet-control-layers-list"
-                            >
-                              <div
-                                class="leaflet-control-layers-base"
-                              >
-                                <label>
-                                  <div>
-                                    <input
-                                      checked="checked"
-                                      class="leaflet-control-layers-selector"
-                                      name="leaflet-base-layers_63"
-                                      type="radio"
-                                    />
-                                    <span>
-                                       BC Government
-                                    </span>
-                                  </div>
-                                </label>
-                                <label>
-                                  <div>
-                                    <input
-                                      class="leaflet-control-layers-selector"
-                                      name="leaflet-base-layers_63"
-                                      type="radio"
-                                    />
-                                    <span>
-                                       Esri Imagery
-                                    </span>
-                                  </div>
-                                </label>
-                              </div>
-                              <div
-                                class="leaflet-control-layers-separator"
-                                style="display: none;"
-                              />
-                              <div
-                                class="leaflet-control-layers-overlays"
-                              />
-                            </section>
-                          </div>
-                          <div
-                            class="leaflet-control-attribution leaflet-control"
-                          >
-                            <a
-                              href="https://leafletjs.com"
-                              title="A JS library for interactive maps"
-                            >
-                              Leaflet
-                            </a>
-                          </div>
+                            Leaflet
+                          </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root MuiBox-root-150"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <span
-                        class="MuiButton-label"
-                      >
-                        Full Screen
-                      </span>
-                      <span
-                        class="MuiTouchRipple-root"
-                      />
-                    </button>
-                  </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-157"
+                  class="MuiBox-root MuiBox-root-154"
                 >
-                  <div
-                    class="MuiTableContainer-root MuiBox-root MuiBox-root-158"
+                  <button
+                    aria-label="view full screen map"
+                    class="MuiButtonBase-root MuiIconButton-root makeStyles-fullScreenBtn-129"
+                    tabindex="0"
+                    title="View full screen map"
+                    type="button"
                   >
-                    <table
-                      aria-label="treatments-list-table"
-                      class="MuiTable-root makeStyles-treatmentsTable-151 MuiTable-stickyHeader"
+                    <span
+                      class="MuiIconButton-label"
                     >
-                      <thead
-                        class="MuiTableHead-root"
+                      <svg
+                        role="presentation"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        viewBox="0 0 24 24"
                       >
-                        <tr
-                          class="MuiTableRow-root MuiTableRow-head"
-                        >
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="50"
-                          >
-                            ID
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                          >
-                            Type
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="80"
-                          >
-                            Year
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                          >
-                            Treatments
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="105"
-                          >
-                            Width (m)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="110"
-                          >
-                            Length (m)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="100"
-                          >
-                            Area (ha)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="100"
-                          >
-                            Actions
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        class="MuiTableBody-root"
-                        data-testid="project-table"
+                        <path
+                          d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-161"
+              >
+                <div
+                  class="MuiTableContainer-root MuiBox-root MuiBox-root-162"
+                >
+                  <table
+                    aria-label="treatments-list-table"
+                    class="MuiTable-root makeStyles-treatmentsTable-155 MuiTable-stickyHeader"
+                  >
+                    <thead
+                      class="MuiTableHead-root"
+                    >
+                      <tr
+                        class="MuiTableRow-root MuiTableRow-head"
                       >
-                        <tr
-                          class="MuiTableRow-root"
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="50"
                         >
-                          <td
-                            class="MuiTableCell-root MuiTableCell-body"
-                            colspan="8"
+                          ID
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                        >
+                          Type
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="80"
+                        >
+                          Year
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                        >
+                          Treatments
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="105"
+                        >
+                          Width (m)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="110"
+                        >
+                          Length (m)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="100"
+                        >
+                          Area (ha)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="105"
+                        >
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="MuiTableBody-root"
+                      data-testid="project-table"
+                    >
+                      <tr
+                        class="MuiTableRow-root"
+                      >
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body"
+                          colspan="8"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-163"
                           >
-                            <div
-                              class="MuiBox-root MuiBox-root-159"
-                            >
-                              No Treatments
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                            No Treatments
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
+          </div>
+          <div
+            class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+          >
             <div
-              class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+              class="MuiBox-root MuiBox-root-164"
             >
               <div
-                class="MuiBox-root MuiBox-root-160"
+                class="MuiBox-root MuiBox-root-165"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2"
+                >
+                  Documents
+                </h2>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-166"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-161"
+                  class="MuiTableContainer-root"
                 >
-                  <h2
-                    class="MuiTypography-root MuiTypography-h2"
+                  <table
+                    aria-label="attachments-list-table"
+                    class="MuiTable-root makeStyles-attachmentsTable-167"
                   >
-                    Documents
-                  </h2>
-                </div>
-                <div
-                  class="MuiBox-root MuiBox-root-162"
-                >
-                  <div
-                    class="MuiTableContainer-root"
-                  >
-                    <table
-                      aria-label="attachments-list-table"
-                      class="MuiTable-root makeStyles-attachmentsTable-163"
+                    <thead
+                      class="MuiTableHead-root"
                     >
-                      <thead
-                        class="MuiTableHead-root"
+                      <tr
+                        class="MuiTableRow-root MuiTableRow-head"
                       >
-                        <tr
-                          class="MuiTableRow-root MuiTableRow-head"
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head"
+                          scope="col"
                         >
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head"
-                            scope="col"
-                          >
-                            Name
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head"
-                            scope="col"
-                          >
-                            File Size
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        class="MuiTableBody-root"
+                          Name
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head"
+                          scope="col"
+                        >
+                          File Size
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="MuiTableBody-root"
+                    >
+                      <tr
+                        class="MuiTableRow-root"
                       >
-                        <tr
-                          class="MuiTableRow-root"
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
+                          colspan="4"
                         >
-                          <td
-                            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
-                            colspan="4"
-                          >
-                            No Attachments
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                          No Attachments
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -511,10 +518,19 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
             class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
           >
             <div
-              class="MuiBox-root MuiBox-root-165 makeStyles-projectMetadata-164"
+              class="MuiBox-root MuiBox-root-169 makeStyles-projectMetadata-168"
             >
+              <div
+                class="MuiBox-root MuiBox-root-170"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2"
+                >
+                  Project Details
+                </h2>
+              </div>
               <section
-                class="MuiBox-root MuiBox-root-166"
+                class="MuiBox-root MuiBox-root-171"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -522,8 +538,11 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   General Information
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <dl
-                  class="MuiBox-root MuiBox-root-167"
+                  class="MuiBox-root MuiBox-root-172"
                   data-testid="general_info_component"
                 >
                   <div>
@@ -586,11 +605,8 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   </div>
                 </dl>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-168"
+                class="MuiBox-root MuiBox-root-173"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -598,17 +614,20 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   Project Contacts
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectContactList-169"
+                  class="makeStyles-projectContactList-174"
                 >
                   <li
-                    class="MuiBox-root MuiBox-root-172"
+                    class="MuiBox-root MuiBox-root-177"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-173"
+                      class="MuiBox-root MuiBox-root-178"
                     >
                       <svg
-                        class="makeStyles-contactIcon-170"
+                        class="makeStyles-contactIcon-175"
                         role="presentation"
                         style="width: 1.5rem; height: 1.5rem;"
                         viewBox="0 0 24 24"
@@ -618,31 +637,35 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                           style="fill: currentColor;"
                         />
                       </svg>
+                      <div
+                        class="MuiBox-root MuiBox-root-179"
+                      >
+                        <div
+                          class="contactName"
+                        >
+                          <strong
+                            data-testid="contact_name"
+                          >
+                            Amanda Christensen
+                          </strong>
+                        </div>
+                        <div
+                          class="contactEmail"
+                        >
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                            href="mailto:amanda@christensen.com"
+                          >
+                            amanda@christensen.com
+                          </a>
+                        </div>
+                        <div>
+                          Amanda and associates
+                        </div>
+                      </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-174"
-                    >
-                      <div>
-                        <strong
-                          data-testid="contact_name"
-                        >
-                          Amanda Christensen
-                        </strong>
-                      </div>
-                      <div>
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                          href="mailto:amanda@christensen.com"
-                        >
-                          amanda@christensen.com
-                        </a>
-                      </div>
-                      <div>
-                        Amanda and associates
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root MuiBox-root-175"
+                      class="MuiBox-root MuiBox-root-180"
                     >
                       <div
                         class="MuiChip-root MuiChip-sizeSmall"
@@ -657,11 +680,8 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-176"
+                class="MuiBox-root MuiBox-root-181"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -669,21 +689,25 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   IUCN Conservation Actions Classifications
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectIucnList-177"
+                  class="makeStyles-projectIucnList-182"
                 >
                   <li
                     data-testid="iucn_data"
                   >
-                    IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    </p>
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-178"
+                class="MuiBox-root MuiBox-root-183"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -691,8 +715,11 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   Permits
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectPermitList-179"
+                  class="makeStyles-projectPermitList-184"
                 >
                   <li
                     data-testid="permit_item"
@@ -708,11 +735,8 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-180"
+                class="MuiBox-root MuiBox-root-185"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -720,27 +744,30 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   Funding Sources
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectFundingList-181"
+                  class="makeStyles-projectFundingList-186"
                 >
                   <li
                     data-testid="funding_data"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-182"
+                      class="MuiBox-root MuiBox-root-187"
                     >
                       <strong>
                         agency name
                       </strong>
                     </div>
                     <dl
-                      class="MuiBox-root MuiBox-root-183"
+                      class="MuiBox-root MuiBox-root-188"
                     >
                       <div>
                         <dt
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
-                          Funding Amount:
+                          Amount:
                         </dt>
                         <dd
                           class="MuiTypography-root MuiTypography-body2"
@@ -788,11 +815,8 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-184"
+                class="MuiBox-root MuiBox-root-189"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -800,21 +824,25 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   Partnerships
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <dl
-                  class="MuiBox-root MuiBox-root-186"
+                  class="MuiBox-root MuiBox-root-191"
                 >
                   <div>
                     <dt
+                      aria-label="Indigenous Partnerships"
                       class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="indigenousData"
                     >
-                      Indigenous
+                      Indigenous:
                     </dt>
                     <dd
                       class="MuiTypography-root MuiTypography-body2"
                     >
                       <span
-                        class="makeStyles-partnerItem-185"
+                        class="makeStyles-partnerItem-190"
                         data-testid="indigenous_partners_data"
                       >
                         <span
@@ -824,7 +852,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                         </span>
                       </span>
                       <span
-                        class="makeStyles-partnerItem-185"
+                        class="makeStyles-partnerItem-190"
                         data-testid="indigenous_partners_data"
                       >
                         First nations code
@@ -838,16 +866,17 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                   </div>
                   <div>
                     <dt
+                      aria-label="Other Partnerships"
                       class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="stakeholderData"
                     >
-                      Other
+                      Other:
                     </dt>
                     <dd
                       class="MuiTypography-root MuiTypography-body2"
                     >
                       <span
-                        class="makeStyles-partnerItem-185"
+                        class="makeStyles-partnerItem-190"
                         data-testid="stakeholder_partners_data"
                       >
                         partner2
@@ -858,7 +887,7 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                         </span>
                       </span>
                       <span
-                        class="makeStyles-partnerItem-185"
+                        class="makeStyles-partnerItem-190"
                         data-testid="stakeholder_partners_data"
                       >
                         partner3
@@ -888,10 +917,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
     data-testid="view_project_page_component"
   >
     <div
-      class="MuiBox-root MuiBox-root-1"
+      class="MuiBox-root MuiBox-root-4"
     >
       <div
-        class="MuiBox-root MuiBox-root-2"
+        class="MuiBox-root MuiBox-root-5"
       >
         <h1
           class="MuiTypography-root MuiTypography-h1"
@@ -899,7 +928,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
           Test Project Name
         </h1>
         <div
-          class="MuiBox-root MuiBox-root-3"
+          class="MuiBox-root MuiBox-root-6"
         >
           <span
             class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
@@ -907,10 +936,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             Project Status:
           </span>
           <div
-            class="MuiBox-root MuiBox-root-4"
+            class="MuiBox-root MuiBox-root-7"
           >
             <div
-              class="MuiChip-root makeStyles-chip-5 makeStyles-chipActive-6 MuiChip-sizeSmall"
+              class="MuiChip-root makeStyles-chip-8 makeStyles-chipActive-9 MuiChip-sizeSmall"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall"
@@ -923,7 +952,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-11"
+      class="MuiBox-root MuiBox-root-14"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -932,34 +961,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-8"
         >
           <div
-            class="MuiBox-root MuiBox-root-12"
+            class="MuiBox-root MuiBox-root-15"
           >
-            <div
-              class="MuiBox-root MuiBox-root-13"
-            >
-              <div
-                class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-14"
-                >
-                  <div
-                    class="MuiBox-root MuiBox-root-15"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h2"
-                    >
-                      Project Objectives
-                    </h2>
-                  </div>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1"
-                  >
-                    Project objectives
-                  </p>
-                </div>
-              </div>
-            </div>
             <div
               class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
             >
@@ -967,13 +970,39 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 class="MuiBox-root MuiBox-root-16"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-18"
+                  class="MuiBox-root MuiBox-root-17"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h2"
+                  >
+                    Project Objectives
+                  </h2>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  Project objectives
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-18"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-19"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-21"
                 >
                   <div
                     class="MuiToolbar-root MuiToolbar-regular"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-19"
+                      class="MuiBox-root MuiBox-root-22"
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h2"
@@ -981,7 +1010,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         Restoration Treatments
                       </h2>
                       <div
-                        class="MuiBox-root MuiBox-root-20"
+                        class="MuiBox-root MuiBox-root-23"
                       >
                         <button
                           aria-label="Filter Treatments"
@@ -1021,340 +1050,347 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 </div>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-21"
+                class="MuiBox-root MuiBox-root-24"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-22"
+                  class="MuiBox-root MuiBox-root-26 makeStyles-mapContainer-25"
+                  data-testid="map_container"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-24 makeStyles-mapContainer-23"
-                    data-testid="map_container"
+                    class="makeStyles-map-27 leaflet-container leaflet-grab leaflet-touch-drag"
+                    id="project_location_form_map"
+                    style="position: relative;"
+                    tabindex="0"
                   >
                     <div
-                      class="makeStyles-map-25 leaflet-container leaflet-grab leaflet-touch-drag"
-                      id="project_location_form_map"
-                      style="position: relative;"
-                      tabindex="0"
+                      class="leaflet-pane leaflet-map-pane"
+                      style="left: 0px; top: 0px;"
                     >
                       <div
-                        class="leaflet-pane leaflet-map-pane"
-                        style="left: 0px; top: 0px;"
+                        class="leaflet-pane leaflet-tile-pane"
                       >
                         <div
-                          class="leaflet-pane leaflet-tile-pane"
+                          class="leaflet-layer "
+                          style="z-index: 1;"
                         >
                           <div
-                            class="leaflet-layer "
-                            style="z-index: 1;"
+                            class="leaflet-tile-container leaflet-zoom-animated"
+                            style="z-index: 18; left: 0px; top: 0px;"
                           >
-                            <div
-                              class="leaflet-tile-container leaflet-zoom-animated"
-                              style="z-index: 18; left: 0px; top: 0px;"
-                            >
-                              <img
-                                alt=""
-                                class="leaflet-tile"
-                                role="presentation"
-                                src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
-                                style="width: 256px; height: 256px; left: -159px; top: -31px;"
-                              />
-                            </div>
+                            <img
+                              alt=""
+                              class="leaflet-tile"
+                              role="presentation"
+                              src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
+                              style="width: 256px; height: 256px; left: -159px; top: -31px;"
+                            />
                           </div>
                         </div>
-                        <div
-                          class="leaflet-pane leaflet-shadow-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-overlay-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-marker-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-tooltip-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-popup-pane"
-                        />
                       </div>
                       <div
-                        class="leaflet-control-container"
+                        class="leaflet-pane leaflet-shadow-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-overlay-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-marker-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-tooltip-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-popup-pane"
+                      />
+                    </div>
+                    <div
+                      class="leaflet-control-container"
+                    >
+                      <div
+                        class="leaflet-top leaflet-left"
                       >
                         <div
-                          class="leaflet-top leaflet-left"
+                          class="leaflet-control-zoom leaflet-bar leaflet-control"
                         >
-                          <div
-                            class="leaflet-control-zoom leaflet-bar leaflet-control"
+                          <a
+                            aria-label="Zoom in"
+                            class="leaflet-control-zoom-in"
+                            href="#"
+                            role="button"
+                            title="Zoom in"
                           >
-                            <a
-                              aria-label="Zoom in"
-                              class="leaflet-control-zoom-in"
-                              href="#"
-                              role="button"
-                              title="Zoom in"
+                            +
+                          </a>
+                          <a
+                            aria-label="Zoom out"
+                            class="leaflet-control-zoom-out"
+                            href="#"
+                            role="button"
+                            title="Zoom out"
+                          >
+                            −
+                          </a>
+                        </div>
+                      </div>
+                      <div
+                        class="leaflet-top leaflet-right"
+                      />
+                      <div
+                        class="leaflet-bottom leaflet-left"
+                      />
+                      <div
+                        class="leaflet-bottom leaflet-right"
+                      >
+                        <div
+                          aria-haspopup="true"
+                          class="leaflet-control-layers leaflet-control"
+                        >
+                          <a
+                            class="leaflet-control-layers-toggle"
+                            href="#"
+                            title="Layers"
+                          />
+                          <section
+                            class="leaflet-control-layers-list"
+                          >
+                            <div
+                              class="leaflet-control-layers-base"
                             >
-                              +
-                            </a>
-                            <a
-                              aria-label="Zoom out"
-                              class="leaflet-control-zoom-out"
-                              href="#"
-                              role="button"
-                              title="Zoom out"
-                            >
-                              −
-                            </a>
-                          </div>
+                              <label>
+                                <div>
+                                  <input
+                                    checked="checked"
+                                    class="leaflet-control-layers-selector"
+                                    name="leaflet-base-layers_33"
+                                    type="radio"
+                                  />
+                                  <span>
+                                     BC Government
+                                  </span>
+                                </div>
+                              </label>
+                              <label>
+                                <div>
+                                  <input
+                                    class="leaflet-control-layers-selector"
+                                    name="leaflet-base-layers_33"
+                                    type="radio"
+                                  />
+                                  <span>
+                                     Esri Imagery
+                                  </span>
+                                </div>
+                              </label>
+                            </div>
+                            <div
+                              class="leaflet-control-layers-separator"
+                              style="display: none;"
+                            />
+                            <div
+                              class="leaflet-control-layers-overlays"
+                            />
+                          </section>
                         </div>
                         <div
-                          class="leaflet-top leaflet-right"
-                        />
-                        <div
-                          class="leaflet-bottom leaflet-left"
-                        />
-                        <div
-                          class="leaflet-bottom leaflet-right"
+                          class="leaflet-control-attribution leaflet-control"
                         >
-                          <div
-                            aria-haspopup="true"
-                            class="leaflet-control-layers leaflet-control"
+                          <a
+                            href="https://leafletjs.com"
+                            title="A JS library for interactive maps"
                           >
-                            <a
-                              class="leaflet-control-layers-toggle"
-                              href="#"
-                              title="Layers"
-                            />
-                            <section
-                              class="leaflet-control-layers-list"
-                            >
-                              <div
-                                class="leaflet-control-layers-base"
-                              >
-                                <label>
-                                  <div>
-                                    <input
-                                      checked="checked"
-                                      class="leaflet-control-layers-selector"
-                                      name="leaflet-base-layers_33"
-                                      type="radio"
-                                    />
-                                    <span>
-                                       BC Government
-                                    </span>
-                                  </div>
-                                </label>
-                                <label>
-                                  <div>
-                                    <input
-                                      class="leaflet-control-layers-selector"
-                                      name="leaflet-base-layers_33"
-                                      type="radio"
-                                    />
-                                    <span>
-                                       Esri Imagery
-                                    </span>
-                                  </div>
-                                </label>
-                              </div>
-                              <div
-                                class="leaflet-control-layers-separator"
-                                style="display: none;"
-                              />
-                              <div
-                                class="leaflet-control-layers-overlays"
-                              />
-                            </section>
-                          </div>
-                          <div
-                            class="leaflet-control-attribution leaflet-control"
-                          >
-                            <a
-                              href="https://leafletjs.com"
-                              title="A JS library for interactive maps"
-                            >
-                              Leaflet
-                            </a>
-                          </div>
+                            Leaflet
+                          </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root MuiBox-root-26"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <span
-                        class="MuiButton-label"
-                      >
-                        Full Screen
-                      </span>
-                      <span
-                        class="MuiTouchRipple-root"
-                      />
-                    </button>
-                  </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-33"
+                  class="MuiBox-root MuiBox-root-28"
                 >
-                  <div
-                    class="MuiTableContainer-root MuiBox-root MuiBox-root-34"
+                  <button
+                    aria-label="view full screen map"
+                    class="MuiButtonBase-root MuiIconButton-root makeStyles-fullScreenBtn-3"
+                    tabindex="0"
+                    title="View full screen map"
+                    type="button"
                   >
-                    <table
-                      aria-label="treatments-list-table"
-                      class="MuiTable-root makeStyles-treatmentsTable-27 MuiTable-stickyHeader"
+                    <span
+                      class="MuiIconButton-label"
                     >
-                      <thead
-                        class="MuiTableHead-root"
+                      <svg
+                        role="presentation"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        viewBox="0 0 24 24"
                       >
-                        <tr
-                          class="MuiTableRow-root MuiTableRow-head"
-                        >
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="50"
-                          >
-                            ID
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                          >
-                            Type
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="80"
-                          >
-                            Year
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                          >
-                            Treatments
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="105"
-                          >
-                            Width (m)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="110"
-                          >
-                            Length (m)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="100"
-                          >
-                            Area (ha)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="100"
-                          >
-                            Actions
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        class="MuiTableBody-root"
-                        data-testid="project-table"
+                        <path
+                          d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-35"
+              >
+                <div
+                  class="MuiTableContainer-root MuiBox-root MuiBox-root-36"
+                >
+                  <table
+                    aria-label="treatments-list-table"
+                    class="MuiTable-root makeStyles-treatmentsTable-29 MuiTable-stickyHeader"
+                  >
+                    <thead
+                      class="MuiTableHead-root"
+                    >
+                      <tr
+                        class="MuiTableRow-root MuiTableRow-head"
                       >
-                        <tr
-                          class="MuiTableRow-root"
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="50"
                         >
-                          <td
-                            class="MuiTableCell-root MuiTableCell-body"
-                            colspan="8"
+                          ID
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                        >
+                          Type
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="80"
+                        >
+                          Year
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                        >
+                          Treatments
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="105"
+                        >
+                          Width (m)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="110"
+                        >
+                          Length (m)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="100"
+                        >
+                          Area (ha)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="105"
+                        >
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="MuiTableBody-root"
+                      data-testid="project-table"
+                    >
+                      <tr
+                        class="MuiTableRow-root"
+                      >
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body"
+                          colspan="8"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-37"
                           >
-                            <div
-                              class="MuiBox-root MuiBox-root-35"
-                            >
-                              No Treatments
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                            No Treatments
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
+          </div>
+          <div
+            class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+          >
             <div
-              class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+              class="MuiBox-root MuiBox-root-38"
             >
               <div
-                class="MuiBox-root MuiBox-root-36"
+                class="MuiBox-root MuiBox-root-39"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2"
+                >
+                  Documents
+                </h2>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-40"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-37"
+                  class="MuiTableContainer-root"
                 >
-                  <h2
-                    class="MuiTypography-root MuiTypography-h2"
+                  <table
+                    aria-label="attachments-list-table"
+                    class="MuiTable-root makeStyles-attachmentsTable-41"
                   >
-                    Documents
-                  </h2>
-                </div>
-                <div
-                  class="MuiBox-root MuiBox-root-38"
-                >
-                  <div
-                    class="MuiTableContainer-root"
-                  >
-                    <table
-                      aria-label="attachments-list-table"
-                      class="MuiTable-root makeStyles-attachmentsTable-39"
+                    <thead
+                      class="MuiTableHead-root"
                     >
-                      <thead
-                        class="MuiTableHead-root"
+                      <tr
+                        class="MuiTableRow-root MuiTableRow-head"
                       >
-                        <tr
-                          class="MuiTableRow-root MuiTableRow-head"
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head"
+                          scope="col"
                         >
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head"
-                            scope="col"
-                          >
-                            Name
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head"
-                            scope="col"
-                          >
-                            File Size
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        class="MuiTableBody-root"
+                          Name
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head"
+                          scope="col"
+                        >
+                          File Size
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="MuiTableBody-root"
+                    >
+                      <tr
+                        class="MuiTableRow-root"
                       >
-                        <tr
-                          class="MuiTableRow-root"
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
+                          colspan="4"
                         >
-                          <td
-                            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
-                            colspan="4"
-                          >
-                            No Attachments
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                          No Attachments
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -1367,10 +1403,19 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
           >
             <div
-              class="MuiBox-root MuiBox-root-41 makeStyles-projectMetadata-40"
+              class="MuiBox-root MuiBox-root-43 makeStyles-projectMetadata-42"
             >
+              <div
+                class="MuiBox-root MuiBox-root-44"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2"
+                >
+                  Project Details
+                </h2>
+              </div>
               <section
-                class="MuiBox-root MuiBox-root-42"
+                class="MuiBox-root MuiBox-root-45"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -1378,8 +1423,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   General Information
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <dl
-                  class="MuiBox-root MuiBox-root-43"
+                  class="MuiBox-root MuiBox-root-46"
                   data-testid="general_info_component"
                 >
                   <div>
@@ -1442,11 +1490,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                 </dl>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-44"
+                class="MuiBox-root MuiBox-root-47"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -1454,17 +1499,20 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Project Contacts
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectContactList-45"
+                  class="makeStyles-projectContactList-48"
                 >
                   <li
-                    class="MuiBox-root MuiBox-root-48"
+                    class="MuiBox-root MuiBox-root-51"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-49"
+                      class="MuiBox-root MuiBox-root-52"
                     >
                       <svg
-                        class="makeStyles-contactIcon-46"
+                        class="makeStyles-contactIcon-49"
                         role="presentation"
                         style="width: 1.5rem; height: 1.5rem;"
                         viewBox="0 0 24 24"
@@ -1474,31 +1522,35 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           style="fill: currentColor;"
                         />
                       </svg>
+                      <div
+                        class="MuiBox-root MuiBox-root-53"
+                      >
+                        <div
+                          class="contactName"
+                        >
+                          <strong
+                            data-testid="contact_name"
+                          >
+                            Amanda Christensen
+                          </strong>
+                        </div>
+                        <div
+                          class="contactEmail"
+                        >
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                            href="mailto:amanda@christensen.com"
+                          >
+                            amanda@christensen.com
+                          </a>
+                        </div>
+                        <div>
+                          Amanda and associates
+                        </div>
+                      </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-50"
-                    >
-                      <div>
-                        <strong
-                          data-testid="contact_name"
-                        >
-                          Amanda Christensen
-                        </strong>
-                      </div>
-                      <div>
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                          href="mailto:amanda@christensen.com"
-                        >
-                          amanda@christensen.com
-                        </a>
-                      </div>
-                      <div>
-                        Amanda and associates
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root MuiBox-root-51"
+                      class="MuiBox-root MuiBox-root-54"
                     >
                       <div
                         class="MuiChip-root MuiChip-sizeSmall"
@@ -1513,11 +1565,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-52"
+                class="MuiBox-root MuiBox-root-55"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -1525,21 +1574,25 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   IUCN Conservation Actions Classifications
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectIucnList-53"
+                  class="makeStyles-projectIucnList-56"
                 >
                   <li
                     data-testid="iucn_data"
                   >
-                    IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    </p>
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-54"
+                class="MuiBox-root MuiBox-root-57"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -1547,8 +1600,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Permits
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectPermitList-55"
+                  class="makeStyles-projectPermitList-58"
                 >
                   <li
                     data-testid="permit_item"
@@ -1564,11 +1620,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-56"
+                class="MuiBox-root MuiBox-root-59"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -1576,27 +1629,30 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Funding Sources
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectFundingList-57"
+                  class="makeStyles-projectFundingList-60"
                 >
                   <li
                     data-testid="funding_data"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-58"
+                      class="MuiBox-root MuiBox-root-61"
                     >
                       <strong>
                         agency name
                       </strong>
                     </div>
                     <dl
-                      class="MuiBox-root MuiBox-root-59"
+                      class="MuiBox-root MuiBox-root-62"
                     >
                       <div>
                         <dt
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
-                          Funding Amount:
+                          Amount:
                         </dt>
                         <dd
                           class="MuiTypography-root MuiTypography-body2"
@@ -1644,11 +1700,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-60"
+                class="MuiBox-root MuiBox-root-63"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -1656,21 +1709,25 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Partnerships
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <dl
-                  class="MuiBox-root MuiBox-root-62"
+                  class="MuiBox-root MuiBox-root-65"
                 >
                   <div>
                     <dt
+                      aria-label="Indigenous Partnerships"
                       class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="indigenousData"
                     >
-                      Indigenous
+                      Indigenous:
                     </dt>
                     <dd
                       class="MuiTypography-root MuiTypography-body2"
                     >
                       <span
-                        class="makeStyles-partnerItem-61"
+                        class="makeStyles-partnerItem-64"
                         data-testid="indigenous_partners_data"
                       >
                         <span
@@ -1680,7 +1737,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         </span>
                       </span>
                       <span
-                        class="makeStyles-partnerItem-61"
+                        class="makeStyles-partnerItem-64"
                         data-testid="indigenous_partners_data"
                       >
                         First nations code
@@ -1694,16 +1751,17 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                   <div>
                     <dt
+                      aria-label="Other Partnerships"
                       class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="stakeholderData"
                     >
-                      Other
+                      Other:
                     </dt>
                     <dd
                       class="MuiTypography-root MuiTypography-body2"
                     >
                       <span
-                        class="makeStyles-partnerItem-61"
+                        class="makeStyles-partnerItem-64"
                         data-testid="stakeholder_partners_data"
                       >
                         partner2
@@ -1714,7 +1772,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         </span>
                       </span>
                       <span
-                        class="makeStyles-partnerItem-61"
+                        class="makeStyles-partnerItem-64"
                         data-testid="stakeholder_partners_data"
                       >
                         partner3
@@ -1744,10 +1802,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
     data-testid="view_project_page_component"
   >
     <div
-      class="MuiBox-root MuiBox-root-63"
+      class="MuiBox-root MuiBox-root-67"
     >
       <div
-        class="MuiBox-root MuiBox-root-64"
+        class="MuiBox-root MuiBox-root-68"
       >
         <h1
           class="MuiTypography-root MuiTypography-h1"
@@ -1755,7 +1813,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
           Test Project Name
         </h1>
         <div
-          class="MuiBox-root MuiBox-root-65"
+          class="MuiBox-root MuiBox-root-69"
         >
           <span
             class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary"
@@ -1763,10 +1821,10 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             Project Status:
           </span>
           <div
-            class="MuiBox-root MuiBox-root-66"
+            class="MuiBox-root MuiBox-root-70"
           >
             <div
-              class="MuiChip-root makeStyles-chip-67 makeStyles-chipPublishedCompleted-69 MuiChip-sizeSmall"
+              class="MuiChip-root makeStyles-chip-71 makeStyles-chipPublishedCompleted-73 MuiChip-sizeSmall"
             >
               <span
                 class="MuiChip-label MuiChip-labelSmall"
@@ -1779,7 +1837,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
       </div>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-73"
+      class="MuiBox-root MuiBox-root-77"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
@@ -1788,48 +1846,48 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-8"
         >
           <div
-            class="MuiBox-root MuiBox-root-74"
+            class="MuiBox-root MuiBox-root-78"
           >
-            <div
-              class="MuiBox-root MuiBox-root-75"
-            >
-              <div
-                class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-76"
-                >
-                  <div
-                    class="MuiBox-root MuiBox-root-77"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h2"
-                    >
-                      Project Objectives
-                    </h2>
-                  </div>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1"
-                  >
-                    Project objectives
-                  </p>
-                </div>
-              </div>
-            </div>
             <div
               class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-78"
+                class="MuiBox-root MuiBox-root-79"
               >
                 <div
                   class="MuiBox-root MuiBox-root-80"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h2"
+                  >
+                    Project Objectives
+                  </h2>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  Project objectives
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-81"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-82"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-84"
                 >
                   <div
                     class="MuiToolbar-root MuiToolbar-regular"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-81"
+                      class="MuiBox-root MuiBox-root-85"
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h2"
@@ -1837,7 +1895,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         Restoration Treatments
                       </h2>
                       <div
-                        class="MuiBox-root MuiBox-root-82"
+                        class="MuiBox-root MuiBox-root-86"
                       >
                         <button
                           aria-label="Filter Treatments"
@@ -1877,340 +1935,347 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 </div>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-83"
+                class="MuiBox-root MuiBox-root-87"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-84"
+                  class="MuiBox-root MuiBox-root-89 makeStyles-mapContainer-88"
+                  data-testid="map_container"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-86 makeStyles-mapContainer-85"
-                    data-testid="map_container"
+                    class="makeStyles-map-90 leaflet-container leaflet-grab leaflet-touch-drag"
+                    id="project_location_form_map"
+                    style="position: relative;"
+                    tabindex="0"
                   >
                     <div
-                      class="makeStyles-map-87 leaflet-container leaflet-grab leaflet-touch-drag"
-                      id="project_location_form_map"
-                      style="position: relative;"
-                      tabindex="0"
+                      class="leaflet-pane leaflet-map-pane"
+                      style="left: 0px; top: 0px;"
                     >
                       <div
-                        class="leaflet-pane leaflet-map-pane"
-                        style="left: 0px; top: 0px;"
+                        class="leaflet-pane leaflet-tile-pane"
                       >
                         <div
-                          class="leaflet-pane leaflet-tile-pane"
+                          class="leaflet-layer "
+                          style="z-index: 1;"
                         >
                           <div
-                            class="leaflet-layer "
-                            style="z-index: 1;"
+                            class="leaflet-tile-container leaflet-zoom-animated"
+                            style="z-index: 18; left: 0px; top: 0px;"
                           >
-                            <div
-                              class="leaflet-tile-container leaflet-zoom-animated"
-                              style="z-index: 18; left: 0px; top: 0px;"
-                            >
-                              <img
-                                alt=""
-                                class="leaflet-tile"
-                                role="presentation"
-                                src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
-                                style="width: 256px; height: 256px; left: -159px; top: -31px;"
-                              />
-                            </div>
+                            <img
+                              alt=""
+                              class="leaflet-tile"
+                              role="presentation"
+                              src="https://maps.gov.bc.ca/arcgis/rest/services/province/roads_wm/MapServer/tile/5/10/4"
+                              style="width: 256px; height: 256px; left: -159px; top: -31px;"
+                            />
                           </div>
                         </div>
-                        <div
-                          class="leaflet-pane leaflet-shadow-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-overlay-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-marker-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-tooltip-pane"
-                        />
-                        <div
-                          class="leaflet-pane leaflet-popup-pane"
-                        />
                       </div>
                       <div
-                        class="leaflet-control-container"
+                        class="leaflet-pane leaflet-shadow-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-overlay-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-marker-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-tooltip-pane"
+                      />
+                      <div
+                        class="leaflet-pane leaflet-popup-pane"
+                      />
+                    </div>
+                    <div
+                      class="leaflet-control-container"
+                    >
+                      <div
+                        class="leaflet-top leaflet-left"
                       >
                         <div
-                          class="leaflet-top leaflet-left"
+                          class="leaflet-control-zoom leaflet-bar leaflet-control"
                         >
-                          <div
-                            class="leaflet-control-zoom leaflet-bar leaflet-control"
+                          <a
+                            aria-label="Zoom in"
+                            class="leaflet-control-zoom-in"
+                            href="#"
+                            role="button"
+                            title="Zoom in"
                           >
-                            <a
-                              aria-label="Zoom in"
-                              class="leaflet-control-zoom-in"
-                              href="#"
-                              role="button"
-                              title="Zoom in"
+                            +
+                          </a>
+                          <a
+                            aria-label="Zoom out"
+                            class="leaflet-control-zoom-out"
+                            href="#"
+                            role="button"
+                            title="Zoom out"
+                          >
+                            −
+                          </a>
+                        </div>
+                      </div>
+                      <div
+                        class="leaflet-top leaflet-right"
+                      />
+                      <div
+                        class="leaflet-bottom leaflet-left"
+                      />
+                      <div
+                        class="leaflet-bottom leaflet-right"
+                      >
+                        <div
+                          aria-haspopup="true"
+                          class="leaflet-control-layers leaflet-control"
+                        >
+                          <a
+                            class="leaflet-control-layers-toggle"
+                            href="#"
+                            title="Layers"
+                          />
+                          <section
+                            class="leaflet-control-layers-list"
+                          >
+                            <div
+                              class="leaflet-control-layers-base"
                             >
-                              +
-                            </a>
-                            <a
-                              aria-label="Zoom out"
-                              class="leaflet-control-zoom-out"
-                              href="#"
-                              role="button"
-                              title="Zoom out"
-                            >
-                              −
-                            </a>
-                          </div>
+                              <label>
+                                <div>
+                                  <input
+                                    checked="checked"
+                                    class="leaflet-control-layers-selector"
+                                    name="leaflet-base-layers_49"
+                                    type="radio"
+                                  />
+                                  <span>
+                                     BC Government
+                                  </span>
+                                </div>
+                              </label>
+                              <label>
+                                <div>
+                                  <input
+                                    class="leaflet-control-layers-selector"
+                                    name="leaflet-base-layers_49"
+                                    type="radio"
+                                  />
+                                  <span>
+                                     Esri Imagery
+                                  </span>
+                                </div>
+                              </label>
+                            </div>
+                            <div
+                              class="leaflet-control-layers-separator"
+                              style="display: none;"
+                            />
+                            <div
+                              class="leaflet-control-layers-overlays"
+                            />
+                          </section>
                         </div>
                         <div
-                          class="leaflet-top leaflet-right"
-                        />
-                        <div
-                          class="leaflet-bottom leaflet-left"
-                        />
-                        <div
-                          class="leaflet-bottom leaflet-right"
+                          class="leaflet-control-attribution leaflet-control"
                         >
-                          <div
-                            aria-haspopup="true"
-                            class="leaflet-control-layers leaflet-control"
+                          <a
+                            href="https://leafletjs.com"
+                            title="A JS library for interactive maps"
                           >
-                            <a
-                              class="leaflet-control-layers-toggle"
-                              href="#"
-                              title="Layers"
-                            />
-                            <section
-                              class="leaflet-control-layers-list"
-                            >
-                              <div
-                                class="leaflet-control-layers-base"
-                              >
-                                <label>
-                                  <div>
-                                    <input
-                                      checked="checked"
-                                      class="leaflet-control-layers-selector"
-                                      name="leaflet-base-layers_49"
-                                      type="radio"
-                                    />
-                                    <span>
-                                       BC Government
-                                    </span>
-                                  </div>
-                                </label>
-                                <label>
-                                  <div>
-                                    <input
-                                      class="leaflet-control-layers-selector"
-                                      name="leaflet-base-layers_49"
-                                      type="radio"
-                                    />
-                                    <span>
-                                       Esri Imagery
-                                    </span>
-                                  </div>
-                                </label>
-                              </div>
-                              <div
-                                class="leaflet-control-layers-separator"
-                                style="display: none;"
-                              />
-                              <div
-                                class="leaflet-control-layers-overlays"
-                              />
-                            </section>
-                          </div>
-                          <div
-                            class="leaflet-control-attribution leaflet-control"
-                          >
-                            <a
-                              href="https://leafletjs.com"
-                              title="A JS library for interactive maps"
-                            >
-                              Leaflet
-                            </a>
-                          </div>
+                            Leaflet
+                          </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root MuiBox-root-88"
-                  >
-                    <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <span
-                        class="MuiButton-label"
-                      >
-                        Full Screen
-                      </span>
-                      <span
-                        class="MuiTouchRipple-root"
-                      />
-                    </button>
-                  </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-95"
+                  class="MuiBox-root MuiBox-root-91"
                 >
-                  <div
-                    class="MuiTableContainer-root MuiBox-root MuiBox-root-96"
+                  <button
+                    aria-label="view full screen map"
+                    class="MuiButtonBase-root MuiIconButton-root makeStyles-fullScreenBtn-66"
+                    tabindex="0"
+                    title="View full screen map"
+                    type="button"
                   >
-                    <table
-                      aria-label="treatments-list-table"
-                      class="MuiTable-root makeStyles-treatmentsTable-89 MuiTable-stickyHeader"
+                    <span
+                      class="MuiIconButton-label"
                     >
-                      <thead
-                        class="MuiTableHead-root"
+                      <svg
+                        role="presentation"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        viewBox="0 0 24 24"
                       >
-                        <tr
-                          class="MuiTableRow-root MuiTableRow-head"
-                        >
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="50"
-                          >
-                            ID
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                          >
-                            Type
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="80"
-                          >
-                            Year
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
-                            scope="col"
-                          >
-                            Treatments
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="105"
-                          >
-                            Width (m)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="110"
-                          >
-                            Length (m)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="100"
-                          >
-                            Area (ha)
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-stickyHeader"
-                            scope="col"
-                            width="100"
-                          >
-                            Actions
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        class="MuiTableBody-root"
-                        data-testid="project-table"
-                      >
-                        <tr
-                          class="MuiTableRow-root"
-                        >
-                          <td
-                            class="MuiTableCell-root MuiTableCell-body"
-                            colspan="8"
-                          >
-                            <div
-                              class="MuiBox-root MuiBox-root-97"
-                            >
-                              No Treatments
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                        <path
+                          d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z"
+                          style="fill: currentColor;"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root"
+                    />
+                  </button>
                 </div>
               </div>
-            </div>
-            <div
-              class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
-            >
               <div
                 class="MuiBox-root MuiBox-root-98"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-99"
+                  class="MuiTableContainer-root MuiBox-root MuiBox-root-99"
                 >
-                  <h2
-                    class="MuiTypography-root MuiTypography-h2"
+                  <table
+                    aria-label="treatments-list-table"
+                    class="MuiTable-root makeStyles-treatmentsTable-92 MuiTable-stickyHeader"
                   >
-                    Documents
-                  </h2>
-                </div>
-                <div
-                  class="MuiBox-root MuiBox-root-100"
-                >
-                  <div
-                    class="MuiTableContainer-root"
-                  >
-                    <table
-                      aria-label="attachments-list-table"
-                      class="MuiTable-root makeStyles-attachmentsTable-101"
+                    <thead
+                      class="MuiTableHead-root"
                     >
-                      <thead
-                        class="MuiTableHead-root"
+                      <tr
+                        class="MuiTableRow-root MuiTableRow-head"
                       >
-                        <tr
-                          class="MuiTableRow-root MuiTableRow-head"
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="50"
                         >
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head"
-                            scope="col"
-                          >
-                            Name
-                          </th>
-                          <th
-                            class="MuiTableCell-root MuiTableCell-head"
-                            scope="col"
-                          >
-                            File Size
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        class="MuiTableBody-root"
+                          ID
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                        >
+                          Type
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="80"
+                        >
+                          Year
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                        >
+                          Treatments
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="105"
+                        >
+                          Width (m)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="110"
+                        >
+                          Length (m)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="100"
+                        >
+                          Area (ha)
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader"
+                          scope="col"
+                          width="105"
+                        >
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="MuiTableBody-root"
+                      data-testid="project-table"
+                    >
+                      <tr
+                        class="MuiTableRow-root"
                       >
-                        <tr
-                          class="MuiTableRow-root"
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body"
+                          colspan="8"
                         >
-                          <td
-                            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
-                            colspan="4"
+                          <div
+                            class="MuiBox-root MuiBox-root-100"
                           >
-                            No Attachments
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                            No Treatments
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-101"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-102"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2"
+                >
+                  Documents
+                </h2>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-103"
+              >
+                <div
+                  class="MuiTableContainer-root"
+                >
+                  <table
+                    aria-label="attachments-list-table"
+                    class="MuiTable-root makeStyles-attachmentsTable-104"
+                  >
+                    <thead
+                      class="MuiTableHead-root"
+                    >
+                      <tr
+                        class="MuiTableRow-root MuiTableRow-head"
+                      >
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head"
+                          scope="col"
+                        >
+                          Name
+                        </th>
+                        <th
+                          class="MuiTableCell-root MuiTableCell-head"
+                          scope="col"
+                        >
+                          File Size
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="MuiTableBody-root"
+                    >
+                      <tr
+                        class="MuiTableRow-root"
+                      >
+                        <td
+                          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
+                          colspan="4"
+                        >
+                          No Attachments
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -2223,10 +2288,19 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
             class="MuiPaper-root MuiPaper-elevation2 MuiPaper-rounded"
           >
             <div
-              class="MuiBox-root MuiBox-root-103 makeStyles-projectMetadata-102"
+              class="MuiBox-root MuiBox-root-106 makeStyles-projectMetadata-105"
             >
+              <div
+                class="MuiBox-root MuiBox-root-107"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h2"
+                >
+                  Project Details
+                </h2>
+              </div>
               <section
-                class="MuiBox-root MuiBox-root-104"
+                class="MuiBox-root MuiBox-root-108"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -2234,8 +2308,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   General Information
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <dl
-                  class="MuiBox-root MuiBox-root-105"
+                  class="MuiBox-root MuiBox-root-109"
                   data-testid="general_info_component"
                 >
                   <div>
@@ -2298,11 +2375,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                 </dl>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-106"
+                class="MuiBox-root MuiBox-root-110"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -2310,17 +2384,20 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Project Contacts
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectContactList-107"
+                  class="makeStyles-projectContactList-111"
                 >
                   <li
-                    class="MuiBox-root MuiBox-root-110"
+                    class="MuiBox-root MuiBox-root-114"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-111"
+                      class="MuiBox-root MuiBox-root-115"
                     >
                       <svg
-                        class="makeStyles-contactIcon-108"
+                        class="makeStyles-contactIcon-112"
                         role="presentation"
                         style="width: 1.5rem; height: 1.5rem;"
                         viewBox="0 0 24 24"
@@ -2330,31 +2407,35 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                           style="fill: currentColor;"
                         />
                       </svg>
+                      <div
+                        class="MuiBox-root MuiBox-root-116"
+                      >
+                        <div
+                          class="contactName"
+                        >
+                          <strong
+                            data-testid="contact_name"
+                          >
+                            Amanda Christensen
+                          </strong>
+                        </div>
+                        <div
+                          class="contactEmail"
+                        >
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                            href="mailto:amanda@christensen.com"
+                          >
+                            amanda@christensen.com
+                          </a>
+                        </div>
+                        <div>
+                          Amanda and associates
+                        </div>
+                      </div>
                     </div>
                     <div
-                      class="MuiBox-root MuiBox-root-112"
-                    >
-                      <div>
-                        <strong
-                          data-testid="contact_name"
-                        >
-                          Amanda Christensen
-                        </strong>
-                      </div>
-                      <div>
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
-                          href="mailto:amanda@christensen.com"
-                        >
-                          amanda@christensen.com
-                        </a>
-                      </div>
-                      <div>
-                        Amanda and associates
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root MuiBox-root-113"
+                      class="MuiBox-root MuiBox-root-117"
                     >
                       <div
                         class="MuiChip-root MuiChip-sizeSmall"
@@ -2369,11 +2450,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-114"
+                class="MuiBox-root MuiBox-root-118"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -2381,21 +2459,25 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   IUCN Conservation Actions Classifications
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectIucnList-115"
+                  class="makeStyles-projectIucnList-119"
                 >
                   <li
                     data-testid="iucn_data"
                   >
-                    IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    >
+                      IUCN class &gt; IUCN subclass 1 &gt; IUCN subclass 2
+                    </p>
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-116"
+                class="MuiBox-root MuiBox-root-120"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -2403,8 +2485,11 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Permits
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectPermitList-117"
+                  class="makeStyles-projectPermitList-121"
                 >
                   <li
                     data-testid="permit_item"
@@ -2420,11 +2505,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-118"
+                class="MuiBox-root MuiBox-root-122"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -2432,27 +2514,30 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Funding Sources
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <ul
-                  class="makeStyles-projectFundingList-119"
+                  class="makeStyles-projectFundingList-123"
                 >
                   <li
                     data-testid="funding_data"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-120"
+                      class="MuiBox-root MuiBox-root-124"
                     >
                       <strong>
                         agency name
                       </strong>
                     </div>
                     <dl
-                      class="MuiBox-root MuiBox-root-121"
+                      class="MuiBox-root MuiBox-root-125"
                     >
                       <div>
                         <dt
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                         >
-                          Funding Amount:
+                          Amount:
                         </dt>
                         <dd
                           class="MuiTypography-root MuiTypography-body2"
@@ -2500,11 +2585,8 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </li>
                 </ul>
               </section>
-              <hr
-                class="MuiDivider-root"
-              />
               <section
-                class="MuiBox-root MuiBox-root-122"
+                class="MuiBox-root MuiBox-root-126"
               >
                 <h3
                   class="MuiTypography-root MuiTypography-body1"
@@ -2512,21 +2594,25 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Partnerships
                 </h3>
+                <hr
+                  class="MuiDivider-root"
+                />
                 <dl
-                  class="MuiBox-root MuiBox-root-124"
+                  class="MuiBox-root MuiBox-root-128"
                 >
                   <div>
                     <dt
+                      aria-label="Indigenous Partnerships"
                       class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="indigenousData"
                     >
-                      Indigenous
+                      Indigenous:
                     </dt>
                     <dd
                       class="MuiTypography-root MuiTypography-body2"
                     >
                       <span
-                        class="makeStyles-partnerItem-123"
+                        class="makeStyles-partnerItem-127"
                         data-testid="indigenous_partners_data"
                       >
                         <span
@@ -2536,7 +2622,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         </span>
                       </span>
                       <span
-                        class="makeStyles-partnerItem-123"
+                        class="makeStyles-partnerItem-127"
                         data-testid="indigenous_partners_data"
                       >
                         First nations code
@@ -2550,16 +2636,17 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                   </div>
                   <div>
                     <dt
+                      aria-label="Other Partnerships"
                       class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                       data-testid="stakeholderData"
                     >
-                      Other
+                      Other:
                     </dt>
                     <dd
                       class="MuiTypography-root MuiTypography-body2"
                     >
                       <span
-                        class="makeStyles-partnerItem-123"
+                        class="makeStyles-partnerItem-127"
                         data-testid="stakeholder_partners_data"
                       >
                         partner2
@@ -2570,7 +2657,7 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                         </span>
                       </span>
                       <span
-                        class="makeStyles-partnerItem-123"
+                        class="makeStyles-partnerItem-127"
                         data-testid="stakeholder_partners_data"
                       >
                         partner3

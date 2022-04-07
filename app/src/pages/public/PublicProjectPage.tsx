@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { mdiArrowLeft } from '@mdi/js';
+import { mdiArrowLeft, mdiFullscreen } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/ProjectChips';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
@@ -25,6 +24,23 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import PublicProjectAttachments from './components/PublicProjectAttachments';
 import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnits';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    fullScreenBtn: {
+      padding: '3px',
+      borderRadius: '4px',
+      background: '#ffffff',
+      color: '#000000',
+      border: '2px solid rgba(0,0,0,0.2)',
+      backgroundClip: 'padding-box',
+      '&:hover': {
+        backgroundColor: '#eeeeee'
+      }
+    }
+  })
+);
 
 /**
  * Page to display a single Public (published) Project.
@@ -32,6 +48,7 @@ import PublicTreatmentSpatialUnits from './components/PublicTreatmentSpatialUnit
  * @return {*}
  */
 const PublicProjectPage = () => {
+  const classes = useStyles();
   const urlParams = useParams();
   const projectId = urlParams['id'];
 
@@ -143,44 +160,48 @@ const PublicProjectPage = () => {
         <Box mt={2}>
           <Grid container spacing={3}>
             <Grid item md={8}>
-              <Box>
-                <Box mb={3}>
-                  <Paper elevation={2}>
-                    <Box p={3}>
-                      <Box mb={2}>
-                        <Typography variant="h2">Project Objectives</Typography>
-                      </Box>
-                      <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
+              {/* Project Objectives */}
+              <Box mb={3}>
+                <Paper elevation={2}>
+                  <Box p={3}>
+                    <Box mb={2}>
+                      <Typography variant="h2">Project Objectives</Typography>
                     </Box>
-                  </Paper>
-                </Box>
-
+                    <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
+                  </Box>
+                </Paper>
+              </Box>
+              
+              {/* Treatments */}
+              <Box mb={3}>
                 <Paper elevation={2}>
                   <Box px={3}>
                     <PublicTreatmentSpatialUnits treatmentList={treatmentList} getTreatments={getTreatments} />
                   </Box>
-
-                  <Box mb={3}>
-                    <Box height="500px" position="relative">
-                      <LocationBoundary
-                        projectForViewData={projectWithDetails}
-                        treatmentList={treatmentList}
-                        refresh={getProject}
-                      />
-                      <Box position="absolute" top="10px" right="10px" zIndex="999">
-                        <Button variant="outlined" color="primary" onClick={openMapDialog}>
-                          Full Screen
-                        </Button>
-                      </Box>
+                  <Box height="500px" position="relative">
+                    <LocationBoundary
+                      projectForViewData={projectWithDetails}
+                      treatmentList={treatmentList}
+                      refresh={getProject}
+                    />
+                    <Box position="absolute" top="80px" left="10px" zIndex="999">
+                      <IconButton
+                        aria-label="view full screen map"
+                        title="View full screen map"
+                        className={classes.fullScreenBtn}
+                        onClick={openMapDialog}>
+                        <Icon path={mdiFullscreen} size={1} />
+                      </IconButton>
                     </Box>
-                    <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
                   </Box>
-                </Paper>
-
-                <Paper elevation={2}>
-                  <PublicProjectAttachments projectForViewData={projectWithDetails} />
+                  <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
                 </Paper>
               </Box>
+
+              {/* Documents */}
+              <Paper elevation={2}>
+                <PublicProjectAttachments projectForViewData={projectWithDetails} />
+              </Paper>
             </Grid>
 
             <Grid item md={4}>
@@ -188,6 +209,7 @@ const PublicProjectPage = () => {
                 <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
               </Paper>
             </Grid>
+
           </Grid>
         </Box>
       </Container>

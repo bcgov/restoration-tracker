@@ -49,8 +49,8 @@ const PublicProjectAttachments: React.FC<IPublicProjectAttachmentsProps> = () =>
   }, []);
 
   return (
-    <Box pt={1}>
-      <Box mt={2} mb={3} px={3} display="flex" justifyContent="space-between">
+    <Box>
+      <Box py={2} px={3} display="flex" justifyContent="space-between">
         <Typography variant="h2">Documents</Typography>
       </Box>
 
