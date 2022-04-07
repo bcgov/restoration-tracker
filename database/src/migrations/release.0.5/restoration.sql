@@ -1646,7 +1646,6 @@ CREATE TABLE treatment_unit(
     project_id                  integer                     NOT NULL,
     feature_type_id             integer                     NOT NULL,
     name                        varchar(300),
-    description                 varchar(3000),
     width                       float4,
     length                      float4,
     area                        float4,
@@ -1673,8 +1672,6 @@ COMMENT ON COLUMN treatment_unit.project_id IS 'System generated surrogate prima
 COMMENT ON COLUMN treatment_unit.feature_type_id IS 'System generated surrogate primary key identifier.'
 ;
 COMMENT ON COLUMN treatment_unit.name IS 'The name of the record.'
-;
-COMMENT ON COLUMN treatment_unit.description IS 'The description of the record.'
 ;
 COMMENT ON COLUMN treatment_unit.area IS 'The area of the treatment unit in hectares.'
 ;
