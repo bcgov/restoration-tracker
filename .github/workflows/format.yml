@@ -2,8 +2,6 @@ name: Formating Checks
 
 on:
   pull_request:
-    branches:
-      - dev
 
 jobs:
   format:

@@ -2,8 +2,6 @@ name: Linting Checks
 
 on:
   pull_request:
-    branches:
-      - dev
 
 jobs:
   lint:
