@@ -333,7 +333,6 @@ export interface IGetProjectTreatment {
   length: number;
   area: number;
   comments: string;
-  description: string;
   geometry: Feature;
   treatments: IGetTreatmentItem[];
 }

@@ -68,7 +68,6 @@ describe('getTreatments', () => {
         area: 839520,
         geojson: [{} as Feature],
         comments: '',
-        description: '',
         treatment_year: '2020',
         treatment_name: 'Seeding'
       },
@@ -80,7 +79,6 @@ describe('getTreatments', () => {
         area: 839520,
         geojson: [{} as Feature],
         comments: '',
-        description: '',
         treatment_year: '2021',
         treatment_name: 'Tree Felling'
       }
@@ -102,7 +100,6 @@ describe('getTreatments', () => {
           area: 839520,
           geometry: {},
           comments: '',
-          description: '',
           treatments: [
             {
               treatment_year: '2020',
