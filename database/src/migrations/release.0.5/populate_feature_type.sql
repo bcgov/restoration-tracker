@@ -6,4 +6,5 @@ insert into feature_type (name, record_effective_date) values ('Transmission Lin
 insert into feature_type (name, record_effective_date) values ('Railway', now());
 insert into feature_type (name, record_effective_date) values ('Trail', now());
 insert into feature_type (name, record_effective_date) values ('Well', now());
+insert into feature_type (name, record_effective_date) values ('Cutblock', now());
 insert into feature_type (name, record_effective_date) values ('Other', now());

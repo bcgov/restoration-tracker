@@ -47,35 +47,36 @@ export class TreatmentService extends DBService {
   //check all treatment units if their proerties are valid.
   validateAllTreatmentUnitProperties(
     treatmentFeatures: TreatmentFeature[]
-  ): { treatmentUnitId: number; missingProperties: string[] }[] {
+  ): { treatmentUnitId: string; missingProperties: string[] }[] {
     //collection of all errors in units
-    const errorArray: { treatmentUnitId: number; missingProperties: string[] }[] = [];
+    const errorArray: { treatmentUnitId: string; missingProperties: string[] }[] = [];
 
     for (const item of treatmentFeatures) {
       //collect errors of a single unit
       const treatmentUnitError: string[] = [];
 
-      !Number.isInteger(item.properties.TU_ID) && treatmentUnitError.push('Missing property TU_ID');
-      !Number.isInteger(item.properties.Width_m) && treatmentUnitError.push('Missing property Width_m');
-      !Number.isInteger(item.properties.Length_m) && treatmentUnitError.push('Missing property Length_m');
-      !Number.isFinite(item.properties.Area_ha) && treatmentUnitError.push('Missing property Area_ha');
+      (typeof item.properties.TU_ID !== 'string' || item.properties.TU_ID.length <= 0) &&
+        treatmentUnitError.push('Missing property TU_ID');
 
-      typeof item.properties.Recon !== 'string' ||
-        (item.properties.Recon.length <= 0 && treatmentUnitError.push('Missing property Recon'));
+      (typeof item.properties.Year !== 'string' || item.properties.Year.length <= 0) &&
+        treatmentUnitError.push('Missing property Year');
 
-      typeof item.properties.Treatments !== 'string' && treatmentUnitError.push('Missing property Treatments');
+      (typeof item.properties.Fe_Type !== 'string' || item.properties.Fe_Type.length <= 0) &&
+        treatmentUnitError.push('Missing property Fe_Type');
 
-      typeof item.properties.Type !== 'string' ||
-        (item.properties.Type.length <= 0 && treatmentUnitError.push('Missing property Type'));
+      typeof item.properties.Width_m !== 'number' && treatmentUnitError.push('Missing property Width_m');
+      typeof item.properties.Length_m !== 'number' && treatmentUnitError.push('Missing property Length_m');
+      !Number.isFinite(item.properties.Area_m2) && treatmentUnitError.push('Missing property Area_m2');
 
-      typeof item.properties.Descript !== 'string' ||
-        (item.properties.Descript.length <= 0 && treatmentUnitError.push('Missing property Descript'));
+      typeof item.properties.Recce !== 'string' && treatmentUnitError.push('Missing property Recce');
 
-      typeof item.properties.Implement !== 'string' ||
-        (item.properties.Implement.length <= 0 && treatmentUnitError.push('Missing property Implement'));
+      (typeof item.properties.Treatments !== 'string' || item.properties.Treatments.length <= 0) &&
+        treatmentUnitError.push('Missing property Treatments');
 
-      typeof item.properties.Year !== 'string' ||
-        (item.properties.Year.length <= 0 && treatmentUnitError.push('Missing property Year'));
+      (typeof item.properties.Implement !== 'string' || item.properties.Implement.length <= 0) &&
+        treatmentUnitError.push('Missing property Implement');
+
+      typeof item.properties.Comments !== 'string' && treatmentUnitError.push('Missing property Comments');
 
       if (treatmentUnitError.length > 0) {
         errorArray.push({ treatmentUnitId: item.properties.TU_ID, missingProperties: treatmentUnitError });
@@ -109,7 +110,7 @@ export class TreatmentService extends DBService {
     let featureTypeObj: GetTreatmentFeatureTypes[] = [];
 
     featureTypeObj = treatmentFeatureTypes.filter((item) => {
-      return item.name === treatmentFeatureProperties.Type;
+      return item.name.toLowerCase() === treatmentFeatureProperties.Fe_Type.toLowerCase();
     });
 
     if (featureTypeObj.length === 0) {

@@ -68,11 +68,11 @@ export const postTreatmentUnitSQL = (
       ${projectId},
       ${featureTypeId},
       ${feature.properties.TU_ID},
-      ${feature.properties.Descript},
+      ${feature.properties.Comments},
       ${feature.properties.Width_m},
       ${feature.properties.Length_m},
-      ${feature.properties.Area_ha},
-      ${feature.properties.Recon},
+      ${feature.properties.Area_m2},
+      ${feature.properties.Recce},
       ${JSON.stringify([feature])}
     `;
 

@@ -42,16 +42,14 @@ export interface ITreatmentTypeInsertOrExists {
 export type TreatmentFeature = Feature<Geometry, TreatmentFeatureProperties>;
 
 export type TreatmentFeatureProperties = {
-  OBJECTID: number;
-  SHAPE_Leng: number;
-  TU_ID: number;
+  TU_ID: string;
+  Year: string;
+  Fe_Type: string;
   Width_m: number;
   Length_m: number;
-  Area_ha: number;
-  Recon: string;
+  Area_m2: number;
+  Recce: string;
   Treatments: string;
-  Type: string;
-  Descript: string;
   Implement: string;
-  Year: string;
+  Comments: string;
 };
