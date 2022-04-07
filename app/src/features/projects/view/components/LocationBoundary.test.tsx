@@ -51,7 +51,6 @@ describe('LocationBoundary', () => {
       length: 100,
       area: 10000,
       comments: 'something12',
-      description: 'anything12',
       treatments: [
         {
           treatment_name: 'Tree Felling',

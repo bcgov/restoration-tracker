@@ -6,7 +6,6 @@ export interface ITreatmentUnit {
   width: number;
   length: number;
   area: number;
-  description: string;
   comments: string;
   geometry: Feature;
 }
@@ -25,7 +24,6 @@ export class GetTreatmentData {
           width: item.width,
           length: item.length,
           area: item.area,
-          description: item.description,
           comments: item.comments,
           geometry: item.geojson[0], // TODO Assuming only 1 feature per treatment unit
           treatments: [{ treatment_name: item.treatment_name, treatment_year: item.treatment_year }]

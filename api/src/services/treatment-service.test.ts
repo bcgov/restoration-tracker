@@ -632,7 +632,6 @@ describe('TreatmentService', () => {
           area: 839520,
           geojson: [{} as Feature],
           comments: '',
-          description: '',
           treatment_year: '',
           treatment_name: ''
         },
@@ -643,7 +642,6 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           comments: '',
-          description: '',
           geojson: [{} as Feature],
           treatment_year: '',
           treatment_name: ''
@@ -668,7 +666,6 @@ describe('TreatmentService', () => {
             area: 839520,
             geometry: {},
             comments: '',
-            description: '',
             treatments: [
               {
                 treatment_year: '',
@@ -693,7 +690,6 @@ describe('TreatmentService', () => {
           area: 839520,
           geojson: [{} as Feature],
           comments: '',
-          description: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
         }
@@ -717,7 +713,6 @@ describe('TreatmentService', () => {
             area: 839520,
             geometry: {},
             comments: '',
-            description: '',
             treatments: [
               {
                 treatment_year: '2020',
@@ -739,7 +734,6 @@ describe('TreatmentService', () => {
           area: 839520,
           geojson: [{} as Feature],
           comments: '',
-          description: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
         },
@@ -751,7 +745,6 @@ describe('TreatmentService', () => {
           area: 839520,
           geojson: [{} as Feature],
           comments: '',
-          description: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
         }
@@ -775,7 +768,6 @@ describe('TreatmentService', () => {
             area: 839520,
             geometry: {},
             comments: '',
-            description: '',
             treatments: [
               {
                 treatment_year: '2020',
@@ -801,7 +793,6 @@ describe('TreatmentService', () => {
           area: 839520,
           geojson: [{} as Feature],
           comments: '',
-          description: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
         },
@@ -813,7 +804,6 @@ describe('TreatmentService', () => {
           area: 839520,
           geojson: [{} as Feature],
           comments: '',
-          description: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
         },
@@ -825,7 +815,6 @@ describe('TreatmentService', () => {
           area: 839520,
           geojson: [{} as Feature],
           comments: '',
-          description: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
         },
@@ -837,7 +826,6 @@ describe('TreatmentService', () => {
           area: 839520,
           geojson: [{} as Feature],
           comments: '',
-          description: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
         }
@@ -861,7 +849,6 @@ describe('TreatmentService', () => {
             area: 839520,
             geometry: {},
             comments: '',
-            description: '',
             treatments: [
               {
                 treatment_year: '2020',
@@ -881,7 +868,6 @@ describe('TreatmentService', () => {
             area: 839520,
             geometry: {},
             comments: '',
-            description: '',
             treatments: [
               {
                 treatment_year: '2020',
@@ -897,7 +883,6 @@ describe('TreatmentService', () => {
             area: 839520,
             geometry: {},
             comments: '',
-            description: '',
             treatments: [
               {
                 treatment_year: '2021',
