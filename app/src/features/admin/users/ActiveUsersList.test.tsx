@@ -68,7 +68,7 @@ describe('ActiveUsersList', () => {
     });
 
     await waitFor(() => {
-      expect(getByTestId('custom-menu-button-NotDefined')).toBeInTheDocument();
+      expect(getByTestId('custom-menu-button-Unassigned')).toBeInTheDocument();
     });
   });
 

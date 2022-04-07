@@ -278,7 +278,7 @@ const ActiveUsersList: React.FC<IActiveUsersListProps> = (props) => {
                     <TableCell>
                       <Box m={-1}>
                         <CustomMenuButton
-                          buttonLabel={row.role_names.join(', ') || 'Not Defined'}
+                          buttonLabel={row.role_names.join(', ') || 'Unassigned'}
                           buttonTitle={'Change User Permissions'}
                           buttonProps={{ variant: 'text' }}
                           menuItems={([...codes.system_roles
@@ -291,8 +291,8 @@ const ActiveUsersList: React.FC<IActiveUsersListProps> = (props) => {
                                 menuOnClick: () => handleChangeUserPermissionsClick(row, item.name, [item.id])
                               };
                             }), {
-                              menuLabel: 'Not Defined',
-                                menuOnClick: () => handleChangeUserPermissionsClick(row, 'Not Defined', [])
+                              menuLabel: 'Unassigned',
+                                menuOnClick: () => handleChangeUserPermissionsClick(row, 'Unassigned', [])
                             }])}
                           buttonEndIcon={<Icon path={mdiMenuDown} size={1} />}
                         />
