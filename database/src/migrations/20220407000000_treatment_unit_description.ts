@@ -12,9 +12,9 @@ const DB_SCHEMA = process.env.DB_SCHEMA;
  */
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
-		SET schema ${DB_SCHEMA};
+		SET schema '${DB_SCHEMA}';
 		SET search_path = ${DB_SCHEMA}, public;
-		ALTER TABLE 'treatment_unit' DROP COLUMN 'description';
+		ALTER TABLE treatment_unit DROP COLUMN description CASCADE;
 	`);
 }
 
