@@ -188,7 +188,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               data-testid={'open-layer-menu'}
               variant="outlined"
               color="primary"
-              title={'Filter treaments by year'}
+              title={'Filter treatments by year'}
               aria-label={'filter treatments by year'}
               endIcon={<Icon path={mdiMenuDown} size={1} />}
               onClick={handleClick}>

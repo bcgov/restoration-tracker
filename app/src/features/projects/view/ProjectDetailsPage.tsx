@@ -59,11 +59,6 @@ const useStyles = makeStyles((theme: Theme) =>
         fontWeight: 700,
         textTransform: 'uppercase'
       },
-      '& hr': {
-        height: '2px',
-        background: 'blue',
-        display: 'none'
-      },
       '& ul': {
         listStyleType: 'none',
         '& dl': {
@@ -96,7 +91,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="GeneralInfoTitle">
           General Information
         </Typography>
-        <Divider></Divider>
         <GeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
       </Box>
 
@@ -104,7 +98,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="ContactsTitle">
           Project Contacts
         </Typography>
-        <Divider></Divider>
         <RoleGuard
           validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
           validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR, PROJECT_ROLE.PROJECT_VIEWER]}
@@ -117,7 +110,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="IUCNTitle">
           IUCN Conservation Actions Classifications
         </Typography>
-        <Divider></Divider>
         <IUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
       </Box>
 
@@ -125,7 +117,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="PermitsTitle">
           Permits
         </Typography>
-        <Divider></Divider>
         <ProjectPermits projectForViewData={projectForViewData} refresh={refresh} />
       </Box>
 
@@ -133,7 +124,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="FundingSourceTitle">
           Funding Sources
         </Typography>
-        <Divider></Divider>
         <FundingSource projectForViewData={projectForViewData} refresh={refresh} />
       </Box>
 
@@ -141,7 +131,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Typography variant="body1" component={'h3'} data-testid="PartnershipTitle">
           Partnerships
         </Typography>
-        <Divider></Divider>
         <Partnerships projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
       </Box>
     </Box>
