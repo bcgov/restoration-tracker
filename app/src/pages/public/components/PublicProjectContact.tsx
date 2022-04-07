@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: 0,
       marginLeft: 0,
       marginRight: 0,
-      padding: 0,
+      padding: 0
     },
     contactIcon: {
       color: '#575759'
@@ -63,7 +63,6 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
               justifyContent="space-between"
               key={index}
               className={publicContact(contactDetails)}>
-
               <Box display="flex" className={publicContact(contactDetails)} pl={1}>
                 <Icon
                   className={classes.contactIcon}
@@ -88,7 +87,7 @@ const PublicProjectContact: React.FC<IPublicProjectContactProps> = ({ projectFor
 
         {!hasContacts && (
           <li>
-            <Typography variant="body2"  color="textSecondary" data-testid="no_contacts">
+            <Typography variant="body2" color="textSecondary" data-testid="no_contacts">
               No Contacts
             </Typography>
           </li>

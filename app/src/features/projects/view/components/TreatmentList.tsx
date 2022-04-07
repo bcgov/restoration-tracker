@@ -1,6 +1,6 @@
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid'
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -178,9 +178,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                 <TableCell align="right" width="100">
                   Area (ha)
                 </TableCell>
-                <TableCell width="105">
-                  Actions
-                </TableCell>
+                <TableCell width="105">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">

@@ -41,11 +41,7 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
     <>
       <ul className={classes.projectContactList}>
         {contact.contacts.map((contactDetails, index) => (
-          <Box
-            component="li"
-            key={index}
-            display="flex"
-            justifyContent="space-between">
+          <Box component="li" key={index} display="flex" justifyContent="space-between">
             <Box display="flex" pl={1}>
               <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1} />
               <Box ml={2}>

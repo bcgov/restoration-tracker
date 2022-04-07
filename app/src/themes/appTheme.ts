@@ -148,7 +148,7 @@ const appTheme = createMuiTheme({
         },
         '&:last-child': {
           paddingRight: '24px'
-        },
+        }
       },
       head: {
         backgroundColor: '#fafafa',

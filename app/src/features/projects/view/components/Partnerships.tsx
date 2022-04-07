@@ -42,7 +42,12 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
   return (
     <Box component="dl">
       <div>
-        <Typography component="dt" variant="body2" color="textSecondary" data-testid="indigenousData" aria-label="Indigenous Partnerships">
+        <Typography
+          component="dt"
+          variant="body2"
+          color="textSecondary"
+          data-testid="indigenousData"
+          aria-label="Indigenous Partnerships">
           Indigenous:
         </Typography>
 
@@ -62,7 +67,12 @@ const Partnerships: React.FC<IPartnershipsProps> = (props) => {
       </div>
 
       <div>
-        <Typography component="dt" variant="body2" color="textSecondary" data-testid="stakeholderData" aria-label="Other Partnerships">
+        <Typography
+          component="dt"
+          variant="body2"
+          color="textSecondary"
+          data-testid="stakeholderData"
+          aria-label="Other Partnerships">
           Other:
         </Typography>
 

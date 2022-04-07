@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectPermitList: {
       margin: 0,
-      padding: 0,
+      padding: 0
     }
   })
 );

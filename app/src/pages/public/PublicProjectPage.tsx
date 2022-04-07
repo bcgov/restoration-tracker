@@ -171,7 +171,7 @@ const PublicProjectPage = () => {
                   </Box>
                 </Paper>
               </Box>
-              
+
               {/* Treatments */}
               <Box mb={3}>
                 <Paper elevation={2}>
@@ -209,7 +209,6 @@ const PublicProjectPage = () => {
                 <ProjectDetailsPage projectForViewData={projectWithDetails} codes={codes.codes} refresh={getProject} />
               </Paper>
             </Grid>
-
           </Grid>
         </Box>
       </Container>

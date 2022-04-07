@@ -88,7 +88,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
 
   return (
     <Box className={classes.projectMetadata} p={3}>
-
       <Box mb={3}>
         <Typography variant="h2">Project Details</Typography>
       </Box>
@@ -100,7 +99,6 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <Divider></Divider>
         <GeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
       </Box>
-
 
       <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="ContactsTitle">
