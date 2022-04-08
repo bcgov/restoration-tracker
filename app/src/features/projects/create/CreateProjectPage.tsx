@@ -22,6 +22,7 @@ import ProjectContactForm, {
   ProjectContactYupSchema
 } from 'features/projects/components/ProjectContactForm';
 import ProjectDraftForm, {
+  ProjectDraftFormInitialValues,
   IProjectDraftForm,
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
@@ -337,7 +338,9 @@ const CreateProjectPage: React.FC = () => {
         component={{
           element: <ProjectDraftForm />,
           initialValues: {
-            draft_name: '' // TODO
+            draft_name: formikRef.current
+              ? formikRef.current.values.project.project_name
+              : ProjectDraftFormInitialValues.draft_name
           },
           validationSchema: ProjectDraftFormYupSchema
         }}

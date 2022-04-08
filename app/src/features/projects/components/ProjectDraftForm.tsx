@@ -12,7 +12,7 @@ export const ProjectDraftFormInitialValues: IProjectDraftForm = {
 };
 
 export const ProjectDraftFormYupSchema = yup.object().shape({
-  draft_name: yup.string().max(50, 'Cannot exceed 50 characters').required('Required')
+  draft_name: yup.string().max(300, 'Cannot exceed 300 characters').required('Required')
 });
 
 /**
