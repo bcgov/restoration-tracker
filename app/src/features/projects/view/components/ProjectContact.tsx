@@ -5,6 +5,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React from 'react';
+import { mdiAccountCircleOutline } from '@mdi/js';
+import Icon from '@mdi/react';
 
 export interface IProjectContactProps {
   projectForViewData: IGetProjectForViewResponse;
@@ -17,13 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: 0,
       marginLeft: 0,
       marginRight: 0,
-      padding: 0,
-      listStyleType: 'none',
-      '& li + li': {
-        marginTop: theme.spacing(1.5),
-        paddingTop: theme.spacing(1.5),
-        borderTop: '1px solid #dddddd'
-      }
+      padding: 0
     },
     contactIcon: {
       color: '#575759'
@@ -45,12 +41,10 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
     <>
       <ul className={classes.projectContactList}>
         {contact.contacts.map((contactDetails, index) => (
-          <Box component="li" key={index}>
-            {/* <Box mr={2}>
-              <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1.25} />
-            </Box> */}
-            <Box display="flex" justifyContent="space-between">
-              <Box>
+          <Box component="li" key={index} display="flex" justifyContent="space-between">
+            <Box display="flex" pl={1}>
+              <Icon className={classes.contactIcon} path={mdiAccountCircleOutline} size={1} />
+              <Box ml={2}>
                 <div>
                   <strong data-testid="contact_name">
                     {contactDetails.first_name} {contactDetails.last_name}
@@ -61,14 +55,14 @@ const ProjectContact: React.FC<IProjectContactProps> = ({ projectForViewData }) 
                 </div>
                 <div>{contactDetails.agency}</div>
               </Box>
-              <Box>{JSON.parse(contactDetails.is_primary) && <Chip size="small" label="PRIMARY" />}</Box>
             </Box>
+            <Box>{JSON.parse(contactDetails.is_primary) && <Chip size="small" label="PRIMARY" />}</Box>
           </Box>
         ))}
 
         {!hasContacts && (
           <li>
-            <Typography variant="body2" data-testid="no_contacts">
+            <Typography variant="body2" color="textSecondary" data-testid="no_contacts">
               No Contacts
             </Typography>
           </li>

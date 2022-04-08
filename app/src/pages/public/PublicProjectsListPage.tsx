@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
-import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
@@ -13,8 +13,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import { mdiDownload } from '@mdi/js';
-import Icon from '@mdi/react';
 import clsx from 'clsx';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ProjectStatusType } from 'constants/misc';
@@ -113,7 +111,7 @@ const PublicProjectsListPage = () => {
           <Typography variant="h1">Projects</Typography>
         </Box>
         <Typography variant="body1" color="textSecondary">
-          Species inventory projects and related data in British Columbia
+          Species inventory projects and related data in British Columbia.
         </Typography>
       </Box>
       <Paper>
@@ -127,7 +125,9 @@ const PublicProjectsListPage = () => {
                 <TableCell>Start Date</TableCell>
                 <TableCell>End Date</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell width="50" />
+                <TableCell width="105" align="left">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -159,13 +159,16 @@ const PublicProjectsListPage = () => {
                   <TableCell>{getChipIcon(getProjectStatusType(row))}</TableCell>
                   <TableCell>
                     <Box my={-1}>
-                      <IconButton
-                        title="Download Project EML"
-                        aria-label="Download Project EML"
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        color="primary"
+                        title="Download Project Metadata"
+                        aria-label="Download Project Metadata"
                         data-testid="project-table-download-eml"
                         onClick={() => handleDownloadProjectEML(row.id)}>
-                        <Icon path={mdiDownload} size={1} />
-                      </IconButton>
+                        Download
+                      </Button>
                     </Box>
                   </TableCell>
                 </TableRow>

@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { RoleGuard } from 'components/security/Guards';
@@ -24,12 +23,21 @@ export interface IProjectDetailsProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectMetadata: {
-      // Metadata Definition Lists
-      '& dl': {
+      '& section': {
+        marginBottom: theme.spacing(3)
+      },
+      '& section:last-child': {
         marginBottom: 0
       },
-      '& dl div + div': {
-        marginTop: '5px'
+      '& dl, ul': {
+        marginTop: theme.spacing(1),
+        marginBottom: 0,
+        borderTop: '1px solid #dddddd'
+      },
+      '& dl div, li': {
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+        borderBottom: '1px solid #dddddd'
       },
       '& dd, dt': {
         display: 'inline-block',
@@ -45,18 +53,19 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'inline'
       },
       '& h3': {
-        marginBottom: theme.spacing(2),
+        marginBottom: theme.spacing(1),
         fontSize: '15px',
         fontWeight: 700,
         textTransform: 'uppercase'
       },
-      '& section + hr': {
-        // marginTop: theme.spacing(3),
-        // marginBottom: theme.spacing(3)
-      },
       '& ul': {
-        border: '1px solid #ccccccc',
-        borderRadius: '4px'
+        listStyleType: 'none',
+        '& dl': {
+          marginTop: 0
+        },
+        '& dl div:last-child': {
+          borderBottom: 'none'
+        }
       }
     }
   })
@@ -72,17 +81,19 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.projectMetadata}>
-      <Box component="section" p={3}>
+    <Box className={classes.projectMetadata} p={3}>
+      <Box mb={3}>
+        <Typography variant="h2">Project Details</Typography>
+      </Box>
+
+      <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="GeneralInfoTitle">
           General Information
         </Typography>
         <GeneralInformation projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
       </Box>
 
-      <Divider></Divider>
-
-      <Box component="section" p={3}>
+      <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="ContactsTitle">
           Project Contacts
         </Typography>
@@ -94,36 +105,28 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         </RoleGuard>
       </Box>
 
-      <Divider></Divider>
-
-      <Box component="section" p={3}>
+      <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="IUCNTitle">
           IUCN Conservation Actions Classifications
         </Typography>
         <IUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
       </Box>
 
-      <Divider></Divider>
-
-      <Box component="section" p={3}>
+      <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="PermitsTitle">
           Permits
         </Typography>
         <ProjectPermits projectForViewData={projectForViewData} refresh={refresh} />
       </Box>
 
-      <Divider></Divider>
-
-      <Box component="section" p={3}>
+      <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="FundingSourceTitle">
           Funding Sources
         </Typography>
         <FundingSource projectForViewData={projectForViewData} refresh={refresh} />
       </Box>
 
-      <Divider></Divider>
-
-      <Box component="section" p={3}>
+      <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="PartnershipTitle">
           Partnerships
         </Typography>

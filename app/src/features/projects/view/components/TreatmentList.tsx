@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,8 +11,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import { mdiInformationOutline } from '@mdi/js';
-import Icon from '@mdi/react';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { ReactElement, useState } from 'react';
@@ -163,7 +161,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
   return (
     <>
       <Box display="flex" flexDirection="column" height="100%">
-        <Box component={TableContainer} maxHeight="500px">
+        <Box component={TableContainer}>
           <Table stickyHeader className={classes.treatmentsTable} aria-label="treatments-list-table">
             <TableHead>
               <TableRow>
@@ -180,9 +178,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                 <TableCell align="right" width="100">
                   Area (ha)
                 </TableCell>
-                <TableCell align="center" width="100">
-                  Actions
-                </TableCell>
+                <TableCell width="105">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-testid="project-table">
@@ -208,17 +204,18 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                       <TableCell align="right">{row.width}</TableCell>
                       <TableCell align="right">{row.length}</TableCell>
                       <TableCell align="right">{row.area}</TableCell>
-                      <TableCell align="center">
-                        <Box my={-0.65}>
-                          <IconButton
+                      <TableCell>
+                        <Box my={-0.5}>
+                          <Button
                             size="small"
                             color="primary"
-                            title="View details"
+                            variant="outlined"
+                            title="View treatment unit details"
                             aria-label="view treatment unit details"
                             data-testid="view-treatment-unit-details"
                             onClick={() => viewTreatmentUnitDetailsDialog(row)}>
-                            <Icon path={mdiInformationOutline} size={1} />
-                          </IconButton>
+                            Details
+                          </Button>
                         </Box>
                       </TableCell>
                     </TableRow>

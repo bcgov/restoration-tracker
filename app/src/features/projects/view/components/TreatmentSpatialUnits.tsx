@@ -186,10 +186,10 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
             <Button
               id={'open-layer-menu'}
               data-testid={'open-layer-menu'}
-              variant="text"
+              variant="outlined"
               color="primary"
-              title={'Filter Treaatments'}
-              aria-label={'Filter Treatments'}
+              title={'Filter treatments by year'}
+              aria-label={'filter treatments by year'}
               endIcon={<Icon path={mdiMenuDown} size={1} />}
               onClick={handleClick}>
               Filter Treatment Years ({yearList?.length})
@@ -241,10 +241,11 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               <Button
                 id={'upload-spatial'}
                 data-testid={'upload-spatial'}
-                variant="outlined"
+                variant="contained"
                 color="primary"
-                title={'Import Spatial'}
-                aria-label={'Import Spatial'}
+                disableElevation
+                title="Import treatment shapefile"
+                aria-label="import treatment shapefile"
                 startIcon={<Icon path={mdiImport} size={1} />}
                 onClick={handleImportTreatmentClick}>
                 Import Treatments

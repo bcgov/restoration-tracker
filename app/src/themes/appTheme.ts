@@ -141,59 +141,6 @@ const appTheme = createMuiTheme({
         background: '#f6f6f6'
       }
     },
-    MuiStepper: {
-      root: {
-        padding: 0
-      }
-    },
-    MuiStep: {
-      root: {
-        cursor: 'pointer'
-      }
-    },
-    MuiStepLabel: {
-      active: {
-        color: '#003366 !important'
-      }
-    },
-    MuiStepIcon: {
-      root: {
-        marginLeft: '1rem',
-        marginRight: '1rem',
-        zIndex: 999,
-        color: '#999999',
-        fontSize: '33px',
-        borderRadius: '50%',
-        '&.Mui-error': {
-          backgroundColor: '#ffffff',
-          border: '3px solid red',
-          color: 'red'
-        }
-      },
-      text: {
-        fontWeight: 700,
-        fontSize: '0.35em'
-      },
-      active: {
-        borderColor: '#003366',
-        color: '#ffffff'
-      },
-      completed: {
-        backgroundColor: '#ffffff',
-        border: '3px solid #003366',
-        padding: '2px',
-        color: '#003366'
-      }
-    },
-    MuiStepConnector: {
-      vertical: {
-        marginLeft: '32px',
-        paddingBottom: 0
-      },
-      lineVertical: {
-        borderLeftWidth: '2px'
-      }
-    },
     MuiTableCell: {
       root: {
         '&:first-child': {
@@ -204,15 +151,19 @@ const appTheme = createMuiTheme({
         }
       },
       head: {
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#fafafa',
         lineHeight: 'normal',
         letterSpacing: '0.02rem',
-        textTransform: 'uppercase',
         fontSize: '12px',
         fontWeight: 700
       },
       stickyHeader: {
-        backgroundColor: '#f0f0f0'
+        backgroundColor: '#fafafa'
+      }
+    },
+    MuiTablePagination: {
+      root: {
+        backgroundColor: '#fafafa'
       }
     },
     MuiTab: {

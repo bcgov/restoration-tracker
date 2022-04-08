@@ -8,13 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectIucnList: {
       margin: 0,
-      padding: 0,
-      listStyleType: 'none',
-      '& li + li': {
-        marginTop: theme.spacing(1),
-        paddingTop: theme.spacing(1),
-        borderTop: '1px solid #dddddd'
-      }
+      padding: 0
     }
   })
 );
@@ -56,14 +50,16 @@ const IUCNClassification: React.FC<IIUCNClassificationProps> = (props) => {
 
           return (
             <li key={index} data-testid="iucn_data">
-              {iucn1_name} &gt; {iucn2_name} &gt; {iucn3_name}
+              <Typography variant="body2" color="textSecondary">
+                {iucn1_name} &gt; {iucn2_name} &gt; {iucn3_name}
+              </Typography>
             </li>
           );
         })}
 
       {!hasIucnClassifications && (
         <li>
-          <Typography variant="body2" data-testid="no_classification">
+          <Typography variant="body2" color="textSecondary" data-testid="no_classification">
             No Classifications
           </Typography>
         </li>
