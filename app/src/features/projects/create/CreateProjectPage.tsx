@@ -164,6 +164,8 @@ const CreateProjectPage: React.FC = () => {
 
   const [initialProjectFormData, setInitialProjectFormData] = useState<ICreateProjectRequest>(ProjectFormInitialValues);
 
+  const [projectDraftFormInitialName, setProjectDraftFormInitialName] = React.useState<string>(initialProjectFormData.project.project_name)
+
   // Get draft project fields if draft id exists
   useEffect(() => {
     const getDraftProjectFields = async () => {
@@ -337,7 +339,7 @@ const CreateProjectPage: React.FC = () => {
         component={{
           element: <ProjectDraftForm />,
           initialValues: {
-            draft_name: '' // TODO
+            draft_name: projectDraftFormInitialName
           },
           validationSchema: ProjectDraftFormYupSchema
         }}
@@ -374,7 +376,7 @@ const CreateProjectPage: React.FC = () => {
             validateOnChange={false}
             onSubmit={handleProjectCreation}>
             <>
-              <ScrollToFormikError />
+              <ScrollToFormikError onChangeFormikValues={(values) => setProjectDraftFormInitialName(values.project.project_name)}/>
               <Form noValidate>
                 <Box my={5}>
                   <Grid container spacing={3}>

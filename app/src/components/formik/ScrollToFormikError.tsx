@@ -1,10 +1,14 @@
 import { Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import { useFormikContext } from 'formik';
+import { useFormikContext, FormikContextType } from 'formik';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useEffect, useState } from 'react';
 
-export const ScrollToFormikError: React.FC = () => {
+interface IScrollToFormikErrorProps {
+  onChangeFormikValues?: (values: FormikContextType<IGetProjectForViewResponse>['values']) => void
+}
+
+export const ScrollToFormikError: React.FC<IScrollToFormikErrorProps> = (props) => {
   const formikProps = useFormikContext<IGetProjectForViewResponse>();
   const { errors } = formikProps;
   const [openSnackbar, setOpenSnackbar] = useState({ open: false, msg: '' });
@@ -24,6 +28,12 @@ export const ScrollToFormikError: React.FC = () => {
     'location.region',
     'location.geometry'
   ];
+
+  useEffect(() => {
+    if (props.onChangeFormikValues) {
+      props.onChangeFormikValues(formikProps.values)
+    }
+  }, [formikProps.values])
 
   useEffect(() => {
     const showSnackBar = (message: string) => {
