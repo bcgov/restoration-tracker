@@ -538,9 +538,6 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   General Information
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <dl
                   class="MuiBox-root MuiBox-root-172"
                   data-testid="general_info_component"
@@ -614,9 +611,6 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   Project Contacts
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectContactList-174"
                 >
@@ -689,9 +683,6 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   IUCN Conservation Actions Classifications
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectIucnList-182"
                 >
@@ -715,9 +706,6 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   Permits
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectPermitList-184"
                 >
@@ -744,9 +732,6 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   Funding Sources
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectFundingList-186"
                 >
@@ -824,9 +809,6 @@ exports[`PublicProjectPage renders correctly with no end date 1`] = `
                 >
                   Partnerships
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <dl
                   class="MuiBox-root MuiBox-root-191"
                 >
@@ -1423,9 +1405,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   General Information
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <dl
                   class="MuiBox-root MuiBox-root-46"
                   data-testid="general_info_component"
@@ -1499,9 +1478,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Project Contacts
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectContactList-48"
                 >
@@ -1574,9 +1550,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   IUCN Conservation Actions Classifications
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectIucnList-56"
                 >
@@ -1600,9 +1573,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Permits
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectPermitList-58"
                 >
@@ -1629,9 +1599,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Funding Sources
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectFundingList-60"
                 >
@@ -1709,9 +1676,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Partnerships
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <dl
                   class="MuiBox-root MuiBox-root-65"
                 >
@@ -2308,9 +2272,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   General Information
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <dl
                   class="MuiBox-root MuiBox-root-109"
                   data-testid="general_info_component"
@@ -2384,9 +2345,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Project Contacts
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectContactList-111"
                 >
@@ -2459,9 +2417,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   IUCN Conservation Actions Classifications
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectIucnList-119"
                 >
@@ -2485,9 +2440,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Permits
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectPermitList-121"
                 >
@@ -2514,9 +2466,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Funding Sources
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <ul
                   class="makeStyles-projectFundingList-123"
                 >
@@ -2594,9 +2543,6 @@ exports[`PublicProjectPage renders public project page when project is loaded (p
                 >
                   Partnerships
                 </h3>
-                <hr
-                  class="MuiDivider-root"
-                />
                 <dl
                   class="MuiBox-root MuiBox-root-128"
                 >
