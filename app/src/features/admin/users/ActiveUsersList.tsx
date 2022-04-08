@@ -281,19 +281,22 @@ const ActiveUsersList: React.FC<IActiveUsersListProps> = (props) => {
                           buttonLabel={row.role_names.join(', ') || 'Unassigned'}
                           buttonTitle={'Change User Permissions'}
                           buttonProps={{ variant: 'text' }}
-                          menuItems={([...codes.system_roles
-                            .sort((item1, item2) => {
-                              return item1.name.localeCompare(item2.name);
-                            })
-                            .map((item) => {
-                              return {
-                                menuLabel: item.name,
-                                menuOnClick: () => handleChangeUserPermissionsClick(row, item.name, [item.id])
-                              };
-                            }), {
+                          menuItems={[
+                            ...codes.system_roles
+                              .sort((item1, item2) => {
+                                return item1.name.localeCompare(item2.name);
+                              })
+                              .map((item) => {
+                                return {
+                                  menuLabel: item.name,
+                                  menuOnClick: () => handleChangeUserPermissionsClick(row, item.name, [item.id])
+                                };
+                              }),
+                            {
                               menuLabel: 'Unassigned',
-                                menuOnClick: () => handleChangeUserPermissionsClick(row, 'Unassigned', [])
-                            }])}
+                              menuOnClick: () => handleChangeUserPermissionsClick(row, 'Unassigned', [])
+                            }
+                          ]}
                           buttonEndIcon={<Icon path={mdiMenuDown} size={1} />}
                         />
                       </Box>

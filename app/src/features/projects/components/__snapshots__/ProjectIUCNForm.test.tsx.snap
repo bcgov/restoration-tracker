@@ -5,7 +5,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
   <legend
     class="MuiTypography-root MuiTypography-body1"
   >
-    IUCN Conservation Actions Classifications 
+    IUCN Conservation Actions Classifications *
   </legend>
   <div
     class="MuiBox-root MuiBox-root-4"
@@ -52,11 +52,17 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
               data-shrink="false"
               id="classification"
             >
               Classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -78,6 +84,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].classification"
+                required=""
                 tabindex="-1"
                 value=""
               />
@@ -105,7 +112,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
             />
           </div>
         </div>
@@ -130,11 +137,17 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
               data-shrink="false"
               id="subClassification1"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root Mui-disabled Mui-disabled MuiInputBase-formControl"
@@ -156,6 +169,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].subClassification1"
+                required=""
                 tabindex="-1"
                 value=""
               />
@@ -183,7 +197,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
             />
           </div>
         </div>
@@ -208,11 +222,17 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
               data-shrink="false"
               id="subClassification2"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root Mui-disabled Mui-disabled MuiInputBase-formControl"
@@ -234,6 +254,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].subClassification2"
+                required=""
                 tabindex="-1"
                 value=""
               />
@@ -261,7 +282,7 @@ exports[`ProjectIUCNForm renders correctly with default empty values 1`] = `
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
             />
           </div>
         </div>
@@ -309,7 +330,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
   <legend
     class="MuiTypography-root MuiTypography-body1"
   >
-    IUCN Conservation Actions Classifications 
+    IUCN Conservation Actions Classifications *
   </legend>
   <div
     class="MuiBox-root MuiBox-root-105"
@@ -356,11 +377,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="classification"
             >
               Classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -380,6 +407,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].classification"
+                required=""
                 tabindex="-1"
                 value="1"
               />
@@ -407,7 +435,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -432,11 +460,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="subClassification1"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -456,6 +490,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].subClassification1"
+                required=""
                 tabindex="-1"
                 value="3"
               />
@@ -483,7 +518,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -508,11 +543,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="subClassification2"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -532,6 +573,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].subClassification2"
+                required=""
                 tabindex="-1"
                 value="5"
               />
@@ -559,7 +601,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -607,7 +649,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
   <legend
     class="MuiTypography-root MuiTypography-body1"
   >
-    IUCN Conservation Actions Classifications 
+    IUCN Conservation Actions Classifications *
   </legend>
   <div
     class="MuiBox-root MuiBox-root-80"
@@ -654,11 +696,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="classification"
             >
               Classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -678,6 +726,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].classification"
+                required=""
                 tabindex="-1"
                 value="1"
               />
@@ -705,7 +754,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -730,11 +779,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="subClassification1"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -754,6 +809,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].subClassification1"
+                required=""
                 tabindex="-1"
                 value="3"
               />
@@ -781,7 +837,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -806,11 +862,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="subClassification2"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -830,6 +892,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].subClassification2"
+                required=""
                 tabindex="-1"
                 value="5"
               />
@@ -857,7 +920,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -877,11 +940,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="classification"
             >
               Classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -901,6 +970,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[1].classification"
+                required=""
                 tabindex="-1"
                 value="1"
               />
@@ -928,7 +998,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -953,11 +1023,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="subClassification1"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -977,6 +1053,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[1].subClassification1"
+                required=""
                 tabindex="-1"
                 value="3"
               />
@@ -1004,7 +1081,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -1029,11 +1106,17 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="subClassification2"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -1053,6 +1136,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[1].subClassification2"
+                required=""
                 tabindex="-1"
                 value="5"
               />
@@ -1080,7 +1164,7 @@ exports[`ProjectIUCNForm renders correctly with error on the iucn classification
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -1157,7 +1241,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
   <legend
     class="MuiTypography-root MuiTypography-body1"
   >
-    IUCN Conservation Actions Classifications 
+    IUCN Conservation Actions Classifications *
   </legend>
   <div
     class="MuiBox-root MuiBox-root-21"
@@ -1204,11 +1288,17 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="classification"
             >
               Classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -1228,6 +1318,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].classification"
+                required=""
                 tabindex="-1"
                 value="1"
               />
@@ -1255,7 +1346,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -1280,11 +1371,17 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="subClassification1"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -1304,6 +1401,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].subClassification1"
+                required=""
                 tabindex="-1"
                 value="3"
               />
@@ -1331,7 +1429,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
@@ -1356,11 +1454,17 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
             class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled Mui-required Mui-required"
               data-shrink="true"
               id="subClassification2"
             >
               Sub-classification
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 *
+              </span>
             </label>
             <div
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -1380,6 +1484,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
                 aria-hidden="true"
                 class="MuiSelect-nativeInput"
                 name="iucn.classificationDetails.[0].subClassification2"
+                required=""
                 tabindex="-1"
                 value="5"
               />
@@ -1407,7 +1512,7 @@ exports[`ProjectIUCNForm renders correctly with existing details values 1`] = `
               </fieldset>
             </div>
             <p
-              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled"
+              class="MuiFormHelperText-root MuiFormHelperText-contained Mui-error MuiFormHelperText-filled Mui-required"
             />
           </div>
         </div>
