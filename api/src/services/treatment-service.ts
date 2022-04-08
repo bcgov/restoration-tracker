@@ -58,17 +58,24 @@ export class TreatmentService extends DBService {
       (typeof item.properties.TU_ID !== 'string' || item.properties.TU_ID.length <= 0) &&
         treatmentUnitError.push('Missing property TU_ID');
 
-      (typeof item.properties.Year !== 'string' || item.properties.Year.length <= 0) &&
-        treatmentUnitError.push('Missing property Year');
+      !Number.isInteger(item.properties.Year) && treatmentUnitError.push('Missing property Year');
 
       (typeof item.properties.Fe_Type !== 'string' || item.properties.Fe_Type.length <= 0) &&
         treatmentUnitError.push('Missing property Fe_Type');
 
-      typeof item.properties.Width_m !== 'number' && treatmentUnitError.push('Missing property Width_m');
-      typeof item.properties.Length_m !== 'number' && treatmentUnitError.push('Missing property Length_m');
+      if (item.properties.Width_m) {
+        typeof item.properties.Width_m !== 'number' && treatmentUnitError.push('Missing property Width_m');
+      }
+
+      if (item.properties.Length_m) {
+        typeof item.properties.Length_m !== 'number' && treatmentUnitError.push('Missing property Length_m');
+      }
+
       !Number.isFinite(item.properties.Area_m2) && treatmentUnitError.push('Missing property Area_m2');
 
-      typeof item.properties.Recce !== 'string' && treatmentUnitError.push('Missing property Recce');
+      if (item.properties.Recce) {
+        typeof item.properties.Recce !== 'string' && treatmentUnitError.push('Missing property Recce');
+      }
 
       (typeof item.properties.Treatments !== 'string' || item.properties.Treatments.length <= 0) &&
         treatmentUnitError.push('Missing property Treatments');
@@ -76,7 +83,9 @@ export class TreatmentService extends DBService {
       (typeof item.properties.Implement !== 'string' || item.properties.Implement.length <= 0) &&
         treatmentUnitError.push('Missing property Implement');
 
-      typeof item.properties.Comments !== 'string' && treatmentUnitError.push('Missing property Comments');
+      if (item.properties.Comments) {
+        typeof item.properties.Comments !== 'string' && treatmentUnitError.push('Missing property Comments');
+      }
 
       if (treatmentUnitError.length > 0) {
         errorArray.push({ treatmentUnitId: item.properties.TU_ID, missingProperties: treatmentUnitError });
@@ -288,7 +297,7 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async getTreatmentDataYearExist(treatmentUnitId: number, year: string): Promise<ITreatmentDataInsertOrExists | null> {
+  async getTreatmentDataYearExist(treatmentUnitId: number, year: number): Promise<ITreatmentDataInsertOrExists | null> {
     const sqlStatement = queries.project.getTreatmentDataYearExistSQL(treatmentUnitId, year);
 
     if (!sqlStatement) {

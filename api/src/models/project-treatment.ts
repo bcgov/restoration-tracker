@@ -43,7 +43,7 @@ export type TreatmentFeature = Feature<Geometry, TreatmentFeatureProperties>;
 
 export type TreatmentFeatureProperties = {
   TU_ID: string;
-  Year: string;
+  Year: number;
   Fe_Type: string;
   Width_m: number;
   Length_m: number;

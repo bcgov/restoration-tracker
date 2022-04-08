@@ -196,7 +196,7 @@ export const getTreatmentUnitExistSQL = (
  * @param year
  * @returns {SQLStatement} sql query object
  */
-export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: string): SQLStatement | null => {
+export const getTreatmentDataYearExistSQL = (treatmentUnitId: number, year: number): SQLStatement | null => {
   if (!treatmentUnitId || !year) {
     return null;
   }
