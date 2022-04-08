@@ -151,10 +151,9 @@ const Header: React.FC = () => {
   // Unauthenticated public view
   const PublicViewUser = () => {
     return (
-      <Box display="flex" alignItems="center" my="auto">
+      <Box display="flex" className={classes.userProfile} alignItems="center" my="auto">
         <Button
           onClick={() => keycloakWrapper?.keycloak?.login()}
-          size="large"
           type="submit"
           variant="contained"
           color="primary"
@@ -163,9 +162,6 @@ const Header: React.FC = () => {
           data-testid="login">
           Log In
         </Button>
-        <Box pl={2}>
-          <Divider orientation="vertical" />
-        </Box>
         <IconButton className={classes.govHeaderIconButton} onClick={showSupportDialog}>
           <Icon path={mdiHelpCircle} size={1.12} />
         </IconButton>

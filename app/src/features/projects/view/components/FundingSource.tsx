@@ -10,13 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     projectFundingList: {
       margin: 0,
-      padding: 0,
-      listStyleType: 'none',
-      '& li + li': {
-        marginTop: theme.spacing(2),
-        paddingTop: theme.spacing(2),
-        borderTop: '1px solid #dddddd'
-      }
+      padding: 0
     }
   })
 );
@@ -49,10 +43,10 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
               <Box mb={1}>
                 <strong>{item.agency_name}</strong>
               </Box>
-              <Box component="dl" mt={0.5} mb={0}>
+              <Box component="dl" mt={1}>
                 <div>
                   <Typography variant="body2" component="dt" color="textSecondary">
-                    Funding Amount:
+                    Amount:
                   </Typography>
                   <Typography variant="body2" component="dd">
                     {getFormattedAmount(item.funding_amount)}
@@ -88,7 +82,7 @@ const FundingSource: React.FC<IProjectFundingProps> = (props) => {
 
         {!hasFundingSources && (
           <li>
-            <Typography variant="body2" data-testid="no_funding_sources">
+            <Typography variant="body2" color="textSecondary" data-testid="no_funding_sources">
               No Funding Sources
             </Typography>
           </li>

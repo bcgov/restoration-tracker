@@ -54,9 +54,10 @@ const ProjectAttachments: React.FC<IProjectAttachmentsProps> = (props) => {
       </ComponentDialog>
 
       <H2ButtonToolbar
+        aria-label="upload documents"
         label="Documents"
         buttonLabel="Upload"
-        buttonTitle="Upload"
+        buttonTitle="Upload Documents"
         buttonStartIcon={<Icon path={mdiTrayArrowUp} size={1} />}
         buttonOnClick={handleUploadAttachmentClick}
         buttonProps={{

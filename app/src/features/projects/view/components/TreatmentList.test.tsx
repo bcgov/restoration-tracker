@@ -17,7 +17,6 @@ describe('TreatmentList', () => {
       length: 100,
       area: 10000,
       comments: 'something1',
-      description: 'anything1',
       geometry: {} as Feature,
       treatments: [
         {
@@ -37,7 +36,6 @@ describe('TreatmentList', () => {
       length: 100,
       area: 10000,
       comments: 'something2',
-      description: 'anything2',
       geometry: {} as Feature,
       treatments: [
         {
@@ -81,7 +79,6 @@ describe('TreatmentList', () => {
         length: 100,
         area: 10000,
         comments: 'something3',
-        description: 'anything3',
         geometry: {} as Feature,
         treatments: [
           {
@@ -101,7 +98,6 @@ describe('TreatmentList', () => {
         length: 100,
         area: 10000,
         comments: 'something4',
-        description: 'anything4',
         geometry: {} as Feature,
         treatments: [
           {
@@ -117,7 +113,6 @@ describe('TreatmentList', () => {
         length: 100,
         area: 10000,
         comments: 'something5',
-        description: 'anything5',
         geometry: {} as Feature,
         treatments: [
           {
@@ -137,7 +132,6 @@ describe('TreatmentList', () => {
         length: 100,
         area: 10000,
         comments: 'something6',
-        description: 'anything6',
         geometry: {} as Feature,
         treatments: [
           {
@@ -153,7 +147,6 @@ describe('TreatmentList', () => {
         length: 100,
         area: 10000,
         comments: 'something7',
-        description: 'anything7',
         geometry: {} as Feature,
         treatments: [
           {
@@ -173,7 +166,6 @@ describe('TreatmentList', () => {
         length: 100,
         area: 10000,
         comments: 'something8',
-        description: 'anything8',
         geometry: {} as Feature,
         treatments: [
           {
@@ -189,7 +181,6 @@ describe('TreatmentList', () => {
         length: 100,
         area: 10000,
         comments: 'something9',
-        description: 'anything9',
         geometry: {} as Feature,
         treatments: [
           {
@@ -209,7 +200,6 @@ describe('TreatmentList', () => {
         length: 100,
         area: 10000,
         comments: 'something10',
-        description: 'anything10',
         geometry: {} as Feature,
         treatments: [
           {
@@ -245,7 +235,6 @@ describe('TreatmentList', () => {
     );
 
     expect(queryByText('something2')).toBeNull();
-    expect(queryByText('anything2')).toBeNull();
   });
 
   it('renders correctly with open treatment unit details dialog', async () => {
@@ -260,7 +249,6 @@ describe('TreatmentList', () => {
 
     await waitFor(() => {
       expect(getByText('something1', { exact: false })).toBeInTheDocument();
-      expect(getByText('anything1', { exact: false })).toBeInTheDocument();
     });
   });
 });

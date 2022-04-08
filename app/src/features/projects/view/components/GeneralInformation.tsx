@@ -42,14 +42,6 @@ const GeneralInformation: React.FC<IProjectGeneralInformationProps> = (props) =>
 
   return (
     <Box component="dl" data-testid="general_info_component">
-      {/* <div>
-        <Typography variant="body2" component="dt" color="textSecondary">
-          Project Name
-        </Typography>
-        <Typography variant="body2" component="dd">
-          {project.project_name}
-        </Typography>
-      </div> */}
       <div>
         <Typography variant="body2" component="dt" color="textSecondary">
           Region:

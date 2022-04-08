@@ -96,10 +96,6 @@ GET.apiDoc = {
                       type: 'number',
                       nullable: true
                     },
-                    description: {
-                      type: 'string',
-                      nullable: true
-                    },
                     comments: {
                       type: 'string',
                       nullable: true
