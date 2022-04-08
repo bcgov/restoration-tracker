@@ -74,23 +74,23 @@ describe('TreatmentService', () => {
       const treatmentUnit = [
         {
           properties: {
-            OBJECTID: '',
-            Treatment_: '',
+            TU_ID: '',
+            Year: '',
+            Fe_Type: '',
             Width_m: '',
             Length_m: '',
-            Reconnaiss: '',
-            Leave_for_: '',
-            Treatment1: 2,
-            FEATURE_TY: '',
-            ROAD_ID: '',
-            SHAPE_Leng: ''
+            Area_m2: '',
+            Recce: '',
+            Treatments: '',
+            Implement: '',
+            Comments: ''
           }
         } as unknown
       ] as TreatmentFeature[];
 
       const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
 
-      expect(response[0].missingProperties.length).to.be.equal(5);
+      expect(response[0].missingProperties.length).to.be.equal(6);
     });
 
     it('should return an array of invalid units with invalid properties', async function () {
@@ -100,30 +100,30 @@ describe('TreatmentService', () => {
       const treatmentUnit = [
         {
           properties: {
-            OBJECTID: '',
-            Treatment_: '',
+            TU_ID: '',
+            Year: '',
+            Fe_Type: '',
             Width_m: '',
             Length_m: '',
-            Reconnaiss: '',
-            Leave_for_: '',
-            Treatment1: 2,
-            FEATURE_TY: '',
-            ROAD_ID: '',
-            SHAPE_Leng: ''
+            Area_m2: '',
+            Recce: '',
+            Treatments: '',
+            Implement: '',
+            Comments: ''
           }
         } as unknown,
         {
           properties: {
-            OBJECTID: '',
-            Treatment_: '',
+            TU_ID: '',
+            Year: '',
+            Fe_Type: '',
             Width_m: '',
             Length_m: '',
-            Reconnaiss: '',
-            Leave_for_: '',
-            Treatment1: 2,
-            FEATURE_TY: '',
-            ROAD_ID: '',
-            SHAPE_Leng: ''
+            Area_m2: '',
+            Recce: '',
+            Treatments: '',
+            Implement: '',
+            Comments: ''
           }
         } as unknown
       ] as TreatmentFeature[];
@@ -140,18 +140,16 @@ describe('TreatmentService', () => {
       const treatmentUnit = [
         {
           properties: {
-            OBJECTID: 1,
-            SHAPE_Leng: 3498.988939,
-            TU_ID: 1,
+            TU_ID: '1',
+            Year: 2020,
+            Fe_Type: 'Transect',
             Width_m: 240,
             Length_m: 3498,
-            Area_ha: 10,
-            Recon: 'Y',
+            Area_m2: 10,
+            Recce: 'Y',
             Treatments: 'Tree bending; Tree felling; Seeding',
-            Type: 'Transect',
-            Descript: 'something',
             Implement: 'Y',
-            Year: '2020'
+            Comments: 'something'
           }
         } as unknown
       ] as TreatmentFeature[];
@@ -254,7 +252,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const treatmentProperties = { Type: 'something' } as TreatmentFeatureProperties;
+      const treatmentProperties = { Fe_Type: 'something' } as TreatmentFeatureProperties;
 
       const response = await treatmentService.getEqualTreatmentFeatureTypeIds(treatmentProperties);
 
@@ -270,7 +268,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const treatmentProperties = { Type: 'Road' } as TreatmentFeatureProperties;
+      const treatmentProperties = { Fe_Type: 'Road' } as TreatmentFeatureProperties;
 
       const response = await treatmentService.getEqualTreatmentFeatureTypeIds(treatmentProperties);
 
@@ -309,20 +307,19 @@ describe('TreatmentService', () => {
           ]
         },
         properties: {
-          OBJECTID: 1,
-          SHAPE_Leng: 3498.988939,
-          TU_ID: 1,
+          TU_ID: '1',
+          Year: 2020,
+          Fe_Type: 'Transect',
           Width_m: 240,
           Length_m: 3498,
-          Area_ha: 10,
-          Recon: 'Y',
+          Area_m2: 10,
+          Recce: 'Y',
           Treatments: 'Tree bending; Tree felling; Seeding',
-          Type: 'Transect',
-          Descript: 'something',
           Implement: 'Y',
-          Year: '2020'
+          Comments: 'something'
         }
       } as TreatmentFeature;
+
       try {
         await treatmentService.insertTreatmentUnit(1, treatmentFeatureObj);
         expect.fail();
@@ -359,18 +356,16 @@ describe('TreatmentService', () => {
           ]
         },
         properties: {
-          OBJECTID: 2,
-          SHAPE_Leng: 3498.988939,
-          TU_ID: 1,
+          TU_ID: '1',
+          Year: 2020,
+          Fe_Type: 'Transect',
           Width_m: 240,
           Length_m: 3498,
-          Area_ha: 10,
-          Recon: 'Y',
+          Area_m2: 10,
+          Recce: 'Y',
           Treatments: 'Tree bending; Tree felling; Seeding',
-          Type: 'Transect',
-          Descript: 'something',
           Implement: 'Y',
-          Year: '2020'
+          Comments: 'something'
         }
       } as TreatmentFeature;
 
@@ -586,7 +581,7 @@ describe('TreatmentService', () => {
       sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(null);
 
       try {
-        await treatmentService.getTreatmentDataYearExist(1, '2020');
+        await treatmentService.getTreatmentDataYearExist(1, 2020);
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to build SQL update statement');
@@ -600,7 +595,7 @@ describe('TreatmentService', () => {
 
       sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(SQL`valid SQL`);
 
-      const response = await treatmentService.getTreatmentDataYearExist(1, '2020');
+      const response = await treatmentService.getTreatmentDataYearExist(1, 2020);
 
       expect(response).to.be.null;
     });
@@ -612,7 +607,7 @@ describe('TreatmentService', () => {
 
       sinon.stub(queries.project, 'getTreatmentDataYearExistSQL').returns(SQL`valid SQL`);
 
-      const response = await treatmentService.getTreatmentDataYearExist(1, '2020');
+      const response = await treatmentService.getTreatmentDataYearExist(1, 2020);
 
       expect(response?.treatment_id).to.be.equal(1);
     });

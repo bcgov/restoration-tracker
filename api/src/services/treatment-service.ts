@@ -47,41 +47,58 @@ export class TreatmentService extends DBService {
   //check all treatment units if their proerties are valid.
   validateAllTreatmentUnitProperties(
     treatmentFeatures: TreatmentFeature[]
-  ): { treatmentUnitId: number; missingProperties: string[] }[] {
+  ): { treatmentUnitId: string; missingProperties: string[] }[] {
     //collection of all errors in units
-    const errorArray: { treatmentUnitId: number; missingProperties: string[] }[] = [];
+    const errorArray: { treatmentUnitId: string; missingProperties: string[] }[] = [];
 
     for (const item of treatmentFeatures) {
       //collect errors of a single unit
       const treatmentUnitError: string[] = [];
 
-      !Number.isInteger(item.properties.TU_ID) && treatmentUnitError.push('Missing property TU_ID');
-      !Number.isInteger(item.properties.Width_m) && treatmentUnitError.push('Missing property Width_m');
-      !Number.isInteger(item.properties.Length_m) && treatmentUnitError.push('Missing property Length_m');
-      !Number.isFinite(item.properties.Area_ha) && treatmentUnitError.push('Missing property Area_ha');
+      if (typeof item.properties.TU_ID !== 'string' || item.properties.TU_ID.length <= 0) {
+        treatmentUnitError.push('Property TU_ID is required: non-empty String');
+      }
 
-      typeof item.properties.Recon !== 'string' ||
-        (item.properties.Recon.length <= 0 && treatmentUnitError.push('Missing property Recon'));
+      if (!Number.isInteger(item.properties.Year)) {
+        treatmentUnitError.push('Property Year is required: non-empty Integer');
+      }
 
-      typeof item.properties.Treatments !== 'string' && treatmentUnitError.push('Missing property Treatments');
+      if (typeof item.properties.Fe_Type !== 'string' || item.properties.Fe_Type.length <= 0) {
+        treatmentUnitError.push('Property Fe_Type is required: non-empty String');
+      }
 
-      typeof item.properties.Type !== 'string' ||
-        (item.properties.Type.length <= 0 && treatmentUnitError.push('Missing property Type'));
+      if (item.properties.Width_m && typeof item.properties.Width_m !== 'number') {
+        treatmentUnitError.push('Property Width_m is invalid: must be a Number');
+      }
 
-      typeof item.properties.Descript !== 'string' ||
-        (item.properties.Descript.length <= 0 && treatmentUnitError.push('Missing property Descript'));
+      if (item.properties.Length_m && typeof item.properties.Length_m !== 'number') {
+        treatmentUnitError.push('Property Length_m is invalid: must be a Number');
+      }
 
-      typeof item.properties.Implement !== 'string' ||
-        (item.properties.Implement.length <= 0 && treatmentUnitError.push('Missing property Implement'));
+      if (typeof item.properties.Area_m2 !== 'number') {
+        treatmentUnitError.push('Property Area_m2 is required: must be a Number');
+      }
 
-      typeof item.properties.Year !== 'string' ||
-        (item.properties.Year.length <= 0 && treatmentUnitError.push('Missing property Year'));
+      if (item.properties.Recce && typeof item.properties.Recce !== 'string') {
+        treatmentUnitError.push('Property Recce is invalid: must be a String');
+      }
+
+      if (typeof item.properties.Treatments !== 'string' || item.properties.Treatments.length <= 0) {
+        treatmentUnitError.push('Property Treatments is required: non-empty String');
+      }
+
+      if (typeof item.properties.Implement !== 'string' || item.properties.Implement.length <= 0) {
+        treatmentUnitError.push('Property Implement is required: non-empty String');
+      }
+
+      if (item.properties.Comments && typeof item.properties.Comments !== 'string') {
+        treatmentUnitError.push('Property Comments is invalid: must be a String');
+      }
 
       if (treatmentUnitError.length > 0) {
         errorArray.push({ treatmentUnitId: item.properties.TU_ID, missingProperties: treatmentUnitError });
       }
     }
-
     return errorArray;
   }
 
@@ -109,7 +126,7 @@ export class TreatmentService extends DBService {
     let featureTypeObj: GetTreatmentFeatureTypes[] = [];
 
     featureTypeObj = treatmentFeatureTypes.filter((item) => {
-      return item.name === treatmentFeatureProperties.Type;
+      return item.name.toLowerCase() === treatmentFeatureProperties.Fe_Type.toLowerCase();
     });
 
     if (featureTypeObj.length === 0) {
@@ -287,7 +304,7 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async getTreatmentDataYearExist(treatmentUnitId: number, year: string): Promise<ITreatmentDataInsertOrExists | null> {
+  async getTreatmentDataYearExist(treatmentUnitId: number, year: number): Promise<ITreatmentDataInsertOrExists | null> {
     const sqlStatement = queries.project.getTreatmentDataYearExistSQL(treatmentUnitId, year);
 
     if (!sqlStatement) {

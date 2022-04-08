@@ -44,18 +44,16 @@ describe('postTreatmentUnitSQL', () => {
         ]
       },
       properties: {
-        OBJECTID: 1,
-        SHAPE_Leng: 3498.988939,
-        TU_ID: 1,
+        TU_ID: '1',
+        Year: 2020,
+        Fe_Type: 'Transect',
         Width_m: 240,
         Length_m: 3498,
-        Area_ha: 10,
-        Recon: 'Y',
+        Area_m2: 10,
+        Recce: 'Y',
         Treatments: 'Tree bending; Tree felling; Seeding',
-        Type: 'Transect',
-        Descript: 'something',
         Implement: 'Y',
-        Year: '2020'
+        Comments: 'something'
       }
     } as TreatmentFeature;
 
@@ -113,13 +111,13 @@ describe('getTreatmentUnitExistSQL', () => {
 
 describe('getTreatmentDataYearExistSQL', () => {
   it('returns null response when null  provided', () => {
-    const response = getTreatmentDataYearExistSQL((null as unknown) as number, (null as unknown) as string);
+    const response = getTreatmentDataYearExistSQL((null as unknown) as number, (null as unknown) as number);
 
     expect(response).to.be.null;
   });
 
   it('returns non null response when valid treatmentUnitId provided', () => {
-    const response = getTreatmentDataYearExistSQL(1, '1');
+    const response = getTreatmentDataYearExistSQL(1, 1);
 
     expect(response).to.not.be.null;
   });
