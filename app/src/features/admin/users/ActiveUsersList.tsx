@@ -184,7 +184,7 @@ const ActiveUsersList: React.FC<IActiveUsersListProps> = (props) => {
       props.refresh();
     } catch (error) {
       const apiError = error as APIError;
-      showErrorDialog({ dialogText: apiError.message, dialogErrorDetails: apiError.errors, open: true });
+      showErrorDialog({ dialogText: apiError.message, dialogErrorDetails: (error as APIError).errors, open: true });
     }
   };
 

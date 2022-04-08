@@ -1,7 +1,6 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,6 +16,7 @@ import { DATE_FORMAT } from 'constants/dateTimeFormats';
 import { ReviewAccessRequestI18N } from 'constants/i18n';
 import { AdministrativeActivityStatusType } from 'constants/misc';
 import { DialogContext } from 'contexts/dialogContext';
+import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAccessRequestsListResponse } from 'interfaces/useAdminApi.interface';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
@@ -28,7 +28,7 @@ import ReviewAccessRequestForm, {
   ReviewAccessRequestFormYupSchema
 } from './ReviewAccessRequestForm';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   table: {
     tableLayout: 'fixed',
     '& td': {
@@ -55,13 +55,6 @@ const AccessRequestList: React.FC<IAccessRequestListProps> = (props) => {
   const classes = useStyles();
 
   const restorationTrackerApi = useRestorationTrackerApi();
-
-  const approvedCodeId = codes?.administrative_activity_status_type.find(
-    (item) => item.name === AdministrativeActivityStatusType.ACTIONED
-  )?.id as any;
-  const rejectedCodeId = codes?.administrative_activity_status_type.find(
-    (item) => item.name === AdministrativeActivityStatusType.REJECTED
-  )?.id as any;
 
   const [activeReviewDialog, setActiveReviewDialog] = useState<{
     open: boolean;
@@ -91,17 +84,20 @@ const AccessRequestList: React.FC<IAccessRequestListProps> = (props) => {
     setActiveReviewDialog({ open: false, request: null });
 
     try {
-      await restorationTrackerApi.admin.updateAccessRequest(
+      await restorationTrackerApi.admin.approveAccessRequest(
+        updatedRequest.id,
         updatedRequest.data.username,
         updatedRequest.data.identitySource,
-        updatedRequest.id,
-        approvedCodeId,
-        values.system_roles
+        (values.system_role && [values.system_role]) || []
       );
 
       refresh();
     } catch (error) {
-      dialogContext.setErrorDialog({ ...defaultErrorDialogProps, open: true, dialogErrorDetails: error });
+      dialogContext.setErrorDialog({
+        ...defaultErrorDialogProps,
+        open: true,
+        dialogErrorDetails: (error as APIError).errors
+      });
     }
   };
 
@@ -111,16 +107,15 @@ const AccessRequestList: React.FC<IAccessRequestListProps> = (props) => {
     setActiveReviewDialog({ open: false, request: null });
 
     try {
-      await restorationTrackerApi.admin.updateAccessRequest(
-        updatedRequest.data.username,
-        updatedRequest.data.identitySource,
-        updatedRequest.id,
-        rejectedCodeId
-      );
+      await restorationTrackerApi.admin.denyAccessRequest(updatedRequest.id);
 
       refresh();
     } catch (error) {
-      dialogContext.setErrorDialog({ ...defaultErrorDialogProps, open: true, dialogErrorDetails: error });
+      dialogContext.setErrorDialog({
+        ...defaultErrorDialogProps,
+        open: true,
+        dialogErrorDetails: (error as APIError).errors
+      });
     }
   };
 
@@ -135,7 +130,7 @@ const AccessRequestList: React.FC<IAccessRequestListProps> = (props) => {
         component={{
           initialValues: {
             ...ReviewAccessRequestFormInitialValues,
-            system_roles: [activeReviewDialog.request?.data?.role]
+            system_role: activeReviewDialog.request?.data?.role
           },
           validationSchema: ReviewAccessRequestFormYupSchema,
           element: (

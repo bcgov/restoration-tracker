@@ -2,12 +2,12 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../database/db';
-import { HTTPError } from '../errors/custom-error';
-import { UserObject } from '../models/user';
-import * as administrative_activity from '../paths/administrative-activity';
-import { UserService } from '../services/user-service';
-import { getMockDBConnection, getRequestHandlerMocks } from '../__mocks__/db';
+import * as db from '../../../../database/db';
+import { HTTPError } from '../../../../errors/custom-error';
+import { UserObject } from '../../../../models/user';
+import * as administrative_activity from '../../../administrative-activity';
+import { UserService } from '../../../../services/user-service';
+import { getMockDBConnection, getRequestHandlerMocks } from '../../../../__mocks__/db';
 import * as access_request from './access-request';
 
 chai.use(sinonChai);
@@ -75,22 +75,6 @@ describe('updateAccessRequest', () => {
     }
   });
 
-  it('should throw a 400 error when no request status type id body param', async () => {
-    try {
-      const result = access_request.updateAccessRequest();
-
-      await result(
-        { ...sampleReq, body: { ...sampleReq.body, requestStatusTypeId: null } },
-        (null as unknown) as any,
-        (null as unknown) as any
-      );
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required body param: requestStatusTypeId');
-    }
-  });
-
   it('re-throws any error that is thrown', async () => {
     const mockDBConnection = getMockDBConnection({
       open: () => {
@@ -105,8 +89,6 @@ describe('updateAccessRequest', () => {
     mockReq.body = {
       userIdentifier: 1,
       identitySource: 'identitySource',
-      requestId: 1,
-      requestStatusTypeId: 1,
       roleIds: [1, 3]
     };
 
@@ -128,14 +110,11 @@ describe('updateAccessRequest', () => {
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
     const requestId = 1;
-    const requestStatusTypeId = 2;
     const roleIdsToAdd = [1, 3];
 
     mockReq.body = {
       userIdentifier: 'username',
       identitySource: 'identitySource',
-      requestId: requestId,
-      requestStatusTypeId: requestStatusTypeId,
       roleIds: roleIdsToAdd
     };
 

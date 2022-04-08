@@ -15,6 +15,6 @@ describe('BCeIDRequestForm', () => {
     );
 
     expect(getByTestId('company')).toBeVisible();
-    expect(getByTestId('request_reason')).toBeVisible();
+    expect(getByTestId('reason')).toBeVisible();
   });
 });

@@ -47,8 +47,7 @@ describe('ReviewAccessRequestForm', () => {
         identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
         role: 2,
         company: 'test data company',
-        comments: 'test data comment',
-        request_reason: 'reason for request'
+        reason: 'reason for request'
       }
     });
 
@@ -57,7 +56,6 @@ describe('ReviewAccessRequestForm', () => {
       expect(getByText('IDIR/test data username')).toBeVisible();
       expect(getByText('test data email')).toBeVisible();
       expect(getByText('04/18/2021')).toBeVisible();
-      expect(getByText('test data comment')).toBeVisible();
       expect(getByText('Role 2')).toBeVisible();
     });
   });

@@ -62,7 +62,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
 
   useEffect(() => {
     const projectLocationFeatures: IStaticLayerFeature[] = location.geometry.map((item) => {
-      return { geoJSON: item, GeoJSONProps: { style: { fillOpacity: 0.05, weight: 1 } } };
+      return { geoJSON: item, GeoJSONProps: { style: { fillOpacity: 0.1, weight: 2 } } };
     });
 
     const treatmentFeatures: IStaticLayerFeature[] = [];

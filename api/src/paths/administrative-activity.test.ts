@@ -2,13 +2,14 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as administrative_activity from './administrative-activity';
-import administrative_queries from '../queries/administrative-activity';
-import * as db from '../database/db';
-import { getMockDBConnection } from '../__mocks__/db';
 import SQL from 'sql-template-strings';
-import * as keycloak_utils from '../utils/keycloak-utils';
+import * as db from '../database/db';
 import { HTTPError } from '../errors/custom-error';
+import administrative_queries from '../queries/administrative-activity';
+import * as keycloak_utils from '../utils/keycloak-utils';
+import { getMockDBConnection } from '../__mocks__/db';
+import { ADMINISTRATIVE_ACTIVITY_STATUS_TYPE } from './administrative-activities';
+import * as administrative_activity from './administrative-activity';
 
 chai.use(sinonChai);
 
@@ -276,72 +277,12 @@ describe('getPendingAccessRequestsCount', () => {
   });
 });
 
-describe('getUpdateAdministrativeActivityHandler', () => {
-  afterEach(() => {
-    sinon.restore();
-  });
-
-  const sampleReq = {
-    keycloak_token: {},
-    body: {
-      id: null,
-      status: null
-    }
-  } as any;
-
-  it('should throw a 400 error when no administrativeActivityId', async () => {
-    try {
-      const result = administrative_activity.getUpdateAdministrativeActivityHandler();
-
-      await result(sampleReq, (null as unknown) as any, (null as unknown) as any);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required body parameter: id');
-    }
-  });
-
-  it('should throw a 400 error when no administrativeActivityStatusTypeId', async () => {
-    try {
-      const result = administrative_activity.getUpdateAdministrativeActivityHandler();
-
-      await result(
-        { ...sampleReq, body: { ...sampleReq.body, id: 2 } },
-        (null as unknown) as any,
-        (null as unknown) as any
-      );
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required body parameter: status');
-    }
-  });
-});
-
 describe('updateAdministrativeActivity', () => {
   afterEach(() => {
     sinon.restore();
   });
 
   const dbConnectionObj = getMockDBConnection();
-
-  it('should throw a 400 error when failed to build putAdministrativeActivitySQL statement', async () => {
-    sinon.stub(administrative_queries, 'putAdministrativeActivitySQL').returns(null);
-
-    try {
-      await administrative_activity.updateAdministrativeActivity(1, 2, {
-        ...dbConnectionObj,
-        systemUserId: () => {
-          return 20;
-        }
-      });
-
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to build SQL put statement');
-    }
-  });
 
   it('should throw a 500 error when failed to update administrative activity', async () => {
     sinon.stub(administrative_queries, 'putAdministrativeActivitySQL').returns(SQL`some`);
@@ -353,7 +294,7 @@ describe('updateAdministrativeActivity', () => {
     });
 
     try {
-      await administrative_activity.updateAdministrativeActivity(1, 2, {
+      await administrative_activity.updateAdministrativeActivity(1, ADMINISTRATIVE_ACTIVITY_STATUS_TYPE.ACTIONED, {
         ...dbConnectionObj,
         systemUserId: () => {
           return 20;

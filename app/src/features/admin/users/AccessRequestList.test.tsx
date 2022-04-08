@@ -62,8 +62,7 @@ describe('AccessRequestList', () => {
             role: 2,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-            comments: 'test comment',
-            request_reason: 'my reason'
+            reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -98,8 +97,7 @@ describe('AccessRequestList', () => {
             role: 2,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-            comments: 'test comment',
-            request_reason: 'my reason'
+            reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -134,8 +132,7 @@ describe('AccessRequestList', () => {
             role: 2,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-            comments: 'test comment',
-            request_reason: 'my reason'
+            reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -197,8 +194,7 @@ describe('AccessRequestList', () => {
             role: 2,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-            comments: 'test comment',
-            request_reason: 'my reason'
+            reason: 'my reason'
           },
           create_date: '2020-04-20'
         }
@@ -250,8 +246,7 @@ describe('AccessRequestList', () => {
             role: 1,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
             company: 'test company',
-            comments: 'test comment',
-            request_reason: 'my reason'
+            reason: 'my reason'
           },
           create_date: '2020-04-20'
         }

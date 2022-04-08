@@ -1,13 +1,19 @@
-export interface IAccessRequestDataObject {
+export type IIDIRAccessRequestDataObject = {
+  role: number;
+  reason: string;
+};
+
+export type IBCeIDAccessRequestDataObject = {
+  company: string;
+  reason: string;
+};
+
+export type IAccessRequestDataObject = {
   name: string;
   username: string;
   email: string;
   identitySource: string;
-  role: number;
-  company: string;
-  comments: string;
-  request_reason: string;
-}
+} & (IIDIRAccessRequestDataObject | IBCeIDAccessRequestDataObject);
 
 export interface IGetAccessRequestsListResponse {
   id: number;

@@ -1,4 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
+import { ADMINISTRATIVE_ACTIVITY_STATUS_TYPE } from '../../paths/administrative-activities';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/administrative-activity/administrative-activity-queries');
@@ -10,16 +11,9 @@ const defaultLog = getLogger('queries/administrative-activity/administrative-act
  * @returns {SQLStatement} sql query object
  */
 export const getAdministrativeActivitiesSQL = (
-  administrativeActivityTypeName?: string,
+  administrativeActivityTypeName?: string[],
   administrativeActivityStatusTypes?: string[]
-): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'getAdministrativeActivitiesSQL',
-    message: 'params',
-    administrativeActivityTypeName,
-    administrativeActivityStatusTypes
-  });
-
+): SQLStatement => {
   const sqlStatement = SQL`
     SELECT
       aa.administrative_activity_id as id,
@@ -45,11 +39,21 @@ export const getAdministrativeActivitiesSQL = (
       1 = 1
   `;
 
-  if (administrativeActivityTypeName) {
+  if (administrativeActivityTypeName?.length) {
     sqlStatement.append(SQL`
       AND
-        aat.name = ${administrativeActivityTypeName}
+        aat.name IN (
     `);
+
+    // Add first element
+    sqlStatement.append(SQL`${administrativeActivityTypeName[0]}`);
+
+    for (let idx = 1; idx < administrativeActivityTypeName.length; idx++) {
+      // Add subsequent elements, which get a comma prefix
+      sqlStatement.append(SQL`, ${administrativeActivityTypeName[idx]}`);
+    }
+
+    sqlStatement.append(SQL`)`);
   }
 
   if (administrativeActivityStatusTypes?.length) {
@@ -70,13 +74,6 @@ export const getAdministrativeActivitiesSQL = (
   }
 
   sqlStatement.append(`;`);
-
-  defaultLog.debug({
-    label: 'getAdministrativeActivitiesSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
 
   return sqlStatement;
 };
@@ -114,7 +111,7 @@ export const postAdministrativeActivitySQL = (systemUserId: number, data: unknow
     )
     RETURNING
       administrative_activity_id as id,
-      create_date::timestamptz
+      create_date
   `;
 
   defaultLog.debug({
@@ -167,41 +164,29 @@ export const countPendingAdministrativeActivitiesSQL = (userIdentifier: string):
  * SQL query update an existing administrative activity record.
  *
  * @param {number} administrativeActivityId
- * @param {number} administrativeActivityStatusTypeId
+ * @param {ADMINISTRATIVE_ACTIVITY_STATUS_TYPE} administrativeActivityStatusTypeName
  * @return {*}  {(SQLStatement | null)}
  */
 export const putAdministrativeActivitySQL = (
   administrativeActivityId: number,
-  administrativeActivityStatusTypeId: number
-): SQLStatement | null => {
-  defaultLog.debug({
-    label: 'putAdministrativeActivitySQL',
-    message: 'params',
-    administrativeActivityId,
-    administrativeActivityStatusTypeId
-  });
+  administrativeActivityStatusTypeName: ADMINISTRATIVE_ACTIVITY_STATUS_TYPE
+): SQLStatement => {
+  return SQL`
 
-  if (!administrativeActivityId || !administrativeActivityStatusTypeId) {
-    return null;
-  }
-
-  const sqlStatement = SQL`
     UPDATE
       administrative_activity
     SET
-      administrative_activity_status_type_id = ${administrativeActivityStatusTypeId}
+      administrative_activity_status_type_id = (
+        SELECT
+          administrative_activity_status_type_id
+        FROM
+          administrative_activity_status_type
+        WHERE
+          name = ${administrativeActivityStatusTypeName}
+      )
     WHERE
       administrative_activity_id = ${administrativeActivityId}
     RETURNING
       administrative_activity_id as id;
   `;
-
-  defaultLog.debug({
-    label: 'putAdministrativeActivitySQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
 };
