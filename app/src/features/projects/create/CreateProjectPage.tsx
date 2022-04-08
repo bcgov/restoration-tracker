@@ -22,6 +22,7 @@ import ProjectContactForm, {
   ProjectContactYupSchema
 } from 'features/projects/components/ProjectContactForm';
 import ProjectDraftForm, {
+  ProjectDraftFormInitialValues,
   IProjectDraftForm,
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
@@ -163,10 +164,6 @@ const CreateProjectPage: React.FC = () => {
   const [draft, setDraft] = useState({ id: 0, date: '' });
 
   const [initialProjectFormData, setInitialProjectFormData] = useState<ICreateProjectRequest>(ProjectFormInitialValues);
-
-  const [projectDraftFormInitialName, setProjectDraftFormInitialName] = React.useState<string>(
-    initialProjectFormData.project.project_name
-  );
 
   // Get draft project fields if draft id exists
   useEffect(() => {
@@ -341,7 +338,9 @@ const CreateProjectPage: React.FC = () => {
         component={{
           element: <ProjectDraftForm />,
           initialValues: {
-            draft_name: projectDraftFormInitialName
+            draft_name: formikRef.current
+              ? formikRef.current.values.project.project_name
+              : ProjectDraftFormInitialValues.draft_name
           },
           validationSchema: ProjectDraftFormYupSchema
         }}
@@ -378,9 +377,7 @@ const CreateProjectPage: React.FC = () => {
             validateOnChange={false}
             onSubmit={handleProjectCreation}>
             <>
-              <ScrollToFormikError
-                onChangeFormikValues={(values) => setProjectDraftFormInitialName(values.project.project_name)}
-              />
+              <ScrollToFormikError />
               <Form noValidate>
                 <Box my={5}>
                   <Grid container spacing={3}>
