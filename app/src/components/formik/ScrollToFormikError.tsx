@@ -5,7 +5,7 @@ import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import React, { useEffect, useState } from 'react';
 
 interface IScrollToFormikErrorProps {
-  onChangeFormikValues?: (values: FormikContextType<IGetProjectForViewResponse>['values']) => void
+  onChangeFormikValues?: (values: FormikContextType<IGetProjectForViewResponse>['values']) => void;
 }
 
 export const ScrollToFormikError: React.FC<IScrollToFormikErrorProps> = (props) => {
@@ -31,9 +31,9 @@ export const ScrollToFormikError: React.FC<IScrollToFormikErrorProps> = (props) 
 
   useEffect(() => {
     if (props.onChangeFormikValues) {
-      props.onChangeFormikValues(formikProps.values)
+      props.onChangeFormikValues(formikProps.values);
     }
-  }, [formikProps.values])
+  }, [formikProps.values, props]);
 
   useEffect(() => {
     const showSnackBar = (message: string) => {
