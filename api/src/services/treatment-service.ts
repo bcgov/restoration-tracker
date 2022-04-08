@@ -91,7 +91,6 @@ export class TreatmentService extends DBService {
         errorArray.push({ treatmentUnitId: item.properties.TU_ID, missingProperties: treatmentUnitError });
       }
     }
-
     return errorArray;
   }
 
