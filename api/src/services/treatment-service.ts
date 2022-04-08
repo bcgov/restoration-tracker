@@ -55,36 +55,44 @@ export class TreatmentService extends DBService {
       //collect errors of a single unit
       const treatmentUnitError: string[] = [];
 
-      (typeof item.properties.TU_ID !== 'string' || item.properties.TU_ID.length <= 0) &&
+      if (typeof item.properties.TU_ID !== 'string' || item.properties.TU_ID.length <= 0) {
         treatmentUnitError.push('Missing property TU_ID');
+      }
 
-      !Number.isInteger(item.properties.Year) && treatmentUnitError.push('Missing property Year');
+      if (!Number.isInteger(item.properties.Year)) {
+        treatmentUnitError.push('Missing property Year');
+      }
 
-      (typeof item.properties.Fe_Type !== 'string' || item.properties.Fe_Type.length <= 0) &&
+      if (typeof item.properties.Fe_Type !== 'string' || item.properties.Fe_Type.length <= 0) {
         treatmentUnitError.push('Missing property Fe_Type');
-
-      if (item.properties.Width_m) {
-        typeof item.properties.Width_m !== 'number' && treatmentUnitError.push('Missing property Width_m');
       }
 
-      if (item.properties.Length_m) {
-        typeof item.properties.Length_m !== 'number' && treatmentUnitError.push('Missing property Length_m');
+      if (item.properties.Width_m && typeof item.properties.Width_m !== 'number') {
+        treatmentUnitError.push('Missing property Width_m');
       }
 
-      !Number.isFinite(item.properties.Area_m2) && treatmentUnitError.push('Missing property Area_m2');
-
-      if (item.properties.Recce) {
-        typeof item.properties.Recce !== 'string' && treatmentUnitError.push('Missing property Recce');
+      if (item.properties.Length_m && typeof item.properties.Length_m !== 'number') {
+        treatmentUnitError.push('Missing property Length_m');
       }
 
-      (typeof item.properties.Treatments !== 'string' || item.properties.Treatments.length <= 0) &&
+      if (!Number.isFinite(item.properties.Area_m2)) {
+        treatmentUnitError.push('Missing property Area_m2');
+      }
+
+      if (item.properties.Recce && typeof item.properties.Recce !== 'string') {
+        treatmentUnitError.push('Missing property Recce');
+      }
+
+      if (typeof item.properties.Treatments !== 'string' || item.properties.Treatments.length <= 0) {
         treatmentUnitError.push('Missing property Treatments');
+      }
 
-      (typeof item.properties.Implement !== 'string' || item.properties.Implement.length <= 0) &&
+      if (typeof item.properties.Implement !== 'string' || item.properties.Implement.length <= 0) {
         treatmentUnitError.push('Missing property Implement');
+      }
 
-      if (item.properties.Comments) {
-        typeof item.properties.Comments !== 'string' && treatmentUnitError.push('Missing property Comments');
+      if (item.properties.Comments && typeof item.properties.Comments !== 'string') {
+        treatmentUnitError.push('Missing property Comments');
       }
 
       if (treatmentUnitError.length > 0) {
