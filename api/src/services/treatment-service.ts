@@ -56,43 +56,43 @@ export class TreatmentService extends DBService {
       const treatmentUnitError: string[] = [];
 
       if (typeof item.properties.TU_ID !== 'string' || item.properties.TU_ID.length <= 0) {
-        treatmentUnitError.push('Missing property TU_ID');
+        treatmentUnitError.push('Property TU_ID is required: non-empty String');
       }
 
       if (!Number.isInteger(item.properties.Year)) {
-        treatmentUnitError.push('Missing property Year');
+        treatmentUnitError.push('Property Year is required: non-empty Integer');
       }
 
       if (typeof item.properties.Fe_Type !== 'string' || item.properties.Fe_Type.length <= 0) {
-        treatmentUnitError.push('Missing property Fe_Type');
+        treatmentUnitError.push('Property Fe_Type is required: non-empty String');
       }
 
       if (item.properties.Width_m && typeof item.properties.Width_m !== 'number') {
-        treatmentUnitError.push('Missing property Width_m');
+        treatmentUnitError.push('Property Width_m is invalid: must be a Number');
       }
 
       if (item.properties.Length_m && typeof item.properties.Length_m !== 'number') {
-        treatmentUnitError.push('Missing property Length_m');
+        treatmentUnitError.push('Property Length_m is invalid: must be a Number');
       }
 
-      if (!Number.isFinite(item.properties.Area_m2)) {
-        treatmentUnitError.push('Missing property Area_m2');
+      if (typeof item.properties.Area_m2 !== 'number') {
+        treatmentUnitError.push('Property Area_m2 is required: must be a Number');
       }
 
       if (item.properties.Recce && typeof item.properties.Recce !== 'string') {
-        treatmentUnitError.push('Missing property Recce');
+        treatmentUnitError.push('Property Recce is invalid: must be a String');
       }
 
       if (typeof item.properties.Treatments !== 'string' || item.properties.Treatments.length <= 0) {
-        treatmentUnitError.push('Missing property Treatments');
+        treatmentUnitError.push('Property Treatments is required: non-empty String');
       }
 
       if (typeof item.properties.Implement !== 'string' || item.properties.Implement.length <= 0) {
-        treatmentUnitError.push('Missing property Implement');
+        treatmentUnitError.push('Property Implement is required: non-empty String');
       }
 
       if (item.properties.Comments && typeof item.properties.Comments !== 'string') {
-        treatmentUnitError.push('Missing property Comments');
+        treatmentUnitError.push('Property Comments is invalid: must be a String');
       }
 
       if (treatmentUnitError.length > 0) {
