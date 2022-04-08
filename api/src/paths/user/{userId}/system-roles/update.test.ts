@@ -15,31 +15,6 @@ describe('updateSystemRolesHandler', () => {
     sinon.restore();
   });
 
-  it('should throw a 400 error when missing required path param: userId', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
-    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
-    mockReq.params = {
-      userId: ''
-    };
-    mockReq.body = {
-      roles: [1]
-    };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    try {
-      const requestHandler = system_roles.updateSystemRolesHandler();
-
-      await requestHandler(mockReq, mockRes, mockNext);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required path param: userId');
-    }
-  });
-
   it('should throw a 400 error when missing roles in request body', async () => {
     const dbConnectionObj = getMockDBConnection();
 
@@ -61,7 +36,7 @@ describe('updateSystemRolesHandler', () => {
       expect.fail();
     } catch (actualError) {
       expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing required body param: roles');
+      expect((actualError as HTTPError).message).to.equal('Failed to get system user');
     }
   });
 

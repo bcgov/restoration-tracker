@@ -177,7 +177,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
       </Box>
 
       <Box component="fieldset">
-        <Typography component="legend">Project Boundary</Typography>
+        <Typography component="legend">Project Boundary *</Typography>
         <Box mb={3} maxWidth={'72ch'}>
           <Typography variant="body1" color="textSecondary">
             Upload a shapefile or use the drawing tools on the map to define your project boundary (KML or shapefiles
@@ -210,7 +210,7 @@ const ProjectLocationForm: React.FC<IProjectLocationFormProps> = (props) => {
         </Box>
         {errors?.location?.geometry && (
           <Box pt={2}>
-            <Typography style={{ fontSize: '12px', color: '#f44336' }}>{errors?.location?.geometry}</Typography>
+            <Typography style={{ fontSize: '16px', color: '#f44336' }}>{errors?.location?.geometry}</Typography>
           </Box>
         )}
       </Box>

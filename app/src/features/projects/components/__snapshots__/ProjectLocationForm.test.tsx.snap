@@ -305,7 +305,7 @@ exports[`ProjectLocationForm renders correctly with default empty values 1`] = `
     <legend
       class="MuiTypography-root MuiTypography-body1"
     >
-      Project Boundary
+      Project Boundary *
     </legend>
     <div
       class="MuiBox-root MuiBox-root-18"
@@ -920,7 +920,7 @@ exports[`ProjectLocationForm renders correctly with errors on fields 1`] = `
     <legend
       class="MuiTypography-root MuiTypography-body1"
     >
-      Project Boundary
+      Project Boundary *
     </legend>
     <div
       class="MuiBox-root MuiBox-root-60"
@@ -1550,7 +1550,7 @@ exports[`ProjectLocationForm renders correctly with existing location values 1`]
     <legend
       class="MuiTypography-root MuiTypography-body1"
     >
-      Project Boundary
+      Project Boundary *
     </legend>
     <div
       class="MuiBox-root MuiBox-root-39"

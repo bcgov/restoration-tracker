@@ -102,7 +102,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
   const openAttachment = async (attachment: string) => window.open(attachment);
   return (
     <>
-      <Typography component="legend">IUCN Conservation Actions Classifications </Typography>
+      <Typography component="legend">IUCN Conservation Actions Classifications *</Typography>
 
       <Box mb={3} maxWidth={'72ch'}>
         <Typography variant="body1" color="textSecondary">
@@ -137,7 +137,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                   key={index}>
                   <Box display="flex" alignItems="center" className={classes.iucnInputContainer} mr={1}>
                     <Box className={classes.iucnInput} py={1}>
-                      <FormControl variant="outlined" fullWidth>
+                      <FormControl variant="outlined" fullWidth required={true}>
                         <InputLabel id="classification">Classification</InputLabel>
                         <Select
                           id={`iucn.classificationDetails.[${index}].classification`}
@@ -169,7 +169,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                     </Box>
 
                     <Box className={classes.iucnInput} py={1}>
-                      <FormControl variant="outlined" fullWidth>
+                      <FormControl variant="outlined" fullWidth required={true}>
                         <InputLabel id="subClassification1">Sub-classification</InputLabel>
                         <Select
                           id={`iucn.classificationDetails.[${index}].subClassification1`}
@@ -204,7 +204,7 @@ const ProjectIUCNForm: React.FC<IProjectIUCNFormProps> = (props) => {
                     </Box>
 
                     <Box className={classes.iucnInput} py={1}>
-                      <FormControl variant="outlined" fullWidth>
+                      <FormControl variant="outlined" fullWidth required={true}>
                         <InputLabel id="subClassification2">Sub-classification</InputLabel>
                         <Select
                           id={`iucn.classificationDetails.[${index}].subClassification2`}

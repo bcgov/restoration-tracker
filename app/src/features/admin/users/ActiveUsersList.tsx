@@ -137,7 +137,7 @@ const ActiveUsersList: React.FC<IActiveUsersListProps> = (props) => {
     }
   };
 
-  const handleChangeUserPermissionsClick = (row: IGetUserResponse, newRoleName: any, newRoleId: number) => {
+  const handleChangeUserPermissionsClick = (row: IGetUserResponse, newRoleName: any, newRoleId: number[]) => {
     dialogContext.setYesNoDialog({
       dialogTitle: 'Change User Role?',
       dialogContent: (
@@ -162,14 +162,13 @@ const ActiveUsersList: React.FC<IActiveUsersListProps> = (props) => {
     });
   };
 
-  const changeSystemUserRole = async (user: IGetUserResponse, roleId: number, roleName: string) => {
+  const changeSystemUserRole = async (user: IGetUserResponse, roleId: number[], roleName: string) => {
     if (!user?.id) {
       return;
     }
-    const roleIds = [roleId];
 
     try {
-      await restorationTrackerApi.user.updateSystemUserRoles(user.id, roleIds);
+      await restorationTrackerApi.user.updateSystemUserRoles(user.id, roleId);
 
       showSnackBar({
         snackbarMessage: (
@@ -279,19 +278,25 @@ const ActiveUsersList: React.FC<IActiveUsersListProps> = (props) => {
                     <TableCell>
                       <Box m={-1}>
                         <CustomMenuButton
-                          buttonLabel={row.role_names.join(', ') || 'Not Applicable'}
+                          buttonLabel={row.role_names.join(', ') || 'Unassigned'}
                           buttonTitle={'Change User Permissions'}
                           buttonProps={{ variant: 'text' }}
-                          menuItems={codes.system_roles
-                            .sort((item1, item2) => {
-                              return item1.name.localeCompare(item2.name);
-                            })
-                            .map((item) => {
-                              return {
-                                menuLabel: item.name,
-                                menuOnClick: () => handleChangeUserPermissionsClick(row, item.name, item.id)
-                              };
-                            })}
+                          menuItems={[
+                            ...codes.system_roles
+                              .sort((item1, item2) => {
+                                return item1.name.localeCompare(item2.name);
+                              })
+                              .map((item) => {
+                                return {
+                                  menuLabel: item.name,
+                                  menuOnClick: () => handleChangeUserPermissionsClick(row, item.name, [item.id])
+                                };
+                              }),
+                            {
+                              menuLabel: 'Unassigned',
+                              menuOnClick: () => handleChangeUserPermissionsClick(row, 'Unassigned', [])
+                            }
+                          ]}
                           buttonEndIcon={<Icon path={mdiMenuDown} size={1} />}
                         />
                       </Box>
