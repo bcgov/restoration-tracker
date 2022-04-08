@@ -1,11 +1,8 @@
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../constants/roles';
 import { IDBConnection } from '../database/db';
 import { ProjectParticipantObject, UserObject } from '../models/user';
-import { getLogger } from '../utils/logger';
 import { DBService } from './service';
 import { UserService } from './user-service';
-
-const defaultLog = getLogger('request-handlers/security/authorization');
 
 export enum AuthorizeOperator {
   AND = 'and',
@@ -170,7 +167,6 @@ export class AuthorizationService extends DBService {
     const projectUserObject = await this.getProjectUserObject(authorizeProjectRoles.projectId);
 
     if (!projectUserObject) {
-      defaultLog.warn({ label: 'getProjectUser', message: 'project user was null' });
       return false;
     }
 

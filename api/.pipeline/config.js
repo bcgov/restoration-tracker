@@ -79,7 +79,7 @@ const phases = {
     env: 'dev',
     elasticsearchURL: 'https://elasticsearch-af2668-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
-    certificateURL: config.certificateURL.dev,
+    sso: config.sso.dev,
     replicas: 1,
     maxReplicas: 2,
     logLevel: isStaticDeployment && 'info' || 'debug'
@@ -98,7 +98,7 @@ const phases = {
     env: 'test',
     elasticsearchURL: 'https://elasticsearch-af2668-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
-    certificateURL: config.certificateURL.test,
+    sso: config.sso.test,
     replicas: 3,
     maxReplicas: 5,
     logLevel: 'info'
@@ -117,7 +117,7 @@ const phases = {
     env: 'prod',
     elasticsearchURL: 'http://es01:9200',
     tz: config.timezone.api,
-    certificateURL: config.certificateURL.prod,
+    sso: config.sso.prod,
     replicas: 3,
     maxReplicas: 6,
     logLevel: 'info'
