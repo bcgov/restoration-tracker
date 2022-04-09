@@ -328,6 +328,10 @@ describe('db', () => {
   });
 
   describe('getAPIUserDBConnection', () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+
     it('calls getDBConnection for the restoration_api user', () => {
       const getDBConnectionStub = Sinon.stub(db, 'getDBConnection').returns(
         ('stubbed DBConnection object' as unknown) as IDBConnection

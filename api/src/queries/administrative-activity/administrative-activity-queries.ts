@@ -5,13 +5,14 @@ import { getLogger } from '../../utils/logger';
 const defaultLog = getLogger('queries/administrative-activity/administrative-activity-queries');
 
 /**
- * SQL query to get a list of administrative activities, optionally filtered by the administrative activity type name.
+ * SQL query to get a list of administrative activities.
  *
- * @param {string} [administrativeActivityTypeName]
+ * @param {string[]} [administrativeActivityTypeNames]
+ * @param {string[]} [administrativeActivityStatusTypes]
  * @returns {SQLStatement} sql query object
  */
 export const getAdministrativeActivitiesSQL = (
-  administrativeActivityTypeName?: string[],
+  administrativeActivityTypeNames?: string[],
   administrativeActivityStatusTypes?: string[]
 ): SQLStatement => {
   const sqlStatement = SQL`
@@ -39,18 +40,18 @@ export const getAdministrativeActivitiesSQL = (
       1 = 1
   `;
 
-  if (administrativeActivityTypeName?.length) {
+  if (administrativeActivityTypeNames?.length) {
     sqlStatement.append(SQL`
       AND
         aat.name IN (
     `);
 
     // Add first element
-    sqlStatement.append(SQL`${administrativeActivityTypeName[0]}`);
+    sqlStatement.append(SQL`${administrativeActivityTypeNames[0]}`);
 
-    for (let idx = 1; idx < administrativeActivityTypeName.length; idx++) {
+    for (let idx = 1; idx < administrativeActivityTypeNames.length; idx++) {
       // Add subsequent elements, which get a comma prefix
-      sqlStatement.append(SQL`, ${administrativeActivityTypeName[idx]}`);
+      sqlStatement.append(SQL`, ${administrativeActivityTypeNames[idx]}`);
     }
 
     sqlStatement.append(SQL`)`);

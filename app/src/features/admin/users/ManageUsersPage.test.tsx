@@ -18,7 +18,7 @@ const renderContainer = () => {
 jest.mock('../../../hooks/useRestorationTrackerApi');
 const mockuseRestorationTrackerApi = {
   admin: {
-    getAccessRequests: jest.fn()
+    getAdministrativeActivities: jest.fn()
   },
   user: {
     getUsersList: jest.fn()
@@ -35,7 +35,7 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
 describe('ManageUsersPage', () => {
   beforeEach(() => {
     // clear mocks before each test
-    mockRestorationTrackerApi().admin.getAccessRequests.mockClear();
+    mockRestorationTrackerApi().admin.getAdministrativeActivities.mockClear();
     mockRestorationTrackerApi().user.getUsersList.mockClear();
     mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
 
@@ -54,7 +54,7 @@ describe('ManageUsersPage', () => {
   });
 
   it('renders the main page content correctly', async () => {
-    mockRestorationTrackerApi().admin.getAccessRequests.mockReturnValue([]);
+    mockRestorationTrackerApi().admin.getAdministrativeActivities.mockReturnValue([]);
     mockRestorationTrackerApi().user.getUsersList.mockReturnValue([]);
 
     const { getByText } = renderContainer();
@@ -65,7 +65,7 @@ describe('ManageUsersPage', () => {
   });
 
   it('renders the access requests and active users component', async () => {
-    mockRestorationTrackerApi().admin.getAccessRequests.mockReturnValue([]);
+    mockRestorationTrackerApi().admin.getAdministrativeActivities.mockReturnValue([]);
     mockRestorationTrackerApi().user.getUsersList.mockReturnValue([]);
 
     const { getByText } = renderContainer();

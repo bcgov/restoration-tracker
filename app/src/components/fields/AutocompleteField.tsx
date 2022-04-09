@@ -71,6 +71,7 @@ const AutocompleteField: React.FC<IAutocompleteField<string | number>> = <T exte
       renderInput={(params) => (
         <TextField
           {...params}
+          name={props.name}
           required={props.required}
           label={props.label}
           variant="outlined"

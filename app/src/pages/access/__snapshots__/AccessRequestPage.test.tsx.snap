@@ -123,20 +123,20 @@ exports[`AccessRequestPage renders correctly 1`] = `
                 <h3
                   class="MuiTypography-root MuiTypography-h3"
                 >
-                  Reason for your request
+                  Why are you requesting access to Habitat Restoration Tracker?
                 </h3>
                 <div
                   class="MuiBox-root MuiBox-root-13"
                 >
                   <div
                     class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
-                    data-testid="Reason"
+                    data-testid="reason"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
                       data-shrink="false"
-                      for="Reason"
-                      id="Reason-label"
+                      for="reason"
+                      id="reason-label"
                     >
                       Reason
                     </label>
@@ -146,8 +146,8 @@ exports[`AccessRequestPage renders correctly 1`] = `
                       <textarea
                         aria-invalid="false"
                         class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
-                        id="Reason"
-                        name="Reason"
+                        id="reason"
+                        name="reason"
                         rows="4"
                       />
                       <fieldset
