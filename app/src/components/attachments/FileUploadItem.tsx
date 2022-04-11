@@ -210,6 +210,19 @@ const FileUploadItem: React.FC<IFileUploadItemProps> = (props) => {
         return <li key={index}>{item}</li>;
       }
 
+      if (item['treatmentUnitId']) {
+        return (
+          <li key={index}>
+            TU_ID:{item['treatmentUnitId']}
+            <ul>
+              {item['errors'].map((error: string) => {
+                return <li key={error}>{error}</li>;
+              })}
+            </ul>
+          </li>
+        );
+      }
+
       return <li key={index}>{JSON.stringify(item)}</li>;
     });
 
