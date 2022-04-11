@@ -183,3 +183,9 @@ export const SystemUserI18N = {
   removeUserErrorText:
     'An error has occurred while attempting to remove the user from the team, please try again. If the error persists, please contact your system administrator.'
 };
+
+export const DownloadEMLI18N = {
+  errorTitle: 'Error Downloading Project EML',
+  errorText:
+    'An error has occurred while attempting to download the project EML. Please try again, if the error persists please contact your system administrator.'
+};

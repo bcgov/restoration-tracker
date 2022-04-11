@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
@@ -15,8 +15,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
+import { DownloadEMLI18N } from 'constants/i18n';
 import { ProjectStatusType } from 'constants/misc';
 import { AuthStateContext } from 'contexts/authStateContext';
+import { DialogContext } from 'contexts/dialogContext';
+import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectsListResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
@@ -50,6 +53,8 @@ const PublicProjectsListPage = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<IGetProjectsListResponse[]>([]);
+
+  const dialogContext = useContext(DialogContext);
 
   useEffect(() => {
     const getProjects = async () => {
@@ -99,7 +104,27 @@ const PublicProjectsListPage = () => {
   }
 
   const handleDownloadProjectEML = async (projectId: number) => {
-    const response = await restorationTrackerApi.project.downloadProjectEML(projectId);
+    let response;
+
+    try {
+      response = await restorationTrackerApi.project.downloadProjectEML(projectId);
+    } catch (error) {
+      dialogContext.setErrorDialog({
+        dialogTitle: DownloadEMLI18N.errorTitle,
+        dialogText: DownloadEMLI18N.errorText,
+        dialogError: (error as APIError).message,
+        dialogErrorDetails: (error as APIError).errors,
+        open: true,
+        onClose: () => {
+          dialogContext.setErrorDialog({ open: false });
+        },
+        onOk: () => {
+          dialogContext.setErrorDialog({ open: false });
+        }
+      });
+
+      return;
+    }
 
     triggerFileDownload(response.fileData, response.fileName);
   };

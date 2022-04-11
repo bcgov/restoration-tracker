@@ -469,11 +469,28 @@ export const usePublicProjectApi = (axios: AxiosInstance) => {
     return data;
   };
 
+  /**
+   * Download an EML file containing the project meta data.
+   *
+   * @param {number} projectId
+   * @return {*}  {Promise<{ fileData: string; fileName: string }>}
+   */
+  const downloadProjectEML = async (projectId: number): Promise<{ fileData: string; fileName: string }> => {
+    const response = await axios.get<{ eml: string }>(`/api/public/project/${projectId}/export/eml`);
+
+    const fileName =
+      response.headers?.['content-disposition']?.split('filename=')[1].replace(/(^['"]|['"]$)/g, '') ||
+      'project_eml.xml';
+
+    return { fileData: response.data.eml, fileName: fileName };
+  };
+
   return {
     getProjectsList,
     getProjectForView,
     getProjectAttachments,
     getProjectTreatments,
-    getProjectTreatmentsYears
+    getProjectTreatmentsYears,
+    downloadProjectEML
   };
 };
