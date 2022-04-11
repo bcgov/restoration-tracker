@@ -16,7 +16,7 @@ import { ProjectAttachmentValidExtensions } from 'constants/attachments';
 import { DialogContext } from 'contexts/dialogContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 const useStyles = makeStyles({
@@ -159,6 +159,26 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     });
   };
 
+  const errorDetailHandler = (errors: (string | object)[]): ReactElement => {
+    const items = errors.map((item, index) => {
+      if (item['treatmentUnitId']) {
+        return (
+          <li key={index}>
+            TU_ID:{item['treatmentUnitId']}
+            <ul>
+              {item['errors'].map((itemError: string) => {
+                return <li key={itemError}>{itemError}</li>;
+              })}
+            </ul>
+          </li>
+        );
+      } else {
+        return <li key={index}>{JSON.stringify(item)}</li>;
+      }
+    });
+    return <ul>{items}</ul>;
+  };
+
   return (
     <Box>
       <ComponentDialog
@@ -175,6 +195,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
           dropZoneProps={{
             acceptedFileExtensions: ProjectAttachmentValidExtensions.SPATIAL
           }}
+          errorDetailHandler={errorDetailHandler}
         />
       </ComponentDialog>
 
