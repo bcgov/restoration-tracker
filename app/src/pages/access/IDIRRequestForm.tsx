@@ -8,23 +8,19 @@ import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 import CustomTextField from 'components/fields/CustomTextField';
 import { useFormikContext } from 'formik';
+import { IIDIRAccessRequestDataObject } from 'interfaces/useAdminApi.interface';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import React from 'react';
 import yup from 'utils/YupSchema';
 
-export interface IIDIRRequestForm {
-  role: number;
-  comments: string;
-}
-
-export const IDIRRequestFormInitialValues: IIDIRRequestForm = {
+export const IDIRRequestFormInitialValues: IIDIRAccessRequestDataObject = {
   role: ('' as unknown) as number,
-  comments: ''
+  reason: ''
 };
 
 export const IDIRRequestFormYupSchema = yup.object().shape({
   role: yup.string().required('Required'),
-  comments: yup.string().max(300, 'Maximum 300 characters')
+  reason: yup.string().max(300, 'Maximum 300 characters')
 });
 
 export interface IIDIRRequestFormProps {
@@ -37,7 +33,7 @@ export interface IIDIRRequestFormProps {
  * @return {*}
  */
 const IDIRRequestForm: React.FC<IIDIRRequestFormProps> = (props) => {
-  const { values, touched, errors, handleChange } = useFormikContext<IIDIRRequestForm>();
+  const { values, touched, errors, handleChange } = useFormikContext<IIDIRAccessRequestDataObject>();
   const { codes } = props;
 
   return (
@@ -72,9 +68,9 @@ const IDIRRequestForm: React.FC<IIDIRRequestFormProps> = (props) => {
       </Grid>
 
       <Box mt={3}>
-        <Typography variant="h3">Reason for your request</Typography>
+        <Typography variant="h3">Why are you requesting access to Habitat Restoration Tracker?</Typography>
         <Box mt={2}>
-          <CustomTextField name="Reason" label="Reason" other={{ multiline: true, rows: 4 }} />
+          <CustomTextField name="reason" label="Reason" other={{ multiline: true, rows: 4 }} />
         </Box>
       </Box>
     </Box>

@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
@@ -15,12 +14,13 @@ import { APIError } from 'hooks/api/useAxios';
 import useCodes from 'hooks/useCodes';
 import { SYSTEM_IDENTITY_SOURCE } from 'hooks/useKeycloakWrapper';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import React, { useContext, useState } from 'react';
+import { IBCeIDAccessRequestDataObject, IIDIRAccessRequestDataObject } from 'interfaces/useAdminApi.interface';
+import React, { ReactElement, useContext, useState } from 'react';
 import { Redirect, useHistory } from 'react-router';
 import BCeIDRequestForm, { BCeIDRequestFormInitialValues, BCeIDRequestFormYupSchema } from './BCeIDRequestForm';
 import IDIRRequestForm, { IDIRRequestFormInitialValues, IDIRRequestFormYupSchema } from './IDIRRequestForm';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   actionButton: {
     minWidth: '6rem',
     '& + button': {
@@ -28,11 +28,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   }
 }));
-
-interface IAccessRequestForm {
-  role: number;
-  comments: string;
-}
 
 /**
  * Access Request form
@@ -74,14 +69,14 @@ export const AccessRequestPage: React.FC = () => {
     });
   };
 
-  const handleSubmitAccessRequest = async (values: IAccessRequestForm) => {
+  const handleSubmitAccessRequest = async (values: IIDIRAccessRequestDataObject | IBCeIDAccessRequestDataObject) => {
     try {
       const response = await restorationTrackerApi.admin.createAdministrativeActivity({
         ...values,
-        name: keycloakWrapper?.displayName,
-        username: keycloakWrapper?.getUserIdentifier(),
-        email: keycloakWrapper?.email,
-        identitySource: keycloakWrapper?.getIdentitySource()
+        name: keycloakWrapper?.displayName as string,
+        username: keycloakWrapper?.getUserIdentifier() as string,
+        email: keycloakWrapper?.email as string,
+        identitySource: keycloakWrapper?.getIdentitySource() as string
       });
 
       if (!response?.id) {
@@ -122,9 +117,10 @@ export const AccessRequestPage: React.FC = () => {
     return <Redirect to={{ pathname: '/request-submitted' }} />;
   }
 
-  let initialValues: any;
-  let validationSchema: any;
-  let requestForm: any;
+  let initialValues: IIDIRAccessRequestDataObject | IBCeIDAccessRequestDataObject;
+  let validationSchema: typeof IDIRRequestFormYupSchema | typeof BCeIDRequestFormYupSchema;
+  let requestForm: ReactElement;
+
   if (keycloakWrapper?.getIdentitySource() === SYSTEM_IDENTITY_SOURCE.BCEID) {
     initialValues = BCeIDRequestFormInitialValues;
     validationSchema = BCeIDRequestFormYupSchema;

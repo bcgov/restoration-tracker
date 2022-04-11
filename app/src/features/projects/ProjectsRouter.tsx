@@ -1,4 +1,4 @@
-import { RoleGuard } from 'components/security/Guards';
+import { RoleGuard, SystemRoleGuard } from 'components/security/Guards';
 import { PROJECT_ROLE, SYSTEM_ROLE } from 'constants/roles';
 import EditProjectPage from 'features/edit/EditProjectPage';
 import CreateProjectPage from 'features/projects/create/CreateProjectPage';
@@ -24,7 +24,11 @@ const ProjectsRouter: React.FC = () => {
       </AppRoute>
 
       <AppRoute exact path="/admin/projects/create" layout={ProjectsLayout}>
-        <CreateProjectPage />
+        <SystemRoleGuard
+          validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR, SYSTEM_ROLE.PROJECT_CREATOR]}
+          fallback={<Redirect to={'/projects'} />}>
+          <CreateProjectPage />
+        </SystemRoleGuard>
       </AppRoute>
 
       <AppRoute exact path="/admin/projects/:id/edit" layout={ProjectsLayout}>

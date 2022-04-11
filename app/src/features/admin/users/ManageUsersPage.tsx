@@ -2,7 +2,7 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import { AdministrativeActivityStatusType } from 'constants/misc';
+import { AdministrativeActivityStatusType, AdministrativeActivityType } from 'constants/misc';
 import AccessRequestList from 'features/admin/users/AccessRequestList';
 import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
@@ -28,20 +28,20 @@ const ManageUsersPage: React.FC = () => {
   const [hasLoadedActiveUsers, setHasLoadedActiveUsers] = useState(false);
 
   const refreshAccessRequests = async () => {
-    const accessResponse = await restorationTrackerApi.admin.getAccessRequests([
-      AdministrativeActivityStatusType.PENDING,
-      AdministrativeActivityStatusType.REJECTED
-    ]);
+    const accessResponse = await restorationTrackerApi.admin.getAdministrativeActivities(
+      [AdministrativeActivityType.SYSTEM_ACCESS],
+      [AdministrativeActivityStatusType.PENDING, AdministrativeActivityStatusType.REJECTED]
+    );
 
     setAccessRequests(accessResponse);
   };
 
   useEffect(() => {
     const getAccessRequests = async () => {
-      const accessResponse = await restorationTrackerApi.admin.getAccessRequests([
-        AdministrativeActivityStatusType.PENDING,
-        AdministrativeActivityStatusType.REJECTED
-      ]);
+      const accessResponse = await restorationTrackerApi.admin.getAdministrativeActivities(
+        [AdministrativeActivityType.SYSTEM_ACCESS],
+        [AdministrativeActivityStatusType.PENDING, AdministrativeActivityStatusType.REJECTED]
+      );
 
       setAccessRequests(() => {
         setHasLoadedAccessRequests(true);

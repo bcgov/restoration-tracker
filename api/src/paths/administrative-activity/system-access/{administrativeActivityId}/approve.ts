@@ -1,15 +1,15 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { SYSTEM_IDENTITY_SOURCE } from '../constants/database';
-import { SYSTEM_ROLE } from '../constants/roles';
-import { getDBConnection } from '../database/db';
-import { HTTP400 } from '../errors/custom-error';
-import { authorizeRequestHandler } from '../request-handlers/security/authorization';
-import { UserService } from '../services/user-service';
-import { getLogger } from '../utils/logger';
-import { updateAdministrativeActivity } from './administrative-activity';
+import { SYSTEM_IDENTITY_SOURCE } from '../../../../constants/database';
+import { SYSTEM_ROLE } from '../../../../constants/roles';
+import { getDBConnection } from '../../../../database/db';
+import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
+import { UserService } from '../../../../services/user-service';
+import { getLogger } from '../../../../utils/logger';
+import { ADMINISTRATIVE_ACTIVITY_STATUS_TYPE } from '../../../administrative-activities';
+import { updateAdministrativeActivity } from '../../../administrative-activity';
 
-const defaultLog = getLogger('paths/access-request');
+const defaultLog = getLogger('paths/administrative-activity/system-access/{administrativeActivityId}/approve');
 
 export const PUT: Operation = [
   authorizeRequestHandler(() => {
@@ -22,7 +22,7 @@ export const PUT: Operation = [
       ]
     };
   }),
-  updateAccessRequest()
+  approveAccessRequest()
 ];
 
 PUT.apiDoc = {
@@ -33,12 +33,23 @@ PUT.apiDoc = {
       Bearer: []
     }
   ],
+  parameters: [
+    {
+      in: 'path',
+      name: 'administrativeActivityId',
+      schema: {
+        type: 'number',
+        minimum: 1
+      },
+      required: true
+    }
+  ],
   requestBody: {
     content: {
       'application/json': {
         schema: {
           type: 'object',
-          required: ['userIdentifier', 'identitySource', 'requestId', 'requestStatusTypeId'],
+          required: ['userIdentifier', 'identitySource'],
           properties: {
             userIdentifier: {
               type: 'string',
@@ -47,14 +58,6 @@ PUT.apiDoc = {
             identitySource: {
               type: 'string',
               enum: [SYSTEM_IDENTITY_SOURCE.IDIR, SYSTEM_IDENTITY_SOURCE.BCEID]
-            },
-            requestId: {
-              type: 'number',
-              description: 'The id of the access request to update.'
-            },
-            requestStatusTypeId: {
-              type: 'number',
-              description: 'The status type id to set for the access request.'
             },
             roleIds: {
               type: 'array',
@@ -91,42 +94,13 @@ PUT.apiDoc = {
   }
 };
 
-/**
- * Updates an access request.
- *
- * key steps performed:
- * - Get the user by their user identifier
- * - If user is not found, add them
- * - Determine if there are any new roles to add, and add them if there are
- * - Update the administrative activity record status
- *
- * @return {*}  {RequestHandler}
- */
-export function updateAccessRequest(): RequestHandler {
+export function approveAccessRequest(): RequestHandler {
   return async (req, res) => {
-    defaultLog.debug({ label: 'updateAccessRequest', message: 'params', req_body: req.body });
+    const administrativeActivityId = Number(req.params.administrativeActivityId);
 
-    const userIdentifier = req.body?.userIdentifier || null;
-    const identitySource = req.body?.identitySource || null;
-    const administrativeActivityId = Number(req.body?.requestId) || null;
-    const administrativeActivityStatusTypeId = Number(req.body?.requestStatusTypeId) || null;
-    const roleIds: number[] = req.body?.roleIds || [];
-
-    if (!userIdentifier) {
-      throw new HTTP400('Missing required body param: userIdentifier');
-    }
-
-    if (!identitySource) {
-      throw new HTTP400('Missing required body param: identitySource');
-    }
-
-    if (!administrativeActivityId) {
-      throw new HTTP400('Missing required body param: requestId');
-    }
-
-    if (!administrativeActivityStatusTypeId) {
-      throw new HTTP400('Missing required body param: requestStatusTypeId');
-    }
+    const userIdentifier = req.body.userIdentifier;
+    const identitySource = req.body.identitySource;
+    const roleIds: number[] = req.body.roleIds || [];
 
     const connection = getDBConnection(req['keycloak_token']);
 
@@ -147,7 +121,11 @@ export function updateAccessRequest(): RequestHandler {
       }
 
       // Update the access request record status
-      await updateAdministrativeActivity(administrativeActivityId, administrativeActivityStatusTypeId, connection);
+      await updateAdministrativeActivity(
+        administrativeActivityId,
+        ADMINISTRATIVE_ACTIVITY_STATUS_TYPE.ACTIONED,
+        connection
+      );
 
       await connection.commit();
 
