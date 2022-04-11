@@ -215,8 +215,8 @@ const FileUploadItem: React.FC<IFileUploadItemProps> = (props) => {
           <li key={index}>
             TU_ID:{item['treatmentUnitId']}
             <ul>
-              {item['errors'].map((error: string) => {
-                return <li key={error}>{error}</li>;
+              {item['errors'].map((itemError: string) => {
+                return <li key={itemError}>{itemError}</li>;
               })}
             </ul>
           </li>
