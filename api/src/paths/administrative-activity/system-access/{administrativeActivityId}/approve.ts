@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { SYSTEM_IDENTITY_SOURCE } from '../../../../constants/database';
