@@ -57,10 +57,10 @@ export const postTreatmentUnitSQL = (
       project_id,
       feature_type_id,
       name,
-      description,
       width,
       length,
       area,
+      comments,
       reconnaissance_conducted,
       geojson,
       geography
@@ -68,10 +68,10 @@ export const postTreatmentUnitSQL = (
       ${projectId},
       ${featureTypeId},
       ${feature.properties.TU_ID},
-      ${feature.properties.Comments},
       ${feature.properties.Width_m},
       ${feature.properties.Length_m},
       ${feature.properties.Area_m2},
+      ${feature.properties.Comments},
       ${feature.properties.Recce},
       ${JSON.stringify([feature])}
     `;

@@ -77,7 +77,8 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
         geoJSON: item.geometry,
         GeoJSONProps: { style: { weight: 3 } },
         tooltip: <p>{`Treatment Unit ID: ${item.id}`}</p>,
-        popup: <TreatmentPopup treatment={item} />
+        popup: <TreatmentPopup treatment={item} />,
+        PopupProps: { minWidth: 300 }
       });
     });
 
@@ -148,7 +149,7 @@ const TreatmentPopup: React.FC<{ treatment: IGetProjectTreatment }> = (props) =>
       </div>
       <div>
         <Typography variant="body2" component="dt" color="textSecondary">
-          Area (ha)
+          Area (m<sup>2</sup>)
         </Typography>
         <Typography variant="body2" component="dd">
           {treatment.area}
