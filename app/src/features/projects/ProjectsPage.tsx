@@ -170,7 +170,7 @@ const ProjectsPage: React.FC = () => {
           <Typography variant="h1">Projects</Typography>
         </Box>
         <Typography variant="body1" color="textSecondary">
-          Find species inventory projects and related data in British Columbia
+          Find BC habitat restoration projects and related data
         </Typography>
       </Box>
 

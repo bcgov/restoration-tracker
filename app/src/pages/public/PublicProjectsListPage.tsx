@@ -111,7 +111,7 @@ const PublicProjectsListPage = () => {
           <Typography variant="h1">Projects</Typography>
         </Box>
         <Typography variant="body1" color="textSecondary">
-          Species inventory projects and related data in British Columbia.
+          BC habitat restoration projects and related data
         </Typography>
       </Box>
       <Paper>

@@ -78,7 +78,14 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
       { title: 'ID', value: currentTreatmentDetail.id },
       { title: 'Type', value: currentTreatmentDetail.type },
       { title: 'Width (m) / Length (m)', value: `${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}` },
-      { title: 'Area (ha)', value: currentTreatmentDetail.area },
+      {
+        title: (
+          <>
+            Area (m<sup>2</sup>)
+          </>
+        ),
+        value: currentTreatmentDetail.area
+      },
       {
         title: 'Treatments',
         value: getFormattedTreatmentStringsByYear(groupTreatmentsByYear(currentTreatmentDetail.treatments))
@@ -176,7 +183,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
                   Length (m)
                 </TableCell>
                 <TableCell align="right" width="100">
-                  Area (ha)
+                  Area (m<sup>2</sup>)
                 </TableCell>
                 <TableCell width="105">Actions</TableCell>
               </TableRow>
