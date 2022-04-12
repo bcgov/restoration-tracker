@@ -47,7 +47,7 @@ const appTheme = createMuiTheme({
         fontWeight: 700
       },
       h3: {
-        fontSize: '1rem',
+        fontSize: '0.9375rem',
         fontWeight: 700
       },
       h4: {
@@ -96,11 +96,6 @@ const appTheme = createMuiTheme({
     MuiDialog: {
       paperWidthXl: {
         width: '800px'
-      }
-    },
-    MuiDialogContent: {
-      root: {
-        paddingTop: 0
       }
     },
     MuiDialogTitle: {

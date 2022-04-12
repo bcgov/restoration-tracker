@@ -170,7 +170,6 @@ const Header: React.FC = () => {
   };
 
   const [open, setOpen] = React.useState(false);
-  const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
   const showSupportDialog = () => {
     setOpen(true);
@@ -261,9 +260,8 @@ const Header: React.FC = () => {
           <Typography variant="body1" component="div" color="textSecondary" gutterBottom>
             For technical support or questions about this application, please contact:&nbsp;
             <OtherLink
-              href="mailto:biohub@gov.bc.ca?subject=Habitat Restoration Tracker - Secure Document Access Request"
-              underline="always"
-              onClick={preventDefault}>
+              href="mailto:biohub@gov.bc.ca?subject=Habitat Restoration Tracker - Support Request"
+              underline="always">
               biohub@gov.bc.ca
             </OtherLink>
             .
