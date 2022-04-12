@@ -502,7 +502,7 @@ describe('ProjectService', () => {
       const projectService = new ProjectService(mockDBConnection);
 
       try {
-        await projectService.getPermitData(projectId);
+        await projectService.getPermitData(projectId, false);
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to get project permit data');
@@ -510,7 +510,7 @@ describe('ProjectService', () => {
       }
     });
 
-    it('returns row on success', async () => {
+    it('returns row on success when isPublic is false', async () => {
       const mockRowObj = [{ project_id: 1 }];
 
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
@@ -522,9 +522,26 @@ describe('ProjectService', () => {
 
       const projectService = new ProjectService(mockDBConnection);
 
-      const result = await projectService.getPermitData(projectId);
+      const result = await projectService.getPermitData(projectId, false);
 
       expect(result).to.deep.include(new projectViewModels.GetPermitData(mockRowObj));
+    });
+
+    it('returns empty permit data when isPublic is true', async () => {
+      const mockRowObj = [{ project_id: 1 }];
+
+      const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
+      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+
+      sinon.stub(queries.project, 'getProjectSQL').returns(SQL`valid sql`);
+
+      const projectId = 1;
+
+      const projectService = new ProjectService(mockDBConnection);
+
+      const result = await projectService.getPermitData(projectId, true);
+
+      expect(result).to.deep.include(new projectViewModels.GetPermitData());
     });
   });
 

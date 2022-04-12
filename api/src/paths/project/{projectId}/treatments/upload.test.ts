@@ -115,9 +115,7 @@ describe('uploadTreatments', () => {
     sinon.stub(file_utils, 'scanFileForVirus').resolves(true);
     sinon.stub(TreatmentService.prototype, 'handleShapeFileFeatures').resolves([{} as TreatmentFeature]);
 
-    sinon
-      .stub(TreatmentService.prototype, 'validateAllTreatmentUnitProperties')
-      .resolves({ treatmentUnitId: 1, missingProperties: ['string'] });
+    sinon.stub(TreatmentService.prototype, 'validateAllTreatmentUnitProperties').resolves([]);
     sinon.stub(TreatmentService.prototype, 'insertAllProjectTreatmentUnits').resolves([1]);
     sinon.stub(AttachmentService.prototype, 'uploadMedia').resolves({ id: 1, revision_count: 0 });
 

@@ -58,6 +58,8 @@ export class EmlService extends DBService {
 
   private xml2jsBuilder: xml2js.Builder;
 
+  private includeSensitiveData = false;
+
   constructor(options: { projectId: number; packageId?: string }, connection: IDBConnection) {
     super(connection);
 
@@ -79,10 +81,13 @@ export class EmlService extends DBService {
   /**
    * Compiles and returns the project metadata as an Ecological Metadata Language (EML) compliant XML string.
    *
+   * @param {boolean} [includeSensitiveData=false] Whether or not to include typically non-public data in the EML.
    * @return {*}
    * @memberof EmlService
    */
-  async buildProjectEml() {
+  async buildProjectEml(includeSensitiveData = false) {
+    this.includeSensitiveData = includeSensitiveData;
+
     await this.loadProjectData();
     await this.loadEMLDBConstants();
 
@@ -187,73 +192,87 @@ export class EmlService extends DBService {
       )
     ]);
 
+    const data: { describes: any; metadata: any }[] = [
+      {
+        describes: this.packageId,
+        metadata: {
+          IUCNConservationActions: {
+            IUCNConservationAction: iucnClassificationDetailsData.rows.map((item) => {
+              return {
+                IUCNConservationActionLevel1Classification: item.level_1_name,
+                IUCNConservationActionLevel2SubClassification: item.level_2_name,
+                IUCNConservationActionLevel3SubClassification: item.level_3_name
+              };
+            })
+          }
+        }
+      },
+      {
+        describes: this.packageId,
+        metadata: {
+          stakeholderPartnerships: {
+            stakeholderPartnership: this.projectData.partnerships.stakeholder_partnerships.map((item) => {
+              return { name: item };
+            })
+          }
+        }
+      },
+      {
+        describes: this.packageId,
+        metadata: {
+          firstNationPartnerships: {
+            firstNationPartnership: firstNationsData.rows.map((item) => {
+              return { name: item.name };
+            })
+          }
+        }
+      },
+      {
+        describes: this.packageId,
+        metadata: {
+          priorityArea: {
+            isPriority: this.projectData.location.priority
+          }
+        }
+      }
+    ];
+
+    if (this.includeSensitiveData) {
+      // only include permits if sensitive data is enabled
+      data.push({
+        describes: this.packageId,
+        metadata: {
+          permits: {
+            permit: this.projectData.permit.permits.map((item) => {
+              return { permitType: item.permit_type, permitNumber: item.permit_number };
+            })
+          }
+        }
+      });
+    }
+
     jsonpatch.applyOperation(this.data, {
       op: 'add',
       path: '/eml/additionalMetadata',
-      value: [
-        {
-          describes: this.packageId,
-          metadata: {
-            IUCNConservationActions: {
-              IUCNConservationAction: iucnClassificationDetailsData.rows.map((item) => {
-                return {
-                  IUCNConservationActionLevel1Classification: item.level_1_name,
-                  IUCNConservationActionLevel2SubClassification: item.level_2_name,
-                  IUCNConservationActionLevel3SubClassification: item.level_3_name
-                };
-              })
-            }
-          }
-        },
-        {
-          describes: this.packageId,
-          metadata: {
-            stakeholderPartnerships: {
-              stakeholderPartnership: this.projectData.partnerships.stakeholder_partnerships.map((item) => {
-                return { name: item };
-              })
-            }
-          }
-        },
-        {
-          describes: this.packageId,
-          metadata: {
-            firstNationPartnerships: {
-              firstNationPartnership: firstNationsData.rows.map((item) => {
-                return { name: item.name };
-              })
-            }
-          }
-        },
-        {
-          describes: this.packageId,
-          metadata: {
-            permits: {
-              permit: this.projectData.permit.permits.map((item) => {
-                return { permitType: item.permit_type, permitNumber: item.permit_number };
-              })
-            }
-          }
-        },
-        {
-          describes: this.packageId,
-          metadata: {
-            priorityArea: {
-              isPriority: this.projectData.location.priority
-            }
-          }
-        }
-      ]
+      value: data
     });
   }
 
+  /**
+   * Get all contacts for the project.
+   *
+   * @private
+   * @return {*}  {Record<any, any>[]}
+   * @memberof EmlService
+   */
   private getProjectPersonnel(): Record<any, any>[] {
     if (!this.projectData.contact.contacts.length) {
       return [];
     }
 
     return this.projectData.contact.contacts.map((item) => {
-      if (JSON.parse(item.is_public)) {
+      if (JSON.parse(item.is_public) || this.includeSensitiveData) {
+        // return full details if it is public or sensitive data is enabled
         return {
           individualName: { givenName: item.first_name, surName: item.last_name },
           organizationName: item.agency,
@@ -262,42 +281,65 @@ export class EmlService extends DBService {
         };
       }
 
+      // return partial details
       return { organizationName: item.agency, role: 'pointOfContact' };
     });
   }
 
+  /**
+   * Get a single contact for the project.
+   *
+   * @private
+   * @return {*}  {Record<any, any>}
+   * @memberof EmlService
+   */
   private getProjectContact(): Record<any, any> {
     if (!this.projectData.contact.contacts.length) {
+      // default contact if there are no contacts listed on the project
       return { organizationName: this.constants.EML_ORGANIZATION_NAME, onlineUrl: this.constants.EML_ORGANIZATION_URL };
     }
 
-    const publicPrimaryContact = this.projectData.contact.contacts.find(
-      (item) => JSON.parse(item.is_primary) && JSON.parse(item.is_public)
-    );
-    if (publicPrimaryContact) {
+    const primaryContact = this.projectData.contact.contacts.find((item) => JSON.parse(item.is_primary));
+
+    if (primaryContact) {
+      // return the primary contact, if one exists
+      if (JSON.parse(primaryContact.is_public) || this.includeSensitiveData) {
+        // return full details if it is public or sensitive data is enabled.
+        return {
+          individualName: { givenName: primaryContact.first_name, surName: primaryContact.last_name },
+          organizationName: primaryContact.agency,
+          electronicMailAddress: primaryContact.email_address
+        };
+      } else {
+        // return partial details
+        return { organizationName: primaryContact.agency };
+      }
+    }
+
+    const firstContact = this.projectData.contact.contacts[0];
+
+    if (this.includeSensitiveData) {
+      // return full details of the first contact if sensitive data is enabled
       return {
-        individualName: { givenName: publicPrimaryContact.first_name, surName: publicPrimaryContact.last_name },
-        organizationName: publicPrimaryContact.agency,
-        electronicMailAddress: publicPrimaryContact.email_address
+        individualName: { givenName: firstContact.first_name, surName: firstContact.last_name },
+        organizationName: firstContact.agency,
+        electronicMailAddress: firstContact.email_address
       };
     }
 
-    const privatePrimaryContact = this.projectData.contact.contacts.find((item) => JSON.parse(item.is_primary));
-    if (privatePrimaryContact) {
-      return { organizationName: privatePrimaryContact.agency };
-    }
+    const firstPublicContact = this.projectData.contact.contacts.find((item) => JSON.parse(item.is_public));
 
-    const publicContact = this.projectData.contact.contacts.find((item) => JSON.parse(item.is_public));
-    if (publicContact) {
+    if (firstPublicContact) {
+      // return full details of the first contact that is public
       return {
-        individualName: { givenName: publicContact.first_name, surName: publicContact.last_name },
-        organizationName: publicContact.agency,
-        electronicMailAddress: publicContact.email_address
+        individualName: { givenName: firstPublicContact.first_name, surName: firstPublicContact.last_name },
+        organizationName: firstPublicContact.agency,
+        electronicMailAddress: firstPublicContact.email_address
       };
     }
 
-    const privateContact = this.projectData.contact.contacts[0];
-    return { organizationName: privateContact.agency };
+    // return partial details of the first contact
+    return { organizationName: firstContact.agency };
   }
 
   private getProjectFundingSources(): Record<any, any>[] {
