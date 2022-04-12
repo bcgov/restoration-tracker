@@ -152,7 +152,7 @@ export class ProjectService extends DBService {
       this.getSpeciesData(projectId),
       this.getIUCNClassificationData(projectId),
       this.getContactData(projectId, isPublic),
-      this.getPermitData(projectId),
+      this.getPermitData(projectId, isPublic),
       this.getPartnershipsData(projectId),
       this.getFundingData(projectId),
       this.getLocationData(projectId)
@@ -294,7 +294,11 @@ export class ProjectService extends DBService {
     return new GetContactData(result);
   }
 
-  async getPermitData(projectId: number): Promise<GetPermitData> {
+  async getPermitData(projectId: number, isPublic: boolean): Promise<GetPermitData> {
+    if (isPublic) {
+      return new GetPermitData();
+    }
+
     const sqlStatement = SQL`
       SELECT
         *
