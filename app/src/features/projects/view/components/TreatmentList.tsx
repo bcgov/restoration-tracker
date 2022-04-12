@@ -200,7 +200,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
               )}
 
               {treatmentList.length > 0 &&
-                treatmentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                treatmentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
                     <TableRow key={row.id}>
                       <TableCell>{row.id}</TableCell>

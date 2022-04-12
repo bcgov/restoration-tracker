@@ -70,7 +70,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     const { data } = await axios.get(`/api/project/${projectId}/treatments/list`, {
       params: filterByYear,
       paramsSerializer: (params) => {
-        return qs.stringify(params, { arrayFormat: 'repeat', filter: (prefix, value) => value || undefined });
+        return qs.stringify(params, { arrayFormat: 'repeat', filter: (_prefix, value) => value || undefined });
       }
     });
 
@@ -126,7 +126,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     const { data } = await axios.get(`/api/project/list`, {
       params: filterFieldData,
       paramsSerializer: (params) => {
-        return qs.stringify(params, { arrayFormat: 'repeat', filter: (prefix, value) => value || undefined });
+        return qs.stringify(params, { arrayFormat: 'repeat', filter: (_prefix, value) => value || undefined });
       }
     });
 
@@ -450,7 +450,7 @@ export const usePublicProjectApi = (axios: AxiosInstance) => {
     const { data } = await axios.get(`/api/public/project/${projectId}/treatments/list`, {
       params: filterByYear,
       paramsSerializer: (params) => {
-        return qs.stringify(params, { arrayFormat: 'repeat', filter: (prefix, value) => value || undefined });
+        return qs.stringify(params, { arrayFormat: 'repeat', filter: (_prefix, value) => value || undefined });
       }
     });
 

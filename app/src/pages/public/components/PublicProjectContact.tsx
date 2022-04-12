@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import Link from '@material-ui/core/Link';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { mdiAccountCircleOutline, mdiDomain } from '@mdi/js';
 import Icon from '@mdi/react';
@@ -11,7 +11,7 @@ import {
 } from 'interfaces/useProjectApi.interface';
 import React from 'react';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     projectContactList: {
       marginBottom: 0,

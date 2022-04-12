@@ -133,8 +133,8 @@ const ProjectPermitForm: React.FC = () => {
                                 error={permitTypeMeta.touched && Boolean(permitTypeMeta.error)}
                                 displayEmpty
                                 inputProps={{ 'aria-label': 'Permit Type' }}>
-                                {permitTypes.map((permitType, index) => (
-                                  <MenuItem key={index} value={permitType}>
+                                {permitTypes.map((permitType, index2) => (
+                                  <MenuItem key={index2} value={permitType}>
                                     {permitType}
                                   </MenuItem>
                                 ))}
