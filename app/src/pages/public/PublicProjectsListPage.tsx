@@ -136,7 +136,7 @@ const PublicProjectsListPage = () => {
           <Typography variant="h1">Projects</Typography>
         </Box>
         <Typography variant="body1" color="textSecondary">
-          BC habitat restoration projects and related data
+          BC habitat restoration projects and related data.
         </Typography>
       </Box>
       <Paper>

@@ -47,7 +47,7 @@ const appTheme = createMuiTheme({
         fontWeight: 700
       },
       h3: {
-        fontSize: '1rem',
+        fontSize: '0.9375rem',
         fontWeight: 700
       },
       h4: {
@@ -98,19 +98,9 @@ const appTheme = createMuiTheme({
         width: '800px'
       }
     },
-    MuiDialogContent: {
-      root: {
-        paddingTop: 0
-      }
-    },
-    MuiDialogTitle: {
-      root: {
-        padding: '20px 24px'
-      }
-    },
     MuiDialogActions: {
       root: {
-        padding: '20px 24px'
+        padding: '16px 24px 20px 24px'
       }
     },
     MuiLink: {

@@ -107,7 +107,7 @@ const ProjectParticipantsHeader: React.FC<IProjectParticipantsHeaderProps> = (pr
               aria-label={'Add Team Members'}
               startIcon={<Icon path={mdiPlus} size={1} />}
               onClick={() => setOpenAddParticipantsDialog(true)}>
-              <strong>Add Team Members</strong>
+              Add Team Members
             </Button>
           </Box>
         </Box>

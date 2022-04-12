@@ -1,7 +1,6 @@
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,40 +11,40 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import ComponentDialog from 'components/dialog/ComponentDialog';
-import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
+import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React, { ReactElement, useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 import { getFormattedTreatmentStringsByYear, groupTreatmentsByYear } from 'utils/treatments';
 
 export interface IProjectTreatmentListProps {
   treatmentList: IGetProjectTreatment[];
-  getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
-  refresh: () => void;
 }
 
 const useStyles = makeStyles({
   treatmentsTable: {
-    '& .MuiTableCell-root': {
+    '& thead sup': {
+      display: 'inline-block',
+      marginTop: '-7px',
+      verticalAlign: 'middle',
+      fontSize: '9px'
+    },
+    '& tbody .MuiTableCell-root': {
       verticalAlign: 'top'
+    }
+  },
+  detaildl: {
+    '& dt': {
+      width: '10rem'
+    },
+    '& sup': {
+      display: 'inline-block',
+      marginTop: '-6px',
+      verticalAlign: 'middle',
+      fontSize: '10px'
     }
   },
   pagination: {
     flex: '0 0 auto'
-  },
-  container: {
-    height: '300px',
-    maxHeight: 440
-  },
-  generalInfoTitleColor: {
-    color: '#787f81'
-  },
-  generalInfoGridRow: {
-    marginTop: 5
-  },
-  divider: {
-    height: 2,
-    marginTop: 16,
-    marginBottom: 16
   }
 });
 
@@ -77,7 +76,7 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     const generalInformation = [
       { title: 'ID', value: currentTreatmentDetail.id },
       { title: 'Type', value: currentTreatmentDetail.type },
-      { title: 'Width (m) / Length (m)', value: `${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}` },
+      { title: 'Width / Length (m)', value: `${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}` },
       {
         title: (
           <>
@@ -95,44 +94,52 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
     return (
       <ComponentDialog
         open={opentreatmentDetails}
-        dialogTitle={`Treatment Unit Details: ${currentTreatmentDetail.id}`}
+        dialogTitle={`Treatment Unit ID: ${currentTreatmentDetail.id}`}
         onClose={() => {
           setOpenTreatmentDetails(false);
           setCurrentTreatmentDetail(undefined);
         }}>
-        <Box component="section" mt="5px">
-          <Typography variant="subtitle2">
-            <b>GENERAL INFORMATION</b>
-          </Typography>
-          <Divider className={classes.divider} />
-          <Box>
+        <Box component="section" mb={3}>
+          <Box my={1}>
+            <Typography variant="h3">GENERAL INFORMATION</Typography>
+          </Box>
+
+          <Divider />
+
+          <Box component="dl" my={0} className={classes.detaildl}>
             {generalInformation.map((info, idx) => (
-              <Grid container key={idx} className={classes.generalInfoGridRow}>
-                <Grid item xs={4}>
-                  <Typography variant="subtitle2" className={classes.generalInfoTitleColor}>
-                    {info.title}
+              <Box key={idx}>
+                <Box py={1} display="flex">
+                  <Typography component="dt" variant="body2" color="textSecondary">
+                    {info.title}:
                   </Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  {(Array.isArray(info.value) && info.value.length > 1 && (
-                    <Box component="ul" pl={2} m={0}>
-                      {info.value.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </Box>
-                  )) ||
-                    info.value}
-                </Grid>
-              </Grid>
+                  <Typography component="dd" variant="body2">
+                    {(Array.isArray(info.value) && info.value.length > 1 && (
+                      <Box component="ul" pl={2} m={0}>
+                        {info.value.map((item, index) => (
+                          <li key={index}>{item}</li>
+                        ))}
+                      </Box>
+                    )) ||
+                      info.value}
+                  </Typography>
+                </Box>
+                <Divider />
+              </Box>
             ))}
           </Box>
         </Box>
-        <Box component="section" mt="25px">
-          <Typography variant="subtitle2">
-            <b>COMMENTS</b>
-          </Typography>
-          <Divider className={classes.divider} />
-          <Typography variant="subtitle2">{currentTreatmentDetail.comments || 'No comments'}</Typography>
+
+        <Box component="section">
+          <Box mb={1}>
+            <Typography variant="h3">COMMENTS</Typography>
+          </Box>
+          <Divider />
+          <Box mt={1}>
+            <Typography variant="body2" color="textSecondary">
+              {currentTreatmentDetail.comments || 'No comments'}
+            </Typography>
+          </Box>
         </Box>
       </ComponentDialog>
     );

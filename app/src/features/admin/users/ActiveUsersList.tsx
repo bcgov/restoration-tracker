@@ -244,7 +244,7 @@ const ActiveUsersList: React.FC<IActiveUsersListProps> = (props) => {
                   aria-label={'Add Users'}
                   startIcon={<Icon path={mdiPlus} size={1} />}
                   onClick={() => setOpenAddUserDialog(true)}>
-                  <strong>Add Users</strong>
+                  Add Users
                 </Button>
               </Box>
             </Grid>

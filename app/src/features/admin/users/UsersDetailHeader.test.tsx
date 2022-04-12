@@ -5,6 +5,7 @@ import { Router } from 'react-router';
 import { useRestorationTrackerApi } from '../../../hooks/useRestorationTrackerApi';
 import UsersDetailHeader from './UsersDetailHeader';
 import { DialogContextProvider } from 'contexts/dialogContext';
+import { IGetUserResponse } from 'interfaces/useUserApi.interface';
 
 const history = createMemoryHistory();
 
@@ -20,12 +21,12 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
   typeof mockuseRestorationTrackerApi
 >).mockReturnValue(mockuseRestorationTrackerApi);
 
-const mockUser = {
+const mockUser = ({
   id: 1,
-  record_end_date: 'ending',
   user_identifier: 'testUser',
+  record_end_date: 'ending',
   role_names: ['system']
-};
+} as unknown) as IGetUserResponse;
 
 describe('UsersDetailHeader', () => {
   afterEach(() => {
@@ -90,7 +91,7 @@ describe('UsersDetailHeader', () => {
       });
     });
 
-    it('does nothing if the user clicks `No` or away from the dialog', async () => {
+    it('does nothing if the user clicks `Cancel` or away from the dialog', async () => {
       history.push('/admin/users/1');
 
       const { getAllByTestId, getAllByText, getByText } = render(
@@ -111,7 +112,7 @@ describe('UsersDetailHeader', () => {
         expect(getAllByText('Remove System User').length).toEqual(1);
       });
 
-      fireEvent.click(getByText('No'));
+      fireEvent.click(getByText('Cancel'));
 
       await waitFor(() => {
         expect(history.location.pathname).toEqual('/admin/users/1');
@@ -143,7 +144,7 @@ describe('UsersDetailHeader', () => {
         expect(getAllByText('Remove System User').length).toEqual(1);
       });
 
-      fireEvent.click(getByText('Yes'));
+      fireEvent.click(getAllByTestId('yes-button')[0]);
 
       await waitFor(() => {
         expect(history.location.pathname).toEqual('/admin/users');

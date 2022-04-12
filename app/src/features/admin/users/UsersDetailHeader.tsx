@@ -1,6 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import Link from '@material-ui/core/Link';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -34,6 +35,10 @@ const useStyles = makeStyles(() => ({
   },
   projectTitle: {
     fontWeight: 400
+  },
+  roleChip: {
+    backgroundColor: '#1976d2',
+    color: '#ffffff'
   }
 }));
 
@@ -121,15 +126,14 @@ const UsersDetailHeader: React.FC<IUsersHeaderProps> = (props) => {
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="flex-start">
         <Box>
-          <Box mb={1.5} display="flex">
+          <Box display="flex">
             <Typography data-testid="user-detail-title" className={classes.spacingRight} variant="h1">
               User - <span className={classes.projectTitle}>{userDetails.user_identifier}</span>
             </Typography>
           </Box>
-          <Box mb={0.75} display="flex" alignItems="center">
-            <Typography component="span" variant="subtitle1" color="textSecondary">
-              {userDetails.role_names[0]}
-            </Typography>
+
+          <Box my={1.5}>
+            <Chip className={classes.roleChip} size="small" label={userDetails.role_names[0] || 'Unassigned'}></Chip>
           </Box>
         </Box>
         <Box ml={2}>
@@ -156,14 +160,16 @@ const UsersDetailHeader: React.FC<IUsersHeaderProps> = (props) => {
                         </Typography>
                       </>
                     ),
+                    yesButtonLabel: 'Remove User',
                     yesButtonProps: { color: 'secondary' },
+                    noButtonLabel: 'Cancel',
                     onYes: () => {
                       deActivateSystemUser(userDetails);
                       dialogContext.setYesNoDialog({ open: false });
                     }
                   })
                 }>
-                <strong>Remove User</strong>
+                Remove User
               </Button>
             </>
           </Tooltip>

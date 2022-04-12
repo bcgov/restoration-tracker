@@ -167,7 +167,9 @@ const PublicProjectPage = () => {
                     <Box mb={2}>
                       <Typography variant="h2">Project Objectives</Typography>
                     </Box>
-                    <Typography variant="body1">{projectWithDetails.project.objectives}</Typography>
+                    <Typography variant="body1" color="textSecondary">
+                      {projectWithDetails.project.objectives}
+                    </Typography>
                   </Box>
                 </Paper>
               </Box>
@@ -194,7 +196,7 @@ const PublicProjectPage = () => {
                       </IconButton>
                     </Box>
                   </Box>
-                  <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+                  <TreatmentList treatmentList={treatmentList} />
                 </Paper>
               </Box>
 
@@ -233,7 +235,7 @@ const PublicProjectPage = () => {
             />
           </Box>
           <Box flex="0 0 auto" height="300px">
-            <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+            <TreatmentList treatmentList={treatmentList} />
           </Box>
         </Box>
       </Dialog>
