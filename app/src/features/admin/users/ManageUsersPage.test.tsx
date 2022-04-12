@@ -4,6 +4,8 @@ import React from 'react';
 import ManageUsersPage from './ManageUsersPage';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
+import useCodes from 'hooks/useCodes';
+import { codes } from 'test-helpers/code-helpers';
 
 const history = createMemoryHistory();
 
@@ -22,9 +24,6 @@ const mockuseRestorationTrackerApi = {
   },
   user: {
     getUsersList: jest.fn()
-  },
-  codes: {
-    getAllCodeSets: jest.fn()
   }
 };
 
@@ -32,21 +31,18 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
   typeof mockuseRestorationTrackerApi
 >).mockReturnValue(mockuseRestorationTrackerApi);
 
+jest.mock('../../../hooks/useCodes');
+const mockUseCodes = (useCodes as unknown) as jest.MockedFunction<typeof useCodes>;
+
 describe('ManageUsersPage', () => {
   beforeEach(() => {
     // clear mocks before each test
     mockRestorationTrackerApi().admin.getAdministrativeActivities.mockClear();
     mockRestorationTrackerApi().user.getUsersList.mockClear();
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
+    mockUseCodes.mockClear();
 
     // mock code set response
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockReturnValue({
-      system_roles: [{ id: 1, name: 'Role 1' }],
-      administrative_activity_status_type: [
-        { id: 1, name: 'Actioned' },
-        { id: 1, name: 'Rejected' }
-      ]
-    });
+    mockUseCodes.mockReturnValue({ codes: codes, isLoading: false, isReady: true });
   });
 
   afterEach(() => {

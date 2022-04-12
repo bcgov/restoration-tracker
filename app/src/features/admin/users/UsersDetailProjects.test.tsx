@@ -6,7 +6,9 @@ import { useRestorationTrackerApi } from '../../../hooks/useRestorationTrackerAp
 import UsersDetailProjects from './UsersDetailProjects';
 import { DialogContextProvider } from 'contexts/dialogContext';
 import { IGetUserProjectsListResponse } from '../../../interfaces/useProjectApi.interface';
-import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
+import { IGetUserResponse } from 'interfaces/useUserApi.interface';
+import useCodes from 'hooks/useCodes';
+import { codes } from 'test-helpers/code-helpers';
 
 const history = createMemoryHistory();
 
@@ -17,9 +19,6 @@ const mockuseRestorationTrackerApi = {
     getAllUserProjectsParticipation: jest.fn<Promise<IGetUserProjectsListResponse[]>, []>(),
     removeProjectParticipant: jest.fn<Promise<boolean>, []>(),
     updateProjectParticipantRole: jest.fn<Promise<boolean>, []>()
-  },
-  codes: {
-    getAllCodeSets: jest.fn<Promise<IGetAllCodeSetsResponse>, []>()
   }
 };
 
@@ -27,18 +26,21 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
   typeof mockuseRestorationTrackerApi
 >).mockReturnValue(mockuseRestorationTrackerApi);
 
+jest.mock('../../../hooks/useCodes');
+const mockUseCodes = (useCodes as unknown) as jest.MockedFunction<typeof useCodes>;
+
 const mockUser = {
   id: 1,
   record_end_date: 'ending',
   user_identifier: 'testUser',
   role_names: ['system']
-};
+} as IGetUserResponse;
 
 describe('UsersDetailProjects', () => {
   beforeEach(() => {
     // clear mocks before each test
     mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockClear();
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockClear();
+    mockUseCodes.mockClear();
   });
 
   afterEach(() => {
@@ -47,6 +49,7 @@ describe('UsersDetailProjects', () => {
 
   it('shows circular spinner when assignedProjects not yet loaded', async () => {
     history.push('/admin/users/1');
+    mockUseCodes.mockReturnValue({ codes: undefined, isLoading: true, isReady: false });
 
     const { getAllByTestId } = render(
       <Router history={history}>
@@ -62,9 +65,7 @@ describe('UsersDetailProjects', () => {
   it('renders empty list correctly when assignedProjects empty and loaded', async () => {
     history.push('/admin/users/1');
 
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'agency 1' }]
-    } as any);
+    mockUseCodes.mockReturnValue({ codes: codes, isLoading: false, isReady: true });
 
     mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue({
       assignedProjects: []
@@ -86,10 +87,7 @@ describe('UsersDetailProjects', () => {
   it('renders list of a single project correctly when assignedProjects are loaded', async () => {
     history.push('/admin/users/1');
 
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'agency 1' }],
-      project_roles: [{ id: 1, name: 'Project Lead' }]
-    } as any);
+    mockUseCodes.mockReturnValue({ codes: codes, isLoading: false, isReady: true });
 
     mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
       {
@@ -117,10 +115,7 @@ describe('UsersDetailProjects', () => {
   it('renders list of a multiple projects correctly when assignedProjects are loaded', async () => {
     history.push('/admin/users/1');
 
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'agency 1' }],
-      project_roles: [{ id: 1, name: 'Project Lead' }]
-    } as any);
+    mockUseCodes.mockReturnValue({ codes: codes, isLoading: false, isReady: true });
 
     mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
       {
@@ -156,10 +151,7 @@ describe('UsersDetailProjects', () => {
   it('routes to project id details on click', async () => {
     history.push('/admin/users/1');
 
-    mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-      coordinator_agency: [{ id: 1, name: 'agency 1' }],
-      project_roles: [{ id: 1, name: 'Project Lead' }]
-    } as any);
+    mockUseCodes.mockReturnValue({ codes: codes, isLoading: false, isReady: true });
 
     mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
       {
@@ -192,10 +184,7 @@ describe('UsersDetailProjects', () => {
     it('does nothing if the user clicks `No` or away from the dialog', async () => {
       history.push('/admin/users/1');
 
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'agency 1' }],
-        project_roles: [{ id: 1, name: 'Project Lead' }]
-      } as any);
+      mockUseCodes.mockReturnValue({ codes: codes, isLoading: false, isReady: true });
 
       mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
@@ -235,10 +224,7 @@ describe('UsersDetailProjects', () => {
     it('deletes User from project if the user clicks on `Remove User` ', async () => {
       history.push('/admin/users/1');
 
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'agency 1' }],
-        project_roles: [{ id: 1, name: 'Project Lead' }]
-      } as any);
+      mockUseCodes.mockReturnValue({ codes: codes, isLoading: false, isReady: true });
 
       mockRestorationTrackerApi().project.removeProjectParticipant.mockResolvedValue(true);
 
@@ -302,14 +288,19 @@ describe('UsersDetailProjects', () => {
     it('renders list of roles to change per project', async () => {
       history.push('/admin/users/1');
 
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'agency 1' }],
-        project_roles: [
-          { id: 1, name: 'Project Lead' },
-          { id: 2, name: 'Editor' },
-          { id: 3, name: 'Viewer' }
-        ]
-      } as any);
+      mockUseCodes.mockReturnValue({
+        codes: {
+          ...codes,
+          coordinator_agency: [{ id: 1, name: 'agency 1' }],
+          project_roles: [
+            { id: 1, name: 'Project Lead' },
+            { id: 2, name: 'Editor' },
+            { id: 3, name: 'Viewer' }
+          ]
+        },
+        isLoading: false,
+        isReady: true
+      });
 
       mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
@@ -344,14 +335,19 @@ describe('UsersDetailProjects', () => {
     it('renders dialog pop on role selection, does nothing if user clicks `Cancel` ', async () => {
       history.push('/admin/users/1');
 
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'agency 1' }],
-        project_roles: [
-          { id: 1, name: 'Project Lead' },
-          { id: 2, name: 'Editor' },
-          { id: 3, name: 'Viewer' }
-        ]
-      } as any);
+      mockUseCodes.mockReturnValue({
+        codes: {
+          ...codes,
+          coordinator_agency: [{ id: 1, name: 'agency 1' }],
+          project_roles: [
+            { id: 1, name: 'Project Lead' },
+            { id: 2, name: 'Editor' },
+            { id: 3, name: 'Viewer' }
+          ]
+        },
+        isLoading: false,
+        isReady: true
+      });
 
       mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
@@ -400,14 +396,19 @@ describe('UsersDetailProjects', () => {
     it('renders dialog pop on role selection, Changes role on click of `Change Role` ', async () => {
       history.push('/admin/users/1');
 
-      mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
-        coordinator_agency: [{ id: 1, name: 'agency 1' }],
-        project_roles: [
-          { id: 1, name: 'Project Lead' },
-          { id: 2, name: 'Editor' },
-          { id: 3, name: 'Viewer' }
-        ]
-      } as any);
+      mockUseCodes.mockReturnValue({
+        codes: {
+          ...codes,
+          coordinator_agency: [{ id: 1, name: 'agency 1' }],
+          project_roles: [
+            { id: 1, name: 'Project Lead' },
+            { id: 2, name: 'Editor' },
+            { id: 3, name: 'Viewer' }
+          ]
+        },
+        isLoading: false,
+        isReady: true
+      });
 
       mockRestorationTrackerApi().project.getAllUserProjectsParticipation.mockResolvedValue([
         {
