@@ -133,7 +133,7 @@ const UsersDetailHeader: React.FC<IUsersHeaderProps> = (props) => {
           </Box>
 
           <Box my={1.5}>
-            <Chip className={classes.roleChip} size="small" label={userDetails.role_names[0] || 'Undefined'}></Chip>
+            <Chip className={classes.roleChip} size="small" label={userDetails.role_names[0] || 'Unassigned'}></Chip>
           </Box>
         </Box>
         <Box ml={2}>
