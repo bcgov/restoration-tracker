@@ -4,6 +4,14 @@
 
 The Habitat Restoration Tracker is a system which supports the planning, implementation and monitoring of restoration projects in British Columbia. The initial release (March 2022) collects project and treatment details for caribou herd restoration initiatives in the north east of the province. Future development will support all restoration projects within the province and will assist with planning and monitoring the effectiveness of these projects.
 
+## Technologies Used
+
+| Technology | Version | Website                              | Description          |
+| ---------- | ------- | ------------------------------------ | -------------------- |
+| node       | 14.x.x  | https://nodejs.org/en/               | JavaScript Runtime   |
+| npm        | 6.x.x   | https://www.npmjs.com/               | Node Package Manager |
+
+<br />
 # Pre-reqs
 
 ## Install Node/NPM

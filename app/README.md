@@ -1,16 +1,65 @@
 # bcgov/restoration-tracker/app
 
-A standard React web-app for Habitat Restoration Tracker management activities.
+## Technologies Used
 
-## Documenation
+| Technology | Version | Website                | Description          |
+| ---------- | ------- | ---------------------- | -------------------- |
+| node       | 14.x.x  | https://nodejs.org/en/ | JavaScript Runtime   |
+| npm        | 6.x.x   | https://www.npmjs.com/ | Node Package Manager |
 
-React: https://reactjs.org/docs/getting-started.html
+<br />
+
+# Linting and Formatting
+
+## Info
+
+Linting and formatting is handled by a combiation of `ESlint` and `Prettier`. The reason for this, is that you get the best of both worlds: ESlint's larger selection of linting rules with Prettier's robust formatting rules. EditorConfig is additionally used to add enforce some basic IDE formatting rules.
+
+### Technologies used
+
+- [ESlint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [EditorConfig](http://editorconfig.org)
+
+### Configuration files
+
+- ESlint
+  - .eslintrc
+  - .eslintignore
+- Prettier
+  - .prettierrc
+  - .prettierignore
+- EditorConfig
+  - .editorconfig
+
+## Run Linters
+
+- Lint the `*.ts` files using `ESLint`.
+
+```
+npm run lint
+```
+
+## Run Linters + Formatters
+
+_Note: In the worst case scenario, where linting/formatting has been neglected, then these `lint:fix` commands have the potential to create 100's of file changes. In this case, it is recommended to only run these commands as part of a separate commit._
+
+_Note: Not all linting/formatting errors can be automatically fixed, and will require human intervention._
+
+- Lint and fix the `*.ts` files using `ESLint` + `Prettier`.
+
+```
+npm run lint:fix
+```
+
+<br />
 
 # Testing
 
 ## Technologies used
 
-- [Jest](https://jestjs.io/docs/en/getting-started)
+- [Jest](https://jestjs.io/docs/en/getting-started) - test framework
+- [React Testing Library](https://testing-library.com) - test utilities
 
 ## Running Tests
 
@@ -37,7 +86,7 @@ React: https://reactjs.org/docs/getting-started.html
   See [Snapshot Tests](#snapshot-tests) for details
 
   ```
-  npm run update-snapshots
+  npm run update-snapshots <file_name_with_outdated_snapshots>
   ```
 
 ## Writing Tests
@@ -72,15 +121,11 @@ Tests that simulate the user experience, and make assertions about the state of 
 
 ### Snapshot Tests
 
-_Note: Snapshot tests are not useful in all situations, and should really only be used for components that are stable and unlikely to change much. For example: asserting the content of a footer bar._
+_Note: Snapshot tests are being phased out of this project, and should no longer be created._
 
-Snapshot tests are a special kind of jest test that asserts that a previously saved copy of the rendered component matches the current version of the rendered component.
+Snapshot tests are a special kind of jest test that asserts that a previously saved copy of the rendered component matches the current version of the rendered component. These tests assert that the rendered UI of the component is correct, under whatever pre-conditions are set up in the test.
 
-These tests assert that the rendered UI of the component is correct, under whatever pre-conditions are set up in the test.
-
-These tests are run just like any other tests, but have 1 additional pre-requisite, which is generating the initial snapshot of the component. See [Running Tests](#running-tests).
-
-The snapshot files produced should be saved in the repo.
+The problem with snapshot tests is that they rely on a human to compare the snapshot with the component and manually determine if the snapshot contains the correct data. Without this, anyone can re-generated a snapshot and it will just always match the component regardless of its correctness. Traditional tests that assert specific aspects of the component should be used instead.
 
 <br />
 
@@ -90,6 +135,7 @@ The snapshot files produced should be saved in the repo.
 
 - With the exception of `NODE_ENV`, any environment variable that needs to be accessible by the react app (via `process.env.<var>`) must be prefixed with `REACT_APP_`. If it is not prefixed, react will not read it, and it will be `undefined` when you try to access it.
 
+  - Example: `REACT_APP_MY_VAR=myvar`
   - See: https://create-react-app.dev/docs/adding-custom-environment-variables
 
   - Caveat: React only allows/supports `NODE_ENV:'development'|'test'|'production'`
@@ -103,14 +149,6 @@ The snapshot files produced should be saved in the repo.
   - See: https://create-react-app.dev/docs/adding-custom-environment-variables/#what-other-env-files-can-be-used
 
 # Troubleshooting and Known Issues
-
-### `react` version
-
-There appears to be an issue between RJSF and react version 17+ that causes some of the RJSF form behaviour to work incorrectly. A result of some change to how events are bubbled up, introduced in react `17.x`.
-
-- The simplest solution for now is to keep react at the latest `16.x` version.
-
-- https://github.com/rjsf-team/react-jsonschema-form/issues/2104
 
 ### `typescript` version
 
