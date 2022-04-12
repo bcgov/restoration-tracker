@@ -107,7 +107,7 @@ const PublicProjectsListPage = () => {
     let response;
 
     try {
-      response = await restorationTrackerApi.project.downloadProjectEML(projectId);
+      response = await restorationTrackerApi.public.project.downloadProjectEML(projectId);
     } catch (error) {
       dialogContext.setErrorDialog({
         dialogTitle: DownloadEMLI18N.errorTitle,
