@@ -14,12 +14,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import { DATE_FORMAT } from 'constants/dateTimeFormats';
+import { DownloadEMLI18N } from 'constants/i18n';
 import { ProjectStatusType } from 'constants/misc';
+import { DialogContext } from 'contexts/dialogContext';
+import { APIError } from 'hooks/api/useAxios';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetDraftsListResponse } from 'interfaces/useDraftApi.interface';
 import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
 import moment from 'moment';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { getFormattedDate, triggerFileDownload } from 'utils/Utils';
 
@@ -52,6 +55,8 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
   const history = useHistory();
   const classes = useStyles();
 
+  const dialogContext = useContext(DialogContext);
+
   const restorationTrackerApi = useRestorationTrackerApi();
 
   const getProjectStatusType = (projectData: IGetProjectForViewResponse): ProjectStatusType => {
@@ -81,7 +86,27 @@ const ProjectsListPage: React.FC<IProjectsListProps> = (props) => {
   };
 
   const handleDownloadProjectEML = async (projectId: number) => {
-    const response = await restorationTrackerApi.project.downloadProjectEML(projectId);
+    let response;
+
+    try {
+      response = await restorationTrackerApi.project.downloadProjectEML(projectId);
+    } catch (error) {
+      dialogContext.setErrorDialog({
+        dialogTitle: DownloadEMLI18N.errorTitle,
+        dialogText: DownloadEMLI18N.errorText,
+        dialogError: (error as APIError).message,
+        dialogErrorDetails: (error as APIError).errors,
+        open: true,
+        onClose: () => {
+          dialogContext.setErrorDialog({ open: false });
+        },
+        onOk: () => {
+          dialogContext.setErrorDialog({ open: false });
+        }
+      });
+
+      return;
+    }
 
     triggerFileDownload(response.fileData, response.fileName);
   };
