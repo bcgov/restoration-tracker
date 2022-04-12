@@ -199,11 +199,13 @@ const ProjectParticipantsPage: React.FC = () => {
                         dialogTitle: ProjectParticipantsI18N.removeParticipantTitle,
                         dialogContent: (
                           <Typography variant="body1" component="div" color="textSecondary">
-                            Removing user <strong>{row.user_identifier}</strong> will revoke their access to project.
-                            Are you sure you want to proceed?
+                            Removing user <strong>{row.user_identifier}</strong> will revoke their access to this
+                            project. Are you sure you want to proceed?
                           </Typography>
                         ),
+                        yesButtonLabel: 'Remove User',
                         yesButtonProps: { color: 'secondary' },
+                        noButtonLabel: 'Cancel',
                         onYes: () => {
                           handleRemoveProjectParticipant(row.project_participation_id);
                           dialogContext.setYesNoDialog({ open: false });
@@ -218,7 +220,7 @@ const ProjectParticipantsPage: React.FC = () => {
                         }
                       })
                     }>
-                    <Icon path={mdiTrashCanOutline} size={1} />
+                    <Icon path={mdiTrashCanOutline} size={1} aria-label="remove team member" />
                   </IconButton>
                 </Box>
               </TableCell>

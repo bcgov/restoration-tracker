@@ -166,7 +166,9 @@ const ViewProjectPage: React.FC = () => {
     dialogContext.setYesNoDialog({
       ...defaultYesNoDialogProps,
       open: true,
+      yesButtonLabel: 'Delete',
       yesButtonProps: { color: 'secondary' },
+      noButtonLabel: 'Cancel',
       onYes: () => {
         deleteProject();
         dialogContext.setYesNoDialog({ open: false });

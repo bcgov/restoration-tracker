@@ -159,9 +159,7 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
                   color="primary"
                   onClick={() => history.push(`/admin/projects/${row.project_id}/details`)}
                   aria-current="page">
-                  <Typography variant="body2">
-                    <strong>{row.name}</strong>
-                  </Typography>
+                  <Typography variant="body2">{row.name}</Typography>
                 </Link>
               </TableCell>
 
@@ -185,16 +183,18 @@ const UsersDetailProjects: React.FC<IProjectDetailsProps> = (props) => {
                         dialogTitle: SystemUserI18N.removeUserFromProject,
                         dialogContent: (
                           <>
-                            <Typography variant="body1" color="textPrimary">
+                            <Typography variant="body1" color="textSecondary">
                               Removing user <strong>{userDetails.user_identifier}</strong> will revoke their access to
-                              the project.
+                              this project.
                             </Typography>
                             <Typography variant="body1" color="textPrimary">
                               Are you sure you want to proceed?
                             </Typography>
                           </>
                         ),
+                        yesButtonLabel: 'Remove User',
                         yesButtonProps: { color: 'secondary' },
+                        noButtonLabel: 'Cancel',
                         onYes: () => {
                           handleRemoveProjectParticipant(row.project_id, row.project_participation_id);
                           dialogContext.setYesNoDialog({ open: false });

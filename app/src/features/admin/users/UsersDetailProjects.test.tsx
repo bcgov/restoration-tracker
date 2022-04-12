@@ -225,14 +225,14 @@ describe('UsersDetailProjects', () => {
         expect(getAllByText('Remove User From Project').length).toEqual(1);
       });
 
-      fireEvent.click(getByText('No'));
+      fireEvent.click(getByText('Cancel'));
 
       await waitFor(() => {
         expect(history.location.pathname).toEqual('/admin/users/1');
       });
     });
 
-    it('deletes User from project if the user clicks on `Yes` ', async () => {
+    it('deletes User from project if the user clicks on `Remove User` ', async () => {
       history.push('/admin/users/1');
 
       mockRestorationTrackerApi().codes.getAllCodeSets.mockResolvedValue({
@@ -289,7 +289,7 @@ describe('UsersDetailProjects', () => {
         expect(getAllByText('Remove User From Project').length).toEqual(1);
       });
 
-      fireEvent.click(getByText('Yes'));
+      fireEvent.click(getByText('Remove User'));
 
       await waitFor(() => {
         expect(getAllByText('Assigned Projects (1)').length).toEqual(1);
