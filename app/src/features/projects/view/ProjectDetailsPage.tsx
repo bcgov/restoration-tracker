@@ -112,12 +112,16 @@ const ProjectDetailsPage: React.FC<IProjectDetailsProps> = (props) => {
         <IUCNClassification projectForViewData={projectForViewData} codes={codes} refresh={refresh} />
       </Box>
 
-      <Box component="section">
-        <Typography variant="body1" component={'h3'} data-testid="PermitsTitle">
-          Permits
-        </Typography>
-        <ProjectPermits projectForViewData={projectForViewData} refresh={refresh} />
-      </Box>
+      <RoleGuard
+        validSystemRoles={[SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR]}
+        validProjectRoles={[PROJECT_ROLE.PROJECT_LEAD, PROJECT_ROLE.PROJECT_EDITOR, PROJECT_ROLE.PROJECT_VIEWER]}>
+        <Box component="section">
+          <Typography variant="body1" component={'h3'} data-testid="PermitsTitle">
+            Permits
+          </Typography>
+          <ProjectPermits projectForViewData={projectForViewData} refresh={refresh} />
+        </Box>
+      </RoleGuard>
 
       <Box component="section">
         <Typography variant="body1" component={'h3'} data-testid="FundingSourceTitle">
