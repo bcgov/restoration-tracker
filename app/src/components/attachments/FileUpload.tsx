@@ -2,7 +2,7 @@ import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { FileError, FileRejection } from 'react-dropzone';
 import DropZone, { IDropZoneConfigProps } from './DropZone';
 import {
@@ -100,6 +100,7 @@ export interface IFileUploadProps {
    */
   onReplace?: IReplaceHandler;
   dropZoneProps?: Partial<IDropZoneConfigProps>;
+  errorDetailHandler?: (errors: (string | object)[]) => ReactElement;
 }
 
 export const FileUpload: React.FC<IFileUploadProps> = (props) => {
@@ -179,6 +180,7 @@ export const FileUpload: React.FC<IFileUploadProps> = (props) => {
         onCancel={() => setFileToRemove(file.name)}
         fileHandler={props.fileHandler}
         status={props.status}
+        errorDetailHandler={props.errorDetailHandler}
       />
     );
   };

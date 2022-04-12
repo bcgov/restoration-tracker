@@ -32,6 +32,10 @@ export class TreatmentService extends DBService {
     // Run the conversion
     const geojson = await this.parseShapeFile(file.buffer);
 
+    if (!geojson) {
+      return null;
+    }
+
     let features: TreatmentFeature[] = [];
     if (Array.isArray(geojson)) {
       geojson.forEach((item) => {
@@ -40,16 +44,15 @@ export class TreatmentService extends DBService {
     } else {
       features = (geojson.features as unknown) as TreatmentFeature[];
     }
-
     return features;
   }
 
   //check all treatment units if their proerties are valid.
-  validateAllTreatmentUnitProperties(
+  async validateAllTreatmentUnitProperties(
     treatmentFeatures: TreatmentFeature[]
-  ): { treatmentUnitId: string; missingProperties: string[] }[] {
+  ): Promise<{ treatmentUnitId: string; errors: string[] }[]> {
     //collection of all errors in units
-    const errorArray: { treatmentUnitId: string; missingProperties: string[] }[] = [];
+    const errorArray: { treatmentUnitId: string; errors: string[] }[] = [];
 
     for (const item of treatmentFeatures) {
       //collect errors of a single unit
@@ -65,6 +68,14 @@ export class TreatmentService extends DBService {
 
       if (typeof item.properties.Fe_Type !== 'string' || item.properties.Fe_Type.length <= 0) {
         treatmentUnitError.push('Property Fe_Type is required: non-empty String');
+      } else {
+        const featureCheck = await this.getTreatmentFeatureTypeObjs(item.properties);
+
+        if (featureCheck === undefined) {
+          treatmentUnitError.push(
+            'Invalid Fe_Type Entered. Valid Fe_Type: [ Seismic Line, Road, Pipeline, Transmission Line, Railway, Trail, Well, Cutblock, Other ] '
+          );
+        }
       }
 
       if (item.properties.Width_m && typeof item.properties.Width_m !== 'number') {
@@ -85,6 +96,14 @@ export class TreatmentService extends DBService {
 
       if (typeof item.properties.Treatments !== 'string' || item.properties.Treatments.length <= 0) {
         treatmentUnitError.push('Property Treatments is required: non-empty String');
+      } else {
+        const treatmentCheck = await this.getAllTreatmentTypes(item.properties);
+
+        if (treatmentCheck.length === 0) {
+          treatmentUnitError.push(
+            'Invalid Treatments Entered. Valid Treatments (must be semi-colon delimited): "Leave for natural recovery; Debris rollback; Hummock placing; Mounding; Screef; Seeding; Seedling planting; Tree bending; Tree felling; Ripping; Re-contouring; Barrier; Invasive species removal" '
+          );
+        }
       }
 
       if (typeof item.properties.Implement !== 'string' || item.properties.Implement.length <= 0) {
@@ -96,13 +115,13 @@ export class TreatmentService extends DBService {
       }
 
       if (treatmentUnitError.length > 0) {
-        errorArray.push({ treatmentUnitId: item.properties.TU_ID, missingProperties: treatmentUnitError });
+        errorArray.push({ treatmentUnitId: item.properties.TU_ID, errors: treatmentUnitError });
       }
     }
     return errorArray;
   }
 
-  async getTreatmentFeatureTypes(): Promise<GetTreatmentFeatureTypes[]> {
+  async getAllTreatmentFeatureTypes(): Promise<GetTreatmentFeatureTypes[]> {
     const sqlStatement = queries.project.getTreatmentFeatureTypesSQL();
 
     if (!sqlStatement) {
@@ -118,27 +137,17 @@ export class TreatmentService extends DBService {
     return response.rows;
   }
 
-  async getEqualTreatmentFeatureTypeIds(
+  async getTreatmentFeatureTypeObjs(
     treatmentFeatureProperties: TreatmentFeatureProperties
-  ): Promise<GetTreatmentFeatureTypes> {
-    const treatmentFeatureTypes = await this.getTreatmentFeatureTypes();
+  ): Promise<GetTreatmentFeatureTypes | undefined> {
+    const treatmentFeatureTypes = await this.getAllTreatmentFeatureTypes();
 
-    let featureTypeObj: GetTreatmentFeatureTypes[] = [];
-
-    featureTypeObj = treatmentFeatureTypes.filter((item) => {
+    return treatmentFeatureTypes.find((item) => {
       return item.name.toLowerCase() === treatmentFeatureProperties.Fe_Type.toLowerCase();
     });
-
-    if (featureTypeObj.length === 0) {
-      featureTypeObj = treatmentFeatureTypes.filter((item) => {
-        return item.name === 'Other';
-      });
-    }
-
-    return featureTypeObj[0];
   }
 
-  async getTreatmentUnitTypes(): Promise<GetTreatmentTypes[]> {
+  async getAllTreatmentUnitTypes(): Promise<GetTreatmentTypes[]> {
     const sqlStatement = queries.project.getTreatmentUnitTypesSQL();
 
     if (!sqlStatement) {
@@ -155,7 +164,11 @@ export class TreatmentService extends DBService {
   }
 
   async insertTreatmentUnit(projectId: number, feature: TreatmentFeature): Promise<ITreatmentUnitInsertOrExists> {
-    const featureTypeObj = await this.getEqualTreatmentFeatureTypeIds(feature.properties);
+    const featureTypeObj = await this.getTreatmentFeatureTypeObjs(feature.properties);
+
+    if (!featureTypeObj) {
+      throw new HTTP400('Invalid Feature type');
+    }
 
     const sqlStatement = queries.project.postTreatmentUnitSQL(projectId, featureTypeObj.feature_type_id, feature);
 
@@ -204,11 +217,8 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async insertAllTreatmentTypes(
-    treatmentId: number,
-    treatmentFeatureProperties: TreatmentFeatureProperties
-  ): Promise<void> {
-    const treatmentUnitTypes = await this.getTreatmentUnitTypes();
+  async getAllTreatmentTypes(treatmentFeatureProperties: TreatmentFeatureProperties): Promise<GetTreatmentTypes[]> {
+    const treatmentUnitTypes = await this.getAllTreatmentUnitTypes();
 
     const givenTypesString = treatmentFeatureProperties.Treatments;
 
@@ -217,18 +227,31 @@ export class TreatmentService extends DBService {
       .map((item) => item.trim())
       .filter(Boolean);
 
-    const treatmentTypes: number[] = [];
+    const treatmentTypes: GetTreatmentTypes[] = [];
 
     treatmentUnitTypes.forEach((item) => {
       givenTypesSplit.forEach((givenItem: string) => {
-        if (item.name.toUpperCase().includes(givenItem.toUpperCase())) {
-          treatmentTypes.push(item.treatment_type_id);
+        if (item.name.toLowerCase().includes(givenItem.toLowerCase())) {
+          treatmentTypes.push(item);
         }
       });
     });
 
+    return treatmentTypes;
+  }
+
+  async insertAllTreatmentTypes(
+    treatmentId: number,
+    treatmentFeatureProperties: TreatmentFeatureProperties
+  ): Promise<void> {
+    const treatmentTypes = await this.getAllTreatmentTypes(treatmentFeatureProperties);
+
+    if (treatmentTypes.length === 0) {
+      throw new HTTP400('Invalid Treatment Types');
+    }
+
     for (const item of treatmentTypes) {
-      const response = await this.insertTreatmentType(treatmentId, item);
+      const response = await this.insertTreatmentType(treatmentId, item.treatment_type_id);
 
       if (!response || !response.treatment_treatment_type_id) {
         throw new HTTP400('Failed to insert treatment unit type data');
@@ -249,7 +272,11 @@ export class TreatmentService extends DBService {
     const treatmentInsertResponse: number[] = [];
 
     for (const item of features) {
-      const featureTypeObj = await this.getEqualTreatmentFeatureTypeIds(item.properties);
+      const featureTypeObj = await this.getTreatmentFeatureTypeObjs(item.properties);
+
+      if (!featureTypeObj) {
+        throw new HTTP400('Feature type invalid');
+      }
 
       const checkTreatmentUnitExist = await this.getTreatmentUnitExist(
         projectId,

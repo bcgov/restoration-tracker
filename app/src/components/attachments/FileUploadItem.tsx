@@ -12,7 +12,7 @@ import axios, { CancelTokenSource } from 'axios';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { APIError } from 'hooks/api/useAxios';
 import useIsMounted from 'hooks/useIsMounted';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme: Theme) => ({
   uploadProgress: {
@@ -80,6 +80,7 @@ export interface IFileUploadItemProps {
   onCancel: () => void;
   fileHandler?: IFileHandler;
   status?: UploadFileStatus;
+  errorDetailHandler?: (errors: (string | object)[]) => ReactElement;
 }
 
 const FileUploadItem: React.FC<IFileUploadItemProps> = (props) => {
@@ -204,18 +205,6 @@ const FileUploadItem: React.FC<IFileUploadItemProps> = (props) => {
     props.fileHandler?.(null);
   }, [initiateCancel, isSafeToCancel, props]);
 
-  const ErrorDetailsList = (errorProps: { errors: (string | object)[] }) => {
-    const items = errorProps.errors.map((item, index) => {
-      if (typeof item === 'string') {
-        return <li key={index}>{item}</li>;
-      }
-
-      return <li key={index}>{JSON.stringify(item)}</li>;
-    });
-
-    return <ul>{items}</ul>;
-  };
-
   return (
     <ListItem key={file.name} disableGutters>
       <Box className={classes.uploadListItemBox}>
@@ -232,7 +221,7 @@ const FileUploadItem: React.FC<IFileUploadItemProps> = (props) => {
                 </Typography>
               </Box>
 
-              {errors && (
+              {errors && props.errorDetailHandler && (
                 <Box display="flex" alignItems="center">
                   <Button className={classes.errorColor} onClick={() => setOpenDialog(!openDialog)}>
                     View Details
@@ -241,7 +230,7 @@ const FileUploadItem: React.FC<IFileUploadItemProps> = (props) => {
                     open={openDialog}
                     dialogTitle="Treatment File Errors"
                     onClose={() => setOpenDialog(false)}>
-                    <ErrorDetailsList errors={errors} />
+                    {props.errorDetailHandler(errors)}
                   </ComponentDialog>
                 </Box>
               )}

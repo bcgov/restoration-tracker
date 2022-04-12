@@ -90,7 +90,7 @@ describe('TreatmentService', () => {
 
       const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
 
-      expect(response[0].missingProperties.length).to.be.equal(6);
+      expect(response[0].errors.length).to.be.equal(6);
     });
 
     it('should return an array of invalid units with invalid properties', async function () {
@@ -147,12 +147,20 @@ describe('TreatmentService', () => {
             Length_m: 3498,
             Area_m2: 10,
             Recce: 'Y',
-            Treatments: 'Tree bending; Tree felling; Seeding',
+            Treatments: 'Tree bending; ',
             Implement: 'Y',
             Comments: 'something'
           }
         } as unknown
       ] as TreatmentFeature[];
+
+      sinon
+        .stub(treatmentService, 'getTreatmentFeatureTypeObjs')
+        .resolves({ feature_type_id: 1, name: 'Transect', description: 'string;' });
+
+      sinon
+        .stub(treatmentService, 'getAllTreatmentTypes')
+        .resolves([{ treatment_type_id: 1, name: 'Tree bending', description: 'string;' }]);
 
       const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
 
@@ -175,7 +183,7 @@ describe('TreatmentService', () => {
       const treatmentService = new TreatmentService(mockDBConnection);
 
       try {
-        await treatmentService.getTreatmentFeatureTypes();
+        await treatmentService.getAllTreatmentFeatureTypes();
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to get project treatment feature type data');
@@ -193,7 +201,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const result = await treatmentService.getTreatmentFeatureTypes();
+      const result = await treatmentService.getAllTreatmentFeatureTypes();
 
       expect(result[0]).to.eql(new GetTreatmentFeatureTypes(featureRow));
     });
@@ -214,7 +222,7 @@ describe('TreatmentService', () => {
       const treatmentService = new TreatmentService(mockDBConnection);
 
       try {
-        await treatmentService.getTreatmentUnitTypes();
+        await treatmentService.getAllTreatmentUnitTypes();
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to get project treatment unit type data');
@@ -232,7 +240,7 @@ describe('TreatmentService', () => {
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const result = await treatmentService.getTreatmentUnitTypes();
+      const result = await treatmentService.getAllTreatmentUnitTypes();
 
       expect(result[0]).to.eql(new GetTreatmentTypes(treatmentTypeRow));
     });
@@ -243,7 +251,7 @@ describe('TreatmentService', () => {
       sinon.restore();
     });
 
-    it('should return "Other" featureTypeObj when no vaild featureType is given', async function () {
+    it('should return "undefined" featureTypeObj when no vaild featureType is given', async function () {
       const featureRow = { feature_type_id: 1, name: 'Road', description: 'desc' };
       const featureOtherRow = { feature_type_id: 8, name: 'Other', description: 'desc' };
 
@@ -254,9 +262,9 @@ describe('TreatmentService', () => {
 
       const treatmentProperties = { Fe_Type: 'something' } as TreatmentFeatureProperties;
 
-      const response = await treatmentService.getEqualTreatmentFeatureTypeIds(treatmentProperties);
+      const response = await treatmentService.getTreatmentFeatureTypeObjs(treatmentProperties);
 
-      expect(response.name).to.be.equal('Other');
+      expect(response?.name).to.be.equal(undefined);
     });
 
     it('should return the same featureTypeObj when vaild featureType is given', async function () {
@@ -270,9 +278,9 @@ describe('TreatmentService', () => {
 
       const treatmentProperties = { Fe_Type: 'Road' } as TreatmentFeatureProperties;
 
-      const response = await treatmentService.getEqualTreatmentFeatureTypeIds(treatmentProperties);
+      const response = await treatmentService.getTreatmentFeatureTypeObjs(treatmentProperties);
 
-      expect(response.name).to.be.equal('Road');
+      expect(response?.name).to.be.equal('Road');
     });
   });
 
@@ -292,7 +300,7 @@ describe('TreatmentService', () => {
         description: 'desc'
       } as GetTreatmentFeatureTypes;
 
-      sinon.stub(treatmentService, 'getEqualTreatmentFeatureTypeIds').resolves(mockGetEqualTreatmentFeatureTypes);
+      sinon.stub(treatmentService, 'getTreatmentFeatureTypeObjs').resolves(mockGetEqualTreatmentFeatureTypes);
 
       const mockTreatmentUnitTypesSQLResponse = SQL`Valid SQL return`;
       sinon.stub(queries.project, 'postTreatmentUnitSQL').returns(mockTreatmentUnitTypesSQLResponse);
@@ -341,7 +349,7 @@ describe('TreatmentService', () => {
         description: 'desc'
       } as GetTreatmentFeatureTypes;
 
-      sinon.stub(treatmentService, 'getEqualTreatmentFeatureTypeIds').resolves(mockGetEqualTreatmentFeatureTypes);
+      sinon.stub(treatmentService, 'getTreatmentFeatureTypeObjs').resolves(mockGetEqualTreatmentFeatureTypes);
 
       const mockTreatmentUnitTypesSQLResponse = SQL`Valid SQL return`;
       sinon.stub(queries.project, 'postTreatmentUnitSQL').returns(mockTreatmentUnitTypesSQLResponse);
@@ -489,7 +497,7 @@ describe('TreatmentService', () => {
       const treatmentService = new TreatmentService(mockDBConnection);
 
       const mocktreatmentUnitTypes = ([{ name: 'name' }] as unknown) as GetTreatmentTypes[];
-      sinon.stub(treatmentService, 'getTreatmentUnitTypes').resolves(mocktreatmentUnitTypes);
+      sinon.stub(treatmentService, 'getAllTreatmentUnitTypes').resolves(mocktreatmentUnitTypes);
 
       sinon.stub(treatmentService, 'insertTreatmentType').resolves((null as unknown) as ITreatmentTypeInsertOrExists);
 
@@ -511,7 +519,7 @@ describe('TreatmentService', () => {
         { treatment_type_id: 1, name: 'name' },
         { treatment_type_id: 2, name: 'second' }
       ] as unknown) as GetTreatmentTypes[];
-      sinon.stub(treatmentService, 'getTreatmentUnitTypes').resolves(mocktreatmentUnitTypes);
+      sinon.stub(treatmentService, 'getAllTreatmentUnitTypes').resolves(mocktreatmentUnitTypes);
 
       const insertTreatmentCall = sinon
         .stub(treatmentService, 'insertTreatmentType')

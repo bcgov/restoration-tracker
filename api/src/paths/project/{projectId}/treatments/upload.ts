@@ -132,7 +132,7 @@ export function uploadTreatmentSpatial(): RequestHandler {
         return;
       }
 
-      const checkFeaturePropertiesValid = treatmentService.validateAllTreatmentUnitProperties(shapeFileFeatures);
+      const checkFeaturePropertiesValid = await treatmentService.validateAllTreatmentUnitProperties(shapeFileFeatures);
 
       if (checkFeaturePropertiesValid.length >= 1) {
         defaultLog.error({ label: 'uploadTreatmentSpatial', message: 'error', errors: checkFeaturePropertiesValid });
