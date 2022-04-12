@@ -194,7 +194,7 @@ const PublicProjectPage = () => {
                       </IconButton>
                     </Box>
                   </Box>
-                  <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+                  <TreatmentList treatmentList={treatmentList} />
                 </Paper>
               </Box>
 
@@ -233,7 +233,7 @@ const PublicProjectPage = () => {
             />
           </Box>
           <Box flex="0 0 auto" height="300px">
-            <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+            <TreatmentList treatmentList={treatmentList} />
           </Box>
         </Box>
       </Dialog>

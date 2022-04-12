@@ -303,7 +303,7 @@ const ViewProjectPage: React.FC = () => {
                       </IconButton>
                     </Box>
                   </Box>
-                  <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+                  <TreatmentList treatmentList={treatmentList} />
                 </Paper>
               </Box>
               {/* Documents */}
@@ -344,7 +344,7 @@ const ViewProjectPage: React.FC = () => {
             />
           </Box>
           <Box flex="0 0 auto" height="300px">
-            <TreatmentList treatmentList={treatmentList} getTreatments={getTreatments} refresh={getProject} />
+            <TreatmentList treatmentList={treatmentList} />
           </Box>
         </Box>
       </Dialog>

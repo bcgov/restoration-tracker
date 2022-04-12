@@ -1,6 +1,7 @@
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
 import { useEffect, useState } from 'react';
+import { useAsync } from './useAsync';
 
 export interface IUseCodes {
   codes: IGetAllCodeSetsResponse | undefined;
@@ -21,11 +22,13 @@ export default function useCodes(): IUseCodes {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isReady, setIsReady] = useState<boolean>(false);
 
+  const getCodes = useAsync(api.codes.getAllCodeSets);
+
   useEffect(() => {
     const fetchCodes = async () => {
       setIsLoading(true);
 
-      const response = await api.codes.getAllCodeSets();
+      const response = await getCodes();
 
       setCodes(response);
 
@@ -37,7 +40,7 @@ export default function useCodes(): IUseCodes {
     }
 
     fetchCodes();
-  }, [api.codes, codes]);
+  }, [codes, getCodes]);
 
   return { codes, isLoading, isReady };
 }

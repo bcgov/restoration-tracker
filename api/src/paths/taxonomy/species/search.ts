@@ -71,10 +71,10 @@ export function searchSpecies(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'getSearchResults', message: 'request params', req_params: req.query.terms });
 
-    const term = req.query.terms || '';
+    const term = String(req.query.terms) || '';
     try {
       const taxonomySearch = new TaxonomyService();
-      const response = await taxonomySearch.searchSpecies(term as string);
+      const response = await taxonomySearch.searchSpecies(term.toLowerCase());
 
       res.status(200).json({ searchResponse: response });
     } catch (error) {

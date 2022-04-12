@@ -1,6 +1,6 @@
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,15 +11,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import ComponentDialog from 'components/dialog/ComponentDialog';
-import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
+import { IGetProjectTreatment } from 'interfaces/useProjectApi.interface';
 import React, { ReactElement, useState } from 'react';
 import { handleChangePage, handleChangeRowsPerPage } from 'utils/tablePaginationUtils';
 import { getFormattedTreatmentStringsByYear, groupTreatmentsByYear } from 'utils/treatments';
 
 export interface IProjectTreatmentListProps {
   treatmentList: IGetProjectTreatment[];
-  getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
-  refresh: () => void;
 }
 
 const useStyles = makeStyles({
