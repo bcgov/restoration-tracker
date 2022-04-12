@@ -7,12 +7,7 @@ import React from 'react';
  * @return {*}
  */
 const AdminUsersLayout: React.FC = (props) => {
-
-  return (
-    <>
-      {props.children}
-    </>
-  );
+  return <>{props.children}</>;
 };
 
 export default AdminUsersLayout;

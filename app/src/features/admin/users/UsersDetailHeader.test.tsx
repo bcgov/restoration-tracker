@@ -5,6 +5,7 @@ import { Router } from 'react-router';
 import { useRestorationTrackerApi } from '../../../hooks/useRestorationTrackerApi';
 import UsersDetailHeader from './UsersDetailHeader';
 import { DialogContextProvider } from 'contexts/dialogContext';
+import { IGetUserResponse } from 'interfaces/useUserApi.interface';
 
 const history = createMemoryHistory();
 
@@ -20,12 +21,12 @@ const mockRestorationTrackerApi = ((useRestorationTrackerApi as unknown) as jest
   typeof mockuseRestorationTrackerApi
 >).mockReturnValue(mockuseRestorationTrackerApi);
 
-const mockUser = {
+const mockUser = ({
   id: 1,
-  record_end_date: 'ending',
   user_identifier: 'testUser',
+  record_end_date: 'ending',
   role_names: ['system']
-};
+} as unknown) as IGetUserResponse;
 
 describe('UsersDetailHeader', () => {
   afterEach(() => {
@@ -143,7 +144,7 @@ describe('UsersDetailHeader', () => {
         expect(getAllByText('Remove System User').length).toEqual(1);
       });
 
-      fireEvent.click(getByText('Remove User'));
+      fireEvent.click(getAllByTestId('yes-button')[0]);
 
       await waitFor(() => {
         expect(history.location.pathname).toEqual('/admin/users');
