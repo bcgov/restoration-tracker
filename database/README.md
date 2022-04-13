@@ -4,7 +4,7 @@
 
 | Technology | Version | Website                              | Description          |
 | ---------- | ------- | ------------------------------------ | -------------------- |
-| node       | 10.x.x  | https://nodejs.org/en/               | JavaScript Runtime   |
+| node       | 14.x.x  | https://nodejs.org/en/               | JavaScript Runtime   |
 | npm        | 6.x.x   | https://www.npmjs.com/               | Node Package Manager |
 | PostgreSQL | 12.5    | https://www.postgresql.org/download/ | PSQL database        |
 | PostGIS    | 3       | https://postgis.net/                 | GIS (spatial) tools  |
@@ -15,7 +15,6 @@
 
 ### Migrations
 
-
 An ordered list of database changes (creates, deletes, alters, etc). The latest version of your database will then be the summation of all of the migration changes, applied in order.
 
 Useful resource https://devhints.io/knex
@@ -25,10 +24,11 @@ To run migrations locally using your terminal, export the required environment v
 ```
 EXPORT DB_SCHEMA=restoration
 ```
+
 To test that it worked:
 
 ```
-ECHO $DB_SCHEMA 
+ECHO $DB_SCHEMA
 ```
 
 ### Seeds

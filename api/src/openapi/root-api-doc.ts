@@ -44,16 +44,6 @@ export const rootAPIDoc = {
       description: 'deployed api in prod environment'
     }
   ],
-  tags: [
-    {
-      name: 'template',
-      description:
-        'Template information used by the frontends (via RJSF) to automatically generate forms to capture/render semi-structured data',
-      externalDocs: {
-        url: 'react-jsonschema-form.readthedocs.io'
-      }
-    }
-  ],
   externalDocs: {
     description: 'Visit GitHub to find out more about this API',
     url: 'https://github.com/bcgov/restoration-tracker.git'
