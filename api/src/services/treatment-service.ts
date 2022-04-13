@@ -347,25 +347,6 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async updateProjectTreatment(
-    projectId: number,
-    file: Express.Multer.File
-  ): Promise<{ id: number; revision_count: number }> {
-    const sqlStatement = queries.project.putProjectTreatmentSQL(projectId, file.originalname);
-
-    if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL update statement');
-    }
-
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
-
-    if (!response || !response?.rows?.[0]) {
-      throw new HTTP400('Failed to update project attachment data');
-    }
-
-    return response.rows[0];
-  }
-
   async getTreatmentsByCriteria(projectId: number, criteria: TreatmentSearchCriteria): Promise<GetTreatmentData> {
     const queryBuilder = getKnexQueryBuilder<any, { project_id: number }>()
       .select(
