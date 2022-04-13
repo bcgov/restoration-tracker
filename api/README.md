@@ -13,9 +13,9 @@
 
 The root API schema is defined in `./src/openapi/api.ts`.
 
-If this project is running in docker you can view the beautified api docs at: `http://localhost:6100/api/api-docs/`.
+If this project is running in docker you can view the beautified api docs at: `http://localhost:6100/api-docs/`.
 
-- The raw api-docs are available at: `http://localhost:6100/api/raw-api-docs/`.
+- The raw api-docs are available at: `http://localhost:6100/raw-api-docs/`.
 
 This project uses npm package `express-openapi` via `./app.ts` to automatically generate the express server and its routes, based on the contents of the `./src/openapi/api.ts` and the `./src/path/` content.
 
