@@ -1,19 +1,19 @@
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import Link from '@material-ui/core/Link';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
-import React from 'react';
 import { mdiAccountCircleOutline } from '@mdi/js';
 import Icon from '@mdi/react';
+import { IGetProjectForViewResponse } from 'interfaces/useProjectApi.interface';
+import React from 'react';
 
 export interface IProjectContactProps {
   projectForViewData: IGetProjectForViewResponse;
   refresh: () => void;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     projectContactList: {
       marginBottom: 0,

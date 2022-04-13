@@ -284,7 +284,7 @@ const ProjectFilter: React.FC<IProjectAdvancedFiltersProps> = (props) => {
                   <Typography variant="h4">Filters </Typography>
                 </Grid>
                 {Object.entries(filterChipParams).map(
-                  ([key, value], index) => isFilterValueNotEmpty(value) && getFilterChips(key, value)
+                  ([key, value]) => isFilterValueNotEmpty(value) && getFilterChips(key, value)
                 )}
                 <Grid item>
                   <Chip label={'Clear all'} onClick={handleFilterReset} />

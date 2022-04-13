@@ -195,7 +195,7 @@ const MultiAutocompleteFieldVariableSize: React.FC<IMultiAutocompleteField> = (p
     }
   };
 
-  const handleOnChange = (event: React.ChangeEvent<any>, selectedOptions: IMultiAutocompleteFieldOption[]) => {
+  const handleOnChange = (_event: React.ChangeEvent<any>, selectedOptions: IMultiAutocompleteFieldOption[]) => {
     const selectedOptionsValue = selectedOptions.map((item) => item.value);
     const remainingOptions = options.filter((item) => !selectedOptionsValue.includes(item.value));
 
