@@ -44,7 +44,7 @@ jobs:
 
       - name: Scale down
         run: |
-          oc project af2668-dev
+          oc project b1d40d-dev
           oc get deploymentconfig --selector env-id=$BUILD_ID -o name | awk '{print "oc scale --replicas=0  " $1}' | bash
 
   # Build the Database image
@@ -511,9 +511,9 @@ jobs:
       # Clean the reamaining build/deployment artifacts
       - name: Clean remaining Artifacts
         run: |
-          oc project af2668-dev
+          oc project b1d40d-dev
           oc get all,pvc,secret,pods,ReplicationController,DeploymentConfig,HorizontalPodAutoscaler,imagestreamtag -o name | grep restoration-tracker | grep $BUILD_ID | awk '{print "oc delete " $1}' | bash
-          oc project af2668-tools
+          oc project b1d40d-tools
           oc get all,pvc,secret,pods,ReplicationController,DeploymentConfig,HorizontalPodAutoscaler,imagestreamtag -o name | grep restoration-tracker | grep $BUILD_ID | awk '{print "oc delete " $1}' | bash
 
   cypress-run:
@@ -527,7 +527,7 @@ jobs:
       CYPRESS_host: 'https://${{ github.base_ref }}-restoration-tracker.apps.silver.devops.gov.bc.ca'
       CYPRESS_ENVIRONMENT: ${{ github.base_ref }}
       CYPRESS_authRealm: '35r1iman'
-      CYPRESS_authClientId: 'biohubbc'
+      CYPRESS_authClientId: 'restoration'
       CYPRESS_authUrl: 'https://${{ github.base_ref }}.oidc.gov.bc.ca'
     needs:
       - deployDatabase

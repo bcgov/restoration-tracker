@@ -33,7 +33,7 @@ objects:
           from:
             kind: ImageStreamTag
             name: postgis-postgres:12-31
-            namespace: af2668-tools
+            namespace: b1d40d-tools
           generation: 1
           importPolicy: {}
           referencePolicy:
