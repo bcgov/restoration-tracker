@@ -26,7 +26,7 @@ services:
     networks:
       - local-network
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres:/pgdata
 
   ## Build the api docker image
   api:
