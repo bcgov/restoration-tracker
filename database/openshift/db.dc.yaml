@@ -88,6 +88,7 @@ objects:
         template.openshift.io/expose-admin-username: "{.data['database-user']}"
         as-copy-of: restoration-tracker-creds
       name: '${DATABASE_SERVICE_NAME}'
+      role: db
     stringData:
       database-name: '${POSTGRESQL_DATABASE}'
       database-user-password: '${POSTGRESQL_PASSWORD}'
@@ -98,6 +99,7 @@ objects:
     metadata:
       annotations:
         template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
+        role: db
       name: '${DATABASE_SERVICE_NAME}'
     spec:
       ports:
@@ -116,6 +118,7 @@ objects:
     kind: PersistentVolumeClaim
     metadata:
       name: '${DATABASE_SERVICE_NAME}'
+      role: db
     spec:
       accessModes:
         - ReadWriteMany
@@ -130,6 +133,7 @@ objects:
       labels:
         shared: 'true'
       annotations: {}
+      role: db
     spec:
       lookupPolicy:
         local: false
@@ -139,10 +143,12 @@ objects:
       annotations:
         template.alpha.openshift.io/wait-for-ready: 'true'
       name: '${DATABASE_SERVICE_NAME}'
+      role: db
     spec:
       replicas: '${{REPLICAS}}'
       selector:
         name: '${DATABASE_SERVICE_NAME}'
+        role: db
       strategy:
         type: Recreate
         maxSurge: 50%
