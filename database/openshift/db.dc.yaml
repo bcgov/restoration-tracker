@@ -177,7 +177,7 @@ objects:
                       key: database-name
                       name: '${DATABASE_SERVICE_NAME}'
                 - name: PG_PRIMARY_PORT
-                  value: 5432
+                  value: '5432'
                 - name: PG_PRIMARY_USER
                   valueFrom:
                     secretKeyRef:
