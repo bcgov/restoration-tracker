@@ -228,7 +228,7 @@ objects:
                 privileged: false
               terminationMessagePath: '/dev/termination-log'
               volumeMounts:
-                - mountPath: '/var/lib/pgsql/data'
+                - mountPath: '/pgdata'
                   name: '${DATABASE_SERVICE_NAME}-data'
                 - mountPath: '/var/run/postgresql'
                   name: '${DATABASE_SERVICE_NAME}-run'
