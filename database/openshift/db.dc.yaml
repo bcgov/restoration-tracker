@@ -13,10 +13,10 @@ parameters:
     name: NAME
     required: true
     value: 'postgresql'
-  - description: The OpenShift ImageStream name.
+  - description: The ImageStream name.
     displayName: IMAGE_STREAM_NAME
     name: IMAGE_STREAM_NAME
-    value: 'postgis-postgres'
+    value: 'crunchy-postgres-gis'
   - description: The OpenShift Namespace where the ImageStream resides.
     displayName: Namespace
     name: IMAGE_STREAM_NAMESPACE
@@ -62,19 +62,11 @@ parameters:
     name: VOLUME_CAPACITY
     required: true
     value: '3Gi'
-  - description: Version of PostgreSQL image to be used (9.2, 9.4, 9.5 or latest).
-    displayName: Version of PostgreSQL Image
+  - description: Version of PostgreSQL-PostGIS image to be used (9.2, 9.4, 9.5 or latest).
+    displayName: Version of PostgreSQL-PostGIS Image
     name: IMAGE_STREAM_VERSION
     required: true
-    value: '12-31'
-  - description: Indicator to enable pgcrypto extension (provided out-of-the-box with PostgreSQL).
-    displayName: Flag to enable pgcrypto PostgreSQL extension.
-    name: PGCRYPTO_EXTENSION
-    value: 'Y'
-  - description: Indicator to enable postgis extension (from official PostgeSQL YUM repo).
-    displayName: Flag to enable postgis PostgreSQL extension.
-    name: POSTGIS_EXTENSION
-    value: 'Y'
+    value: 'ubi8-14.2-3.1-0'
   - name: CPU_REQUEST
     value: '10m'
   - name: CPU_LIMIT
@@ -164,30 +156,42 @@ objects:
           containers:
             - capabilities: {}
               env:
-                - name: POSTGRESQL_USER
+                - name: PG_USER
                   valueFrom:
                     secretKeyRef:
                       key: database-user
                       name: '${DATABASE_SERVICE_NAME}'
-                - name: POSTGRESQL_PASSWORD
+                - name: PG_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       key: database-user-password
                       name: '${DATABASE_SERVICE_NAME}'
-                - name: POSTGRESQL_ADMIN_PASSWORD
+                - name: PG_ROOT_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       key: database-admin-password
                       name: '${DATABASE_SERVICE_NAME}'
-                - name: POSTGRESQL_DATABASE
+                - name: PG_DATABASE
                   valueFrom:
                     secretKeyRef:
                       key: database-name
                       name: '${DATABASE_SERVICE_NAME}'
-                - name: PGCRYPTO_EXTENSION
-                  value: 'N'
-                - name: POSTGIS_EXTENSION
-                  value: 'N'
+                - name: PG_PRIMARY_PORT
+                  value: 5432
+                - name: PG_PRIMARY_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-user
+                      name: '${DATABASE_SERVICE_NAME}'
+                - name: PG_PRIMARY_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-user-password
+                      name: '${DATABASE_SERVICE_NAME}'
+                - name: PG_MODE
+                  value: 'primary'
+                - name: MODE
+                  value: 'postgres'
                 - name: PGOPTIONS
                   value: '-c maintenance_work_mem=128MB'
                 - name: PGTZ
