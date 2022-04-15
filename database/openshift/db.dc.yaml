@@ -213,7 +213,7 @@ objects:
                     - '/bin/sh'
                     - '-i'
                     - '-c'
-                    - psql -h 127.0.0.1 -U postgres -q -d $PG_DATABASE -c 'SELECT 1'
+                    - pg_isready -h 127.0.0.1 -q
                 initialDelaySeconds: 5
                 timeoutSeconds: 1
               resources:
