@@ -344,8 +344,8 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @param {number} attachmentId
    * @returns {*} {Promise<void>}
    */
-  const deleteProjectTreatmentsByYear = async (projectId: number, year: number): Promise<boolean> => {
-    const { status } = await axios.delete(`/api/project/${projectId}/treatments/year/${year}/delete`);
+  const deleteProjectTreatments = async (projectId: number): Promise<boolean> => {
+    const { status } = await axios.delete(`/api/project/${projectId}/treatments/delete`);
 
     return status === 200;
   };
@@ -374,7 +374,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     getProjectTreatmentsYears,
     importProjectTreatmentSpatialFile,
     deleteProjectTreatmentUnit,
-    deleteProjectTreatmentsByYear,
+    deleteProjectTreatments,
     getProjectTreatments,
     uploadProjectAttachments,
     updateProject,

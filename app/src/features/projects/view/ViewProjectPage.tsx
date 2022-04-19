@@ -343,6 +343,7 @@ const ViewProjectPage: React.FC = () => {
               projectForViewData={projectWithDetails}
               treatmentList={treatmentList}
               refresh={getProject}
+              scrollWheelZoom={true}
             />
           </Box>
           <Box flex="0 0 auto" height="300px">

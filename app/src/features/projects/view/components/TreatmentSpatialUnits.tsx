@@ -1,3 +1,4 @@
+import { IconButton } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -43,7 +44,7 @@ export interface IProjectSpatialUnitsProps {
  */
 const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const classes = useStyles();
-  const { getTreatments, getAttachments } = props;
+  const { treatmentList, getTreatments, getAttachments } = props;
   const urlParams = useParams();
   const projectId = urlParams['id'];
   const restorationTrackerApi = useRestorationTrackerApi();
@@ -75,10 +76,9 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     };
   };
 
-  const handleDeleteTreatmentsByYear = async (year: number) => {
-    await restorationTrackerApi.project.deleteProjectTreatmentsByYear(projectId, year);
-
-    handleSelectedSwitch(year);
+  const handleDeleteTreatments = async () => {
+    await restorationTrackerApi.project.deleteProjectTreatments(projectId);
+    getTreatments(true);
     getTreatmentYears(true);
   };
 
@@ -144,16 +144,16 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
     onYes: () => dialogContext.setYesNoDialog({ open: false })
   };
 
-  const showDeleteTreatmentYearDialog = (year: string | number) => {
+  const showDeleteTreatmentsDialog = () => {
     dialogContext.setYesNoDialog({
       ...defaultYesNoDialogProps,
-      dialogTitle: `Delete ${year} treatments`,
+      dialogTitle: `Delete all project treatments`,
       open: true,
       yesButtonProps: { color: 'secondary' },
       yesButtonLabel: 'Delete',
       noButtonLabel: 'Cancel',
       onYes: () => {
-        handleDeleteTreatmentsByYear(Number(year));
+        handleDeleteTreatments();
         dialogContext.setYesNoDialog({ open: false });
       }
     });
@@ -244,15 +244,6 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                       <Box flexGrow={1} ml={0.5}>
                         {year.year}
                       </Box>
-
-                      <ListItemIcon
-                        aria-labelledby="delete treatment year data"
-                        title="Delete treatment year data"
-                        onClick={() => {
-                          showDeleteTreatmentYearDialog(year.year);
-                        }}>
-                        <Icon path={mdiTrashCanOutline} size={0.9375} />
-                      </ListItemIcon>
                     </ListItem>
                   );
                 })}
@@ -271,6 +262,18 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                 onClick={handleImportTreatmentClick}>
                 Import Treatments
               </Button>
+            </Box>
+
+            <Box display="inline-block" ml={1}>
+              <IconButton
+                title="Remove Treatments"
+                data-testid={'remove-project-treatments-button'}
+                disabled={!treatmentList.length}
+                onClick={() => {
+                  showDeleteTreatmentsDialog();
+                }}>
+                <Icon path={mdiTrashCanOutline} size={0.9375} />
+              </IconButton>
             </Box>
           </Box>
         </Box>
