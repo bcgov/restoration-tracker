@@ -2,16 +2,23 @@ import { Metadata } from 'aws-sdk/clients/s3';
 import { HTTP400 } from '../errors/custom-error';
 import { GetAttachmentsData } from '../models/project-attachments';
 import { queries } from '../queries/queries';
-import { deleteFileFromS3, generateS3FileKey, getS3SignedURL, uploadFileToS3 } from '../utils/file-utils';
+import { deleteFileFromS3, getS3SignedURL, S3Folder, uploadFileToS3 } from '../utils/file-utils';
 import { DBService } from './service';
 
 export class AttachmentService extends DBService {
   async insertProjectAttachment(
     projectId: number,
-    key: string,
-    file: Express.Multer.File
+    s3Key: string,
+    file: Express.Multer.File,
+    fileType: string
   ): Promise<{ id: number; revision_count: number }> {
-    const sqlStatement = queries.project.postProjectAttachmentSQL(file.originalname, file.size, projectId, key);
+    const sqlStatement = queries.project.postProjectAttachmentSQL(
+      file.originalname,
+      file.size,
+      projectId,
+      s3Key,
+      fileType
+    );
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL insert statement');
@@ -60,21 +67,21 @@ export class AttachmentService extends DBService {
   async uploadMedia(
     projectId: number,
     file: Express.Multer.File,
-    metadata: Metadata = {}
+    metadata: Metadata = {},
+    s3Key: string,
+    fileType: string
   ): Promise<{ id: number; revision_count: number }> {
-    const key = generateS3FileKey({ projectId: projectId, fileName: file.originalname });
-
     const response = (await this.fileWithSameNameExist(projectId, file))
       ? this.updateProjectAttachment(projectId, file)
-      : this.insertProjectAttachment(projectId, key, file);
+      : this.insertProjectAttachment(projectId, s3Key, file, fileType);
 
-    await uploadFileToS3(file, key, metadata);
+    await uploadFileToS3(file, s3Key, metadata);
 
     return response;
   }
 
-  async getAttachments(projectId: number) {
-    const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsSQL(projectId);
+  async getAttachments(projectId: number, fileType: string) {
+    const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsSQL(projectId, fileType);
 
     if (!getProjectAttachmentsSQLStatement) {
       throw new HTTP400('Failed to build SQL get statement');
@@ -110,8 +117,8 @@ export class AttachmentService extends DBService {
     await deleteFileFromS3(response.rows[0].key);
   }
 
-  async deleteAllAttachments(projectId: number) {
-    const getProjectAttachmentSQLStatement = queries.project.getProjectAttachmentsSQL(projectId);
+  async deleteAttachmentsByType(projectId: number, fileType: string) {
+    const getProjectAttachmentSQLStatement = queries.project.getProjectAttachmentsSQL(projectId, fileType);
 
     if (!getProjectAttachmentSQLStatement) {
       throw new HTTP400('Failed to build SQL get statement');
@@ -126,6 +133,14 @@ export class AttachmentService extends DBService {
       throw new HTTP400('Failed to delete project attachments record');
     }
 
-    await Promise.all(attachments.rows.map((attachment) => attachment.key).map(deleteFileFromS3));
+    for (const row of attachments.rows) {
+      await deleteFileFromS3(row.key);
+      await this.deleteAttachment(projectId, row.id);
+    }
+  }
+
+  async deleteAllAttachments(projectId: number) {
+    await this.deleteAttachmentsByType(projectId, S3Folder.ATTACHMENTS);
+    await this.deleteAttachmentsByType(projectId, S3Folder.TREATMENTS);
   }
 }

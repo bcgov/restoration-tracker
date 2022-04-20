@@ -96,6 +96,18 @@ const appTheme = createMuiTheme({
     MuiDialog: {
       paperWidthXl: {
         width: '800px'
+      },
+      paperWidthLg: {
+        width: '700px'
+      },
+      paperWidthMd: {
+        width: '600px'
+      },
+      paperWidthSm: {
+        width: '500px'
+      },
+      paperWidthXs: {
+        width: '400px'
       }
     },
     MuiDialogActions: {

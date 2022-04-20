@@ -284,7 +284,6 @@ const ViewProjectPage: React.FC = () => {
                 <Paper elevation={2}>
                   <Box px={3}>
                     <TreatmentSpatialUnits
-                      treatmentList={treatmentList}
                       getTreatments={getTreatments}
                       getAttachments={getAttachments}
                     />
@@ -331,7 +330,6 @@ const ViewProjectPage: React.FC = () => {
           </Box>
           <Box flex="1 1 auto">
             <TreatmentSpatialUnits
-              treatmentList={treatmentList}
               getTreatments={getTreatments}
               getAttachments={getAttachments}
             />

@@ -9,7 +9,7 @@ const defaultLog = getLogger('queries/project/project-attachments-queries');
  * @param {number} projectId
  * @returns {SQLStatement} sql query object
  */
-export const getProjectAttachmentsSQL = (projectId: number): SQLStatement | null => {
+export const getProjectAttachmentsSQL = (projectId: number, fileType: string): SQLStatement | null => {
   defaultLog.debug({ label: 'getProjectAttachmentsSQL', message: 'params', projectId });
 
   if (!projectId) {
@@ -27,7 +27,9 @@ export const getProjectAttachmentsSQL = (projectId: number): SQLStatement | null
     from
       project_attachment
     where
-      project_id = ${projectId};
+      project_id = ${projectId}
+    and
+      file_type = ${fileType};
   `;
 
   defaultLog.debug({
@@ -87,7 +89,8 @@ export const postProjectAttachmentSQL = (
   fileName: string,
   fileSize: number,
   projectId: number,
-  key: string
+  key: string,
+  fileType: string
 ): SQLStatement | null => {
   defaultLog.debug({
     label: 'postProjectAttachmentSQL',
@@ -106,12 +109,14 @@ export const postProjectAttachmentSQL = (
     INSERT INTO project_attachment (
       project_id,
       file_name,
+      file_type,
       file_size,
       title,
       key
     ) VALUES (
       ${projectId},
       ${fileName},
+      ${fileType},
       ${fileSize},
       ${fileName},
       ${key}

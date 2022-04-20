@@ -1,4 +1,4 @@
-import { IconButton } from '@material-ui/core';
+import { FormControlLabel, IconButton, Radio, RadioGroup } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -16,23 +16,27 @@ import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
 import { DialogContext } from 'contexts/dialogContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
+import { TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { ReactElement, useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   filterMenu: {
     minWidth: '200px !important',
-    padding: 0,
     borderBottom: '1px solid #ffffff',
     '&:last-child': {
       borderBottom: 'none'
     }
+  },
+  treatmentFilterList: {
+    '& .MuiList-padding': {
+      paddingTop: 0,
+      paddingBottom: 0
+    }
   }
-});
+}));
 
 export interface IProjectSpatialUnitsProps {
-  treatmentList: IGetProjectTreatment[];
   getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
   getAttachments: (forceFetch: boolean) => void;
 }
@@ -44,7 +48,7 @@ export interface IProjectSpatialUnitsProps {
  */
 const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const classes = useStyles();
-  const { treatmentList, getTreatments, getAttachments } = props;
+  const { getTreatments, getAttachments } = props;
   const urlParams = useParams();
   const projectId = urlParams['id'];
   const restorationTrackerApi = useRestorationTrackerApi();
@@ -54,6 +58,11 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const [openImportTreatments, setOpenImportTreatments] = useState(false);
 
   const [isTreatmentLoading, setIsTreatmentLoading] = useState(false);
+
+  const [importType, setImportType] = useState('amend');
+  const handleChangeImportType = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setImportType((event.target as HTMLInputElement).value);
+  };
 
   const [yearList, setYearList] = useState<{ year: number }[]>([]);
   const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundary: true });
@@ -66,7 +75,10 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const dialogContext = useContext(DialogContext);
 
   const handleUpload = (): IUploadHandler => {
-    return (file, cancelToken, handleFileUploadProgress) => {
+    return async (file, cancelToken, handleFileUploadProgress) => {
+      if (importType === 'replace') {
+        await restorationTrackerApi.project.deleteProjectTreatments(projectId);
+      }
       return restorationTrackerApi.project.importProjectTreatmentSpatialFile(
         projectId,
         file,
@@ -109,7 +121,8 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
       try {
         const yearsResponse = await restorationTrackerApi.project.getProjectTreatmentsYears(projectId);
 
-        if (!yearsResponse) {
+        if (!yearsResponse.length) {
+          setYearList([]);
           return;
         }
 
@@ -189,7 +202,18 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
           getTreatments(true);
           getAttachments(true);
           getTreatmentYears(true);
-        }}>
+        }}
+        dialogProps={{ maxWidth: 'md' }}>
+        {!!yearList.length && (
+          <Box mb={2}>
+            <RadioGroup aria-label="import" value={importType} onChange={handleChangeImportType} name="Import Type">
+              <FormControlLabel value="amend" control={<Radio color="primary" />} label="Amend Data" />
+              <sub>Import will amend all new data with existing data </sub>
+              <FormControlLabel value="replace" control={<Radio color="primary" />} label="Replace Data" />
+              <sub>Import will delete all existing data and import new data</sub>
+            </RadioGroup>
+          </Box>
+        )}
         <FileUpload
           uploadHandler={handleUpload()}
           dropZoneProps={{
@@ -204,17 +228,19 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
           <Typography variant="h2">Restoration Treatments</Typography>
 
           <Box>
-            <Button
-              id={'open-layer-menu'}
-              data-testid={'open-layer-menu'}
-              variant="outlined"
-              color="primary"
-              title={'Filter treatments by year'}
-              aria-label={'filter treatments by year'}
-              endIcon={<Icon path={mdiMenuDown} size={1} />}
-              onClick={handleClick}>
-              Filter Treatment Years ({yearList?.length})
-            </Button>
+            {!!yearList.length && (
+              <Button
+                id={'open-layer-menu'}
+                data-testid={'open-layer-menu'}
+                variant="outlined"
+                color="primary"
+                title={'Filter treatments by year'}
+                aria-label={'filter treatments by year'}
+                endIcon={<Icon path={mdiMenuDown} size={1} />}
+                onClick={handleClick}>
+                Filter Treatment Years ({yearList?.length})
+              </Button>
+            )}
 
             <Menu
               id="treatment-menu"
@@ -223,13 +249,14 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorEl)}
-              onClose={handleClose}>
-              {yearList.length === 0 && (
+              onClose={handleClose}
+              className={classes.treatmentFilterList}>
+              {!yearList.length && (
                 <Box flexGrow={1} m={0.5}>
                   <Typography>No Treatment Years Available</Typography>
                 </Box>
               )}
-              {yearList.length >= 1 &&
+              {!!yearList.length &&
                 yearList.map((year) => {
                   return (
                     <ListItem
@@ -238,10 +265,12 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                       className={classes.filterMenu}
                       key={year.year}
                       selected={selectedSpatialLayer[year.year]}>
-                      <ListItemIcon onClick={() => handleSelectedSwitch(year.year)}>
-                        <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
-                      </ListItemIcon>
-                      <Box flexGrow={1} ml={0.5}>
+                      <Box flexGrow={1} m={0.5}>
+                        <ListItemIcon onClick={() => handleSelectedSwitch(year.year)}>
+                          <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
+                        </ListItemIcon>
+                      </Box>
+                      <Box flexGrow={0} mx={2}>
                         {year.year}
                       </Box>
                     </ListItem>
@@ -264,17 +293,18 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
               </Button>
             </Box>
 
-            <Box display="inline-block" ml={1}>
-              <IconButton
-                title="Remove Treatments"
-                data-testid={'remove-project-treatments-button'}
-                disabled={!treatmentList.length}
-                onClick={() => {
-                  showDeleteTreatmentsDialog();
-                }}>
-                <Icon path={mdiTrashCanOutline} size={0.9375} />
-              </IconButton>
-            </Box>
+            {!!yearList.length && (
+              <Box display="inline-block" ml={1}>
+                <IconButton
+                  title="Remove Treatments"
+                  data-testid={'remove-project-treatments-button'}
+                  onClick={() => {
+                    showDeleteTreatmentsDialog();
+                  }}>
+                  <Icon path={mdiTrashCanOutline} size={0.9375} />
+                </IconButton>
+              </Box>
+            )}
           </Box>
         </Box>
       </Toolbar>

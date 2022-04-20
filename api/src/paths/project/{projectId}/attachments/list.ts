@@ -5,6 +5,7 @@ import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { AttachmentService } from '../../../../services/attachment-service';
+import { S3Folder } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/attachments/list');
@@ -107,7 +108,7 @@ export function getAttachments(): RequestHandler {
 
       const attachmentService = new AttachmentService(connection);
 
-      const data = await attachmentService.getAttachments(projectId);
+      const data = await attachmentService.getAttachments(projectId, S3Folder.ATTACHMENTS);
 
       await connection.commit();
 
