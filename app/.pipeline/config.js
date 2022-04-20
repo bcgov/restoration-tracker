@@ -4,8 +4,8 @@ let options = require('pipeline-cli').Util.parseArguments();
 // The root config for common values
 const config = require('../../.config/config.json');
 
-const defaultHost = 'restoration-tracker-af2668-dev.apps.silver.devops.gov.bc.ca';
-const defaultHostAPI = 'restoration-tracker-af2668-api-dev.apps.silver.devops.gov.bc.ca';
+const defaultHost = 'restoration-tracker-b1d40d-dev.apps.silver.devops.gov.bc.ca';
+const defaultHostAPI = 'restoration-tracker-b1d40d-api-dev.apps.silver.devops.gov.bc.ca';
 
 const name = (config.module && config.module['app']) || 'restoration-tracker-app';
 const apiName = (config.module && config.module['api']) || 'restoration-tracker-api';
@@ -54,7 +54,7 @@ options = processOptions(options);
 
 const phases = {
   build: {
-    namespace: 'af2668-tools',
+    namespace: 'b1d40d-tools',
     name: `${name}`,
     phase: 'build',
     changeId: changeId,
@@ -66,7 +66,7 @@ const phases = {
     branch: branch
   },
   dev: {
-    namespace: 'af2668-dev',
+    namespace: 'b1d40d-dev',
     name: `${name}`,
     phase: 'dev',
     changeId: deployChangeId,
@@ -76,10 +76,10 @@ const phases = {
     tag: `dev-${version}-${deployChangeId}`,
     host:
       (isStaticDeployment && (staticUrls.dev || defaultHost)) ||
-      `${name}-${changeId}-af2668-dev.apps.silver.devops.gov.bc.ca`,
+      `${name}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
     apiHost:
       (isStaticDeployment && (staticUrlsAPI.dev || defaultHostAPI)) ||
-      `${apiName}-${changeId}-af2668-dev.apps.silver.devops.gov.bc.ca`,
+      `${apiName}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
     n8nHost: '', // staticUrlsN8N.dev, // Disable until nginx is setup: https://quartech.atlassian.net/browse/BHBC-1435
     siteminderLogoutURL: config.siteminderLogoutURL.dev,
     maxUploadNumFiles,
@@ -90,7 +90,7 @@ const phases = {
     maxReplicas: 2
   },
   test: {
-    namespace: 'af2668-test',
+    namespace: 'b1d40d-test',
     name: `${name}`,
     phase: 'test',
     changeId: deployChangeId,
@@ -110,7 +110,7 @@ const phases = {
     maxReplicas: 5
   },
   prod: {
-    namespace: 'af2668-prod',
+    namespace: 'b1d40d-prod',
     name: `${name}`,
     phase: 'prod',
     changeId: deployChangeId,
