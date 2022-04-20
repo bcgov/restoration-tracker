@@ -31,7 +31,7 @@ parameters:
   - name: ELASTICSEARCH_URL
     description: Platform Elasticsearch URL
     required: true
-    value: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca'
+    value: 'hardcoded for now'
   - name: TZ
     description: Application timezone
     required: false
@@ -160,7 +160,7 @@ objects:
                 - name: NODE_ENV
                   value: ${NODE_ENV}
                 - name: ELASTICSEARCH_URL
-                  value: ${ELASTICSEARCH_URL}
+                  value: 'http://es01.af2668-dev:9200'
                 - name: TZ
                   value: ${TZ}
                 - name: VERSION
