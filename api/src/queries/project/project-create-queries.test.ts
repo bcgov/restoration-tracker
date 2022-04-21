@@ -3,7 +3,8 @@ import { describe } from 'mocha';
 import { PostFundingSource, PostLocationData, PostProjectData } from '../../models/project-create';
 import {
   postProjectBoundarySQL,
-  postProjectFundingSourceSQL, postProjectIUCNSQL,
+  postProjectFundingSourceSQL,
+  postProjectIUCNSQL,
   postProjectSpeciesSQL,
   postProjectSQL
 } from './project-create-queries';
