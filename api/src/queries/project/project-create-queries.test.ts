@@ -3,12 +3,9 @@ import { describe } from 'mocha';
 import { PostFundingSource, PostLocationData, PostProjectData } from '../../models/project-create';
 import {
   postProjectBoundarySQL,
-  postProjectFundingSourceSQL,
-  postProjectIndigenousNationSQL,
-  postProjectIUCNSQL,
+  postProjectFundingSourceSQL, postProjectIUCNSQL,
   postProjectSpeciesSQL,
-  postProjectSQL,
-  postProjectStakeholderPartnershipSQL
+  postProjectSQL
 } from './project-create-queries';
 
 describe('postProjectSQL', () => {
@@ -204,50 +201,6 @@ describe('postProjectFundingSourceSQL', () => {
       expect(response?.values).to.deep.include('2020-02-02');
       expect(response?.values).to.deep.include('2020-03-02');
     });
-  });
-});
-
-describe('postProjectStakeholderPartnershipSQL', () => {
-  it('Null indigenousNationId', () => {
-    const response = postProjectStakeholderPartnershipSQL((null as unknown) as string, 1);
-    expect(response).to.be.null;
-  });
-
-  it('Null projectId', () => {
-    const response = postProjectStakeholderPartnershipSQL('123', (null as unknown) as number);
-    expect(response).to.be.null;
-  });
-
-  it('null indigenousNationId and null projectId', () => {
-    const response = postProjectStakeholderPartnershipSQL((null as unknown) as string, (null as unknown) as number);
-    expect(response).to.be.null;
-  });
-
-  it('Valid parameters', () => {
-    const response = postProjectStakeholderPartnershipSQL('123', 1);
-    expect(response).to.not.be.null;
-  });
-});
-
-describe('postProjectIndigenousNationSQL', () => {
-  it('Null indigenousNationId', () => {
-    const response = postProjectIndigenousNationSQL((null as unknown) as number, 1);
-    expect(response).to.be.null;
-  });
-
-  it('Null projectId', () => {
-    const response = postProjectIndigenousNationSQL(1, (null as unknown) as number);
-    expect(response).to.be.null;
-  });
-
-  it('null indigenousNationId and null projectId', () => {
-    const response = postProjectIndigenousNationSQL((null as unknown) as number, (null as unknown) as number);
-    expect(response).to.be.null;
-  });
-
-  it('Valid parameters', () => {
-    const response = postProjectIndigenousNationSQL(1, 1);
-    expect(response).to.not.be.null;
   });
 });
 
