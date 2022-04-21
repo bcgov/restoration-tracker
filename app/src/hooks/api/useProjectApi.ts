@@ -58,6 +58,18 @@ const useProjectApi = (axios: AxiosInstance) => {
   };
 
   /**
+   * Get(published) project treatment attachments based on project ID
+   *
+   * @param {number} projectId
+   * @returns {*} {Promise<IGetProjectAttachmentsResponse>}
+   */
+   const getProjectTreatmentAttachments = async (projectId: number): Promise<IGetProjectAttachmentsResponse> => {
+    const { data } = await axios.get(`/api/project/${projectId}/attachments/treatments/list`);
+
+    return data;
+  };
+
+  /**
    * Get project treatments based on project ID
    *
    * @param {AxiosInstance} axios
@@ -379,6 +391,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     uploadProjectAttachments,
     updateProject,
     getProjectAttachments,
+    getProjectTreatmentAttachments,
     deleteProjectAttachment,
     deleteFundingSource,
     addFundingSource,

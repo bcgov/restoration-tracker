@@ -4,13 +4,50 @@ import { getLogger } from '../../utils/logger';
 const defaultLog = getLogger('queries/project/project-attachments-queries');
 
 /**
+ * SQL query to get all attachments for a single project.
+ *
+ * @param {number} projectId
+ * @returns {SQLStatement} sql query object
+ */
+export const getProjectAttachmentsSQL = (projectId: number): SQLStatement | null => {
+  defaultLog.debug({ label: 'getProjectAttachmentsSQL', message: 'params', projectId });
+
+  if (!projectId) {
+    return null;
+  }
+
+  const sqlStatement: SQLStatement = SQL`
+    SELECT
+      project_attachment_id as id,
+      file_name,
+      update_date,
+      create_date,
+      file_size,
+      key
+    from
+      project_attachment
+    where
+      project_id = ${projectId};
+  `;
+
+  defaultLog.debug({
+    label: 'getProjectAttachmentsSQL',
+    message: 'sql',
+    'sqlStatement.text': sqlStatement.text,
+    'sqlStatement.values': sqlStatement.values
+  });
+
+  return sqlStatement;
+};
+
+/**
  * SQL query to get attachments for a single project.
  *
  * @param {number} projectId
  * @returns {SQLStatement} sql query object
  */
-export const getProjectAttachmentsSQL = (projectId: number, fileType: string): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectAttachmentsSQL', message: 'params', projectId });
+export const getProjectAttachmentsByTypeSQL = (projectId: number, fileType: string): SQLStatement | null => {
+  defaultLog.debug({ label: 'getProjectAttachmentsByTypeSQL', message: 'params', projectId });
 
   if (!projectId) {
     return null;
@@ -33,7 +70,7 @@ export const getProjectAttachmentsSQL = (projectId: number, fileType: string): S
   `;
 
   defaultLog.debug({
-    label: 'getProjectAttachmentsSQL',
+    label: 'getProjectAttachmentsByTypeSQL',
     message: 'sql',
     'sqlStatement.text': sqlStatement.text,
     'sqlStatement.values': sqlStatement.values

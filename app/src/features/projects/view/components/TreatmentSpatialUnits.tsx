@@ -1,4 +1,4 @@
-import { FormControlLabel, IconButton, Radio, RadioGroup } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
@@ -9,7 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { mdiImport, mdiMenuDown, mdiTrashCanOutline } from '@mdi/js';
+import { mdiExport, mdiImport, mdiMenuDown, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
@@ -17,7 +17,7 @@ import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
 import { DialogContext } from 'contexts/dialogContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
-import { TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
+import { IGetProjectAttachment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { ReactElement, useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -60,15 +60,15 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const [isTreatmentLoading, setIsTreatmentLoading] = useState(false);
 
-  const [importType, setImportType] = useState('amend');
-  const handleChangeImportType = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImportType((event.target as HTMLInputElement).value);
-  };
-
   const [yearList, setYearList] = useState<{ year: number }[]>([]);
   const [selectedSpatialLayer, setSelectedSpatialLayer] = useState({ boundary: true });
 
   const handleImportTreatmentClick = () => setOpenImportTreatments(true);
+  const handleExportTreatmentClick = async () => {
+    const treatmentAttachments = await restorationTrackerApi.project.getProjectTreatmentAttachments(projectId);
+    openAttachment(treatmentAttachments.attachmentsList[0]);
+  };
+  const openAttachment = async (attachment: IGetProjectAttachment) => window.open(attachment.url);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
 
@@ -77,9 +77,8 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const handleUpload = (): IUploadHandler => {
     return async (file, cancelToken, handleFileUploadProgress) => {
-      if (importType === 'replace') {
-        await restorationTrackerApi.project.deleteProjectTreatments(projectId);
-      }
+      await restorationTrackerApi.project.deleteProjectTreatments(projectId);
+
       return restorationTrackerApi.project.importProjectTreatmentSpatialFile(
         projectId,
         file,
@@ -151,7 +150,8 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   }, [getTreatmentYears, yearList.length, isTreatmentLoading]);
 
   const defaultYesNoDialogProps = {
-    dialogText: 'Are you sure you want to permanently delete all treatments for this project? This action cannot be undone.',
+    dialogText:
+      'Are you sure you want to permanently delete all treatments for this project? This action cannot be undone.',
     open: false,
     onClose: () => dialogContext.setYesNoDialog({ open: false }),
     onNo: () => dialogContext.setYesNoDialog({ open: false }),
@@ -207,19 +207,12 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         dialogProps={{ maxWidth: 'md' }}>
         {!!yearList.length && (
           <Box mb={2}>
-
             <Alert severity="error" variant="filled">
-              <Typography variant="body2">Treatments have already been imported to this project. Importing a new treatment shapefile will replace all existing data.</Typography>
+              <Typography variant="body2">
+                Treatments have already been imported to this project. Importing a new treatment shapefile will replace
+                all existing data.
+              </Typography>
             </Alert>
-            
-            <Box hidden>
-              <RadioGroup aria-label="import" value={importType} onChange={handleChangeImportType} name="Import Type">
-                <FormControlLabel value="amend" control={<Radio color="primary" />} label="Amend Data" />
-                <sub>Import will amend all new data with existing data </sub>
-                <FormControlLabel value="replace" control={<Radio color="primary" />} label="Replace Data" />
-                <sub>Import will delete all existing data and import new data</sub>
-              </RadioGroup>
-            </Box>
           </Box>
         )}
         <FileUpload
@@ -235,19 +228,63 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
           <Typography variant="h2">Restoration Treatments</Typography>
 
-          <Box>
-            {!!yearList.length && (
+          <Box py={1}>
+            <Box display="inline-block" ml={1}>
               <Button
-                id={'open-layer-menu'}
-                data-testid={'open-layer-menu'}
-                variant="outlined"
+                id={'upload-spatial'}
+                data-testid={'upload-spatial'}
+                variant="contained"
                 color="primary"
-                title={'Filter treatments by year'}
-                aria-label={'filter treatments by year'}
-                endIcon={<Icon path={mdiMenuDown} size={1} />}
-                onClick={handleClick}>
-                Filter Treatment Years ({yearList?.length})
+                disableElevation
+                title="Import treatment shapefile"
+                aria-label="import treatment shapefile"
+                startIcon={<Icon path={mdiImport} size={1} />}
+                onClick={handleImportTreatmentClick}>
+                Import Treatments
               </Button>
+            </Box>
+
+            {!!yearList.length && (
+              <>
+                <Box display="inline-block" ml={1}>
+                  <Button
+                    id={'download-spatial'}
+                    data-testid={'download-spatial'}
+                    variant="contained"
+                    color="default"
+                    disableElevation
+                    title="Export treatment shapefile"
+                    aria-label="export treatment shapefile"
+                    startIcon={<Icon path={mdiExport} size={1} />}
+                    onClick={handleExportTreatmentClick}>
+                    Download Treatments
+                  </Button>
+                </Box>
+                <Box display="inline-block" ml={1}>
+                  <Button
+                    id={'open-layer-menu'}
+                    data-testid={'open-layer-menu'}
+                    variant="outlined"
+                    color="primary"
+                    title={'Filter by year'}
+                    aria-label={'filter by year'}
+                    endIcon={<Icon path={mdiMenuDown} size={1} />}
+                    onClick={handleClick}>
+                    Filter Years ({yearList?.length})
+                  </Button>
+                </Box>
+                <Box display="inline-block" ml={1} mr={-2}>
+                  <IconButton
+                    aria-label="delete all treatments"
+                    title="Delete All Treatments"
+                    data-testid={'remove-project-treatments-button'}
+                    onClick={() => {
+                      showDeleteTreatmentsDialog();
+                    }}>
+                    <Icon path={mdiTrashCanOutline} size={0.9375} />
+                  </IconButton>
+                </Box>
+              </>
             )}
 
             <Menu
@@ -277,42 +314,11 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                       <ListItemIcon>
                         <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
                       </ListItemIcon>
-                      <Box flexGrow={1}>
-                        {year.year}
-                      </Box>
+                      <Box flexGrow={1}>{year.year}</Box>
                     </ListItem>
                   );
                 })}
             </Menu>
-
-            <Box display="inline-block" ml={1}>
-              <Button
-                id={'upload-spatial'}
-                data-testid={'upload-spatial'}
-                variant="contained"
-                color="primary"
-                disableElevation
-                title="Import treatment shapefile"
-                aria-label="import treatment shapefile"
-                startIcon={<Icon path={mdiImport} size={1} />}
-                onClick={handleImportTreatmentClick}>
-                Import Treatments
-              </Button>
-            </Box>
-
-            {!!yearList.length && (
-              <Box display="inline-block" ml={1} mr={-2}>
-                <IconButton
-                  aria-label="delete all treatments"
-                  title="Delete All Treatments"
-                  data-testid={'remove-project-treatments-button'}
-                  onClick={() => {
-                    showDeleteTreatmentsDialog();
-                  }}>
-                  <Icon path={mdiTrashCanOutline} size={0.9375} />
-                </IconButton>
-              </Box>
-            )}
           </Box>
         </Box>
       </Toolbar>

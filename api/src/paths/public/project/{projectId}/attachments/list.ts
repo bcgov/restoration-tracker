@@ -84,7 +84,7 @@ export function getPublicProjectAttachments(): RequestHandler {
 
       const attachmentService = new AttachmentService(connection);
 
-      const data = await attachmentService.getAttachments(projectId, S3Folder.ATTACHMENTS);
+      const data = await attachmentService.getAttachmentsByType(projectId, S3Folder.ATTACHMENTS);
 
       await connection.commit();
 

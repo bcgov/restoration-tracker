@@ -158,7 +158,7 @@ export function uploadTreatmentSpatial(): RequestHandler {
         folder: S3Folder.TREATMENTS
       });
 
-      await attachmentService.uploadMedia(projectId, rawMediaFile, metadata, s3Key, S3Folder.TREATMENTS);
+      await attachmentService.uploadMedia(projectId, rawMediaFile, s3Key, S3Folder.TREATMENTS, metadata);
 
       await connection.commit();
 

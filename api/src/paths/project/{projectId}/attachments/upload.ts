@@ -143,9 +143,9 @@ export function uploadAttachment(): RequestHandler {
       const uploadResponse = await attachmentService.uploadMedia(
         projectId,
         rawMediaFile,
-        metadata,
         s3Key,
-        S3Folder.ATTACHMENTS
+        S3Folder.ATTACHMENTS,
+        metadata
       );
 
       await connection.commit();
