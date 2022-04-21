@@ -47,7 +47,6 @@ const attachmentsList = [
     fileName: 'filename30.test',
     lastModified: '2021-04-09 11:53:53',
     size: 30280000000,
-    securityToken: false,
     url: 'https://something.com'
   }
 ];
