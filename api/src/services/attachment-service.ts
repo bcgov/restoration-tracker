@@ -80,8 +80,8 @@ export class AttachmentService extends DBService {
     return response;
   }
 
-  async getAttachmentsByType(projectId: number, fileType: string) {
-    const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsByTypeSQL(projectId, fileType);
+  async getAttachmentsByType(projectId: number, fileType?: string) {
+    const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsSQL(projectId, fileType);
 
     if (!getProjectAttachmentsSQLStatement) {
       throw new HTTP400('Failed to build SQL get statement');
@@ -118,7 +118,7 @@ export class AttachmentService extends DBService {
   }
 
   async deleteAttachmentsByType(projectId: number, fileType: string) {
-    const getProjectAttachmentSQLStatement = queries.project.getProjectAttachmentsByTypeSQL(projectId, fileType);
+    const getProjectAttachmentSQLStatement = queries.project.getProjectAttachmentsSQL(projectId, fileType);
 
     if (!getProjectAttachmentSQLStatement) {
       throw new HTTP400('Failed to build SQL get statement');

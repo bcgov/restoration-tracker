@@ -5,7 +5,6 @@ import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { AttachmentService } from '../../../../services/attachment-service';
-import { S3Folder } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/attachments/list');
@@ -45,6 +44,26 @@ GET.apiDoc = {
         type: 'number'
       },
       required: true
+    },
+    {
+      in: 'query',
+      name: 'folder_type',
+      schema: {
+        oneOf: [
+          {
+            type: 'string',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            nullable: true
+          }
+        ]
+      },
+      allowEmptyValue: true
     }
   ],
   responses: {
@@ -92,6 +111,10 @@ GET.apiDoc = {
   }
 };
 
+type fileType = {
+  type?: string;
+};
+
 export function getAttachments(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'Get attachments list', message: 'params', req_params: req.params });
@@ -103,12 +126,14 @@ export function getAttachments(): RequestHandler {
     const projectId = Number(req.params.projectId);
     const connection = getDBConnection(req['keycloak_token']);
 
+    const queryObject: fileType = req.query || {};
+
     try {
       await connection.open();
 
       const attachmentService = new AttachmentService(connection);
 
-      const data = await attachmentService.getAttachmentsByType(projectId, S3Folder.ATTACHMENTS);
+      const data = await attachmentService.getAttachmentsByType(projectId, queryObject.type);
 
       await connection.commit();
 

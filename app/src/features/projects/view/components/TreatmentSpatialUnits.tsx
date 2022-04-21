@@ -20,8 +20,9 @@ import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectAttachment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { ReactElement, useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { S3Folder } from 'constants/misc';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   filterMenu: {
     minWidth: '200px !important',
     borderBottom: '1px solid #ffffff',
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: 0
     }
   }
-}));
+});
 
 export interface IProjectSpatialUnitsProps {
   getTreatments: (forceFetch: boolean, selectedYears?: TreatmentSearchCriteria) => void;
@@ -65,7 +66,10 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const handleImportTreatmentClick = () => setOpenImportTreatments(true);
   const handleExportTreatmentClick = async () => {
-    const treatmentAttachments = await restorationTrackerApi.project.getProjectTreatmentAttachments(projectId);
+    const treatmentAttachments = await restorationTrackerApi.project.getProjectAttachments(
+      projectId,
+      {type: S3Folder.TREATMENTS}
+    );
     openAttachment(treatmentAttachments.attachmentsList[0]);
   };
   const openAttachment = async (attachment: IGetProjectAttachment) => window.open(attachment.url);

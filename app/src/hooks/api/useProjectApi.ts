@@ -48,23 +48,20 @@ const useProjectApi = (axios: AxiosInstance) => {
   /**
    * Get project attachments based on project ID
    *
-   * @param {AxiosInstance} axios
-   * @returns {*} {Promise<IGetProjectAttachmentsResponse>}
-   */
-  const getProjectAttachments = async (projectId: number): Promise<IGetProjectAttachmentsResponse> => {
-    const { data } = await axios.get(`/api/project/${projectId}/attachments/list`);
-
-    return data;
-  };
-
-  /**
-   * Get(published) project treatment attachments based on project ID
-   *
    * @param {number} projectId
-   * @returns {*} {Promise<IGetProjectAttachmentsResponse>}
+   * @param {string} [fileType]
+   * @return {*}  {Promise<IGetProjectAttachmentsResponse>}
    */
-   const getProjectTreatmentAttachments = async (projectId: number): Promise<IGetProjectAttachmentsResponse> => {
-    const { data } = await axios.get(`/api/project/${projectId}/attachments/treatments/list`);
+  const getProjectAttachments = async (
+    projectId: number,
+    fileType?: {type: string}
+  ): Promise<IGetProjectAttachmentsResponse> => {
+    const { data } = await axios.get(`/api/project/${projectId}/attachments/list`, {
+      params: fileType,
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: 'repeat', filter: (_prefix, value) => value || undefined });
+      }
+    });
 
     return data;
   };
@@ -391,7 +388,6 @@ const useProjectApi = (axios: AxiosInstance) => {
     uploadProjectAttachments,
     updateProject,
     getProjectAttachments,
-    getProjectTreatmentAttachments,
     deleteProjectAttachment,
     deleteFundingSource,
     addFundingSource,
