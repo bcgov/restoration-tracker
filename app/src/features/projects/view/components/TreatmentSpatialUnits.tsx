@@ -1,5 +1,6 @@
 import { FormControlLabel, IconButton, Radio, RadioGroup } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
@@ -150,7 +151,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   }, [getTreatmentYears, yearList.length, isTreatmentLoading]);
 
   const defaultYesNoDialogProps = {
-    dialogText: 'Are you sure you want to permanently delete these treatments?',
+    dialogText: 'Are you sure you want to permanently delete all treatments for this project? This action cannot be undone.',
     open: false,
     onClose: () => dialogContext.setYesNoDialog({ open: false }),
     onNo: () => dialogContext.setYesNoDialog({ open: false }),
@@ -160,7 +161,7 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
   const showDeleteTreatmentsDialog = () => {
     dialogContext.setYesNoDialog({
       ...defaultYesNoDialogProps,
-      dialogTitle: `Delete all project treatments`,
+      dialogTitle: `Delete all treatments?`,
       open: true,
       yesButtonProps: { color: 'secondary' },
       yesButtonLabel: 'Delete',
@@ -206,12 +207,19 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
         dialogProps={{ maxWidth: 'md' }}>
         {!!yearList.length && (
           <Box mb={2}>
-            <RadioGroup aria-label="import" value={importType} onChange={handleChangeImportType} name="Import Type">
-              <FormControlLabel value="amend" control={<Radio color="primary" />} label="Amend Data" />
-              <sub>Import will amend all new data with existing data </sub>
-              <FormControlLabel value="replace" control={<Radio color="primary" />} label="Replace Data" />
-              <sub>Import will delete all existing data and import new data</sub>
-            </RadioGroup>
+
+            <Alert severity="error" variant="filled">
+              <Typography variant="body2">Treatments have already been imported to this project. Importing a new treatment shapefile will replace all existing data.</Typography>
+            </Alert>
+            
+            <Box hidden>
+              <RadioGroup aria-label="import" value={importType} onChange={handleChangeImportType} name="Import Type">
+                <FormControlLabel value="amend" control={<Radio color="primary" />} label="Amend Data" />
+                <sub>Import will amend all new data with existing data </sub>
+                <FormControlLabel value="replace" control={<Radio color="primary" />} label="Replace Data" />
+                <sub>Import will delete all existing data and import new data</sub>
+              </RadioGroup>
+            </Box>
           </Box>
         )}
         <FileUpload
@@ -264,13 +272,12 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
                       disableGutters
                       className={classes.filterMenu}
                       key={year.year}
-                      selected={selectedSpatialLayer[year.year]}>
-                      <Box flexGrow={1} m={0.5}>
-                        <ListItemIcon onClick={() => handleSelectedSwitch(year.year)}>
-                          <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
-                        </ListItemIcon>
-                      </Box>
-                      <Box flexGrow={0} mx={2}>
+                      selected={selectedSpatialLayer[year.year]}
+                      onClick={() => handleSelectedSwitch(year.year)}>
+                      <ListItemIcon>
+                        <Checkbox checked={selectedSpatialLayer[year.year]} color="primary" />
+                      </ListItemIcon>
+                      <Box flexGrow={1}>
                         {year.year}
                       </Box>
                     </ListItem>
@@ -294,9 +301,10 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
             </Box>
 
             {!!yearList.length && (
-              <Box display="inline-block" ml={1}>
+              <Box display="inline-block" ml={1} mr={-2}>
                 <IconButton
-                  title="Remove Treatments"
+                  aria-label="delete all treatments"
+                  title="Delete All Treatments"
                   data-testid={'remove-project-treatments-button'}
                   onClick={() => {
                     showDeleteTreatmentsDialog();
