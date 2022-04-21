@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
-import { deleteFileFromS3, generateS3FileKey, getS3SignedURL } from './file-utils';
+import { deleteFileFromS3, generateS3FileKey, getS3SignedURL, S3Folder } from './file-utils';
 
 describe('deleteFileFromS3', () => {
   it('returns null when no key specified', async () => {
@@ -26,7 +26,7 @@ describe('generateS3FileKey', () => {
   });
 
   it('returns project folder file path', async () => {
-    const result = generateS3FileKey({ projectId: 1, folder: 'folder', fileName: 'testFileName' });
+    const result = generateS3FileKey({ projectId: 1, folder: S3Folder.ATTACHMENTS, fileName: 'testFileName' });
 
     expect(result).to.equal('restoration-tracker/projects/1/folder/testFileName');
   });

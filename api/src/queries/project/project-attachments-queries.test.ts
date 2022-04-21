@@ -44,31 +44,37 @@ describe('deleteProjectAttachmentSQL', () => {
 
 describe('postProjectAttachmentSQL', () => {
   it('returns null response when null projectId provided', () => {
-    const response = postProjectAttachmentSQL('name', 20, (null as unknown) as number, 'key');
+    const response = postProjectAttachmentSQL('name', 20, (null as unknown) as number, 'key', 'attachment');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null fileName provided', () => {
-    const response = postProjectAttachmentSQL((null as unknown) as string, 20, 1, 'key');
+    const response = postProjectAttachmentSQL((null as unknown) as string, 20, 1, 'key', 'attachment');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null fileSize provided', () => {
-    const response = postProjectAttachmentSQL('name', (null as unknown) as number, 1, 'key');
+    const response = postProjectAttachmentSQL('name', (null as unknown) as number, 1, 'key', 'attachment');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null key provided', () => {
-    const response = postProjectAttachmentSQL('name', 2, 1, (null as unknown) as string);
+    const response = postProjectAttachmentSQL('name', 2, 1, (null as unknown) as string, 'attachment');
+
+    expect(response).to.be.null;
+  });
+
+  it('returns null response when null type provided', () => {
+    const response = postProjectAttachmentSQL('name', 2, 1, 'key', (null as unknown) as string);
 
     expect(response).to.be.null;
   });
 
   it('returns a SQLStatement when all fields are passed in as expected', () => {
-    const response = postProjectAttachmentSQL('name', 2, 1, 'key');
+    const response = postProjectAttachmentSQL('name', 2, 1, 'key', 'attachment');
 
     expect(response).to.not.be.null;
   });

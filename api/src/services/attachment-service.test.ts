@@ -26,11 +26,12 @@ describe('AttachmentService', () => {
       const projectId = 1;
       const key = '1';
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+      const type = 'attachment';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
       try {
-        await attachmentService.insertProjectAttachment(projectId, key, file);
+        await attachmentService.insertProjectAttachment(projectId, key, file, type);
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to build SQL insert statement');
@@ -47,11 +48,12 @@ describe('AttachmentService', () => {
       const projectId = 1;
       const key = '1';
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+      const type = 'attachment';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
       try {
-        await attachmentService.insertProjectAttachment(projectId, key, file);
+        await attachmentService.insertProjectAttachment(projectId, key, file, type);
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to insert project attachment data');
@@ -69,10 +71,11 @@ describe('AttachmentService', () => {
       const projectId = 1;
       const key = '1';
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+      const type = 'attachment';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
-      const result = await attachmentService.insertProjectAttachment(projectId, key, file);
+      const result = await attachmentService.insertProjectAttachment(projectId, key, file, type);
 
       expect(result).to.equal(mockRowObj[0]);
     });
@@ -210,10 +213,12 @@ describe('AttachmentService', () => {
 
       const projectId = 1;
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+      const key = '1';
+      const type = 'attachment';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
-      const result = await attachmentService.uploadMedia(projectId, file);
+      const result = await attachmentService.uploadMedia(projectId, file, key, type);
 
       expect(result.id).to.equal(1);
       expect(result.revision_count).to.equal(0);
@@ -228,10 +233,12 @@ describe('AttachmentService', () => {
 
       const projectId = 1;
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
+      const key = '1';
+      const type = 'attachment';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
-      const result = await attachmentService.uploadMedia(projectId, file);
+      const result = await attachmentService.uploadMedia(projectId, file, key, type);
 
       expect(result.id).to.equal(1);
       expect(result.revision_count).to.equal(1);
@@ -252,7 +259,7 @@ describe('AttachmentService', () => {
       const attachmentService = new AttachmentService(mockDBConnection);
 
       try {
-        await attachmentService.getAttachments(projectId);
+        await attachmentService.getAttachmentsByType(projectId);
         expect.fail();
       } catch (actualError) {
         expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
@@ -270,7 +277,7 @@ describe('AttachmentService', () => {
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
-      const result = await attachmentService.getAttachments(projectId);
+      const result = await attachmentService.getAttachmentsByType(projectId);
 
       expect(result.attachmentsList.length).to.equal(0);
     });
@@ -288,7 +295,7 @@ describe('AttachmentService', () => {
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
-      const result = await attachmentService.getAttachments(projectId);
+      const result = await attachmentService.getAttachmentsByType(projectId);
 
       expect(result.attachmentsList).to.have.same.deep.members(expectedResult.attachmentsList);
     });

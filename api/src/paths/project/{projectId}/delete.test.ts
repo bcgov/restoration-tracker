@@ -11,6 +11,7 @@ import { getMockDBConnection, getRequestHandlerMocks } from '../../../__mocks__/
 import * as delete_project from './delete';
 import * as file_utils from '../../../utils/file-utils';
 import { HTTPError } from '../../../errors/custom-error';
+import { AttachmentService } from '../../../services/attachment-service';
 
 chai.use(sinonChai);
 
@@ -134,7 +135,6 @@ describe('deleteProject', () => {
 
   it('should return true on successful delete', async () => {
     const dbConnectionObj = getMockDBConnection();
-
     const mockQuery = sinon.stub();
 
     // mock project query
@@ -167,6 +167,7 @@ describe('deleteProject', () => {
     sinon.stub(project_queries, 'getProjectAttachmentsSQL').returns(SQL`something`);
     sinon.stub(project_queries, 'deleteProjectSQL').returns(SQL`some`);
     sinon.stub(file_utils, 'deleteFileFromS3').resolves({});
+    sinon.stub(AttachmentService.prototype, 'deleteAllAttachments').resolves();
 
     const result = delete_project.deleteProject();
 

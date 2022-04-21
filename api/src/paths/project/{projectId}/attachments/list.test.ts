@@ -57,7 +57,7 @@ describe('getAttachments', () => {
   it('should return a list of project attachments, on success', async () => {
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    sinon.stub(AttachmentService.prototype, 'getAttachments').resolves(new GetAttachmentsData());
+    sinon.stub(AttachmentService.prototype, 'getAttachmentsByType').resolves(new GetAttachmentsData());
 
     await getAttachments()(sampleReq, sampleRes as any, (null as unknown) as any);
 
@@ -69,7 +69,7 @@ describe('getAttachments', () => {
 
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    sinon.stub(AttachmentService.prototype, 'getAttachments').rejects(new Error('a test error'));
+    sinon.stub(AttachmentService.prototype, 'getAttachmentsByType').rejects(new Error('a test error'));
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 

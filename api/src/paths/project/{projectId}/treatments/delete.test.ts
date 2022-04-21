@@ -58,24 +58,6 @@ describe('deleteTreatments', () => {
     }
   });
 
-  it('should throw an error when year is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    try {
-      const result = delete_treatment_unit.deleteTreatments();
-
-      await result(
-        { ...sampleReq, params: { ...sampleReq.params, year: null } },
-        (null as unknown) as any,
-        (null as unknown) as any
-      );
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing year');
-    }
-  });
-
   it('should return 200 response on success', async () => {
     sinon.stub(db, 'getDBConnection').returns({
       ...dbConnectionObj,

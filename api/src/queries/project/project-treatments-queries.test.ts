@@ -3,8 +3,7 @@ import { describe } from 'mocha';
 import { SQLStatement } from 'sql-template-strings';
 import { TreatmentFeature } from '../../models/project-treatment';
 import {
-  deleteProjectTreatmentsByYearSQL,
-  deleteProjectTreatmentUnitIfNoTreatmentsSQL,
+  deleteProjectTreatmentsSQL,
   deleteProjectTreatmentUnitSQL,
   getProjectTreatmentsSQL,
   getTreatmentDataYearExistSQL,
@@ -147,15 +146,7 @@ describe('deleteProjectTreatmentUnitSQL', () => {
 
 describe('deleteProjectTreatmentsByYearSQL', () => {
   it('returns a sql statement', () => {
-    const response = deleteProjectTreatmentsByYearSQL(1, 1);
-
-    expect(response).instanceof(SQLStatement);
-  });
-});
-
-describe('deleteProjectTreatmentUnitIfNoTreatmentsSQL', () => {
-  it('returns a sql statement', () => {
-    const response = deleteProjectTreatmentUnitIfNoTreatmentsSQL();
+    const response = deleteProjectTreatmentsSQL(1);
 
     expect(response).instanceof(SQLStatement);
   });
