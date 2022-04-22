@@ -47,7 +47,7 @@ GET.apiDoc = {
     },
     {
       in: 'query',
-      name: 'folder_type',
+      name: 'type',
       schema: {
         oneOf: [
           {
@@ -111,10 +111,6 @@ GET.apiDoc = {
   }
 };
 
-type fileType = {
-  type?: string;
-};
-
 export function getAttachments(): RequestHandler {
   return async (req, res) => {
     defaultLog.debug({ label: 'Get attachments list', message: 'params', req_params: req.params });
@@ -126,14 +122,14 @@ export function getAttachments(): RequestHandler {
     const projectId = Number(req.params.projectId);
     const connection = getDBConnection(req['keycloak_token']);
 
-    const queryObject: fileType = req.query || {};
+    const queryType = (req.query as { type: string | string[] | null }).type || [];
 
     try {
       await connection.open();
 
       const attachmentService = new AttachmentService(connection);
 
-      const data = await attachmentService.getAttachmentsByType(projectId, queryObject.type);
+      const data = await attachmentService.getAttachmentsByType(projectId, queryType);
 
       await connection.commit();
 

@@ -1,4 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
+import { getKnexQueryBuilder } from '../../database/db';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-attachments-queries');
@@ -10,44 +11,36 @@ const defaultLog = getLogger('queries/project/project-attachments-queries');
  * @param {string} [fileType]
  * @return {*}  {(SQLStatement | null)}
  */
-export const getProjectAttachmentsSQL = (projectId: number, fileType?: string): SQLStatement | null => {
+export const getProjectAttachmentsSQL = (
+  projectId: number,
+  attachmentType?: string | string[]
+): SQLStatement | null => {
   defaultLog.debug({ label: 'getProjectAttachmentsSQL', message: 'params', projectId });
 
   if (!projectId) {
     return null;
   }
 
-  const sqlStatement: SQLStatement = SQL`
-    SELECT
-      project_attachment_id as id,
-      file_name,
-      update_date,
-      create_date,
-      file_size,
-      key
-    from
-      project_attachment
-    where
-      project_id = ${projectId}
-  `;
+  const queryBuilder = getKnexQueryBuilder()
+    .select(
+      'project_attachment.project_attachment_id',
+      'project_attachment.file_name',
+      'project_attachment.update_date',
+      'project_attachment.create_date',
+      'project_attachment.file_size',
+      'project_attachment.key'
+    )
+    .from('project_attachment')
+    .where('project_attachmentproject_id', projectId);
 
-  if (fileType) {
-    sqlStatement.append(SQL`
-      and
-      file_type = ${fileType};
-    `);
-  } else {
-    sqlStatement.append(SQL`;`);
+  if (attachmentType) {
+    queryBuilder.and.whereIn(
+      'project_attachment.file_type',
+      (Array.isArray(attachmentType) && attachmentType) || [attachmentType]
+    );
   }
 
-  defaultLog.debug({
-    label: 'getProjectAttachmentsSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
+  return queryBuilder.toSQL();
 };
 
 /**

@@ -14,7 +14,7 @@ export enum ProjectStatusType {
   DRAFT = 'Draft'
 }
 
-export enum S3Folder {
+export enum attachmentType {
   ATTACHMENTS = 'attachments',
   TREATMENTS = 'treatments'
 }

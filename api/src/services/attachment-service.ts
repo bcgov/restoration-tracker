@@ -80,8 +80,8 @@ export class AttachmentService extends DBService {
     return response;
   }
 
-  async getAttachmentsByType(projectId: number, fileType?: string) {
-    const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsSQL(projectId, fileType);
+  async getAttachmentsByType(projectId: number, attachmentType?: string | string[]) {
+    const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsSQL(projectId, attachmentType);
 
     if (!getProjectAttachmentsSQLStatement) {
       throw new HTTP400('Failed to build SQL get statement');

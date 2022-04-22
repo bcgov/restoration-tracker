@@ -20,7 +20,7 @@ import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectAttachment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { ReactElement, useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { S3Folder } from 'constants/misc';
+import { attachmentType } from 'constants/misc';
 
 const useStyles = makeStyles({
   filterMenu: {
@@ -66,9 +66,10 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const handleImportTreatmentClick = () => setOpenImportTreatments(true);
   const handleExportTreatmentClick = async () => {
-    const treatmentAttachments = await restorationTrackerApi.project.getProjectAttachments(projectId, {
-      type: S3Folder.TREATMENTS
-    });
+    const treatmentAttachments = await restorationTrackerApi.project.getProjectAttachments(
+      projectId,
+      attachmentType.TREATMENTS
+    );
     openAttachment(treatmentAttachments.attachmentsList[0]);
   };
   const openAttachment = async (attachment: IGetProjectAttachment) => window.open(attachment.url);

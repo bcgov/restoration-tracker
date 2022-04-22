@@ -14,7 +14,7 @@ import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/Project
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { RoleGuard } from 'components/security/Guards';
 import { DeleteProjectI18N } from 'constants/i18n';
-import { S3Folder } from 'constants/misc';
+import { attachmentType } from 'constants/misc';
 import { PROJECT_ROLE, SYSTEM_ROLE } from 'constants/roles';
 import { DialogContext } from 'contexts/dialogContext';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
@@ -94,9 +94,7 @@ const ViewProjectPage: React.FC = () => {
       if (attachmentsList.length && !forceFetch) return;
 
       try {
-        const response = await restorationTrackerApi.project.getProjectAttachments(projectId, {
-          type: S3Folder.ATTACHMENTS
-        });
+        const response = await restorationTrackerApi.project.getProjectAttachments(projectId, attachmentType.ATTACHMENTS);
 
         if (!response?.attachmentsList) return;
 

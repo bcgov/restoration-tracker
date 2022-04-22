@@ -1,4 +1,5 @@
 import { AxiosInstance, CancelTokenSource } from 'axios';
+import { attachmentType } from 'constants/misc';
 import {
   IAddProjectParticipant,
   ICreateProjectRequest,
@@ -46,18 +47,18 @@ const useProjectApi = (axios: AxiosInstance) => {
   };
 
   /**
-   * Get project attachments based on project ID
+   * Get project attachments based on project ID.
    *
    * @param {number} projectId
-   * @param {string} [fileType]
+   * @param {S3Folder} [type]
    * @return {*}  {Promise<IGetProjectAttachmentsResponse>}
    */
   const getProjectAttachments = async (
     projectId: number,
-    fileType?: { type: string }
+    type?: attachmentType
   ): Promise<IGetProjectAttachmentsResponse> => {
     const { data } = await axios.get(`/api/project/${projectId}/attachments/list`, {
-      params: fileType,
+      params: { type: type },
       paramsSerializer: (params) => {
         return qs.stringify(params, { arrayFormat: 'repeat', filter: (_prefix, value) => value || undefined });
       }
