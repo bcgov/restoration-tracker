@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as db from '../../../../database/db';
 import { HTTPError } from '../../../../errors/custom-error';
+import { AttachmentService } from '../../../../services/attachment-service';
 import { TreatmentService } from '../../../../services/treatment-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../../__mocks__/db';
 import * as delete_treatment_unit from './delete';
@@ -67,6 +68,7 @@ describe('deleteTreatments', () => {
     });
 
     sinon.stub(TreatmentService.prototype, 'deleteTreatments').resolves();
+    sinon.stub(AttachmentService.prototype, 'deleteAttachmentsByType').resolves();
 
     const result = delete_treatment_unit.deleteTreatments();
 

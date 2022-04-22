@@ -108,7 +108,7 @@ export const postProjectAttachmentSQL = (
     key
   });
 
-  if (!fileName || !fileSize || !projectId || !key) {
+  if (!fileName || !fileSize || !projectId || !key || !fileType) {
     return null;
   }
 

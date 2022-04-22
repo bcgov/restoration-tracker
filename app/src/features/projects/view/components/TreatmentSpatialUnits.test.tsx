@@ -32,31 +32,19 @@ describe('TreatmentSpatialUnits', () => {
       mockRestorationTrackerApi().project.getProjectTreatmentsYears.mockResolvedValue([]);
       const { getByText } = render(
         <Router history={history}>
-          <TreatmentSpatialUnits treatmentList={[]} getTreatments={jest.fn()} getAttachments={jest.fn()} />
+          <TreatmentSpatialUnits getTreatments={jest.fn()} getAttachments={jest.fn()} />
         </Router>
       );
 
-      expect(getByText('Filter Treatment Years (0)', { exact: false })).toBeInTheDocument();
+      expect(getByText('Import Treatments', { exact: false })).toBeInTheDocument();
     });
   });
 
-  it('renders menu correctly with no Treatment Years', async () => {
-    const { getByText } = render(
-      <Router history={history}>
-        <TreatmentSpatialUnits treatmentList={[]} getTreatments={jest.fn()} getAttachments={jest.fn()} />
-      </Router>
-    );
-
-    fireEvent.click(getByText('Filter Treatment Years (0)'));
-    await waitFor(() => {
-      expect(getByText('No Treatment Years Available', { exact: false })).toBeInTheDocument();
-    });
-  });
 
   it('renders popup correctly', async () => {
     const { getAllByText, getByTestId } = render(
       <Router history={history}>
-        <TreatmentSpatialUnits treatmentList={[]} getTreatments={jest.fn()} getAttachments={jest.fn()} />
+        <TreatmentSpatialUnits getTreatments={jest.fn()} getAttachments={jest.fn()} />
       </Router>
     );
 
@@ -72,12 +60,12 @@ describe('TreatmentSpatialUnits', () => {
 
     const { getByText } = render(
       <Router history={history}>
-        <TreatmentSpatialUnits treatmentList={[]} getTreatments={jest.fn()} getAttachments={jest.fn()} />
+        <TreatmentSpatialUnits getTreatments={jest.fn()} getAttachments={jest.fn()} />
       </Router>
     );
 
     await waitFor(() => {
-      expect(getByText('Filter Treatment Years (1)')).toBeInTheDocument();
+      expect(getByText('Filter Years (1)')).toBeInTheDocument();
     });
   });
 });

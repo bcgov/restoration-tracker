@@ -30,7 +30,6 @@ describe('useProjectApi', () => {
   const projectId = 1;
   const attachmentId = 1;
   const treatmentUnitId = 1;
-  const year = 2022;
 
   it('getAllUserProjectsParticipation works as expected', async () => {
     mock.onGet(`/api/user/${userId}/projects/participation/list`).reply(200, [
@@ -237,10 +236,10 @@ describe('useProjectApi', () => {
     expect(result).toEqual(true);
   });
 
-  it('deleteProjectTreatmentsByYear works as expected', async () => {
-    mock.onDelete(`/api/project/${projectId}/treatments/year/${year}/delete`).reply(200);
+  it('deleteProjectTreatments works as expected', async () => {
+    mock.onDelete(`/api/project/${projectId}/treatments/delete`).reply(200);
 
-    const result = await useProjectApi(axios).deleteProjectTreatmentsByYear(projectId, year);
+    const result = await useProjectApi(axios).deleteProjectTreatments(projectId);
 
     expect(result).toEqual(true);
   });

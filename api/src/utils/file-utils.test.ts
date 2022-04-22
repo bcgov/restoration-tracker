@@ -28,6 +28,6 @@ describe('generateS3FileKey', () => {
   it('returns project folder file path', async () => {
     const result = generateS3FileKey({ projectId: 1, folder: S3Folder.ATTACHMENTS, fileName: 'testFileName' });
 
-    expect(result).to.equal('restoration-tracker/projects/1/folder/testFileName');
+    expect(result).to.equal('restoration-tracker/projects/1/attachments/testFileName');
   });
 });
