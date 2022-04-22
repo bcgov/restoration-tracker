@@ -7,7 +7,8 @@ const defaultLog = getLogger('queries/project/project-attachments-queries');
  * SQL query to get attachments for a single project.
  *
  * @param {number} projectId
- * @returns {SQLStatement} sql query object
+ * @param {string} [fileType]
+ * @return {*}  {(SQLStatement | null)}
  */
 export const getProjectAttachmentsSQL = (projectId: number, fileType?: string): SQLStatement | null => {
   defaultLog.debug({ label: 'getProjectAttachmentsSQL', message: 'params', projectId });

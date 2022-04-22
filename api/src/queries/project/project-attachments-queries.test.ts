@@ -24,7 +24,7 @@ describe('getProjectAttachmentsSQL', () => {
   it('returns non null response when valid projectId and fileType provided', () => {
     const response = getProjectAttachmentsSQL(1, 'attachments');
 
-    expect(response).to.include('attachments');
+    expect(response).to.not.be.null;
   });
 });
 
