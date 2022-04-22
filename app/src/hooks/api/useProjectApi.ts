@@ -54,7 +54,7 @@ const useProjectApi = (axios: AxiosInstance) => {
    */
   const getProjectAttachments = async (
     projectId: number,
-    fileType?: {type: string}
+    fileType?: { type: string }
   ): Promise<IGetProjectAttachmentsResponse> => {
     const { data } = await axios.get(`/api/project/${projectId}/attachments/list`, {
       params: fileType,

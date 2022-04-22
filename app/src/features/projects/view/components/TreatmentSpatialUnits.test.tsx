@@ -40,7 +40,6 @@ describe('TreatmentSpatialUnits', () => {
     });
   });
 
-
   it('renders popup correctly', async () => {
     const { getAllByText, getByTestId } = render(
       <Router history={history}>

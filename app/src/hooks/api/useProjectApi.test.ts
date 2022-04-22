@@ -71,30 +71,6 @@ describe('useProjectApi', () => {
     });
   });
 
-  it('getProjectAttachments works as expected', async () => {
-    mock.onGet(`/api/project/${projectId}/attachments/list`).reply(200, {
-      attachmentsList: [
-        {
-          id: 1,
-          fileName: 'filename',
-          lastModified: '2020/04/04',
-          size: 3028
-        }
-      ]
-    });
-
-    const result = await useProjectApi(axios).getProjectAttachments(projectId);
-
-    expect(result.attachmentsList).toEqual([
-      {
-        id: 1,
-        fileName: 'filename',
-        lastModified: '2020/04/04',
-        size: 3028
-      }
-    ]);
-  });
-
   it('deleteProject works as expected', async () => {
     mock.onDelete(`/api/project/${projectId}/delete`).reply(200, true);
 
@@ -346,6 +322,30 @@ describe('usePublicProjectApi', () => {
     });
 
     const result = await usePublicProjectApi(axios).getProjectAttachments(projectId);
+
+    expect(result.attachmentsList).toEqual([
+      {
+        id: 1,
+        fileName: 'filename',
+        lastModified: '2020/04/04',
+        size: 3028
+      }
+    ]);
+  });
+
+  it('getProjectAttachments works as expected with fileType', async () => {
+    mock.onGet(`/api/project/${projectId}/attachments/list`).reply(200, {
+      attachmentsList: [
+        {
+          id: 1,
+          fileName: 'filename',
+          lastModified: '2020/04/04',
+          size: 3028
+        }
+      ]
+    });
+
+    const result = await useProjectApi(axios).getProjectAttachments(projectId, { type: 'attachments' });
 
     expect(result.attachmentsList).toEqual([
       {

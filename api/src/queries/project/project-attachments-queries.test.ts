@@ -20,6 +20,12 @@ describe('getProjectAttachmentsSQL', () => {
 
     expect(response).to.not.be.null;
   });
+
+  it('returns non null response when valid projectId and fileType provided', () => {
+    const response = getProjectAttachmentsSQL(1, 'attachments');
+
+    expect(response).to.include('attachments');
+  });
 });
 
 describe('deleteProjectAttachmentSQL', () => {
@@ -91,6 +97,12 @@ describe('putProjectAttachmentSQL', () => {
     const response = putProjectAttachmentSQL(1, (null as unknown) as string);
 
     expect(response).to.be.null;
+  });
+
+  it('returns a SQLStatement when all fields are passed in as expected', () => {
+    const response = putProjectAttachmentSQL(1, 'fileName');
+
+    expect(response).to.not.be.null;
   });
 });
 

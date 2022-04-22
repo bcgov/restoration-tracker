@@ -258,24 +258,6 @@ export const getProjectTreatmentsSQL = (projectId: number): SQLStatement | null 
 };
 
 /**
- * SQL query to update an attachment for a single project by project id and filename.
- *
- * @param {number} projectId
- * @param {string} fileName
- * @returns {SQLStatement} sql query object
- */
-export const putProjectTreatmentSQL = (projectId: number, fileName: string): SQLStatement | null => {
-  if (!projectId || !fileName) {
-    return null;
-  }
-
-  const sqlStatement: SQLStatement = SQL`
-  `; //todo
-
-  return sqlStatement;
-};
-
-/**
  * SQL query to get all years associated to a project id.
  *
  * @param {number} projectId

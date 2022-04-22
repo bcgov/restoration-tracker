@@ -66,10 +66,9 @@ const TreatmentSpatialUnits: React.FC<IProjectSpatialUnitsProps> = (props) => {
 
   const handleImportTreatmentClick = () => setOpenImportTreatments(true);
   const handleExportTreatmentClick = async () => {
-    const treatmentAttachments = await restorationTrackerApi.project.getProjectAttachments(
-      projectId,
-      {type: S3Folder.TREATMENTS}
-    );
+    const treatmentAttachments = await restorationTrackerApi.project.getProjectAttachments(projectId, {
+      type: S3Folder.TREATMENTS
+    });
     openAttachment(treatmentAttachments.attachmentsList[0]);
   };
   const openAttachment = async (attachment: IGetProjectAttachment) => window.open(attachment.url);
