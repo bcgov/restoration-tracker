@@ -3,10 +3,10 @@
 -- drop the database
 set role postgres;
 \c postgres
-drop database restoration;
-drop role restoration_api;
-create database restoration;
-\c restoration
+drop database if exists "restoration-tracker";
+drop role if exists restoration_api;
+create database "restoration-tracker";
+\c "restoration-tracker"
 
 set client_min_messages=warning;
 
@@ -40,51 +40,51 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA restoration GRANT ALL ON TABLES TO restoratio
 
 alter role restoration_api set search_path to restoration_dapi_v1, restoration, public, topology;
 
-\i restoration.sql
-\i populate_user_identity_source.sql
-\i api_set_context.sql
-\i tr_audit_trigger.sql
-\i tr_generated_audit_triggers.sql
-\i api_get_context_user_id.sql
-\i api_get_context_system_user_role_id.sql
-\i api_user_is_administrator.sql
-\i tr_journal_trigger.sql
-\i tr_generated_journal_triggers.sql
-\i tr_project_funding_source.sql
-\i tr_project.sql
-\i tr_permit.sql
-\i api_get_system_constant.sql
-\i api_get_system_metadata_constant.sql
+-- \i restoration.sql
+-- \i populate_user_identity_source.sql
+-- \i api_set_context.sql
+-- \i tr_audit_trigger.sql
+-- \i tr_generated_audit_triggers.sql
+-- \i api_get_context_user_id.sql
+-- \i api_get_context_system_user_role_id.sql
+-- \i api_user_is_administrator.sql
+-- \i tr_journal_trigger.sql
+-- \i tr_generated_journal_triggers.sql
+-- \i tr_project_funding_source.sql
+-- \i tr_project.sql
+-- \i tr_permit.sql
+-- \i api_get_system_constant.sql
+-- \i api_get_system_metadata_constant.sql
 
-\i api_delete_project.sql
+-- \i api_delete_project.sql
 
--- populate look up tables
-\set QUIET on
-\i populate_system_constant.sql
-\i populate_first_nations.sql
-\i populate_funding_source.sql
-\i populate_investment_action_category.sql
-\i populate_iucn_classifications.sql
-\i populate_project_role.sql
-\i populate_system_role.sql
-\i populate_administrative_activity_type.sql
-\i populate_administrative_activity_status_type.sql
-\i populate_system_metadata_constant.sql
-\i populate_project_spatial_component_type.sql
-\i populate_treatment_type.sql
-\i populate_feature_type.sql
-\i populate_contact_type.sql
-\i populate_caribou_population_unit.sql
+-- -- populate look up tables
+-- \set QUIET on
+-- \i populate_system_constant.sql
+-- \i populate_first_nations.sql
+-- \i populate_funding_source.sql
+-- \i populate_investment_action_category.sql
+-- \i populate_iucn_classifications.sql
+-- \i populate_project_role.sql
+-- \i populate_system_role.sql
+-- \i populate_administrative_activity_type.sql
+-- \i populate_administrative_activity_status_type.sql
+-- \i populate_system_metadata_constant.sql
+-- \i populate_project_spatial_component_type.sql
+-- \i populate_treatment_type.sql
+-- \i populate_feature_type.sql
+-- \i populate_contact_type.sql
+-- \i populate_caribou_population_unit.sql
 
--- temporary external interface tables
-\i populate_wldtaxonomic_units.sql
-\set QUIET off
+-- -- temporary external interface tables
+-- \i populate_wldtaxonomic_units.sql
+-- \set QUIET off
 
- -- create the views
-set search_path = restoration_dapi_v1;
-set role restoration_api;
-\i vw_generated_dapi_views.sql
+--  -- create the views
+-- set search_path = restoration_dapi_v1;
+-- set role restoration_api;
+-- \i vw_generated_dapi_views.sql
 
-set role postgres;
-set search_path = restoration;
-grant execute on function api_set_context(_system_user_identifier system_user.user_identifier%type, _user_identity_source_name user_identity_source.name%type) to restoration_api;
+-- set role postgres;
+-- set search_path = restoration;
+-- grant execute on function api_set_context(_system_user_identifier system_user.user_identifier%type, _user_identity_source_name user_identity_source.name%type) to restoration_api;

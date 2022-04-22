@@ -1,6 +1,6 @@
 {
   "name": "restoration-tracker",
-  "namespaceSuffix": "af2668",
+  "namespaceSuffix": "b1d40d",
   "namespace": {
     "tools": "tools",
     "dev": "dev",
@@ -33,9 +33,9 @@
     "prod": "api-restoration-tracker.apps.silver.devops.gov.bc.ca"
   },
   "staticUrlsN8N": {
-    "dev": "n8n-af2668-dev.apps.silver.devops.gov.bc.ca",
-    "test": "n8n-af2668-test.apps.silver.devops.gov.bc.ca",
-    "prod": "n8n-af2668-prod.apps.silver.devops.gov.bc.ca"
+    "dev": "n8n-b1d40d-dev.apps.silver.devops.gov.bc.ca",
+    "test": "n8n-b1d40d-test.apps.silver.devops.gov.bc.ca",
+    "prod": "n8n-b1d40d-prod.apps.silver.devops.gov.bc.ca"
   },
   "siteminderLogoutURL": {
     "dev": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi",
@@ -45,17 +45,17 @@
   "sso": {
     "dev": {
       "url": "https://dev.oidc.gov.bc.ca/auth",
-      "clientId": "biohubbc",
+      "clientId": "restoration",
       "realm": "35r1iman"
     },
     "test": {
       "url": "https://test.oidc.gov.bc.ca/auth",
-      "clientId": "biohubbc",
+      "clientId": "restoration",
       "realm": "35r1iman"
     },
     "prod": {
       "url": "https://oidc.gov.bc.ca/auth",
-      "clientId": "biohubbc",
+      "clientId": "restoration",
       "realm": "35r1iman"
     }
   }

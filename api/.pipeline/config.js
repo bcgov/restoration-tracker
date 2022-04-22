@@ -4,7 +4,7 @@ let options = require('pipeline-cli').Util.parseArguments();
 // The root config for common values
 const config = require('../../.config/config.json');
 
-const defaultHost = 'restoration-tracker-af2668-api.apps.silver.devops.gov.bc.ca';
+const defaultHost = 'restoration-tracker-b1d40d-api.apps.silver.devops.gov.bc.ca';
 
 const name = (config.module && config.module['api']) || 'restoration-tracker-api';
 const dbName = (config.module && config.module['db']) || 'restoration-tracker-db';
@@ -48,7 +48,7 @@ options = processOptions(options);
 
 const phases = {
   build: {
-    namespace: 'af2668-tools',
+    namespace: 'b1d40d-tools',
     name: `${name}`,
     dbName: `${dbName}`,
     phase: 'build',
@@ -58,13 +58,13 @@ const phases = {
     version: `${version}-${changeId}`,
     tag: tag,
     env: 'build',
-    elasticsearchURL: 'https://elasticsearch-af2668-dev.apps.silver.devops.gov.bc.ca',
+    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     branch: branch,
     logLevel: isStaticDeployment && 'info' || 'debug'
   },
   dev: {
-    namespace: 'af2668-dev',
+    namespace: 'b1d40d-dev',
     name: `${name}`,
     dbName: `${dbName}`,
     phase: 'dev',
@@ -75,9 +75,9 @@ const phases = {
     tag: `dev-${version}-${deployChangeId}`,
     host:
       (isStaticDeployment && (staticUrlsAPI.dev || defaultHost)) ||
-      `${name}-${changeId}-af2668-dev.apps.silver.devops.gov.bc.ca`,
+      `${name}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
     env: 'dev',
-    elasticsearchURL: 'https://elasticsearch-af2668-dev.apps.silver.devops.gov.bc.ca',
+    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     sso: config.sso.dev,
     replicas: 1,
@@ -85,7 +85,7 @@ const phases = {
     logLevel: isStaticDeployment && 'info' || 'debug'
   },
   test: {
-    namespace: 'af2668-test',
+    namespace: 'b1d40d-test',
     name: `${name}`,
     dbName: `${dbName}`,
     phase: 'test',
@@ -96,7 +96,7 @@ const phases = {
     tag: `test-${version}`,
     host: staticUrlsAPI.test,
     env: 'test',
-    elasticsearchURL: 'https://elasticsearch-af2668-dev.apps.silver.devops.gov.bc.ca',
+    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     sso: config.sso.test,
     replicas: 3,
@@ -104,7 +104,7 @@ const phases = {
     logLevel: 'info'
   },
   prod: {
-    namespace: 'af2668-prod',
+    namespace: 'b1d40d-prod',
     name: `${name}`,
     dbName: `${dbName}`,
     phase: 'prod',
