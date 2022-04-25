@@ -11,14 +11,14 @@ describe('PublicAttachmentsList', () => {
       id: 1,
       fileName: 'filename.test',
       lastModified: '2021-04-09 11:53:53',
-      size: 3028,
+      size: 100,
       url: 'https://something.com'
     },
     {
       id: 20,
       fileName: 'filename20.test',
       lastModified: '2021-04-09 11:53:53',
-      size: 30280000,
+      size: 2000,
       url: 'https://something.com'
     },
     {
@@ -26,7 +26,6 @@ describe('PublicAttachmentsList', () => {
       fileName: 'filename30.test',
       lastModified: '2021-04-09 11:53:53',
       size: 30280000000,
-      securityToken: false,
       url: 'https://something.com'
     }
   ];
