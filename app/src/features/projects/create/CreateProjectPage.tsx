@@ -22,8 +22,8 @@ import ProjectContactForm, {
   ProjectContactYupSchema
 } from 'features/projects/components/ProjectContactForm';
 import ProjectDraftForm, {
-  ProjectDraftFormInitialValues,
   IProjectDraftForm,
+  ProjectDraftFormInitialValues,
   ProjectDraftFormYupSchema
 } from 'features/projects/components/ProjectDraftForm';
 import ProjectFundingForm, {

@@ -13,9 +13,9 @@ import MultiAutocompleteFieldVariableSize from 'components/fields/MultiAutocompl
 import StartEndDateFields from 'components/fields/StartEndDateFields';
 import { useFormikContext } from 'formik';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
+import { debounce } from 'lodash-es';
 import React, { useCallback } from 'react';
 import { IProjectAdvancedFilters } from './ProjectFilter';
-import { debounce } from 'lodash-es';
 
 export interface IProjectAdvancedFiltersProps {
   contact_agency: string[];

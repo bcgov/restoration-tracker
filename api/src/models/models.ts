@@ -1,12 +1,12 @@
+import * as gcnotify from './gcnotify';
 import * as occurrence_create from './occurrence-create';
 import * as occurrence_view from './occurrence-view';
 import * as project_attachments from './project-attachments';
 import * as project_create from './project-create';
+import * as project_treatment from './project-treatment';
 import * as project_update from './project-update';
 import * as project_view from './project-view';
-import * as project_treatment from './project-treatment';
 import * as user from './user';
-import * as gcnotify from './gcnotify';
 
 export const models = {
   project: {
