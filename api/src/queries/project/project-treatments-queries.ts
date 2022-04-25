@@ -332,53 +332,42 @@ export const deleteProjectTreatmentUnitSQL = (projectId: number, treatmentUnitId
   `;
 };
 
-export const deleteProjectTreatmentsByYearSQL = (projectId: number, year: number): SQLStatement => {
+export const deleteProjectTreatmentsSQL = (projectId: number): SQLStatement => {
   return SQL`
-    WITH deleted_treatment AS (
-      DELETE
-      FROM
-        treatment
-      WHERE
-        year = ${year}
-      AND
-        treatment_unit_id
-      IN (
-        SELECT
-          treatment_unit_id
-        FROM
-          treatment_unit
-        WHERE
-          project_id = ${projectId}
-      )
-      RETURNING
-        treatment_id
-    )
-    DELETE
-    FROM
-      treatment_treatment_type
-    WHERE
-      treatment_id
-    IN (
-      SELECT
-        treatment_id
-      FROM
-        deleted_treatment
-    );
-  `;
-};
-
-export const deleteProjectTreatmentUnitIfNoTreatmentsSQL = (): SQLStatement => {
-  return SQL`
+  WITH deleted_treatment_unit AS (
     DELETE
     FROM
       treatment_unit
     WHERE
+      project_id = ${projectId}
+    RETURNING
       treatment_unit_id
-    NOT IN (
+  ),
+  deleted_treatment AS (
+    DELETE
+    FROM
+      treatment
+    WHERE
+      treatment_unit_id
+    IN (
       SELECT
         treatment_unit_id
       FROM
-        treatment
-    );
+        deleted_treatment_unit
+    )
+    RETURNING
+      treatment_id
+  )
+  DELETE
+  FROM
+    treatment_treatment_type
+  WHERE
+    treatment_id
+  IN (
+    SELECT
+      treatment_id
+    FROM
+      deleted_treatment
+  );
   `;
 };

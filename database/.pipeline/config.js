@@ -49,7 +49,7 @@ options = processOptions(options);
 
 const phases = {
   build: {
-    namespace: 'af2668-tools',
+    namespace: 'b1d40d-tools',
     name: `${name}`,
     phase: 'build',
     changeId: changeId,
@@ -63,7 +63,7 @@ const phases = {
     dbSetupDockerfilePath: dbSetupDockerfilePath
   },
   dev: {
-    namespace: 'af2668-dev',
+    namespace: 'b1d40d-dev',
     name: `${name}`,
     phase: 'dev',
     changeId: deployChangeId,
@@ -76,7 +76,7 @@ const phases = {
     dbSetupDockerfilePath: dbSetupDockerfilePath
   },
   test: {
-    namespace: 'af2668-test',
+    namespace: 'b1d40d-test',
     name: `${name}`,
     phase: 'test',
     changeId: deployChangeId,
@@ -89,7 +89,7 @@ const phases = {
     dbSetupDockerfilePath: dbSetupDockerfilePath
   },
   prod: {
-    namespace: 'af2668-prod',
+    namespace: 'b1d40d-prod',
     name: `${name}`,
     phase: 'prod',
     changeId: deployChangeId,

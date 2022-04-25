@@ -920,7 +920,7 @@ describe('TreatmentService', () => {
     });
   });
 
-  describe('deleteTreatmentsByYear', () => {
+  describe('deleteTreatments', () => {
     afterEach(() => {
       sinon.restore();
     });
@@ -929,15 +929,13 @@ describe('TreatmentService', () => {
       const mockQueryResponse = ({} as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
 
-      sinon.stub(queries.project, 'deleteProjectTreatmentsByYearSQL').returns(SQL`valid sql`);
-      sinon.stub(queries.project, 'deleteProjectTreatmentUnitIfNoTreatmentsSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'deleteProjectTreatmentsSQL').returns(SQL`valid sql`);
 
       const projectId = 1;
-      const year = 1;
 
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const result = await treatmentService.deleteTreatmentsByYear(projectId, year);
+      const result = await treatmentService.deleteTreatments(projectId);
 
       expect(result).to.equal(undefined);
     });

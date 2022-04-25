@@ -2,15 +2,16 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as db from '../../../../../../database/db';
-import { HTTPError } from '../../../../../../errors/custom-error';
-import { TreatmentService } from '../../../../../../services/treatment-service';
-import { getMockDBConnection, getRequestHandlerMocks } from '../../../../../../__mocks__/db';
+import * as db from '../../../../database/db';
+import { HTTPError } from '../../../../errors/custom-error';
+import { AttachmentService } from '../../../../services/attachment-service';
+import { TreatmentService } from '../../../../services/treatment-service';
+import { getMockDBConnection, getRequestHandlerMocks } from '../../../../__mocks__/db';
 import * as delete_treatment_unit from './delete';
 
 chai.use(sinonChai);
 
-describe('deleteTreatmentsByYear', () => {
+describe('deleteTreatments', () => {
   afterEach(() => {
     sinon.restore();
   });
@@ -41,7 +42,7 @@ describe('deleteTreatmentsByYear', () => {
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
     try {
-      const result = delete_treatment_unit.deleteTreatmentsByYear();
+      const result = delete_treatment_unit.deleteTreatments();
 
       await result(
         { ...sampleReq, params: { ...sampleReq.params, projectId: null } },
@@ -55,24 +56,6 @@ describe('deleteTreatmentsByYear', () => {
     }
   });
 
-  it('should throw an error when year is missing', async () => {
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    try {
-      const result = delete_treatment_unit.deleteTreatmentsByYear();
-
-      await result(
-        { ...sampleReq, params: { ...sampleReq.params, year: null } },
-        (null as unknown) as any,
-        (null as unknown) as any
-      );
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Missing year');
-    }
-  });
-
   it('should return 200 response on success', async () => {
     sinon.stub(db, 'getDBConnection').returns({
       ...dbConnectionObj,
@@ -81,20 +64,21 @@ describe('deleteTreatmentsByYear', () => {
       }
     });
 
-    sinon.stub(TreatmentService.prototype, 'deleteTreatmentsByYear').resolves();
+    sinon.stub(TreatmentService.prototype, 'deleteTreatments').resolves();
+    sinon.stub(AttachmentService.prototype, 'deleteAttachmentsByType').resolves();
 
-    const result = delete_treatment_unit.deleteTreatmentsByYear();
+    const result = delete_treatment_unit.deleteTreatments();
 
     await result(sampleReq, sampleRes as any, (null as unknown) as any);
 
     expect(statusCode).to.equal(200);
   });
-  it('should throw an error when deleteTreatmentsByYear fails', async () => {
+  it('should throw an error when deleteTreatments fails', async () => {
     const dbConnectionObj = getMockDBConnection({ rollback: sinon.stub(), release: sinon.stub() });
 
     sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
 
-    sinon.stub(TreatmentService.prototype, 'deleteTreatmentsByYear').rejects(new Error('a test error'));
+    sinon.stub(TreatmentService.prototype, 'deleteTreatments').rejects(new Error('a test error'));
 
     const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
 
@@ -104,7 +88,7 @@ describe('deleteTreatmentsByYear', () => {
     };
 
     try {
-      const requestHandler = delete_treatment_unit.deleteTreatmentsByYear();
+      const requestHandler = delete_treatment_unit.deleteTreatments();
       await requestHandler(mockReq, mockRes, mockNext);
       expect.fail();
     } catch (actualError) {

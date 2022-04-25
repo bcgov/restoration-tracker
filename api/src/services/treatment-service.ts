@@ -403,15 +403,9 @@ export class TreatmentService extends DBService {
     await this.connection.query(sqlStatement.text, sqlStatement.values);
   }
 
-  async deleteTreatmentsByYear(projectId: number, year: number) {
-    const deleteProjectTreatmentsByYearSQL = queries.project.deleteProjectTreatmentsByYearSQL(projectId, year);
-    const deleteProjectTreatmentUnitIfNoTreatmentsSQL = queries.project.deleteProjectTreatmentUnitIfNoTreatmentsSQL();
-
-    await this.connection.query(deleteProjectTreatmentsByYearSQL.text, deleteProjectTreatmentsByYearSQL.values);
-    await this.connection.query(
-      deleteProjectTreatmentUnitIfNoTreatmentsSQL.text,
-      deleteProjectTreatmentUnitIfNoTreatmentsSQL.values
-    );
+  async deleteTreatments(projectId: number) {
+    const deleteProjectTreatmentsSQL = queries.project.deleteProjectTreatmentsSQL(projectId);
+    await this.connection.query(deleteProjectTreatmentsSQL.text, deleteProjectTreatmentsSQL.values);
   }
 
   async getProjectTreatmentsYears(projectId: number) {
