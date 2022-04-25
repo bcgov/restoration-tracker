@@ -2,7 +2,6 @@ import { render, waitFor } from '@testing-library/react';
 import { Formik } from 'formik';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React from 'react';
-import { codes } from 'test-helpers/code-helpers';
 import ProjectGeneralInformationForm, {
   IProjectGeneralInformationForm,
   ProjectGeneralInformationFormInitialValues,
@@ -36,15 +35,7 @@ describe('ProjectGeneralInformationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => (
-          <ProjectGeneralInformationForm
-            species={
-              codes?.species?.map((item) => {
-                return { value: item.id, label: item.name };
-              }) || []
-            }
-          />
-        )}
+        {() => <ProjectGeneralInformationForm />}
       </Formik>
     );
 
@@ -76,15 +67,7 @@ describe('ProjectGeneralInformationForm', () => {
         validateOnBlur={true}
         validateOnChange={false}
         onSubmit={async () => {}}>
-        {() => (
-          <ProjectGeneralInformationForm
-            species={
-              codes?.species?.map((item) => {
-                return { value: item.id, label: item.name };
-              }) || []
-            }
-          />
-        )}
+        {() => <ProjectGeneralInformationForm />}
       </Formik>
     );
 
