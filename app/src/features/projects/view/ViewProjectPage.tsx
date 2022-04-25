@@ -94,7 +94,10 @@ const ViewProjectPage: React.FC = () => {
       if (attachmentsList.length && !forceFetch) return;
 
       try {
-        const response = await restorationTrackerApi.project.getProjectAttachments(projectId, attachmentType.ATTACHMENTS);
+        const response = await restorationTrackerApi.project.getProjectAttachments(
+          projectId,
+          attachmentType.ATTACHMENTS
+        );
 
         if (!response?.attachmentsList) return;
 

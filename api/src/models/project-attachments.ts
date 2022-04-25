@@ -8,7 +8,6 @@ export interface IGetAttachments {
   lastModified: string;
   size: number;
   url: string;
-  key: string;
 }
 
 /**
@@ -31,8 +30,7 @@ export class GetAttachmentsData {
             fileName: item.file_name,
             lastModified: (item.update_date || item.create_date).toString(),
             size: item.file_size,
-            url: item.url,
-            key: item.key
+            url: item.url
           };
         })) ||
       [];

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
-  getProjectAttachmentsSQL,
+  getProjectAttachmentsKnex,
   deleteProjectAttachmentSQL,
   postProjectAttachmentSQL,
   getProjectAttachmentByFileNameSQL,
@@ -9,20 +9,14 @@ import {
 } from './project-attachments-queries';
 
 describe('getProjectAttachmentsSQL', () => {
-  it('returns null response when null projectId provided', () => {
-    const response = getProjectAttachmentsSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
   it('returns non null response when valid projectId provided', () => {
-    const response = getProjectAttachmentsSQL(1);
+    const response = getProjectAttachmentsKnex(1);
 
     expect(response).to.not.be.null;
   });
 
   it('returns non null response when valid projectId and fileType provided', () => {
-    const response = getProjectAttachmentsSQL(1, 'attachments');
+    const response = getProjectAttachmentsKnex(1, 'attachments');
 
     expect(response).to.not.be.null;
   });

@@ -10,6 +10,7 @@ import { getMockDBConnection } from '../__mocks__/db';
 import { AttachmentService } from './attachment-service';
 import { GetAttachmentsData } from '../models/project-attachments';
 import { DeleteObjectOutput } from 'aws-sdk/clients/s3';
+import { getKnexQueryBuilder } from '../database/db';
 
 chai.use(sinonChai);
 
@@ -250,28 +251,11 @@ describe('AttachmentService', () => {
       sinon.restore();
     });
 
-    it('should throw a 400 error when no sql statement produced', async () => {
-      const mockDBConnection = getMockDBConnection();
-      sinon.stub(queries.project, 'getProjectAttachmentsSQL').returns(null);
-
-      const projectId = 1;
-
-      const attachmentService = new AttachmentService(mockDBConnection);
-
-      try {
-        await attachmentService.getAttachmentsByType(projectId);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
-        expect((actualError as HTTPError).status).to.equal(400);
-      }
-    });
-
     it('should return an empty array when no attachments are found', async () => {
       const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
 
-      sinon.stub(queries.project, 'getProjectAttachmentsSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
 
       const projectId = 1;
 
@@ -282,13 +266,13 @@ describe('AttachmentService', () => {
       expect(result.attachmentsList.length).to.equal(0);
     });
 
-    it('should return an empty array when no attachments are found', async () => {
+    it('should return an array when attachments are found', async () => {
       const mockRowObj = [{ id: 123, file_name: 'sample', create_date: Date.now(), file_size: 1 }];
       const expectedResult = new GetAttachmentsData([{ ...mockRowObj[0], url: 'https://somthing.com/anything' }]);
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
-      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+      const mockDBConnection = getMockDBConnection({ knex: async () => mockQueryResponse });
 
-      sinon.stub(queries.project, 'getProjectAttachmentsSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
       sinon.stub(file_utils, 'getS3SignedURL').resolves('https://somthing.com/anything');
 
       const projectId = 1;
@@ -368,29 +352,11 @@ describe('AttachmentService', () => {
       sinon.restore();
     });
 
-    it('should throw a 400 error when no sql statement produced', async () => {
-      const mockDBConnection = getMockDBConnection();
-      sinon.stub(queries.project, 'getProjectAttachmentsSQL').returns(null);
-
-      const projectId = 1;
-      const fileType = 'attachments';
-
-      const attachmentService = new AttachmentService(mockDBConnection);
-
-      try {
-        await attachmentService.deleteAttachmentsByType(projectId, fileType);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
-        expect((actualError as HTTPError).status).to.equal(400);
-      }
-    });
-
     it('should throw a 400 response when response has no rowCount', async () => {
       const mockQueryResponse = (null as unknown) as QueryResult<any>;
-      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+      const mockDBConnection = getMockDBConnection({ knex: async () => mockQueryResponse });
 
-      sinon.stub(queries.project, 'getProjectAttachmentsSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
 
       const projectId = 1;
       const fileType = 'attachments';
@@ -401,7 +367,7 @@ describe('AttachmentService', () => {
         await attachmentService.deleteAttachmentsByType(projectId, fileType);
         expect.fail();
       } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to delete project attachments type record');
+        expect((actualError as HTTPError).message).to.equal('Failed to get project attachments type record');
         expect((actualError as HTTPError).status).to.equal(400);
       }
     });
@@ -409,9 +375,9 @@ describe('AttachmentService', () => {
     it('returns void on success', async () => {
       const mockRowObj = [{ key: 123 }];
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
-      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+      const mockDBConnection = getMockDBConnection({ knex: async () => mockQueryResponse });
 
-      sinon.stub(queries.project, 'getProjectAttachmentsSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
       sinon.stub(file_utils, 'deleteFileFromS3').resolves((null as any) as DeleteObjectOutput);
       sinon.stub(AttachmentService.prototype, 'deleteAttachment').resolves();
 
@@ -433,36 +399,36 @@ describe('AttachmentService', () => {
 
     it('should throw a 400 error when no sql statement produced', async () => {
       const mockDBConnection = getMockDBConnection();
-      sinon.stub(queries.project, 'getProjectAttachmentsSQL').returns(null);
+      sinon.stub(queries.project, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
 
       const projectId = 1;
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
       try {
-        await attachmentService.deleteAllAttachments(projectId);
+        await attachmentService.deleteAllS3Attachments(projectId);
         expect.fail();
       } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
+        expect((actualError as HTTPError).message).to.equal('Failed to get project attachments type record');
         expect((actualError as HTTPError).status).to.equal(400);
       }
     });
 
     it('should throw a 400 response when response has no rowCount', async () => {
       const mockQueryResponse = (null as unknown) as QueryResult<any>;
-      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+      const mockDBConnection = getMockDBConnection({ knex: async () => mockQueryResponse });
 
-      sinon.stub(queries.project, 'getProjectAttachmentsSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
 
       const projectId = 1;
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
       try {
-        await attachmentService.deleteAllAttachments(projectId);
+        await attachmentService.deleteAllS3Attachments(projectId);
         expect.fail();
       } catch (actualError) {
-        expect((actualError as HTTPError).message).to.equal('Failed to delete project attachments record');
+        expect((actualError as HTTPError).message).to.equal('Failed to get project attachments type record');
         expect((actualError as HTTPError).status).to.equal(400);
       }
     });
@@ -470,16 +436,16 @@ describe('AttachmentService', () => {
     it('returns void on success', async () => {
       const mockRowObj = [{ key: 123 }, { key: 234 }];
       const mockQueryResponse = ({ rows: mockRowObj } as unknown) as QueryResult<any>;
-      const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
+      const mockDBConnection = getMockDBConnection({ knex: async () => mockQueryResponse });
 
-      sinon.stub(queries.project, 'deleteProjectAttachmentSQL').returns(SQL`valid sql`);
+      sinon.stub(queries.project, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
       sinon.stub(file_utils, 'deleteFileFromS3').resolves((null as any) as DeleteObjectOutput);
 
       const projectId = 1;
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
-      const result = await attachmentService.deleteAllAttachments(projectId);
+      const result = await attachmentService.deleteAllS3Attachments(projectId);
 
       expect(result).to.equal(void 0);
     });
