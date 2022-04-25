@@ -22,9 +22,6 @@ describe('deleteAttachment', () => {
     params: {
       projectId: 1,
       attachmentId: 2
-    },
-    body: {
-      securityToken: 'token'
     }
   } as any;
 
