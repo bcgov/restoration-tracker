@@ -1,3 +1,4 @@
+import { Knex } from 'knex';
 import { SQL, SQLStatement } from 'sql-template-strings';
 import { getKnexQueryBuilder } from '../../database/db';
 import { getLogger } from '../../utils/logger';
@@ -5,22 +6,13 @@ import { getLogger } from '../../utils/logger';
 const defaultLog = getLogger('queries/project/project-attachments-queries');
 
 /**
- * SQL query to get attachments for a single project.
+ * Knex query to get attachments for a single project.
  *
  * @param {number} projectId
  * @param {string} [fileType]
  * @return {*}  {(SQLStatement | null)}
  */
-export const getProjectAttachmentsSQL = (
-  projectId: number,
-  attachmentType?: string | string[]
-): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectAttachmentsSQL', message: 'params', projectId });
-
-  if (!projectId) {
-    return null;
-  }
-
+export const getProjectAttachmentsKnex = (projectId: number, attachmentType?: string | string[]): Knex.QueryBuilder => {
   const queryBuilder = getKnexQueryBuilder()
     .select(
       'project_attachment.project_attachment_id',
@@ -31,7 +23,7 @@ export const getProjectAttachmentsSQL = (
       'project_attachment.key'
     )
     .from('project_attachment')
-    .where('project_attachmentproject_id', projectId);
+    .where('project_attachment.project_id', projectId);
 
   if (attachmentType) {
     queryBuilder.and.whereIn(
@@ -40,7 +32,7 @@ export const getProjectAttachmentsSQL = (
     );
   }
 
-  return queryBuilder.toSQL();
+  return queryBuilder;
 };
 
 /**

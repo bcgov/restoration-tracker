@@ -10,14 +10,14 @@ export class AttachmentService extends DBService {
     projectId: number,
     s3Key: string,
     file: Express.Multer.File,
-    fileType: string
+    attachmentType: string
   ): Promise<{ id: number; revision_count: number }> {
     const sqlStatement = queries.project.postProjectAttachmentSQL(
       file.originalname,
       file.size,
       projectId,
       s3Key,
-      fileType
+      attachmentType
     );
 
     if (!sqlStatement) {
@@ -68,12 +68,12 @@ export class AttachmentService extends DBService {
     projectId: number,
     file: Express.Multer.File,
     s3Key: string,
-    fileType: string,
+    attachmentType: string,
     metadata: Metadata = {}
   ): Promise<{ id: number; revision_count: number }> {
     const response = (await this.fileWithSameNameExist(projectId, file))
       ? this.updateProjectAttachment(projectId, file)
-      : this.insertProjectAttachment(projectId, s3Key, file, fileType);
+      : this.insertProjectAttachment(projectId, s3Key, file, attachmentType);
 
     await uploadFileToS3(file, s3Key, metadata);
 
@@ -81,16 +81,9 @@ export class AttachmentService extends DBService {
   }
 
   async getAttachmentsByType(projectId: number, attachmentType?: string | string[]) {
-    const getProjectAttachmentsSQLStatement = queries.project.getProjectAttachmentsSQL(projectId, attachmentType);
+    const getProjectAttachmentsKnexStatement = queries.project.getProjectAttachmentsKnex(projectId, attachmentType);
 
-    if (!getProjectAttachmentsSQLStatement) {
-      throw new HTTP400('Failed to build SQL get statement');
-    }
-
-    const response = await this.connection.query(
-      getProjectAttachmentsSQLStatement.text,
-      getProjectAttachmentsSQLStatement.values
-    );
+    const response = await this.connection.knex(getProjectAttachmentsKnexStatement);
 
     const rawAttachmentsData = response && response.rows ? response.rows : [];
 
@@ -117,47 +110,32 @@ export class AttachmentService extends DBService {
     await deleteFileFromS3(response.rows[0].key);
   }
 
-  async deleteAttachmentsByType(projectId: number, fileType: string) {
-    const getProjectAttachmentSQLStatement = queries.project.getProjectAttachmentsSQL(projectId, fileType);
+  async deleteAttachmentsByType(projectId: number, attachmentType: string) {
+    const getProjectAttachmentsKnexStatement = queries.project.getProjectAttachmentsKnex(projectId, attachmentType);
 
-    if (!getProjectAttachmentSQLStatement) {
-      throw new HTTP400('Failed to build SQL get statement');
-    }
-
-    const attachments = await this.connection.query(
-      getProjectAttachmentSQLStatement.text,
-      getProjectAttachmentSQLStatement.values
-    );
+    const attachments = await this.connection.knex(getProjectAttachmentsKnexStatement);
 
     if (!attachments || !attachments.rows) {
-      throw new HTTP400('Failed to delete project attachments type record');
+      throw new HTTP400('Failed to get project attachments type record');
     }
 
     for (const row of attachments.rows) {
       await deleteFileFromS3(row.key);
-      await this.deleteAttachment(projectId, row.id);
+      await this.deleteAttachment(projectId, row.project_attachment_id);
     }
   }
 
-  async deleteAllAttachments(projectId: number) {
-    const getProjectAttachmentSQLStatement = queries.project.getProjectAttachmentsSQL(projectId);
+  async deleteAllS3Attachments(projectId: number) {
+    const getProjectAttachmentsKnexStatement = queries.project.getProjectAttachmentsKnex(projectId);
 
-    if (!getProjectAttachmentSQLStatement) {
-      throw new HTTP400('Failed to build SQL get statement');
-    }
-
-    const attachments = await this.connection.query(
-      getProjectAttachmentSQLStatement.text,
-      getProjectAttachmentSQLStatement.values
-    );
+    const attachments = await this.connection.knex(getProjectAttachmentsKnexStatement);
 
     if (!attachments || !attachments.rows) {
-      throw new HTTP400('Failed to delete project attachments record');
+      throw new HTTP400('Failed to get project attachments type record');
     }
 
     for (const row of attachments.rows) {
       await deleteFileFromS3(row.key);
-      await this.deleteAttachment(projectId, row.id);
     }
   }
 }
