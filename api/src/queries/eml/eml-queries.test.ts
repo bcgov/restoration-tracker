@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
-import { getProjectFirstNationsSQL, getIUCNClassificationsDetailsSQL } from './eml-queries';
+import { getIUCNClassificationsDetailsSQL, getProjectFirstNationsSQL } from './eml-queries';
 
 describe('getProjectFirstNationsSQL', () => {
   it('returns null response when null projectId provided', () => {

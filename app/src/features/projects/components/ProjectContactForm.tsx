@@ -1,8 +1,18 @@
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { mdiPencilOutline, mdiPlus, mdiTrashCanOutline } from '@mdi/js';
+import { Icon } from '@mdi/react';
+import EditDialog from 'components/dialog/EditDialog';
 import { FieldArray, useFormikContext } from 'formik';
 import React, { useState } from 'react';
 import yup from 'utils/YupSchema';
@@ -12,16 +22,6 @@ import ProjectContactItemForm, {
   ProjectContactItemInitialValues,
   ProjectContactItemYupSchema
 } from './ProjectContactItemForm';
-import { Icon } from '@mdi/react';
-import { mdiPencilOutline, mdiPlus, mdiTrashCanOutline } from '@mdi/js';
-import EditDialog from 'components/dialog/EditDialog';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
 
 export interface IProjectContactForm {
   contact: {

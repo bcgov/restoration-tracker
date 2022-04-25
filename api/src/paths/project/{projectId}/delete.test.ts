@@ -6,13 +6,13 @@ import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import { SYSTEM_ROLE } from '../../../constants/roles';
 import * as db from '../../../database/db';
+import { getKnexQueryBuilder } from '../../../database/db';
+import { HTTPError } from '../../../errors/custom-error';
 import project_queries from '../../../queries/project';
+import { AttachmentService } from '../../../services/attachment-service';
+import * as file_utils from '../../../utils/file-utils';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../__mocks__/db';
 import * as delete_project from './delete';
-import * as file_utils from '../../../utils/file-utils';
-import { HTTPError } from '../../../errors/custom-error';
-import { AttachmentService } from '../../../services/attachment-service';
-import { getKnexQueryBuilder } from '../../../database/db';
 
 chai.use(sinonChai);
 

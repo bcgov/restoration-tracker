@@ -1,11 +1,11 @@
 import { cleanup, render, waitFor } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
+import useCodes from 'hooks/useCodes';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React from 'react';
-import ManageUsersPage from './ManageUsersPage';
-import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
-import useCodes from 'hooks/useCodes';
 import { codes } from 'test-helpers/code-helpers';
+import ManageUsersPage from './ManageUsersPage';
 
 const history = createMemoryHistory();
 
