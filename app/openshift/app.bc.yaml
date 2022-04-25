@@ -91,7 +91,7 @@ objects:
           cpu: 1000m
           memory: 5Gi
         requests:
-          cpu: 100m
+          cpu: 10m
           memory: 512Mi
       runPolicy: Serial
       source:
