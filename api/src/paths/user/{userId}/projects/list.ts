@@ -174,7 +174,13 @@ GET.apiDoc = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: [], // TODO double check which fields are required
+                        required: [
+                          'agency_id',
+                          'funding_amount',
+                          'investment_action_category',
+                          'start_date',
+                          'end_date'
+                        ],
                         properties: {
                           id: {
                             type: 'number'
@@ -292,6 +298,8 @@ export function getUserProjectsList(): RequestHandler {
       const projectService = new ProjectService(connection);
 
       const projects = await projectService.getProjectsByIds(projectIds);
+
+      await connection.commit();
 
       return res.status(200).json(projects);
     } catch (error) {

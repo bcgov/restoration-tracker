@@ -112,9 +112,9 @@ export function deleteProject(): RequestHandler {
 
       /**
        * PART 2
-       * Delete all the project related and all associated records/resources from our DB
+       * Delete all the project related and all associated records/resources from S3
        */
-      await new AttachmentService(connection).deleteAllAttachments(projectId);
+      await new AttachmentService(connection).deleteAllS3Attachments(projectId);
 
       /**
        * PART 3

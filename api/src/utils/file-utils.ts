@@ -112,9 +112,14 @@ export async function getS3SignedURL(key: string): Promise<string | null> {
   });
 }
 
+export enum S3Folder {
+  ATTACHMENTS = 'attachments',
+  TREATMENTS = 'treatments'
+}
+
 export interface IS3FileKey {
   projectId: number;
-  folder?: string;
+  folder?: S3Folder;
   fileName: string;
 }
 
