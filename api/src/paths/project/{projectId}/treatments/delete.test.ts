@@ -23,9 +23,6 @@ describe('deleteTreatments', () => {
     params: {
       projectId: 1,
       year: 2
-    },
-    body: {
-      securityToken: 'token'
     }
   } as any;
 

@@ -174,7 +174,13 @@ GET.apiDoc = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        required: [], // TODO double check which fields are required
+                        required: [
+                          'agency_id',
+                          'funding_amount',
+                          'investment_action_category',
+                          'start_date',
+                          'end_date'
+                        ],
                         properties: {
                           id: {
                             type: 'number'
