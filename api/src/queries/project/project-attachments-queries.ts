@@ -1,43 +1,38 @@
+import { Knex } from 'knex';
 import { SQL, SQLStatement } from 'sql-template-strings';
+import { getKnexQueryBuilder } from '../../database/db';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-attachments-queries');
 
 /**
- * SQL query to get attachments for a single project.
+ * Knex query to get attachments for a single project.
  *
  * @param {number} projectId
- * @returns {SQLStatement} sql query object
+ * @param {string} [fileType]
+ * @return {*}  {(SQLStatement | null)}
  */
-export const getProjectAttachmentsSQL = (projectId: number): SQLStatement | null => {
-  defaultLog.debug({ label: 'getProjectAttachmentsSQL', message: 'params', projectId });
+export const getProjectAttachmentsKnex = (projectId: number, attachmentType?: string | string[]): Knex.QueryBuilder => {
+  const queryBuilder = getKnexQueryBuilder()
+    .select(
+      'project_attachment.project_attachment_id',
+      'project_attachment.file_name',
+      'project_attachment.update_date',
+      'project_attachment.create_date',
+      'project_attachment.file_size',
+      'project_attachment.key'
+    )
+    .from('project_attachment')
+    .where('project_attachment.project_id', projectId);
 
-  if (!projectId) {
-    return null;
+  if (attachmentType) {
+    queryBuilder.and.whereIn(
+      'project_attachment.file_type',
+      (Array.isArray(attachmentType) && attachmentType) || [attachmentType]
+    );
   }
 
-  const sqlStatement: SQLStatement = SQL`
-    SELECT
-      project_attachment_id as id,
-      file_name,
-      update_date,
-      create_date,
-      file_size,
-      key
-    from
-      project_attachment
-    where
-      project_id = ${projectId};
-  `;
-
-  defaultLog.debug({
-    label: 'getProjectAttachmentsSQL',
-    message: 'sql',
-    'sqlStatement.text': sqlStatement.text,
-    'sqlStatement.values': sqlStatement.values
-  });
-
-  return sqlStatement;
+  return queryBuilder;
 };
 
 /**
@@ -87,7 +82,8 @@ export const postProjectAttachmentSQL = (
   fileName: string,
   fileSize: number,
   projectId: number,
-  key: string
+  key: string,
+  fileType: string
 ): SQLStatement | null => {
   defaultLog.debug({
     label: 'postProjectAttachmentSQL',
@@ -98,7 +94,7 @@ export const postProjectAttachmentSQL = (
     key
   });
 
-  if (!fileName || !fileSize || !projectId || !key) {
+  if (!fileName || !fileSize || !projectId || !key || !fileType) {
     return null;
   }
 
@@ -106,12 +102,14 @@ export const postProjectAttachmentSQL = (
     INSERT INTO project_attachment (
       project_id,
       file_name,
+      file_type,
       file_size,
       title,
       key
     ) VALUES (
       ${projectId},
       ${fileName},
+      ${fileType},
       ${fileSize},
       ${fileName},
       ${key}
