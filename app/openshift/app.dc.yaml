@@ -49,7 +49,7 @@ parameters:
     value: '35r1iman'
   - name: REACT_APP_KEYCLOAK_CLIENT_ID
     description: Client Id for application
-    value: 'biohubbc'
+    value: 'restoration'
   - name: CPU_REQUEST
     value: '10m'
   - name: CPU_LIMIT

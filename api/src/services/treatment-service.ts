@@ -347,25 +347,6 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async updateProjectTreatment(
-    projectId: number,
-    file: Express.Multer.File
-  ): Promise<{ id: number; revision_count: number }> {
-    const sqlStatement = queries.project.putProjectTreatmentSQL(projectId, file.originalname);
-
-    if (!sqlStatement) {
-      throw new HTTP400('Failed to build SQL update statement');
-    }
-
-    const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
-
-    if (!response || !response?.rows?.[0]) {
-      throw new HTTP400('Failed to update project attachment data');
-    }
-
-    return response.rows[0];
-  }
-
   async getTreatmentsByCriteria(projectId: number, criteria: TreatmentSearchCriteria): Promise<GetTreatmentData> {
     const queryBuilder = getKnexQueryBuilder<any, { project_id: number }>()
       .select(
@@ -422,15 +403,9 @@ export class TreatmentService extends DBService {
     await this.connection.query(sqlStatement.text, sqlStatement.values);
   }
 
-  async deleteTreatmentsByYear(projectId: number, year: number) {
-    const deleteProjectTreatmentsByYearSQL = queries.project.deleteProjectTreatmentsByYearSQL(projectId, year);
-    const deleteProjectTreatmentUnitIfNoTreatmentsSQL = queries.project.deleteProjectTreatmentUnitIfNoTreatmentsSQL();
-
-    await this.connection.query(deleteProjectTreatmentsByYearSQL.text, deleteProjectTreatmentsByYearSQL.values);
-    await this.connection.query(
-      deleteProjectTreatmentUnitIfNoTreatmentsSQL.text,
-      deleteProjectTreatmentUnitIfNoTreatmentsSQL.values
-    );
+  async deleteTreatments(projectId: number) {
+    const deleteProjectTreatmentsSQL = queries.project.deleteProjectTreatmentsSQL(projectId);
+    await this.connection.query(deleteProjectTreatmentsSQL.text, deleteProjectTreatmentsSQL.values);
   }
 
   async getProjectTreatmentsYears(projectId: number) {

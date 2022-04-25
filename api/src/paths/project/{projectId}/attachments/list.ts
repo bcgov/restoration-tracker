@@ -44,6 +44,26 @@ GET.apiDoc = {
         type: 'number'
       },
       required: true
+    },
+    {
+      in: 'query',
+      name: 'type',
+      schema: {
+        oneOf: [
+          {
+            type: 'string',
+            nullable: true
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            nullable: true
+          }
+        ]
+      },
+      allowEmptyValue: true
     }
   ],
   responses: {
@@ -102,12 +122,14 @@ export function getAttachments(): RequestHandler {
     const projectId = Number(req.params.projectId);
     const connection = getDBConnection(req['keycloak_token']);
 
+    const queryType = (req.query as { type: string | string[] | null }).type || [];
+
     try {
       await connection.open();
 
       const attachmentService = new AttachmentService(connection);
 
-      const data = await attachmentService.getAttachments(projectId);
+      const data = await attachmentService.getAttachmentsByType(projectId, queryType);
 
       await connection.commit();
 

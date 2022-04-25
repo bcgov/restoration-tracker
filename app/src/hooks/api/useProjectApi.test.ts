@@ -30,7 +30,6 @@ describe('useProjectApi', () => {
   const projectId = 1;
   const attachmentId = 1;
   const treatmentUnitId = 1;
-  const year = 2022;
 
   it('getAllUserProjectsParticipation works as expected', async () => {
     mock.onGet(`/api/user/${userId}/projects/participation/list`).reply(200, [
@@ -70,30 +69,6 @@ describe('useProjectApi', () => {
         project_id: 1
       }
     });
-  });
-
-  it('getProjectAttachments works as expected', async () => {
-    mock.onGet(`/api/project/${projectId}/attachments/list`).reply(200, {
-      attachmentsList: [
-        {
-          id: 1,
-          fileName: 'filename',
-          lastModified: '2020/04/04',
-          size: 3028
-        }
-      ]
-    });
-
-    const result = await useProjectApi(axios).getProjectAttachments(projectId);
-
-    expect(result.attachmentsList).toEqual([
-      {
-        id: 1,
-        fileName: 'filename',
-        lastModified: '2020/04/04',
-        size: 3028
-      }
-    ]);
   });
 
   it('deleteProject works as expected', async () => {
@@ -237,10 +212,10 @@ describe('useProjectApi', () => {
     expect(result).toEqual(true);
   });
 
-  it('deleteProjectTreatmentsByYear works as expected', async () => {
-    mock.onDelete(`/api/project/${projectId}/treatments/year/${year}/delete`).reply(200);
+  it('deleteProjectTreatments works as expected', async () => {
+    mock.onDelete(`/api/project/${projectId}/treatments/delete`).reply(200);
 
-    const result = await useProjectApi(axios).deleteProjectTreatmentsByYear(projectId, year);
+    const result = await useProjectApi(axios).deleteProjectTreatments(projectId);
 
     expect(result).toEqual(true);
   });
@@ -347,6 +322,30 @@ describe('usePublicProjectApi', () => {
     });
 
     const result = await usePublicProjectApi(axios).getProjectAttachments(projectId);
+
+    expect(result.attachmentsList).toEqual([
+      {
+        id: 1,
+        fileName: 'filename',
+        lastModified: '2020/04/04',
+        size: 3028
+      }
+    ]);
+  });
+
+  it('getProjectAttachments works as expected with fileType', async () => {
+    mock.onGet(`/api/project/${projectId}/attachments/list`).reply(200, {
+      attachmentsList: [
+        {
+          id: 1,
+          fileName: 'filename',
+          lastModified: '2020/04/04',
+          size: 3028
+        }
+      ]
+    });
+
+    const result = await useProjectApi(axios).getProjectAttachments(projectId, { type: 'attachments' });
 
     expect(result.attachmentsList).toEqual([
       {
