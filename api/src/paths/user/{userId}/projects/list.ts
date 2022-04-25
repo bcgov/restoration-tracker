@@ -293,6 +293,8 @@ export function getUserProjectsList(): RequestHandler {
 
       const projects = await projectService.getProjectsByIds(projectIds);
 
+      await connection.commit();
+
       return res.status(200).json(projects);
     } catch (error) {
       defaultLog.error({ label: 'getAllUserProjects', message: 'error', error });

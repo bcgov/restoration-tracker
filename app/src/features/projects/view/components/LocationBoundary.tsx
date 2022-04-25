@@ -42,6 +42,7 @@ export interface ILocationBoundaryProps {
   projectForViewData: IGetProjectForViewResponse;
   treatmentList: IGetProjectTreatment[];
   refresh: () => void;
+  scrollWheelZoom?: boolean;
 }
 
 /**
@@ -100,7 +101,7 @@ const LocationBoundary: React.FC<ILocationBoundaryProps> = (props) => {
         mapId="project_location_form_map"
         staticLayers={staticLayers}
         bounds={bounds}
-        scrollWheelZoom={false}
+        scrollWheelZoom={props.scrollWheelZoom || false}
       />
     </Box>
   );
