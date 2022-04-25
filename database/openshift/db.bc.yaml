@@ -32,8 +32,8 @@ objects:
           annotations:
           from:
             kind: ImageStreamTag
-            name: postgis-postgres:12-31
-            namespace: af2668-tools
+            name: crunchy-postgres-gis:ubi8-14.2-3.1-0
+            namespace: b1d40d-tools
           generation: 1
           importPolicy: {}
           referencePolicy:

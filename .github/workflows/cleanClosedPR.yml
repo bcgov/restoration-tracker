@@ -64,7 +64,7 @@ jobs:
       # Clean the reamaining build/deployment artifacts
       - name: Clean remaining Artifacts
         run: |
-          oc project af2668-dev
+          oc project b1d40d-dev
           oc get all,pvc,secret,pods,ReplicationController,DeploymentConfig,HorizontalPodAutoscaler,imagestreamtag -o name | grep restoration-tracker | grep $BUILD_ID | awk '{print "oc delete " $1}' | bash
-          oc project af2668-tools
+          oc project b1d40d-tools
           oc get all,pvc,secret,pods,ReplicationController,DeploymentConfig,HorizontalPodAutoscaler,imagestreamtag -o name | grep restoration-tracker | grep $BUILD_ID | awk '{print "oc delete " $1}' | bash
