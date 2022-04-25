@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
-  getPublicProjectSQL,
-  getPublicProjectPermitsSQL,
-  getLocationByPublicProjectSQL,
-  getIUCNActionClassificationByPublicProjectSQL,
   getFundingSourceByPublicProjectSQL,
   getIndigenousPartnershipsByPublicProjectSQL,
-  getStakeholderPartnershipsByPublicProjectSQL,
-  getPublicProjectListSQL
+  getIUCNActionClassificationByPublicProjectSQL,
+  getLocationByPublicProjectSQL,
+  getPublicProjectListSQL,
+  getPublicProjectPermitsSQL,
+  getPublicProjectSQL,
+  getStakeholderPartnershipsByPublicProjectSQL
 } from './project-queries';
 
 describe('getPublicProjectSQL', () => {

@@ -1,9 +1,9 @@
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetUserResponse } from '../../../interfaces/useUserApi.interface';
 import UsersDetailHeader from './UsersDetailHeader';
 import UsersDetailProjects from './UsersDetailProjects';

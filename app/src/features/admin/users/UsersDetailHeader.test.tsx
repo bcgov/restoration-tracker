@@ -1,11 +1,11 @@
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { DialogContextProvider } from 'contexts/dialogContext';
 import { createMemoryHistory } from 'history';
+import { IGetUserResponse } from 'interfaces/useUserApi.interface';
 import React from 'react';
 import { Router } from 'react-router';
 import { useRestorationTrackerApi } from '../../../hooks/useRestorationTrackerApi';
 import UsersDetailHeader from './UsersDetailHeader';
-import { DialogContextProvider } from 'contexts/dialogContext';
-import { IGetUserResponse } from 'interfaces/useUserApi.interface';
 
 const history = createMemoryHistory();
 

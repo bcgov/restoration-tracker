@@ -4,8 +4,8 @@ import { PutProjectData } from '../../models/project-update';
 import {
   getIndigenousPartnershipsByProjectSQL,
   getIUCNActionClassificationByProjectSQL,
-  putProjectSQL,
   getPermitsByProjectSQL,
+  putProjectSQL,
   updateProjectPublishStatusSQL
 } from './project-update-queries';
 

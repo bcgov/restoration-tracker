@@ -1,10 +1,9 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { HTTP400 } from '../../../../../../errors/custom-error';
-
-import { getLogger } from '../../../../../../utils/logger';
 import { getAPIUserDBConnection } from '../../../../../../database/db';
+import { HTTP400 } from '../../../../../../errors/custom-error';
 import { TreatmentService } from '../../../../../../services/treatment-service';
+import { getLogger } from '../../../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/treatments/year/list');
 

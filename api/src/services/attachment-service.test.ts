@@ -1,15 +1,15 @@
+import { DeleteObjectOutput } from 'aws-sdk/clients/s3';
 import chai, { expect } from 'chai';
 import { QueryResult } from 'pg';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
-import * as file_utils from '../utils/file-utils';
 import { HTTPError } from '../errors/custom-error';
+import { GetAttachmentsData } from '../models/project-attachments';
 import { queries } from '../queries/queries';
+import * as file_utils from '../utils/file-utils';
 import { getMockDBConnection } from '../__mocks__/db';
 import { AttachmentService } from './attachment-service';
-import { GetAttachmentsData } from '../models/project-attachments';
-import { DeleteObjectOutput } from 'aws-sdk/clients/s3';
 
 chai.use(sinonChai);
 

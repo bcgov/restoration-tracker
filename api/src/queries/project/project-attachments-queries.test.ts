@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
-  getProjectAttachmentsSQL,
   deleteProjectAttachmentSQL,
-  postProjectAttachmentSQL,
   getProjectAttachmentByFileNameSQL,
+  getProjectAttachmentsSQL,
+  postProjectAttachmentSQL,
   putProjectAttachmentSQL
 } from './project-attachments-queries';
 

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
-  getStakeholderPartnershipsByProjectSQL,
+  getFundingSourceByProjectSQL,
   getLocationByProjectSQL,
-  getFundingSourceByProjectSQL
+  getStakeholderPartnershipsByProjectSQL
 } from './project-view-update-queries';
 
 describe('getLocationByProjectSQL', () => {
