@@ -1,26 +1,26 @@
-import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
-import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Alert from '@material-ui/lab/Alert';
 import { mdiExport, mdiImport, mdiMenuDown, mdiTrashCanOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import FileUpload from 'components/attachments/FileUpload';
 import { IUploadHandler } from 'components/attachments/FileUploadItem';
 import ComponentDialog from 'components/dialog/ComponentDialog';
 import { ProjectAttachmentValidExtensions } from 'constants/attachments';
+import { attachmentType } from 'constants/misc';
 import { DialogContext } from 'contexts/dialogContext';
 import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectAttachment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { ReactElement, useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { attachmentType } from 'constants/misc';
 
 const useStyles = makeStyles({
   filterMenu: {

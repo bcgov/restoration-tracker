@@ -1,8 +1,8 @@
+import { cleanup, render, waitFor } from '@testing-library/react';
+import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { cleanup, render, waitFor } from '@testing-library/react';
 import PublicProjectsListPage from './PublicProjectsListPage';
-import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 
 jest.mock('../../hooks/useRestorationTrackerApi');
 const mockUseRestorationTrackerApi = {

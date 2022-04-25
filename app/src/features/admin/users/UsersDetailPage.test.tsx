@@ -1,12 +1,12 @@
 import { cleanup, render, waitFor } from '@testing-library/react';
-import React from 'react';
-import UsersDetailPage from './UsersDetailPage';
-import { IGetUserResponse } from '../../../interfaces/useUserApi.interface';
-import { useRestorationTrackerApi } from '../../../hooks/useRestorationTrackerApi';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router';
 import { IGetAllCodeSetsResponse } from 'interfaces/useCodesApi.interface';
+import React from 'react';
+import { Router } from 'react-router';
+import { useRestorationTrackerApi } from '../../../hooks/useRestorationTrackerApi';
 import { IGetUserProjectsListResponse } from '../../../interfaces/useProjectApi.interface';
+import { IGetUserResponse } from '../../../interfaces/useUserApi.interface';
+import UsersDetailPage from './UsersDetailPage';
 
 const history = createMemoryHistory();
 
