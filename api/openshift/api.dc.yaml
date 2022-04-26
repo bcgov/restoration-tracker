@@ -59,9 +59,9 @@ parameters:
   - name: LOG_LEVEL
     value: 'info'
   - name: CPU_REQUEST
-    value: '10m'
+    value: '100m'
   - name: CPU_LIMIT
-    value: '200m'
+    value: '300m'
   - name: MEMORY_REQUEST
     value: '512Mi'
   - name: MEMORY_LIMIT
