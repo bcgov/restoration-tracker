@@ -1,17 +1,17 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
+  deleteContactSQL,
   deleteIndigenousPartnershipsSQL,
   deleteIUCNSQL,
-  deleteStakeholderPartnershipsSQL,
-  deleteProjectFundingSourceSQL,
   deletePermitSQL,
-  deleteProjectSQL,
-  deleteContactSQL,
-  deleteProjectSpatialSQL,
-  deleteProjectRegionSQL,
+  deleteProjectFundingSourceSQL,
   deleteProjectRangeSQL,
-  deleteProjectSpeciesSQL
+  deleteProjectRegionSQL,
+  deleteProjectSpatialSQL,
+  deleteProjectSpeciesSQL,
+  deleteProjectSQL,
+  deleteStakeholderPartnershipsSQL
 } from './project-delete-queries';
 
 describe('deleteIUCNSQL', () => {

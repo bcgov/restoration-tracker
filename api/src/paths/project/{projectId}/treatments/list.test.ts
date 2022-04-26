@@ -1,14 +1,14 @@
 import chai, { expect } from 'chai';
+import { Feature } from 'geojson';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as db from '../../../../database/db';
-import { getMockDBConnection } from '../../../../__mocks__/db';
 import { HTTPError } from '../../../../errors/custom-error';
-import { getTreatments } from './list';
-import { TreatmentService } from '../../../../services/treatment-service';
 import { GetTreatmentData } from '../../../../models/treatment-view';
-import { Feature } from 'geojson';
+import { TreatmentService } from '../../../../services/treatment-service';
+import { getMockDBConnection } from '../../../../__mocks__/db';
+import { getTreatments } from './list';
 
 chai.use(sinonChai);
 

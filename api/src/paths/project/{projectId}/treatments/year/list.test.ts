@@ -3,12 +3,11 @@ import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as db from '../../../../../database/db';
-
 import { HTTPError } from '../../../../../errors/custom-error';
-import { getTreatmentYears } from './list';
 import { TreatmentService } from '../../../../../services/treatment-service';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../../../__mocks__/db';
 import * as list from './list';
+import { getTreatmentYears } from './list';
 
 chai.use(sinonChai);
 

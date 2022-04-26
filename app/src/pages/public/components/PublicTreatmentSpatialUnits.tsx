@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { mdiMenuDown } from '@mdi/js';
@@ -11,7 +12,6 @@ import { useRestorationTrackerApi } from 'hooks/useRestorationTrackerApi';
 import { IGetProjectTreatment, TreatmentSearchCriteria } from 'interfaces/useProjectApi.interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   filterMenu: {
