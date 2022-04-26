@@ -53,11 +53,11 @@ parameters:
   - name: CPU_REQUEST
     value: '10m'
   - name: CPU_LIMIT
-    value: '200m'
+    value: '100m'
   - name: MEMORY_REQUEST
     value: '50Mi'
   - name: MEMORY_LIMIT
-    value: '200Mi'
+    value: '100Mi'
   - name: REPLICAS
     value: '1'
   - name: REPLICA_MAX

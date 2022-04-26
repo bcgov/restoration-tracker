@@ -99,8 +99,8 @@ const phases = {
     elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     sso: config.sso.test,
-    replicas: 3,
-    maxReplicas: 5,
+    replicas: 1,
+    maxReplicas: 2,
     logLevel: 'info'
   },
   prod: {
@@ -118,8 +118,8 @@ const phases = {
     elasticsearchURL: 'http://es01:9200',
     tz: config.timezone.api,
     sso: config.sso.prod,
-    replicas: 3,
-    maxReplicas: 6,
+    replicas: 1,
+    maxReplicas: 2,
     logLevel: 'info'
   }
 };
