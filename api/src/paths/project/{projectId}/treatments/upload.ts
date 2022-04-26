@@ -6,7 +6,7 @@ import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { AttachmentService } from '../../../../services/attachment-service';
 import { TreatmentService } from '../../../../services/treatment-service';
-import { scanFileForVirus } from '../../../../utils/file-utils';
+import { generateS3FileKey, S3Folder, scanFileForVirus } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/treatments/upload');
@@ -152,8 +152,13 @@ export function uploadTreatmentSpatial(): RequestHandler {
       };
 
       const attachmentService = new AttachmentService(connection);
+      const s3Key = generateS3FileKey({
+        projectId: projectId,
+        fileName: rawMediaFile.originalname,
+        folder: S3Folder.TREATMENTS
+      });
 
-      await attachmentService.uploadMedia(projectId, rawMediaFile, metadata);
+      await attachmentService.uploadMedia(projectId, rawMediaFile, s3Key, S3Folder.TREATMENTS, metadata);
 
       await connection.commit();
 

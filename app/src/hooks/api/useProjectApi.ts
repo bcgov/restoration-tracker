@@ -1,4 +1,5 @@
 import { AxiosInstance, CancelTokenSource } from 'axios';
+import { attachmentType } from 'constants/misc';
 import {
   IAddProjectParticipant,
   ICreateProjectRequest,
@@ -46,13 +47,22 @@ const useProjectApi = (axios: AxiosInstance) => {
   };
 
   /**
-   * Get project attachments based on project ID
+   * Get project attachments based on project ID.
    *
-   * @param {AxiosInstance} axios
-   * @returns {*} {Promise<IGetProjectAttachmentsResponse>}
+   * @param {number} projectId
+   * @param {S3Folder} [type]
+   * @return {*}  {Promise<IGetProjectAttachmentsResponse>}
    */
-  const getProjectAttachments = async (projectId: number): Promise<IGetProjectAttachmentsResponse> => {
-    const { data } = await axios.get(`/api/project/${projectId}/attachments/list`);
+  const getProjectAttachments = async (
+    projectId: number,
+    type?: attachmentType
+  ): Promise<IGetProjectAttachmentsResponse> => {
+    const { data } = await axios.get(`/api/project/${projectId}/attachments/list`, {
+      params: { type: type },
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: 'repeat', filter: (_prefix, value) => value || undefined });
+      }
+    });
 
     return data;
   };
@@ -344,8 +354,8 @@ const useProjectApi = (axios: AxiosInstance) => {
    * @param {number} attachmentId
    * @returns {*} {Promise<void>}
    */
-  const deleteProjectTreatmentsByYear = async (projectId: number, year: number): Promise<boolean> => {
-    const { status } = await axios.delete(`/api/project/${projectId}/treatments/year/${year}/delete`);
+  const deleteProjectTreatments = async (projectId: number): Promise<boolean> => {
+    const { status } = await axios.delete(`/api/project/${projectId}/treatments/delete`);
 
     return status === 200;
   };
@@ -374,7 +384,7 @@ const useProjectApi = (axios: AxiosInstance) => {
     getProjectTreatmentsYears,
     importProjectTreatmentSpatialFile,
     deleteProjectTreatmentUnit,
-    deleteProjectTreatmentsByYear,
+    deleteProjectTreatments,
     getProjectTreatments,
     uploadProjectAttachments,
     updateProject,

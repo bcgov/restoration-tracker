@@ -1,14 +1,14 @@
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { DialogContextProvider } from 'contexts/dialogContext';
 import { createMemoryHistory } from 'history';
+import useCodes from 'hooks/useCodes';
+import { IGetUserResponse } from 'interfaces/useUserApi.interface';
 import React from 'react';
 import { Router } from 'react-router';
-import { useRestorationTrackerApi } from '../../../hooks/useRestorationTrackerApi';
-import UsersDetailProjects from './UsersDetailProjects';
-import { DialogContextProvider } from 'contexts/dialogContext';
-import { IGetUserProjectsListResponse } from '../../../interfaces/useProjectApi.interface';
-import { IGetUserResponse } from 'interfaces/useUserApi.interface';
-import useCodes from 'hooks/useCodes';
 import { codes } from 'test-helpers/code-helpers';
+import { useRestorationTrackerApi } from '../../../hooks/useRestorationTrackerApi';
+import { IGetUserProjectsListResponse } from '../../../interfaces/useProjectApi.interface';
+import UsersDetailProjects from './UsersDetailProjects';
 
 const history = createMemoryHistory();
 

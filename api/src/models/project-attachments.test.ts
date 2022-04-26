@@ -20,7 +20,7 @@ describe('GetAttachmentsData', () => {
 
     const attachmentsData = [
       {
-        id: 1,
+        project_attachment_id: 1,
         file_name: 'filename',
         create_date: '2020/04/04',
         file_size: 24,

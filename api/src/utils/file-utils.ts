@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 import { DeleteObjectOutput, GetObjectOutput, ManagedUpload, Metadata } from 'aws-sdk/clients/s3';
-import { S3_ROLE } from '../constants/roles';
 import clamd from 'clamdjs';
+import { S3_ROLE } from '../constants/roles';
 
 const scanner =
   process.env.ENABLE_FILE_VIRUS_SCAN === 'true'
@@ -112,9 +112,14 @@ export async function getS3SignedURL(key: string): Promise<string | null> {
   });
 }
 
+export enum S3Folder {
+  ATTACHMENTS = 'attachments',
+  TREATMENTS = 'treatments'
+}
+
 export interface IS3FileKey {
   projectId: number;
-  folder?: string;
+  folder?: S3Folder;
   fileName: string;
 }
 

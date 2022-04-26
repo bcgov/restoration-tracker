@@ -2,15 +2,15 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as upload from './upload';
 import * as db from '../../../../database/db';
-import * as file_utils from '../../../../utils/file-utils';
+import { HTTPError } from '../../../../errors/custom-error';
+import { TreatmentFeature } from '../../../../models/project-treatment';
 import { AttachmentService } from '../../../../services/attachment-service';
+import { TreatmentService } from '../../../../services/treatment-service';
+import * as file_utils from '../../../../utils/file-utils';
 // import { TreatmentServoce } from '../../../../services/treatment-service';
 import { getMockDBConnection } from '../../../../__mocks__/db';
-import { HTTPError } from '../../../../errors/custom-error';
-import { TreatmentService } from '../../../../services/treatment-service';
-import { TreatmentFeature } from '../../../../models/project-treatment';
+import * as upload from './upload';
 
 chai.use(sinonChai);
 

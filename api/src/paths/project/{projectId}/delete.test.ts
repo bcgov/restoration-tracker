@@ -6,11 +6,13 @@ import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import { SYSTEM_ROLE } from '../../../constants/roles';
 import * as db from '../../../database/db';
+import { getKnexQueryBuilder } from '../../../database/db';
+import { HTTPError } from '../../../errors/custom-error';
 import project_queries from '../../../queries/project';
+import { AttachmentService } from '../../../services/attachment-service';
+import * as file_utils from '../../../utils/file-utils';
 import { getMockDBConnection, getRequestHandlerMocks } from '../../../__mocks__/db';
 import * as delete_project from './delete';
-import * as file_utils from '../../../utils/file-utils';
-import { HTTPError } from '../../../errors/custom-error';
 
 chai.use(sinonChai);
 
@@ -119,7 +121,7 @@ describe('deleteProject', () => {
     mockReq['system_user'] = { role_names: [SYSTEM_ROLE.SYSTEM_ADMIN] };
 
     sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getProjectAttachmentsSQL').returns(SQL`something`);
+    sinon.stub(project_queries, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
 
     try {
       const result = delete_project.deleteProject();
@@ -128,13 +130,12 @@ describe('deleteProject', () => {
       expect.fail();
     } catch (actualError) {
       expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to delete project attachments record');
+      expect((actualError as HTTPError).message).to.equal('Failed to get project attachments type record');
     }
   });
 
   it('should return true on successful delete', async () => {
     const dbConnectionObj = getMockDBConnection();
-
     const mockQuery = sinon.stub();
 
     // mock project query
@@ -164,9 +165,10 @@ describe('deleteProject', () => {
     mockReq['system_user'] = { role_names: [SYSTEM_ROLE.SYSTEM_ADMIN] };
 
     sinon.stub(project_queries, 'getProjectSQL').returns(SQL`some`);
-    sinon.stub(project_queries, 'getProjectAttachmentsSQL').returns(SQL`something`);
+    sinon.stub(project_queries, 'getProjectAttachmentsKnex').returns(getKnexQueryBuilder());
     sinon.stub(project_queries, 'deleteProjectSQL').returns(SQL`some`);
     sinon.stub(file_utils, 'deleteFileFromS3').resolves({});
+    sinon.stub(AttachmentService.prototype, 'deleteAllS3Attachments').resolves();
 
     const result = delete_project.deleteProject();
 

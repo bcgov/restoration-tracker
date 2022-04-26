@@ -14,6 +14,7 @@ import { ProjectPriorityChip, ProjectStatusChip } from 'components/chips/Project
 import { IErrorDialogProps } from 'components/dialog/ErrorDialog';
 import { RoleGuard } from 'components/security/Guards';
 import { DeleteProjectI18N } from 'constants/i18n';
+import { attachmentType } from 'constants/misc';
 import { PROJECT_ROLE, SYSTEM_ROLE } from 'constants/roles';
 import { DialogContext } from 'contexts/dialogContext';
 import LocationBoundary from 'features/projects/view/components/LocationBoundary';
@@ -93,7 +94,10 @@ const ViewProjectPage: React.FC = () => {
       if (attachmentsList.length && !forceFetch) return;
 
       try {
-        const response = await restorationTrackerApi.project.getProjectAttachments(projectId);
+        const response = await restorationTrackerApi.project.getProjectAttachments(
+          projectId,
+          attachmentType.ATTACHMENTS
+        );
 
         if (!response?.attachmentsList) return;
 
@@ -283,11 +287,7 @@ const ViewProjectPage: React.FC = () => {
               <Box mb={3}>
                 <Paper elevation={2}>
                   <Box px={3}>
-                    <TreatmentSpatialUnits
-                      treatmentList={treatmentList}
-                      getTreatments={getTreatments}
-                      getAttachments={getAttachments}
-                    />
+                    <TreatmentSpatialUnits getTreatments={getTreatments} getAttachments={getAttachments} />
                   </Box>
                   <Box height="500px" position="relative">
                     <LocationBoundary
@@ -330,11 +330,7 @@ const ViewProjectPage: React.FC = () => {
             </IconButton>
           </Box>
           <Box flex="1 1 auto">
-            <TreatmentSpatialUnits
-              treatmentList={treatmentList}
-              getTreatments={getTreatments}
-              getAttachments={getAttachments}
-            />
+            <TreatmentSpatialUnits getTreatments={getTreatments} getAttachments={getAttachments} />
           </Box>
         </Box>
         <Box display="flex" height="100%" flexDirection="column">
@@ -343,6 +339,7 @@ const ViewProjectPage: React.FC = () => {
               projectForViewData={projectWithDetails}
               treatmentList={treatmentList}
               refresh={getProject}
+              scrollWheelZoom={true}
             />
           </Box>
           <Box flex="0 0 auto" height="300px">

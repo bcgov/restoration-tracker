@@ -1,13 +1,15 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
-import { PROJECT_ROLE } from '../../../../../../constants/roles';
-import { getDBConnection } from '../../../../../../database/db';
-import { HTTP400 } from '../../../../../../errors/custom-error';
-import { authorizeRequestHandler } from '../../../../../../request-handlers/security/authorization';
-import { TreatmentService } from '../../../../../../services/treatment-service';
-import { getLogger } from '../../../../../../utils/logger';
+import { PROJECT_ROLE } from '../../../../constants/roles';
+import { getDBConnection } from '../../../../database/db';
+import { HTTP400 } from '../../../../errors/custom-error';
+import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
+import { AttachmentService } from '../../../../services/attachment-service';
+import { TreatmentService } from '../../../../services/treatment-service';
+import { S3Folder } from '../../../../utils/file-utils';
+import { getLogger } from '../../../../utils/logger';
 
-const defaultLog = getLogger('/api/project/{projectId}/treatments/{year}/delete');
+const defaultLog = getLogger('/api/project/{projectId}/treatments/delete');
 
 export const DELETE: Operation = [
   authorizeRequestHandler((req) => {
@@ -21,10 +23,10 @@ export const DELETE: Operation = [
       ]
     };
   }),
-  deleteTreatmentsByYear()
+  deleteTreatments()
 ];
 DELETE.apiDoc = {
-  description: 'Delete a treatments for specified year.',
+  description: 'Delete all treatments for specified project.',
   tags: ['treatment'],
   security: [
     {
@@ -36,23 +38,8 @@ DELETE.apiDoc = {
       in: 'path',
       name: 'projectId',
       required: true
-    },
-    {
-      in: 'path',
-      name: 'year',
-      required: true
     }
   ],
-  requestBody: {
-    description: 'Treatment delete post request object.',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object'
-        }
-      }
-    }
-  },
   responses: {
     200: {
       description: 'Treatment delete OK.'
@@ -76,25 +63,21 @@ DELETE.apiDoc = {
 };
 
 /**
- * Delete specified treatment unit.
+ * Delete all treatment units from project.
  * Also deletes the metadata related to treatment unit.
  *
  *
  * @returns {RequestHandler}
  */
-export function deleteTreatmentsByYear(): RequestHandler {
+export function deleteTreatments(): RequestHandler {
   return async (req, res) => {
-    defaultLog.debug({ label: 'Delete treatments by year', message: 'params', req_params: req.params });
+    defaultLog.debug({ label: 'Delete treatments ', message: 'params', req_params: req.params });
 
     if (!req.params.projectId) {
       throw new HTTP400('Missing projectId');
     }
-    if (!req.params.year) {
-      throw new HTTP400('Missing year');
-    }
 
     const projectId = Number(req.params.projectId);
-    const year = Number(req.params.year);
     const connection = getDBConnection(req['keycloak_token']);
 
     try {
@@ -102,13 +85,17 @@ export function deleteTreatmentsByYear(): RequestHandler {
 
       const treatmentService = new TreatmentService(connection);
 
-      await treatmentService.deleteTreatmentsByYear(projectId, year);
+      await treatmentService.deleteTreatments(projectId);
+
+      const attachmentService = new AttachmentService(connection);
+
+      await attachmentService.deleteAttachmentsByType(projectId, S3Folder.TREATMENTS);
 
       await connection.commit();
 
       return res.status(200).send();
     } catch (error) {
-      defaultLog.error({ label: 'deleteTreatmentsByYear', message: 'error', error });
+      defaultLog.error({ label: 'deleteTreatments', message: 'error', error });
       await connection.rollback();
       throw error;
     } finally {

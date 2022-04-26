@@ -1,22 +1,22 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
-  getProjectAttachmentsSQL,
   deleteProjectAttachmentSQL,
-  postProjectAttachmentSQL,
   getProjectAttachmentByFileNameSQL,
+  getProjectAttachmentsKnex,
+  postProjectAttachmentSQL,
   putProjectAttachmentSQL
 } from './project-attachments-queries';
 
 describe('getProjectAttachmentsSQL', () => {
-  it('returns null response when null projectId provided', () => {
-    const response = getProjectAttachmentsSQL((null as unknown) as number);
+  it('returns non null response when valid projectId provided', () => {
+    const response = getProjectAttachmentsKnex(1);
 
-    expect(response).to.be.null;
+    expect(response).to.not.be.null;
   });
 
-  it('returns non null response when valid projectId provided', () => {
-    const response = getProjectAttachmentsSQL(1);
+  it('returns non null response when valid projectId and fileType provided', () => {
+    const response = getProjectAttachmentsKnex(1, 'attachments');
 
     expect(response).to.not.be.null;
   });
@@ -44,31 +44,37 @@ describe('deleteProjectAttachmentSQL', () => {
 
 describe('postProjectAttachmentSQL', () => {
   it('returns null response when null projectId provided', () => {
-    const response = postProjectAttachmentSQL('name', 20, (null as unknown) as number, 'key');
+    const response = postProjectAttachmentSQL('name', 20, (null as unknown) as number, 'key', 'attachment');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null fileName provided', () => {
-    const response = postProjectAttachmentSQL((null as unknown) as string, 20, 1, 'key');
+    const response = postProjectAttachmentSQL((null as unknown) as string, 20, 1, 'key', 'attachment');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null fileSize provided', () => {
-    const response = postProjectAttachmentSQL('name', (null as unknown) as number, 1, 'key');
+    const response = postProjectAttachmentSQL('name', (null as unknown) as number, 1, 'key', 'attachment');
 
     expect(response).to.be.null;
   });
 
   it('returns null response when null key provided', () => {
-    const response = postProjectAttachmentSQL('name', 2, 1, (null as unknown) as string);
+    const response = postProjectAttachmentSQL('name', 2, 1, (null as unknown) as string, 'attachment');
+
+    expect(response).to.be.null;
+  });
+
+  it('returns null response when null type provided', () => {
+    const response = postProjectAttachmentSQL('name', 2, 1, 'key', (null as unknown) as string);
 
     expect(response).to.be.null;
   });
 
   it('returns a SQLStatement when all fields are passed in as expected', () => {
-    const response = postProjectAttachmentSQL('name', 2, 1, 'key');
+    const response = postProjectAttachmentSQL('name', 2, 1, 'key', 'attachment');
 
     expect(response).to.not.be.null;
   });
@@ -85,6 +91,12 @@ describe('putProjectAttachmentSQL', () => {
     const response = putProjectAttachmentSQL(1, (null as unknown) as string);
 
     expect(response).to.be.null;
+  });
+
+  it('returns a SQLStatement when all fields are passed in as expected', () => {
+    const response = putProjectAttachmentSQL(1, 'fileName');
+
+    expect(response).to.not.be.null;
   });
 });
 

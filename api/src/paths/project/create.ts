@@ -175,7 +175,7 @@ POST.apiDoc = {
                   items: {
                     title: 'Project funding agency',
                     type: 'object',
-                    required: ['agency_id', 'funding_amount', 'start_date', 'end_date'],
+                    required: ['agency_id', 'funding_amount', 'investment_action_category', 'start_date', 'end_date'],
                     properties: {
                       agency_id: {
                         type: 'number'
