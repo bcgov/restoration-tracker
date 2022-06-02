@@ -241,7 +241,7 @@ objects:
       wildcardPolicy: None
     status:
       ingress: null
-  - apiVersion: autoscaling/v1
+  - apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
     metadata:
       annotations: {}

@@ -303,7 +303,7 @@ objects:
       wildcardPolicy: None
     status:
       ingress: null
-  - apiVersion: autoscaling/v1
+  - apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
     metadata:
       annotations: {}
@@ -311,12 +311,12 @@ objects:
       labels: {}
       name: ${NAME}${SUFFIX}
     spec:
-      maxReplicas: '${{REPLICA_MAX}}'
-      minReplicas: '${{REPLICAS}}'
       scaleTargetRef:
-        apiVersion: apps.openshift.io/v1
         kind: DeploymentConfig
-        name: ${NAME}${SUFFIX}
+        name: restoration-tracker-api-dev-98
+        apiVersion: apps.openshift.io/v1
+      minReplicas: 1
+      maxReplicas: 2
       metrics:
         - type: Resource
           resource:
