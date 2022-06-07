@@ -313,7 +313,7 @@ objects:
     spec:
       scaleTargetRef:
         kind: DeploymentConfig
-        name: restoration-tracker-api-dev-98
+        name: ${NAME}${SUFFIX}
         apiVersion: apps.openshift.io/v1
       minReplicas: 1
       maxReplicas: 2
