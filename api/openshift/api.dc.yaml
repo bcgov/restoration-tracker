@@ -160,7 +160,7 @@ objects:
                 - name: NODE_ENV
                   value: ${NODE_ENV}
                 - name: ELASTICSEARCH_URL
-                  value: 'http://es01.af2668-dev:9200'
+                  value: 'http://es01.a0ec71-prod:9200'
                 - name: TZ
                   value: ${TZ}
                 - name: VERSION

@@ -115,7 +115,7 @@ const phases = {
     tag: `prod-${version}`,
     host: staticUrlsAPI.prod,
     env: 'prod',
-    elasticsearchURL: 'http://es01:9200',
+    elasticsearchURL: 'http://es01.a0ec71-prod:9200',
     tz: config.timezone.api,
     sso: config.sso.prod,
     replicas: 1,
