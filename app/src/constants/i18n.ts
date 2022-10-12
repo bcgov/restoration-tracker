@@ -148,10 +148,10 @@ export const DeleteProjectI18N = {
     'An error has occurred while attempting to delete this project, its attachments and associated treatments, please try again. If the error persists, please contact your system administrator.'
 };
 
-export const DeleteSystemUserI18N = {
-  deleteErrorTitle: 'Error Deleting System User',
-  deleteErrorText:
-    'An error has occurred while attempting to delete the system user, please try again. If the error persists, please contact your system administrator.'
+export const AddSystemUserI18N = {
+  addUserErrorTitle: 'Error Adding System User',
+  addUserErrorText:
+    'An error has occurred while attempting to add the system user. If the error persists, please contact your system administrator.'
 };
 
 export const ProjectParticipantsI18N = {
