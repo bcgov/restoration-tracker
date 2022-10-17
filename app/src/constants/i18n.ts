@@ -13,7 +13,6 @@ export const EditProjectI18N = {
   editErrorText:
     'An error has occurred while attempting to edit your project, please try again. If the error persists, please contact your system administrator.'
 };
-
 export const CreatePermitsI18N = {
   cancelTitle: 'Cancel Create Permits',
   cancelText: 'Are you sure you want to cancel?',
@@ -114,7 +113,8 @@ export const EditFundingI18N = {
 
 export const DeleteProjectFundingI18N = {
   deleteTitle: 'Remove Funding Source',
-  deleteText: 'Are you sure you want to remove this project funding source?',
+  deleteText:
+    'Are you sure you want to remove this project funding source? It will also remove the associated survey funding source.',
   deleteErrorTitle: 'Error Removing Funding Source',
   deleteErrorText:
     'An error has occurred while attempting to delete your funding source details, please try again. If the error persists, please contact your system administrator.'
@@ -142,16 +142,28 @@ export const ReviewAccessRequestI18N = {
 
 export const DeleteProjectI18N = {
   deleteTitle: 'Delete Project',
-  deleteText: 'Are you sure you want to delete this project, its attachments and associated treatments?',
+  deleteText: 'Are you sure you want to delete this project, its attachments and associated surveys/observations?',
   deleteErrorTitle: 'Error Deleting Project',
   deleteErrorText:
-    'An error has occurred while attempting to delete this project, its attachments and associated treatments, please try again. If the error persists, please contact your system administrator.'
+    'An error has occurred while attempting to delete this project, its attachments and associated surveys/observations, please try again. If the error persists, please contact your system administrator.'
 };
 
 export const AddSystemUserI18N = {
   addUserErrorTitle: 'Error Adding System User',
   addUserErrorText:
-    'An error has occurred while attempting to add the system user. If the error persists, please contact your system administrator.'
+    'An error has occurred while attempting to add the system user. This user has already been granted this role. If the error persists, please contact your system administrator.'
+};
+
+export const UpdateSystemUserI18N = {
+  updateUserErrorTitle: 'Error Updating System User',
+  updateUserErrorText:
+    'An error has occurred while attempting to update the system user. If the error persists, please contact your system administrator.'
+};
+
+export const DeleteSystemUserI18N = {
+  deleteUserErrorTitle: 'Error Deleting System User',
+  deleteUserErrorText:
+    'An error has occurred while attempting to delete the system user. If the error persists, please contact your system administrator.'
 };
 
 export const ProjectParticipantsI18N = {
