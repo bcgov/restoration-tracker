@@ -94,12 +94,30 @@ pg_restore dumpFileName
 
 # Troubleshooting
 
+## Knex
+
 `Error: knex: Required configuration option 'client' is missing.`
 
 - Double check that your environment variables have been set correctly, specifically `NODE_ENV`. To do this you can run the following command from the `database/src` directory:
 
-```
-export NODE_ENV = local
-```
+  ```
+  export NODE_ENV = local
+  ```
 
 - Double check that the line endings of the `.env` file are `LF` and not `CLRF`
+
+## Git Actions
+
+`Error: Timeout waiting for ImageStreamTag/restoration-tracker-db:build-1.0.0-123 to become available`
+
+- Git Action to build the database image fails.
+
+- Double check that the imagestreamtag listed in the `db.bc.yaml` exists in the OpenShift tools environment.
+
+  - If it does not exist, or the image stream exists but has no matching tag, run the following command using the OC CLI.
+
+    ```
+    oc import-image crunchy-postgres-gis:ubi8-14.2-3.1-0 --from=registry.connect.redhat.com/crunchydata/crunchy-postgres-gis:ubi8-14.2-3.1-0 --confirm
+    ```
+
+  - Note: At the time of writing this, the image is `crunchy-postgres-gis:ubi8-14.2-3.1-0`, update the above command as needed if the image or version has since changed.
