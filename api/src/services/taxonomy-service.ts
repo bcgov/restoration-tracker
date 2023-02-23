@@ -9,7 +9,7 @@ export class TaxonomyService {
     try {
       const client = new Client({ node: process.env.ELASTICSEARCH_URL });
       return await client.search({
-        index: 'taxonomy',
+        index: 'taxonomy_3.0.0',
         ...searchRequest
       });
     } catch (error) {

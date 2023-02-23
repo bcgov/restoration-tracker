@@ -58,7 +58,7 @@ const phases = {
     version: `${version}-${changeId}`,
     tag: tag,
     env: 'build',
-    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
+    elasticsearchURL: 'https://elasticsearch-a0ec71-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     branch: branch,
     logLevel: isStaticDeployment && 'info' || 'debug'
@@ -77,7 +77,7 @@ const phases = {
       (isStaticDeployment && (staticUrlsAPI.dev || defaultHost)) ||
       `${name}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
     env: 'dev',
-    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
+    elasticsearchURL: 'https://elasticsearch-a0ec71-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     sso: config.sso.dev,
     replicas: 1,
@@ -96,7 +96,7 @@ const phases = {
     tag: `test-${version}`,
     host: staticUrlsAPI.test,
     env: 'test',
-    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
+    elasticsearchURL: 'http://es01.a0ec71-prod:9200',
     tz: config.timezone.api,
     sso: config.sso.test,
     replicas: 1,
