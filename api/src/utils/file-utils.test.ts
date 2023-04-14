@@ -94,17 +94,17 @@ describe('_getObjectStoreUrl', () => {
 
 describe('_getS3KeyPrefix', () => {
   it('should return an s3 key prefix', () => {
-    process.env.S3_KEY_PREFIX = 'test-sims';
+    process.env.S3_KEY_PREFIX = 'test-restoration';
 
     const result = _getS3KeyPrefix();
-    expect(result).to.equal('test-sims');
+    expect(result).to.equal('test-restoration');
   });
 
   it('should return its default value', () => {
     delete process.env.S3_KEY_PREFIX;
 
     const result = _getS3KeyPrefix();
-    expect(result).to.equal('sims');
+    expect(result).to.equal('restoration');
   });
 });
 

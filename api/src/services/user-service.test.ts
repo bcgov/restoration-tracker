@@ -19,22 +19,6 @@ describe('UserService', () => {
       sinon.restore();
     });
 
-    it('should throw an error when no sql statement produced', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-
-      const mockUsersByIdSQLResponse = null;
-      sinon.stub(queries.users, 'getUserByIdSQL').returns(mockUsersByIdSQLResponse);
-
-      const userService = new UserService(mockDBConnection);
-
-      try {
-        await userService.getUserById(1);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL select statement');
-      }
-    });
-
     it('returns null if the query response has no rows', async function () {
       const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
@@ -70,22 +54,6 @@ describe('UserService', () => {
       sinon.restore();
     });
 
-    it('should throw an error when no sql statement produced', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-
-      const mockUsersByIdSQLResponse = null;
-      sinon.stub(queries.users, 'getUserByUserIdentifierSQL').returns(mockUsersByIdSQLResponse);
-
-      const userService = new UserService(mockDBConnection);
-
-      try {
-        await userService.getUserByIdentifier('identifier');
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL select statement');
-      }
-    });
-
     it('returns null if the query response has no rows', async function () {
       const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
@@ -95,7 +63,7 @@ describe('UserService', () => {
 
       const userService = new UserService(mockDBConnection);
 
-      const result = await userService.getUserByIdentifier('identifier');
+      const result = await userService.getUserByIdentifier('identifier', SYSTEM_IDENTITY_SOURCE.IDIR);
 
       expect(result).to.be.null;
     });
@@ -110,7 +78,7 @@ describe('UserService', () => {
 
       const userService = new UserService(mockDBConnection);
 
-      const result = await userService.getUserByIdentifier('identifier');
+      const result = await userService.getUserByIdentifier('identifier', SYSTEM_IDENTITY_SOURCE.BCEID_BASIC);
 
       expect(result).to.eql(new UserObject(mockResponseRow));
     });
@@ -121,24 +89,6 @@ describe('UserService', () => {
       sinon.restore();
     });
 
-    it('should throw an error when no sql statement produced', async () => {
-      const mockDBConnection = getMockDBConnection();
-
-      const userService = new UserService(mockDBConnection);
-
-      sinon.stub(queries.users, 'addSystemUserSQL').returns(null);
-
-      const userIdentifier = 'username';
-      const identitySource = SYSTEM_IDENTITY_SOURCE.IDIR;
-
-      try {
-        await userService.addSystemUser(userIdentifier, identitySource);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL insert statement');
-      }
-    });
-
     it('should throw an error when response has no rows', async () => {
       const mockQueryResponse = ({ rows: [] } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ query: async () => mockQueryResponse });
@@ -147,11 +97,12 @@ describe('UserService', () => {
 
       sinon.stub(queries.users, 'addSystemUserSQL').returns(SQL`valid sql`);
 
+      const userGuid = '12345';
       const userIdentifier = 'username';
       const identitySource = SYSTEM_IDENTITY_SOURCE.IDIR;
 
       try {
-        await userService.addSystemUser(userIdentifier, identitySource);
+        await userService.addSystemUser(userGuid, userIdentifier, identitySource);
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to insert system user');
@@ -168,10 +119,11 @@ describe('UserService', () => {
 
       const addSystemUserSQLStub = sinon.stub(queries.users, 'addSystemUserSQL').returns(SQL`valid sql`);
 
+      const userGuid = '12345';
       const userIdentifier = 'username';
       const identitySource = SYSTEM_IDENTITY_SOURCE.IDIR;
 
-      const result = await userService.addSystemUser(userIdentifier, identitySource);
+      const result = await userService.addSystemUser(userGuid, userIdentifier, identitySource);
 
       expect(result).to.eql(new UserObject(mockRowObj));
 
@@ -183,22 +135,6 @@ describe('UserService', () => {
   describe('listSystemUsers', function () {
     afterEach(() => {
       sinon.restore();
-    });
-
-    it('should throw an error when no sql statement produced', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-
-      const mockUsersByIdSQLResponse = null;
-      sinon.stub(queries.users, 'getUserListSQL').returns(mockUsersByIdSQLResponse);
-
-      const userService = new UserService(mockDBConnection);
-
-      try {
-        await userService.listSystemUsers();
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL select statement');
-      }
     });
 
     it('returns empty array if the query response has no rows', async function () {
@@ -255,13 +191,14 @@ describe('UserService', () => {
       const addSystemUserStub = sinon.stub(UserService.prototype, 'addSystemUser');
       const activateSystemUserStub = sinon.stub(UserService.prototype, 'activateSystemUser');
 
+      const userGuid = '12345';
       const userIdentifier = 'username';
       const identitySource = SYSTEM_IDENTITY_SOURCE.IDIR;
 
       const userService = new UserService(mockDBConnection);
 
       try {
-        await userService.ensureSystemUser(userIdentifier, identitySource);
+        await userService.ensureSystemUser(userGuid, userIdentifier, identitySource);
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to identify system user ID');
@@ -285,12 +222,13 @@ describe('UserService', () => {
 
       const activateSystemUserStub = sinon.stub(UserService.prototype, 'activateSystemUser');
 
+      const userGuid = '12345';
       const userIdentifier = 'username';
       const identitySource = SYSTEM_IDENTITY_SOURCE.IDIR;
 
       const userService = new UserService(mockDBConnection);
 
-      const result = await userService.ensureSystemUser(userIdentifier, identitySource);
+      const result = await userService.ensureSystemUser(userGuid, userIdentifier, identitySource);
 
       expect(result.id).to.equal(2);
       expect(result.record_end_date).to.equal(undefined);
@@ -318,12 +256,13 @@ describe('UserService', () => {
 
       const activateSystemUserStub = sinon.stub(UserService.prototype, 'activateSystemUser');
 
+      const userGuid = '12345';
       const userIdentifier = 'username';
       const identitySource = SYSTEM_IDENTITY_SOURCE.IDIR;
 
       const userService = new UserService(mockDBConnection);
 
-      const result = await userService.ensureSystemUser(userIdentifier, identitySource);
+      const result = await userService.ensureSystemUser(userGuid, userIdentifier, identitySource);
 
       expect(result.id).to.equal(2);
       expect(result.record_end_date).to.equal(undefined);
@@ -354,13 +293,14 @@ describe('UserService', () => {
       const activatedSystemUser = null;
       const getUserByIdStub = sinon.stub(UserService.prototype, 'getUserById').resolves(activatedSystemUser);
 
+      const userGuid = '12345';
       const userIdentifier = 'username';
       const identitySource = SYSTEM_IDENTITY_SOURCE.IDIR;
 
       const userService = new UserService(mockDBConnection);
 
       try {
-        await userService.ensureSystemUser(userIdentifier, identitySource);
+        await userService.ensureSystemUser(userGuid, userIdentifier, identitySource);
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to ensure system user');
@@ -399,12 +339,13 @@ describe('UserService', () => {
       });
       const getUserByIdStub = sinon.stub(UserService.prototype, 'getUserById').resolves(activatedSystemUser);
 
+      const userGuid = '12345';
       const userIdentifier = 'username';
       const identitySource = SYSTEM_IDENTITY_SOURCE.IDIR;
 
       const userService = new UserService(mockDBConnection);
 
-      const result = await userService.ensureSystemUser(userIdentifier, identitySource);
+      const result = await userService.ensureSystemUser(userGuid, userIdentifier, identitySource);
 
       expect(result.id).to.equal(2);
       expect(result.record_end_date).to.equal(undefined);
@@ -419,22 +360,6 @@ describe('UserService', () => {
   describe('activateSystemUser', function () {
     afterEach(() => {
       sinon.restore();
-    });
-
-    it('should throw an error when no sql statement produced', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-
-      const mockUsersByIdSQLResponse = null;
-      sinon.stub(queries.users, 'activateSystemUserSQL').returns(mockUsersByIdSQLResponse);
-
-      const userService = new UserService(mockDBConnection);
-
-      try {
-        await userService.activateSystemUser(1);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL update statement');
-      }
     });
 
     it('throws an error if the query response has no rowCount', async function () {
@@ -474,22 +399,6 @@ describe('UserService', () => {
       sinon.restore();
     });
 
-    it('should throw an error when no sql statement produced', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-
-      const mockUsersByIdSQLResponse = null;
-      sinon.stub(queries.users, 'deactivateSystemUserSQL').returns(mockUsersByIdSQLResponse);
-
-      const userService = new UserService(mockDBConnection);
-
-      try {
-        await userService.deactivateSystemUser(1);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL update statement');
-      }
-    });
-
     it('throws an error if the query response has no rowCount', async function () {
       const mockQueryResponse = ({ rowCount: 0 } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
@@ -527,22 +436,6 @@ describe('UserService', () => {
       sinon.restore();
     });
 
-    it('should throw an error when no sql statement produced', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-
-      const mockUsersByIdSQLResponse = null;
-      sinon.stub(queries.users, 'deleteAllSystemRolesSQL').returns(mockUsersByIdSQLResponse);
-
-      const userService = new UserService(mockDBConnection);
-
-      try {
-        await userService.deleteUserSystemRoles(1);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL delete statement');
-      }
-    });
-
     it('throws an error if the query response has no rowCount', async function () {
       const mockQueryResponse = ({ rowCount: 0 } as unknown) as QueryResult<any>;
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
@@ -578,22 +471,6 @@ describe('UserService', () => {
   describe('addUserSystemRoles', function () {
     afterEach(() => {
       sinon.restore();
-    });
-
-    it('should throw an error when no sql statement produced', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-
-      const mockUsersByIdSQLResponse = null;
-      sinon.stub(queries.users, 'postSystemRolesSQL').returns(mockUsersByIdSQLResponse);
-
-      const userService = new UserService(mockDBConnection);
-
-      try {
-        await userService.addUserSystemRoles(1, [1]);
-        expect.fail();
-      } catch (actualError) {
-        expect((actualError as ApiError).message).to.equal('Failed to build SQL insert statement');
-      }
     });
 
     it('throws an error if the query response has no rowCount', async function () {

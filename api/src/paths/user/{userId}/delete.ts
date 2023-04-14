@@ -130,10 +130,6 @@ export const checkIfUserIsOnlyProjectLeadOnAnyProject = async (userId: number, c
 export const deleteAllProjectRoles = async (userId: number, connection: IDBConnection) => {
   const sqlStatement = queries.users.deleteAllProjectRolesSQL(userId);
 
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL delete statement for deleting project roles');
-  }
-
   connection.query(sqlStatement.text, sqlStatement.values);
 };
 
