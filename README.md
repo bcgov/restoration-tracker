@@ -6,10 +6,10 @@ The Habitat Restoration Tracker is a system which supports the planning, impleme
 
 ## Technologies Used
 
-| Technology | Version | Website                              | Description          |
-| ---------- | ------- | ------------------------------------ | -------------------- |
-| node       | 14.x.x  | https://nodejs.org/en/               | JavaScript Runtime   |
-| npm        | 6.x.x   | https://www.npmjs.com/               | Node Package Manager |
+| Technology | Version | Website                | Description          |
+| ---------- | ------- | ---------------------- | -------------------- |
+| node       | 14.x.x  | https://nodejs.org/en/ | JavaScript Runtime   |
+| npm        | 6.x.x   | https://www.npmjs.com/ | Node Package Manager |
 
 <br />
 # Pre-reqs
@@ -118,7 +118,7 @@ Result of running `make env` for the first time:
 
 ## Start all Applications
 
-Starts all applications (database, api, app, and n8n).
+Starts all applications (database, api, app).
 
 ```
 make web
@@ -136,10 +136,6 @@ api:
 app:
 
 - `localhost:7100`
-
-n8n:
-
-- `localhost:5100`
 
 # Helpful Makefile Commands
 
@@ -217,7 +213,7 @@ _Note: Not all formatting issues can be auto-fixed._
 make format-fix
 ```
 
-## Shell Into a Docker Container (database, api, app, n8n, etc)
+## Shell Into a Docker Container (database, api, app, etc)
 
 See `./Makefile` for all available commands.
 
@@ -272,7 +268,6 @@ docker system prune [OPTIONS]
 
 If you get an error saying the `make` command is not found, you may need to install it first.  
 See [Ensure you can run the make command](#ensure-you-can-run-the-make-command)
-
 
 ## Docker Service Issues
 

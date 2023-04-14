@@ -2,7 +2,7 @@ import { Metadata } from 'aws-sdk/clients/s3';
 import { HTTP400 } from '../errors/custom-error';
 import { GetAttachmentsData } from '../models/project-attachments';
 import { queries } from '../queries/queries';
-import { deleteFileFromS3, getS3SignedURL, uploadFileToS3 } from '../utils/file-utils';
+import { deleteFileFromS3, getS3SignedURL, S3FileType, uploadFileToS3 } from '../utils/file-utils';
 import { DBService } from './service';
 
 export class AttachmentService extends DBService {
@@ -10,7 +10,7 @@ export class AttachmentService extends DBService {
     projectId: number,
     s3Key: string,
     file: Express.Multer.File,
-    attachmentType: string
+    attachmentType: S3FileType
   ): Promise<{ id: number; revision_count: number }> {
     const sqlStatement = queries.project.postProjectAttachmentSQL(
       file.originalname,
@@ -68,7 +68,7 @@ export class AttachmentService extends DBService {
     projectId: number,
     file: Express.Multer.File,
     s3Key: string,
-    attachmentType: string,
+    attachmentType: S3FileType,
     metadata: Metadata = {}
   ): Promise<{ id: number; revision_count: number }> {
     const response = (await this.fileWithSameNameExist(projectId, file))
@@ -80,7 +80,7 @@ export class AttachmentService extends DBService {
     return response;
   }
 
-  async getAttachmentsByType(projectId: number, attachmentType?: string | string[]) {
+  async getAttachmentsByType(projectId: number, attachmentType?: S3FileType | S3FileType[]) {
     const getProjectAttachmentsKnexStatement = queries.project.getProjectAttachmentsKnex(projectId, attachmentType);
 
     const response = await this.connection.knex(getProjectAttachmentsKnexStatement);
@@ -110,7 +110,7 @@ export class AttachmentService extends DBService {
     await deleteFileFromS3(response.rows[0].key);
   }
 
-  async deleteAttachmentsByType(projectId: number, attachmentType: string) {
+  async deleteAttachmentsByType(projectId: number, attachmentType: S3FileType) {
     const getProjectAttachmentsKnexStatement = queries.project.getProjectAttachmentsKnex(projectId, attachmentType);
 
     const attachments = await this.connection.knex(getProjectAttachmentsKnexStatement);

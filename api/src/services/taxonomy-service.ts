@@ -1,15 +1,16 @@
-import { Client } from '@elastic/elasticsearch';
 import { SearchHit, SearchRequest } from '@elastic/elasticsearch/lib/api/types';
 import { getLogger } from '../utils/logger';
+import { ElasticSearchIndices, ESService } from './es-service';
 
 const defaultLog = getLogger('services/taxonomy-service');
 
-export class TaxonomyService {
+export class TaxonomyService extends ESService {
   private async elasticSearch(searchRequest: SearchRequest) {
     try {
-      const client = new Client({ node: process.env.ELASTICSEARCH_URL });
-      return await client.search({
-        index: 'taxonomy_3.0.0',
+      const esClient = await this.getEsClient();
+
+      return esClient.search({
+        index: ElasticSearchIndices.TAXONOMY,
         ...searchRequest
       });
     } catch (error) {

@@ -31,7 +31,10 @@ web: | close build-web run-web ## Performs all commands necessary to run all bac
 db-setup: | build-db-setup run-db-setup ## Performs all commands necessary to run the database migrations and seeding
 db-migrate: | build-db-migrate run-db-migrate ## Performs all commands necessary to run the database migrations
 db-rollback: | build-db-rollback run-db-rollback ## Performs all commands necessary to rollback the latest database migrations
+
 clamav: | build-clamav run-clamav ## Performs all commands necessary to run clamav
+
+fix: | lint-fix format-fix ## Performs both lint-fix and format-fix commands
 
 ## ------------------------------------------------------------------------------
 ## Setup/Cleanup Commands
@@ -233,19 +236,19 @@ lint: ## Runs `npm lint` for all projects
 	@echo "==============================================="
 	@cd database && npm run lint && cd ..
 
-lint-fix: ## Runs `npm run lint:fix ` for all projects
+lint-fix: ## Runs `npm run lint-fix ` for all projects
 	@echo "==============================================="
-	@echo "Running /api lint:fix"
+	@echo "Running /api lint-fix"
 	@echo "==============================================="
-	@cd api && npm run lint:fix && cd ..
+	@cd api && npm run lint-fix && cd ..
 	@echo "==============================================="
-	@echo "Running /app lint:fix"
+	@echo "Running /app lint-fix"
 	@echo "==============================================="
-	@cd app && npm run lint:fix && cd ..
+	@cd app && npm run lint-fix && cd ..
 	@echo "==============================================="
-	@echo "Running /database lint:fix"
+	@echo "Running /database lint-fix"
 	@echo "==============================================="
-	@cd database && npm run lint:fix && cd ..
+	@cd database && npm run lint-fix && cd ..
 
 format: ## Runs `npm run format` for all projects
 	@echo "==============================================="
@@ -261,19 +264,36 @@ format: ## Runs `npm run format` for all projects
 	@echo "==============================================="
 	@cd database && npm run format && cd ..
 
-format-fix: ## Runs `npm run format:fix` for all projects
+format-fix: ## Runs `npm run format-fix` for all projects
 	@echo "==============================================="
-	@echo "Running /api format:fix"
+	@echo "Running /api format-fix"
 	@echo "==============================================="
-	@cd api && npm run format:fix && cd ..
+	@cd api && npm run format-fix && cd ..
 	@echo "==============================================="
-	@echo "Running /app format:fix"
+	@echo "Running /app format-fix"
 	@echo "==============================================="
-	@cd app && npm run format:fix && cd ..
+	@cd app && npm run format-fix && cd ..
 	@echo "==============================================="
-	@echo "Running /database format:fix"
+	@echo "Running /database format-fix"
 	@echo "==============================================="
-	@cd database && npm run format:fix && cd ..
+	@cd database && npm run format-fix && cd ..
+
+## ------------------------------------------------------------------------------
+## Run `npm` commands for all projects ./.pipeline
+## ------------------------------------------------------------------------------
+pipeline-install: ## Runs `npm install` for all projects
+	@echo "==============================================="
+	@echo "Running /api/.pipeline install"
+	@echo "==============================================="
+	@cd api/.pipeline && npm install && cd ../..
+	@echo "==============================================="
+	@echo "Running /app/.pipeline install"
+	@echo "==============================================="
+	@cd app/.pipeline && npm install && cd ../..
+	@echo "==============================================="
+	@echo "Running /database/.pipeline install"
+	@echo "==============================================="
+	@cd database/.pipeline && npm install && cd ../..
 
 ## ------------------------------------------------------------------------------
 ## Run `docker logs <container> -f` commands for all projects

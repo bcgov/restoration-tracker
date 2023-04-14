@@ -6,7 +6,6 @@ import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { AttachmentService } from '../../../../services/attachment-service';
 import { TreatmentService } from '../../../../services/treatment-service';
-import { S3Folder } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/treatments/delete');
@@ -89,7 +88,7 @@ export function deleteTreatments(): RequestHandler {
 
       const attachmentService = new AttachmentService(connection);
 
-      await attachmentService.deleteAttachmentsByType(projectId, S3Folder.TREATMENTS);
+      await attachmentService.deleteAttachmentsByType(projectId, 'treatments');
 
       await connection.commit();
 

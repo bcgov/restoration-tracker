@@ -1,29 +1,27 @@
 'use strict';
+
 let options = require('pipeline-cli').Util.parseArguments();
 
 // The root config for common values
 const config = require('../../.config/config.json');
 
-const defaultHost = 'restoration-tracker-b1d40d-dev.apps.silver.devops.gov.bc.ca';
-const defaultHostAPI = 'restoration-tracker-b1d40d-api-dev.apps.silver.devops.gov.bc.ca';
+const name = config.module.app;
+const apiName = config.module.api;
 
-const name = (config.module && config.module['app']) || 'restoration-tracker-app';
-const apiName = (config.module && config.module['api']) || 'restoration-tracker-api';
+const version = config.version;
 
-const changeId = options.pr || `${Math.floor(Date.now() * 1000) / 60.0}`; // aka pull-request or branch
-const version = config.version || '1.0.0';
+const changeId = options.pr; // pull-request number or branch name
 
 // A static deployment is when the deployment is updating dev, test, or prod (rather than a temporary PR)
+// See `--type=static` in the `deployStatic.yml` git workflow
 const isStaticDeployment = options.type === 'static';
 
 const deployChangeId = (isStaticDeployment && 'deploy') || changeId;
 const branch = (isStaticDeployment && options.branch) || null;
 const tag = (branch && `build-${version}-${changeId}-${branch}`) || `build-${version}-${changeId}`;
 
-const staticBranches = config.staticBranches || [];
 const staticUrls = config.staticUrls || {};
 const staticUrlsAPI = config.staticUrlsAPI || {};
-const staticUrlsN8N = config.staticUrlsN8N || {};
 
 const maxUploadNumFiles = 10;
 const maxUploadFileSize = 52428800; // (bytes)
@@ -63,7 +61,11 @@ const phases = {
     version: `${version}-${changeId}`,
     tag: tag,
     env: 'build',
-    branch: branch
+    branch: branch,
+    cpuRequest: '100m',
+    cpuLimit: '1000m',
+    memoryRequest: '512Mi',
+    memoryLimit: '3Gi'
   },
   dev: {
     namespace: 'b1d40d-dev',
@@ -74,20 +76,20 @@ const phases = {
     instance: `${name}-dev-${deployChangeId}`,
     version: `${deployChangeId}-${changeId}`,
     tag: `dev-${version}-${deployChangeId}`,
-    host:
-      (isStaticDeployment && (staticUrls.dev || defaultHost)) ||
-      `${name}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
+    host: (isStaticDeployment && staticUrls.dev) || `${name}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
     apiHost:
-      (isStaticDeployment && (staticUrlsAPI.dev || defaultHostAPI)) ||
-      `${apiName}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
-    n8nHost: '', // staticUrlsN8N.dev, // Disable until nginx is setup: https://quartech.atlassian.net/browse/BHBC-1435
+      (isStaticDeployment && staticUrlsAPI.dev) || `${apiName}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
     siteminderLogoutURL: config.siteminderLogoutURL.dev,
     maxUploadNumFiles,
     maxUploadFileSize,
     env: 'dev',
     sso: config.sso.dev,
-    replicas: 1,
-    maxReplicas: 2
+    cpuRequest: '50m',
+    cpuLimit: (isStaticDeployment && '300m') || '200m',
+    memoryRequest: '50Mi',
+    memoryLimit: (isStaticDeployment && '300Mi') || '200Mi',
+    replicas: '1',
+    replicasMax: (isStaticDeployment && '2') || '1'
   },
   test: {
     namespace: 'b1d40d-test',
@@ -99,15 +101,18 @@ const phases = {
     version: `${version}`,
     tag: `test-${version}`,
     host: staticUrls.test,
-    apiHost: staticUrlsAPI.test || defaultHostAPI,
-    n8nHost: '', // staticUrlsN8N.test, // Disable until nginx is setup: https://quartech.atlassian.net/browse/BHBC-1435
+    apiHost: staticUrlsAPI.test,
     siteminderLogoutURL: config.siteminderLogoutURL.test,
     maxUploadNumFiles,
     maxUploadFileSize,
     env: 'test',
     sso: config.sso.test,
-    replicas: 3,
-    maxReplicas: 5
+    cpuRequest: '100m',
+    cpuLimit: '400m',
+    memoryRequest: '100Mi',
+    memoryLimit: '400Mi',
+    replicas: '2',
+    replicasMax: '3'
   },
   prod: {
     namespace: 'b1d40d-prod',
@@ -119,22 +124,19 @@ const phases = {
     version: `${version}`,
     tag: `prod-${version}`,
     host: staticUrls.prod,
-    apiHost: staticUrlsAPI.prod || defaultHostAPI,
-    n8nHost: '', // staticUrlsN8N.prod, // Disable until nginx is setup: https://quartech.atlassian.net/browse/BHBC-1435
+    apiHost: staticUrlsAPI.prod,
     siteminderLogoutURL: config.siteminderLogoutURL.prod,
     maxUploadNumFiles,
     maxUploadFileSize,
     env: 'prod',
     sso: config.sso.prod,
-    replicas: 3,
-    maxReplicas: 6
+    cpuRequest: '100m',
+    cpuLimit: '400m',
+    memoryRequest: '100Mi',
+    memoryLimit: '400Mi',
+    replicas: '2',
+    replicasMax: '3'
   }
 };
 
-// This callback forces the node process to exit as failure.
-process.on('unhandledRejection', (reason) => {
-  console.log(reason);
-  process.exit(1);
-});
-
-module.exports = exports = { phases, options, staticBranches };
+module.exports = exports = { phases, options };
