@@ -3,6 +3,7 @@ import { describe } from 'mocha';
 import * as pg from 'pg';
 import Sinon, { SinonStub } from 'sinon';
 import SQL from 'sql-template-strings';
+import { SYSTEM_IDENTITY_SOURCE } from '../constants/database';
 import { HTTPError } from '../errors/custom-error';
 import * as db from './db';
 import { getAPIUserDBConnection, getDBConnection, getDBPool, IDBConnection, initDBPool } from './db';
@@ -49,7 +50,11 @@ describe('db', () => {
     describe('DBConnection', () => {
       const sinonSandbox = Sinon.createSandbox();
 
-      const mockKeycloakToken = { preferred_username: 'test@idir' };
+      const mockKeycloakToken = {
+        preferred_username: 'testguid@idir',
+        idir_username: 'testuser',
+        identity_provider: SYSTEM_IDENTITY_SOURCE.IDIR
+      };
 
       let queryStub: SinonStub;
       let releaseStub: SinonStub;

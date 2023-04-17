@@ -8,7 +8,7 @@ const defaultLog = getLogger('queries/public/project-queries');
  *
  * @returns {SQLStatement} sql query object
  */
-export const getPublicProjectListSQL = (): SQLStatement | null => {
+export const getPublicProjectListSQL = (): SQLStatement => {
   defaultLog.debug({ label: 'getPublicProjectListSQL', message: 'params' });
 
   const sqlStatement = SQL`
@@ -25,15 +25,12 @@ export const getPublicProjectListSQL = (): SQLStatement | null => {
       on p.project_id = pp.project_id
     left outer join project_contact as pc
       on p.project_id = pc.project_id
-  `;
-
-  sqlStatement.append(SQL`
     group by
       p.project_id,
       p.name,
       p.start_date,
-      p.end_date
-  `);
+      p.end_date;
+  `;
 
   defaultLog.debug({
     label: 'getPublicProjectListSQL',

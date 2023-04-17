@@ -364,7 +364,11 @@ export const getDBConnection = function (keycloakToken: object): IDBConnection {
 
     try {
       await _client.query(patchUserGuidSqlStatement.text, patchUserGuidSqlStatement.values);
+    } catch (error) {
+      throw new ApiExecuteSQLError('Failed to patch user guid', [error as object]);
+    }
 
+    try {
       const response = await _client.query(
         setSystemUserContextSQLStatement.text,
         setSystemUserContextSQLStatement.values

@@ -75,6 +75,7 @@ export const authenticateRequest = async function (req: Request): Promise<true> 
     const verifiedToken = verify(tokenString, signingKey, { issuer: [KEYCLOAK_ISSUER] });
 
     if (!verifiedToken) {
+      defaultLog.warn({ label: 'authenticate', message: 'verified token was null' });
       throw new HTTP401('Access Denied');
     }
 
@@ -83,7 +84,7 @@ export const authenticateRequest = async function (req: Request): Promise<true> 
 
     return true;
   } catch (error) {
-    defaultLog.warn({ label: 'authenticate', message: `unexpected error - ${(error as Error).message}`, error });
+    defaultLog.warn({ label: 'authenticate', message: 'error', error });
     throw new HTTP401('Access Denied');
   }
 };

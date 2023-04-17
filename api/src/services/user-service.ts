@@ -8,15 +8,22 @@ export class UserService extends DBService {
    * Fetch a single system user by their ID.
    *
    * @param {number} systemUserId
-   * @return {*}  {(Promise<UserObject | null>)}
+   * @return {*}  {(Promise<UserObject>)}
    * @memberof UserService
    */
-  async getUserById(systemUserId: number): Promise<UserObject | null> {
+  async getUserById(systemUserId: number): Promise<UserObject> {
     const sqlStatement = queries.users.getUserByIdSQL(systemUserId);
 
     const response = await this.connection.query(sqlStatement.text, sqlStatement.values);
 
-    return (response?.rows?.[0] && new UserObject(response.rows[0])) || null;
+    if (response.rowCount !== 1) {
+      throw new ApiExecuteSQLError('Failed to fetch system user', [
+        'UserService->getUserById',
+        'rowCount was null or undefined, expected rowCount = 1'
+      ]);
+    }
+
+    return new UserObject(response.rows[0]);
   }
 
   /**
@@ -129,13 +136,7 @@ export class UserService extends DBService {
     await this.activateSystemUser(userObject.id);
 
     // get the newly activated user
-    userObject = await this.getUserById(userObject.id);
-
-    if (!userObject) {
-      throw new ApiExecuteSQLError('Failed to ensure system user');
-    }
-
-    return userObject;
+    return this.getUserById(userObject.id);
   }
 
   /**

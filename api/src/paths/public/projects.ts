@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
 import { getAPIUserDBConnection } from '../../database/db';
-import { HTTP400 } from '../../errors/custom-error';
 import { projectIdResponseObject } from '../../openapi/schemas/project';
 import { queries } from '../../queries/queries';
 import { getLogger } from '../../utils/logger';
@@ -56,10 +55,6 @@ export function getPublicProjectsList(): RequestHandler {
 
     try {
       const getProjectListSQLStatement = queries.public.getPublicProjectListSQL();
-
-      if (!getProjectListSQLStatement) {
-        throw new HTTP400('Failed to build SQL get statement');
-      }
 
       await connection.open();
 

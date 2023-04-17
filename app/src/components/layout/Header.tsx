@@ -148,7 +148,7 @@ const Header: React.FC = () => {
     return (
       <Box display="flex" className={classes.userProfile} alignItems="center" my="auto">
         <Button
-          onClick={() => keycloakWrapper?.keycloak?.login()}
+          onClick={() => keycloakWrapper?.keycloak.login()}
           type="submit"
           variant="contained"
           color="primary"
