@@ -13,7 +13,7 @@ import { queries } from '../queries/queries';
 import { getNRMRegions } from '../utils/spatial-utils';
 import { ProjectService } from './project-service';
 import { DBService } from './service';
-import { ITaxonomySource_V3, TaxonomyService } from './taxonomy-service';
+import { ITaxonomySourceV3, TaxonomyService } from './taxonomy-service';
 
 const NOT_SUPPLIED_CONSTANT = 'Not Supplied';
 
@@ -422,7 +422,7 @@ export class EmlService extends DBService {
 
     const taxonomicClassifications: Record<string, any>[] = [];
 
-    response.forEach((taxonResult: SearchHit<ITaxonomySource_V3>) => {
+    response.forEach((taxonResult: SearchHit<ITaxonomySourceV3>) => {
       const { _source } = taxonResult;
 
       if (_source) {

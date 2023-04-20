@@ -10,7 +10,7 @@ import { ElasticSearchIndices, ESService } from './es-service';
 
 const defaultLog = getLogger('services/taxonomy-service');
 
-export interface ITaxonomySource_V3 {
+export interface ITaxonomySourceV3 {
   unit_name1: string;
   unit_name2: string;
   unit_name3: string;
@@ -35,7 +35,7 @@ export interface ITaxonomySource_V3 {
 export class TaxonomyService extends ESService {
   async elasticSearch(
     searchRequest: SearchRequest
-  ): Promise<SearchResponse<ITaxonomySource_V3, Record<string, AggregationsAggregate>> | undefined> {
+  ): Promise<SearchResponse<ITaxonomySourceV3, Record<string, AggregationsAggregate>> | undefined> {
     try {
       const esClient = await this.getEsClient();
 
@@ -49,7 +49,7 @@ export class TaxonomyService extends ESService {
   }
 
   _sanitizeSpeciesData(data: SearchHit<any>[]) {
-    return data.map((item: SearchHit<ITaxonomySource_V3>) => {
+    return data.map((item: SearchHit<ITaxonomySourceV3>) => {
       const { _id: id, _source } = item;
 
       const label = [
@@ -73,10 +73,10 @@ export class TaxonomyService extends ESService {
    * Searches the taxonomy Elasticsearch index by taxonomic code IDs
    *
    * @param {string[] | number[]} ids The array of taxonomic code IDs
-   * @return {Promise<SearchHit<ITaxonomySource_V3>[]>} The response from Elasticsearch
+   * @return {Promise<SearchHit<ITaxonomySourceV3>[]>} The response from Elasticsearch
    * @memberof TaxonomyService
    */
-  async getTaxonomyFromIds(ids: string[] | number[]): Promise<SearchHit<ITaxonomySource_V3>[]> {
+  async getTaxonomyFromIds(ids: string[] | number[]): Promise<SearchHit<ITaxonomySourceV3>[]> {
     const response = await this.elasticSearch({
       query: {
         terms: {
