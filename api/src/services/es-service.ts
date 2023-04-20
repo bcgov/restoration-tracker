@@ -1,7 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
-import { AggregationsAggregate, SearchHit, SearchRequest, SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 
 export const ElasticSearchIndices = {
+  EML: process.env.ELASTICSEARCH_EML_INDEX || 'eml',
   TAXONOMY: process.env.ELASTICSEARCH_TAXONOMY_INDEX || 'taxonomy_3.0.0'
 };
 
@@ -26,22 +26,5 @@ export class ESService {
       this.esClient = await new Client({ node: process.env.ELASTICSEARCH_URL });
     }
     return this.esClient;
-  }
-
-  /**
-   * Performs a search in Elasticsearch.
-   * @param searchRequest The ES search request
-   * @returns {Promise<SearchHit<T>>} The results of the search
-   */
-  async _elasticSearch<T = unknown>(searchRequest: SearchRequest): Promise<SearchHit<T>[]> {
-    const { index, ...request } = searchRequest;
-    const esClient = await this.getEsClient();
-
-    const response: SearchResponse<T, Record<string, AggregationsAggregate>> = await esClient.search<T>({
-      index: String(index).toLowerCase(),
-      ...request
-    });
-
-    return response.hits.hits;
   }
 }

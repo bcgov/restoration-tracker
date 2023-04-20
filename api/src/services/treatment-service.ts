@@ -1,3 +1,4 @@
+import { Feature } from 'geojson';
 import shp from 'shpjs';
 import { getKnexQueryBuilder } from '../database/db';
 import { HTTP400 } from '../errors/custom-error';
@@ -7,8 +8,8 @@ import {
   ITreatmentDataInsertOrExists,
   ITreatmentTypeInsertOrExists,
   ITreatmentUnitInsertOrExists,
-  TreatmentFeature,
-  TreatmentFeatureProperties
+  ValidTreatmentFeature,
+  ValidTreatmentFeatureProperties
 } from '../models/project-treatment';
 import { GetTreatmentData } from '../models/treatment-view';
 import { queries } from '../queries/queries';
@@ -23,7 +24,14 @@ export class TreatmentService extends DBService {
     return shp.parseZip(fileBuffer);
   }
 
-  async handleShapeFileFeatures(file: Express.Multer.File): Promise<TreatmentFeature[] | null> {
+  /**
+   * Parses a shapefile into an array of geojson features.
+   *
+   * @param {Express.Multer.File} file
+   * @return {*}  {(Promise<Feature[] | null>)}
+   * @memberof TreatmentService
+   */
+  async parseShapefile(file: Express.Multer.File): Promise<Feature[] | null> {
     // Exit out if no file
     if (!file) {
       return null;
@@ -36,89 +44,124 @@ export class TreatmentService extends DBService {
       return null;
     }
 
-    let features: TreatmentFeature[] = [];
+    let features: Feature[] = [];
     if (Array.isArray(geojson)) {
       geojson.forEach((item) => {
-        features = features.concat((item.features as unknown) as TreatmentFeature);
+        features = features.concat(item.features);
       });
     } else {
-      features = (geojson.features as unknown) as TreatmentFeature[];
+      features = geojson.features;
     }
     return features;
   }
 
-  //check all treatment units if their proerties are valid.
-  async validateAllTreatmentUnitProperties(
-    treatmentFeatures: TreatmentFeature[]
-  ): Promise<{ treatmentUnitId: string; errors: string[] }[]> {
-    //collection of all errors in units
-    const errorArray: { treatmentUnitId: string; errors: string[] }[] = [];
+  /**
+   * Parses an array of geojson features, validating and transforming their properties.
+   *
+   * @param {Feature[]} treatmentFeatures
+   * @return {*}  {Promise<{ errors: { treatmentUnitId: string; errors: string[] }[]; data: ValidTreatmentFeature[] }>}
+   * @memberof TreatmentService
+   */
+  async parseFeatures(
+    treatmentFeatures: Feature[]
+  ): Promise<{ errors: { treatmentUnitId: string; errors: string[] }[]; data: ValidTreatmentFeature[] }> {
+    const allErrors: { treatmentUnitId: string; errors: string[] }[] = [];
 
+    const [treatmentFeatureTypeObjects, treatmentUnitTypeObjects] = await Promise.all([
+      this.getAllTreatmentFeatureTypes(),
+      this.getAllTreatmentUnitTypes()
+    ]);
+
+    /*
     for (const item of treatmentFeatures) {
-      //collect errors of a single unit
-      const treatmentUnitError: string[] = [];
+      const itemErrors: string[] = [];
 
-      if (typeof item.properties.TU_ID !== 'string' || item.properties.TU_ID.length <= 0) {
-        treatmentUnitError.push('Property TU_ID is required: non-empty String');
+      // Validate TU_ID
+      const result0 = TU_ID_SCHEMA.safeParse(item.properties.TU_ID);
+      if (!result0.success) {
+        itemErrors.push(`TU_ID - ${result0.error.errors[0].message}`);
       }
 
-      if (!Number.isInteger(item.properties.Year)) {
-        treatmentUnitError.push('Property Year is required: non-empty Integer');
+      // Validate Year
+      const result1 = YEAR_SCHEMA.safeParse(item.properties.Year);
+      if (!result1.success) {
+        itemErrors.push(`Year - ${result1.error.errors[0].message}`);
       }
 
-      if (typeof item.properties.Fe_Type !== 'string' || item.properties.Fe_Type.length <= 0) {
-        treatmentUnitError.push('Property Fe_Type is required: non-empty String');
-      } else {
-        const featureCheck = await this.getTreatmentFeatureTypeObjs(item.properties);
-
-        if (featureCheck === undefined) {
-          treatmentUnitError.push(
-            'Invalid Fe_Type Entered. Valid Fe_Type: [ Seismic Line, Road, Pipeline, Transmission Line, Railway, Trail, Well, Cutblock, Other ] '
-          );
-        }
+      // Validate Fe_type
+      const result2 = FE_TYPE_SCHEMA(treatmentFeatureTypes).safeParse(item.properties.Fe_Type);
+      if (!result2.success) {
+        itemErrors.push(`Fe_Type - ${result2.error.errors[0].message}`);
       }
 
-      if (item.properties.Width_m && typeof item.properties.Width_m !== 'number') {
-        treatmentUnitError.push('Property Width_m is invalid: must be a Number');
+      // Validate Width_m
+      const result3 = WIDTH_M_SCHEMA.safeParse(item.properties.Width_m);
+      if (!result3.success) {
+        itemErrors.push(`Width_m - ${result3.error.errors[0].message}`);
       }
 
-      if (item.properties.Length_m && typeof item.properties.Length_m !== 'number') {
-        treatmentUnitError.push('Property Length_m is invalid: must be a Number');
+      // Validate Length_m
+      const result4 = LENGTH_M_SCHEMA.safeParse(item.properties.Length_m);
+      if (!result4.success) {
+        itemErrors.push(`Length_m - ${result4.error.errors[0].message}`);
       }
 
-      if (typeof item.properties.Area_m2 !== 'number') {
-        treatmentUnitError.push('Property Area_m2 is required: must be a Number');
+      // Validate Area_m2
+      const result5 = AREA_M2_SCHEMA.safeParse(item.properties.Area_m2);
+      if (!result5.success) {
+        itemErrors.push(`Area_m2 - ${result5.error.errors[0].message}`);
       }
 
-      if (item.properties.Recce && typeof item.properties.Recce !== 'string') {
-        treatmentUnitError.push('Property Recce is invalid: must be a String');
+      // Validate Recce
+      const result6 = RECCE_SCHEMA.safeParse(item.properties.Recce);
+      if (!result6.success) {
+        itemErrors.push(`Recce - ${result6.error.errors[0].message}`);
       }
 
-      if (typeof item.properties.Treatments !== 'string' || item.properties.Treatments.length <= 0) {
-        treatmentUnitError.push('Property Treatments is required: non-empty String');
-      } else {
-        const treatmentCheck = await this.getAllTreatmentTypes(item.properties);
-
-        if (treatmentCheck.length === 0) {
-          treatmentUnitError.push(
-            'Invalid Treatments Entered. Valid Treatments (must be semi-colon delimited): "Leave for natural recovery; Debris rollback; Hummock placing; Mounding; Screef; Seeding; Seedling planting; Tree bending; Tree felling; Ripping; Re-contouring; Barrier; Invasive species removal" '
-          );
-        }
+      // Validate Treatments
+      const result7 = TREATMENTS_SCHEMA(treatmentUnitTypes).safeParse(item.properties.Treatments);
+      if (!result7.success) {
+        itemErrors.push(`Treatments - ${result7.error.errors[0].message}`);
       }
 
-      if (typeof item.properties.Implement !== 'string' || item.properties.Implement.length <= 0) {
-        treatmentUnitError.push('Property Implement is required: non-empty String');
+      // Validate Implement
+      const result8 = IMPLEMENT_SCHEMA.safeParse(item.properties.Implement);
+      if (!result8.success) {
+        itemErrors.push(`Implement - ${result8.error.errors[0].message}`);
       }
 
-      if (item.properties.Comments && typeof item.properties.Comments !== 'string') {
-        treatmentUnitError.push('Property Comments is invalid: must be a String');
+      // Validate Comments
+      const result9 = COMMENTS_SCHEMA.safeParse(item.properties.Comments);
+      if (!result9.success) {
+        itemErrors.push(`Comments - ${result9.error.errors[0].message}`);
       }
 
-      if (treatmentUnitError.length > 0) {
-        errorArray.push({ treatmentUnitId: item.properties.TU_ID, errors: treatmentUnitError });
+      if (itemErrors.length) {
+        allErrors.push({ treatmentUnitId: String(item.properties.TU_ID), errors: itemErrors });
       }
     }
-    return errorArray;
+    */
+    const validatedTreatmentFeatures: ValidTreatmentFeature[] = [];
+
+    for (const treatmentFeature of treatmentFeatures) {
+      // parse the feature properties
+      const result = ValidTreatmentFeatureProperties(treatmentFeatureTypeObjects, treatmentUnitTypeObjects).safeParse(
+        treatmentFeature.properties
+      );
+
+      if (!result.success) {
+        allErrors.push({
+          treatmentUnitId:
+            (treatmentFeature.properties?.TU_ID && String(treatmentFeature.properties.TU_ID)) || 'Invalid TU_ID',
+          errors: result.error.errors.map((item) => `${item.path[0]} - ${item.message}`)
+        });
+      } else {
+        // re-assemble the feature with the successfully parsed properties
+        validatedTreatmentFeatures.push({ ...treatmentFeature, properties: result.data });
+      }
+    }
+
+    return { errors: allErrors, data: validatedTreatmentFeatures };
   }
 
   async getAllTreatmentFeatureTypes(): Promise<GetTreatmentFeatureTypes[]> {
@@ -137,16 +180,6 @@ export class TreatmentService extends DBService {
     return response.rows;
   }
 
-  async getTreatmentFeatureTypeObjs(
-    treatmentFeatureProperties: TreatmentFeatureProperties
-  ): Promise<GetTreatmentFeatureTypes | undefined> {
-    const treatmentFeatureTypes = await this.getAllTreatmentFeatureTypes();
-
-    return treatmentFeatureTypes.find((item) => {
-      return item.name.toLowerCase() === treatmentFeatureProperties.Fe_Type.toLowerCase();
-    });
-  }
-
   async getAllTreatmentUnitTypes(): Promise<GetTreatmentTypes[]> {
     const sqlStatement = queries.project.getTreatmentUnitTypesSQL();
 
@@ -163,14 +196,8 @@ export class TreatmentService extends DBService {
     return response.rows;
   }
 
-  async insertTreatmentUnit(projectId: number, feature: TreatmentFeature): Promise<ITreatmentUnitInsertOrExists> {
-    const featureTypeObj = await this.getTreatmentFeatureTypeObjs(feature.properties);
-
-    if (!featureTypeObj) {
-      throw new HTTP400('Invalid Feature type');
-    }
-
-    const sqlStatement = queries.project.postTreatmentUnitSQL(projectId, featureTypeObj.feature_type_id, feature);
+  async insertTreatmentUnit(projectId: number, feature: ValidTreatmentFeature): Promise<ITreatmentUnitInsertOrExists> {
+    const sqlStatement = queries.project.postTreatmentUnitSQL(projectId, feature.properties.Fe_Type, feature);
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL insert statement');
@@ -217,41 +244,12 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async getAllTreatmentTypes(treatmentFeatureProperties: TreatmentFeatureProperties): Promise<GetTreatmentTypes[]> {
-    const treatmentUnitTypes = await this.getAllTreatmentUnitTypes();
-
-    const givenTypesString = treatmentFeatureProperties.Treatments;
-
-    const givenTypesSplit = givenTypesString
-      .split(';')
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    const treatmentTypes: GetTreatmentTypes[] = [];
-
-    treatmentUnitTypes.forEach((item) => {
-      givenTypesSplit.forEach((givenItem: string) => {
-        if (item.name.toLowerCase().includes(givenItem.toLowerCase())) {
-          treatmentTypes.push(item);
-        }
-      });
-    });
-
-    return treatmentTypes;
-  }
-
   async insertAllTreatmentTypes(
     treatmentId: number,
-    treatmentFeatureProperties: TreatmentFeatureProperties
+    treatmentFeatureProperties: ValidTreatmentFeatureProperties
   ): Promise<void> {
-    const treatmentTypes = await this.getAllTreatmentTypes(treatmentFeatureProperties);
-
-    if (treatmentTypes.length === 0) {
-      throw new HTTP400('Invalid Treatment Types');
-    }
-
-    for (const item of treatmentTypes) {
-      const response = await this.insertTreatmentType(treatmentId, item.treatment_type_id);
+    for (const treatmentTypeId of treatmentFeatureProperties.Treatments) {
+      const response = await this.insertTreatmentType(treatmentId, treatmentTypeId);
 
       if (!response || !response.treatment_treatment_type_id) {
         throw new HTTP400('Failed to insert treatment unit type data');
@@ -261,50 +259,50 @@ export class TreatmentService extends DBService {
 
   async insertTreatmentDataAndTreatmentTypes(
     treatmentUnitId: number,
-    featureProperties: TreatmentFeatureProperties
+    featureProperties: ValidTreatmentFeatureProperties
   ): Promise<void> {
     const insertTreatmentDataResponse = await this.insertTreatmentData(treatmentUnitId, featureProperties.Year);
 
     await this.insertAllTreatmentTypes(insertTreatmentDataResponse.treatment_id, featureProperties);
   }
 
-  async insertAllProjectTreatmentUnits(projectId: number, features: TreatmentFeature[]): Promise<number[]> {
+  async insertAllProjectTreatmentUnits(projectId: number, features: ValidTreatmentFeature[]): Promise<number[]> {
     const treatmentInsertResponse: number[] = [];
 
-    for (const item of features) {
-      const featureTypeObj = await this.getTreatmentFeatureTypeObjs(item.properties);
-
-      if (!featureTypeObj) {
-        throw new HTTP400('Feature type invalid');
-      }
-
+    for (const feature of features) {
       const checkTreatmentUnitExist = await this.getTreatmentUnitExist(
         projectId,
-        featureTypeObj.feature_type_id,
-        item.properties?.TU_ID
+        feature.properties.Fe_Type,
+        feature.properties?.TU_ID
       );
 
       if (!checkTreatmentUnitExist) {
-        //Treatment Unit Doesnt Exists
-        const insertTreatmentUnitResponse = await this.insertTreatmentUnit(projectId, item);
+        // Treatment Unit Doesn't Exist
+        const insertTreatmentUnitResponse = await this.insertTreatmentUnit(projectId, feature);
 
-        await this.insertTreatmentDataAndTreatmentTypes(insertTreatmentUnitResponse.treatment_unit_id, item.properties);
+        await this.insertTreatmentDataAndTreatmentTypes(
+          insertTreatmentUnitResponse.treatment_unit_id,
+          feature.properties
+        );
 
         treatmentInsertResponse.push(insertTreatmentUnitResponse.treatment_unit_id);
       } else {
-        //Treatment Unit Exists
+        // Treatment Unit Exists
         const checkTreatmentDataYearExists = await this.getTreatmentDataYearExist(
           checkTreatmentUnitExist.treatment_unit_id,
-          item.properties?.Year
+          feature.properties?.Year
         );
 
         if (!checkTreatmentDataYearExists) {
-          //Treatment with Year doesnt exist in db
-          await this.insertTreatmentDataAndTreatmentTypes(checkTreatmentUnitExist.treatment_unit_id, item.properties);
+          // Treatment with Year doesn't exist in db
+          await this.insertTreatmentDataAndTreatmentTypes(
+            checkTreatmentUnitExist.treatment_unit_id,
+            feature.properties
+          );
           treatmentInsertResponse.push(checkTreatmentUnitExist.treatment_unit_id);
         }
 
-        //Data already exists
+        // Data already exists
       }
     }
 

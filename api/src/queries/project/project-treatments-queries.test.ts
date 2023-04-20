@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import { SQLStatement } from 'sql-template-strings';
-import { TreatmentFeature } from '../../models/project-treatment';
+import { ValidTreatmentFeature } from '../../models/project-treatment';
 import {
   deleteProjectTreatmentsSQL,
   deleteProjectTreatmentUnitSQL,
@@ -34,7 +34,8 @@ describe('getTreatmentUnitTypesSQL', () => {
 
 describe('postTreatmentUnitSQL', () => {
   it('returns non null response when valid projectId and other data provided', () => {
-    const treatmentFeatureObj = {
+    const treatmentFeatureObj: ValidTreatmentFeature = {
+      type: 'Feature',
       geometry: {
         bbox: [-122.46204108416048, 58.44944100517593, -122.44525166669784, 58.479595787093686],
         type: 'LineString',
@@ -46,16 +47,16 @@ describe('postTreatmentUnitSQL', () => {
       properties: {
         TU_ID: '1',
         Year: 2020,
-        Fe_Type: 'Transect',
+        Fe_Type: 1,
         Width_m: 240,
         Length_m: 3498,
         Area_m2: 10,
-        Recce: 'Y',
-        Treatments: 'Tree bending; Tree felling; Seeding',
-        Implement: 'Y',
+        Recce: 'yes',
+        Treatments: [1, 2, 3],
+        Implement: 'yes',
         Comments: 'something'
       }
-    } as TreatmentFeature;
+    };
 
     const response = postTreatmentUnitSQL(1, 1, treatmentFeatureObj);
 
