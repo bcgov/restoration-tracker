@@ -3,7 +3,7 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import { ITaxonomySourceV3, TaxonomyService } from './taxonomy-service';
+import { ITaxonomySource, TaxonomyService } from './taxonomy-service';
 
 chai.use(sinonChai);
 
@@ -12,7 +12,7 @@ describe('TaxonomyService', () => {
     sinon.restore();
   });
 
-  const mockElasticResponse: SearchResponse<ITaxonomySourceV3, Record<string, AggregationsAggregate>> | undefined = {
+  const mockElasticResponse: SearchResponse<ITaxonomySource, Record<string, AggregationsAggregate>> | undefined = {
     took: 0,
     timed_out: false,
     _shards: {
@@ -53,7 +53,7 @@ describe('TaxonomyService', () => {
 
       const taxonomyService = new TaxonomyService();
 
-      const taxonDetails: Omit<ITaxonomySourceV3, 'end_date'> = {
+      const taxonDetails: Omit<ITaxonomySource, 'end_date'> = {
         unit_name1: 'A',
         unit_name2: 'B',
         unit_name3: 'C',
@@ -123,7 +123,7 @@ describe('TaxonomyService', () => {
 
       const taxonomyService = new TaxonomyService();
 
-      const taxonDetails: Omit<ITaxonomySourceV3, 'end_date'> = {
+      const taxonDetails: Omit<ITaxonomySource, 'end_date'> = {
         unit_name1: 'A',
         unit_name2: 'B',
         unit_name3: 'C',
@@ -171,7 +171,7 @@ describe('TaxonomyService', () => {
 
       const taxonomyService = new TaxonomyService();
 
-      const taxonDetails: Omit<ITaxonomySourceV3, 'end_date'> = {
+      const taxonDetails: Omit<ITaxonomySource, 'end_date'> = {
         unit_name1: 'A',
         unit_name2: 'B',
         unit_name3: 'C',
