@@ -3,7 +3,7 @@ import chai, { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import { ITaxonomySource, TaxonomyService } from './taxonomy-service';
+import { ITaxonomySource_V3, TaxonomyService } from './taxonomy-service';
 
 chai.use(sinonChai);
 
@@ -12,7 +12,7 @@ describe('TaxonomyService', () => {
     sinon.restore();
   });
 
-  const mockElasticResponse: SearchResponse<ITaxonomySource, Record<string, AggregationsAggregate>> | undefined = {
+  const mockElasticResponse: SearchResponse<ITaxonomySource_V3, Record<string, AggregationsAggregate>> | undefined = {
     took: 0,
     timed_out: false,
     _shards: {
@@ -53,7 +53,7 @@ describe('TaxonomyService', () => {
 
       const taxonomyService = new TaxonomyService();
 
-      const taxonDetails: Omit<ITaxonomySource, 'end_date'> = {
+      const taxonDetails: Omit<ITaxonomySource_V3, 'end_date'> = {
         unit_name1: 'A',
         unit_name2: 'B',
         unit_name3: 'C',
@@ -62,7 +62,9 @@ describe('TaxonomyService', () => {
         tty_kingdom: 'kingdom',
         tty_name: 'name',
         english_name: 'animal',
-        note: null
+        note: null,
+        parent_id: 1,
+        parent_hierarchy: []
       };
 
       const elasticSearchStub = sinon.stub(taxonomyService, 'elasticSearch').resolves({
@@ -121,7 +123,7 @@ describe('TaxonomyService', () => {
 
       const taxonomyService = new TaxonomyService();
 
-      const taxonDetails: Omit<ITaxonomySource, 'end_date'> = {
+      const taxonDetails: Omit<ITaxonomySource_V3, 'end_date'> = {
         unit_name1: 'A',
         unit_name2: 'B',
         unit_name3: 'C',
@@ -130,7 +132,9 @@ describe('TaxonomyService', () => {
         tty_kingdom: 'kingdom',
         tty_name: 'name',
         english_name: 'animal',
-        note: null
+        note: null,
+        parent_id: 1,
+        parent_hierarchy: []
       };
 
       const elasticSearchStub = sinon.stub(taxonomyService, 'elasticSearch').resolves({
@@ -167,7 +171,7 @@ describe('TaxonomyService', () => {
 
       const taxonomyService = new TaxonomyService();
 
-      const taxonDetails: Omit<ITaxonomySource, 'end_date'> = {
+      const taxonDetails: Omit<ITaxonomySource_V3, 'end_date'> = {
         unit_name1: 'A',
         unit_name2: 'B',
         unit_name3: 'C',
@@ -176,7 +180,9 @@ describe('TaxonomyService', () => {
         tty_kingdom: 'kingdom',
         tty_name: 'name',
         english_name: 'animal',
-        note: null
+        note: null,
+        parent_id: 1,
+        parent_hierarchy: []
       };
 
       const elasticSearchStub = sinon.stub(taxonomyService, 'elasticSearch').resolves({
