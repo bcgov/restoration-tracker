@@ -1,12 +1,9 @@
-apiVersion: template.openshift.io/v1
 kind: Template
+apiVersion: template.openshift.io/v1
 metadata:
-  creationTimestamp: null
+  name: restoration-tracker-db-setup-bc
   labels:
     build: restoration-tracker-db-setup
-  name: restoration-tracker-db-setup
-annotations:
-  iconClass: iconpostgresql
 parameters:
   - name: NAME
     displayName: Name
