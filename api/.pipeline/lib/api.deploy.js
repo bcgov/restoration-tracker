@@ -1,4 +1,5 @@
 'use strict';
+
 const { OpenShiftClientX } = require('pipeline-cli');
 const path = require('path');
 
@@ -8,14 +9,14 @@ const path = require('path');
  * @param {*} settings
  * @returns
  */
-module.exports = (settings) => {
+const apiDeploy = async (settings) => {
   const phases = settings.phases;
   const options = settings.options;
   const phase = options.env;
 
   const oc = new OpenShiftClientX(Object.assign({ namespace: phases[phase].namespace }, options));
 
-  const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, '../../openshift'));
+  const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, '../templates'));
 
   const changeId = phases[phase].changeId;
 
@@ -31,14 +32,25 @@ module.exports = (settings) => {
         CHANGE_ID: phases.build.changeId || changeId,
         NODE_ENV: phases[phase].env || 'dev',
         ELASTICSEARCH_URL: phases[phase].elasticsearchURL,
+        ELASTICSEARCH_TAXONOMY_INDEX: phases[phase].elasticsearchTaxonomyIndex,
+        S3_KEY_PREFIX: phases[phase].s3KeyPrefix,
         TZ: phases[phase].tz,
+        KEYCLOAK_ADMIN_USERNAME: phases[phase].sso.adminUserName,
+        KEYCLOAK_SECRET: phases[phase].sso.keycloakSecret,
+        KEYCLOAK_SECRET_ADMIN_PASSWORD: phases[phase].sso.keycloakSecretAdminPassword,
         DB_SERVICE_NAME: `${phases[phase].dbName}-postgresql${phases[phase].suffix}`,
         KEYCLOAK_HOST: phases[phase].sso.url,
         KEYCLOAK_CLIENT_ID: phases[phase].sso.clientId,
         KEYCLOAK_REALM: phases[phase].sso.realm,
-        REPLICAS: phases[phase].replicas || 1,
-        REPLICA_MAX: phases[phase].maxReplicas || 1,
-        LOG_LEVEL: phases[phase].logLevel || 'info'
+        KEYCLOAK_INTEGRATION_ID: phases[phase].sso.integrationId,
+        KEYCLOAK_API_HOST: phases[phase].sso.apiHost,
+        LOG_LEVEL: phases[phase].logLevel || 'info',
+        CPU_REQUEST: phases[phase].cpuRequest,
+        CPU_LIMIT: phases[phase].cpuLimit,
+        MEMORY_REQUEST: phases[phase].memoryRequest,
+        MEMORY_LIMIT: phases[phase].memoryLimit,
+        REPLICAS: phases[phase].replicas,
+        REPLICAS_MAX: phases[phase].replicasMax
       }
     })
   );
@@ -46,5 +58,7 @@ module.exports = (settings) => {
   oc.applyRecommendedLabels(objects, phases[phase].name, phase, `${changeId}`, phases[phase].instance);
   oc.importImageStreams(objects, phases[phase].tag, phases.build.namespace, phases.build.tag);
 
-  oc.applyAndDeploy(objects, phases[phase].instance);
+  await oc.applyAndDeploy(objects, phases[phase].instance);
 };
+
+module.exports = { apiDeploy };

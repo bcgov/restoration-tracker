@@ -1,5 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
-import { TreatmentFeature } from '../../models/project-treatment';
+import { ValidTreatmentFeature } from '../../models/project-treatment';
 import { queries } from '../queries';
 
 /**
@@ -41,16 +41,15 @@ export const getTreatmentUnitTypesSQL = (): SQLStatement => {
 /**
  * SQL query to insert a project treatment unit row.
  *
- * @param projectId
- * @param featureTypeId
- * @param featureProperties
- * @param geometry
+ * @param {number} projectId
+ * @param {number} featureTypeId
+ * @param {ValidTreatmentFeature} feature
  * @returns {SQLStatement} sql query object
  */
 export const postTreatmentUnitSQL = (
   projectId: number,
   featureTypeId: number,
-  feature: TreatmentFeature
+  feature: ValidTreatmentFeature
 ): SQLStatement => {
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO treatment_unit (
@@ -62,6 +61,7 @@ export const postTreatmentUnitSQL = (
       area,
       comments,
       reconnaissance_conducted,
+      implemented,
       geojson,
       geography
     ) VALUES (
@@ -73,6 +73,7 @@ export const postTreatmentUnitSQL = (
       ${feature.properties.Area_m2},
       ${feature.properties.Comments},
       ${feature.properties.Recce},
+      ${feature.properties.Implement},
       ${JSON.stringify([feature])}
     `;
 

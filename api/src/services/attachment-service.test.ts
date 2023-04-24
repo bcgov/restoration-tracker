@@ -27,7 +27,7 @@ describe('AttachmentService', () => {
       const projectId = 1;
       const key = '1';
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
-      const type = 'attachment';
+      const type = 'attachments';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
@@ -49,7 +49,7 @@ describe('AttachmentService', () => {
       const projectId = 1;
       const key = '1';
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
-      const type = 'attachment';
+      const type = 'attachments';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
@@ -72,7 +72,7 @@ describe('AttachmentService', () => {
       const projectId = 1;
       const key = '1';
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
-      const type = 'attachment';
+      const type = 'attachments';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
@@ -215,7 +215,7 @@ describe('AttachmentService', () => {
       const projectId = 1;
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
       const key = '1';
-      const type = 'attachment';
+      const type = 'attachments';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 
@@ -235,7 +235,7 @@ describe('AttachmentService', () => {
       const projectId = 1;
       const file = { originalname: 'file', size: 1 } as Express.Multer.File;
       const key = '1';
-      const type = 'attachment';
+      const type = 'attachments';
 
       const attachmentService = new AttachmentService(mockDBConnection);
 

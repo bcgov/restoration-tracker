@@ -9,17 +9,35 @@ export enum AuthorizeOperator {
   OR = 'or'
 }
 
+/**
+ * Authorization rule that checks if a user's system role matches at least one of the required system roles.
+ *
+ * @export
+ * @interface AuthorizeBySystemRoles
+ */
 export interface AuthorizeBySystemRoles {
   validSystemRoles: SYSTEM_ROLE[];
   discriminator: 'SystemRole';
 }
 
+/**
+ * Authorization rule that checks if a user's project role matches at least one of the required project roles.
+ *
+ * @export
+ * @interface AuthorizeBySystemRoles
+ */
 export interface AuthorizeByProjectRoles {
   validProjectRoles: PROJECT_ROLE[];
   projectId: number;
   discriminator: 'ProjectRole';
 }
 
+/**
+ * Authorization rule that checks if a user is a known and active user of the system.
+ *
+ * @export
+ * @interface AuthorizeBySystemUser
+ */
 export interface AuthorizeBySystemUser {
   discriminator: 'SystemUser';
 }

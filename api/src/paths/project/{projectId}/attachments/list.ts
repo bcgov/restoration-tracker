@@ -5,6 +5,7 @@ import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { AttachmentService } from '../../../../services/attachment-service';
+import { S3FileType } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/attachments/list');
@@ -52,12 +53,14 @@ GET.apiDoc = {
         oneOf: [
           {
             type: 'string',
+            enum: ['attachments', 'treatments'],
             nullable: true
           },
           {
             type: 'array',
             items: {
-              type: 'string'
+              type: 'string',
+              enum: ['attachments', 'treatments']
             },
             nullable: true
           }
@@ -122,7 +125,7 @@ export function getAttachments(): RequestHandler {
     const projectId = Number(req.params.projectId);
     const connection = getDBConnection(req['keycloak_token']);
 
-    const queryType = (req.query as { type: string | string[] | null }).type || [];
+    const queryType = (req.query as { type: S3FileType | S3FileType[] | null }).type || [];
 
     try {
       await connection.open();

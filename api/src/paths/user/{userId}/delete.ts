@@ -85,10 +85,6 @@ export function removeSystemUser(): RequestHandler {
 
       const usrObject = await userService.getUserById(userId);
 
-      if (!usrObject) {
-        throw new HTTP400('Failed to get system user');
-      }
-
       if (usrObject.record_end_date) {
         throw new HTTP400('The system user is not active');
       }
@@ -129,10 +125,6 @@ export const checkIfUserIsOnlyProjectLeadOnAnyProject = async (userId: number, c
 
 export const deleteAllProjectRoles = async (userId: number, connection: IDBConnection) => {
   const sqlStatement = queries.users.deleteAllProjectRolesSQL(userId);
-
-  if (!sqlStatement) {
-    throw new HTTP400('Failed to build SQL delete statement for deleting project roles');
-  }
 
   connection.query(sqlStatement.text, sqlStatement.values);
 };

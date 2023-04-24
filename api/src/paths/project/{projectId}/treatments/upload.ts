@@ -6,7 +6,7 @@ import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { AttachmentService } from '../../../../services/attachment-service';
 import { TreatmentService } from '../../../../services/treatment-service';
-import { generateS3FileKey, S3Folder, scanFileForVirus } from '../../../../utils/file-utils';
+import { generateS3FileKey, scanFileForVirus } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/treatments/upload');
@@ -126,22 +126,26 @@ export function uploadTreatmentSpatial(): RequestHandler {
 
       const treatmentService = new TreatmentService(connection);
 
-      const shapeFileFeatures = await treatmentService.handleShapeFileFeatures(rawMediaFile);
+      const parsedShapefile = await treatmentService.parseShapefile(rawMediaFile);
 
-      if (!shapeFileFeatures) {
+      if (!parsedShapefile) {
         return;
       }
 
-      const checkFeaturePropertiesValid = await treatmentService.validateAllTreatmentUnitProperties(shapeFileFeatures);
+      const parsedFeatures = await treatmentService.parseFeatures(parsedShapefile);
 
-      if (checkFeaturePropertiesValid.length >= 1) {
-        defaultLog.error({ label: 'uploadTreatmentSpatial', message: 'error', errors: checkFeaturePropertiesValid });
-        throw new HTTP400('Errors were encountered during import', checkFeaturePropertiesValid);
+      if (parsedFeatures.errors.length >= 1) {
+        defaultLog.error({
+          label: 'uploadTreatmentSpatial',
+          message: 'error',
+          errors: parsedFeatures.errors
+        });
+        throw new HTTP400('Errors were encountered during import', parsedFeatures.errors);
       }
 
       const responsePostProjectAllTreatments = await treatmentService.insertAllProjectTreatmentUnits(
         projectId,
-        shapeFileFeatures
+        parsedFeatures.data
       );
 
       //upload to s3
@@ -155,10 +159,10 @@ export function uploadTreatmentSpatial(): RequestHandler {
       const s3Key = generateS3FileKey({
         projectId: projectId,
         fileName: rawMediaFile.originalname,
-        folder: S3Folder.TREATMENTS
+        fileType: 'treatments'
       });
 
-      await attachmentService.uploadMedia(projectId, rawMediaFile, s3Key, S3Folder.TREATMENTS, metadata);
+      await attachmentService.uploadMedia(projectId, rawMediaFile, s3Key, 'treatments', metadata);
 
       await connection.commit();
 

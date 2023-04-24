@@ -5,16 +5,8 @@ import Sinon, { SinonStub } from 'sinon';
 import SQL from 'sql-template-strings';
 import { SYSTEM_IDENTITY_SOURCE } from '../constants/database';
 import { HTTPError } from '../errors/custom-error';
-import { setSystemUserContextSQL } from '../queries/database/user-context-queries';
 import * as db from './db';
-import {
-  getAPIUserDBConnection,
-  getDBConnection,
-  getDBPool,
-  getKnexQueryBuilder,
-  IDBConnection,
-  initDBPool
-} from './db';
+import { getAPIUserDBConnection, getDBConnection, getDBPool, IDBConnection, initDBPool } from './db';
 
 describe('db', () => {
   beforeEach(() => {
@@ -58,7 +50,11 @@ describe('db', () => {
     describe('DBConnection', () => {
       const sinonSandbox = Sinon.createSandbox();
 
-      const mockKeycloakToken = { preferred_username: 'test@idir' };
+      const mockKeycloakToken = {
+        preferred_username: 'testguid@idir',
+        idir_username: 'testuser',
+        identity_provider: SYSTEM_IDENTITY_SOURCE.IDIR
+      };
 
       let queryStub: SinonStub;
       let releaseStub: SinonStub;
@@ -89,12 +85,6 @@ describe('db', () => {
 
             expect(getDBPoolStub).to.have.been.calledOnce;
             expect(connectStub).to.have.been.calledOnce;
-
-            const expectedSystemUserContextSQL = setSystemUserContextSQL('test', SYSTEM_IDENTITY_SOURCE.IDIR);
-            expect(queryStub).to.have.been.calledWith(
-              expectedSystemUserContextSQL?.text,
-              expectedSystemUserContextSQL?.values
-            );
 
             expect(queryStub).to.have.been.calledWith('BEGIN');
           });
@@ -328,28 +318,44 @@ describe('db', () => {
   });
 
   describe('getAPIUserDBConnection', () => {
+    beforeEach(() => {
+      process.env.DB_USER_API = 'example_db_username';
+    });
+
     afterEach(() => {
       Sinon.restore();
     });
 
-    it('calls getDBConnection for the restoration_api user', () => {
+    it('calls getDBConnection for the biohub_api user', () => {
       const getDBConnectionStub = Sinon.stub(db, 'getDBConnection').returns(
         ('stubbed DBConnection object' as unknown) as IDBConnection
       );
 
       getAPIUserDBConnection();
 
+      const DB_USERNAME = process.env.DB_USER_API;
+
       expect(getDBConnectionStub).to.have.been.calledWith({
-        preferred_username: 'restoration_api@database'
+        preferred_username: `${DB_USERNAME}@database`,
+        restoration_system_username: DB_USERNAME,
+        identity_provider: 'database'
       });
     });
   });
 
   describe('getKnexQueryBuilder', () => {
     it('returns a Knex query builder', () => {
-      const queryBuilder = getKnexQueryBuilder();
+      const queryBuilder = db.getKnexQueryBuilder();
 
-      expect(queryBuilder.client.config).to.eql({ client: 'pg' });
+      expect(queryBuilder.client.config).to.eql({ client: db.DB_CLIENT });
+    });
+  });
+
+  describe('getKnex', () => {
+    it('returns a Knex instance', () => {
+      const knex = db.getKnex();
+
+      expect(knex.client.config).to.eql({ client: db.DB_CLIENT });
     });
   });
 });

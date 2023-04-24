@@ -98,7 +98,7 @@ const PublicProjectsListPage = () => {
     history.push(`/projects/${id}`);
   };
 
-  if (keycloakWrapper?.keycloak?.authenticated) {
+  if (keycloakWrapper?.keycloak.authenticated) {
     // User has a role
     return <Redirect to={{ pathname: '/admin/projects' }} />;
   }

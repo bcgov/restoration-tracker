@@ -39,8 +39,6 @@ const defaultAuthState = {
     username: 'testusername',
     displayName: 'testdisplayname',
     email: 'test@email.com',
-    firstName: 'testfirst',
-    lastName: 'testlast',
     refresh: () => {}
   }
 };

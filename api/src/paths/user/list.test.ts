@@ -25,7 +25,9 @@ describe('users', () => {
       const mockResponse = [
         {
           id: 1,
+          user_guid: '123456',
           user_identifier: 'identifier',
+          identity_source: 'identitysource',
           record_end_date: '',
           role_ids: [1, 2],
           role_names: ['System Admin', 'Project Lead']

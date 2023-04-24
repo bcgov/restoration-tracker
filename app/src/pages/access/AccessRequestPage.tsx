@@ -73,6 +73,7 @@ export const AccessRequestPage: React.FC = () => {
     try {
       const response = await restorationTrackerApi.admin.createAdministrativeActivity({
         ...values,
+        userGuid: keycloakWrapper?.getUserGuid() as string,
         name: keycloakWrapper?.displayName as string,
         username: keycloakWrapper?.getUserIdentifier() as string,
         email: keycloakWrapper?.email as string,
@@ -102,7 +103,7 @@ export const AccessRequestPage: React.FC = () => {
     }
   };
 
-  if (!keycloakWrapper?.keycloak?.authenticated) {
+  if (!keycloakWrapper?.keycloak.authenticated) {
     // User is not logged in
     return <Redirect to={{ pathname: '/' }} />;
   }
@@ -121,7 +122,10 @@ export const AccessRequestPage: React.FC = () => {
   let validationSchema: typeof IDIRRequestFormYupSchema | typeof BCeIDRequestFormYupSchema;
   let requestForm: ReactElement;
 
-  if (keycloakWrapper?.getIdentitySource() === SYSTEM_IDENTITY_SOURCE.BCEID) {
+  if (
+    keycloakWrapper?.getIdentitySource() === SYSTEM_IDENTITY_SOURCE.BCEID_BASIC ||
+    keycloakWrapper?.getIdentitySource() === SYSTEM_IDENTITY_SOURCE.BCEID_BUSINESS
+  ) {
     initialValues = BCeIDRequestFormInitialValues;
     validationSchema = BCeIDRequestFormYupSchema;
     requestForm = <BCeIDRequestForm />;
