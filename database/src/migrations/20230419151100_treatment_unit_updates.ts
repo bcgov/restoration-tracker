@@ -17,12 +17,19 @@ export async function up(knex: Knex): Promise<void> {
 
     set search_path=restoration;
 
-    -- Alter existing column
+    -- Alter existing column, without check constraint
     alter table treatment_unit 
       alter column reconnaissance_conducted type varchar(50),
-      alter column reconnaissance_conducted drop not null,
-      add check (reconnaissance_conducted in ('yes', 'no', 'not applicable'));
+      alter column reconnaissance_conducted drop not null;
     comment on column treatment_unit.reconnaissance_conducted is 'Describes if reconnaissance was conducted for a treatment unit.';
+
+    -- Migrate any existing data in existing column
+    update table treatment_unit set reconnaissance_conducted = 'yes' where reconnaissance_conducted = 'Y';
+    update table treatment_unit set reconnaissance_conducted = 'no' where reconnaissance_conducted = 'N';
+
+    -- Alter existing column, add check constraint
+    alter table treatment_unit 
+      add check (reconnaissance_conducted in ('yes', 'no', 'not applicable'));
 
     -- Add new column
     alter table treatment_unit 
