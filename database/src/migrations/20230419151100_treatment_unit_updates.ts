@@ -24,8 +24,8 @@ export async function up(knex: Knex): Promise<void> {
     comment on column treatment_unit.reconnaissance_conducted is 'Describes if reconnaissance was conducted for a treatment unit.';
 
     -- Migrate any existing data in existing column
-    update table treatment_unit set reconnaissance_conducted = 'yes' where reconnaissance_conducted = 'Y';
-    update table treatment_unit set reconnaissance_conducted = 'no' where reconnaissance_conducted = 'N';
+    update treatment_unit set reconnaissance_conducted = 'yes' where reconnaissance_conducted = 'Y';
+    update treatment_unit set reconnaissance_conducted = 'no' where reconnaissance_conducted = 'N';
 
     -- Alter existing column, add check constraint
     alter table treatment_unit 
