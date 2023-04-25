@@ -1,20 +1,21 @@
 'use strict';
+
 const { OpenShiftClientX } = require('pipeline-cli');
 const path = require('path');
 
 /**
- * Run a pod to build the database setup (migrations, seeding, etc) image stream.
+ * Build the database setup (migrations, seeding, etc) image.
  *
  * @param {*} settings
  */
-module.exports = (settings) => {
+const dbSetupBuild = (settings) => {
   const phases = settings.phases;
   const options = settings.options;
   const phase = 'build';
 
-  const oc = new OpenShiftClientX(Object.assign({ namespace: phases.build.namespace }, options));
+  const oc = new OpenShiftClientX(Object.assign({ namespace: phases[phase].namespace }, options));
 
-  const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, '../../openshift'));
+  const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, '../templates'));
 
   const name = `${phases[phase].name}-setup`;
 
@@ -37,3 +38,5 @@ module.exports = (settings) => {
   oc.applyRecommendedLabels(objects, name, phase, phases[phase].changeId, phases[phase].instance);
   oc.applyAndBuild(objects);
 };
+
+module.exports = { dbSetupBuild };

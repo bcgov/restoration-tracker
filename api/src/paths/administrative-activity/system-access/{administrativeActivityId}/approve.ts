@@ -3,8 +3,10 @@ import { Operation } from 'express-openapi';
 import { SYSTEM_IDENTITY_SOURCE } from '../../../../constants/database';
 import { SYSTEM_ROLE } from '../../../../constants/roles';
 import { getDBConnection } from '../../../../database/db';
+import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { UserService } from '../../../../services/user-service';
+import { coerceUserIdentitySource } from '../../../../utils/keycloak-utils';
 import { getLogger } from '../../../../utils/logger';
 import { ADMINISTRATIVE_ACTIVITY_STATUS_TYPE } from '../../../administrative-activities';
 import { updateAdministrativeActivity } from '../../../administrative-activity';
@@ -57,7 +59,11 @@ PUT.apiDoc = {
             },
             identitySource: {
               type: 'string',
-              enum: [SYSTEM_IDENTITY_SOURCE.IDIR, SYSTEM_IDENTITY_SOURCE.BCEID]
+              enum: [
+                SYSTEM_IDENTITY_SOURCE.IDIR,
+                SYSTEM_IDENTITY_SOURCE.BCEID_BASIC,
+                SYSTEM_IDENTITY_SOURCE.BCEID_BUSINESS
+              ]
             },
             roleIds: {
               type: 'array',
@@ -98,8 +104,18 @@ export function approveAccessRequest(): RequestHandler {
   return async (req, res) => {
     const administrativeActivityId = Number(req.params.administrativeActivityId);
 
+    const userGuid = req.body.userGuid;
     const userIdentifier = req.body.userIdentifier;
-    const identitySource = req.body.identitySource;
+
+    // Convert identity sources that have multiple variations (ie: BCEID) into a single value supported by this app
+    const identitySource = req.body.identitySource && coerceUserIdentitySource(req.body.identitySource);
+
+    if (!identitySource) {
+      throw new HTTP400('Invalid user identity source', [
+        `Identity source <${req.body.identitySource}> is not a supported value.`
+      ]);
+    }
+
     const roleIds: number[] = req.body.roleIds || [];
 
     const connection = getDBConnection(req['keycloak_token']);
@@ -110,7 +126,7 @@ export function approveAccessRequest(): RequestHandler {
       const userService = new UserService(connection);
 
       // Get the system user (adding or activating them if they already existed).
-      const systemUserObject = await userService.ensureSystemUser(userIdentifier, identitySource);
+      const systemUserObject = await userService.ensureSystemUser(userGuid, userIdentifier, identitySource);
 
       // Filter out any system roles that have already been added to the user
       const rolesIdsToAdd = roleIds.filter((roleId) => !systemUserObject.role_ids.includes(roleId));

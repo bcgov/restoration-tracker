@@ -5,7 +5,7 @@ import { getDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
 import { authorizeRequestHandler } from '../../../../request-handlers/security/authorization';
 import { AttachmentService } from '../../../../services/attachment-service';
-import { generateS3FileKey, S3Folder, scanFileForVirus } from '../../../../utils/file-utils';
+import { generateS3FileKey, scanFileForVirus } from '../../../../utils/file-utils';
 import { getLogger } from '../../../../utils/logger';
 
 const defaultLog = getLogger('/api/project/{projectId}/attachments/upload');
@@ -137,14 +137,14 @@ export function uploadAttachment(): RequestHandler {
       const s3Key = generateS3FileKey({
         projectId: projectId,
         fileName: rawMediaFile.originalname,
-        folder: S3Folder.ATTACHMENTS
+        fileType: 'attachments'
       });
 
       const uploadResponse = await attachmentService.uploadMedia(
         projectId,
         rawMediaFile,
         s3Key,
-        S3Folder.ATTACHMENTS,
+        'attachments',
         metadata
       );
 

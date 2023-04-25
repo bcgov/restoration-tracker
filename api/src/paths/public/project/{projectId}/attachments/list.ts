@@ -3,7 +3,6 @@ import { Operation } from 'express-openapi';
 import { getAPIUserDBConnection } from '../../../../../database/db';
 import { HTTP400 } from '../../../../../errors/custom-error';
 import { AttachmentService } from '../../../../../services/attachment-service';
-import { S3Folder } from '../../../../../utils/file-utils';
 import { getLogger } from '../../../../../utils/logger';
 
 const defaultLog = getLogger('/api/public/project/{projectId}/attachments/list');
@@ -84,7 +83,7 @@ export function getPublicProjectAttachments(): RequestHandler {
 
       const attachmentService = new AttachmentService(connection);
 
-      const data = await attachmentService.getAttachmentsByType(projectId, S3Folder.ATTACHMENTS);
+      const data = await attachmentService.getAttachmentsByType(projectId, 'attachments');
 
       await connection.commit();
 

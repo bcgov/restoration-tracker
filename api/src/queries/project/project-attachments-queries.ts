@@ -1,6 +1,7 @@
 import { Knex } from 'knex';
 import { SQL, SQLStatement } from 'sql-template-strings';
 import { getKnexQueryBuilder } from '../../database/db';
+import { S3FileType } from '../../utils/file-utils';
 import { getLogger } from '../../utils/logger';
 
 const defaultLog = getLogger('queries/project/project-attachments-queries');
@@ -12,7 +13,10 @@ const defaultLog = getLogger('queries/project/project-attachments-queries');
  * @param {string} [fileType]
  * @return {*}  {(SQLStatement | null)}
  */
-export const getProjectAttachmentsKnex = (projectId: number, attachmentType?: string | string[]): Knex.QueryBuilder => {
+export const getProjectAttachmentsKnex = (
+  projectId: number,
+  attachmentType?: S3FileType | S3FileType[]
+): Knex.QueryBuilder => {
   const queryBuilder = getKnexQueryBuilder()
     .select(
       'project_attachment.project_attachment_id',

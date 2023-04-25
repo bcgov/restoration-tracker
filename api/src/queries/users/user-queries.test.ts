@@ -12,27 +12,15 @@ import {
 } from './user-queries';
 
 describe('getUserByUserIdentifierSQL', () => {
-  it('returns null response when null userIdentifier provided', () => {
-    const response = getUserByUserIdentifierSQL((null as unknown) as string);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid userIdentifier provided', () => {
-    const response = getUserByUserIdentifierSQL('aUserName');
+  it('returns sql query string', () => {
+    const response = getUserByUserIdentifierSQL('aUserName', 'anIdentitySource');
 
     expect(response).to.not.be.null;
   });
 });
 
 describe('getUserByIdSQL', () => {
-  it('returns null response when null userId provided', () => {
-    const response = getUserByIdSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid userId provided', () => {
+  it('returns sql query string', () => {
     const response = getUserByIdSQL(1);
 
     expect(response).to.not.be.null;
@@ -48,39 +36,15 @@ describe('getUserListSQL', () => {
 });
 
 describe('addSystemUserSQL', () => {
-  it('returns null response when null userIdentifier provided', () => {
-    const response = addSystemUserSQL((null as unknown) as string, 'validString');
-
-    expect(response).to.be.null;
-  });
-
-  it('returns null response when null identitySource provided', () => {
-    const response = addSystemUserSQL('validString', (null as unknown) as string);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns null response when null userIdentifier provided', () => {
-    const response = addSystemUserSQL((null as unknown) as string, 'validString');
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid parameters provided', () => {
-    const response = addSystemUserSQL('validString', 'validString');
+  it('returns sql query string', () => {
+    const response = addSystemUserSQL('userGuid', 'validString', 'validString');
 
     expect(response).to.not.be.null;
   });
 });
 
 describe('deactivateSystemUserSQL', () => {
-  it('returns null response when null userIdentifier provided', () => {
-    const response = deactivateSystemUserSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid parameters provided', () => {
+  it('returns sql query string', () => {
     const response = deactivateSystemUserSQL(1);
 
     expect(response).to.not.be.null;
@@ -88,13 +52,7 @@ describe('deactivateSystemUserSQL', () => {
 });
 
 describe('activateSystemUserSQL', () => {
-  it('returns null response when null userId provided', () => {
-    const response = activateSystemUserSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid parameters provided', () => {
+  it('returns sql query string', () => {
     const response = activateSystemUserSQL(1);
 
     expect(response).to.not.be.null;
@@ -102,13 +60,7 @@ describe('activateSystemUserSQL', () => {
 });
 
 describe('deleteAllSystemRolesSQL', () => {
-  it('returns null response when null userId provided', () => {
-    const response = deleteAllSystemRolesSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid parameters provided', () => {
+  it('returns sql query string', () => {
     const response = deleteAllSystemRolesSQL(1);
 
     expect(response).to.not.be.null;
@@ -116,13 +68,7 @@ describe('deleteAllSystemRolesSQL', () => {
 });
 
 describe('deleteAllProjectRolesSQL', () => {
-  it('returns null response when null userId provided', () => {
-    const response = deleteAllProjectRolesSQL((null as unknown) as number);
-
-    expect(response).to.be.null;
-  });
-
-  it('returns non null response when valid parameters provided', () => {
+  it('returns sql query string', () => {
     const response = deleteAllProjectRolesSQL(1);
 
     expect(response).to.not.be.null;

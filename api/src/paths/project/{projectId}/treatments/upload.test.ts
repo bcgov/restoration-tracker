@@ -1,10 +1,10 @@
 import chai, { expect } from 'chai';
+import { Feature } from 'geojson';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import * as db from '../../../../database/db';
 import { HTTPError } from '../../../../errors/custom-error';
-import { TreatmentFeature } from '../../../../models/project-treatment';
 import { AttachmentService } from '../../../../services/attachment-service';
 import { TreatmentService } from '../../../../services/treatment-service';
 import * as file_utils from '../../../../utils/file-utils';
@@ -113,9 +113,9 @@ describe('uploadTreatments', () => {
     });
 
     sinon.stub(file_utils, 'scanFileForVirus').resolves(true);
-    sinon.stub(TreatmentService.prototype, 'handleShapeFileFeatures').resolves([{} as TreatmentFeature]);
+    sinon.stub(TreatmentService.prototype, 'parseShapefile').resolves([{} as Feature]);
 
-    sinon.stub(TreatmentService.prototype, 'validateAllTreatmentUnitProperties').resolves([]);
+    sinon.stub(TreatmentService.prototype, 'parseFeatures').resolves({ errors: [], data: [] });
     sinon.stub(TreatmentService.prototype, 'insertAllProjectTreatmentUnits').resolves([1]);
     sinon.stub(AttachmentService.prototype, 'uploadMedia').resolves({ id: 1, revision_count: 0 });
 

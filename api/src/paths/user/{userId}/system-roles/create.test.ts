@@ -75,33 +75,6 @@ describe('getAddSystemRolesHandler', () => {
     }
   });
 
-  it('should throw a 400 error when no system user found', async () => {
-    const dbConnectionObj = getMockDBConnection();
-
-    const { mockReq, mockRes, mockNext } = getRequestHandlerMocks();
-
-    mockReq.params = {
-      userId: '1'
-    };
-    mockReq.body = {
-      roles: [1]
-    };
-
-    sinon.stub(db, 'getDBConnection').returns(dbConnectionObj);
-
-    sinon.stub(UserService.prototype, 'getUserById').resolves(null);
-
-    try {
-      const requestHandler = system_roles.getAddSystemRolesHandler();
-
-      await requestHandler(mockReq, mockRes, mockNext);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to get system user');
-    }
-  });
-
   it('re-throws the error thrown by UserService.addUserSystemRoles', async () => {
     const dbConnectionObj = getMockDBConnection();
 
@@ -118,7 +91,9 @@ describe('getAddSystemRolesHandler', () => {
 
     sinon.stub(UserService.prototype, 'getUserById').resolves({
       id: 1,
+      user_guid: '123456',
       user_identifier: 'test name',
+      identity_source: 'identitysource',
       record_end_date: '',
       role_ids: [11, 22],
       role_names: ['role 11', 'role 22']
@@ -161,7 +136,9 @@ describe('getAddSystemRolesHandler', () => {
 
     sinon.stub(UserService.prototype, 'getUserById').resolves({
       id: 1,
+      user_guid: '123456',
       user_identifier: 'test name',
+      identity_source: 'identitysource',
       record_end_date: '',
       role_ids: [1, 2],
       role_names: ['role 1', 'role 2']
@@ -199,7 +176,9 @@ describe('getAddSystemRolesHandler', () => {
 
     sinon.stub(UserService.prototype, 'getUserById').resolves({
       id: 1,
+      user_guid: '123456',
       user_identifier: 'test name',
+      identity_source: 'identitysource',
       record_end_date: '',
       role_ids: [],
       role_names: ['role 11', 'role 22']

@@ -12,8 +12,8 @@ import {
   GetTreatmentTypes,
   ITreatmentTypeInsertOrExists,
   ITreatmentUnitInsertOrExists,
-  TreatmentFeature,
-  TreatmentFeatureProperties
+  ValidTreatmentFeature,
+  ValidTreatmentFeatureProperties
 } from '../models/project-treatment';
 import { queries } from '../queries/queries';
 import { getMockDBConnection, registerMockDBConnection } from '../__mocks__/db';
@@ -22,7 +22,7 @@ import { TreatmentService } from './treatment-service';
 chai.use(sinonChai);
 
 describe('TreatmentService', () => {
-  describe('handleShapeFileFeatures', function () {
+  describe('parseShapefile', function () {
     afterEach(() => {
       sinon.restore();
     });
@@ -33,12 +33,12 @@ describe('TreatmentService', () => {
 
       const file = (null as unknown) as Express.Multer.File;
 
-      const response = await treatmentService.handleShapeFileFeatures(file);
+      const response = await treatmentService.parseShapefile(file);
 
       expect(response).to.be.null;
     });
 
-    it('should return TreatmentFeature array', async function () {
+    it('should return Feature array', async function () {
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
       const treatmentService = new TreatmentService(mockDBConnection);
 
@@ -56,115 +56,290 @@ describe('TreatmentService', () => {
 
       sinon.stub(treatmentService, 'parseShapeFile').resolves(shpResponse);
 
-      const response = await treatmentService.handleShapeFileFeatures(file);
+      const response = await treatmentService.parseShapefile(file);
 
-      expect(typeof response).to.be.equal(typeof ({} as TreatmentFeature));
+      expect(typeof response).to.be.equal(typeof ({} as Feature));
     });
   });
 
-  describe('validateAllTreatmentUnitProperties', function () {
+  describe('parseFeatures', function () {
+    let treatmentService: TreatmentService;
+
+    beforeEach(() => {
+      const mockDBConnection = getMockDBConnection();
+
+      treatmentService = new TreatmentService(mockDBConnection);
+
+      const mockTreatmentFeatureTypeObjects: GetTreatmentFeatureTypes[] = [
+        { feature_type_id: 1, name: 'Transect', description: 'fe type1' }
+      ];
+      sinon.stub(treatmentService, 'getAllTreatmentFeatureTypes').resolves(mockTreatmentFeatureTypeObjects);
+
+      const mockTreatmentUnitTypeObjects: GetTreatmentTypes[] = [
+        { treatment_type_id: 2, name: 'Tree bending', description: 'treatment type1' },
+        { treatment_type_id: 3, name: 'Seeding', description: 'treatment type2' }
+      ];
+      sinon.stub(treatmentService, 'getAllTreatmentUnitTypes').resolves(mockTreatmentUnitTypeObjects);
+    });
+
     afterEach(() => {
       sinon.restore();
     });
 
-    it('should return an array of invalid parameters within a single treatment unit', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-      const treatmentService = new TreatmentService(mockDBConnection);
-
-      const treatmentUnit = [
-        {
-          properties: {
-            TU_ID: '',
-            Year: '',
-            Fe_Type: '',
-            Width_m: '',
-            Length_m: '',
-            Area_m2: '',
-            Recce: '',
-            Treatments: '',
-            Implement: '',
-            Comments: ''
+    describe('should return an array of errors', async function () {
+      it('when no properties provided', async function () {
+        const treatmentUnit: Feature[] = [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [123, 123]
+            },
+            properties: {}
           }
-        } as unknown
-      ] as TreatmentFeature[];
+        ];
 
-      const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
+        const response = await treatmentService.parseFeatures(treatmentUnit);
 
-      expect(response[0].errors.length).to.be.equal(6);
+        expect(response.errors.length).to.be.equal(1);
+
+        expect(response.errors[0].treatmentUnitId).to.be.equal('Invalid TU_ID');
+        expect(response.errors[0].errors).to.be.eql([
+          'TU_ID - Must be a number or alphanumeric/text.',
+          'Year - Must be a 4 digit number.',
+          'Fe_Type - Must be one of: [ Transect ].',
+          'Area_m2 - Must be a positive number.',
+          'Treatments - Must be one or more of: [ Tree bending, Seeding ]. If entering multiple treatment types, separate them with a semi-colon (ex: "Ripping; Seeding").'
+        ]);
+      });
+
+      it('when empty string properties provided', async function () {
+        const treatmentUnit: Feature[] = [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [123, 123]
+            },
+            properties: {
+              TU_ID: '',
+              Year: '',
+              Fe_Type: '',
+              Width_m: '',
+              Length_m: '',
+              Area_m2: '',
+              Recce: '',
+              Treatments: '',
+              Implement: '',
+              Comments: ''
+            }
+          }
+        ];
+
+        const response = await treatmentService.parseFeatures(treatmentUnit);
+
+        expect(response.errors.length).to.be.equal(1);
+
+        expect(response.errors[0].treatmentUnitId).to.be.equal('Invalid TU_ID');
+        expect(response.errors[0].errors).to.be.eql([
+          'TU_ID - Must be a number or alphanumeric/text.',
+          'Year - Must be a 4 digit number. Must be greater than 1900',
+          'Fe_Type - Must be one of: [ Transect ].',
+          'Area_m2 - Must be a positive number.',
+          'Treatments - Must be one or more of: [ Tree bending, Seeding ]. If entering multiple treatment types, separate them with a semi-colon (ex: "Ripping; Seeding").'
+        ]);
+      });
+
+      it('when null properties provided', async function () {
+        const treatmentUnit: Feature[] = [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [123, 123]
+            },
+            properties: {
+              TU_ID: null,
+              Year: null,
+              Fe_Type: null,
+              Width_m: null,
+              Length_m: null,
+              Area_m2: null,
+              Recce: null,
+              Treatments: null,
+              Implement: null,
+              Comments: null
+            }
+          }
+        ];
+
+        const response = await treatmentService.parseFeatures(treatmentUnit);
+
+        expect(response.errors.length).to.be.equal(1);
+
+        expect(response.errors[0].treatmentUnitId).to.be.equal('Invalid TU_ID');
+        expect(response.errors[0].errors).to.be.eql([
+          'TU_ID - Must be a number or alphanumeric/text.',
+          'Year - Must be a 4 digit number. Must be greater than 1900',
+          'Fe_Type - Must be one of: [ Transect ].',
+          'Area_m2 - Must be a positive number.',
+          'Treatments - Must be one or more of: [ Tree bending, Seeding ]. If entering multiple treatment types, separate them with a semi-colon (ex: "Ripping; Seeding").'
+        ]);
+      });
+
+      it('when undefined properties provided', async function () {
+        const treatmentUnit: Feature[] = [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [123, 123]
+            },
+            properties: {
+              TU_ID: undefined,
+              Year: undefined,
+              Fe_Type: undefined,
+              Width_m: undefined,
+              Length_m: undefined,
+              Area_m2: undefined,
+              Recce: undefined,
+              Treatments: undefined,
+              Implement: undefined,
+              Comments: undefined
+            }
+          }
+        ];
+
+        const response = await treatmentService.parseFeatures(treatmentUnit);
+
+        expect(response.errors.length).to.be.equal(1);
+
+        expect(response.errors[0].treatmentUnitId).to.be.equal('Invalid TU_ID');
+        expect(response.errors[0].errors).to.be.eql([
+          'TU_ID - Must be a number or alphanumeric/text.',
+          'Year - Must be a 4 digit number.',
+          'Fe_Type - Must be one of: [ Transect ].',
+          'Area_m2 - Must be a positive number.',
+          'Treatments - Must be one or more of: [ Tree bending, Seeding ]. If entering multiple treatment types, separate them with a semi-colon (ex: "Ripping; Seeding").'
+        ]);
+      });
+
+      it('when properties are invalid', async function () {
+        const treatmentUnit: Feature[] = [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [123, 123]
+            },
+            properties: {
+              TU_ID: '',
+              Year: 10,
+              Fe_Type: 'not a real type',
+              Width_m: -2,
+              Length_m: -5,
+              Area_m2: null,
+              Recce: 'Y',
+              Treatments: 'Tree bending; not a real treatment; Seeding',
+              Implement: '',
+              Comments: 0
+            }
+          }
+        ];
+
+        const response = await treatmentService.parseFeatures(treatmentUnit);
+
+        expect(response.errors.length).to.be.equal(1);
+
+        expect(response.errors[0].treatmentUnitId).to.be.equal('Invalid TU_ID');
+        expect(response.errors[0].errors).to.be.eql([
+          'TU_ID - Must be a number or alphanumeric/text.',
+          'Year - Must be a 4 digit number. Must be greater than 1900',
+          'Fe_Type - Must be one of: [ Transect ].',
+          'Width_m - Must be empty, or a positive number.',
+          'Length_m - Must be empty, or a positive number.',
+          'Area_m2 - Must be a positive number.',
+          'Recce - Must be empty, or one of: [ Yes, No, Not Applicable ].',
+          'Treatments - Must be one or more of: [ Tree bending, Seeding ]. If entering multiple treatment types, separate them with a semi-colon (ex: "Ripping; Seeding").',
+          'Comments - Invalid input'
+        ]);
+      });
     });
 
-    it('should return an array of invalid units with invalid properties', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-      const treatmentService = new TreatmentService(mockDBConnection);
-
-      const treatmentUnit = [
-        {
-          properties: {
-            TU_ID: '',
-            Year: '',
-            Fe_Type: '',
-            Width_m: '',
-            Length_m: '',
-            Area_m2: '',
-            Recce: '',
-            Treatments: '',
-            Implement: '',
-            Comments: ''
+    describe('should return a parsed/transformed version of the original features', function () {
+      it('when properties are valid', async function () {
+        const treatmentFeatures: Feature[] = [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [123, 123]
+            },
+            properties: {
+              TU_ID: '1',
+              Year: 2020,
+              Fe_Type: 'Transect',
+              Width_m: null,
+              Length_m: null,
+              Area_m2: 10,
+              Recce: 'NOT APPLICABLE',
+              Treatments: ' Tree bending; ',
+              Implement: 'Yes',
+              Comments: 'comment 1'
+            }
+          },
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [123, 123]
+            },
+            properties: {
+              TU_ID: 2,
+              Year: 2020,
+              Fe_Type: 'Transect',
+              Width_m: 240,
+              Length_m: 3498,
+              Area_m2: 10,
+              Recce: 'No',
+              Treatments: 'Tree bending; Seeding',
+              Implement: null,
+              Comments: 'comment 2'
+            }
           }
-        } as unknown,
-        {
-          properties: {
-            TU_ID: '',
-            Year: '',
-            Fe_Type: '',
-            Width_m: '',
-            Length_m: '',
-            Area_m2: '',
-            Recce: '',
-            Treatments: '',
-            Implement: '',
-            Comments: ''
-          }
-        } as unknown
-      ] as TreatmentFeature[];
+        ];
 
-      const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
+        const response = await treatmentService.parseFeatures(treatmentFeatures);
 
-      expect(response.length).to.be.equal(2);
-    });
+        expect(response.errors.length).to.be.equal(0);
 
-    it('should return an empty array when valid properties are given', async function () {
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
-      const treatmentService = new TreatmentService(mockDBConnection);
+        expect(response.data.length).to.be.equal(2);
 
-      const treatmentUnit = [
-        {
-          properties: {
-            TU_ID: '1',
-            Year: 2020,
-            Fe_Type: 'Transect',
-            Width_m: 240,
-            Length_m: 3498,
-            Area_m2: 10,
-            Recce: 'Y',
-            Treatments: 'Tree bending; ',
-            Implement: 'Y',
-            Comments: 'something'
-          }
-        } as unknown
-      ] as TreatmentFeature[];
-
-      sinon
-        .stub(treatmentService, 'getTreatmentFeatureTypeObjs')
-        .resolves({ feature_type_id: 1, name: 'Transect', description: 'string;' });
-
-      sinon
-        .stub(treatmentService, 'getAllTreatmentTypes')
-        .resolves([{ treatment_type_id: 1, name: 'Tree bending', description: 'string;' }]);
-
-      const response = await treatmentService.validateAllTreatmentUnitProperties(treatmentUnit);
-
-      expect(response.length).to.be.equal(0);
+        expect(response.data[0].properties).to.be.eql({
+          TU_ID: '1',
+          Year: 2020,
+          Fe_Type: 1,
+          Width_m: null,
+          Length_m: null,
+          Area_m2: 10,
+          Recce: 'not applicable',
+          Treatments: [2],
+          Implement: 'yes',
+          Comments: 'comment 1'
+        });
+        expect(response.data[1].properties).to.be.eql({
+          TU_ID: '2',
+          Year: 2020,
+          Fe_Type: 1,
+          Width_m: 240,
+          Length_m: 3498,
+          Area_m2: 10,
+          Recce: 'no',
+          Treatments: [2, 3],
+          Implement: null,
+          Comments: 'comment 2'
+        });
+      });
     });
   });
 
@@ -246,44 +421,6 @@ describe('TreatmentService', () => {
     });
   });
 
-  describe('getEqualTreatmentFeatureTypeIds', function () {
-    afterEach(() => {
-      sinon.restore();
-    });
-
-    it('should return "undefined" featureTypeObj when no vaild featureType is given', async function () {
-      const featureRow = { feature_type_id: 1, name: 'Road', description: 'desc' };
-      const featureOtherRow = { feature_type_id: 8, name: 'Other', description: 'desc' };
-
-      const mockQueryResponse = ({ rows: [featureRow, featureOtherRow] } as unknown) as QueryResult<any>;
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
-
-      const treatmentService = new TreatmentService(mockDBConnection);
-
-      const treatmentProperties = { Fe_Type: 'something' } as TreatmentFeatureProperties;
-
-      const response = await treatmentService.getTreatmentFeatureTypeObjs(treatmentProperties);
-
-      expect(response?.name).to.be.equal(undefined);
-    });
-
-    it('should return the same featureTypeObj when vaild featureType is given', async function () {
-      const featureRow = { feature_type_id: 1, name: 'Road', description: 'desc' };
-      const featureOtherRow = { feature_type_id: 8, name: 'Other', description: 'desc' };
-
-      const mockQueryResponse = ({ rows: [featureRow, featureOtherRow] } as unknown) as QueryResult<any>;
-      const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
-
-      const treatmentService = new TreatmentService(mockDBConnection);
-
-      const treatmentProperties = { Fe_Type: 'Road' } as TreatmentFeatureProperties;
-
-      const response = await treatmentService.getTreatmentFeatureTypeObjs(treatmentProperties);
-
-      expect(response?.name).to.be.equal('Road');
-    });
-  });
-
   describe('insertTreatmentUnit', function () {
     afterEach(() => {
       sinon.restore();
@@ -294,18 +431,11 @@ describe('TreatmentService', () => {
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const mockGetEqualTreatmentFeatureTypes = {
-        feature_type_id: 1,
-        name: 'Road',
-        description: 'desc'
-      } as GetTreatmentFeatureTypes;
-
-      sinon.stub(treatmentService, 'getTreatmentFeatureTypeObjs').resolves(mockGetEqualTreatmentFeatureTypes);
-
       const mockTreatmentUnitTypesSQLResponse = SQL`Valid SQL return`;
       sinon.stub(queries.project, 'postTreatmentUnitSQL').returns(mockTreatmentUnitTypesSQLResponse);
 
-      const treatmentFeatureObj = {
+      const treatmentFeatureObj: ValidTreatmentFeature = {
+        type: 'Feature',
         geometry: {
           bbox: [-122.46204108416048, 58.44944100517593, -122.44525166669784, 58.479595787093686],
           type: 'LineString',
@@ -317,16 +447,16 @@ describe('TreatmentService', () => {
         properties: {
           TU_ID: '1',
           Year: 2020,
-          Fe_Type: 'Transect',
+          Fe_Type: 1,
           Width_m: 240,
           Length_m: 3498,
           Area_m2: 10,
-          Recce: 'Y',
-          Treatments: 'Tree bending; Tree felling; Seeding',
-          Implement: 'Y',
+          Recce: 'yes',
+          Treatments: [1, 2, 3],
+          Implement: 'yes',
           Comments: 'something'
         }
-      } as TreatmentFeature;
+      };
 
       try {
         await treatmentService.insertTreatmentUnit(1, treatmentFeatureObj);
@@ -343,18 +473,11 @@ describe('TreatmentService', () => {
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1, query: async () => mockQueryResponse });
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const mockGetEqualTreatmentFeatureTypes = {
-        feature_type_id: 1,
-        name: 'Road',
-        description: 'desc'
-      } as GetTreatmentFeatureTypes;
-
-      sinon.stub(treatmentService, 'getTreatmentFeatureTypeObjs').resolves(mockGetEqualTreatmentFeatureTypes);
-
       const mockTreatmentUnitTypesSQLResponse = SQL`Valid SQL return`;
       sinon.stub(queries.project, 'postTreatmentUnitSQL').returns(mockTreatmentUnitTypesSQLResponse);
 
-      const treatmentFeatureObj = {
+      const treatmentFeatureObj: ValidTreatmentFeature = {
+        type: 'Feature',
         geometry: {
           bbox: [-122.46204108416048, 58.44944100517593, -122.44525166669784, 58.479595787093686],
           type: 'LineString',
@@ -366,16 +489,16 @@ describe('TreatmentService', () => {
         properties: {
           TU_ID: '1',
           Year: 2020,
-          Fe_Type: 'Transect',
+          Fe_Type: 1,
           Width_m: 240,
           Length_m: 3498,
           Area_m2: 10,
-          Recce: 'Y',
-          Treatments: 'Tree bending; Tree felling; Seeding',
-          Implement: 'Y',
+          Recce: 'yes',
+          Treatments: [1, 2, 3],
+          Implement: 'yes',
           Comments: 'something'
         }
-      } as TreatmentFeature;
+      };
 
       const result = await treatmentService.insertTreatmentUnit(1, treatmentFeatureObj);
 
@@ -397,7 +520,7 @@ describe('TreatmentService', () => {
       const treatmentService = new TreatmentService(mockDBConnection);
 
       try {
-        await treatmentService.insertTreatmentData(1, 2);
+        await treatmentService.insertTreatmentData(1, 2, null);
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to build SQL insert statement');
@@ -413,7 +536,7 @@ describe('TreatmentService', () => {
       sinon.stub(queries.project, 'postTreatmentDataSQL').returns(mockTreatmentDataInsertSQLResponse);
 
       try {
-        await treatmentService.insertTreatmentData(1, 2);
+        await treatmentService.insertTreatmentData(1, 2, 'yes');
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to insert treatment data');
@@ -428,7 +551,7 @@ describe('TreatmentService', () => {
       const mockTreatmentDataInsertSQLResponse = SQL`Vaild SQL`;
       sinon.stub(queries.project, 'postTreatmentDataSQL').returns(mockTreatmentDataInsertSQLResponse);
 
-      const response = await treatmentService.insertTreatmentData(1, 2);
+      const response = await treatmentService.insertTreatmentData(1, 2, 'no');
 
       expect(response.treatment_id).to.be.equal(1);
     });
@@ -501,7 +624,7 @@ describe('TreatmentService', () => {
 
       sinon.stub(treatmentService, 'insertTreatmentType').resolves((null as unknown) as ITreatmentTypeInsertOrExists);
 
-      const mockTreatmentFeatureProperties = ({ Treatments: 'name; ' } as unknown) as TreatmentFeatureProperties;
+      const mockTreatmentFeatureProperties = ({ Treatments: 'name; ' } as unknown) as ValidTreatmentFeatureProperties;
 
       try {
         await treatmentService.insertAllTreatmentTypes(1, mockTreatmentFeatureProperties);
@@ -515,17 +638,13 @@ describe('TreatmentService', () => {
       const mockDBConnection = getMockDBConnection({ systemUserId: () => 1 });
       const treatmentService = new TreatmentService(mockDBConnection);
 
-      const mocktreatmentUnitTypes = ([
-        { treatment_type_id: 1, name: 'name' },
-        { treatment_type_id: 2, name: 'second' }
-      ] as unknown) as GetTreatmentTypes[];
-      sinon.stub(treatmentService, 'getAllTreatmentUnitTypes').resolves(mocktreatmentUnitTypes);
-
       const insertTreatmentCall = sinon
         .stub(treatmentService, 'insertTreatmentType')
         .resolves({ treatment_treatment_type_id: 1 } as ITreatmentTypeInsertOrExists);
 
-      const mockTreatmentFeatureProperties = ({ Treatments: 'name; second' } as unknown) as TreatmentFeatureProperties;
+      const mockTreatmentFeatureProperties = ({
+        Treatments: [1, 2]
+      } as unknown) as ValidTreatmentFeatureProperties;
 
       await treatmentService.insertAllTreatmentTypes(1, mockTreatmentFeatureProperties);
 
@@ -634,6 +753,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'yes',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '',
           treatment_name: ''
@@ -644,6 +765,8 @@ describe('TreatmentService', () => {
           width: 240,
           length: 3498,
           area: 839520,
+          implemented: null,
+          reconnaissance_conducted: 'not applicable',
           comments: '',
           geojson: [{} as Feature],
           treatment_year: '',
@@ -668,15 +791,18 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '',
-                treatment_name: ''
+                treatment_name: '',
+                implemented: 'yes'
               },
               {
                 treatment_year: '',
-                treatment_name: ''
+                treatment_name: '',
+                implemented: null
               }
             ]
           }
@@ -692,6 +818,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'yes',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
@@ -715,11 +843,13 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '2020',
-                treatment_name: 'Seeding'
+                treatment_name: 'Seeding',
+                implemented: 'yes'
               }
             ]
           }
@@ -736,6 +866,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'yes',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
@@ -747,6 +879,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: null,
+          reconnaissance_conducted: 'not applicable',
           comments: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
@@ -770,15 +904,18 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '2020',
-                treatment_name: 'Seeding'
+                treatment_name: 'Seeding',
+                implemented: 'yes'
               },
               {
                 treatment_year: '2021',
-                treatment_name: 'Tree Felling'
+                treatment_name: 'Tree Felling',
+                implemented: null
               }
             ]
           }
@@ -795,6 +932,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'yes',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
@@ -806,6 +945,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: null,
+          reconnaissance_conducted: 'not applicable',
           comments: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
@@ -817,6 +958,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: null,
+          reconnaissance_conducted: null,
           comments: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
@@ -828,6 +971,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'no',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
@@ -851,15 +996,18 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '2020',
-                treatment_name: 'Seeding'
+                treatment_name: 'Seeding',
+                implemented: 'yes'
               },
               {
                 treatment_year: '2021',
-                treatment_name: 'Tree Felling'
+                treatment_name: 'Tree Felling',
+                implemented: null
               }
             ]
           },
@@ -870,11 +1018,13 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: null,
             comments: '',
             treatments: [
               {
                 treatment_year: '2020',
-                treatment_name: 'Seeding'
+                treatment_name: 'Seeding',
+                implemented: null
               }
             ]
           },
@@ -885,11 +1035,13 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '2021',
-                treatment_name: 'Tree Felling'
+                treatment_name: 'Tree Felling',
+                implemented: 'no'
               }
             ]
           }

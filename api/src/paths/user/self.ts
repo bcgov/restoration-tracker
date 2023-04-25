@@ -151,10 +151,6 @@ export function getUser(): RequestHandler {
 
       const userObject = await userService.getUserById(userId);
 
-      if (!userObject) {
-        throw new HTTP400('Failed to get system user');
-      }
-
       const projectObjects = await userService.getUserProjectParticipation(userId);
 
       if (!projectObjects) {

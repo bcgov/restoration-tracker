@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import SQL from 'sql-template-strings';
 import * as db from '../../database/db';
-import { HTTPError } from '../../errors/custom-error';
 import public_queries from '../../queries/public';
 import { getMockDBConnection } from '../../__mocks__/db';
 import * as projects from './projects';
@@ -33,27 +32,6 @@ describe('getPublicProjectsList', () => {
       };
     }
   };
-
-  it('should throw a 400 error when no sql statement returned for getPublicProjectListSQL', async () => {
-    sinon.stub(db, 'getDBConnection').returns({
-      ...dbConnectionObj,
-      systemUserId: () => {
-        return 20;
-      }
-    });
-
-    sinon.stub(public_queries, 'getPublicProjectListSQL').returns(null);
-
-    try {
-      const result = projects.getPublicProjectsList();
-
-      await result(sampleReq, (null as unknown) as any, (null as unknown) as any);
-      expect.fail();
-    } catch (actualError) {
-      expect((actualError as HTTPError).status).to.equal(400);
-      expect((actualError as HTTPError).message).to.equal('Failed to build SQL get statement');
-    }
-  });
 
   it('should return all public projects on success', async () => {
     const projectsList = [

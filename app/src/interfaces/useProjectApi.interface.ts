@@ -324,6 +324,7 @@ export interface IAddProjectParticipant {
 export interface IGetTreatmentItem {
   treatment_name: string;
   treatment_year: string;
+  implemented: string | null;
 }
 
 export interface IGetProjectTreatment {
@@ -332,6 +333,7 @@ export interface IGetProjectTreatment {
   width: number;
   length: number;
   area: number;
+  reconnaissance_conducted: string | null;
   comments: string;
   geometry: Feature;
   treatments: IGetTreatmentItem[];

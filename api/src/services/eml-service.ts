@@ -1,3 +1,4 @@
+import { SearchHit } from '@elastic/elasticsearch/lib/api/types';
 import bbox from '@turf/bbox';
 import circle from '@turf/circle';
 import { AllGeoJSON, featureCollection } from '@turf/helpers';
@@ -12,7 +13,7 @@ import { queries } from '../queries/queries';
 import { getNRMRegions } from '../utils/spatial-utils';
 import { ProjectService } from './project-service';
 import { DBService } from './service';
-import { TaxonomyService } from './taxonomy-service';
+import { ITaxonomySource, TaxonomyService } from './taxonomy-service';
 
 const NOT_SUPPLIED_CONSTANT = 'Not Supplied';
 
@@ -421,15 +422,17 @@ export class EmlService extends DBService {
 
     const taxonomicClassifications: Record<string, any>[] = [];
 
-    response.forEach((item) => {
-      const taxonRecord = item as Record<string, any>;
+    response.forEach((taxonResult: SearchHit<ITaxonomySource>) => {
+      const { _source } = taxonResult;
 
-      taxonomicClassifications.push({
-        taxonRankName: taxonRecord.tty_name,
-        taxonRankValue: `${taxonRecord.unit_name1} ${taxonRecord.unit_name2} ${taxonRecord.unit_name3}`,
-        commonName: taxonRecord.english_name,
-        taxonId: { $: { provider: this.constants.EML_TAXONOMIC_PROVIDER_URL }, _: taxonRecord.code }
-      });
+      if (_source) {
+        taxonomicClassifications.push({
+          taxonRankName: _source.tty_name,
+          taxonRankValue: `${_source.unit_name1} ${_source.unit_name2} ${_source.unit_name3}`,
+          commonName: _source.english_name,
+          taxonId: { $: { provider: this.constants.EML_TAXONOMIC_PROVIDER_URL }, _: _source.code }
+        });
+      }
     });
 
     return { taxonomicClassification: taxonomicClassifications };

@@ -18,14 +18,18 @@ export class ProjectParticipantObject {
 
 export class UserObject {
   id: number;
+  user_guid: string;
   user_identifier: string;
+  identity_source: string;
   record_end_date: string;
   role_ids: number[];
   role_names: string[];
 
   constructor(systemUserData?: any) {
     this.id = systemUserData?.system_user_id || undefined;
+    this.user_guid = systemUserData?.user_guid || undefined;
     this.user_identifier = systemUserData?.user_identifier || undefined;
+    this.identity_source = systemUserData?.identity_source || undefined;
     this.record_end_date = systemUserData?.record_end_date || undefined;
     this.role_ids = (systemUserData?.role_ids?.length && systemUserData.role_ids) || [];
     this.role_names = (systemUserData?.role_names?.length && systemUserData.role_names) || [];

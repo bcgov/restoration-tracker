@@ -1,25 +1,25 @@
 'use strict';
+
 let options = require('pipeline-cli').Util.parseArguments();
 
 // The root config for common values
 const config = require('../../.config/config.json');
 
-const defaultHost = 'restoration-tracker-b1d40d-api.apps.silver.devops.gov.bc.ca';
+const name = config.module.api;
+const dbName = config.module.db;
 
-const name = (config.module && config.module['api']) || 'restoration-tracker-api';
-const dbName = (config.module && config.module['db']) || 'restoration-tracker-db';
+const version = config.version;
 
-const changeId = options.pr || `${Math.floor(Date.now() * 1000) / 60.0}`; // aka pull-request or branch
-const version = config.version || '1.0.0';
+const changeId = options.pr; // pull-request number or branch name
 
 // A static deployment is when the deployment is updating dev, test, or prod (rather than a temporary PR)
+// See `--type=static` in the `deployStatic.yml` git workflow
 const isStaticDeployment = options.type === 'static';
 
 const deployChangeId = (isStaticDeployment && 'deploy') || changeId;
 const branch = (isStaticDeployment && options.branch) || null;
 const tag = (branch && `build-${version}-${changeId}-${branch}`) || `build-${version}-${changeId}`;
 
-const staticBranches = config.staticBranches || [];
 const staticUrlsAPI = config.staticUrlsAPI || {};
 
 const processOptions = (options) => {
@@ -58,10 +58,12 @@ const phases = {
     version: `${version}-${changeId}`,
     tag: tag,
     env: 'build',
-    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
     tz: config.timezone.api,
     branch: branch,
-    logLevel: isStaticDeployment && 'info' || 'debug'
+    cpuRequest: '100m',
+    cpuLimit: '1250m',
+    memoryRequest: '512Mi',
+    memoryLimit: '3Gi'
   },
   dev: {
     namespace: 'b1d40d-dev',
@@ -73,16 +75,20 @@ const phases = {
     instance: `${name}-dev-${deployChangeId}`,
     version: `${deployChangeId}-${changeId}`,
     tag: `dev-${version}-${deployChangeId}`,
-    host:
-      (isStaticDeployment && (staticUrlsAPI.dev || defaultHost)) ||
-      `${name}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
+    host: (isStaticDeployment && staticUrlsAPI.dev) || `${name}-${changeId}-b1d40d-dev.apps.silver.devops.gov.bc.ca`,
     env: 'dev',
-    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
+    elasticsearchURL: 'http://es01.a0ec71-prod:9200',
+    elasticsearchTaxonomyIndex: 'taxonomy_3.0.0',
+    s3KeyPrefix: (isStaticDeployment && 'restoration') || `local/${deployChangeId}/restoration`,
     tz: config.timezone.api,
     sso: config.sso.dev,
-    replicas: 1,
-    maxReplicas: 2,
-    logLevel: isStaticDeployment && 'info' || 'debug'
+    logLevel: 'debug',
+    cpuRequest: '100m',
+    cpuLimit: '500m',
+    memoryRequest: '512Mi',
+    memoryLimit: '1.6Gi',
+    replicas: '1',
+    replicasMax: (isStaticDeployment && '2') || '1'
   },
   test: {
     namespace: 'b1d40d-test',
@@ -96,12 +102,18 @@ const phases = {
     tag: `test-${version}`,
     host: staticUrlsAPI.test,
     env: 'test',
-    elasticsearchURL: 'https://elasticsearch-b1d40d-dev.apps.silver.devops.gov.bc.ca',
+    elasticsearchURL: 'http://es01.a0ec71-prod:9200',
+    elasticsearchTaxonomyIndex: 'taxonomy_3.0.0',
+    s3KeyPrefix: 'restoration',
     tz: config.timezone.api,
     sso: config.sso.test,
-    replicas: 1,
-    maxReplicas: 2,
-    logLevel: 'info'
+    logLevel: 'info',
+    cpuRequest: '200m',
+    cpuLimit: '1000m',
+    memoryRequest: '512Mi',
+    memoryLimit: '2Gi',
+    replicas: '2',
+    replicasMax: '3'
   },
   prod: {
     namespace: 'b1d40d-prod',
@@ -115,19 +127,19 @@ const phases = {
     tag: `prod-${version}`,
     host: staticUrlsAPI.prod,
     env: 'prod',
-    elasticsearchURL: 'http://es01:9200',
+    elasticsearchURL: 'http://es01.a0ec71-prod:9200',
+    elasticsearchTaxonomyIndex: 'taxonomy_3.0.0',
+    s3KeyPrefix: 'restoration',
     tz: config.timezone.api,
     sso: config.sso.prod,
-    replicas: 1,
-    maxReplicas: 2,
-    logLevel: 'info'
+    logLevel: 'info',
+    cpuRequest: '200m',
+    cpuLimit: '1000m',
+    memoryRequest: '512Mi',
+    memoryLimit: '2Gi',
+    replicas: '2',
+    replicasMax: '3'
   }
 };
 
-// This callback forces the node process to exit as failure.
-process.on('unhandledRejection', (reason) => {
-  console.log(reason);
-  process.exit(1);
-});
-
-module.exports = exports = { phases, options, staticBranches };
+module.exports = exports = { phases, options };
