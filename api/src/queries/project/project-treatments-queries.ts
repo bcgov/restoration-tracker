@@ -61,7 +61,6 @@ export const postTreatmentUnitSQL = (
       area,
       comments,
       reconnaissance_conducted,
-      implemented,
       geojson,
       geography
     ) VALUES (
@@ -73,7 +72,6 @@ export const postTreatmentUnitSQL = (
       ${feature.properties.Area_m2},
       ${feature.properties.Comments},
       ${feature.properties.Recce},
-      ${feature.properties.Implement},
       ${JSON.stringify([feature])}
     `;
 
@@ -104,11 +102,16 @@ export const postTreatmentUnitSQL = (
 /**
  * SQL query to insert a project treatment year.
  *
- * @param treatmentUnitId
- * @param year
+ * @param {number} treatmentUnitId
+ * @param {(string | number)} year
+ * @param {(string | null)} implemented
  * @returns {SQLStatement} sql query object
  */
-export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | number): SQLStatement | null => {
+export const postTreatmentDataSQL = (
+  treatmentUnitId: number,
+  year: string | number,
+  implemented: string | null
+): SQLStatement | null => {
   if (!treatmentUnitId || !year) {
     return null;
   }
@@ -116,10 +119,12 @@ export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | num
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO treatment (
       treatment_unit_id,
-      year
+      year,
+      implemented
     ) VALUES (
      ${treatmentUnitId},
-     ${year}
+     ${year},
+     ${implemented}
     )
     RETURNING
       treatment_id,
