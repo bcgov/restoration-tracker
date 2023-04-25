@@ -65,14 +65,14 @@ describe('postTreatmentUnitSQL', () => {
 });
 
 describe('postTreatmentDataSQL', () => {
-  it('returns null response when null  provided', () => {
-    const response = postTreatmentDataSQL((null as unknown) as number, (null as unknown) as number);
+  it('returns null response when null provided', () => {
+    const response = postTreatmentDataSQL((null as unknown) as number, (null as unknown) as number, null);
 
     expect(response).to.be.null;
   });
 
   it('returns non null response when valid treatmentUnitId provided', () => {
-    const response = postTreatmentDataSQL(1, 1);
+    const response = postTreatmentDataSQL(1, 1, 'yes');
 
     expect(response).to.not.be.null;
   });

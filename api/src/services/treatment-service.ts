@@ -143,8 +143,12 @@ export class TreatmentService extends DBService {
     return response.rows[0];
   }
 
-  async insertTreatmentData(treatmentUnitId: number, year: string | number): Promise<ITreatmentDataInsertOrExists> {
-    const sqlStatement = queries.project.postTreatmentDataSQL(treatmentUnitId, year);
+  async insertTreatmentData(
+    treatmentUnitId: number,
+    year: string | number,
+    implemented: string | null
+  ): Promise<ITreatmentDataInsertOrExists> {
+    const sqlStatement = queries.project.postTreatmentDataSQL(treatmentUnitId, year, implemented);
 
     if (!sqlStatement) {
       throw new HTTP400('Failed to build SQL insert statement');
@@ -192,7 +196,11 @@ export class TreatmentService extends DBService {
     treatmentUnitId: number,
     featureProperties: ValidTreatmentFeatureProperties
   ): Promise<void> {
-    const insertTreatmentDataResponse = await this.insertTreatmentData(treatmentUnitId, featureProperties.Year);
+    const insertTreatmentDataResponse = await this.insertTreatmentData(
+      treatmentUnitId,
+      featureProperties.Year,
+      featureProperties.Implement
+    );
 
     await this.insertAllTreatmentTypes(insertTreatmentDataResponse.treatment_id, featureProperties);
   }
@@ -285,7 +293,9 @@ export class TreatmentService extends DBService {
         'treatment_unit.length',
         'treatment_unit.area',
         'treatment.year as treatment_year',
+        'treatment.implemented',
         'treatment_type.name as treatment_name',
+        'treatment_unit.reconnaissance_conducted',
         'treatment_unit.comments',
         'treatment_unit.geojson'
       )
@@ -313,7 +323,9 @@ export class TreatmentService extends DBService {
     queryBuilder.groupBy('treatment_unit.length');
     queryBuilder.groupBy('treatment_unit.area');
     queryBuilder.groupBy('treatment.year');
+    queryBuilder.groupBy('treatment.implemented');
     queryBuilder.groupBy('treatment_type.name');
+    queryBuilder.groupBy('treatment_unit.reconnaissance_conducted');
     queryBuilder.groupBy('treatment_unit.comments');
     queryBuilder.groupBy('treatment_unit.geojson');
 

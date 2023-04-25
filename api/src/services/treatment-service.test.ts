@@ -520,7 +520,7 @@ describe('TreatmentService', () => {
       const treatmentService = new TreatmentService(mockDBConnection);
 
       try {
-        await treatmentService.insertTreatmentData(1, 2);
+        await treatmentService.insertTreatmentData(1, 2, null);
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to build SQL insert statement');
@@ -536,7 +536,7 @@ describe('TreatmentService', () => {
       sinon.stub(queries.project, 'postTreatmentDataSQL').returns(mockTreatmentDataInsertSQLResponse);
 
       try {
-        await treatmentService.insertTreatmentData(1, 2);
+        await treatmentService.insertTreatmentData(1, 2, 'yes');
         expect.fail();
       } catch (actualError) {
         expect((actualError as ApiError).message).to.equal('Failed to insert treatment data');
@@ -551,7 +551,7 @@ describe('TreatmentService', () => {
       const mockTreatmentDataInsertSQLResponse = SQL`Vaild SQL`;
       sinon.stub(queries.project, 'postTreatmentDataSQL').returns(mockTreatmentDataInsertSQLResponse);
 
-      const response = await treatmentService.insertTreatmentData(1, 2);
+      const response = await treatmentService.insertTreatmentData(1, 2, 'no');
 
       expect(response.treatment_id).to.be.equal(1);
     });
@@ -753,6 +753,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'yes',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '',
           treatment_name: ''
@@ -763,6 +765,8 @@ describe('TreatmentService', () => {
           width: 240,
           length: 3498,
           area: 839520,
+          implemented: null,
+          reconnaissance_conducted: 'not applicable',
           comments: '',
           geojson: [{} as Feature],
           treatment_year: '',
@@ -787,15 +791,18 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '',
-                treatment_name: ''
+                treatment_name: '',
+                implemented: 'yes'
               },
               {
                 treatment_year: '',
-                treatment_name: ''
+                treatment_name: '',
+                implemented: null
               }
             ]
           }
@@ -811,6 +818,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'yes',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
@@ -834,11 +843,13 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '2020',
-                treatment_name: 'Seeding'
+                treatment_name: 'Seeding',
+                implemented: 'yes'
               }
             ]
           }
@@ -855,6 +866,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'yes',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
@@ -866,6 +879,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: null,
+          reconnaissance_conducted: 'not applicable',
           comments: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
@@ -889,15 +904,18 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '2020',
-                treatment_name: 'Seeding'
+                treatment_name: 'Seeding',
+                implemented: 'yes'
               },
               {
                 treatment_year: '2021',
-                treatment_name: 'Tree Felling'
+                treatment_name: 'Tree Felling',
+                implemented: null
               }
             ]
           }
@@ -914,6 +932,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'yes',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
@@ -925,6 +945,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: null,
+          reconnaissance_conducted: 'not applicable',
           comments: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
@@ -936,6 +958,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: null,
+          reconnaissance_conducted: null,
           comments: '',
           treatment_year: '2020',
           treatment_name: 'Seeding'
@@ -947,6 +971,8 @@ describe('TreatmentService', () => {
           length: 3498,
           area: 839520,
           geojson: [{} as Feature],
+          implemented: 'no',
+          reconnaissance_conducted: 'no',
           comments: '',
           treatment_year: '2021',
           treatment_name: 'Tree Felling'
@@ -970,15 +996,18 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '2020',
-                treatment_name: 'Seeding'
+                treatment_name: 'Seeding',
+                implemented: 'yes'
               },
               {
                 treatment_year: '2021',
-                treatment_name: 'Tree Felling'
+                treatment_name: 'Tree Felling',
+                implemented: null
               }
             ]
           },
@@ -989,11 +1018,13 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: null,
             comments: '',
             treatments: [
               {
                 treatment_year: '2020',
-                treatment_name: 'Seeding'
+                treatment_name: 'Seeding',
+                implemented: null
               }
             ]
           },
@@ -1004,11 +1035,13 @@ describe('TreatmentService', () => {
             length: 3498,
             area: 839520,
             geometry: {},
+            reconnaissance_conducted: 'no',
             comments: '',
             treatments: [
               {
                 treatment_year: '2021',
-                treatment_name: 'Tree Felling'
+                treatment_name: 'Tree Felling',
+                implemented: 'no'
               }
             ]
           }

@@ -67,6 +67,8 @@ describe('getTreatments', () => {
         length: 3498,
         area: 839520,
         geojson: [{} as Feature],
+        reconnaissance_conducted: 'no',
+        implemented: null,
         comments: '',
         treatment_year: '2020',
         treatment_name: 'Seeding'
@@ -78,6 +80,8 @@ describe('getTreatments', () => {
         length: 3498,
         area: 839520,
         geojson: [{} as Feature],
+        reconnaissance_conducted: 'not applicable',
+        implemented: 'partial',
         comments: '',
         treatment_year: '2021',
         treatment_name: 'Tree Felling'
@@ -99,15 +103,18 @@ describe('getTreatments', () => {
           length: 3498,
           area: 839520,
           geometry: {},
+          reconnaissance_conducted: 'no',
           comments: '',
           treatments: [
             {
               treatment_year: '2020',
-              treatment_name: 'Seeding'
+              treatment_name: 'Seeding',
+              implemented: null
             },
             {
               treatment_year: '2021',
-              treatment_name: 'Tree Felling'
+              treatment_name: 'Tree Felling',
+              implemented: 'partial'
             }
           ]
         }

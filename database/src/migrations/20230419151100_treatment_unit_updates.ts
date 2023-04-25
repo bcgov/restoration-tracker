@@ -11,9 +11,10 @@ import { Knex } from 'knex';
  */
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
-    -- Drop existing view
+    -- Drop existing views
     set search_path=restoration_dapi_v1;
     drop view if exists treatment_unit;
+    drop view if exists treatment;
 
     set search_path=restoration;
 
@@ -32,19 +33,20 @@ export async function up(knex: Knex): Promise<void> {
       add check (reconnaissance_conducted in ('yes', 'no', 'not applicable'));
 
     -- Add new column
-    alter table treatment_unit 
+    alter table treatment
       add column implemented varchar(50),
       add check (implemented in ('yes', 'no', 'partial'));
-    comment on column treatment_unit.implemented is 'Describes if treatment was implemented for a treatment unit.';
+    comment on column treatment.implemented is 'Describes if treatment was implemented for a treatment.';
 
     -- Add missing comments
     comment on column treatment_unit.width is 'The width of the treatment unit in meters.';
     comment on column treatment_unit.length is 'The length of the treatment unit in meters.';
 
-    -- Recreate view
+    -- Recreate views
     set search_path = restoration_dapi_v1;
     set role restoration_api;
     create or replace view treatment_unit as select * from restoration.treatment_unit;
+    create or replace view treatment as select * from restoration.treatment;
 
     set role postgres;
     set search_path = restoration;

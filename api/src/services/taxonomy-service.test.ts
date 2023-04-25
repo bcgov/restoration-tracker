@@ -36,7 +36,7 @@ describe('TaxonomyService', () => {
     });
 
     it('should query elasticsearch and return []', async () => {
-      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_2.0.0';
+      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_3.0.0';
 
       const taxonomyService = new TaxonomyService();
 
@@ -49,7 +49,7 @@ describe('TaxonomyService', () => {
     });
 
     it('should query elasticsearch and return taxonomy', async () => {
-      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_2.0.0';
+      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_3.0.0';
 
       const taxonomyService = new TaxonomyService();
 
@@ -106,7 +106,7 @@ describe('TaxonomyService', () => {
     });
 
     it('should query elasticsearch and return []', async () => {
-      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_2.0.0';
+      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_3.0.0';
 
       const taxonomyService = new TaxonomyService();
 
@@ -119,7 +119,7 @@ describe('TaxonomyService', () => {
     });
 
     it('should query elasticsearch and return sanitized data', async () => {
-      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_2.0.0';
+      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_3.0.0';
 
       const taxonomyService = new TaxonomyService();
 
@@ -153,21 +153,19 @@ describe('TaxonomyService', () => {
         }
       });
 
-      const sanitizeSpeciesDataStub = sinon
-        .stub(taxonomyService, '_sanitizeSpeciesData')
-        .returns([{ id: '1', label: 'string' }]);
+      const sanitizeSpeciesDataStub = sinon.spy(taxonomyService, '_sanitizeSpeciesData');
 
       const response = await taxonomyService.getSpeciesFromIds(['1']);
 
       expect(elasticSearchStub).to.be.calledOnce;
       expect(sanitizeSpeciesDataStub).to.be.calledOnce;
-      expect(response).to.eql([{ id: '1', label: 'string' }]);
+      expect(response).to.eql([{ id: '1', label: 'D: kingdom name, A B C, animal' }]);
     });
   });
 
   describe('searchSpecies', async () => {
     it('should query elasticsearch', async () => {
-      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_2.0.0';
+      process.env.ELASTICSEARCH_TAXONOMY_INDEX = 'taxonomy_test_3.0.0';
 
       const taxonomyService = new TaxonomyService();
 

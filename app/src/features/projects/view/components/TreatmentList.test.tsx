@@ -17,15 +17,18 @@ describe('TreatmentList', () => {
       length: 100,
       area: 10000,
       comments: 'something1',
+      reconnaissance_conducted: 'no',
       geometry: {} as Feature,
       treatments: [
         {
           treatment_name: 'Seeding',
-          treatment_year: '2020'
+          treatment_year: '2020',
+          implemented: 'yes'
         },
         {
           treatment_name: 'Tree Bending',
-          treatment_year: '2021'
+          treatment_year: '2021',
+          implemented: 'partial'
         }
       ]
     },
@@ -35,35 +38,33 @@ describe('TreatmentList', () => {
       width: 100,
       length: 100,
       area: 10000,
+      reconnaissance_conducted: 'not applicable',
       comments: 'something2',
       geometry: {} as Feature,
       treatments: [
         {
           treatment_name: 'Tree Felling',
-          treatment_year: '2015'
+          treatment_year: '2015',
+          implemented: 'yes'
         }
       ]
     }
   ];
 
   it('renders correctly with no treatments', () => {
-    const { getByText } = render(<TreatmentList treatmentList={[]} getTreatments={jest.fn()} refresh={jest.fn()} />);
+    const { getByText } = render(<TreatmentList treatmentList={[]} />);
 
     expect(getByText('No Treatments')).toBeInTheDocument();
   });
 
   it('renders correctly with one treatment', async () => {
-    const { getByText } = render(
-      <TreatmentList treatmentList={[treatmentList[0]]} getTreatments={jest.fn()} refresh={jest.fn()} />
-    );
+    const { getByText } = render(<TreatmentList treatmentList={[treatmentList[0]]} />);
 
     expect(getByText('Road')).toBeInTheDocument();
   });
 
   it('renders correctly with multiple treatments', async () => {
-    const { getByText } = render(
-      <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
-    );
+    const { getByText } = render(<TreatmentList treatmentList={treatmentList} />);
 
     expect(getByText('Other')).toBeInTheDocument();
     expect(getByText('Road')).toBeInTheDocument();
@@ -78,16 +79,19 @@ describe('TreatmentList', () => {
         width: 100,
         length: 100,
         area: 10000,
+        reconnaissance_conducted: 'no',
         comments: 'something3',
         geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
-            treatment_year: '2020'
+            treatment_year: '2020',
+            implemented: 'yes'
           },
           {
             treatment_name: 'Tree Bending',
-            treatment_year: '2021'
+            treatment_year: '2021',
+            implemented: 'no'
           }
         ]
       },
@@ -97,12 +101,14 @@ describe('TreatmentList', () => {
         width: 100,
         length: 100,
         area: 10000,
+        reconnaissance_conducted: 'not applicable',
         comments: 'something4',
         geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
-            treatment_year: '2015'
+            treatment_year: '2015',
+            implemented: 'partial'
           }
         ]
       },
@@ -112,16 +118,19 @@ describe('TreatmentList', () => {
         width: 100,
         length: 100,
         area: 10000,
+        reconnaissance_conducted: null,
         comments: 'something5',
         geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
-            treatment_year: '2020'
+            treatment_year: '2020',
+            implemented: null
           },
           {
             treatment_name: 'Tree Bending',
-            treatment_year: '2021'
+            treatment_year: '2021',
+            implemented: null
           }
         ]
       },
@@ -131,12 +140,14 @@ describe('TreatmentList', () => {
         width: 100,
         length: 100,
         area: 10000,
+        reconnaissance_conducted: 'no',
         comments: 'something6',
         geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
-            treatment_year: '2015'
+            treatment_year: '2015',
+            implemented: 'yes'
           }
         ]
       },
@@ -146,16 +157,19 @@ describe('TreatmentList', () => {
         width: 100,
         length: 100,
         area: 10000,
+        reconnaissance_conducted: 'yes',
         comments: 'something7',
         geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
-            treatment_year: '2020'
+            treatment_year: '2020',
+            implemented: 'no'
           },
           {
             treatment_name: 'Tree Bending',
-            treatment_year: '2021'
+            treatment_year: '2021',
+            implemented: 'no'
           }
         ]
       },
@@ -165,12 +179,14 @@ describe('TreatmentList', () => {
         width: 100,
         length: 100,
         area: 10000,
+        reconnaissance_conducted: null,
         comments: 'something8',
         geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
-            treatment_year: '2015'
+            treatment_year: '2015',
+            implemented: 'yes'
           }
         ]
       },
@@ -180,16 +196,19 @@ describe('TreatmentList', () => {
         width: 100,
         length: 100,
         area: 10000,
+        reconnaissance_conducted: 'yes',
         comments: 'something9',
         geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Seeding',
-            treatment_year: '2020'
+            treatment_year: '2020',
+            implemented: 'partial'
           },
           {
             treatment_name: 'Tree Bending',
-            treatment_year: '2021'
+            treatment_year: '2021',
+            implemented: null
           }
         ]
       },
@@ -199,20 +218,20 @@ describe('TreatmentList', () => {
         width: 100,
         length: 100,
         area: 10000,
+        reconnaissance_conducted: 'not applicable',
         comments: 'something10',
         geometry: {} as Feature,
         treatments: [
           {
             treatment_name: 'Tree Felling',
-            treatment_year: '2015'
+            treatment_year: '2015',
+            implemented: 'yes'
           }
         ]
       }
     ];
 
-    const { getByText, getByLabelText } = render(
-      <TreatmentList treatmentList={largeTreatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
-    );
+    const { getByText, getByLabelText } = render(<TreatmentList treatmentList={largeTreatmentList} />);
 
     expect(getByText('TU1')).toBeInTheDocument();
     expect(getByText('TU2')).toBeInTheDocument();
@@ -230,17 +249,13 @@ describe('TreatmentList', () => {
   });
 
   it('renders correctly with closed treatment unit details dialog', async () => {
-    const { queryByText } = render(
-      <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
-    );
+    const { queryByText } = render(<TreatmentList treatmentList={treatmentList} />);
 
     expect(queryByText('something2')).toBeNull();
   });
 
   it('renders correctly with open treatment unit details dialog', async () => {
-    const { getByText, getAllByTestId } = render(
-      <TreatmentList treatmentList={treatmentList} getTreatments={jest.fn()} refresh={jest.fn()} />
-    );
+    const { getByText, getAllByTestId } = render(<TreatmentList treatmentList={treatmentList} />);
 
     expect(getByText('Other')).toBeInTheDocument();
     expect(getByText('Road')).toBeInTheDocument();

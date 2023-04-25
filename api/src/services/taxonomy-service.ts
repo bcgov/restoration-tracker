@@ -48,7 +48,14 @@ export class TaxonomyService extends ESService {
     }
   }
 
-  _sanitizeSpeciesData(data: SearchHit<any>[]) {
+  /**
+   * Sanitizes species data retrieved from Elasticsearch.
+   *
+   * @param {SearchHit<ITaxonomySource>[]} data The data response from ElasticSearch
+   * @returns {{ id: string, label: string }[]} An ID and label pair for each taxonomic code
+   * @memberof TaxonomyService
+   */
+  _sanitizeSpeciesData(data: SearchHit<ITaxonomySource>[]) {
     return data.map((item: SearchHit<ITaxonomySource>) => {
       const { _id: id, _source } = item;
 

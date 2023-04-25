@@ -73,23 +73,9 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
       return <></>;
     }
 
-    const generalInformation = [
-      { title: 'ID', value: currentTreatmentDetail.id },
-      { title: 'Type', value: currentTreatmentDetail.type },
-      { title: 'Width / Length (m)', value: `${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}` },
-      {
-        title: (
-          <>
-            Area (m<sup>2</sup>)
-          </>
-        ),
-        value: currentTreatmentDetail.area
-      },
-      {
-        title: 'Treatments',
-        value: getFormattedTreatmentStringsByYear(groupTreatmentsByYear(currentTreatmentDetail.treatments))
-      }
-    ];
+    const treatmentStrings = getFormattedTreatmentStringsByYear(
+      groupTreatmentsByYear(currentTreatmentDetail.treatments)
+    );
 
     return (
       <ComponentDialog
@@ -107,26 +93,76 @@ const TreatmentList: React.FC<IProjectTreatmentListProps> = (props) => {
           <Divider />
 
           <Box component="dl" my={0} className={classes.detaildl}>
-            {generalInformation.map((info, idx) => (
-              <Box key={idx}>
-                <Box py={1} display="flex">
-                  <Typography component="dt" variant="body2" color="textSecondary">
-                    {info.title}:
-                  </Typography>
-                  <Typography component="dd" variant="body2">
-                    {(Array.isArray(info.value) && info.value.length > 1 && (
-                      <Box component="ul" pl={2} m={0}>
-                        {info.value.map((item, index) => (
-                          <li key={index}>{item}</li>
-                        ))}
-                      </Box>
-                    )) ||
-                      info.value}
-                  </Typography>
-                </Box>
-                <Divider />
+            <Box key={`treatment-id-${currentTreatmentDetail.id}`}>
+              <Box py={1} display="flex">
+                <Typography component="dt" variant="body2" color="textSecondary">
+                  ID:
+                </Typography>
+                <Typography component="dd" variant="body2">
+                  {currentTreatmentDetail.id}
+                </Typography>
               </Box>
-            ))}
+              <Divider />
+            </Box>
+            <Box key={`treatment-type-${currentTreatmentDetail.id}`}>
+              <Box py={1} display="flex">
+                <Typography component="dt" variant="body2" color="textSecondary">
+                  Type:
+                </Typography>
+                <Typography component="dd" variant="body2">
+                  {currentTreatmentDetail.type}
+                </Typography>
+              </Box>
+              <Divider />
+            </Box>
+            <Box key={`treatment-width-length-${currentTreatmentDetail.id}`}>
+              <Box py={1} display="flex">
+                <Typography component="dt" variant="body2" color="textSecondary">
+                  Width / Length (m):
+                </Typography>
+                <Typography component="dd" variant="body2">
+                  {`${currentTreatmentDetail.width} / ${currentTreatmentDetail.length}`}
+                </Typography>
+              </Box>
+              <Divider />
+            </Box>
+            <Box key={`treatment-area-${currentTreatmentDetail.id}`}>
+              <Box py={1} display="flex">
+                <Typography component="dt" variant="body2" color="textSecondary">
+                  Area (m<sup>2</sup>)
+                </Typography>
+                <Typography component="dd" variant="body2">
+                  {currentTreatmentDetail.area}
+                </Typography>
+              </Box>
+              <Divider />
+            </Box>
+            <Box key={`treatment-recon-${currentTreatmentDetail.id}`}>
+              <Box py={1} display="flex">
+                <Typography component="dt" variant="body2" color="textSecondary">
+                  Reconnaissance Conducted
+                </Typography>
+                <Typography component="dd" variant="body2">
+                  {currentTreatmentDetail.reconnaissance_conducted}
+                </Typography>
+              </Box>
+              <Divider />
+            </Box>
+            <Box key={`treatment-treatments-${currentTreatmentDetail.id}`}>
+              <Box py={1} display="flex">
+                <Typography component="dt" variant="body2" color="textSecondary">
+                  Treatments:
+                </Typography>
+                <Typography component="dd" variant="body2">
+                  <Box component="ul" pl={0} m={0} style={{ listStyleType: 'none' }}>
+                    {treatmentStrings.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </Box>
+                </Typography>
+              </Box>
+              <Divider />
+            </Box>
           </Box>
         </Box>
 
