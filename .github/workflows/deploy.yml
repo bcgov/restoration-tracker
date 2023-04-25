@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
     needs:
       - checkEnv
     steps:
@@ -47,7 +47,7 @@ jobs:
       - name: Scale down
         run: |
           oc project b1d40d-dev
-          oc get deploymentconfig --selector env-id=$BUILD_ID -o name | awk '{print "oc scale --replicas=0  " $1}' | bash
+          oc get deploymentconfig --selector env-id=$PR_NUMBER -o name | awk '{print "oc scale --replicas=0  " $1}' | bash
 
   # Build the Database image
   buildDatabase:
@@ -56,7 +56,7 @@ jobs:
     timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == false && github.event.pull_request.draft == false }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
     needs:
       - scaleDownPods
     steps:
@@ -100,7 +100,7 @@ jobs:
       - name: Build Database Image
         working-directory: "./database/.pipeline/"
         run: |
-          DEBUG=* npm run db:build -- --pr=$BUILD_ID
+          DEBUG=* npm run db:build -- --pr=$PR_NUMBER
 
   # Build the Database Setup image
   buildDatabaseSetup:
@@ -109,7 +109,7 @@ jobs:
     timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == false && github.event.pull_request.draft == false }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
     needs:
       - scaleDownPods
     steps:
@@ -153,7 +153,7 @@ jobs:
       - name: Build Database Setup Image
         working-directory: "./database/.pipeline/"
         run: |
-          DEBUG=* npm run db-setup:build -- --pr=$BUILD_ID
+          DEBUG=* npm run db-setup:build -- --pr=$PR_NUMBER
 
   # Build the API image
   buildAPI:
@@ -162,7 +162,7 @@ jobs:
     timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == false && github.event.pull_request.draft == false }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
     needs:
       - scaleDownPods
     steps:
@@ -206,7 +206,7 @@ jobs:
       - name: Build API Image
         working-directory: "./api/.pipeline/"
         run: |
-          DEBUG=* npm run build -- --pr=$BUILD_ID
+          DEBUG=* npm run build -- --pr=$PR_NUMBER
 
   # Build the web frontend app image
   buildAPP:
@@ -215,7 +215,7 @@ jobs:
     timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == false && github.event.pull_request.draft == false }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
     needs:
       - scaleDownPods
     steps:
@@ -259,7 +259,7 @@ jobs:
       - name: Build APP Image
         working-directory: "./app/.pipeline/"
         run: |
-          DEBUG=* npm run build -- --pr=$BUILD_ID
+          DEBUG=* npm run build -- --pr=$PR_NUMBER
 
   # Deploy Database image
   deployDatabase:
@@ -268,7 +268,7 @@ jobs:
     timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == false && github.event.pull_request.draft == false }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - buildDatabase
@@ -313,7 +313,7 @@ jobs:
       - name: Deploy Database Image
         working-directory: "./database/.pipeline/"
         run: |
-          DEBUG=* npm run db:deploy -- --pr=$BUILD_ID --env=dev
+          DEBUG=* npm run db:deploy -- --pr=$PR_NUMBER --env=dev
 
   # Deploy Database image
   deployDatabaseSetup:
@@ -322,7 +322,7 @@ jobs:
     timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == false && github.event.pull_request.draft == false }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - buildDatabaseSetup
@@ -368,7 +368,7 @@ jobs:
       - name: Deploy Database Setup Image
         working-directory: "./database/.pipeline/"
         run: |
-          DEBUG=* npm run db-setup:deploy -- --pr=$BUILD_ID --env=dev
+          DEBUG=* npm run db-setup:deploy -- --pr=$PR_NUMBER --env=dev
 
   # Deploy API image
   deployAPI:
@@ -377,7 +377,7 @@ jobs:
     timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == false && github.event.pull_request.draft == false }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - buildAPI
@@ -423,7 +423,7 @@ jobs:
       - name: Deploy API Image
         working-directory: "./api/.pipeline/"
         run: |
-          DEBUG=* npm run deploy -- --pr=$BUILD_ID --env=dev
+          DEBUG=* npm run deploy -- --pr=$PR_NUMBER --env=dev
 
   # Deploy App image
   deployAPP:
@@ -432,7 +432,7 @@ jobs:
     timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == false && github.event.pull_request.draft == false }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - buildAPP
@@ -477,7 +477,7 @@ jobs:
       - name: Deploy App Image
         working-directory: "./app/.pipeline"
         run: |
-          DEBUG=* npm run deploy -- --pr=$BUILD_ID --env=dev
+          DEBUG=* npm run deploy -- --pr=$PR_NUMBER --env=dev
 
   # cypress-run:
   #   runs-on: ubuntu-latest

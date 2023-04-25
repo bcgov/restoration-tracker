@@ -17,7 +17,7 @@ jobs:
     # Only do this when the PR was not merged and only for dev
     if: ${{ github.event.pull_request.merged != true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
     steps:
       # Install Node - for `node` and `npm` commands
       # Note: This already uses actions/cache internally, so repeat calls in subsequent jobs are not a performance hit
@@ -44,6 +44,8 @@ jobs:
           persist-credentials: false
 
       # Log in to OpenShift.
+      # Note: The secrets needed to log in are NOT available if the PR comes from a FORK.
+      # PR's must originate from a branch off the original repo or else all openshift `oc` commands will fail.
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
 
