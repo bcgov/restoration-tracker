@@ -19,10 +19,10 @@ import headerImageSmall from 'assets/images/gov-bc-logo-vert.png';
 import { AuthGuard, SystemRoleGuard, UnAuthGuard } from 'components/security/Guards';
 import { SYSTEM_ROLE } from 'constants/roles';
 import { AuthStateContext } from 'contexts/authStateContext';
-import { ConfigContext } from 'contexts/configContext';
 import { SYSTEM_IDENTITY_SOURCE } from 'hooks/useKeycloakWrapper';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { getFormattedIdentitySource } from 'utils/Utils';
 
 const useStyles = makeStyles((theme: Theme) => ({
   govHeaderToolbar: {
@@ -110,28 +110,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-function getDisplayName(userName: string, identitySource: string) {
-  return identitySource === SYSTEM_IDENTITY_SOURCE.BCEID ? `BCEID / ${userName}` : `IDIR / ${userName}`;
-}
-
 const Header: React.FC = () => {
   const classes = useStyles();
-  const config = useContext(ConfigContext);
 
   const { keycloakWrapper } = useContext(AuthStateContext);
 
   // Authenticated view
   const LoggedInUser = () => {
     const identitySource = keycloakWrapper?.getIdentitySource() || '';
-
     const userIdentifier = keycloakWrapper?.getUserIdentifier() || '';
-
-    const loggedInUserDisplayName = getDisplayName(userIdentifier, identitySource);
+    const formattedUsername = [getFormattedIdentitySource(identitySource as SYSTEM_IDENTITY_SOURCE), userIdentifier]
+      .filter(Boolean)
+      .join('/');
 
     return (
       <Box display="flex" className={classes.userProfile} my="auto" alignItems="center">
         <Icon path={mdiAccountCircle} size={1.12} />
-        <Box ml={1}>{loggedInUserDisplayName}</Box>
+        <Box ml={1}>{formattedUsername}</Box>
         <Box px={2}>
           <Divider orientation="vertical" />
         </Box>
@@ -153,7 +148,7 @@ const Header: React.FC = () => {
     return (
       <Box display="flex" className={classes.userProfile} alignItems="center" my="auto">
         <Button
-          onClick={() => keycloakWrapper?.keycloak?.login()}
+          onClick={() => keycloakWrapper?.keycloak.login()}
           type="submit"
           variant="contained"
           color="primary"
@@ -183,18 +178,6 @@ const Header: React.FC = () => {
     return <span aria-label="This application is currently in beta phase of development">Beta</span>;
   };
 
-  const EnvironmentLabel = () => {
-    if (config?.REACT_APP_NODE_ENV === 'prod') {
-      return <></>;
-    }
-
-    return (
-      <span aria-label={`This application is currently being run in the ${config?.REACT_APP_NODE_ENV} environment`}>
-        & {config?.REACT_APP_NODE_ENV}
-      </span>
-    );
-  };
-
   return (
     <>
       <AppBar position="sticky" style={{ boxShadow: 'none' }}>
@@ -210,8 +193,6 @@ const Header: React.FC = () => {
                 Habitat Restoration Tracker
                 <sup className={classes.appPhaseTag}>
                   <BetaLabel />
-                  &nbsp;
-                  <EnvironmentLabel />
                 </sup>
               </span>
             </Link>

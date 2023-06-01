@@ -30,7 +30,6 @@ describe('Header', () => {
         username: 'testusername',
         displayName: 'testdisplayname',
         email: 'test@email.com',
-        lastName: 'testlast',
         refresh: () => {}
       }
     });
@@ -69,8 +68,6 @@ describe('Header', () => {
         username: 'testusername',
         displayName: 'IDID / testusername',
         email: 'test@email',
-        firstName: 'testfirst',
-        lastName: 'testlast',
         refresh: () => {}
       }
     });
@@ -99,12 +96,10 @@ describe('Header', () => {
         getUserIdentifier: () => 'testuser',
         hasAccessRequest: false,
         hasSystemRole: jest.fn(),
-        getIdentitySource: () => SYSTEM_IDENTITY_SOURCE.BCEID,
+        getIdentitySource: () => SYSTEM_IDENTITY_SOURCE.BCEID_BUSINESS,
         username: 'testusername',
         displayName: 'testdisplayname',
         email: 'test@email.com',
-        firstName: 'testfirst',
-        lastName: 'testlast',
         refresh: () => {}
       }
     });
@@ -119,7 +114,7 @@ describe('Header', () => {
 
     expect(getByTestId('menu_log_out')).toBeVisible();
 
-    expect(getByText('BCEID / testuser')).toBeVisible();
+    expect(getByText('BCeID Business/testuser')).toBeVisible();
   });
 
   describe('Log Out', () => {
@@ -138,8 +133,6 @@ describe('Header', () => {
           username: 'testusername',
           displayName: 'testdisplayname',
           email: 'test@email.com',
-          firstName: 'testfirst',
-          lastName: 'testlast',
           refresh: () => {}
         }
       });

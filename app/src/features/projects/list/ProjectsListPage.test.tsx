@@ -5,6 +5,8 @@ import React from 'react';
 import { MemoryRouter, Router } from 'react-router';
 import ProjectsListPage from './ProjectsListPage';
 
+jest.mock('../../../hooks/useRestorationTrackerApi');
+
 const history = createMemoryHistory();
 
 describe('ProjectsListPage', () => {

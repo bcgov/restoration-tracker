@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { Operation } from 'express-openapi';
+import { SYSTEM_IDENTITY_SOURCE } from '../../../../constants/database';
 import { PROJECT_ROLE, SYSTEM_ROLE } from '../../../../constants/roles';
 import { getDBConnection, IDBConnection } from '../../../../database/db';
 import { HTTP400 } from '../../../../errors/custom-error';
@@ -42,7 +43,8 @@ POST.apiDoc = {
       in: 'path',
       name: 'projectId',
       schema: {
-        type: 'number'
+        type: 'integer',
+        minimum: 1
       },
       required: true
     }
@@ -66,7 +68,11 @@ POST.apiDoc = {
                   },
                   identitySource: {
                     type: 'string',
-                    enum: ['IDIR', 'BCEID']
+                    enum: [
+                      SYSTEM_IDENTITY_SOURCE.IDIR,
+                      SYSTEM_IDENTITY_SOURCE.BCEID_BASIC,
+                      SYSTEM_IDENTITY_SOURCE.BCEID_BUSINESS
+                    ]
                   },
                   roleId: {
                     description: 'The id of the project role to assign to the participant.',
@@ -102,9 +108,13 @@ POST.apiDoc = {
   }
 };
 
+type Participant = { userIdentifier: string; identitySource: string; roleId: number };
+
 export function createProjectParticipants(): RequestHandler {
   return async (req, res) => {
-    if (!req.params.projectId) {
+    const projectId = Number(req.params.projectId);
+
+    if (!projectId) {
       throw new HTTP400('Missing required param `projectId`');
     }
 
@@ -115,17 +125,13 @@ export function createProjectParticipants(): RequestHandler {
     const connection = getDBConnection(req['keycloak_token']);
 
     try {
-      const projectId = Number(req.params.projectId);
-
-      const participants: { userIdentifier: string; identitySource: string; roleId: number }[] = req.body.participants;
+      const participants: Participant[] = req.body.participants;
 
       await connection.open();
 
-      const promises: Promise<any>[] = [];
-
-      participants.forEach((participant) =>
-        promises.push(ensureSystemUserAndProjectParticipantUser(projectId, participant, connection))
-      );
+      const promises: Promise<any>[] = participants.map((participant) => {
+        return ensureSystemUserAndProjectParticipantUser(projectId, { ...participant, userGuid: null }, connection);
+      });
 
       await Promise.all(promises);
 
@@ -143,13 +149,17 @@ export function createProjectParticipants(): RequestHandler {
 
 export const ensureSystemUserAndProjectParticipantUser = async (
   projectId: number,
-  participant: { userIdentifier: string; identitySource: string; roleId: number },
+  participant: Participant & { userGuid: string | null },
   connection: IDBConnection
 ) => {
   const userService = new UserService(connection);
 
-  // Add a system user, unless they already have one
-  const systemUserObject = await userService.ensureSystemUser(participant.userIdentifier, participant.identitySource);
+  // Create or activate the system user
+  const systemUserObject = await userService.ensureSystemUser(
+    participant.userGuid,
+    participant.userIdentifier,
+    participant.identitySource
+  );
 
   const projectService = new ProjectService(connection);
 

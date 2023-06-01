@@ -1,5 +1,5 @@
 import { SQL, SQLStatement } from 'sql-template-strings';
-import { TreatmentFeature } from '../../models/project-treatment';
+import { ValidTreatmentFeature } from '../../models/project-treatment';
 import { queries } from '../queries';
 
 /**
@@ -41,16 +41,15 @@ export const getTreatmentUnitTypesSQL = (): SQLStatement => {
 /**
  * SQL query to insert a project treatment unit row.
  *
- * @param projectId
- * @param featureTypeId
- * @param featureProperties
- * @param geometry
+ * @param {number} projectId
+ * @param {number} featureTypeId
+ * @param {ValidTreatmentFeature} feature
  * @returns {SQLStatement} sql query object
  */
 export const postTreatmentUnitSQL = (
   projectId: number,
   featureTypeId: number,
-  feature: TreatmentFeature
+  feature: ValidTreatmentFeature
 ): SQLStatement => {
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO treatment_unit (
@@ -103,11 +102,16 @@ export const postTreatmentUnitSQL = (
 /**
  * SQL query to insert a project treatment year.
  *
- * @param treatmentUnitId
- * @param year
+ * @param {number} treatmentUnitId
+ * @param {(string | number)} year
+ * @param {(string | null)} implemented
  * @returns {SQLStatement} sql query object
  */
-export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | number): SQLStatement | null => {
+export const postTreatmentDataSQL = (
+  treatmentUnitId: number,
+  year: string | number,
+  implemented: string | null
+): SQLStatement | null => {
   if (!treatmentUnitId || !year) {
     return null;
   }
@@ -115,10 +119,12 @@ export const postTreatmentDataSQL = (treatmentUnitId: number, year: string | num
   const sqlStatement: SQLStatement = SQL`
     INSERT INTO treatment (
       treatment_unit_id,
-      year
+      year,
+      implemented
     ) VALUES (
      ${treatmentUnitId},
-     ${year}
+     ${year},
+     ${implemented}
     )
     RETURNING
       treatment_id,

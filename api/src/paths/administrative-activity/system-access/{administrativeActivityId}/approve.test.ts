@@ -67,7 +67,9 @@ describe('approveAccessRequest', () => {
     const existingRoleIds = [1, 2];
     const mockSystemUser: UserObject = {
       id: systemUserId,
+      user_guid: '',
       user_identifier: '',
+      identity_source: '',
       record_end_date: '',
       role_ids: existingRoleIds,
       role_names: []

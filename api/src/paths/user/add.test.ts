@@ -122,7 +122,9 @@ describe('user', () => {
 
       const mockUserObject: UserObject = {
         id: 1,
+        user_guid: '',
         user_identifier: '',
+        identity_source: '',
         record_end_date: '',
         role_ids: [1],
         role_names: []

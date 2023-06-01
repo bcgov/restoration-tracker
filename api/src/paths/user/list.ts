@@ -13,7 +13,7 @@ export const GET: Operation = [
     return {
       and: [
         {
-          validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN],
+          validSystemRoles: [SYSTEM_ROLE.SYSTEM_ADMIN, SYSTEM_ROLE.DATA_ADMINISTRATOR],
           discriminator: 'SystemRole'
         }
       ]
@@ -40,12 +40,22 @@ GET.apiDoc = {
             items: {
               title: 'User Response Object',
               type: 'object',
+              required: ['id', 'user_identifier', 'identity_source', 'role_ids', 'role_names'],
               properties: {
                 id: {
                   type: 'number'
                 },
+                user_guid: {
+                  type: 'string',
+                  description: 'The GUID for the user.',
+                  nullable: true
+                },
                 user_identifier: {
                   type: 'string'
+                },
+                identity_source: {
+                  type: 'string',
+                  description: 'The identity source of the user'
                 },
                 role_ids: {
                   type: 'array',

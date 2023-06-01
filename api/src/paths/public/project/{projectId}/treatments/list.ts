@@ -76,6 +76,10 @@ GET.apiDoc = {
                       type: 'number',
                       nullable: true
                     },
+                    reconnaissance_conducted: {
+                      type: 'string',
+                      nullable: true
+                    },
                     comments: {
                       type: 'string',
                       nullable: true
@@ -93,6 +97,10 @@ GET.apiDoc = {
                             nullable: true
                           },
                           treatment_year: {
+                            type: 'string',
+                            nullable: true
+                          },
+                          implemented: {
                             type: 'string',
                             nullable: true
                           }

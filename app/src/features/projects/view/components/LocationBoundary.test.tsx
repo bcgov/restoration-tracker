@@ -43,22 +43,29 @@ describe('LocationBoundary', () => {
     }
   ];
 
-  const treatment = [
+  const treatment: IGetProjectTreatment[] = [
     {
       id: 'TU12',
       type: 'Other',
       width: 100,
       length: 100,
       area: 10000,
+      reconnaissance_conducted: 'yes',
       comments: 'something12',
+      geometry: {
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [123, 456] },
+        properties: {}
+      },
       treatments: [
         {
           treatment_name: 'Tree Felling',
-          treatment_year: '2015'
+          treatment_year: '2015',
+          implemented: 'no'
         }
       ]
     }
-  ] as IGetProjectTreatment[];
+  ];
 
   test('matches the snapshot when there is no geometry', async () => {
     mockRestorationTrackerApi().external.post.mockResolvedValue([]);

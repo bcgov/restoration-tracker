@@ -1,0 +1,13 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: restoration-tracker-creds
+data:
+  database-admin: <fill in value>
+  database-admin-password: <fill in value>
+  database-name: <fill in value>
+  database-user: <fill in value>
+  database-user-api: <fill in value>
+  database-user-api-password: <fill in value>
+  database-user-password: <fill in value>
+type: Opaque

@@ -10,6 +10,7 @@ export type IBCeIDAccessRequestDataObject = {
 
 export type IAccessRequestDataObject = {
   name: string;
+  userGuid: string | null;
   username: string;
   email: string;
   identitySource: string;

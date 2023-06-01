@@ -60,6 +60,7 @@ describe('AccessRequestList', () => {
           data: {
             name: 'test user',
             username: 'testusername',
+            userGuid: '123456',
             email: 'email@email.com',
             role: 2,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
@@ -95,6 +96,7 @@ describe('AccessRequestList', () => {
           data: {
             name: 'test user',
             username: 'testusername',
+            userGuid: '123456',
             email: 'email@email.com',
             role: 2,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
@@ -130,6 +132,7 @@ describe('AccessRequestList', () => {
           data: {
             name: 'test user',
             username: 'testusername',
+            userGuid: '123456',
             email: 'email@email.com',
             role: 2,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
@@ -192,6 +195,7 @@ describe('AccessRequestList', () => {
           data: {
             name: 'test user',
             username: 'testusername',
+            userGuid: '123456',
             email: 'email@email.com',
             role: 2,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,
@@ -243,6 +247,7 @@ describe('AccessRequestList', () => {
           data: {
             name: 'test user',
             username: 'testusername',
+            userGuid: '123456',
             email: 'email@email.com',
             role: 1,
             identitySource: SYSTEM_IDENTITY_SOURCE.IDIR,

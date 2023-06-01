@@ -2,21 +2,30 @@ name: Test Checks
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}
+  cancel-in-progress: true
 
 jobs:
   test:
     name: Running Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       - name: Cache api node modules
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v3
         env:
           cache-name: cache-api-node-modules
         with:
@@ -36,13 +45,13 @@ jobs:
              npm run coverage
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3
         with:
           token: ${{secrets.CODECOV_TOKEN}}
           fail_ci_if_error: false
 
       - name: Cache app node modules
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v3
         env:
           cache-name: cache-app-node-modules
         with:
@@ -62,7 +71,7 @@ jobs:
              npm run coverage
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3
         with:
           token: ${{secrets.CODECOV_TOKEN}}
           fail_ci_if_error: false

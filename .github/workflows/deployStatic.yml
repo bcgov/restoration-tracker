@@ -4,7 +4,7 @@ name: Static Deploy on OpenShift
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, closed]
+    types: [closed]
     branches:
       - dev
       - test
@@ -15,6 +15,7 @@ jobs:
   checkEnv:
     name: Check Env variables
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     if: ${{ github.event.pull_request.merged == true }}
     steps:
       - name: Print Env Vars
@@ -25,14 +26,15 @@ jobs:
           echo Git Pull Request Ref: ${{ github.event.pull_request.head.sha }}
           echo Git Event Name: ${{ github.event_name }}
           echo Git Event Action: ${{ github.event.action }}
-          echo Git Labels: "$LABELS"
+          echo Git Branch Ref: ${{ github.head_ref }}
           echo PR in Draft: ${{ github.event.pull_request.draft }}
 
   scaleDownPods:
     name: Scale down the pods for this PR
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
     needs:
       - checkEnv
     steps:
@@ -45,32 +47,33 @@ jobs:
       - name: Scale down
         run: |
           oc project b1d40d-dev
-          oc get deploymentconfig --selector env-id=$BUILD_ID -o name | awk '{print "oc scale --replicas=0  " $1}' | bash
+          oc get deploymentconfig --selector env-id=$PR_NUMBER -o name | awk '{print "oc scale --replicas=0  " $1}' | bash
 
   # Build the Database image
   buildDatabase:
     name: Build Database Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - scaleDownPods
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -87,38 +90,44 @@ jobs:
       # PR's must originate from a branch off the original repo or else all openshift `oc` commands will fail.
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
+
+      # Install database pipeline node modules
+      # Note: This already caches node modules internally
+      - name: Install pipeline node modules
+        working-directory: database/.pipeline/
+        run: npm ci
 
       # Build the database image
       - name: Build Database Image
         working-directory: "./database/.pipeline/"
         run: |
-          npm install
-          DEBUG=* npm run db:build -- --pr=$BUILD_ID --branch=$BRANCH --type=static
+          DEBUG=* npm run db:build -- --pr=$PR_NUMBER --branch=$BRANCH --type=static
 
   # Build the Database Setup image
   buildDatabaseSetup:
     name: Build Database Setup Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - scaleDownPods
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -135,39 +144,44 @@ jobs:
       # PR's must originate from a branch off the original repo or else all openshift `oc` commands will fail.
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
+
+      # Install database pipeline node modules
+      # Note: This already caches node modules internally
+      - name: Install pipeline node modules
+        working-directory: database/.pipeline/
+        run: npm ci
 
       # Build the database image
       - name: Build Database Setup Image
         working-directory: "./database/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run db-setup:build -- --pr=$BUILD_ID --branch=$BRANCH --type=static
+          DEBUG=* npm run db-setup:build -- --pr=$PR_NUMBER --branch=$BRANCH --type=static
 
   # Build the API image
   buildAPI:
     name: Build API Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - scaleDownPods
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -183,38 +197,43 @@ jobs:
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
 
+      # Install api pipeline node modules
+      # Note: This already caches node modules internally
+      - name: Install pipeline node modules
+        working-directory: api/.pipeline/
+        run: npm ci
+
       # Build the api image
       - name: Build API Image
         working-directory: "./api/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run build -- --pr=$BUILD_ID --branch=$BRANCH --type=static
+          DEBUG=* npm run build -- --pr=$PR_NUMBER --branch=$BRANCH --type=static
 
   # Build the web frontend app
   buildAPP:
     name: Build App Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - scaleDownPods
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -232,38 +251,43 @@ jobs:
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
 
+      # Install app pipeline node modules
+      # Note: This already caches node modules internally
+      - name: Install pipeline node modules
+        working-directory: app/.pipeline
+        run: npm ci
+
       # Build the app image
       - name: Build APP Image
         working-directory: "./app/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run build -- --pr=$BUILD_ID --branch=$BRANCH --type=static
+          DEBUG=* npm run build -- --pr=$PR_NUMBER --branch=$BRANCH --type=static
 
   # Deploy Database image
   deployDatabase:
     name: Deploy Database Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - buildDatabase
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -281,21 +305,26 @@ jobs:
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
 
+      # Install database pipeline node modules
+      # Note: This already caches node modules internally
+      - name: Install pipeline node modules
+        working-directory: database/.pipeline/
+        run: npm ci
+
       # Deploy the database image
       - name: Deploy Database Image
         working-directory: "./database/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run db:deploy -- --pr=$BUILD_ID --env=$BRANCH --branch=$BRANCH --type=static
+          DEBUG=* npm run db:deploy -- --pr=$PR_NUMBER --env=$BRANCH --branch=$BRANCH --type=static
 
   # Deploy Database image
   deployDatabaseSetup:
     name: Deploy Database Setup Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - buildDatabaseSetup
@@ -303,17 +332,17 @@ jobs:
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -331,21 +360,26 @@ jobs:
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
 
+      # Install database pipeline node modules
+      # Note: This already caches node modules internally
+      - name: Install pipeline node modules
+        working-directory: database/.pipeline/
+        run: npm ci
+
       # Deploy the database setup image
       - name: Deploy Database Setup Image
         working-directory: "./database/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run db-setup:deploy -- --pr=$BUILD_ID --env=$BRANCH --branch=$BRANCH --type=static
+          DEBUG=* npm run db-setup:deploy -- --pr=$PR_NUMBER --env=$BRANCH --branch=$BRANCH --type=static
 
   # Deploy API image
   deployAPI:
     name: Deploy API Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - buildAPI
@@ -353,17 +387,17 @@ jobs:
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -381,38 +415,43 @@ jobs:
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
 
+      # Install api pipeline node modules
+      # Note: This already caches node modules internally
+      - name: Install pipeline node modules
+        working-directory: api/.pipeline/
+        run: npm ci
+
       # Deploy the api image
       - name: Deploy API Image
         working-directory: "./api/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run deploy -- --pr=$BUILD_ID --env=$BRANCH --branch=$BRANCH --type=static
+          DEBUG=* npm run deploy -- --pr=$PR_NUMBER --env=$BRANCH --branch=$BRANCH --type=static
 
   # Deploy App image
   deployAPP:
     name: Deploy App Image
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     needs:
       - buildAPP
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -430,40 +469,45 @@ jobs:
       - name: Log in to OpenShift
         run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
 
+      # Install app pipeline node modules
+      # Note: This already caches node modules internally
+      - name: Install pipeline node modules
+        working-directory: app/.pipeline
+        run: npm ci
+
       # Deploy the app image
       - name: Deploy App Image
         working-directory: "./app/.pipeline"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run deploy -- --pr=$BUILD_ID --env=$BRANCH --branch=$BRANCH --type=static
+          DEBUG=* npm run deploy -- --pr=$PR_NUMBER --env=$BRANCH --branch=$BRANCH --type=static
 
   # Clean build/deployment artifacts
   clean:
     name: Clean Build/Deployment Artifacts
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }}
+    timeout-minutes: 20
+    if: ${{ github.event.pull_request.merged == true }}
     needs:
       - deployAPP
       - deployAPI
       - deployDatabaseSetup
     env:
-      BUILD_ID: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.number }}
       BRANCH: ${{ github.base_ref }}
     steps:
       # Checkout the PR branch
       - name: Checkout Target Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install Node - for `node` and `npm` commands
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
 
       # Cache Node modules
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -485,39 +529,37 @@ jobs:
       - name: Clean Database Artifacts
         working-directory: "./database/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run clean -- --pr=$BUILD_ID --env=build
-          DEBUG=* npm run clean -- --pr=$BUILD_ID --env=dev
+          npm ci
+          DEBUG=* npm run clean -- --pr=$PR_NUMBER --env=build
+          DEBUG=* npm run clean -- --pr=$PR_NUMBER --env=dev
 
       # Clean the api build/deployment artifacts
       - name: Clean API Artifacts
         working-directory: "./api/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run clean -- --pr=$BUILD_ID --env=build
-          DEBUG=* npm run clean -- --pr=$BUILD_ID --env=dev
+          npm ci
+          DEBUG=* npm run clean -- --pr=$PR_NUMBER --env=build
+          DEBUG=* npm run clean -- --pr=$PR_NUMBER --env=dev
 
       # Clean the app build/deployment artifacts
       - name: Clean APP Artifacts
         working-directory: "./app/.pipeline/"
         run: |
-          npm install
-          # npm ci
-          DEBUG=* npm run clean -- --pr=$BUILD_ID --env=build
-          DEBUG=* npm run clean -- --pr=$BUILD_ID --env=dev
+          npm ci
+          DEBUG=* npm run clean -- --pr=$PR_NUMBER --env=build
+          DEBUG=* npm run clean -- --pr=$PR_NUMBER --env=dev
 
       # Clean the reamaining build/deployment artifacts
       - name: Clean remaining Artifacts
+        env:
+          POD_SELECTOR: restoration-tracker
         run: |
-          oc project b1d40d-dev
-          oc get all,pvc,secret,pods,ReplicationController,DeploymentConfig,HorizontalPodAutoscaler,imagestreamtag -o name | grep restoration-tracker | grep $BUILD_ID | awk '{print "oc delete " $1}' | bash
-          oc project b1d40d-tools
-          oc get all,pvc,secret,pods,ReplicationController,DeploymentConfig,HorizontalPodAutoscaler,imagestreamtag -o name | grep restoration-tracker | grep $BUILD_ID | awk '{print "oc delete " $1}' | bash
+          oc --namespace b1d40d-dev   get all,pvc,secret,pods,ReplicationController,DeploymentConfig,HorizontalPodAutoscaler,imagestreamtag -o name | grep $POD_SELECTOR | grep $PR_NUMBER | awk '{print "oc delete --ignore-not-found " $1}' | bash
+          oc --namespace b1d40d-tools get all,pvc,secret,pods,ReplicationController,DeploymentConfig,HorizontalPodAutoscaler,imagestreamtag -o name | grep $POD_SELECTOR | grep $PR_NUMBER | awk '{print "oc delete --ignore-not-found " $1}' | bash
 
   # cypress-run:
   #   runs-on: ubuntu-latest
+  #   timeout-minutes: 20
   #   if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false && github.base_ref != 'prod' }}
   #   env:
   #     CYPRESS_RECORD_KEY: ${{ secrets.RECORDING_KEY }}
@@ -537,7 +579,7 @@ jobs:
   #   steps:
   #     # Checkout the PR branch
   #     - name: Checkout Target Branch
-  #       uses: actions/checkout@v2
+  #       uses: actions/checkout@v3
 
   #     - name: Wait for API response
   #       uses: nev7n/wait_for_response@v1.0.1
@@ -577,20 +619,21 @@ jobs:
   #         echo $CYPRESS_authClientId
   #         echo $CYPRESS_authUrl
 
-  notify:
-    name: Discord Notification
-    runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.draft == false }} && always()
-    needs: # make sure the notification is sent AFTER the jobs you want included have completed
-      - deployAPP
-      - deployAPI
-      - deployDatabaseSetup
-    steps:
-      - name: Notify
-        uses: nobrayner/discord-webhook@v1
-        with:
-          github-token: ${{ secrets.github_token }}
-          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          title: "${{ github.workflow }}: {{STATUS}}"
-          username: ${{ github.actor }}
-          description: "PR: ${{ github.event.number }} - ${{ github.event.pull_request.title }}: was deployed in ${{ github.base_ref }}!"
+  # notify:
+  #   name: Discord Notification
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 20
+  #   if: ${{ github.event.pull_request.merged == true }} && always()
+  #   needs: # make sure the notification is sent AFTER the jobs you want included have completed
+  #     - deployAPP
+  #     - deployAPI
+  #     - deployDatabaseSetup
+  #   steps:
+  #     - name: Notify
+  #       uses: nobrayner/discord-webhook@v1
+  #       with:
+  #         github-token: ${{ secrets.github_token }}
+  #         discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
+  #         title: "${{ github.workflow }}: {{STATUS}}"
+  #         username: ${{ github.actor }}
+  #         description: "PR: ${{ github.event.number }} - ${{ github.event.pull_request.title }}: was deployed in ${{ github.base_ref }}!"

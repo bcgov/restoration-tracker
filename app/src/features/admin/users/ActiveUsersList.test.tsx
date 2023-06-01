@@ -5,6 +5,8 @@ import { Router } from 'react-router';
 import { codes } from 'test-helpers/code-helpers';
 import ActiveUsersList, { IActiveUsersListProps } from './ActiveUsersList';
 
+jest.mock('../../../hooks/useRestorationTrackerApi');
+
 const history = createMemoryHistory();
 
 const renderContainer = (props: IActiveUsersListProps) => {
