@@ -1,0 +1,9 @@
+-- generate_dapi_views.psql
+\c restoration
+set search_path=restoration;
+\o 'vw_generated_dapi_views.sql'
+\t
+select 'create or replace view '||tablename||' as select * from '||schemaname||'.'||tablename||';' from pg_tables 
+    where schemaname='restoration' and tablename != 'audit_log' order by tablename;
+\t
+\o
